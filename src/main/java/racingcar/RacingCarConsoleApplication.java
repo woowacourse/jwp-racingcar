@@ -2,12 +2,12 @@ package racingcar;
 
 import java.io.IOException;
 
-import racingcar.controller.RacingGameController;
+import racingcar.controller.RacingGameConsoleController;
 
 public class RacingCarConsoleApplication {
 
     public static void main(String[] args) throws IOException {
-        RacingGameController racingGameController = new RacingGameController();
-        racingGameController.run();
+        RacingGameConsoleController racingGameConsoleController = new RacingGameConsoleController();
+        racingGameConsoleController.run();
     }
 }
