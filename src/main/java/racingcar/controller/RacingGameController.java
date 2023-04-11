@@ -20,7 +20,7 @@ public class RacingGameController {
     private final RandomPowerGenerator randomPowerGenerator = new RandomPowerMaker();
 
     @PostMapping("/plays")
-    public ResponseEntity<?> startGame(@RequestBody StartGameRequestDto request) {
+    public ResponseEntity<GameResultResponseDto> startGame(@RequestBody StartGameRequestDto request) {
         Cars cars = getCars(request.getNames());
         TryCount tryCount = getTryCount(request.getCount());
 
