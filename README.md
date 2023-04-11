@@ -1,5 +1,9 @@
 # jwp-racingcar
 
+## TODO
+
+- winners talbe을 foreign key만 존재핟도록 변경 (game_id, car_id)
+
 ## HOW
 
 - 요청/응답을 위한 컨트롤러 객체

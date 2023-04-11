@@ -64,4 +64,8 @@ public class Game {
     public List<Car> getCars() {
         return Collections.unmodifiableList(cars);
     }
+
+    public int getTrialCount() {
+        return trialCount.getCount();
+    }
 }

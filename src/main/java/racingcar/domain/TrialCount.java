@@ -25,4 +25,8 @@ public class TrialCount {
     public boolean isLeft() {
         return left > MIN_TRIAL_COUNT;
     }
+
+    public int getCount() {
+        return left;
+    }
 }
