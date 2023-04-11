@@ -1,10 +1,10 @@
 package racingcar.controller;
 
+import java.io.IOException;
+import java.util.List;
 import racingcar.domain.AttemptNumber;
 import racingcar.domain.Cars;
 import racingcar.dto.CarDto;
-import java.io.IOException;
-import java.util.List;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;

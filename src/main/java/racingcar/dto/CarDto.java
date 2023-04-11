@@ -1,9 +1,9 @@
 package racingcar.dto;
 
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
 
 public class CarDto {
 
