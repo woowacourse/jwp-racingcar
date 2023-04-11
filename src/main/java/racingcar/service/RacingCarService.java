@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.GameTime;
+import racingcar.domain.RacingGame;
 import racingcar.domain.Winner;
 import racingcar.domain.Winners;
 import racingcar.domain.numbergenerator.NumberGenerator;
@@ -24,11 +25,10 @@ public class RacingCarService {
         final Cars cars = new Cars(names);
         final GameTime time = new GameTime(String.valueOf(gameTime));
 
-        while (time.isPlayable()) {
-            cars.moveCars(numberGenerator);
-            time.runOnce();
-        }
-        return new GameResult(cars);
+        final RacingGame racingGame = new RacingGame(cars, time);
+        racingGame.play(numberGenerator);
+        final Winners result = racingGame.winners();
+        return new GameResult(racingGame.getCars(), result);
     }
 
     public static class GameResult {
@@ -36,12 +36,12 @@ public class RacingCarService {
         private final String winners;
         private final List<CarDto> racingCars;
 
-        public GameResult(final Cars cars) {
+        public GameResult(final Cars cars, final Winners winners) {
             // TODO : Refactor
             this.racingCars = cars.getCars().stream()
                     .map(CarDto::new)
                     .collect(Collectors.toList());
-            this.winners = new Winners(cars).getWinners().stream()
+            this.winners = winners.getWinners().stream()
                     .map(Winner::getName)
                     .collect(Collectors.joining(","));
         }
