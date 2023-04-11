@@ -8,13 +8,14 @@ import java.util.stream.Collectors;
 public class ResponseDto {
     private final List<Car> winners;
     private final List<Car> racingCars;
-    public ResponseDto(List<Car> winners, List<Car> racingCars){
+
+    public ResponseDto(List<Car> winners, List<Car> racingCars) {
         this.racingCars = racingCars;
         this.winners = winners;
     }
 
     public List<String> getWinners() {
-        return winners.stream().map(winner->winner.getName()).collect(Collectors.toList());
+        return winners.stream().map(winner -> winner.getName()).collect(Collectors.toList());
     }
 
     public List<Car> getRacingCars() {

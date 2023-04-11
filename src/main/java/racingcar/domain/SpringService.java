@@ -44,7 +44,7 @@ public class SpringService {
         }
     }
 
-    public List<Car> getCars(){
+    public List<Car> getCars() {
         return Collections.unmodifiableList(cars);
     }
 

@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Game {
+public class ConsoleService {
 
     private final List<Car> cars;
     private final MoveChance moveChance;
 
-    public Game(List<Car> cars, MoveChance moveChance) {
+    public ConsoleService(List<Car> cars, MoveChance moveChance) {
         this.cars = new ArrayList<>(cars);
         this.moveChance = moveChance;
     }
@@ -36,7 +36,7 @@ public class Game {
         }
     }
 
-    public List<Car> getCars(){
+    public List<Car> getCars() {
         return Collections.unmodifiableList(cars);
     }
 }

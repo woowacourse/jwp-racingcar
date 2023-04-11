@@ -21,6 +21,7 @@ public class HttpMethodTest {
     void setUp() {
         RestAssured.port = port;
     }
+
     @DisplayName("Http Method - POST")
     @Test
     void createUser() {

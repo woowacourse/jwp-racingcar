@@ -1,7 +1,7 @@
 package racingcar.controller;
 
 import racingcar.domain.Car;
-import racingcar.domain.Game;
+import racingcar.domain.ConsoleService;
 import racingcar.domain.RandomMoveChance;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -11,17 +11,17 @@ import java.util.stream.Collectors;
 
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
-public class GameController {
+public class ConsoleController {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
 
-    private final Game game;
+    private final ConsoleService consoleService;
     private final int trialCount;
 
-    public GameController() {
+    public ConsoleController() {
         List<String> carNames = List.of(inputView.inputCarNames());
-        game = new Game(makeCarsWith(carNames), new RandomMoveChance());
+        consoleService = new ConsoleService(makeCarsWith(carNames), new RandomMoveChance());
         trialCount = inputView.inputTrialCount();
         validateNotNegativeInteger(trialCount);
     }
@@ -32,8 +32,8 @@ public class GameController {
     }
 
     public void showResult() {
-        outputView.printCars(game.getCars());
-        outputView.printWinners(game.findWinners());
+        outputView.printCars(consoleService.getCars());
+        outputView.printWinners(consoleService.findWinners());
     }
 
     private List<Car> makeCarsWith(List<String> carNames) {
@@ -50,8 +50,8 @@ public class GameController {
 
     private void playMultipleTimes() {
         for (int i = 0; i < trialCount; i++) {
-            game.playOnce();
-            outputView.printCars(game.getCars());
+            consoleService.playOnce();
+            outputView.printCars(consoleService.getCars());
         }
     }
 }
