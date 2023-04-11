@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.NumberGenerator;
 import racingcar.RandomNumberGenerator;
+import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameResponse;
 
 public class RacingGame {
@@ -43,5 +44,12 @@ public class RacingGame {
         return cars.findWinners().stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
+    }
+
+    public RacingGameResponse getResult() {
+        List<CarDto> racingCars = cars.getCars().stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+        return new RacingGameResponse(getWinnerNames(), racingCars);
     }
 }
