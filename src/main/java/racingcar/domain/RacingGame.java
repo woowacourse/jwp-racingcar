@@ -1,34 +1,24 @@
 package racingcar.domain;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import racingcar.utils.NumberGenerator;
 
 public class RacingGame {
-	private final NumberGenerator numberGenerator;
-	List<Car> cars = RacingCars.getCars();
+    private final NumberGenerator numberGenerator;
+    private final RacingCars racingCars;
 
-	public RacingGame(NumberGenerator numberGenerator) {
-		this.numberGenerator = numberGenerator;
-	}
+    public RacingGame(NumberGenerator numberGenerator, RacingCars racingCars) {
+        this.numberGenerator = numberGenerator;
+        this.racingCars = racingCars;
+    }
 
-	public void moveCars() {
-		cars.forEach(car -> car.move(numberGenerator.generateNumber()));
-	}
+    public void moveCars(int count) {
+        for (int i = 0; i < count; i++) {
+            racingCars.moveCars(numberGenerator);
+        }
+    }
 
-	public List<String> getWinners() {
-		return cars.stream()
-				.filter(car -> car.getPosition() == findMaxPosition())
-				.map(Car::getName)
-				.collect(Collectors.toList());
-	}
-
-	private int findMaxPosition() {
-		return cars.stream()
-                .max(Comparator.comparingInt(Car::getPosition))
-                .get()
-                .getPosition();
-	}
+    public List<String> getWinners() {
+        return racingCars.getWinners();
+    }
 }

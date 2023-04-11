@@ -1,28 +1,51 @@
 package racingcar.domain;
 
-import java.util.HashMap;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import racingcar.utils.NumberGenerator;
 
 public class RacingCars {
-	private static final Map<String, Car> cars = new HashMap<>();
+	private final List<Car> cars;
 
-	public static void add(Car car) {
-		validateCarName(car);
-		cars.put(car.getName(), car);
+	public RacingCars(List<Car> cars) {
+		validateCarName(cars);
+		this.cars = cars;
 	}
 
-	private static void validateCarName(Car car) {
-		if (cars.containsKey(car.getName())) {
+	private void validateCarName(List<Car> cars) {
+		long uniqueCarCount = cars.stream()
+				.map(Car::getName)
+				.distinct()
+				.count();
+		if (uniqueCarCount != cars.size()) {
 			throw new IllegalArgumentException("[ERROR]: 중복된 차 이름이 있습니다.");
 		}
 	}
 
-	public static List<Car> getCars() {
-		return List.copyOf(cars.values());
+	public void moveCars(NumberGenerator numberGenerator) {
+		for (Car car : cars) {
+			car.move(numberGenerator.generateNumber());
+		}
 	}
 
-	public static void clear() {
-		cars.clear();
+	public List<String> getWinners() {
+		int maxPosition = findMaxPosition();
+		return cars.stream()
+				.filter(car -> car.getPosition() == maxPosition)
+				.map(Car::getName)
+				.collect(toList());
+	}
+
+	private int findMaxPosition() {
+		return cars.stream()
+				.mapToInt(Car::getPosition)
+				.max()
+				.orElseThrow(() -> new IllegalStateException("[ERROR] 차가 지정되지 않았습니다."));
+	}
+
+	public List<Car> getCars() {
+		return Collections.unmodifiableList(cars);
 	}
 }
