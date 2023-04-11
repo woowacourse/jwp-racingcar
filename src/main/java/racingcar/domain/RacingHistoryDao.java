@@ -17,11 +17,12 @@ public class RacingHistoryDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public void insertResult(final RacingGameResultDto racingGameResultDto) {
+    public int insertResult(final RacingGameResultDto racingGameResultDto) {
         final Map<String, Object> params = new HashMap<>();
         params.put("winners", racingGameResultDto.getWinners());
         params.put("play_count", racingGameResultDto.getPlayCount());
         params.put("created_at", LocalDateTime.now());
-        insertActor.execute(params);
+        final Number resultId = insertActor.executeAndReturnKey(params);
+        return resultId.intValue();
     }
 }
