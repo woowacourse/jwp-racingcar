@@ -7,12 +7,7 @@ import racingcar.domain.Car;
 
 public class OutputView {
 
-    private static final String RESULT = "실행 결과";
     private static final String WIN = "가 최종 우승했습니다.";
-
-    public void printResultMessage() {
-        System.out.println(RESULT);
-    }
 
     public void printRoundResult(List<Car> cars) {
         StringBuilder content = new StringBuilder();
@@ -23,7 +18,7 @@ public class OutputView {
     private void addCarResult(StringBuilder roundResult, Car car) {
         final String delimiter = " : ";
         final String carResult =
-            addDuplicateIdentifier(car) + delimiter + convertDistance(car.getDrivenDistance()) + '\n';
+            addDuplicateIdentifier(car) + delimiter + convertDistance(car.getPosition()) + '\n';
         roundResult.append(carResult);
     }
 

@@ -1,36 +1,24 @@
 package racingcar.domain;
 
-import racingcar.validation.CarValidator;
-import racingcar.validation.ValidateResult;
-import racingcar.validation.exception.ContainsInvalidWordException;
-import racingcar.validation.exception.InvalidCarNameException;
-
 public class Car {
 
     private final Name name;
-    private int drivenDistance = 0;
+    private int position = 0;
 
-    public Car(String name, int order) {
-        ValidateResult validateResult = CarValidator.validate(name);
-        if (validateResult == ValidateResult.FAIL_INVALID_LENGTH) {
-            throw new InvalidCarNameException();
-        }
-        if (validateResult == ValidateResult.FAIL_CONTAIN_IDENTIFIER) {
-            throw new ContainsInvalidWordException();
-        }
+    public Car(final String name, final int order) {
         this.name = new Name(name, order);
     }
 
     public void drive(int distance) {
-        drivenDistance += distance;
-    }
-
-    public int getDrivenDistance() {
-        return drivenDistance;
+        position += distance;
     }
 
     public boolean isWinner(int maxDistance) {
-        return drivenDistance == maxDistance;
+        return position == maxDistance;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public String getName() {

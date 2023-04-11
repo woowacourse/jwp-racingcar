@@ -10,17 +10,14 @@ public class Participants {
 
     private final List<Car> cars;
     private final Map<String, Integer> nameCount;
-
-    public Participants() {
+    
+    public Participants(List<String> names) {
         cars = new ArrayList<>();
         nameCount = new HashMap<>();
+        names.forEach(this::join);
     }
 
-    public List<Car> showAllParticipants() {
-        return Collections.unmodifiableList(cars);
-    }
-
-    public void join(String carName) {
+    private void join(String carName) {
         int identifier = findIdentifier(carName);
         Car participant = new Car(carName, identifier);
         cars.add(participant);
@@ -35,7 +32,7 @@ public class Participants {
         return nameCount.merge(name, 1, Integer::sum);
     }
 
-    public void reset() {
-        cars.clear();
+    public List<Car> getCars() {
+        return Collections.unmodifiableList(cars);
     }
 }
