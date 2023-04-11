@@ -1,8 +1,11 @@
 package racingcar.domain.numbergenerator;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
-public class RandomNumberGenerator implements NumberGenerator{
+@Component
+public class RandomNumberGenerator implements NumberGenerator {
 
     private static final int BOUND = 10;
 

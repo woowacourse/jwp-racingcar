@@ -12,20 +12,23 @@ public class Cars {
 
     private final List<Car> cars;
 
-    public Cars(String[] names) {
-        List<String> carNames = Arrays.asList(names);
-        validateDuplicatedName(carNames);
-        validateSoloPlay(carNames);
-        this.cars = carNames.stream().map(Car::new).collect(Collectors.toList());
+    public Cars(List<String> names) {
+        validateDuplicatedName(names);
+        validateSoloPlay(names);
+        this.cars = names.stream().map(Car::new).collect(Collectors.toList());
     }
 
-    private static void validateSoloPlay(List<String> carNames) {
+    public Cars(String[] names) {
+        this(Arrays.asList(names));
+    }
+
+    private void validateSoloPlay(List<String> carNames) {
         if (carNames.size() == ONLY_ONE_CAR) {
             throw new IllegalArgumentException("[ERROR] 차를 둘 이상 입력하세요.");
         }
     }
 
-    private static void validateDuplicatedName(List<String> carNames) {
+    private void validateDuplicatedName(List<String> carNames) {
         int carsSize = carNames.size();
         int duplicateRemovedCount =
                 (int) carNames.stream()
@@ -41,6 +44,7 @@ public class Cars {
 
         cars.forEach(car -> car.move(numberGenerator.generateNumber()));
     }
+
     public List<Car> getCars() {
         return cars;
     }
