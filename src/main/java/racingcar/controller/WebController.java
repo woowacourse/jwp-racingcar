@@ -24,7 +24,9 @@ public class WebController {
         gameService.initialize();
         gameService.createCars(gameInfoDto.getNames());
         gameService.moveCars(gameInfoDto.getCount());
-        return new ResultDto(gameService.getWinner(), gameService.getResult());
+        ResultDto resultDto = new ResultDto(gameService.getWinner(), gameService.getResult());
+        gameService.saveResult(gameInfoDto.getCount(), resultDto);
+        return resultDto;
     }
 
 }
