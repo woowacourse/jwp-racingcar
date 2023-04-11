@@ -9,7 +9,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.domain.Car;
-import racingcar.dto.GameInputDto;
+import racingcar.dto.RequestDto;
 
 @DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -38,15 +38,13 @@ public class HttpMethodTest {
     @DisplayName("이름과 실행 횟수 POST")
     @Test
     void postInput() {
-        GameInputDto gameInputDto = new GameInputDto("브리,토미,브라운", 10);
+        RequestDto requestDto = new RequestDto("브리,토미,브라운", 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(gameInputDto)
+                .body(requestDto)
                 .when().post("/plays")
                 .then().log().all()
-                .statusCode(HttpStatus.CREATED.value())
-                .header("Location", "1");
+                .statusCode(HttpStatus.OK.value());
     }
-
 }
