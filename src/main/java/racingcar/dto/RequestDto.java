@@ -1,11 +1,11 @@
 package racingcar.dto;
 
-public class GameInputDto {
+public class RequestDto {
 
     private String names;
     private int count;
 
-    public GameInputDto(String names, int count) {
+    public RequestDto(String names, int count) {
         this.names = names;
         this.count = count;
     }
@@ -20,7 +20,7 @@ public class GameInputDto {
 
     @Override
     public String toString() {
-        return "GameInputDto{" +
+        return "RequestDto{" +
                 "names='" + names + '\'' +
                 ", count=" + count +
                 '}';
