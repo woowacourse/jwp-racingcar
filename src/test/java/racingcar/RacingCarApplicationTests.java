@@ -8,6 +8,7 @@ class RacingCarApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }
