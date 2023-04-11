@@ -31,28 +31,19 @@ public class GameDao {
         }, keyHolder);
         int key = keyHolder.getKey().intValue();
 
-        insertCars(key, game.getCars());
-        insertWinners(key, game.findWinners());
+        insertCars(key, game.getCars(), game.findWinners());
 
         return key;
     }
 
-    private void insertCars(final int gameId, final List<Car> cars) {
-        final String sql = "INSERT INTO cars(game_id, name, position) VALUES (?, ?, ?)";
+    private void insertCars(final int gameId, final List<Car> cars, final List<Car> winners) {
+        final String sql = "INSERT INTO cars(game_id, name, position, is_winner) VALUES (?, ?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql, cars, cars.size(), (ps, argument) -> {
             ps.setInt(1, gameId);
             ps.setString(2, argument.getName());
             ps.setInt(3, argument.getPosition());
-        });
-    }
-
-    private void insertWinners(final int gameId, final List<Car> cars) {
-        final String sql = "INSERT INTO winners(game_id, name) VALUES (?, ?)";
-
-        jdbcTemplate.batchUpdate(sql, cars, cars.size(), (ps, argument) -> {
-            ps.setInt(1, gameId);
-            ps.setString(2, argument.getName());
+            ps.setBoolean(4, winners.contains(argument));
         });
     }
 

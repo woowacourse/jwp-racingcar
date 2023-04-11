@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
@@ -26,7 +25,10 @@ class GameDaoTest {
     @Test
     void test_() {
         List<Car> cars = List.of(new Car("asdf"));
-        gameDao.insertResult(new Game(cars, 2));
+        Game game = new Game(cars, 2);
+        game.playOnceWith(() -> true);
+        game.playOnceWith(() -> true);
+        gameDao.insertResult(game);
 
         assertThat(gameDao.selectAll().get(0).getTrialCount()).isEqualTo(2);
     }
