@@ -1,61 +1,30 @@
 package racingcar.controller;
 
-import java.io.IOException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import racingcar.controller.request.RacingInfoRequest;
 import racingcar.domain.CarGroup;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RacingResult;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
 
+@RestController
 public class RacingGameController {
 
-    private final InputView inputView;
-    private final OutputView outputView;
+    @PostMapping("/plays")
+    public ResponseEntity<RacingResult> getPlayerNames(@RequestBody RacingInfoRequest request) {
+        final String[] carNames = request.getNames().split(",");
+        final CarGroup carGroup = new CarGroup(carNames);
 
-    public RacingGameController() {
-        this.inputView = new InputView();
-        this.outputView = new OutputView();
-    }
-
-    public void run() throws IOException {
-        CarGroup carGroup = createCarGroup();
-        int movingTrial = createMovingTrial();
-
-        RacingGame racingGame = new RacingGame(carGroup, new RandomNumberGenerator());
-
-        outputView.printNotice();
-        raceWithHistory(movingTrial, racingGame);
-        outputView.printWinner(racingGame.produceRacingResult().pickWinner());
-    }
-
-    private CarGroup createCarGroup() throws IOException {
-        try {
-            String[] carNames = inputView.readCarNames();
-            return new CarGroup(carNames);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return createCarGroup();
-        }
-    }
-
-    private int createMovingTrial() {
-        try {
-            return inputView.readMovingTrial();
-        } catch (IllegalArgumentException | IOException e) {
-            System.out.println(e.getMessage());
-            return createMovingTrial();
-        }
-    }
-
-    //TODO: movingTrial을 RacingGame으로 이동
-    private void raceWithHistory(int movingTrial, RacingGame racingGame) {
-        for (int i = 0; i < movingTrial; i++) {
+        final RacingGame racingGame = new RacingGame(carGroup, new RandomNumberGenerator());
+        for (int i = 0; i < request.getCount(); i++) {
             racingGame.race();
-
-            RacingResult racingResult = racingGame.produceRacingResult();
-            outputView.printRacingResult(racingResult.getHistory());
         }
+
+        final RacingResult racingResult = racingGame.produceRacingResult();
+        return ResponseEntity.ok(racingResult);
     }
 }
