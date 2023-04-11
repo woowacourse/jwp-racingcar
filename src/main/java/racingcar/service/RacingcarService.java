@@ -1,39 +1,53 @@
 package racingcar.service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 import racingcar.model.Car;
 
+@Service
 public class RacingcarService {
 
     private static final int MINIMUM_PARTICIPANT = 2;
-    private final List<Car> cars;
 
-    public RacingcarService(List<String> carNames) {
-        if (carNames.size() < MINIMUM_PARTICIPANT) {
-            throw new IllegalArgumentException("[ERROR] 경주는 최소 " + MINIMUM_PARTICIPANT + "명이 필요해요.");
+    public RacingResponse move(final List<String> carNames, final int count) {
+        List<Car> cars = getCars(carNames);
+
+        for (int i = 1; i <= count; i++) {
+            moveAllCars(cars);
         }
-        this.cars = CarFactory.makeCars(carNames);
+
+        String winners = findWinners(cars);
+
+        return new RacingResponse(winners, cars);
     }
 
-    public List<Car> move() {
+    private void moveAllCars(final List<Car> cars) {
         for (Car car : cars) {
             car.move(RandomMaker.random());
         }
-
-        return Collections.unmodifiableList(cars);
     }
 
-    public List<Car> findWinners() {
-        int winnerPosition = findPosition();
+    private static List<Car> getCars(final List<String> carNames) {
+        if (carNames.size() < MINIMUM_PARTICIPANT) {
+            throw new IllegalArgumentException("[ERROR] 경주는 최소 " + MINIMUM_PARTICIPANT + "명이 필요해요.");
+        }
+        return CarFactory.makeCars(carNames);
+    }
 
-        return cars.stream()
+    private String findWinners(final List<Car> cars) {
+        int winnerPosition = findPosition(cars);
+
+        List<Car> winnersCars = cars.stream()
                 .filter(car -> car.isPosition(winnerPosition))
                 .collect(Collectors.toUnmodifiableList());
+
+        return winnersCars.stream()
+                .map(Car::getName)
+                .collect(Collectors.joining(", "));
     }
 
-    private int findPosition() {
+    private int findPosition(final List<Car> cars) {
         int maxPosition = 0;
 
         for (Car car : cars) {

@@ -1,35 +1,26 @@
 package racingcar.controller;
 
 import java.util.List;
-import racingcar.model.Car;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import racingcar.service.RacingResponse;
 import racingcar.service.RacingcarService;
-import racingcar.ui.OutputView;
 
+@RestController
 public class RacingcarController {
 
     private final RacingcarService racingcarService;
-    private final OutputView outputView;
 
-    public RacingcarController(OutputView outputView, RacingcarService racingcarService) {
+    public RacingcarController(RacingcarService racingcarService) {
         this.racingcarService = racingcarService;
-        this.outputView = outputView;
     }
 
-    public void run(int tryCount) {
-        playGame(tryCount);
-        findWinners();
+    @PostMapping("/plays")
+    public RacingResponse plays(@RequestBody RacingGameRequest request) {
+        List<String> carNames = InputConvertor.carNames(request.getNames());
+        int tryCount = InputConvertor.tryCount(request.getCount());
+        return racingcarService.move(carNames, tryCount);
     }
 
-    private void playGame(int tryCount) {
-        outputView.playRound();
-        for (int i = 0; i < tryCount; i++) {
-            List<Car> movedCars = racingcarService.move();
-            outputView.result(movedCars);
-        }
-    }
-
-    private void findWinners() {
-        List<Car> winners = racingcarService.findWinners();
-        outputView.winner(winners);
-    }
 }
