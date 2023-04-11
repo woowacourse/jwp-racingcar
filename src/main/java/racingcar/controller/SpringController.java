@@ -1,4 +1,4 @@
-package racingcar.mapping;
+package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +12,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/http-method")
-public class HttpMethodController {
+public class SpringController {
     @PostMapping("/car")
     public ResponseEntity createCar(@RequestBody Car car){
         Long id = 1L;
