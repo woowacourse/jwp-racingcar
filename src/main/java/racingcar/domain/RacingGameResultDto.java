@@ -3,11 +3,15 @@ package racingcar.domain;
 import java.util.List;
 
 public class RacingGameResultDto {
-    String winners;
-    List<RacingCarDto> racingCars;
+    private final String winners;
 
-    public RacingGameResultDto(final String winners, final List<RacingCarDto> racingCars) {
+    private final int playCount;
+
+    private final List<RacingCarDto> racingCars;
+
+    public RacingGameResultDto(final String winners, final int playCount, final List<RacingCarDto> racingCars) {
         this.winners = winners;
+        this.playCount = playCount;
         this.racingCars = racingCars;
     }
 
@@ -17,5 +21,9 @@ public class RacingGameResultDto {
 
     public List<RacingCarDto> getRacingCars() {
         return racingCars;
+    }
+
+    public int getPlayCount() {
+        return playCount;
     }
 }

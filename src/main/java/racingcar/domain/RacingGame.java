@@ -9,25 +9,18 @@ import racingcar.view.ResultView;
 public class RacingGame {
     private final List<Car> cars;
     private final PowerGenerator powerGenerator;
-    private int tryCount;
+    private final int playCount;
 
     public RacingGame(final String[] carNames, final int tryCount, final PowerGenerator powerGenerator) {
         this.powerGenerator = powerGenerator;
         this.cars = generateCars(carNames);
-        this.tryCount = tryCount;
-    }
-
-    @Override
-    public String toString() {
-        return "RacingGame{" +
-                "cars=" + cars +
-                ", tryCount=" + tryCount +
-                '}';
+        this.playCount = tryCount;
     }
 
     public void start() {
         ResultView.printStart();
-        while (!isEnd()) {
+        int tryCount = playCount;
+        while (!isEnd(tryCount--)) {
             moveCars();
             ResultView.printPositionOfCars(cars);
         }
@@ -48,12 +41,8 @@ public class RacingGame {
         return cars;
     }
 
-    private boolean isEnd() {
-        if (tryCount > 0) {
-            tryCount--;
-            return false;
-        }
-        return true;
+    private boolean isEnd(final int tryCount) {
+        return tryCount <= 0;
     }
 
     private void moveCars() {
@@ -74,11 +63,8 @@ public class RacingGame {
                 .map(Car::convert)
                 .collect(Collectors.toList());
 
-        final StringBuilder stringBuilder = new StringBuilder();
-        for (final Car car : getWinners()) {
-            stringBuilder.append(car.getName());
-        }
+        final String names = getWinners().stream().map(Car::getName).collect(Collectors.joining(","));
 
-        return new RacingGameResultDto(stringBuilder.toString(), racingCarDtos);
+        return new RacingGameResultDto(names, playCount, racingCarDtos);
     }
 }
