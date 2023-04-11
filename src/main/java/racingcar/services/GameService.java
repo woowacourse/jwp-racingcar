@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import racingcar.dao.GameDao;
 import racingcar.dto.CarDto;
+import racingcar.dto.ResultDto;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.manager.CarMoveManager;
@@ -21,10 +23,13 @@ public class GameService {
     private Cars cars;
     @Autowired
     private final CarMoveManager carMoveManager;
+    @Autowired
+    private final GameDao gameDao;
 
-    public GameService(Cars cars, CarMoveManager carMoveManager) {
+    public GameService(Cars cars, CarMoveManager carMoveManager, GameDao gameDao) {
         this.cars = cars;
         this.carMoveManager = carMoveManager;
+        this.gameDao = gameDao;
     }
 
     public void initialize(){
@@ -46,6 +51,11 @@ public class GameService {
         for (int i = 0; i < count; i++) {
             cars.moveAllCarsOnce(carMoveManager);
         }
+    }
+
+    public void saveResult(String countInput, ResultDto resultDto) {
+        int moveCount = Integer.parseInt(countInput);
+        gameDao.saveGame(moveCount, resultDto);
     }
 
     public List<CarDto> getResult(){
