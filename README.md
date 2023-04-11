@@ -1,7 +1,11 @@
-# java-racingcar
+# 기능 명세
+## 웹 요청/응답
+- [ ] 이름과 횟수를 입력받는다.
+- [ ] 우승자와 결과를 응답한다.
 
-자동차 경주 미션 저장소
-
-## 우아한테크코스 코드리뷰
-
-- [온라인 코드 리뷰 과정](https://github.com/woowacourse/woowacourse-docs/blob/master/maincourse/README.md)
+## DB 연동
+- [ ] 게임 결과를 저장한다.
+  - 플레이 횟수
+  - 플레이어 별 최종 이동 거리
+  - 우승자
+  - 플레이한 날짜/시간
