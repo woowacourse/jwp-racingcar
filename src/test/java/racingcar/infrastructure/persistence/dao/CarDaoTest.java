@@ -1,6 +1,5 @@
 package racingcar.infrastructure.persistence.dao;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,11 @@ import racingcar.infrastructure.persistence.entity.CarEntity;
 import racingcar.infrastructure.persistence.entity.RacingGameEntity;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Transactional
 @SpringBootTest
@@ -29,7 +31,9 @@ class CarDaoTest {
     @BeforeEach
     void setUp() {
         final RacingGameDao racingGameDao = new RacingGameDao(template);
-        final Cars cars = new Cars(List.of("브리", "토미", "브라운"));
+        final Cars cars = new Cars(Stream.of("브리", "토미", "브라운")
+                .map(Car::new)
+                .collect(Collectors.toList()));
         final GameTime gameTime = new GameTime("10");
         final RacingGame racingGame = new RacingGame(cars, gameTime);
         final RacingGameEntity racingGameEntity = new RacingGameEntity(racingGame);
@@ -52,8 +56,8 @@ class CarDaoTest {
         final Long id = dao.save(carEntity);
 
         // then
-        final List<CarEntity> carById = dao.findByGameId(id);
-        Assertions.assertAll(
+        final List<CarEntity> carById = dao.findByGameId(gameId);
+        assertAll(
                 () -> assertThat(carById.size()).isEqualTo(1),
                 () -> assertThat(carById.get(0).getPosition()).isEqualTo(3)
         );

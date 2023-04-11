@@ -3,7 +3,8 @@ package racingcar.domain;
 import org.junit.jupiter.api.Test;
 import racingcar.domain.numbergenerator.NumberGenerator;
 
-import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,7 +24,9 @@ class RacingGameTest {
 
     @Test
     void playGame() {
-        Cars cars = new Cars(List.of("브리", "토미", "브라운"));
+        Cars cars = new Cars(Stream.of("브리", "토미", "브라운")
+                .map(Car::new)
+                .collect(Collectors.toList()));
         GameTime gameTime = new GameTime("10");
         final RacingGame racingGame = new RacingGame(cars, gameTime);
 
