@@ -28,13 +28,13 @@
   const tbody = document.getElementById("gameHistory");
 
   fetch('/plays')
-      .then(response => response.json())
-      .then(results => {
-        results.forEach(result => {
-          const row = createTableRow(result);
-          tbody.appendChild(row);
-        });
-      });
+          .then(response => response.json())
+          .then(results => {
+            results.forEach(result => {
+              const row = createTableRow(result);
+              tbody.appendChild(row);
+            });
+          });
 
   function createTableRow(result) {
     const row = document.createElement("tr");
