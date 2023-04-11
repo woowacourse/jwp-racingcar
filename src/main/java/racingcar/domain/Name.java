@@ -20,8 +20,7 @@ public class Name {
         }
     }
 
-    @Override
-    public String toString() {
+    public String getName() {
         return name;
     }
 }

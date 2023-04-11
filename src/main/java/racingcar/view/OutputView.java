@@ -2,11 +2,9 @@ package racingcar.view;
 
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.domain.Name;
-import racingcar.domain.Position;
 
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class OutputView {
     private static final String DELIMITER = "-";
@@ -18,7 +16,7 @@ public class OutputView {
         System.out.println("실행 결과");
     }
 
-    public static void printAllCars(Cars cars) {
+    public static void printAllCars(List<Car> cars) {
         for (Car car : cars) {
             printCurrentState(car);
         }
@@ -30,17 +28,16 @@ public class OutputView {
     }
 
     public static void printWinners(Cars cars) {
-        String winners = StreamSupport.stream(cars.spliterator(), false)
+        String winners = cars.getCars().stream()
                 .map(Car::getName)
-                .map(Name::toString)
                 .collect(Collectors.joining(SEPARATOR));
 
         System.out.println(String.format(WINNER_MSG, winners));
     }
 
-    public static String drawResult(Position position) {
+    public static String drawResult(int position) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < position.getPosition(); i++) {
+        for (int i = 0; i < position; i++) {
             stringBuilder.append(DELIMITER);
         }
         return stringBuilder.toString();
