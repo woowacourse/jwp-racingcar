@@ -22,8 +22,9 @@ public class PlayResultMapper {
     }
 
     private final RowMapper<PlayResultEntity> entityRowMapper = (resultSet, rowNum) -> {
-        PlayResultEntity playResultEntity = new PlayResultEntity(
+        PlayResultEntity playResultEntity = PlayResultEntity.of(
                 resultSet.getLong("id"),
+                resultSet.getInt("trial_count"),
                 resultSet.getString("winners"),
                 resultSet.getTimestamp("created_at")
         );
@@ -31,11 +32,12 @@ public class PlayResultMapper {
     };
 
     public long save(PlayResultEntity playResultEntity) {
-        String sql = "INSERT INTO play_result(winners) VALUES (?)";
+        String sql = "INSERT INTO play_result(trial_count, winners) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         PreparedStatementCreator psc = (connection) -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setString(1, playResultEntity.getWinners());
+            ps.setInt(1, playResultEntity.getTrialCount());
+            ps.setString(2, playResultEntity.getWinners());
             return ps;
         };
 

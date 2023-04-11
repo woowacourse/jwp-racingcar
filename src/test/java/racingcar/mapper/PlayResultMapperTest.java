@@ -32,7 +32,7 @@ class PlayResultMapperTest {
 
     @Test
     void key() {
-        PlayResultEntity entity = new PlayResultEntity(0, "aa", null);
+        PlayResultEntity entity = PlayResultEntity.of(0, 10, "aa", null);
         Long id = mapper.save(entity);
         PlayResultEntity result = mapper.findById(id);
         System.out.println(result);

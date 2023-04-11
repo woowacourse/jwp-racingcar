@@ -37,9 +37,9 @@ class CarMapperTest {
 
     @Test
     void key() {
-        PlayResultEntity playResultEntity = new PlayResultEntity(0, "aa", null);
+        PlayResultEntity playResultEntity = PlayResultEntity.of(0, 10, "juno", null);
         Long playResultId = playResultMapper.save(playResultEntity);
-        CarEntity carEntity = new CarEntity(0, playResultId, "juno", 3);
+        CarEntity carEntity = CarEntity.of(0, playResultId, "juno", 3);
         Long carId = carMapper.save(carEntity);
         CarEntity result = carMapper.findById(carId);
         System.out.println(result);

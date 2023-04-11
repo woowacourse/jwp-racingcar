@@ -6,11 +6,19 @@ public class CarEntity {
     private final String name;
     private final int position;
 
-    public CarEntity(long id, long playResultId, String name, int position) {
+    private CarEntity(long id, long playResultId, String name, int position) {
         this.id = id;
         this.playResultId = playResultId;
         this.name = name;
         this.position = position;
+    }
+
+    public static CarEntity of(long resultId, String name, int position) {
+        return new CarEntity(0, resultId, name, position);
+    }
+
+    public static CarEntity of(long id, long resultId, String name, int position) {
+        return new CarEntity(id, resultId, name, position);
     }
 
     public long getId() {

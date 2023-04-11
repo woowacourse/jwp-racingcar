@@ -22,11 +22,6 @@ public class RacingGame {
         tryCount.decreaseCount();
     }
 
-
-    public Cars getCars() {
-        return this.cars;
-    }
-
     public List<String> decideWinners() {
         return cars.decideWinners().stream()
                 .map(Car::getName)
@@ -35,5 +30,13 @@ public class RacingGame {
 
     public boolean isEnd() {
         return tryCount.isEnd();
+    }
+
+    public Cars getCars() {
+        return this.cars;
+    }
+
+    public int getTryCount() {
+        return tryCount.getCount();
     }
 }

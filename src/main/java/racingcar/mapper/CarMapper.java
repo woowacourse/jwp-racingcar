@@ -22,7 +22,7 @@ public class CarMapper {
     }
 
     private final RowMapper<CarEntity> entityRowMapper = (resultSet, rowNum) -> {
-        CarEntity carEntity = new CarEntity(
+        CarEntity carEntity = CarEntity.of(
                 resultSet.getLong("id"),
                 resultSet.getLong("play_result_id"),
                 resultSet.getString("name"),
@@ -30,7 +30,7 @@ public class CarMapper {
         );
         return carEntity;
     };
-    
+
     public long save(CarEntity carEntity) {
         String sql = "INSERT INTO car(play_result_id, name, position) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();

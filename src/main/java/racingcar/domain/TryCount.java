@@ -23,4 +23,8 @@ public class TryCount {
     public boolean isEnd() {
         return count == 0;
     }
+
+    public int getCount() {
+        return count;
+    }
 }
