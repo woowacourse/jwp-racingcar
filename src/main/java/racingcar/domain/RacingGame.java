@@ -11,12 +11,15 @@ public class RacingGame {
     private final NumberGenerator powerValueGenerator;
     private RacingCars racingCars;
 
-    public RacingGame() {
+    private RacingGame(RacingCars racingCars) {
         this.powerValueGenerator = new RandomNumberGenerator(POWER_VALUE_MIN, POWER_VALUE_MAX);
+        this.racingCars = racingCars;
     }
 
-    public void enrollCars(List<String> racingCarNames) {
-        racingCars = new RacingCars(racingCarNames);
+    public static RacingGame of(List<String> racingCarNames) {
+        RacingCars racingCars = new RacingCars(racingCarNames);
+
+        return new RacingGame(racingCars);
     }
 
     public void race() {

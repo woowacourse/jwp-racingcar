@@ -5,19 +5,19 @@ import racingcar.domain.Car;
 
 public class GameResultDto {
 
-    private final String winners;
     private final List<Car> racingCars;
+    private final String winners;
 
-    public GameResultDto(final String winners, final List<Car> racingCars) {
-        this.winners = winners;
+    public GameResultDto(final List<Car> racingCars, final String winners) {
         this.racingCars = racingCars;
-    }
-
-    public String getWinners() {
-        return winners;
+        this.winners = winners;
     }
 
     public List<Car> getRacingCars() {
         return racingCars;
+    }
+
+    public String getWinners() {
+        return winners;
     }
 }
