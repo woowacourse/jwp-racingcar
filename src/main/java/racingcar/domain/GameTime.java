@@ -43,4 +43,8 @@ public class GameTime {
     public void runOnce() {
         timeSpent++;
     }
+
+    public int getGameTime() {
+        return gameTime;
+    }
 }
