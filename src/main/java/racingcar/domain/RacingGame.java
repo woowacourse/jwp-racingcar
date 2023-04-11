@@ -9,7 +9,7 @@ public class RacingGame {
     private static final int ROUND_MIN_NUM = 1;
 
     private final Cars cars;
-    private  int totalRound;
+    private int totalRound;
     private int currentRound = INITIAL_CURRENT_ROUND;
 
     public RacingGame(final Cars cars, int totalRound){
@@ -29,6 +29,10 @@ public class RacingGame {
 
     public List<Car> findWinnerCars(){
         return cars.findAllWinner();
+    }
+
+    public List<Car> getCars() {
+        return cars.getCars();
     }
 
     private void validateRound(int totalRound) {

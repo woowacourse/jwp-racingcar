@@ -40,4 +40,8 @@ public class Cars {
         cars.sort(Car::compareTo);
         return cars.get(0);
     }
+
+    public List<Car> getCars() {
+        return cars;
+    }
 }

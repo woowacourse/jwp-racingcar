@@ -10,13 +10,13 @@ import racingcar.view.OutputView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller {
+public class ConsoleRacingCarController {
 
     private final InputView inputView;
     private final OutputView outputView;
     private final NumberGenerator numberGenerator;
 
-    public Controller(InputView inputView, OutputView outputView, NumberGenerator numberGenerator) {
+    public ConsoleRacingCarController(InputView inputView, OutputView outputView, NumberGenerator numberGenerator) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.numberGenerator = numberGenerator;
