@@ -1,7 +1,10 @@
 package racingcar.model.manager;
 
+import org.springframework.stereotype.Component;
+
 import racingcar.util.RandomNumberValidator;
 
+@Component
 public class ThresholdCarMoveManager implements CarMoveManager {
     private static final int BOUNDARY_VALUE = 4;
 

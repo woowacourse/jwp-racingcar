@@ -1,26 +1,21 @@
 package racingcar.model.car;
 
-import racingcar.model.manager.CarMoveManager;
-import racingcar.util.CarNameValidator;
-import racingcar.util.RandomNumberGenerator;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
+import racingcar.model.manager.CarMoveManager;
+import racingcar.util.RandomNumberGenerator;
+
+@Component
 public class Cars {
     private final List<Car> cars;
 
     public Cars(List<Car> cars) {
-        validate(cars);
         this.cars = cars;
     }
 
-    private void validate(List<Car> cars) {
-        List<String> carNames = cars.stream()
-                .map(car -> car.getName())
-                .collect(Collectors.toList());
-        CarNameValidator.validate(carNames);
-    }
 
     public List<Car> getCurrentResult() {
         return List.copyOf(cars);
@@ -43,5 +38,9 @@ public class Cars {
                 .mapToInt(Car::getPosition)
                 .max()
                 .orElse(0);
+    }
+
+    public void add(Car car) {
+        cars.add(car);
     }
 }
