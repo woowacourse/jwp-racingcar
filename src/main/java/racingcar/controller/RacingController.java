@@ -1,9 +1,9 @@
-package controller;
+package racingcar.controller;
 
-import model.Car;
-import model.Cars;
-import view.InputView;
-import view.OutputView;
+import racingcar.model.Car;
+import racingcar.model.Cars;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

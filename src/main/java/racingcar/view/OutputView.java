@@ -1,7 +1,7 @@
-package view;
+package racingcar.view;
 
-import model.Cars;
-import model.Vehicle;
+import racingcar.model.Cars;
+import racingcar.model.Vehicle;
 
 import java.util.List;
 import java.util.stream.Collectors;

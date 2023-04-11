@@ -1,6 +1,8 @@
-import controller.RacingController;
-import view.InputView;
-import view.OutputView;
+package racingcar;
+
+import racingcar.controller.RacingController;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 public class Application {
 

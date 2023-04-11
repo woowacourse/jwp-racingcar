@@ -1,8 +1,8 @@
-package view;
+package racingcar.view;
 
-import util.CarNameValidator;
-import util.RepeatCountValidator;
-import util.Validator;
+import racingcar.util.CarNameValidator;
+import racingcar.util.RepeatCountValidator;
+import racingcar.util.Validator;
 
 import java.util.Arrays;
 import java.util.List;
