@@ -1,9 +1,9 @@
-CREATE TABLE PLAY_RESULT
+CREATE TABLE RACE_RESULT
 (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    trial_count INT         NOT NULL,
-    winners     VARCHAR(50) NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
+    id          INT          NOT NULL AUTO_INCREMENT,
+    trial_count INT          NOT NULL,
+    winners     VARCHAR(255) NOT NULL,
+    created_at  DATETIME     NOT NULL,
     PRIMARY KEY (id)
 );
 
