@@ -1,0 +1,66 @@
+package racingcar.controller;
+
+import racingcar.view.output.ConsoleView;
+import racingcar.view.input.InputView;
+import racingcar.domain.RacingGame;
+import racingcar.domain.RandomNumberGenerator;
+
+import java.util.List;
+
+public class RacingController {
+
+    private final InputView inputView;
+    private final ConsoleView consoleView;
+    private RacingGame racingGame;
+
+    public RacingController(InputView inputView, ConsoleView consoleView) {
+        this.inputView = inputView;
+        this.consoleView = consoleView;
+    }
+
+    public void start() {
+        try {
+            makeRacingGame(readCarNames(), readGameTry());
+            startRacingGame();
+            makeRacingGameResult();
+        } catch (RuntimeException e) {
+            consoleView.printExceptionMessage(e.getMessage());
+            start();
+        }
+    }
+
+    private List<String> readCarNames() {
+        try {
+            return inputView.readCarName();
+        } catch (IllegalArgumentException e) {
+            consoleView.printExceptionMessage(e.getMessage());
+            return readCarNames();
+        }
+    }
+
+    private int readGameTry() {
+        try {
+            return inputView.readGameTry();
+        } catch (IllegalArgumentException e) {
+            consoleView.printExceptionMessage(e.getMessage());
+            return readGameTry();
+        }
+    }
+
+    private void makeRacingGame(List<String> carNames, int gameTry) {
+        this.racingGame = new RacingGame(carNames, gameTry, new RandomNumberGenerator());
+    }
+
+    private void startRacingGame() {
+        consoleView.printGameResultMessage();
+        while (racingGame.isGameOnGoing()) {
+            racingGame.start();
+            consoleView.printRacingStatus(racingGame.getCars());
+        }
+    }
+
+    private void makeRacingGameResult() {
+        consoleView.printRacingStatus(racingGame.getCars());
+        consoleView.printRacingWinners(racingGame.getWinners());
+    }
+}
