@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import racingcar.infrastructure.persistence.entity.RacingGameEntity;
 
 import java.sql.PreparedStatement;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
@@ -26,7 +26,7 @@ public class RacingGameDao {
         final String sql = "INSERT INTO PLAY_RESULT (created_at, trial_count) VALUES (?, ?)";
         template.update(conn -> {
             PreparedStatement preparedStatement = conn.prepareStatement(sql, RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, LocalDate.now().toString());
+            preparedStatement.setString(1, LocalDateTime.now().toString());
             preparedStatement.setInt(2, racingGameEntity.getTrialCount());
             return preparedStatement;
         }, keyHolder);
@@ -39,7 +39,7 @@ public class RacingGameDao {
                 template.queryForObject("SELECT * FROM PLAY_RESULT WHERE id = ?",
                         (rs, rowNum) -> new RacingGameEntity(
                                 rs.getLong(1),
-                                rs.getDate(2).toLocalDate(),
+                                rs.getTimestamp(2).toLocalDateTime(),
                                 rs.getInt(3)
                         ), id)
         );
