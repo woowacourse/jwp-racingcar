@@ -5,8 +5,8 @@
 ### 경주 게임 시작
 WebController
 - [ ] 게임 play Post 요청 받기
-  - [ ] 자동차 이름 분리
-  - [ ] 자동차 객체 생성
+  - [x] 자동차 이름 분리
+  - [x] 자동차 객체 생성
   - [ ] 게임 결과 반환 (winners, racingCars)
 
 Service
