@@ -9,14 +9,14 @@ import java.util.List;
 
 public class Application {
 
-    public static void main(String[] args) {
-        RacingController racingController = new RacingController(getCars());
-        int count = Integer.parseInt(InputView.inputCount());
-        racingController.start(count);
-    }
-
-    private static Cars getCars() {
-        List<String> carNames = Arrays.asList(InputView.inputCarsName().split(OutputView.COMMA));
-        return CarFactory.carFactory(carNames);
-    }
+//    public static void main(String[] args) {
+//        RacingController racingController = new RacingController(getCars());
+//        int count = Integer.parseInt(InputView.inputCount());
+//        racingController.start(count);
+//    }
+//
+//    private static Cars getCars() {
+//        List<String> carNames = Arrays.asList(InputView.inputCarsName().split(OutputView.COMMA));
+//        return CarFactory.carFactory(carNames);
+//    }
 }
