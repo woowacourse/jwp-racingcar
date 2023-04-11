@@ -2,19 +2,19 @@ package racingcar.infrastructure.persistence.entity;
 
 import racingcar.domain.RacingGame;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class RacingGameEntity {
 
     private Long id;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private int trialCount;
 
     public RacingGameEntity(final RacingGame racingGame) {
         this.trialCount = racingGame.getGameTimeValue();
     }
 
-    public RacingGameEntity(final Long id, final LocalDate createdAt, final int trialCount) {
+    public RacingGameEntity(final Long id, final LocalDateTime createdAt, final int trialCount) {
         this.id = id;
         this.createdAt = createdAt;
         this.trialCount = trialCount;
@@ -24,7 +24,7 @@ public class RacingGameEntity {
         return id;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
@@ -36,7 +36,7 @@ public class RacingGameEntity {
         this.id = id;
     }
 
-    public void setCreatedAt(final LocalDate createdAt) {
+    public void setCreatedAt(final LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }
