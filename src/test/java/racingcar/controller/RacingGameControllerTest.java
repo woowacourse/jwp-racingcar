@@ -23,12 +23,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@Import(value = RacingCarControllerTest.MockNumberGenerator.class)
-@DisplayName("RacingCarControllerTest 은")
-class RacingCarControllerTest {
+@Import(value = RacingGameControllerTest.MockNumberGenerator.class)
+@DisplayName("RacingGameControllerTest 은")
+class RacingGameControllerTest {
 
     @Autowired
-    RacingCarController racingCarController;
+    RacingGameController racingGameController;
 
     @Priority(1)
     @TestComponent
@@ -44,7 +44,7 @@ class RacingCarControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(racingCarController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
     }
 
     @Test
