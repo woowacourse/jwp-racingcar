@@ -1,17 +1,16 @@
 package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import racingcar.domain.Car;
+import racingcar.domain.RandomMoveChance;
+import racingcar.domain.SpringService;
 import racingcar.dto.GameInputDto;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping("/http-method")
+@RequestMapping("/plays")
 public class SpringController {
     @PostMapping("/car")
     public ResponseEntity createCar(@RequestBody Car car){
@@ -19,11 +18,12 @@ public class SpringController {
         return ResponseEntity.created(URI.create("/car/"+id)).build();
     }
 
-    @PostMapping("/racingGame")
+    @PostMapping("")
     public ResponseEntity postInput(@RequestBody GameInputDto gameInputDto){
         Long id = 1L;
         System.out.println(gameInputDto);
-
-        return ResponseEntity.created(URI.create("/racingGame/"+id)).build();
+        SpringService springService = new SpringService(gameInputDto,new RandomMoveChance());
+        springService.play();
+        return ResponseEntity.created(URI.create(""+id)).build();
     }
 }

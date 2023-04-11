@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import racingcar.dto.GameInputDto;
+import racingcar.view.OutputView;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,19 +10,18 @@ import java.util.stream.Collectors;
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
 public class SpringService {
-
     private final List<Car> cars;
     private final MoveChance moveChance;
     private final int count;
 
-    public SpringService(GameInputDto gameInputDto,int count, MoveChance moveChance) {
+    public SpringService(GameInputDto gameInputDto, MoveChance moveChance) {
         this.cars = List.of(gameInputDto.getNames().split(","))
                 .stream()
                 .map(name -> new Car(name))
                 .collect(Collectors.toList());
         this.moveChance = moveChance;
-        validateNotNegativeInteger(count);
-        this.count = count;
+        validateNotNegativeInteger(gameInputDto.getCount());
+        this.count = gameInputDto.getCount();
     }
 
     public List<Car> findWinners() {

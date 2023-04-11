@@ -43,9 +43,10 @@ public class HttpMethodTest {
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(gameInputDto)
-                .when().post("/http-method/racingGame")
+                .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
-                .header("Location", "/racingGame/1");
+                .header("Location", "1");
     }
+
 }
