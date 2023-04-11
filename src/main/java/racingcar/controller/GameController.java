@@ -34,7 +34,6 @@ public class GameController {
         final List<String> names = List.of(playRequest.getNames().split(CAR_NAME_SEPARATOR));
         final List<Car> cars = makeCarsWith(trim(names));
         final int playCount = playRequest.getCount();
-        System.out.println("playCount = " + playCount);
 
         final Game game = new Game(cars, playCount);
         gameService.play(game);
