@@ -4,20 +4,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import racingcar.dao.GameDao;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.domain.RandomMoveChance;
 import racingcar.controller.dto.PlayRequest;
 import racingcar.controller.dto.ResultResponse;
+import racingcar.service.GameService;
 
 @RestController
 public class GameController {
 
     private static final String CAR_NAME_SEPARATOR = ",";
+
+    private final GameService gameService;
+
+    public GameController(JdbcTemplate jdbcTemplate) {
+        this.gameService = new GameService(new GameDao(jdbcTemplate), new RandomMoveChance());
+    }
 
     @PostMapping("/plays")
     // 매핑(직렬화)을 누가 해주는지 공부하면 좋을 것 같다.
@@ -25,12 +34,10 @@ public class GameController {
         final List<String> names = List.of(playRequest.getNames().split(CAR_NAME_SEPARATOR));
         final List<Car> cars = makeCarsWith(trim(names));
         final int playCount = playRequest.getCount();
+        System.out.println("playCount = " + playCount);
 
         final Game game = new Game(cars, playCount);
-
-        while (game.isNotDone()) {
-            game.playOnceWith(new RandomMoveChance());
-        }
+        gameService.play(game);
 
         List<String> winnerNames = getNamesOf(game.findWinners());
         List<Car> finishedCars = game.getCars();

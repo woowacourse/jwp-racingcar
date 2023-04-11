@@ -66,6 +66,6 @@ public class Game {
     }
 
     public int getTrialCount() {
-        return trialCount.getCount();
+        return trialCount.getDecreasedCount();
     }
 }
