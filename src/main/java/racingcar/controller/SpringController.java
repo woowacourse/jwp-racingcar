@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import racingcar.domain.Car;
 import racingcar.domain.RandomMoveChance;
 import racingcar.domain.SpringService;
-import racingcar.dto.GameInputDto;
+import racingcar.dto.RequestDto;
+import racingcar.dto.ResponseDto;
 
 import java.net.URI;
 
@@ -19,11 +20,13 @@ public class SpringController {
     }
 
     @PostMapping("")
-    public ResponseEntity postInput(@RequestBody GameInputDto gameInputDto){
+    public ResponseEntity postInput(@RequestBody RequestDto requestDto){
         Long id = 1L;
-        System.out.println(gameInputDto);
-        SpringService springService = new SpringService(gameInputDto,new RandomMoveChance());
+        System.out.println(requestDto);
+        SpringService springService = new SpringService(requestDto,new RandomMoveChance());
         springService.play();
-        return ResponseEntity.created(URI.create(""+id)).build();
+        ResponseDto responseDto = new ResponseDto(springService.findWinners(),springService.getCars());
+        return ResponseEntity.ok()
+                .body(responseDto);
     }
 }
