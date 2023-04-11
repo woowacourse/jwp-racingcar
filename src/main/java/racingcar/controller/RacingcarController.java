@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,11 @@ public class RacingcarController {
         List<String> carNames = InputConvertor.carNames(request.getNames());
         int tryCount = InputConvertor.tryCount(request.getCount());
         return racingcarService.move(carNames, tryCount);
+    }
+
+    @GetMapping("/plays")
+    public List<RacingResponse> allResults(){
+        return racingcarService.allResults();
     }
 
 }

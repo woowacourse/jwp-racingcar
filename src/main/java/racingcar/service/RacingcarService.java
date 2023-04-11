@@ -1,14 +1,25 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import racingcar.dao.PlayResultDao;
+import racingcar.dao.PlayerResultDao;
 import racingcar.model.Car;
 
 @Service
 public class RacingcarService {
 
     private static final int MINIMUM_PARTICIPANT = 2;
+
+    private final PlayResultDao playResultDao;
+    private final PlayerResultDao playerResultDao;
+
+    public RacingcarService(final PlayResultDao playResultDao, final PlayerResultDao playerResultDao) {
+        this.playResultDao = playResultDao;
+        this.playerResultDao = playerResultDao;
+    }
 
     public RacingResponse move(final List<String> carNames, final int count) {
         List<Car> cars = getCars(carNames);
@@ -19,7 +30,14 @@ public class RacingcarService {
 
         String winners = findWinners(cars);
 
-        return new RacingResponse(winners, cars);
+        PlayResult playResult = playResultDao.insertPlayResult(new PlayResult(winners, count));
+
+        List<PlayerResult> playerResults = cars.stream()
+                .map(car -> new PlayerResult(playResult.getId(), car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+
+        playerResults.forEach(playerResultDao::insertPlayer);
+        return new RacingResponse(winners, playerResults);
     }
 
     private void moveAllCars(final List<Car> cars) {
@@ -55,5 +73,20 @@ public class RacingcarService {
         }
 
         return maxPosition;
+    }
+
+    public List<RacingResponse> allResults() {
+        List<PlayResult> playResults = playResultDao.selectAllResults();
+        List<List<PlayerResult>> playerResults = new ArrayList<>();
+        for (PlayResult playResult : playResults) {
+            int playResultId = playResult.getId();
+            playerResults.add(playerResultDao.selectPlayerResultByPlayResultId(playResultId));
+        }
+
+        List<RacingResponse> racingResponses = new ArrayList<>();
+        for (int i = 0; i < playerResults.size(); i++) {
+            racingResponses.add(new RacingResponse(playResults.get(i).getWinners(), playerResults.get(i)));
+        }
+        return racingResponses;
     }
 }
