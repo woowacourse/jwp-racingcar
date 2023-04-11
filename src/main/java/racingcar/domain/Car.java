@@ -8,7 +8,7 @@ public class Car {
     private final String name;
     private int position;
 
-    public Car(String name) {
+    public Car(final String name) {
         Validator.checkBlank(name);
         Validator.checkLength(name);
         this.name = name;
@@ -23,7 +23,7 @@ public class Car {
                 '}';
     }
 
-    public void move(int power) {
+    public void move(final int power) {
         if (power >= MIN_MOVE_POWER) {
             this.position++;
         }
@@ -35,5 +35,9 @@ public class Car {
 
     public String getName() {
         return name;
+    }
+
+    public RacingCarDto convert() {
+        return new RacingCarDto(name, position);
     }
 }

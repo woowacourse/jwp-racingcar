@@ -11,7 +11,7 @@ public class RacingGame {
     private final PowerGenerator powerGenerator;
     private int tryCount;
 
-    public RacingGame(String[] carNames, int tryCount, PowerGenerator powerGenerator) {
+    public RacingGame(final String[] carNames, final int tryCount, final PowerGenerator powerGenerator) {
         this.powerGenerator = powerGenerator;
         this.cars = generateCars(carNames);
         this.tryCount = tryCount;
@@ -34,15 +34,15 @@ public class RacingGame {
     }
 
     public List<Car> getWinners() {
-        int maxPosition = getMaxPosition();
+        final int maxPosition = getMaxPosition();
         return cars.stream()
                 .filter(car -> car.getPosition() == maxPosition)
                 .collect(Collectors.toList());
     }
 
-    private List<Car> generateCars(String[] carNames) {
+    private List<Car> generateCars(final String[] carNames) {
         final List<Car> cars = new ArrayList<>();
-        for (String carName : carNames) {
+        for (final String carName : carNames) {
             cars.add(new Car(carName));
         }
         return cars;
@@ -57,8 +57,8 @@ public class RacingGame {
     }
 
     private void moveCars() {
-        for (Car car : cars) {
-            int power = powerGenerator.generate();
+        for (final Car car : cars) {
+            final int power = powerGenerator.generate();
             car.move(power);
         }
     }
@@ -67,5 +67,18 @@ public class RacingGame {
         return cars.stream()
                 .mapToInt(Car::getPosition)
                 .max().orElse(0);
+    }
+
+    public RacingGameResultDto convert() {
+        final List<RacingCarDto> racingCarDtos = cars.stream()
+                .map(Car::convert)
+                .collect(Collectors.toList());
+
+        final StringBuilder stringBuilder = new StringBuilder();
+        for (final Car car : getWinners()) {
+            stringBuilder.append(car.getName());
+        }
+
+        return new RacingGameResultDto(stringBuilder.toString(), racingCarDtos);
     }
 }
