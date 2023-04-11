@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.GameTime;
 import racingcar.domain.RacingGame;
@@ -13,7 +14,8 @@ import racingcar.domain.Winner;
 import racingcar.infrastructure.persistence.entity.RacingGameEntity;
 import racingcar.infrastructure.persistence.entity.WinnerEntity;
 
-import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,12 +30,12 @@ class WinnerDaoTest {
     @BeforeEach
     void setUp() {
         final RacingGameDao racingGameDao = new RacingGameDao(template);
-        final Cars cars = new Cars(List.of("브리", "토미", "브라운"));
+        final Cars cars = new Cars(Stream.of("브리", "토미", "브라운")
+                .map(Car::new)
+                .collect(Collectors.toList()));
         final GameTime gameTime = new GameTime("10");
         final RacingGame racingGame = new RacingGame(cars, gameTime);
         final RacingGameEntity racingGameEntity = new RacingGameEntity(racingGame);
-
-        // when
         gameId = racingGameDao.save(racingGameEntity);
     }
 

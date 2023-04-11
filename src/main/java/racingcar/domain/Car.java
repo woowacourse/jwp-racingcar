@@ -7,11 +7,14 @@ public class Car {
     private final CarName carName;
     private final Position position;
 
-    public Car(String name) {
-        this.carName = new CarName(name);
-        this.position = new Position();
+    public Car(final String carName, final int position) {
+        this.carName = new CarName(carName);
+        this.position = new Position(position);
     }
 
+    public Car(String name) {
+        this(name, 0);
+    }
 
     public void move(int number) {
         if (number >= BOUNDARY) {

@@ -22,9 +22,10 @@ public class RacingCarService {
     }
 
     public GameResult play(final List<String> names, final int gameTime) {
-        final Cars cars = new Cars(names);
+        final Cars cars = new Cars(names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList()));
         final GameTime time = new GameTime(String.valueOf(gameTime));
-
         final RacingGame racingGame = new RacingGame(cars, time);
         racingGame.play(numberGenerator);
         final Winners result = racingGame.winners();
