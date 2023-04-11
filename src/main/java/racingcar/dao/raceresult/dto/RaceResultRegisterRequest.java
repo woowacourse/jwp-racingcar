@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.raceresult.dto;
 
 public class RaceResultRegisterRequest {
 

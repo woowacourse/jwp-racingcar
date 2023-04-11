@@ -1,13 +1,11 @@
-package racingcar.dao;
+package racingcar.dao.car;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import racingcar.dao.car.dto.CarRegisterRequest;
 
 @Repository
 public class CarDao {

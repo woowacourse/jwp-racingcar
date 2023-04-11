@@ -1,12 +1,12 @@
-package racingcar.dao;
+package racingcar.dao.raceresult;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Repository

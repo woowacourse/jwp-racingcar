@@ -4,12 +4,12 @@ import org.springframework.stereotype.Service;
 import racingcar.controller.dto.CarStatusResponse;
 import racingcar.controller.dto.GameInfoRequest;
 import racingcar.controller.dto.RaceResultResponse;
-import racingcar.dao.CarDao;
-import racingcar.dao.CarRegisterRequest;
-import racingcar.dao.RaceResultDao;
-import racingcar.dao.RaceResultRegisterRequest;
-import racingcar.model.Car;
-import racingcar.model.RacingCars;
+import racingcar.dao.car.CarDao;
+import racingcar.dao.car.dto.CarRegisterRequest;
+import racingcar.dao.raceresult.RaceResultDao;
+import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
+import racingcar.domain.Car;
+import racingcar.domain.RacingCars;
 import racingcar.util.NumberGenerator;
 import racingcar.view.InputViewValidator;
 

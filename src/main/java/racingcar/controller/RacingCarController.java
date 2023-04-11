@@ -1,8 +1,8 @@
 package racingcar.controller;
 
 import racingcar.util.NumberGenerator;
-import racingcar.model.Car;
-import racingcar.model.RacingCars;
+import racingcar.domain.Car;
+import racingcar.domain.RacingCars;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
