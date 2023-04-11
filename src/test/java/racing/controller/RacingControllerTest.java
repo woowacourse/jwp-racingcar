@@ -9,10 +9,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import racing.controller.dto.request.RacingGameInfoRequest;
-import racing.controller.dto.response.RacingCarStateResponse;
 import racing.controller.dto.response.RacingGameResultResponse;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RacingControllerTest {
