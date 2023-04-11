@@ -10,9 +10,7 @@ WebController
   - [ ] 게임 결과 반환 (winners, racingCars)
 
 Service
-- [ ] 게임 플레이
-- [ ] 우승자 반환
-- [ ] 자동차 이동 결과 반환
+- [x] 게임 플레이
 
 Dto
 - [ ] CarDto
