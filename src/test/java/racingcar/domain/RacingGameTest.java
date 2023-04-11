@@ -23,7 +23,7 @@ class RacingGameTest {
         moveByCount(car1, 5);
         moveByCount(car2, 7);
 
-        assertThat(cars.getWinners())
+        assertThat(cars.getWinners().getCars())
                 .containsExactly(car2);
     }
 
@@ -41,7 +41,7 @@ class RacingGameTest {
         moveByCount(car2, 7);
         moveByCount(car3, 7);
 
-        assertThat(cars.getWinners())
+        assertThat(cars.getWinners().getCars())
                 .containsExactly(car2, car3);
     }
 

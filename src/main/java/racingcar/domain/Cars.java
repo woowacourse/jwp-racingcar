@@ -1,11 +1,10 @@
 package racingcar.domain;
 
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Cars implements Iterable<Car> {
+public class Cars {
     private final List<Car> cars;
 
     public Cars(List<Car> cars) {
@@ -19,23 +18,22 @@ public class Cars implements Iterable<Car> {
     }
 
     public Cars getWinners() {
-        Position maxPosition = getMaxPosition();
+        int maxPosition = getMaxPosition();
         List<Car> result = cars.stream()
-                .filter(car -> car.getPosition().equals(maxPosition))
+                .filter(car -> car.getPosition() == maxPosition)
                 .collect(Collectors.toList());
 
         return new Cars(result);
     }
 
-    private Position getMaxPosition() {
+    private int getMaxPosition() {
         return cars.stream()
                 .map(Car::getPosition)
-                .max(Comparator.comparingInt(Position::getPosition))
+                .max(Integer::compareTo)
                 .get();
     }
 
-    @Override
-    public Iterator<Car> iterator() {
-        return cars.iterator();
+    public List<Car> getCars() {
+        return Collections.unmodifiableList(cars);
     }
 }
