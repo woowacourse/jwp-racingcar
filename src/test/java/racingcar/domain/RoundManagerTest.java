@@ -20,8 +20,8 @@ class RoundManagerTest {
 
         RoundManager roundManager = new RoundManager(advanceJudgement);
         roundManager.addRacingCar(new RacingCar("car"));
-
-        RacingCarDto racingCarDto = roundManager.runRound().get(0);
+        roundManager.runRound();
+        RacingCarDto racingCarDto = roundManager.getStatus().get(0);
         Integer position = racingCarDto.getPosition();
 
         Assertions.assertEquals(expectedPosition, position);

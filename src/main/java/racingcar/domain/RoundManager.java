@@ -29,13 +29,13 @@ public class RoundManager {
         return roundResult;
     }
 
-    public List<RacingCarDto> runRound() {
-        List<RacingCarDto> roundResult = new ArrayList<>();
-        racingCars.forEach(racingCar -> {
-            racingCar.advance(advanceJudgement.isAdvancePossible());
-            roundResult.add(RacingCarDto.create(racingCar));
-        });
-        return roundResult;
+    public void runRound() {
+        racingCars.forEach(racingCar ->  racingCar.advance(advanceJudgement.isAdvancePossible()));
+    }
+
+    public List<RacingCarDto> getStatus() {
+        return racingCars.stream().map(RacingCarDto::create)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     public List<RacingCarDto> getSortedRacingCars() {

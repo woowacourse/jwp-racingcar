@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RacingCarGameController {
+public class RacingConsoleController {
     private static final int FIRST_CAR_INDEX = 0;
     private final OutputView outputView = new OutputView();
     private final InputView inputView = new InputView();
@@ -26,7 +26,8 @@ public class RacingCarGameController {
         outputView.printResultHeader();
         outputView.printRoundResult(roundManager.getStartStatus());
         for (int roundCount = 0; roundCount < tryCount; roundCount++) {
-            outputView.printRoundResult(roundManager.runRound());
+            roundManager.runRound();
+            outputView.printRoundResult(roundManager.getStatus());
         }
 
         List<String> winningCarsName = getWinningCarsName(roundManager.getSortedRacingCars());
@@ -73,10 +74,6 @@ public class RacingCarGameController {
     }
 
     private List<String> getWinningCarsName(List<RacingCarDto> sortedRacingCars) {
-        List<String> winningCarsNames = new ArrayList<>();
-        for (RacingCarDto targetCar : sortedRacingCars) {
-            winningCarsNames.add(targetCar.getName());
-        }
         RacingCarDto firstCar = sortedRacingCars.get(FIRST_CAR_INDEX);
         return sortedRacingCars.stream()
                 .filter(car -> car.getPosition().equals(firstCar.getPosition()))

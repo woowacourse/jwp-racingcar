@@ -38,6 +38,12 @@ public class Validator {
         checkTryCountNumeric(tryCount);
     }
 
+    public void validateTryCount(int tryCount) {
+        if (tryCount < 1) {
+            throw new IllegalArgumentException(TRYCOUNT_NUMERIC_EXCEPTION_MESSAGE);
+        }
+    }
+
     private void checkTryCountNumeric(String tryCount) {
         if (tryCount != null && tryCount.matches("[0-9]+") && !tryCount.equals("0")) {
             return;
