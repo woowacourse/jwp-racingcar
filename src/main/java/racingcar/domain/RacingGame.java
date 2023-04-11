@@ -1,11 +1,7 @@
 package racingcar.domain;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import racingcar.NumberGenerator;
 import racingcar.RandomNumberGenerator;
-import racingcar.dto.CarDto;
-import racingcar.dto.RacingGameResponse;
 
 public class RacingGame {
     public static final int MAX_TRY_COUNT_BOUND = 100;
@@ -40,16 +36,7 @@ public class RacingGame {
         return tryCount == 0;
     }
 
-    public List<String> getWinnerNames() {
-        return cars.findWinners().stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
-    }
-
-    public RacingGameResponse getResult() {
-        List<CarDto> racingCars = cars.getCars().stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
-        return new RacingGameResponse(getWinnerNames(), racingCars);
+    public Cars getCars() {
+        return cars;
     }
 }

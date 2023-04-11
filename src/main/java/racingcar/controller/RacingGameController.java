@@ -1,29 +1,24 @@
 package racingcar.controller;
 
-import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.RacingGame;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
+import racingcar.service.RacingGameService;
 
 @RestController
 public class RacingGameController {
+    private final RacingGameService racingGameService;
+
+    public RacingGameController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
 
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponse> play(@RequestBody RacingGameRequest racingGameRequest) {
-        Cars cars = new Cars(racingGameRequest.getNames().stream()
-                .map(Car::new)
-                .collect(Collectors.toList()));
-        RacingGame game = new RacingGame(racingGameRequest.getCount(), cars);
-        while (!game.isEnd()) {
-            game.playOneRound();
-        }
-        RacingGameResponse response = game.getResult();
+        RacingGameResponse response = racingGameService.play(racingGameRequest);
         return ResponseEntity.ok(response);
     }
 }
