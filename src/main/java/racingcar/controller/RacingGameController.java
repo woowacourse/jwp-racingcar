@@ -6,10 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.console.InputView;
-import racingcar.console.OutputView;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.dto.GameResultResponseDto;
 import racingcar.dto.StartGameRequestDto;
 import racingcar.utils.CarsFactory;
 import racingcar.utils.RandomPowerGenerator;
@@ -18,8 +17,6 @@ import racingcar.utils.RandomPowerMaker;
 @RestController
 public class RacingGameController {
 
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
     private final RandomPowerGenerator randomPowerGenerator = new RandomPowerMaker();
 
     @PostMapping("/plays")
@@ -27,9 +24,9 @@ public class RacingGameController {
         Cars cars = getCars(request.getNames());
         TryCount tryCount = getTryCount(request.getCount());
 
-        startRace(cars, tryCount);
+        GameResultResponseDto gameResult = startRace(cars, tryCount);
 
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        return new ResponseEntity<>(gameResult, HttpStatus.OK);
     }
 
     private Cars getCars(final String input) {
@@ -50,12 +47,12 @@ public class RacingGameController {
         }
     }
 
-    private void startRace(Cars cars, TryCount tryCount) {
-        outputView.printResultMessage();
-
+    private GameResultResponseDto startRace(Cars cars, TryCount tryCount) {
         for (int i = 0; i < tryCount.getTryCount(); i++) {
             cars.moveAll(randomPowerGenerator);
-            outputView.printCurrentRacingStatus(cars);
         }
+
+        String winners = String.join(",", cars.getWinnerNames());
+        return GameResultResponseDto.toDto(winners, cars);
     }
 }
