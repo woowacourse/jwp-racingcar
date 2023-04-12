@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import utils.MovingStrategy;
+import racingcar.utils.MovingStrategy;
 
 import java.util.ArrayList;
 import java.util.Comparator;

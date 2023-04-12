@@ -1,6 +1,6 @@
 package racingcar.dto.input;
 
-import domain.TryCount;
+import racingcar.domain.TryCount;
 
 public class TryCountRequest {
     private final TryCount tryCount;

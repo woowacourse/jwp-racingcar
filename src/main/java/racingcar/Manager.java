@@ -1,11 +1,11 @@
 package racingcar;
 
-import controller.RacingGameController;
-import domain.GameProcess;
-import utils.DefaultMovingStrategy;
-import view.IOViewResolver;
-import view.InputView;
-import view.OutputView;
+import racingcar.controller.RacingGameController;
+import racingcar.domain.GameProcess;
+import racingcar.utils.DefaultMovingStrategy;
+import racingcar.view.IOViewResolver;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 public class Manager {
     private static final GameProcess INITIAL_STATUS = GameProcess.READ_CAR_NAMES;

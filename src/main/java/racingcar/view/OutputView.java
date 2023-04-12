@@ -1,12 +1,12 @@
 package racingcar.view;
 
-import domain.Car;
-import domain.Cars;
-import domain.Position;
-import dto.output.PrintCriticalExceptionDto;
-import dto.output.PrintExceptionDto;
-import dto.output.PrintMovingStatusDto;
-import dto.output.PrintWinnersDto;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.Position;
+import racingcar.dto.output.PrintCriticalExceptionDto;
+import racingcar.dto.output.PrintExceptionDto;
+import racingcar.dto.output.PrintMovingStatusDto;
+import racingcar.dto.output.PrintWinnersDto;
 
 import java.util.List;
 import java.util.StringJoiner;

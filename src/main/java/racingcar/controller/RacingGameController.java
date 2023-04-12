@@ -1,17 +1,17 @@
 package racingcar.controller;
 
-import domain.Cars;
-import domain.GameProcess;
-import domain.Name;
-import domain.RacingGame;
-import dto.input.CarNameRequest;
-import dto.input.TryCountRequest;
-import dto.output.PrintCriticalExceptionDto;
-import dto.output.PrintExceptionDto;
-import dto.output.PrintMovingStatusDto;
-import dto.output.PrintWinnersDto;
-import utils.MovingStrategy;
-import view.IOViewResolver;
+import racingcar.domain.Cars;
+import racingcar.domain.GameProcess;
+import racingcar.domain.Name;
+import racingcar.domain.RacingGame;
+import racingcar.dto.input.CarNameRequest;
+import racingcar.dto.input.TryCountRequest;
+import racingcar.dto.output.PrintCriticalExceptionDto;
+import racingcar.dto.output.PrintExceptionDto;
+import racingcar.dto.output.PrintMovingStatusDto;
+import racingcar.dto.output.PrintWinnersDto;
+import racingcar.utils.MovingStrategy;
+import racingcar.view.IOViewResolver;
 
 import java.util.EnumMap;
 import java.util.List;

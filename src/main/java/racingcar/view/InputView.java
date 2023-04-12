@@ -1,8 +1,8 @@
 package racingcar.view;
 
-import domain.TryCount;
-import dto.input.CarNameRequest;
-import dto.input.TryCountRequest;
+import racingcar.domain.TryCount;
+import racingcar.dto.input.CarNameRequest;
+import racingcar.dto.input.TryCountRequest;
 
 import java.util.Arrays;
 import java.util.List;
