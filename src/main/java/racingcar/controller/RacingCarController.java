@@ -11,16 +11,24 @@ import racingcar.domain.TryCount;
 import racingcar.dto.GameInitializeDto;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarGameResultDto;
+import racingcar.service.RacingCarService;
 
 @Controller
 public class RacingCarController {
+    private final RacingCarService racingCarService;
+
+    public RacingCarController(RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
+    }
+
     @PostMapping(path = "/plays")
     @ResponseBody
     public RacingCarGameResultDto run(@RequestBody GameInitializeDto gameInitializeDto) {
         Cars cars = new Cars(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
         playRound(cars, tryCount);
-        return new RacingCarGameResultDto(cars.getWinner(), makeCarDtos(cars));
+        racingCarService.saveGameResult(cars, tryCount);
+        return new RacingCarGameResultDto(String.join(",", cars.getWinner()), makeCarDtos(cars));
     }
 
     private void playRound(Cars cars, TryCount tryCount) {

@@ -4,9 +4,9 @@ public class GameInitializeDto {
     private final String names;
     private final int count;
 
-    public GameInitializeDto(String names, String count) {
+    public GameInitializeDto(String names, int count) {
         this.names = names;
-        this.count = Integer.parseInt(count);
+        this.count = count;
     }
 
     public String getNames() {
