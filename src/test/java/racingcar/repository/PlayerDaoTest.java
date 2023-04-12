@@ -33,6 +33,7 @@ class PlayerDaoTest {
         playerDao = new PlayerDao(jdbcTemplate);
 
         jdbcTemplate.execute("DROP TABLE player IF EXISTS");
+
         jdbcTemplate.execute("CREATE TABLE player (\n" +
                 "    name varchar(30) PRIMARY KEY\n" +
                 ");");
@@ -63,8 +64,8 @@ class PlayerDaoTest {
     @DisplayName("데이터 존재 유무 확인 테스트")
     void 데이터가_존재_유무_확인_테스트() {
         assertAll(
-                () -> assertThat(playerDao.isNotExist("emptyName")).isFalse(),
-                () -> assertThat(playerDao.isNotExist("power")).isTrue()
+                () -> assertThat(playerDao.isNotExist("emptyName")).isTrue(),
+                () -> assertThat(playerDao.isNotExist("power")).isFalse()
         );
     }
 }

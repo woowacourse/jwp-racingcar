@@ -23,18 +23,14 @@ public class RecordDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @AfterEach
-    void clear() {
-        jdbcTemplate.execute("DROP TABLE record");
-        jdbcTemplate.execute("DROP TABLE game");
-        jdbcTemplate.execute("DROP TABLE player");
-    }
-
     @BeforeEach
     void setUp() {
         recordDao = new RecordDao(jdbcTemplate);
 
+        jdbcTemplate.execute("DROP TABLE record IF EXISTS");
         jdbcTemplate.execute("DROP TABLE game IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE player IF EXISTS");
+
         jdbcTemplate.execute("CREATE TABLE game (\n" +
                 "    id int PRIMARY KEY AUTO_INCREMENT,\n" +
                 "    trial_count int NOT NULL,\n" +
