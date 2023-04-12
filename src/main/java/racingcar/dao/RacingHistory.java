@@ -2,7 +2,7 @@ package racingcar.dao;
 
 import java.time.LocalDateTime;
 
-class RacingHistory {
+public class RacingHistory {
         private final int trialCount;
         private final LocalDateTime playTime;
 
