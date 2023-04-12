@@ -37,7 +37,6 @@ public class RacingCarDao {
 
     public void save(RacingGameEntity racingGameEntity) {
         String sql = "INSERT INTO RACING_GAME(count, winners, created_at) VALUES(?, ?, ?)";
-//        int id = jdbcTemplate.update(sql, racingGameEntity.getCount(), racingGameEntity.getWinners(), racingGameEntity.getCreatedAt());
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -48,7 +47,6 @@ public class RacingCarDao {
             return preparedStatement;
         }, keyHolder);
         int id = (int) keyHolder.getKey();
-        System.out.println(id);
         String sqlForRacingGameEntity = "INSERT INTO RACING_CAR(position, name, racing_game_id) VALUES(?, ?, ?)";
         racingGameEntity.getRacingCars().stream()
                 .forEach(car -> jdbcTemplate.update(sqlForRacingGameEntity, car.getPosition(), car.getName(), id));
