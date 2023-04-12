@@ -5,6 +5,7 @@ import racingcar.utils.Validator;
 
 public class Car {
     private static final int MIN_MOVE_POWER = 4;
+
     private final String name;
     private int position;
 
@@ -13,14 +14,6 @@ public class Car {
         Validator.checkLength(name);
         this.name = name;
         this.position = 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Car{" +
-                "name='" + name + '\'' +
-                ", position=" + position +
-                '}';
     }
 
     public void move(final int power) {

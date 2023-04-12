@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.utils.powerGenerator.PowerGenerator;
-import racingcar.view.ResultView;
 
 public class RacingGame {
     private final List<Car> cars;
@@ -18,11 +17,9 @@ public class RacingGame {
     }
 
     public void start() {
-        ResultView.printStart();
         int tryCount = playCount;
         while (!isEnd(tryCount--)) {
             moveCars();
-            ResultView.printPositionOfCars(cars);
         }
     }
 
