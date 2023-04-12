@@ -15,8 +15,8 @@
         "count": 10
     }
     ```
-- [ ] 웹 응답 구현하기
-    - [ ] JSON 형식으로 반환
+- [x] 웹 응답 구현하기
+  - [x] JSON 형식으로 반환
     ```http request
     HTTP/1.1 200 
     Content-Type: application/json
