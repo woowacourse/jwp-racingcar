@@ -11,4 +11,12 @@ public class RacingCarGameResultDto {
         this.winners = winners;
         this.racingCars = racingCars;
     }
+
+    public String getWinners() {
+        return winners;
+    }
+
+    public List<RacingCarDto> getRacingCars() {
+        return racingCars;
+    }
 }
