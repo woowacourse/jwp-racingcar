@@ -1,7 +1,7 @@
 CREATE TABLE `game` (
                         `id` long PRIMARY KEY NOT NULL AUTO_INCREMENT,
                         `trialCount` int NOT NULL,
-                        `date` datetime NOT NULL
+                        `date` DATETIME NOT NULL default current_time
 );
 
 CREATE TABLE `car` (
