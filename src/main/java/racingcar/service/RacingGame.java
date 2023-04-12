@@ -8,10 +8,12 @@ import racingcar.strategy.MovingStrategy;
 
 public class RacingGame {
 
+    private final int id;
     private final Cars cars;
     private final MovingStrategy movingStrategy;
 
-    public RacingGame(Cars cars, MovingStrategy movingStrategy) {
+    public RacingGame(int id, Cars cars, MovingStrategy movingStrategy) {
+        this.id = id;
         this.cars = cars;
         this.movingStrategy = movingStrategy;
     }
@@ -23,6 +25,10 @@ public class RacingGame {
 
     public List<String> getWinners() {
         return cars.findWinners();
+    }
+
+    public int getId() {
+        return id;
     }
 
     public List<Car> getCars() {

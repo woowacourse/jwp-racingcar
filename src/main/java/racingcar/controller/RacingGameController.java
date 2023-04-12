@@ -25,7 +25,7 @@ public class RacingGameController {
     public void execute() {
         List<String> carNames = getCarNames();
         int tryTimes = getTryTimes();
-        RacingGame racingGame = new RacingGame(CarFactory.buildCars(carNames), movingStrategy);
+        RacingGame racingGame = new RacingGame(1, CarFactory.buildCars(carNames), movingStrategy);
         race(racingGame, tryTimes);
         getWinners(racingGame);
     }

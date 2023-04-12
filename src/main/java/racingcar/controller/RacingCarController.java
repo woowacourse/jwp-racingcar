@@ -12,6 +12,7 @@ import racingcar.dto.CarDto;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
 import racingcar.service.RacingCarService;
+import racingcar.service.RacingGame;
 
 @RestController
 public class RacingCarController {
@@ -26,14 +27,15 @@ public class RacingCarController {
 
     @PostMapping("/plays")
     @ResponseBody
-    public GameResponse createGame(@Valid @RequestBody GameRequest gameRequest) {
+    public GameResponse play(@Valid @RequestBody GameRequest gameRequest) {
         List<String> carNames = splitNames(gameRequest);
-        racingCarService.createGame(carNames);
+        RacingGame game = racingCarService.createGame(carNames, gameRequest.getCount());
 
-        racingCarService.race(gameRequest.getCount());
-        List<String> winners = racingCarService.findWinners();
+        racingCarService.race(game, gameRequest.getCount());
+        racingCarService.updateWinners(game);
+        List<String> winners = racingCarService.findWinners(game);
         String winnerNames = String.join(DELIMITER, winners);
-        List<CarDto> cars = convertDto(racingCarService.findCars());
+        List<CarDto> cars = convertDto(racingCarService.findCars(game));
 
         return GameResponse.of(winnerNames, cars);
     }
