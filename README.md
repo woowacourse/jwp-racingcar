@@ -11,9 +11,9 @@
     - [x] 우승자를 조회할 수 있다
     - [x] 모든 차의 최종 위치를 조회할 수 있다
 - [ ] DB 연동하기
-  - [ ] H2 DB 연동
+  - [x] H2 DB 연동
   - [ ] 플레이 이력 저장
-    - 플레이 횟수 (trialCount)
-    - 플레이어 별 최종 이동 거리 (name, position)
-    - 우승 여부 (isWinner)
-    - 플레이한 시간, 날짜 (playTime)
+    - [x] 플레이 횟수 (trialCount)
+    - [x] 플레이한 시간, 날짜 (playTime)
+    - [ ] 플레이어 별 최종 이동 거리 (name, position)
+    - [ ] 우승 여부 (isWinner)
