@@ -14,7 +14,7 @@ class TrialTest {
         @Test
         @DisplayName("Trial 객체는 생성자로 접근이 불가능하고, 정적 메소드 of() 를 통해 생성할 수 있다.")
         void givenNumber_whenGeneratingTrial_thenReturnsTrial() {
-            long trialNumber = 30L;
+            int trialNumber = 30;
 
             Trial trial = Trial.of(trialNumber);
 
@@ -30,8 +30,8 @@ class TrialTest {
         @Test
         @DisplayName("Trial VO 객체는 내부 필드의 값이 동일하면 동일한 객체로 간주한다.")
         void givenTrialsHavingSameNumber_whenCallingEquals_thenReturnsTrue() {
-            Trial trial1 = Trial.of(20L);
-            Trial trial2 = Trial.of(20L);
+            Trial trial1 = Trial.of(20);
+            Trial trial2 = Trial.of(20);
 
             assertThat(trial1)
                     .as("equals() 메소드 결과가 true이다.")
@@ -48,10 +48,10 @@ class TrialTest {
         @Test
         @DisplayName("getValue()를 통해 내부의 원시값을 가져올 수 있다.")
         void givenTrial_whenGettingValue_thenReturnsValue() {
-            long expected = 10L;
+            int expected = 10;
             Trial trial = Trial.of(expected);
 
-            Long value = trial.getValue();
+            int value = trial.getValue();
 
             assertThat(value)
                     .as("getValue() 호출시 내부 필드인 Long 타입의 수를 반환한다.")

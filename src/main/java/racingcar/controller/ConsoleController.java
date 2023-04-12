@@ -11,14 +11,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Controller {
+public class ConsoleController {
     public static final String DUPLICATING_NAME_EXCEPTION_MESSAGE = "중복된 이름은 사용할 수 없습니다.";
 
     private final OutputView outputView;
     private final InputView inputView;
     private final Cars cars;
 
-    public Controller(OutputView outputView, InputView inputView, Cars cars) {
+    public ConsoleController(OutputView outputView, InputView inputView, Cars cars) {
         this.outputView = outputView;
         this.inputView = inputView;
         this.cars = cars;
@@ -82,6 +82,6 @@ public class Controller {
     }
 
     private void printResult() {
-        outputView.printResult(cars.getResult());
+        outputView.printResult(cars.getRacingCars());
     }
 }

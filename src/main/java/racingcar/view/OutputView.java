@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import racingcar.dto.Result;
+import racingcar.dto.RacingCarsDto;
 
 import java.util.List;
 
@@ -21,14 +21,14 @@ public class OutputView {
         System.out.println(MOVING_RESULT_MESSAGE);
     }
 
-    public void printResult(Result result) {
+    public void printResult(RacingCarsDto result) {
         result.forEach((name, position)
                 -> System.out.printf(RESULT_MESSAGE_FORMAT, name, makePositionBar(position))
         );
         System.out.println();
     }
 
-    private static StringBuilder makePositionBar(Long position) {
+    private static StringBuilder makePositionBar(int position) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int count = 0; count < position; count++) {
             stringBuilder.append(POSITION_BAR);

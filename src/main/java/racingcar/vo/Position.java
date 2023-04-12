@@ -3,13 +3,13 @@ package racingcar.vo;
 import java.util.Objects;
 
 public class Position {
-    private final Long position;
+    private final int position;
 
-    private Position(Long position) {
+    private Position(int position) {
         this.position = position;
     }
 
-    public static Position of(Long position) {
+    public static Position of(int position) {
         return new Position(position);
     }
 
@@ -17,11 +17,11 @@ public class Position {
         return Position.of(position + 1);
     }
 
-    public Long getValue() {
+    public int getValue() {
         return position;
     }
 
-    public boolean isValueOf(Long position) {
+    public boolean isValueOf(int position) {
         return Objects.equals(this.position, position);
     }
 
@@ -30,7 +30,7 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position1 = (Position) o;
-        return position.equals(position1.position);
+        return position == position1.position;
     }
 
     @Override

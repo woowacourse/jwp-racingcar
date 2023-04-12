@@ -7,9 +7,9 @@ public class Converter {
     private Converter() {
     }
 
-    public static Long convertStringToLong(String target) {
+    public static int convertStringToLong(String target) {
        try {
-           return Long.parseLong(target);
+           return Integer.parseInt(target);
        } catch(NumberFormatException exception) {
            throw new IllegalArgumentException(NOT_NUMBER_EXCEPTION_MESSAGE);
        }

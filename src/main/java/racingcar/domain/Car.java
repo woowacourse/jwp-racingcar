@@ -6,12 +6,12 @@ import racingcar.vo.Position;
 public class Car {
     public static final int MIN_REQUIRED_POWER = 3;
 
-    private final CarName carName;
+    private final CarName name;
     private Position position;
 
-    private Car(CarName carName) {
-        this.carName = carName;
-        this.position = Position.of(0L);
+    private Car(CarName name) {
+        this.name = name;
+        this.position = Position.of(0);
     }
 
     public static Car of(CarName name) {
@@ -19,10 +19,10 @@ public class Car {
     }
 
     public String getName() {
-        return carName.getValue();
+        return name.getValue();
     }
 
-    public Long getPosition() {
+    public int getPosition() {
         return position.getValue();
     }
 
@@ -32,14 +32,14 @@ public class Car {
         }
     }
 
-    public boolean hasPosition(Long position) {
+    public boolean hasPosition(int position) {
         return this.position.isValueOf(position);
     }
 
     @Override
     public String toString() {
         return "Car{" +
-                "name=" + carName +
+                "name=" + name +
                 ", position=" + position +
                 '}';
     }

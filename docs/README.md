@@ -80,9 +80,9 @@ flowchart
     ]
   }
   ```
-  * [ ] 우승자(winners)가 들어있다.
-  * [ ] 자동차들(racingCars) 정보가 들어있다.
-    * [ ] 자동차 이름(name)과 이동 정도(position)이 들어있다. 
+  * [x] 우승자(winners)가 들어있다.
+  * [x] 자동차들(racingCars) 정보가 들어있다.
+    * [x] 자동차 이름(name)과 이동 정도(position)이 들어있다. 
 
 
 ## DB(DAO)

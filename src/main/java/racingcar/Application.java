@@ -1,6 +1,6 @@
 package racingcar;
 
-import racingcar.controller.Controller;
+import racingcar.controller.ConsoleController;
 import racingcar.domain.Cars;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.utils.ScannerInputReader;
@@ -16,7 +16,7 @@ public class Application {
 
         Cars cars = new Cars(new ArrayList<>(), RandomNumberGenerator.makeInstance());
 
-        Controller controller = new Controller(outputView, inputView, cars);
-        controller.run();
+        ConsoleController service = new ConsoleController(outputView, inputView, cars);
+        service.run();
     }
 }

@@ -2,7 +2,7 @@ package racingcar.view;
 
 import org.junit.jupiter.api.*;
 import racingcar.domain.Car;
-import racingcar.dto.Result;
+import racingcar.dto.RacingCarsDto;
 import racingcar.vo.CarName;
 
 import java.io.ByteArrayOutputStream;
@@ -60,7 +60,7 @@ class OutputViewTest {
         void givenResult_whenPrintingResultMessage_thenPrintsMessage() {
             Car car1 = makeCar("Car1", 4);
             Car car2 = makeCar("Car2", 2);
-            Result result = Result.of(List.of(car1, car2));
+            RacingCarsDto result = RacingCarsDto.of(List.of(car1, car2));
 
             outputView.printResult(result);
 
