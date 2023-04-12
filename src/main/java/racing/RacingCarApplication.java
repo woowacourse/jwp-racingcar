@@ -24,6 +24,7 @@ public class RacingCarApplication implements CommandLineRunner {
                 "car_name varchar(8) NOT NULL, " +
                 "step int(3) NOT NULL, " +
                 "winner boolean default false, " +
+                "game_id bigint NOT NUll, " +
                 "PRIMARY KEY (car_id)" +
                 ");"
         );
@@ -32,7 +33,7 @@ public class RacingCarApplication implements CommandLineRunner {
                 "CREATE TABLE IF NOT EXISTS games (" +
                         "game_id bigint NOT NULL AUTO_INCREMENT, " +
                         "count int(3) NOT NULL, " +
-                        "create_time timestamp default current_timestamp NOT NULL, " +
+                        "create_time timestamp NOT NULL, " +
                         "PRIMARY KEY (game_id)" +
                         ");"
         );
