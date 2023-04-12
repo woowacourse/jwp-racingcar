@@ -2,6 +2,7 @@ package racingcar.repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
-import racingcar.domain.RacingCars;
+import racingcar.dto.RacingCarDto;
 
 @Repository
 public class RacingCarRepository {
@@ -27,9 +28,8 @@ public class RacingCarRepository {
         });
     }
 
-    public void saveCars(int gameId, RacingCars racingCars) {
+    public void saveCars(int gameId, List<Car> cars) {
         String sql = "INSERT INTO PLAYER_RESULT (GAME_ID,NAME,POSITION) VALUES(?,?,?)";
-        List<Car> cars = racingCars.getCars();
         jdbcTemplate.batchUpdate(sql, cars, cars.size(), (ps, car) -> {
             ps.setInt(1, gameId);
             ps.setString(2, car.getName());
@@ -47,5 +47,30 @@ public class RacingCarRepository {
         }, keyHolder);
         Map<String, Object> keys = keyHolder.getKeys();
         return (int) keys.get("ID");
+    }
+
+    public List<String> findWinners(int gameId) {
+        String sql = "SELECT winner FROM WINNER_RESULT WHERE game_id = ?";
+        return jdbcTemplate.query(sql, ps -> ps.setInt(1, gameId), rs -> {
+            ArrayList<String> winners = new ArrayList<>();
+            while (rs.next()) {
+                String winner = rs.getString(1);
+                winners.add(winner);
+            }
+            return winners;
+        });
+    }
+
+    public List<RacingCarDto> findRacingCars(int gameId) {
+        String sql = "SELECT name, position FROM PLAYER_RESULT WHERE game_id = ?";
+        return jdbcTemplate.query(sql, ps -> ps.setInt(1, gameId), rs -> {
+            ArrayList<RacingCarDto> racingCars = new ArrayList<>();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                int position = rs.getInt(2);
+                racingCars.add(new RacingCarDto(name, position));
+            }
+            return racingCars;
+        });
     }
 }
