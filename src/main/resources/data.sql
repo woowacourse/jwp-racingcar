@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS game;
+DROP TABLE IF EXISTS player;
+
 CREATE TABLE game
 (
     id         INT AUTO_INCREMENT,
