@@ -33,7 +33,7 @@ public class OutputView {
 
     public static void printWinner(List<WinnerCarDto> winnersDto) {
         String winners = winnersDto.stream()
-                .map(WinnerCarDto::getName)
+                .map(WinnerCarDto::getWinners)
                 .collect(Collectors.joining(DELIMITER));
 
         print(String.format(WINNER_FORMAT, winners));

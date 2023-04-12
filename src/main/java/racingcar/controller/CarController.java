@@ -1,51 +1,40 @@
 package racingcar.controller;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import racingcar.dto.GameInfo;
+import racingcar.dto.WinnerCarDto;
 import racingcar.exception.DuplicateCarNameException;
 import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.utils.RacingNumberGenerator;
-import racingcar.wrapper.Round;
+import racingcar.utils.RacingRandomNumberGenerator;
 import racingcar.utils.StringUtils;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
+import racingcar.wrapper.Round;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RestController
 public class CarController {
 
     private Cars cars;
 
-    public void run(RacingNumberGenerator generator) {
-        try {
-            cars = generateCars(InputView.inputCarsName());
-            Round round = generateRound();
+    @PostMapping("/plays")
+    public List<WinnerCarDto> run(@RequestBody GameInfo gameInfo) {
+        final RacingNumberGenerator generator = new RacingRandomNumberGenerator();
+        cars = generateCars(gameInfo.getNames());
+        Round round = new Round(gameInfo.getCount());
 
-            race(generator, round);
-            OutputView.printWinner(cars.getWinner());
-        } catch (IllegalArgumentException exception) {
-            OutputView.printExceptionMessage(exception.getMessage());
-            run(generator);
-        }
-    }
-
-    private void race(RacingNumberGenerator generator, Round round) {
-        OutputView.printRoundStartMessage();
         for (int count = 0; count < round.getRound(); count++) {
             cars.race(generator);
-            OutputView.printRound(cars.getCarsDto());
         }
+
+        return cars.getWinner();
     }
 
-    private Round generateRound() {
-        try {
-            return new Round(InputView.inputRound());
-        } catch (IllegalArgumentException exception) {
-            OutputView.printExceptionMessage(exception.getMessage());
-            return generateRound();
-        }
-    }
 
     public Cars generateCars(String inputCarsName) {
         String[] carsName = StringUtils.splitBySeparator(inputCarsName);
