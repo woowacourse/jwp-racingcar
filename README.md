@@ -45,7 +45,7 @@
 
 ### 서비스
 
-- [ ] 자동차 경주 게임을 진행 후 결과를 생성한다.
+- [x] 자동차 경주 게임을 진행 후 결과를 생성한다.
 
 ### 레포지토리
 
@@ -54,7 +54,7 @@
 
 ### DB
 
-- [ ] Game 테이블 생성한다.
-    - id, winners, date
-- [ ] RacingCar 테이블 생성한다.
+- [x] Game 테이블 생성한다.
+    - id, winners, trial_count, date
+- [x] RacingCar 테이블 생성한다.
     - id, game_id, name, position
