@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class WebRacingGameController {
 
     @PostMapping("/plays")
-    public ResponseEntity playGame(@RequestBody GameInfoDto request) {
+    public ResponseEntity<GameResultDto> playGame(@RequestBody GameInfoDto request) {
         List<Name> names = Arrays.stream(request.getNames().split(","))
                 .map(Name::new)
                 .collect(Collectors.toList());
