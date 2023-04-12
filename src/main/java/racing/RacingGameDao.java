@@ -1,5 +1,9 @@
 package racing;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -37,15 +41,19 @@ public class RacingGameDao {
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
-    public void saveCar(CarEntity car) {
+    public void saveCar(List<CarEntity> carEntities) {
         String saveCarQuery = "INSERT INTO cars(car_name, step, winner, game_id) VALUES (?, ?, ?, ?)";
+        List<Object[]> insertValues = new ArrayList<>();
 
-        jdbcTemplate.update(saveCarQuery,
-                car.getCarName(),
-                car.getStep(),
-                car.isWinner(),
-                car.getGameId()
-        );
+        for (CarEntity carEntity : carEntities) {
+            insertValues.add(new Object[]{
+                    carEntity.getCarName(),
+                    carEntity.getStep(),
+                    carEntity.isWinner(),
+                    carEntity.getGameId(),
+            });
+        }
+        jdbcTemplate.batchUpdate(saveCarQuery, insertValues);
     }
 
 }

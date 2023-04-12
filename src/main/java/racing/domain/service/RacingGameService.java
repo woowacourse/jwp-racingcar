@@ -1,5 +1,6 @@
 package racing.domain.service;
 
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racing.CarEntity;
 import racing.RacingGameDao;
@@ -30,9 +31,10 @@ public class RacingGameService {
     public void saveCarsState(Long gameId, Cars cars) {
         List<String> winners = cars.getWinners();
 
-        cars.getCars().stream()
+        List<CarEntity> carEntities = cars.getCars().stream()
                 .map(car -> CarEntity.of(gameId, car, winners.contains(car.getName())))
-                .forEach(racingGameDao::saveCar);
+                .collect(Collectors.toList());
+        racingGameDao.saveCar(carEntities);
     }
 
     public String getWinners(Cars cars) {
