@@ -13,12 +13,12 @@ import racingcar.dto.PositionOfCar;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class RacingGameController {
+public class RacingCarConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
 
-    public RacingGameController(final InputView inputView, final OutputView outputView) {
+    public RacingCarConsoleController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
