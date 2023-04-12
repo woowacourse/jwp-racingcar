@@ -2,8 +2,11 @@ package racingcar.dto;
 
 public class CarDTO {
 
-    private final String name;
-    private final int position;
+    private String name;
+    private int position;
+
+    public CarDTO() {
+    }
 
     public CarDTO(final String name, final int position) {
         this.name = name;
