@@ -2,11 +2,11 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import racingcar.domain.Cars;
+import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
-import racingcar.domain.dto.CarStatusDto;
-import racingcar.domain.dto.RaceRequest;
-import racingcar.domain.dto.RaceResponse;
-import racingcar.util.NumberGenerator;
+import racingcar.dto.CarStatusDto;
+import racingcar.dto.RaceRequest;
+import racingcar.dto.RaceResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;

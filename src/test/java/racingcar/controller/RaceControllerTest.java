@@ -9,9 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import racingcar.domain.dto.CarStatusDto;
-import racingcar.domain.dto.RaceRequest;
-import racingcar.domain.dto.RaceResponse;
+import racingcar.dto.CarStatusDto;
+import racingcar.dto.RaceRequest;
+import racingcar.dto.RaceResponse;
 import racingcar.service.RaceService;
 
 import java.util.List;

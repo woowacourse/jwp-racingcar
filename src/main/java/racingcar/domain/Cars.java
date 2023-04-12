@@ -1,9 +1,5 @@
 package racingcar.domain;
 
-import racingcar.exception.DuplicateException;
-import racingcar.exception.NoResourceException;
-import racingcar.util.NumberGenerator;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -49,7 +45,7 @@ public class Cars {
     private Car judgeMaxPositionCar() {
         return cars.stream()
                 .max(Car::compareTo)
-                .orElseThrow(() -> new NoResourceException(String.format(NO_RESOURCE_MESSAGE, "차량 리스트")));
+                .orElseThrow(() -> new IllegalArgumentException(String.format(NO_RESOURCE_MESSAGE, "차량 리스트")));
     }
 
     private List<Car> create(final String carNames) {
@@ -66,7 +62,7 @@ public class Cars {
     private void validateDuplicateCarName() {
         int uniqueCarCount = new HashSet<>(cars).size();
         if (cars.size() != uniqueCarCount) {
-            throw new DuplicateException(DUPLICATE_MESSAGE);
+            throw new IllegalArgumentException(DUPLICATE_MESSAGE);
         }
     }
 

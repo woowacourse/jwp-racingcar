@@ -3,8 +3,8 @@ package racingcar.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.dto.RaceRequest;
-import racingcar.domain.dto.RaceResponse;
+import racingcar.dto.RaceRequest;
+import racingcar.dto.RaceResponse;
 import racingcar.mock.MockNumberGenerator;
 import racingcar.provider.TestProvider;
 

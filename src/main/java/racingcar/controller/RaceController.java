@@ -3,8 +3,8 @@ package racingcar.controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.dto.RaceRequest;
-import racingcar.domain.dto.RaceResponse;
+import racingcar.dto.RaceRequest;
+import racingcar.dto.RaceResponse;
 import racingcar.service.RaceService;
 
 @RestController

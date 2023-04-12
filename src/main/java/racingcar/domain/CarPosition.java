@@ -1,4 +1,4 @@
-package racingcar.domain.wrapper;
+package racingcar.domain;
 
 public class CarPosition {
 

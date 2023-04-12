@@ -5,8 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import racingcar.exception.DuplicateException;
-import racingcar.exception.GlobalException;
 import racingcar.mock.MockNumberGenerator;
 import racingcar.provider.TestProvider;
 
@@ -52,8 +50,7 @@ class CarsTest {
     @DisplayName("자동차 이름에 중복값이 들어오면 예외가 발생한다.")
     void givenDuplicateCarNames_thenFail(final String carNames) {
         assertThatThrownBy(() -> Cars.create(carNames, numberGenerator))
-                .isInstanceOf(GlobalException.class)
-                .isExactlyInstanceOf(DuplicateException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("중복된 값을 입력할 수 없습니다.");
     }
 }
