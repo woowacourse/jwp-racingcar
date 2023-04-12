@@ -31,13 +31,13 @@ class RacingWebControllerTest {
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .body(trackRequest)
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", is(2));
     }
-
 
     @DisplayName("잘못된 이름 요청이 오면 상태코드 Bad Request 반환")
     @ParameterizedTest
@@ -50,6 +50,7 @@ class RacingWebControllerTest {
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .body(trackRequest)
                 .when().post("/plays")
                 .then().log().all()
@@ -67,6 +68,7 @@ class RacingWebControllerTest {
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .body(trackRequest)
                 .when().post("/plays")
                 .then().log().all()
