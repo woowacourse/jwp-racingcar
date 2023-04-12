@@ -11,12 +11,12 @@
 - [x] 자동차 경주 게임을 플레이하기 위한 요청을 받아 우승자와 최종 위치를 응답한다.
 
     - 요청 형식
-        ```json
+        ```text
         POST /plays HTTP/1.1
         
         content-type: application/json; charset=UTF-8
         host: localhost: 8080
-        성
+        
         {
             "names": "브리,토미,브라운",
             "count": 10
@@ -24,7 +24,7 @@
         ```
 
     - 응답 형식
-        ```json
+        ```text
         HTTP/1.1 200
         Content-Type: application/json
         
