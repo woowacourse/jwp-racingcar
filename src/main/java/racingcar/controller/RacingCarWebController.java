@@ -31,7 +31,11 @@ public class RacingCarWebController {
         List<String> names = Arrays.stream(racingGameRequestDto.getNames().split(","))
                 .collect(Collectors.toList());
 
-        RacingCarService racingCarService = new RacingCarService(Cars.of(names), new RandomNumberGenerator(), new RacingCarRepository(new RacingCarGameDao(jdbcTemplate)));
+        RacingCarService racingCarService = new RacingCarService(
+                Cars.of(names),
+                new RandomNumberGenerator(),
+                new RacingCarRepository(new RacingCarGameDao(jdbcTemplate))
+        );
         racingCarService.play(racingGameRequestDto.getCount());
 
         ResultResponseDto resultResponseDto = new ResultResponseDto(racingCarService.getWinners(), racingCarService.getCars());

@@ -1,6 +1,5 @@
 package racingcar.repository;
 
-import org.springframework.stereotype.Repository;
 import racingcar.dao.RacingCarGameDao;
 import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Player;
