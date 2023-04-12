@@ -26,7 +26,7 @@ public class GameController {
     }
 
     @PostMapping("/plays")
-    // 매핑(직렬화)을 누가 해주는지 공부하면 좋을 것 같다.
+    // TODO: 매핑(직렬화/역직렬화)을 누가 해주는지 공부하면 좋을 것 같다.
     public ResponseEntity<ResultResponse> playGame(@RequestBody PlayRequest playRequest) {
         final List<String> names = List.of(playRequest.getNames().split(CAR_NAME_SEPARATOR));
         final int playCount = playRequest.getCount();
