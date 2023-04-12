@@ -34,17 +34,17 @@ class RacingGameTest {
 
 
         @Test
-        @DisplayName("우승자를 반드시 포함해서 알려준다")
+        @DisplayName("우승자이면 true를 반환한다.")
         void shouldContainWinners() {
             // given
-            mockWinnerJudge = cars -> List.of(new Car("rosie"));
+            Car winner = new Car("rosie");
+            mockWinnerJudge = cars -> List.of(winner);
             race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge, 10);
 
             // when
-            List<Car> winners = race.getWinners();
 
             //then
-            assertThat(getNamesOf(winners)).contains("rosie");
+            assertThat(race.isWinner(winner)).isTrue();
         }
 
         private List<String> getNamesOf(List<Car> winners) {
@@ -52,17 +52,31 @@ class RacingGameTest {
         }
 
         @Test
-        @DisplayName("우승자가 아닌 사람을 포함하지 않고 알려준다.")
+        @DisplayName("우승자가 아니면 false를 반환한다.")
         void shouldNotContainNonWinners() {
             // given
-            mockWinnerJudge = cars -> List.of(new Car("rosie"));
+            Car winner = new Car("rosie");
+            mockWinnerJudge = cars -> List.of(winner);
             race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge, 10);
 
             // when
-            List<Car> winners = race.getWinners();
-
             //then
-            assertThat(getNamesOf(winners)).doesNotContain("hong");
+            assertThat(race.isWinner(new Car("hong"))).isFalse();
         }
     }
+
+    @DisplayName("게임을 실행할 수 있다.")
+    @Test
+    void testGameProgress() {
+        //given
+        RacingGame race = new RacingGame(List.of("바론", "론이", "로니", "로지"), new WinnerJudgeImpl(), 10);
+        //when
+        race.progress();
+        //then
+        boolean isAllInTrialCount = race.getRacingCars().stream()
+                .allMatch(car -> 0 <= car.getPosition() && car.getPosition() <= 10);
+
+        assertThat(isAllInTrialCount).isTrue();
+    }
+
 }

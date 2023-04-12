@@ -20,12 +20,15 @@ public class RacingGame {
         this.winnerJudge = winnerJudge;
     }
 
-    public void tryMoveOneTime() {
-        racingCars.moveCars();
+    public void progress() {
+        for (int count = 0; count < trialCount; count++) {
+            racingCars.moveCars();
+        }
     }
 
-    public List<Car> getWinners() {
-        return winnerJudge.getWinner(racingCars.getCars());
+    public boolean isWinner(Car car) {
+        List<Car> winners = winnerJudge.getWinner(racingCars.getCars());
+        return winners.stream().anyMatch(winner -> winner.getName().equals(car.getName()));
     }
 
     public List<Car> getRacingCars() {
