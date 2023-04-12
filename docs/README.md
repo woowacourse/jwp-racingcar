@@ -1,11 +1,11 @@
 ### 요구 사항 목록
 
 - 스프링 연결
-  - [ ] POST `/plays` API
+  - [x] POST `/plays` API
     - [x] Request DTO 작성
     - [x] Response DTO 작성
-    - [ ] Request로 들어온 입력으로 자동차 게임 진행
-    - [ ] Response로 자동차 게임 결과 전송
+    - [x] Request로 들어온 입력으로 자동차 게임 진행
+    - [x] Response로 자동차 게임 결과 전송
 
 - DB
   - [ ] H2 Database 세팅
