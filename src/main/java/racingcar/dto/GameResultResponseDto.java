@@ -6,15 +6,15 @@ import racingcar.domain.Cars;
 
 public class GameResultResponseDto {
 
-    private String winners;
+    private List<String> winners;
     private List<CarStatusResponseDto> racingCars;
 
-    private GameResultResponseDto(final String winners, final List<CarStatusResponseDto> racingCars) {
+    private GameResultResponseDto(final List<String> winners, final List<CarStatusResponseDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public static GameResultResponseDto toDto(final String winners, final Cars cars) {
+    public static GameResultResponseDto toDto(final List<String> winners, final Cars cars) {
         List<CarStatusResponseDto> carStatuses = cars.getCars().stream()
                 .map(CarStatusResponseDto::toDto)
                 .collect(Collectors.toList());
@@ -22,7 +22,11 @@ public class GameResultResponseDto {
         return new GameResultResponseDto(winners, carStatuses);
     }
 
-    public String getWinners() {
+    public boolean isWinner(final String name) {
+        return this.winners.contains(name);
+    }
+
+    public List<String> getWinners() {
         return winners;
     }
 
