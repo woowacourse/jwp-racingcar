@@ -11,9 +11,9 @@
     - InputView, OutputView, 컨트롤러 제거
     - enum으로 관리하던 상수를 static final로 관리하도록 변경
 
-- [ ] 웹 요청/응답 구현하기
+- [x] 웹 요청/응답 구현하기
   - [x] 자동차 경주 게임 요청 컨트롤러 추가하기
-  - [ ] 예외 발생 시 handler 추가하기
+  - [x] 예외 발생 시 handler 추가하기
 
 - [ ] DB 연동하기
 
