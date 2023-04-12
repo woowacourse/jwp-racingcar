@@ -18,6 +18,15 @@ public class Cars {
         this.cars = new ArrayList<>(cars);
     }
 
+    public static Cars of(List<String> carNames) {
+        List<Car> cars = new ArrayList<>();
+        for (String carName : carNames) {
+            cars.add(new Car(carName));
+        }
+
+        return new Cars(cars);
+    }
+
     public void addCar(Car car) {
         cars.add(car);
     }
