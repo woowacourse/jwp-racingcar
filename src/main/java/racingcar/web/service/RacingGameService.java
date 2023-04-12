@@ -22,11 +22,13 @@ public class RacingGameService {
     public ResultDto getResult(UserInputDto inputDto) {
         RacingGame racingGame = getRacingGame(inputDto);
 
+        Long gameResultId = repository.saveGameResult(new TryCount(inputDto.getCount()));
+
         List<Cars> result = racingGame.start(new DefaultMovingStrategy());
         Cars finalResult = result.get(result.size() - 1);
         Cars winnersResult = racingGame.decideWinners();
-        TryCount tryCount = racingGame.getTryCount();
-        repository.save(tryCount, finalResult, winnersResult);
+
+        repository.saveCars(gameResultId, finalResult, winnersResult);
 
         return new ResultDto(winnersResult, finalResult);
     }
@@ -38,6 +40,7 @@ public class RacingGameService {
                 .map(Name::of)
                 .collect(Collectors.toList());
         TryCount tryCount = new TryCount(inputDto.getCount());
+
         return new RacingGame(nameList, tryCount);
     }
 }

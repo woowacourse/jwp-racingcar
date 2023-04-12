@@ -1,10 +1,10 @@
 package racingcar.entity;
 
 public class CarEntity {
-    private String playerName;
-    private int finalPosition;
-    private boolean isWinner;
-    private Long gameResultId;
+    private final String playerName;
+    private final int finalPosition;
+    private final boolean isWinner;
+    private final Long gameResultId;
 
     public CarEntity(String playerName, int finalPosition, boolean isWinner, Long gameResultId) {
         this.playerName = playerName;
@@ -27,22 +27,6 @@ public class CarEntity {
 
     public Long getGameResultId() {
         return gameResultId;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public void setFinalPosition(int finalPosition) {
-        this.finalPosition = finalPosition;
-    }
-
-    public void setWinner(boolean winner) {
-        isWinner = winner;
-    }
-
-    public void setGameResultId(Long gameResultId) {
-        this.gameResultId = gameResultId;
     }
 
     @Override

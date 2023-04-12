@@ -5,6 +5,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.domain.TryCount;
+import racingcar.entity.GameResultEntity;
 
 import java.sql.PreparedStatement;
 
@@ -17,12 +18,12 @@ public class GameResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long insert(TryCount tryCount) {
+    public Long insert(GameResultEntity gameResultEntity) {
         String sql = "insert into game_result (try_count) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setInt(1, tryCount.getCount());
+            ps.setInt(1, gameResultEntity.getTryCount());
             return ps;
         }, keyHolder);
 
