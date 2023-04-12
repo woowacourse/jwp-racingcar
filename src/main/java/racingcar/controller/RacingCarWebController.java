@@ -18,15 +18,21 @@ public class RacingCarWebController {
 
     @PostMapping("/plays")
     public ResponseEntity<ResponseDto> playRacingCar(@RequestBody RequestDto requestDto) {
+        final RacingCarGame racingCarGame = getRacingCarGame(requestDto);
+        final ResponseDto responseDto = getResponseDto(racingCarGame);
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+    private RacingCarGame getRacingCarGame(final RequestDto requestDto) {
         final Cars cars = Cars.from(List.of(requestDto.getNames().split(",")));
         final AttemptNumber attemptNumber = new AttemptNumber(requestDto.getCount());
-        final RacingCarGame racingCarGame = new RacingCarGame(cars, attemptNumber, new RandomNumberGenerator());
+        return new RacingCarGame(cars, attemptNumber, new RandomNumberGenerator());
+    }
 
+    private ResponseDto getResponseDto(final RacingCarGame racingCarGame) {
         final List<String> winners = racingCarGame.findWinners();
         final String concatWinners = String.join(",", winners);
-        final List<Car> racingCars = racingCarGame.getCars().getCars();
-        final ResponseDto responseDto = new ResponseDto(concatWinners, racingCars);
-
-        return ResponseEntity.ok().body(responseDto);
+        final List<Car> racingCars = racingCarGame.getCars();
+        return new ResponseDto(concatWinners, racingCars);
     }
 }

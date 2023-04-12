@@ -35,8 +35,8 @@ public class RacingCarGame {
                 .collect(Collectors.toList());
     }
 
-    public Cars getCars() {
-        return cars;
+    public List<Car> getCars() {
+        return cars.getCars();
     }
 
     public AttemptNumber getAttemptNumber() {
