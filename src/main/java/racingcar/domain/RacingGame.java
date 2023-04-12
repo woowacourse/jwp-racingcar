@@ -12,10 +12,8 @@ public class RacingGame {
         this.racingCars = racingCars;
     }
 
-    public void moveCars(int count) {
-        for (int i = 0; i < count; i++) {
-            racingCars.moveCars(numberGenerator);
-        }
+    public void moveCars() {
+        racingCars.moveCars(numberGenerator);
     }
 
     public List<String> getWinners() {

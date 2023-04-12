@@ -19,11 +19,11 @@ import racingcar.repository.RacingCarRepository;
 import racingcar.utils.RandomNumberGenerator;
 
 @RestController
-public class CarController {
+public class WebCarRacingController {
 
     private final RacingCarRepository racingCarRepository;
 
-    public CarController(RacingCarRepository racingCarRepository) {
+    public WebCarRacingController(RacingCarRepository racingCarRepository) {
         this.racingCarRepository = racingCarRepository;
     }
 
@@ -34,7 +34,9 @@ public class CarController {
         int count = request.getCount();
 
         RacingGame racingGame = new RacingGame(new RandomNumberGenerator(), racingCars);
-        racingGame.moveCars(count);
+        for (int i = 0; i < count; i++) {
+            racingGame.moveCars();
+        }
         List<String> winners = racingGame.getWinners();
 
         int gameId = racingCarRepository.saveGame(count);
