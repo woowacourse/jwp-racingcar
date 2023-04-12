@@ -1,6 +1,7 @@
 package racingcar.repository;
 
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,11 @@ class PlayerDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @AfterEach
+    void clear() {
+        jdbcTemplate.execute("DROP TABLE player");
+    }
+
     @BeforeEach
     void setUp() {
         playerDao = new PlayerDao(jdbcTemplate);
@@ -44,7 +50,7 @@ class PlayerDaoTest {
     @DisplayName("insert시 중복이 없으면 예외가 발생하지 않는다")
     void insert시_중복이_없으면_예외가_발생하지_않는다() {
         assertThatNoException().isThrownBy(
-                () ->  playerDao.insert("test")
+                () -> playerDao.insert("test")
         );
     }
 

@@ -1,6 +1,7 @@
 package racingcar.repository;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,9 +21,14 @@ class GameDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @AfterEach
+    void clear() {
+        jdbcTemplate.execute("DROP TABLE game");
+    }
+
     @BeforeEach
     void setUp() {
-        jdbcTemplate.execute("DROP TABLE IF EXISTS game");
+        jdbcTemplate.execute("DROP TABLE game IF EXISTS");
         jdbcTemplate.execute("CREATE TABLE game (\n" +
                 "    id int PRIMARY KEY AUTO_INCREMENT,\n" +
                 "    trial_count int NOT NULL,\n" +
