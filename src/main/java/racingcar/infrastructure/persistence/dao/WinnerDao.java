@@ -1,6 +1,9 @@
 package racingcar.infrastructure.persistence.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
@@ -15,30 +18,26 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 public class WinnerDao {
 
     private final JdbcTemplate template;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public WinnerDao(final JdbcTemplate template) {
         this.template = template;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(template)
+                .withTableName("WINNER")
+                .usingGeneratedKeyColumns("id");
     }
 
     public Long save(final WinnerEntity winnerEntity) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        final String sql = "INSERT INTO WINNER (name, game_id) VALUES (?, ?)";
-        template.update(conn -> {
-            PreparedStatement preparedStatement = conn.prepareStatement(sql, RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, winnerEntity.getName());
-            preparedStatement.setLong(2, winnerEntity.getGameId());
-            return preparedStatement;
-        }, keyHolder);
-
-        return ((long) keyHolder.getKeys().get("id"));
+        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(winnerEntity);
+        return simpleJdbcInsert.executeAndReturnKey(sqlParameterSource).longValue();
     }
 
     public List<WinnerEntity> findByGameId(final Long gameId) {
         return template.query("SELECT * FROM WINNER WHERE game_id = ?",
                 (rs, rowNum) -> new WinnerEntity(
-                        rs.getLong(1),
-                        rs.getString(2),
-                        rs.getLong(3)
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getLong("game_id")
                 ), gameId);
     }
 }
