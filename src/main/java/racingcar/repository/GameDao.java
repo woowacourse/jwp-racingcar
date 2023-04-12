@@ -14,7 +14,8 @@ public class GameDao {
     public GameDao(DataSource dataSource) {
         this.insertActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
-                .usingGeneratedKeyColumns("id");
+                .usingGeneratedKeyColumns("id")
+                .usingColumns("trial_count");
     }
 
     public long insert(final int trial_count) {

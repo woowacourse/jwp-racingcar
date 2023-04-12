@@ -32,7 +32,7 @@ class GameDaoTest {
         jdbcTemplate.execute("CREATE TABLE game (\n" +
                 "    id int PRIMARY KEY AUTO_INCREMENT,\n" +
                 "    trial_count int NOT NULL,\n" +
-                "    game_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n" +
+                "    game_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n" +
                 ");");
 
         List<Object[]> trial_count = Arrays.asList(new String[]{"10"}, new String[]{"20"});
