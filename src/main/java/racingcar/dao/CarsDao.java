@@ -24,17 +24,12 @@ public class CarsDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Map<Car, Integer> insert(final int gameId, final List<Car> cars) {
-        final Map<Car, Integer> carIds = new HashMap<>();
-        for (Car car : cars) {
-            final SqlParameterSource parameterSource = new MapSqlParameterSource()
-                    .addValue("game_id", gameId)
-                    .addValue("name", car.getName())
-                    .addValue("position", car.getPosition());
+    public int insert(int gameId, String name, int position) {
+        final SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("game_id", gameId)
+                .addValue("name", name)
+                .addValue("position", position);
 
-            int carId = simpleJdbcInsert.executeAndReturnKey(parameterSource).intValue();
-            carIds.put(car, carId);
-        }
-        return carIds;
+        return simpleJdbcInsert.executeAndReturnKey(parameterSource).intValue();
     }
 }

@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,8 +50,13 @@ public class GameService {
 
     private void insertResultOf(final Game game) {
         int gameId = gamesDao.insert(game.getTrialCount());
-        Map<Car, Integer> carIds = carsDao.insert(gameId, game.getCars());
-        winnersDao.insert(gameId, findIdsOf(game.findWinners(), carIds));
+        Map<Car, Integer> carIds = new HashMap<>();
+        for (Car car : game.getCars()) {
+            int carId = carsDao.insert(gameId, car.getName(), car.getPosition());
+            carIds.put(car, carId);
+        }
+        List<Integer> winnerIds = findIdsOf(game.findWinners(), carIds);
+        winnersDao.insert(gameId, winnerIds);
     }
 
     private List<Integer> findIdsOf(List<Car> cars, Map<Car, Integer> carIds) {
