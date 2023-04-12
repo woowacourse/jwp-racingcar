@@ -10,4 +10,12 @@ public class PlayRequest {
         this.names = names;
         this.count = count;
     }
+
+    public int getCount() {
+        return count;
+    }
+
+    public String getNames() {
+        return names;
+    }
 }

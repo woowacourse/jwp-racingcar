@@ -10,4 +10,12 @@ public class PlayResponse {
         this.winners = winners;
         this.racingCars = racingCars;
     }
+
+    public String getWinners() {
+        return winners;
+    }
+
+    public List<Car> getRacingCars() {
+        return racingCars;
+    }
 }
