@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import racingcar.domain.RacingGame;
 import racingcar.dto.response.CarDto;
 import racingcar.dto.response.CarGameResponse;
-import racingcar.entity.CarEntity;
+import racingcar.entity.CarResultEntity;
 import racingcar.entity.PlayResultEntity;
-import racingcar.mapper.CarMapper;
+import racingcar.mapper.CarResultMapper;
 import racingcar.mapper.PlayResultMapper;
 
 import java.util.List;
@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 public class RacingGameService {
 
     @Autowired
-    private final CarMapper carMapper;
+    private final CarResultMapper carResultMapper;
 
     @Autowired
     private final PlayResultMapper playResultMapper;
 
-    public RacingGameService(CarMapper carMapper, PlayResultMapper playResultMapper) {
-        this.carMapper = carMapper;
+    public RacingGameService(CarResultMapper carResultMapper, PlayResultMapper playResultMapper) {
+        this.carResultMapper = carResultMapper;
         this.playResultMapper = playResultMapper;
     }
 
@@ -36,8 +36,8 @@ public class RacingGameService {
         long resultId = playResultMapper.save(PlayResultEntity.of(tryCount, winners));
         game.getCars().getUnmodifiableCars()
                 .stream()
-                .map(car -> CarEntity.of(resultId, car.getName(), car.getPosition()))
-                .forEach(carMapper::save);
+                .map(car -> CarResultEntity.of(resultId, car.getName(), car.getPosition()))
+                .forEach(carResultMapper::save);
 
         CarGameResponse response = new CarGameResponse(winners, carDtos);
         return response;

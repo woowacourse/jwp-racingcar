@@ -8,7 +8,7 @@ CREATE TABLE PLAY_RESULT
     PRIMARY KEY (id)
 );
 
-CREATE TABLE CAR
+CREATE TABLE CAR_RESULT
 (
     id             INT         NOT NULL AUTO_INCREMENT,
     play_result_id INT         NOT NULL,
