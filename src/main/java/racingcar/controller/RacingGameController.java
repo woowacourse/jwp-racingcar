@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import racingcar.domain.Names;
@@ -47,5 +48,10 @@ public class RacingGameController {
 
     private boolean canProceed(TryCount tryCount) {
         return tryCount.isOpportunity();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handle(final Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
