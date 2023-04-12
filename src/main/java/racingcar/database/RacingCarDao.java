@@ -1,8 +1,10 @@
 package racingcar.database;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import racingcar.model.Car;
 
+@Repository
 public class RacingCarDao {
     private final JdbcTemplate jdbcTemplate;
 
