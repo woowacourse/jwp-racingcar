@@ -2,7 +2,7 @@ package racingcar.model;
 
 import racingcar.dto.CarDto;
 import racingcar.dto.WinnerCarDto;
-import racingcar.utils.RacingNumberGenerator;
+import racingcar.strategy.RacingNumberGenerator;
 
 import java.util.List;
 import java.util.stream.Collectors;

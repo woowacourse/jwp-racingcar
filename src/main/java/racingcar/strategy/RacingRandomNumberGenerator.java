@@ -1,4 +1,4 @@
-package racingcar.utils;
+package racingcar.strategy;
 
 public class RacingRandomNumberGenerator implements RacingNumberGenerator{
 

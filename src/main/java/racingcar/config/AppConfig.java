@@ -2,8 +2,8 @@ package racingcar.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import racingcar.utils.RacingNumberGenerator;
-import racingcar.utils.RacingRandomNumberGenerator;
+import racingcar.strategy.RacingNumberGenerator;
+import racingcar.strategy.RacingRandomNumberGenerator;
 
 @Configuration
 public class AppConfig {

@@ -8,7 +8,7 @@ import racingcar.dto.WinnerCarDto;
 import racingcar.exception.DuplicateCarNameException;
 import racingcar.model.Car;
 import racingcar.model.Cars;
-import racingcar.utils.RacingNumberGenerator;
+import racingcar.strategy.RacingNumberGenerator;
 import racingcar.wrapper.Round;
 
 import java.util.Arrays;
