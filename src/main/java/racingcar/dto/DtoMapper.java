@@ -23,10 +23,7 @@ public class DtoMapper {
 		List<CarDto> carDtos = new ArrayList<>();
 
 		for (Car car : carList) {
-			CarDto carDto = new CarDto();
-			carDto.setName(car.getName());
-			carDto.setPosition(car.getPosition());
-
+			CarDto carDto = new CarDto(car.getName(), car.getPosition());
 			carDtos.add(carDto);
 		}
 
