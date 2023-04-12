@@ -28,7 +28,6 @@ public class RacingCarService {
     }
     public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
         final GameManager gameManager = new GameManager(new RandomNumberGenerator());
-        
         int trialCount = createGame(namesAndCount, gameManager);
         createPlayers(namesAndCount, gameManager);
 
@@ -36,9 +35,20 @@ public class RacingCarService {
         while (!gameManager.isEnd()) {
             carStatusResponses = gameManager.playGameRound();
         }
-        GameResultResponse gameResultResponse = gameManager.decideWinner();
-        List<String> winnerNames = gameResultResponse.getWinnerNames();
-        
+
+        List<String> winnerNames = gameManager.decideWinner().getWinnerNames();
+        saveGameAndPlayerAndParticipates(trialCount, carStatusResponses, winnerNames);
+        return convertResultResponse(carStatusResponses, winnerNames);
+    }
+
+    private ResultResponse convertResultResponse(final List<CarStatusResponse> carStatusResponses, final List<String> winnerNames) {
+        String winners = convertWinners(winnerNames);
+        List<RacingCarResponse> racingCarResponses = convertRacingCars(carStatusResponses);
+
+        return new ResultResponse(winners, racingCarResponses);
+    }
+
+    private void saveGameAndPlayerAndParticipates(final int trialCount, final List<CarStatusResponse> carStatusResponses, final List<String> winnerNames) {
         Long gameId = gameDao.save(trialCount);
         for (CarStatusResponse carStatusResponse : carStatusResponses) {
             String carName = carStatusResponse.getCarName();
@@ -47,11 +57,6 @@ public class RacingCarService {
             ParticipateDto participateDto = convertParticipate(winnerNames, gameId, carName, carPosition, playerId);
             participatesDao.save(participateDto);
         }
-        
-        String winners = convertWinners(winnerNames);
-        List<RacingCarResponse> racingCarResponses = convertRacingCars(carStatusResponses);
-
-        return new ResultResponse(winners, racingCarResponses);
     }
 
     private Long findOrSavePlayer(final String carName) {
