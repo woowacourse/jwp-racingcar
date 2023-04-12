@@ -1,4 +1,4 @@
-package racingcar.service;
+package racingcar.application;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,21 +26,30 @@ public class RacingGameService {
         this.racingGameRepository = racingGameRepository;
     }
 
-    public GameResult play(final List<String> names, final int gameTime) {
-        final Cars cars = new Cars(names.stream()
+    public Long play(final List<String> names, final int gameTime) {
+        final Cars cars = mapToCars(names);
+        final GameTime time = new GameTime(gameTime);
+        final RacingGame racingGame = new RacingGame(cars, time);
+
+        racingGame.play(numberGenerator);
+        return racingGameRepository.save(racingGame);
+    }
+
+    private Cars mapToCars(final List<String> names) {
+        return new Cars(names.stream()
                 .map(Car::new)
                 .collect(Collectors.toList()));
-        final GameTime time = new GameTime(String.valueOf(gameTime));
-        final RacingGame racingGame = new RacingGame(cars, time);
-        racingGame.play(numberGenerator);
-        racingGameRepository.save(racingGame);
-        final Winners result = racingGame.winners();
-        return new GameResult(racingGame.getCars(), result);
+    }
+
+    public GameResult findResultById(final Long gameId) {
+        final RacingGame racingGame = racingGameRepository
+                .findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("게임이 없습니다."));
+        return new GameResult(racingGame.getCars(), racingGame.winners());
     }
 
     public static class GameResult {
-
-        private final String winners;
+        private final List<String> winners;
         private final List<CarDto> racingCars;
 
         public GameResult(final List<Car> cars, final Winners winners) {
@@ -49,10 +58,10 @@ public class RacingGameService {
                     .collect(Collectors.toList());
             this.winners = winners.getWinners().stream()
                     .map(Winner::getName)
-                    .collect(Collectors.joining(","));
+                    .collect(Collectors.toList());
         }
 
-        public String getWinners() {
+        public List<String> getWinners() {
             return winners;
         }
 
@@ -62,7 +71,6 @@ public class RacingGameService {
     }
 
     public static class CarDto {
-
         private final String name;
         private final int position;
 
