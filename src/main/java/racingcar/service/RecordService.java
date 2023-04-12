@@ -21,7 +21,7 @@ public class RecordService {
         this.recordDao = recordDao;
     }
 
-    public PlayResponse result(long gameId, Cars cars) {
+    public PlayResponse result(final long gameId, final Cars cars) {
         List<String> winners = findWinnerName(cars);
         List<VehicleDto> racingCars = findAllVehicle(cars);
         for (Vehicle car : cars.getCars()) {

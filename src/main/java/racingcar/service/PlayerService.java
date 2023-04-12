@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 @Service
 public class PlayerService {
 
+    public static final String DELIMITER = ",";
+
     private final PlayerDao playerDao;
     private final CarNameValidator carNameValidator;
 
@@ -32,7 +34,7 @@ public class PlayerService {
     }
 
     private Cars createCars(final String names) {
-        List<String> trimCarNames = Arrays.stream(names.split(",", -1))
+        List<String> trimCarNames = Arrays.stream(names.split(DELIMITER, -1))
                 .map(String::trim)
                 .collect(Collectors.toList());
 

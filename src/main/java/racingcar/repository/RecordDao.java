@@ -6,13 +6,14 @@ import racingcar.model.Vehicle;
 
 @Repository
 public class RecordDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     public RecordDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(long gameId, boolean isWinner, Vehicle vehicle) {
+    public void insert(final long gameId, final boolean isWinner, final Vehicle vehicle) {
         String sql = "insert into record(game_id, position, is_winner, player_name) values (?, ?, ?, ?)";
 
         jdbcTemplate.update(sql, gameId, vehicle.getDistance(), isWinner, vehicle.getName());
