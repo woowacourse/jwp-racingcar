@@ -1,14 +1,11 @@
 package racingcar.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import racingcar.dao.GameDAO;
 import racingcar.dao.GameLogDAO;
 import racingcar.dao.WinnersDAO;
-import racingcar.dto.RequestDto;
 
-import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,12 +27,14 @@ public class SpringService {
     public SpringService() {
         this.moveChance = new RandomMoveChance();
     }
-    public void setUpGame(String names){
+
+    public void setUpGame(String names) {
         this.cars = List.of(names.split(","))
                 .stream()
                 .map(name -> new Car(name))
                 .collect(Collectors.toList());
     }
+
     public List<Car> findWinners() {
         int maxPosition = findMaxPosition();
         return cars.stream()
@@ -65,11 +64,11 @@ public class SpringService {
         validateNotNegativeInteger(trialCount);
         int gameNumber = gameDAO.saveGame(trialCount);
         playMultipleTimes(trialCount);
-        for(Car car: cars){
-            gameLogDAO.insert(gameNumber,car.getName(),car.getPosition());
+        for (Car car : cars) {
+            gameLogDAO.insert(gameNumber, car.getName(), car.getPosition());
         }
-        for(Car car: findWinners()){
-            winnersDAO.insert(gameNumber,car.getName());
+        for (Car car : findWinners()) {
+            winnersDAO.insert(gameNumber, car.getName());
         }
     }
 

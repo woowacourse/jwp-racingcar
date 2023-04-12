@@ -1,8 +1,5 @@
 package racingcar.dto;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 public class RequestDto {
 
     private String names;

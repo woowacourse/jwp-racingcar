@@ -14,7 +14,7 @@ public class GameDAO {
     public GameDAO(DataSource dataSource) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
-                .usingGeneratedKeyColumns("game_number","created_at");
+                .usingGeneratedKeyColumns("game_number", "created_at");
     }
 
     public int saveGame(int trialCount) {
