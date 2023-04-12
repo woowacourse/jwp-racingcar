@@ -24,16 +24,16 @@ public class RacingCarWebService {
     }
 
     public PlayResponse play(PlayRequest playRequest) {
+        createCars(playRequest);
+        TryCount tryCount = new TryCount(playRequest.getCount());
+        playGame(tryCount);
+        PlayResponse response = save(tryCount);
+        return response;
+    }
+
+    private void createCars(final PlayRequest playRequest) {
         RacingCarNamesRequest racingCarNamesRequest = RacingCarNamesRequest.of(playRequest.getNames());
         racingCarService.createCars(racingCarNamesRequest);
-        TryCount tryCount = new TryCount(playRequest.getCount());
-        int gameId = gameInsertDao.insertGame(tryCount).intValue();
-        playGame(tryCount);
-        RacingCarWinnerResponse winners = findWinners();
-        List<RacingCarStatusResponse> racingCars = racingCarService.getCarStatuses();
-        playerInsertDao.insertPlayer(racingCars, winners.getWinners(), gameId);
-        // TODO: WINNERS - game_id, player_id 저장
-        return PlayResponse.of(winners, racingCars);
     }
 
     private void playGame(TryCount tryCount) {
@@ -42,6 +42,14 @@ public class RacingCarWebService {
             racingCarService.moveCars(randomMoveStrategy);
             tryCount.moveUntilZero();
         }
+    }
+
+    private PlayResponse save(TryCount tryCount) {
+        RacingCarWinnerResponse winners = findWinners();
+        List<RacingCarStatusResponse> racingCars = racingCarService.getCarStatuses();
+        int gameId = gameInsertDao.insertGame(tryCount).intValue();
+        playerInsertDao.insertPlayer(racingCars, winners.getWinners(), gameId);
+        return PlayResponse.of(winners, racingCars);
     }
 
     private RacingCarWinnerResponse findWinners() {
