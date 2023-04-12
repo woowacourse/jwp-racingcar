@@ -2,24 +2,20 @@ package racingcar.domain.dto;
 
 public class CarStatusDto {
 
-    private final String carName;
+    private final String name;
 
-    private final int carPosition;
+    private final int position;
 
-    private CarStatusDto(final String carName, final int carPosition) {
-        this.carName = carName;
-        this.carPosition = carPosition;
+    public CarStatusDto(final String name, final int position) {
+        this.name = name;
+        this.position = position;
     }
 
-    public static CarStatusDto create(final String carName, final int carPosition) {
-        return new CarStatusDto(carName, carPosition);
+    public String getName() {
+        return name;
     }
 
-    public String getCarName() {
-        return carName;
-    }
-
-    public int getCarPosition() {
-        return carPosition;
+    public int getPosition() {
+        return position;
     }
 }

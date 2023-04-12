@@ -3,51 +3,39 @@ package racingcar.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.Cars;
-import racingcar.domain.Race;
-import racingcar.domain.dto.RaceResultDto;
+import racingcar.domain.dto.RaceRequest;
+import racingcar.domain.dto.RaceResponse;
 import racingcar.mock.MockNumberGenerator;
 import racingcar.provider.TestProvider;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class RaceServiceTest {
-
-    private String testCarNames;
-
-    private Cars testCars;
 
     private RaceService raceService;
 
     @BeforeEach
     void init() {
-        testCarNames = "pobi,crong,honux";
-        MockNumberGenerator numberGenerator = TestProvider.createMockNumberGenerator(false);
+        final MockNumberGenerator numberGenerator = TestProvider.createMockNumberGenerator(false);
         raceService = new RaceService(numberGenerator);
-        testCars = TestProvider.createTestCars(testCarNames, numberGenerator);
     }
 
     @Test
     @DisplayName("경주를 진행하면 사용자가 입력한 시도 횟수만큼 전체 결과를 생성하고, 자동차의 개수만큼 경주 결과를 생성한다.")
     void givenRaceCount_whenStart_thenReturnResultAboutRaceCount() {
         // given
-        String raceCount = "2";
-        Race testRace = TestProvider.createTestRace(raceCount);
-        int carCount = testCars.getCars().size();
+        final String testCarNames = "pobi,crong,honux";
+        final int raceCount = 2;
+        final RaceRequest raceRequest = new RaceRequest(testCarNames, raceCount);
 
         // when
-        List<RaceResultDto> raceResults = raceService.getRaceResults(testCarNames, testRace);
-        int normalCarRaceResultCount = (int) raceResults.stream()
-                .filter(raceResult -> raceResult.getRacingCars().size() == carCount)
-                .count();
+        final RaceResponse raceResults = raceService.getRaceResults(raceRequest);
 
         // then
-        assertThat(raceResults.size())
-                .isEqualTo(Integer.parseInt(raceCount));
+        assertThat(raceResults.getWinners())
+                .isEqualTo(testCarNames);
 
-        assertThat(normalCarRaceResultCount)
-                .isEqualTo(Integer.parseInt(raceCount));
+        assertThat(raceResults.getRacingCars().size())
+                .isEqualTo(3);
     }
 }

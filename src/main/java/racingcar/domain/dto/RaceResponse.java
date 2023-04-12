@@ -2,19 +2,23 @@ package racingcar.domain.dto;
 
 import java.util.List;
 
-public class RaceResultDto {
+public class RaceResponse {
 
     private final String winners;
     private final List<CarStatusDto> racingCars;
 
-    private RaceResultDto(final String winners, final List<CarStatusDto> racingCars) {
+    private RaceResponse(final String winners, final List<CarStatusDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public static RaceResultDto create(final List<String> winners, final List<CarStatusDto> carRaceResult) {
+    public static RaceResponse create(final List<String> winners, final List<CarStatusDto> carRaceResult) {
         final String winnerNames = String.join(",", winners);
-        return new RaceResultDto(winnerNames, carRaceResult);
+        return new RaceResponse(winnerNames, carRaceResult);
+    }
+
+    public String getWinners() {
+        return winners;
     }
 
     public List<CarStatusDto> getRacingCars() {

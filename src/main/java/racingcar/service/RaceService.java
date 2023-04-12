@@ -1,15 +1,17 @@
 package racingcar.service;
 
+import org.springframework.stereotype.Service;
 import racingcar.domain.Cars;
 import racingcar.domain.Race;
 import racingcar.domain.dto.CarStatusDto;
-import racingcar.domain.dto.RaceResultDto;
+import racingcar.domain.dto.RaceRequest;
+import racingcar.domain.dto.RaceResponse;
 import racingcar.util.NumberGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class RaceService {
 
     private final NumberGenerator numberGenerator;
@@ -18,33 +20,30 @@ public class RaceService {
         this.numberGenerator = numberGenerator;
     }
 
-    public Race createRace(final String raceCount) {
-        return Race.create(raceCount);
+    public RaceResponse getRaceResults(final RaceRequest raceRequest) {
+        final Race race = Race.create(raceRequest.getCount());
+        final Cars cars = Cars.create(raceRequest.getNames(), numberGenerator);
+        return makeRaceResults(race, cars);
     }
 
-    public List<RaceResultDto> getRaceResults(final String carNames, final Race race) {
-        final Cars cars = Cars.create(carNames, numberGenerator);
-        final List<RaceResultDto> raceResults = new ArrayList<>();
-        int raceCount = 0;
-
-        while (race.isRunning(raceCount++)) {
+    private RaceResponse makeRaceResults(final Race race, final Cars cars) {
+        int tryCount = 0;
+        while (race.isRunning(tryCount++)) {
             startRace(cars);
-            RaceResultDto raceResult = getRaceResult(cars);
-            raceResults.add(raceResult);
         }
-        return raceResults;
+        return getRaceResult(cars);
     }
 
     private void startRace(final Cars cars) {
         cars.race();
     }
 
-    private RaceResultDto getRaceResult(final Cars cars) {
+    private RaceResponse getRaceResult(final Cars cars) {
         final List<String> winners = cars.getWinnerCarNames();
         final List<CarStatusDto> carRaceResult = cars.getCars()
                 .stream()
-                .map(car -> CarStatusDto.create(car.getName(), car.getPosition()))
+                .map(car -> new CarStatusDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
-        return RaceResultDto.create(winners, carRaceResult);
+        return RaceResponse.create(winners, carRaceResult);
     }
 }

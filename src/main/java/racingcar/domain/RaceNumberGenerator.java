@@ -1,9 +1,11 @@
 package racingcar.domain;
 
+import org.springframework.stereotype.Component;
 import racingcar.util.NumberGenerator;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+@Component
 public class RaceNumberGenerator implements NumberGenerator {
 
     private static final int minNumber = 0;

@@ -19,7 +19,7 @@ public class TestProvider {
         return Cars.create(carNames, numberGenerator);
     }
 
-    public static Race createTestRace(final String raceCount) {
+    public static Race createTestRace(final int raceCount) {
         return Race.create(raceCount);
     }
 }
