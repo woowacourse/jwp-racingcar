@@ -22,7 +22,13 @@ public class GameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int insertResult(final Game game) {
+    public void insertResult(final Game game) {
+        int gameId = insertGame(game);
+        Map<Car, Integer> carIds = insertCars(gameId, game.getCars());
+        insertWinners(gameId, carIds, game.findWinners());
+    }
+
+    private int insertGame(Game game) {
         final String sql = "INSERT INTO games(trial_count) VALUES (?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -31,14 +37,11 @@ public class GameDao {
             preparedStatement.setInt(1, game.getTrialCount());
             return preparedStatement;
         }, keyHolder);
-        int key = keyHolder.getKey().intValue();
 
-        insertCars(key, game.getCars(), game.findWinners());
-
-        return key;
+        return keyHolder.getKey().intValue();
     }
 
-    private void insertCars(final int gameId, final List<Car> cars, final List<Car> winners) {
+    private Map<Car, Integer> insertCars(final int gameId, final List<Car> cars) {
         final String carsSql = "INSERT INTO cars(game_id, name, position) VALUES (?, ?, ?)";
         final Map<Car, Integer> carIds = new HashMap<>();
 
@@ -53,7 +56,10 @@ public class GameDao {
             }, keyHolder);
             carIds.put(car, keyHolder.getKey().intValue());
         }
+        return carIds;
+    }
 
+    private void insertWinners(final int gameId, Map<Car, Integer> carIds, final List<Car> winners) {
         final String winnersSql = "INSERT INTO winners(game_id, car_id) VALUES (?, ?)";
         for (Car car : winners) {
             jdbcTemplate.update(winnersSql, gameId, carIds.get(car));
