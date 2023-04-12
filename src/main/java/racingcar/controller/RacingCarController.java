@@ -3,6 +3,7 @@ package racingcar.controller;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import racingcar.domain.GameManager;
@@ -27,5 +28,10 @@ public class RacingCarController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(resultResponse);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handle() {
+        return ResponseEntity.badRequest().body("요청이 올바르지 않습니다.");
     }
 }
