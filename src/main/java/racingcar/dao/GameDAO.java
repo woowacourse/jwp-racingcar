@@ -1,6 +1,5 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -9,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class GameDao {
+public class GameDAO {
     private SimpleJdbcInsert simpleJdbcInsert;
 
-    public GameDao(DataSource dataSource) {
+    public GameDAO(DataSource dataSource) {
         this.simpleJdbcInsert = simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingGeneratedKeyColumns("game_number");
