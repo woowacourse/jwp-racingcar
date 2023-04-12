@@ -13,14 +13,14 @@ import java.util.List;
 public class H2CarDao implements CarDao {
 
     @Override
-    public void save(List<CarDto> carDtos) {
+    public void save(int gameId, List<CarDto> carDtos) {
         String sql = "INSERT INTO CAR(game_id, name, position, is_win) VALUES (?,?,?,?)";
 
         try (Connection connection = ConnectionProvider.getConnection()) {
             for (CarDto carDto : carDtos) {
                 PreparedStatement ps = connection.prepareStatement(sql);
 
-                ps.setInt(1, carDto.getGameId());
+                ps.setInt(1, gameId);
                 ps.setString(2, carDto.getName());
                 ps.setInt(3, carDto.getPosition());
                 ps.setBoolean(4, carDto.isWin());
