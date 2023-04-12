@@ -12,9 +12,9 @@ import racingcar.services.GameService;
 @RestController
 public class WebController {
 
-    @Autowired
     private final GameService gameService;
 
+    @Autowired
     public WebController(GameService gameService) {
         this.gameService = gameService;
     }

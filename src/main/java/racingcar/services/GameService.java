@@ -19,13 +19,11 @@ import racingcar.util.MoveCountValidator;
 
 @Service
 public class GameService {
-    @Autowired
     private Cars cars;
-    @Autowired
     private final CarMoveManager carMoveManager;
-    @Autowired
     private final GameDao gameDao;
 
+    @Autowired
     public GameService(Cars cars, CarMoveManager carMoveManager, GameDao gameDao) {
         this.cars = cars;
         this.carMoveManager = carMoveManager;
