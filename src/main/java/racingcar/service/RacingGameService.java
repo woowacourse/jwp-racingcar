@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
@@ -14,14 +15,22 @@ import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
+    private final RacingGameDao racingGameDao;
+
+    //    @Autowired
+    public RacingGameService(final RacingGameDao racingGameDao) {
+        this.racingGameDao = racingGameDao;
+    }
 
     public GameResultDto playRacingGame(final RacingGameRequestDto racingGameRequestDto) {
         RacingGame racingGame = createRacingGame(racingGameRequestDto);
         play(racingGame);
-        return new GameResultDto(
+        GameResultDto gameResultDto = new GameResultDto(
                 mapWinnerNamesTextFrom(racingGame),
                 mapCarDtosFrom(racingGame)
         );
+        save(gameResultDto, racingGameRequestDto.getCount());
+        return gameResultDto;
     }
 
     private RacingGame createRacingGame(final RacingGameRequestDto racingGameRequestDto) {
@@ -50,5 +59,9 @@ public class RacingGameService {
         return racingGame.getWinners().stream()
                 .map(Car::getCarName)
                 .collect(Collectors.joining(","));
+    }
+
+    private void save(final GameResultDto gameResultDto, final int trialCount) {
+        this.racingGameDao.save(gameResultDto, trialCount);
     }
 }

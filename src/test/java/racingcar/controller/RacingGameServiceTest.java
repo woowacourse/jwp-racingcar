@@ -14,7 +14,7 @@ class RacingGameServiceTest {
     @Test
     @DisplayName("플레이어가 한명일 때 GameResultDto가 잘 반환된다")
     void shouldReturnCorrectlyWhenInputOnePlayer() {
-        RacingGameService racingGameService = new RacingGameService();
+        RacingGameService racingGameService = new RacingGameService(null);
         RacingGameRequestDto racingGameRequestDto = new RacingGameRequestDto(
                 "브리",
                 3
@@ -29,7 +29,7 @@ class RacingGameServiceTest {
     @Test
     @DisplayName("플레이어가 여려명일 때 GameResultDto가 잘 반환된다")
     void shouldReturnCorrectlyWhenInputManyPlayer() {
-        RacingGameService racingGameService = new RacingGameService();
+        RacingGameService racingGameService = new RacingGameService(null);
         RacingGameRequestDto racingGameRequestDto = new RacingGameRequestDto(
                 "브리,토미,브라운",
                 3

@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +15,7 @@ public class RacingController {
 
     private final RacingGameService racingGameService;
 
-    @Autowired
+    //    @Autowired
     public RacingController(final RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }
