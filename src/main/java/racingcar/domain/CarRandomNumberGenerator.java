@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racing.RandomNumberGenerator;
+import racingcar.RandomNumberGenerator;
 
 public class CarRandomNumberGenerator implements RandomNumberGenerator {
 

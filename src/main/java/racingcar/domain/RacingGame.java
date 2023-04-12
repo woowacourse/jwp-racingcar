@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racing.RandomNumberGenerator;
+import racingcar.RandomNumberGenerator;
 
 import java.util.List;
 import java.util.stream.Collectors;

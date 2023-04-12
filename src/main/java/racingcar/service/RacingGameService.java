@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.response.CarGameResponse;
 import racingcar.dto.response.CarResponse;
@@ -27,16 +28,28 @@ public class RacingGameService {
     public CarGameResponse play(RacingGame game) {
         int tryCount = game.getTryCount();
         progress(game);
-        List<CarResponse> carResponses = game.getCars().getUnmodifiableCars().stream().map(CarResponse::new).collect(Collectors.toList());
-        String winners = game.decideWinners().stream().collect(Collectors.joining(","));
+        Cars cars = game.getCars();
+        String winners = String.join(",", game.decideWinners());
 
+        saveCarResult(tryCount, cars, winners);
+        List<CarResponse> carResponses = getCarResponses(cars);
+        
+        return new CarGameResponse(winners, carResponses);
+    }
+
+    private static List<CarResponse> getCarResponses(Cars cars) {
+        return cars.getUnmodifiableCars()
+                .stream()
+                .map(CarResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    private void saveCarResult(int tryCount, Cars cars, String winners) {
         long resultId = playResultMapper.save(PlayResultEntity.of(tryCount, winners));
-        game.getCars().getUnmodifiableCars()
+        cars.getUnmodifiableCars()
                 .stream()
                 .map(car -> CarResultEntity.of(resultId, car.getName(), car.getPosition()))
                 .forEach(carResultMapper::save);
-
-        return new CarGameResponse(winners, carResponses);
     }
 
     private void progress(RacingGame game) {
