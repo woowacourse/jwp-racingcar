@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import java.util.List;
 import java.util.Map;
@@ -22,5 +23,9 @@ public class RacingGame {
 
     public List<String> getWinners() {
         return cars.findWinners();
+    }
+
+    public List<Car> getCars() {
+        return cars.getCars();
     }
 }

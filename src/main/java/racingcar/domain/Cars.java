@@ -1,5 +1,6 @@
 package racingcar.domain;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,15 +32,19 @@ public class Cars {
     public List<String> findWinners() {
         int maxPosition = findMaxPosition();
         return cars.stream()
-            .filter(x -> x.getPosition() == maxPosition)
-            .map(Car::getName)
-            .collect(Collectors.toList());
+                .filter(x -> x.getPosition() == maxPosition)
+                .map(Car::getName)
+                .collect(Collectors.toList());
     }
 
     private int findMaxPosition() {
         return cars.stream()
-            .map(Car::getPosition)
-            .max(Integer::compareTo)
-            .orElse(0);
+                .map(Car::getPosition)
+                .max(Integer::compareTo)
+                .orElse(0);
+    }
+
+    public List<Car> getCars() {
+        return Collections.unmodifiableList(cars);
     }
 }
