@@ -5,6 +5,7 @@ import racingcar.domain.Cars;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
+import racingcar.repository.RacingGameRepository;
 import racingcar.utils.DefaultMovingStrategy;
 
 import java.util.List;
