@@ -6,12 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import racingcar.domain.GameManager;
-import racingcar.dto.*;
+import racingcar.dto.NamesAndCountRequest;
+import racingcar.dto.ResultResponse;
 import racingcar.service.RacingCarService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class RacingCarController {

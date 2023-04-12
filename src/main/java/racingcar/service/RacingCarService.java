@@ -26,6 +26,7 @@ public class RacingCarService {
         this.playerDao = playerDao;
         this.participatesDao = participatesDao;
     }
+
     public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
         final GameManager gameManager = new GameManager(new RandomNumberGenerator());
         int trialCount = createGame(namesAndCount, gameManager);

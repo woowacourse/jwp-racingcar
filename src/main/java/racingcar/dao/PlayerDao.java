@@ -32,7 +32,7 @@ public class PlayerDao {
         final String sql = "INSERT INTO PLAYER(name) VALUES(?) ";
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[] {"id"});
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
             preparedStatement.setString(1, name);
             return preparedStatement;
         }, generatedKeyHolder);

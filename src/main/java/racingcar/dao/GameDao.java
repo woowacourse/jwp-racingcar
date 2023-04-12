@@ -22,7 +22,7 @@ public class GameDao {
         final String sql = "INSERT INTO GAME(trial_count) VALUES(?) ";
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[] {"id"});
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
             preparedStatement.setInt(1, trialCount);
             return preparedStatement;
         }, generatedKeyHolder);

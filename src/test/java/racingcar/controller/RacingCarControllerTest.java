@@ -10,8 +10,6 @@ import racingcar.dto.NamesAndCountRequest;
 import racingcar.dto.ResultResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RacingCarControllerTest {

@@ -8,6 +8,6 @@ public class Position {
     }
 
     public void moveForward() {
-        position ++;
+        position++;
     }
 }
