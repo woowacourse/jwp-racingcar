@@ -14,6 +14,7 @@ import racingcar.util.CarNamesDivider;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -26,6 +27,13 @@ public class RacingCarService {
     @Autowired
     public RacingCarService(RacingCarDao racingCarDao) {
         this.racingCarDao = racingCarDao;
+    }
+
+    public List<PlaysResponseDto> query() {
+        List<RacingGameEntity> racingGameEntities = racingCarDao.findAll(); // List<RacingGameEntity>
+        return racingGameEntities.stream()
+                .map(RacingGameEntity::toPlaysResponseDto)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     public PlaysResponseDto plays(PlaysRequestDto playsRequestDto) {
