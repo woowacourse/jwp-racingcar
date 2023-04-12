@@ -46,6 +46,9 @@ public class RacingCarRepository {
             return ps;
         }, keyHolder);
         Map<String, Object> keys = keyHolder.getKeys();
+        if (keys == null) {
+            throw new IllegalArgumentException("[ERROR] 게임이 정상적으로 저장되지 못했습니다.");
+        }
         return (int) keys.get("ID");
     }
 
