@@ -14,12 +14,12 @@ public class GameResultResponseDto {
         this.racingCars = racingCars;
     }
 
-    public static GameResultResponseDto toDto(final List<String> winners, final Cars cars) {
+    public static GameResultResponseDto toDto(final Cars cars) {
         List<CarStatusResponseDto> carStatuses = cars.getCars().stream()
                 .map(CarStatusResponseDto::toDto)
                 .collect(Collectors.toList());
 
-        return new GameResultResponseDto(winners, carStatuses);
+        return new GameResultResponseDto(cars.getWinnerNames(), carStatuses);
     }
 
     public boolean isWinner(final String name) {
