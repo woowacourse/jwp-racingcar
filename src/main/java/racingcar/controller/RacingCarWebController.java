@@ -11,6 +11,7 @@ import racingcar.dao.RacingCarGameDao;
 import racingcar.domain.Cars;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
+import racingcar.repository.RacingCarRepository;
 import racingcar.service.RacingCarService;
 import racingcar.util.RandomNumberGenerator;
 
@@ -30,8 +31,8 @@ public class RacingCarWebController {
         List<String> names = Arrays.stream(racingGameRequestDto.getNames().split(","))
                 .collect(Collectors.toList());
 
-        RacingCarService racingCarService = new RacingCarService(Cars.of(names), racingGameRequestDto.getCount(), new RandomNumberGenerator(), new RacingCarGameDao(jdbcTemplate));
-        racingCarService.move();
+        RacingCarService racingCarService = new RacingCarService(Cars.of(names), new RandomNumberGenerator(), new RacingCarRepository(new RacingCarGameDao(jdbcTemplate)));
+        racingCarService.play(racingGameRequestDto.getCount());
 
         ResultResponseDto resultResponseDto = new ResultResponseDto(racingCarService.getWinners(), racingCarService.getCars());
         return ResponseEntity.ok().body(resultResponseDto);

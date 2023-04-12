@@ -1,5 +1,7 @@
 package racingcar.dao.entity;
 
+import racingcar.dto.RacingGameDto;
+
 import java.util.Optional;
 
 public class Game {
@@ -14,6 +16,10 @@ public class Game {
         this.winners = winners;
     }
 
+    public Game(RacingGameDto racingGameDto) {
+        this(racingGameDto.getCount(), racingGameDto.getWinners());
+    }
+
     public Optional<Long> getGameId() {
         return Optional.ofNullable(gameId);
     }
@@ -25,4 +31,5 @@ public class Game {
     public String getWinners() {
         return winners;
     }
+
 }
