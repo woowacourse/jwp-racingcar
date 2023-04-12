@@ -13,14 +13,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class CarResultMapperTest {
 
-    @Autowired
-    private PlayResultMapper playResultMapper;
+    private final PlayResultMapper playResultMapper;
+
+    private final CarResultMapper carResultMapper;
+
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private CarResultMapper carResultMapper;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    CarResultMapperTest(PlayResultMapper playResultMapper, CarResultMapper carResultMapper, JdbcTemplate jdbcTemplate) {
+        this.playResultMapper = playResultMapper;
+        this.carResultMapper = carResultMapper;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     void setUp() {

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.entity.PlayResultEntity;
 
@@ -12,11 +13,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class PlayResultMapperTest {
 
-    @Autowired
-    private PlayResultMapper mapper;
+    private final PlayResultMapper mapper;
+
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public PlayResultMapperTest(PlayResultMapper playResultMapper, JdbcTemplate jdbcTemplate){
+        this.mapper = playResultMapper;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     void setUp() {
