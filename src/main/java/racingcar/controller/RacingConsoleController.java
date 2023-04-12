@@ -2,12 +2,9 @@ package racingcar.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.domain.AdvanceJudgement;
-import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.domain.Range;
 import racingcar.dto.RacingCarDto;
 import racingcar.utils.Parser;
 import racingcar.validator.Validator;
@@ -66,10 +63,7 @@ public class RacingConsoleController {
     }
 
     private RacingGame initializeGame(List<String> carNames) {
-        Range range = new Range(4, 9);
-        NumberGenerator numberGenerator = new RandomNumberGenerator();
-        AdvanceJudgement advanceJudgement = new AdvanceJudgement(range, numberGenerator);
         List<RacingCar> racingCars = carNames.stream().map(RacingCar::new).collect(Collectors.toUnmodifiableList());
-        return new RacingGame(racingCars, advanceJudgement);
+        return new RacingGame(racingCars, new RandomNumberGenerator());
     }
 }

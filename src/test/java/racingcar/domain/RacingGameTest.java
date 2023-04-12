@@ -15,11 +15,9 @@ class RacingGameTest {
     @MethodSource("전진_결과_데이터")
     @DisplayName("range범위에 따른 전진 결과 테스트")
     public void 전진_결과_테스트(int num, int expectedPosition) {
-        Range range = new Range(4, 9);
         NumberGenerator numberGenerator = new DefaultNumberGenerator(num);
-        AdvanceJudgement advanceJudgement = new AdvanceJudgement(range, numberGenerator);
 
-        RacingGame racingGame = new RacingGame(List.of(new RacingCar("오잉")), advanceJudgement);
+        RacingGame racingGame = new RacingGame(List.of(new RacingCar("오잉")), numberGenerator);
         racingGame.runRound();
         RacingCarDto racingCarDto = RacingCarDto.from(racingGame.getStatus().get(0));
         Integer position = racingCarDto.getPosition();

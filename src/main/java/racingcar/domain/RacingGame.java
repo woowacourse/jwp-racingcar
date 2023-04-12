@@ -7,15 +7,15 @@ import java.util.stream.Collectors;
 
 public class RacingGame {
     private final List<RacingCar> racingCars;
-    private final AdvanceJudgement advanceJudgement;
+    private final NumberGenerator numberGenerator;
 
-    public RacingGame(List<RacingCar> racingCars, AdvanceJudgement advanceJudgement) {
+    public RacingGame(List<RacingCar> racingCars, NumberGenerator numberGenerator) {
         this.racingCars = racingCars;
-        this.advanceJudgement = advanceJudgement;
+        this.numberGenerator = numberGenerator;
     }
 
     public void runRound() {
-        racingCars.forEach(racingCar -> racingCar.advance(advanceJudgement.isAdvancePossible()));
+        racingCars.forEach(racingCar -> racingCar.advance(numberGenerator.getNumber()));
     }
 
     public Map<RacingCar, GameResult> getResult() {
