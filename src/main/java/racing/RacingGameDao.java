@@ -20,29 +20,6 @@ public class RacingGameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @PostConstruct
-    public void initTables() {
-        jdbcTemplate.execute(
-                "CREATE TABLE IF NOT EXISTS cars (" +
-                        "car_id bigint NOT NULL AUTO_INCREMENT, " +
-                        "car_name varchar(8) NOT NULL, " +
-                        "step int(3) NOT NULL, " +
-                        "winner boolean default false, " +
-                        "game_id bigint NOT NUll, " +
-                        "PRIMARY KEY (car_id)" +
-                        ");"
-        );
-
-        jdbcTemplate.execute(
-                "CREATE TABLE IF NOT EXISTS games (" +
-                        "game_id bigint NOT NULL AUTO_INCREMENT, " +
-                        "count int(3) NOT NULL, " +
-                        "create_time timestamp NOT NULL, " +
-                        "PRIMARY KEY (game_id)" +
-                        ");"
-        );
-    }
-
     public Long saveGame(int count) {
         String saveGameQuery = "INSERT INTO games(count, create_time) VALUES (?, ?)";
 
