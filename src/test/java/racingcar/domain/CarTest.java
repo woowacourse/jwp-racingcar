@@ -21,7 +21,7 @@ class CarTest {
         position.move();
 
         Assertions.assertThat(car.getPosition())
-                .isEqualTo(position);
+                .isEqualTo(position.getPosition());
     }
 
     @DisplayName("3 이하일 경우 전진하지 않는다.")
@@ -34,6 +34,6 @@ class CarTest {
         Position position = new Position();
 
         Assertions.assertThat(car.getPosition())
-                .isEqualTo(position);
+                .isEqualTo(position.getPosition());
     }
 }

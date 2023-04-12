@@ -18,8 +18,10 @@ public class RacingGame {
         this.cars = new Cars(collect);
     }
 
-    public void moveCars() {
-        cars.moveCars();
+    public void moveCars(TryCount tryCount) {
+        for (int i = 0; i < tryCount.getCount(); i++) {
+            cars.moveCars();
+        }
     }
 
     public Cars decideWinners() {
