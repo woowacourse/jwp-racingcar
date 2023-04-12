@@ -15,23 +15,37 @@ public class Names {
     private final List<Name> names = new ArrayList<>();
 
     public Names(final String names) {
+        validateNotNull(names);
         final List<String> splitNames = sliceNameByComma(names);
         validateMinParticipantNumber(splitNames);
+        validateDuplicateName(splitNames);
         splitNames.stream()
                 .map(Name::new)
                 .forEach(this.names::add);
     }
 
-    private List<String> sliceNameByComma(final String names) {
-        validateComma(names);
-
-        return getSplitName(names);
+    private void validateNotNull(final String names) {
+        if (names == null) {
+            throw new IllegalArgumentException("[ERROR] 이름이 없습니다.");
+        }
     }
 
     private void validateMinParticipantNumber(final List<String> names) {
         if (names.size() < MIN_PARTICIPANT) {
             throw new IllegalArgumentException("[ERROR] 최소" + MIN_PARTICIPANT + "이상의 참여자가 필요합니다.");
         }
+    }
+
+    private void validateDuplicateName(final List<String> splitNames) {
+        if (splitNames.stream().distinct().count() != splitNames.size()) {
+            throw new IllegalArgumentException("[ERROR] 자동차의 이름은 중복될 수 없습니다.");
+        }
+    }
+
+    private List<String> sliceNameByComma(final String names) {
+        validateComma(names);
+
+        return getSplitName(names);
     }
 
     private static List<String> getSplitName(final String names) {
