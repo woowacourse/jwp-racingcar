@@ -4,6 +4,7 @@ import racingcar.exception.ExceedCarNameLengthException;
 import racingcar.exception.HasBlankCarNameException;
 import racingcar.exception.InvalidCarNameFormatException;
 import racingcar.model.car.strategy.MovingStrategy;
+import racingcar.model.car.strategy.RandomMovingStrategy;
 
 import java.util.regex.Pattern;
 
@@ -22,6 +23,12 @@ public class Car {
         this.carName = carName;
         this.position = POSITION_INIT;
         this.movingStrategy = movingStrategy;
+    }
+
+    public Car(final String carName, final int position) {
+        this.carName = carName;
+        this.position = position;
+        this.movingStrategy = new RandomMovingStrategy();
     }
 
     private void validate(final String carName) {
