@@ -9,11 +9,12 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
 import racingcar.dto.CarPositionDto;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@SuppressWarnings({"NonAsciiCharacters", "SpellCheckingInspection"})
+@DisplayNameGeneration(ReplaceUnderscores.class)
 class OutputViewTest {
 
     private OutputStream outputStream;
@@ -33,7 +34,7 @@ class OutputViewTest {
 
     @Test
     void printWinner_메서드_테스트() {
-        List<String> winners = List.of("judy", "nunu");
+        final List<String> winners = List.of("judy", "nunu");
         OutputView.printWinner(winners);
 
 //        assertThat(mockOutput.output()).contains("judy, nunu가 최종 우승했습니다.");
@@ -49,7 +50,7 @@ class OutputViewTest {
 
     @Test
     void printStatus_메서드로_경주_진행상황_출력_테스트() {
-        List<CarPositionDto> dtos = List.of(
+        final List<CarPositionDto> dtos = List.of(
                 new CarPositionDto(1, "judy"),
                 new CarPositionDto(2, "nunu"));
         OutputView.printStatus(dtos);

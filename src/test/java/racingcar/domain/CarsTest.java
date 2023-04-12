@@ -7,11 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
 import racingcar.dto.CarPositionDto;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@SuppressWarnings({"NonAsciiCharacters", "SpellCheckingInspection"})
+@DisplayNameGeneration(ReplaceUnderscores.class)
 class CarsTest {
 
     private MockRandomPicker mockRandomPicker;
@@ -27,7 +28,7 @@ class CarsTest {
     void move_함수를_호출했을때_진행이_되는_것을_확인() {
         cars.moveCars(mockRandomPicker);
 
-        List<CarPositionDto> carPositionDtos = cars.toDto();
+        final List<CarPositionDto> carPositionDtos = cars.toDto();
         assertAll(() -> assertThat(carPositionDtos.get(0).getStatus()).isEqualTo(1),
                 () -> assertThat(carPositionDtos.get(0).getCarName()).isEqualTo("judy"),
                 () -> assertThat(carPositionDtos.get(1).getStatus()).isZero(),
