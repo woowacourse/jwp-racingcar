@@ -20,26 +20,26 @@
 
 - [x] 응답은 다음과 같은 형태로 반환한다.
   ```json
-      HTTP/1.1 200
-      Content-Type: application/json
-  
-      {
-          "winners": "브리",
-          "racingCars": [
-              {
-                  "name": "브리",
-                  "position": 9
-              },
-              {
-                  "name": "토미",
-                  "position": 7
-              },
-              {
-                  "name": "브라운",
-                  "position": 3
-              },
-          ]
-    }
+    HTTP/1.1 200
+    Content-Type: application/json
+
+    {
+        "winners": "브리",
+        "racingCars": [
+            {
+                "name": "브리",
+                "position": 9
+            },
+            {
+                "name": "토미",
+                "position": 7
+            },
+            {
+                "name": "브라운",
+                "position": 3
+            },
+        ]
+  }
   ```
 
 ### db 연동하기

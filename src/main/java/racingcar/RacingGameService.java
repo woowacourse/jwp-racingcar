@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class RacingGameService {
 
-    final RacingGameRepository repository;
+    private final RacingGameRepository repository;
 
     public RacingGameService(RacingGameRepository repository) {
         this.repository = repository;
