@@ -1,28 +1,41 @@
 package racingcar.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import racingcar.dao.GameDAO;
+import racingcar.dao.GameLogDAO;
+import racingcar.dao.WinnersDAO;
 import racingcar.dto.RequestDto;
 
+import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
+@Service
 public class SpringService {
-    private final List<Car> cars;
+    private List<Car> cars;
     private final MoveChance moveChance;
-    private final int count;
 
-    public SpringService(RequestDto requestDto, MoveChance moveChance) {
-        this.cars = List.of(requestDto.getNames().split(","))
+    @Autowired
+    private GameDAO gameDAO;
+    @Autowired
+    private GameLogDAO gameLogDAO;
+    @Autowired
+    private WinnersDAO winnersDAO;
+
+    public SpringService() {
+        this.moveChance = new RandomMoveChance();
+    }
+    public void setUpGame(String names){
+        this.cars = List.of(names.split(","))
                 .stream()
                 .map(name -> new Car(name))
                 .collect(Collectors.toList());
-        this.moveChance = moveChance;
-        validateNotNegativeInteger(requestDto.getCount());
-        this.count = requestDto.getCount();
     }
-
     public List<Car> findWinners() {
         int maxPosition = findMaxPosition();
         return cars.stream()
@@ -48,8 +61,16 @@ public class SpringService {
         return Collections.unmodifiableList(cars);
     }
 
-    public void play() {
-        playMultipleTimes();
+    public void play(int trialCount) {
+        validateNotNegativeInteger(trialCount);
+        int gameNumber = gameDAO.saveGame(trialCount);
+        playMultipleTimes(trialCount);
+        for(Car car: cars){
+            gameLogDAO.insert(gameNumber,car.getName(),car.getPosition());
+        }
+        for(Car car: findWinners()){
+            winnersDAO.insert(gameNumber,car.getName());
+        }
     }
 
     private void validateNotNegativeInteger(int trialCount) {
@@ -58,8 +79,8 @@ public class SpringService {
         }
     }
 
-    private void playMultipleTimes() {
-        for (int i = 0; i < count; i++) {
+    private void playMultipleTimes(int trialCount) {
+        for (int i = 0; i < trialCount; i++) {
             playOnce();
         }
     }

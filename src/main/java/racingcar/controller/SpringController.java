@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +14,12 @@ import racingcar.dto.ResponseDto;
 @RestController
 @RequestMapping("/plays")
 public class SpringController {
+    @Autowired
+    private SpringService springService;
     @PostMapping("")
     public ResponseEntity postInput(@RequestBody RequestDto requestDto) {
-        SpringService springService = new SpringService(requestDto, new RandomMoveChance());
-        springService.play();
+        springService.setUpGame(requestDto.getNames());
+        springService.play(requestDto.getCount());
         ResponseDto responseDto = new ResponseDto(springService.findWinners(), springService.getCars());
         return ResponseEntity.ok()
                 .body(responseDto);

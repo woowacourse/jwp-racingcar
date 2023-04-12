@@ -12,14 +12,14 @@ public class GameDAO {
     private SimpleJdbcInsert simpleJdbcInsert;
 
     public GameDAO(DataSource dataSource) {
-        this.simpleJdbcInsert = simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
-                .usingGeneratedKeyColumns("game_number");
+                .usingGeneratedKeyColumns("game_number","created_at");
     }
 
     public int saveGame(int trialCount) {
         Map<String, Integer> parameters = new HashMap<>();
         parameters.put("trial_count", trialCount);
-        return simpleJdbcInsert.executeAndReturnKey(parameters).intValue();
+        return (int) simpleJdbcInsert.executeAndReturnKeyHolder(parameters).getKeys().get("game_number");
     }
 }

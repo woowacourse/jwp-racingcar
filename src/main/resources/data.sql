@@ -9,13 +9,13 @@
 create table game
 (
     game_number Integer auto_increment primary key,
-    created_at  DATETIME default current_timestamp,
+    created_at datetime default current_timestamp,
     trial_count Integer
 );
 
 create table game_log
 (
-    gameNumber      Integer,
+    game_number      Integer,
     player_name     varchar(20),
     result_position integer
 );
