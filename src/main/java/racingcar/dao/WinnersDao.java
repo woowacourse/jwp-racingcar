@@ -22,11 +22,11 @@ public class WinnersDao {
                 .withTableName("winners");
     }
 
-    public void insert(final int gameId, Map<Car, Integer> carIds, final List<Car> winners) {
-        for (Car car : winners) {
+    public void insert(final int gameId, final List<Integer> winnerIds) {
+        for (Integer winnerId : winnerIds) {
             final SqlParameterSource parameterSource = new MapSqlParameterSource()
                     .addValue("game_id", gameId)
-                    .addValue("car_id", carIds.get(car));
+                    .addValue("car_id", winnerId);
 
             simpleJdbcInsert.execute(parameterSource);
         }

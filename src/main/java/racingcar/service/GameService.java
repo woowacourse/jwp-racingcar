@@ -50,6 +50,13 @@ public class GameService {
     private void insertResultOf(final Game game) {
         int gameId = gamesDao.insert(game.getTrialCount());
         Map<Car, Integer> carIds = carsDao.insert(gameId, game.getCars());
-        winnersDao.insert(gameId, carIds, game.findWinners());
+        winnersDao.insert(gameId, findIdsOf(game.findWinners(), carIds));
+    }
+
+    private List<Integer> findIdsOf(List<Car> cars, Map<Car, Integer> carIds) {
+        return carIds.entrySet().stream()
+                .filter(entry -> cars.contains(entry.getKey()))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 }
