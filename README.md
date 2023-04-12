@@ -7,6 +7,7 @@
 - [x] 테이블 설계
 
 ## query
+```sql
 CREATE TABLE cars
 (
 `name`       VARCHAR(20) NOT NULL,
@@ -23,3 +24,4 @@ CREATE TABLE games
 `dateTime`      DATETIME     NOT NULL,
 PRIMARY KEY (`gameId`)
 );
+```
