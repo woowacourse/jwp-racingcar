@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 public class Game {
 
     private final List<Car> cars;
+    private final TrialCount initialTrialCount;
     private TrialCount trialCount;
 
     public Game(List<Car> cars, int trialCount) {
         validateCarsLength(cars);
         validateNoDuplicateCar(cars);
         this.cars = new ArrayList<>(cars);
+        this.initialTrialCount = new TrialCount(trialCount);
         this.trialCount = new TrialCount(trialCount);
     }
 
@@ -66,6 +68,6 @@ public class Game {
     }
 
     public int getTrialCount() {
-        return trialCount.getDecreasedCount();
+        return initialTrialCount.getCount() - trialCount.getCount();
     }
 }

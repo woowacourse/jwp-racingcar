@@ -5,18 +5,11 @@ public class TrialCount {
     private static final int MIN_TRIAL_COUNT = 0;
     private static final int DECREASE_AMOUNT = 1;
 
-    private final int initial;
-    private final int left;
+    private final int count;
 
-    public TrialCount(int left) {
-        this(left, left);
-    }
-
-    private TrialCount(int initial, int left) {
-        validateNotNegative(initial);
-        validateNotNegative(left);
-        this.initial = initial;
-        this.left = left;
+    public TrialCount(int count) {
+        validateNotNegative(count);
+        this.count = count;
     }
 
     private void validateNotNegative(int count) {
@@ -26,14 +19,14 @@ public class TrialCount {
     }
 
     public TrialCount decrease() {
-        return new TrialCount(initial, left - DECREASE_AMOUNT);
+        return new TrialCount(count - DECREASE_AMOUNT);
     }
 
     public boolean isLeft() {
-        return left > MIN_TRIAL_COUNT;
+        return count > MIN_TRIAL_COUNT;
     }
 
-    public int getDecreasedCount() {
-        return initial - left;
+    public int getCount() {
+        return count;
     }
 }
