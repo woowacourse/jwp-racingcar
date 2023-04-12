@@ -7,9 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.CarDto;
 
 @SpringBootTest
+@Transactional
 class CarJdbcDaoTest {
 
     @Autowired
@@ -24,16 +26,6 @@ class CarJdbcDaoTest {
     void setUp() {
         RacingGameDao racingGameDao = new RacingGameJdbcDao(jdbcTemplate);
         gameId = racingGameDao.save(10);
-
-        jdbcTemplate.execute("DROP TABLE car IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE car(" +
-                "id INT NOT NULL AUTO_INCREMENT,\n"
-                + "    name VARCHAR(50) NOT NULL,\n"
-                + "    position INT NOT NULL,\n"
-                + "    is_win SMALLINT NOT NULL ,\n"
-                + "    racing_game_id INT NOT NULL,\n"
-                + "    PRIMARY KEY (id),\n"
-                + "    FOREIGN KEY (racing_game_id) REFERENCES RACING_GAME (id))");
 
         CarDto carDto1 = new CarDto("boxster", 10, true);
         CarDto carDto2 = new CarDto("encho", 7, false);
