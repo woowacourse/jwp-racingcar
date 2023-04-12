@@ -1,9 +1,10 @@
 package racingcar.dao;
 
-import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.CarDto;
+
+import java.util.List;
 
 @Repository
 public class CarJdbcDao implements CarDao {
@@ -27,13 +28,11 @@ public class CarJdbcDao implements CarDao {
     @Override
     public List<CarDto> findByGameId(Long gameId) {
         String sql = "SELECT name, position, is_win FROM car WHERE racing_game_id = ?";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> {
-            CarDto carDto = new CarDto(
-                    resultSet.getString("name"),
-                    resultSet.getInt("position"),
-                    resultSet.getBoolean("is_win")
-            );
-            return carDto;
-        }, gameId);
+        return jdbcTemplate.query(sql,
+                (resultSet, rowNum) -> new CarDto(
+                        resultSet.getString("name"),
+                        resultSet.getInt("position"),
+                        resultSet.getBoolean("is_win")
+        ), gameId);
     }
 }
