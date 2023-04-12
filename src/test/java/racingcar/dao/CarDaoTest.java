@@ -9,30 +9,29 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.utils.TestNumberGenerator;
 
-@SpringBootTest
+@JdbcTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
 public class CarDaoTest {
 
     @Autowired
-    private CarDao carDao;
-
-    @Autowired
-    private GameDao gameDao;
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    private CarDao carDao;
+    private GameDao gameDao;
 
     @BeforeEach
     void setUp() {
         final String sql = "insert into game (trial, winners) values (?,?)";
         jdbcTemplate.update(sql, 1, "car1");
+        carDao = new CarDao(jdbcTemplate);
+        gameDao = new GameDao(jdbcTemplate);
     }
 
     @Test
