@@ -1,6 +1,7 @@
 package racingcar.dto;
 
 import racingcar.model.Car;
+import racingcar.util.NameFormatConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class ResponseDto {
     private final List<CarDto> racingCars;
 
     public ResponseDto(List<String> winners, List<Car> racingCars) {
-        this.winners = String.join(",", winners);
+        this.winners = NameFormatConverter.joinNameWithDelimiter(winners);
         this.racingCars = convert(racingCars);
     }
 

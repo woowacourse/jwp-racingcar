@@ -9,8 +9,8 @@ import racingcar.dto.RequestDto;
 import racingcar.dto.ResponseDto;
 import racingcar.model.Cars;
 import racingcar.service.GameService;
+import racingcar.util.NameFormatConverter;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -26,8 +26,7 @@ public class WebController {
     @PostMapping("/plays")
     @ResponseBody
     public ResponseDto playGame(@RequestBody RequestDto requestDto) {
-        // TODO: 2023/04/11 이름 중복 검사
-        List<String> carNames = Arrays.asList(requestDto.getNames().split(","));
+        List<String> carNames = NameFormatConverter.splitNameByDelimiter(requestDto.getNames());
         Cars cars = new Cars(carNames);
 
         gameService.moveCars(cars, requestDto.getCount());

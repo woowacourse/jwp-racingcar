@@ -1,8 +1,12 @@
 package racingcar.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import racingcar.dao.CarDao;
+import racingcar.dao.GameDao;
 import racingcar.model.Cars;
-import racingcar.util.RandomNumberGenerator;
+import racingcar.util.NameFormatConverter;
+import racingcar.util.NumberGenerator;
 
 @Service
 public class GameService {
@@ -23,6 +27,8 @@ public class GameService {
             cars.moveResult(numberGenerator);
         }
 
-        // TODO: 2023/04/11 DB 저장
+        String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
+        int gameId = gameDao.save(tryCount, winners);
+        carDao.saveAll(gameId, cars.getCars());
     }
 }
