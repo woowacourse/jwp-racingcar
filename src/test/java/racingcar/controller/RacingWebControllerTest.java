@@ -41,10 +41,10 @@ class RacingWebControllerTest {
 
     @DisplayName("잘못된 이름 요청이 오면 상태코드 Bad Request 반환")
     @ParameterizedTest
-    @CsvSource(value = {"gray.hoy.logan:InvalidCarNameFormatException",
-            "gra@,ho@,l@gan:InvalidCarNameFormatException",
-            "grayyy,hoy,logan:ExceedCarNameLengthException",
-            "hoy,hoy,hoy:DuplicateCarNamesException"}, delimiter = ':')
+    @CsvSource(value = {"gray.hoy.logan:자동차 이름은 문자와 숫자만 가능합니다.",
+            "gra@,ho@,l@gan:자동차 이름은 문자와 숫자만 가능합니다.",
+            "grayyy,hoy,logan:자동차 이름은 다섯 글자 이하여야 합니다.",
+            "hoy,hoy,hoy:중복된 차 이름이 존재합니다."}, delimiter = ':')
     void requestFailWithWrongName(String names, String exceptionMessage) {
         final TrackRequest trackRequest = new TrackRequest(names, "10");
 
@@ -54,14 +54,14 @@ class RacingWebControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(is(exceptionMessage));
+                .body("message", is(exceptionMessage));
     }
 
     @DisplayName("잘못된 시도 횟수 요청이 오면 상태코드 Bad Request 반환")
     @ParameterizedTest
-    @CsvSource(value = {"two:InvalidTrialTimesFormatException",
-            "0:InvalidRangeTrialTimesException",
-            "101:InvalidRangeTrialTimesException"}, delimiter = ':')
+    @CsvSource(value = {"two:시도 횟수는 숫자만 입력 가능합니다.",
+            "0:시도 횟수는 1 이상 100 이하여야 합니다.",
+            "101:시도 횟수는 1 이상 100 이하여야 합니다."}, delimiter = ':')
     void requestFailWithWrongTrialTimes(String trialTime, String exceptionMessage) {
         final TrackRequest trackRequest = new TrackRequest("gray,hoy,logan", trialTime);
 
@@ -71,6 +71,6 @@ class RacingWebControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(is(exceptionMessage));
+                .body("message", is(exceptionMessage));
     }
 }
