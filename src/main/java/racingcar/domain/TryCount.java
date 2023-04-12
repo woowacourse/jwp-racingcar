@@ -6,27 +6,26 @@ public class TryCount {
 
     private static final int END_FLAG = 0;
 
-    private final int tryCount;
+    private int tryCount;
 
-    public TryCount(final String inputCount) {
-        validateTryCount(inputCount);
-        this.tryCount = Integer.parseInt(inputCount);
-    }
+    public TryCount(final int tryCount) {
+        validateTryCount(tryCount);
 
-    private TryCount(final int tryCount) {
         this.tryCount = tryCount;
     }
 
-    private void validateTryCount(final String inputCount) {
-        int tryCount = Integer.parseInt(inputCount);
-
-        if (tryCount <= END_FLAG) {
+    private void validateTryCount(final int inputCount) {
+        if (inputCount <= END_FLAG) {
             throw new NotPositiveIntegerException();
         }
     }
 
-    public TryCount deduct() {
-        return new TryCount(tryCount - 1);
+    public void deduct() {
+        if (isZero()) {
+            throw new NotPositiveIntegerException();
+        }
+
+        tryCount--;
     }
 
     public boolean isZero() {

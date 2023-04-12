@@ -3,60 +3,34 @@ package racingcar.controller;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
-import racingcar.domain.Name;
-import racingcar.domain.RacingCar;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import racingcar.domain.RacingCars;
-import racingcar.domain.TryCount;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
+import racingcar.service.RacingGameService;
 
+@Controller
 public class RacingGameController {
 
-    private RacingCars racingCars;
-    private TryCount tryCount;
+    private final RacingGameService racingGameService;
 
-    public void start() {
-        setUpGame();
-        playGame();
+
+    public RacingGameController(final RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
     }
 
-    private void setUpGame() {
-        racingCars = createRacingCar();
-        tryCount = requestTryCount();
-    }
+    @PostMapping("/plays")
+    public ResponseEntity<GameResponse> doGame(@RequestBody final GameRequest gameRequest) {
+        final RacingCars racingCars = racingGameService.play(gameRequest.getNames(), gameRequest.getCount());
 
-    private RacingCars createRacingCar() {
-        final List<Name> names = inputCarNames();
-        return new RacingCars(createRacingCar(names));
-    }
+        final List<String> winnerNames = racingCars.getWinnerNames();
+        final String winnerName = String.join(", ", winnerNames);
 
-    private List<Name> inputCarNames() {
-        return InputView.requestCarName();
-    }
-
-    private List<RacingCar> createRacingCar(final List<Name> names) {
-        return names.stream()
-                .map(RacingCar::createRandomMoveRacingCar)
+        final List<RacingCarDto> racingCarsDto = racingCars.getRacingCars().stream()
+                .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
                 .collect(toList());
-    }
 
-    private TryCount requestTryCount() {
-        return InputView.requestTryCount();
-    }
-
-    private void playGame() {
-        OutputView.printResultMessage();
-
-        while (canProceed()) {
-            racingCars.moveAll();
-            this.tryCount = tryCount.deduct();
-            OutputView.printScoreBoard(racingCars);
-        }
-
-        OutputView.printWinner(racingCars);
-    }
-
-    private boolean canProceed() {
-        return !tryCount.isZero();
+        return ResponseEntity.ok(new GameResponse(winnerName, racingCarsDto));
     }
 }
