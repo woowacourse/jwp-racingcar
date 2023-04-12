@@ -12,7 +12,7 @@ public class RecordDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(int gameId, boolean isWinner, Vehicle vehicle) {
+    public void insert(long gameId, boolean isWinner, Vehicle vehicle) {
         String sql = "insert into record(game_id, position, is_winner, player_name) values (?, ?, ?, ?)";
 
         jdbcTemplate.update(sql, gameId, vehicle.getDistance(), isWinner, vehicle.getName());
