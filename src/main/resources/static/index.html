@@ -56,16 +56,13 @@
           }
         })
         .then(data => {
-          console.log(data);
-          console.log(data[0]);
-          console.log(data[0].racingCars);
           const resultPosition = document.createElement("div");
-          for (let index in data[0].racingCars) {
+          for (let index in data.racingCars) {
             const span = document.createElement("span");
-            span.innerHTML = `Name: ${data[0].racingCars[index].name}, Position: ${data[0].racingCars[index].position}<br>`;
+            span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
             resultPosition.appendChild(span);
           }
-          document.getElementById("resultWinner").innerHTML = data[0].winners
+          document.getElementById("resultWinner").innerHTML = data.winners
           document.getElementById("resultPosition").innerHTML = '';
           document.getElementById("resultPosition").appendChild(resultPosition);
         })

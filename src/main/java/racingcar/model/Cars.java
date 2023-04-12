@@ -25,22 +25,24 @@ public class Cars {
                 .collect(Collectors.toList());
     }
 
-    public List<WinnerCarDto> getWinner() {
+    public WinnerCarDto getWinner() {
         Car winner = cars.stream()
                 .max(Car::compareTo)
                 .orElse(null);
 
-        return sort(winner);
+        return new WinnerCarDto(findWinnerNames(winner), findPlayers());
     }
 
-    private List<WinnerCarDto> sort(Car winner) {
+    private List<String> findWinnerNames(Car winner) {
         return cars.stream()
                 .filter(car -> car.isSamePosition(winner))
-                .map(car -> new WinnerCarDto(car.getName(), convertDto()))
-                .collect(Collectors.toUnmodifiableList());
+                .map(Car::getName)
+                .collect(Collectors.toList());
     }
 
-    private List<CarDto> convertDto() {
+
+
+    private List<CarDto> findPlayers() {
         return cars.stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());

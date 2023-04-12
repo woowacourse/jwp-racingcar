@@ -23,7 +23,7 @@ public class CarController {
     private Cars cars;
 
     @PostMapping("/plays")
-    public List<WinnerCarDto> run(@RequestBody GameInfo gameInfo) {
+    public WinnerCarDto run(@RequestBody GameInfo gameInfo) {
         final RacingNumberGenerator generator = new RacingRandomNumberGenerator();
         cars = generateCars(gameInfo.getNames());
         Round round = new Round(gameInfo.getCount());
