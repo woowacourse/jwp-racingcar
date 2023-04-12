@@ -12,8 +12,9 @@
     - [x] 모든 차의 최종 위치를 조회할 수 있다
 - [ ] DB 연동하기
   - [x] H2 DB 연동
-  - [ ] 플레이 이력 저장
+  - [ ] RacingHistory, CarRecord 통합하는 서비스
+  - [x] 플레이 이력 저장
     - [x] 플레이 횟수 (trialCount)
     - [x] 플레이한 시간, 날짜 (playTime)
-    - [ ] 플레이어 별 최종 이동 거리 (name, position)
-    - [ ] 우승 여부 (isWinner)
+    - [x] 플레이어 별 최종 이동 거리 (name, position)
+    - [x] 우승 여부 (isWinner)

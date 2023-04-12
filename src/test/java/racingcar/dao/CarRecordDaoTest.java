@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,30 +28,6 @@ class CarRecordDaoTest {
         carRecordDao = new CarRecordDao(jdbcTemplate);
         RacingHistoryDao racingHistoryDao = new RacingHistoryDao(jdbcTemplate);
         racingHistoryId = racingHistoryDao.save(10, LocalDateTime.now());
-    }
-
-    class CarRecord {
-        private final String name;
-        private final int position;
-        private final boolean isWinner;
-
-        public CarRecord(String name, int position, boolean isWinner) {
-            this.name = name;
-            this.position = position;
-            this.isWinner = isWinner;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getPosition() {
-            return position;
-        }
-
-        public boolean isWinner() {
-            return isWinner;
-        }
     }
 
     @DisplayName("자동차 이동 기록을 저장한다.")
@@ -79,6 +56,25 @@ class CarRecordDaoTest {
                 () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner)
                 );
 
+    }
+
+    @DisplayName("자동차 이동 기록을 조회한다.")
+    @Test
+    void selectCarRecord() {
+        //given
+        String carName = "Rosie";
+        Car car = new Car(carName);
+        boolean isWinner = false;
+        carRecordDao.save(racingHistoryId, car, isWinner);
+        //when
+        List<CarRecord> carRecords = carRecordDao.findByRacingHistoryId(racingHistoryId);
+        //then
+        assertAll(
+                () -> assertThat(carRecords).hasSize(1),
+                () -> assertThat(carRecords.get(0).getName()).isEqualTo(carName),
+                () -> assertThat(carRecords.get(0).getPosition()).isEqualTo(0),
+                () -> assertThat(carRecords.get(0).isWinner()).isEqualTo(isWinner)
+        );
     }
 
 }
