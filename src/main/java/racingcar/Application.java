@@ -12,9 +12,9 @@ public class Application {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         RaceController raceController = new RaceController(
-            new InputView(scanner),
-            new OutputView(),
-            new RandomNumberGenerator()
+                new InputView(scanner),
+                new OutputView(),
+                new RandomNumberGenerator()
         );
         raceController.play();
         scanner.close();

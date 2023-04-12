@@ -34,7 +34,7 @@ public class OutputView {
     public void printWinners(List<Car> winners) {
         final String DELIMITER = ", ";
         String message =
-            winners.stream().map(Car::getName).collect(Collectors.joining(DELIMITER)) + WIN;
+                winners.stream().map(Car::getName).collect(Collectors.joining(DELIMITER)) + WIN;
         System.out.println(message);
     }
 
