@@ -4,8 +4,10 @@ import java.sql.PreparedStatement;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
+@Repository
 public class RacingCarDao {
 
     private final JdbcTemplate jdbcTemplate;

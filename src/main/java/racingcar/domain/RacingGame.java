@@ -30,4 +30,8 @@ public class RacingGame {
     public boolean isPlayable() {
         return count.isPlayable();
     }
+
+    public int getCount() {
+        return count.getValue();
+    }
 }

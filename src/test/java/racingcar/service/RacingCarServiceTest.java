@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.FixNumberGenerator;
 import racingcar.domain.Cars;
 import racingcar.domain.Count;
@@ -15,7 +17,11 @@ import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.dto.response.RacingGameResponseDto;
 
+@SpringBootTest
 class RacingCarServiceTest {
+
+    @Autowired
+    private RacingCarService racingCarService;
 
     @DisplayName("게임결과를 반환한다.")
     @Test
@@ -26,7 +32,6 @@ class RacingCarServiceTest {
         final Cars cars = new Cars(List.of("다즐", "루쿠"));
         final Count count = new Count(3);
         final RacingGame racingGame = new RacingGame(numberGenerator, cars, count);
-        final RacingCarService racingCarService = new RacingCarService();
 
         final RacingGameResponseDto racingGameResponseDto = racingCarService.play(racingGame);
 
