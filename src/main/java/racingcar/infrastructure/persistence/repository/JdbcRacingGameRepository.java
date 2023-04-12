@@ -58,10 +58,7 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
     @Override
     public Optional<RacingGame> findById(final Long id) {
         final Optional<RacingGameEntity> racingGameEntity = racingGameDao.findById(id);
-        if (racingGameEntity.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(toRacingGame(id, racingGameEntity.get()));
+        return racingGameEntity.map(gameEntity -> toRacingGame(id, gameEntity));
     }
 
     private RacingGame toRacingGame(final Long id, final RacingGameEntity racingGameEntity) {
