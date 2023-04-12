@@ -2,7 +2,7 @@ package racingcar.domain;
 
 import java.util.List;
 
-import racinggame.utils.NumberGenerator;
+import racingcar.utils.NumberGenerator;
 
 public class RacingGame {
     private final NumberGenerator randomNumberGenerator;

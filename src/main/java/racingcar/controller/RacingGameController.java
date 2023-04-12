@@ -2,13 +2,13 @@ package racingcar.controller;
 
 import java.util.List;
 
-import racinggame.domain.Car;
-import racinggame.domain.CarGenerator;
-import racinggame.domain.RacingGame;
-import racinggame.utils.NumberGenerator;
-import racinggame.utils.RandomNumberGenerator;
-import racinggame.view.Input;
-import racinggame.view.Output;
+import racingcar.domain.Car;
+import racingcar.domain.CarGenerator;
+import racingcar.domain.RacingGame;
+import racingcar.utils.NumberGenerator;
+import racingcar.utils.RandomNumberGenerator;
+import racingcar.view.Input;
+import racingcar.view.Output;
 
 public class RacingGameController {
     private static final NumberGenerator numberGenerator = new RandomNumberGenerator();

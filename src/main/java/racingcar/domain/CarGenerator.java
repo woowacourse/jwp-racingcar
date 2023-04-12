@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import racinggame.view.Validator;
+import racingcar.view.Validator;
 
 public class CarGenerator {
     private static final Validator validator = new Validator();
