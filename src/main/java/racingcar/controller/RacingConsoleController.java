@@ -1,12 +1,14 @@
 package racingcar.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import racingcar.domain.AdvanceJudgement;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.domain.Range;
+import racingcar.dto.RacingCarDto;
 import racingcar.utils.Parser;
 import racingcar.validator.Validator;
 import racingcar.view.InputView;
@@ -20,17 +22,24 @@ public class RacingConsoleController {
         List<String> carNames = getValidCarNames();
         int tryCount = getValidTryCount();
 
-        RacingGame racingGame = initializeRoundManager(carNames);
+        RacingGame racingGame = initializeGame(carNames);
 
         outputView.printResultHeader();
-        outputView.printRoundResult(racingGame.getStartStatus());
+        outputView.printRoundResult(createRacingCarDtos(racingGame));
         for (int roundCount = 0; roundCount < tryCount; roundCount++) {
             racingGame.runRound();
-            outputView.printRoundResult(racingGame.getStatus());
+            outputView.printRoundResult(createRacingCarDtos(racingGame));
         }
 
         List<String> winningCarsName = racingGame.getWinningCarsName();
         outputView.printWinners(winningCarsName);
+    }
+
+    private List<RacingCarDto> createRacingCarDtos(RacingGame racingGame) {
+        return racingGame.getStatus()
+                .stream()
+                .map(RacingCarDto::from)
+                .collect(Collectors.toList());
     }
 
     private List<String> getValidCarNames() {
@@ -56,19 +65,11 @@ public class RacingConsoleController {
         }
     }
 
-
-    private void setCars(List<String> carNames, RacingGame racingGame) {
-        for (String carName : carNames) {
-            racingGame.addRacingCar(new RacingCar(carName));
-        }
-    }
-
-    private RacingGame initializeRoundManager(List<String> carNames) {
+    private RacingGame initializeGame(List<String> carNames) {
         Range range = new Range(4, 9);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         AdvanceJudgement advanceJudgement = new AdvanceJudgement(range, numberGenerator);
-        RacingGame racingGame = new RacingGame(advanceJudgement);
-        setCars(carNames, racingGame);
-        return racingGame;
+        List<RacingCar> racingCars = carNames.stream().map(RacingCar::new).collect(Collectors.toUnmodifiableList());
+        return new RacingGame(racingCars, advanceJudgement);
     }
 }

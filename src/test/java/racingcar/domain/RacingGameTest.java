@@ -1,5 +1,6 @@
 package racingcar.domain;
 
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,10 +19,9 @@ class RacingGameTest {
         NumberGenerator numberGenerator = new DefaultNumberGenerator(num);
         AdvanceJudgement advanceJudgement = new AdvanceJudgement(range, numberGenerator);
 
-        RacingGame racingGame = new RacingGame(advanceJudgement);
-        racingGame.addRacingCar(new RacingCar("car"));
+        RacingGame racingGame = new RacingGame(List.of(new RacingCar("오잉")), advanceJudgement);
         racingGame.runRound();
-        RacingCarDto racingCarDto = racingGame.getStatus().get(0);
+        RacingCarDto racingCarDto = RacingCarDto.from(racingGame.getStatus().get(0));
         Integer position = racingCarDto.getPosition();
 
         Assertions.assertEquals(expectedPosition, position);
@@ -29,8 +29,8 @@ class RacingGameTest {
 
     static Stream<Arguments> 전진_결과_데이터() {
         return Stream.of(
-                Arguments.of(1, 0),
-                Arguments.of(9, 1)
+                Arguments.of(1, 1),
+                Arguments.of(9, 2)
         );
     }
 }

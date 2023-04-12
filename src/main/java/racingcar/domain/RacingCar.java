@@ -1,10 +1,10 @@
 package racingcar.domain;
 
 public class RacingCar implements Comparable<RacingCar> {
-    private static final Integer DEFAULT_POSITION = 0;
-    private static final Integer DEFAULT_MOVING_AMOUNT = 1;
+    private static final int DEFAULT_POSITION = 1;
+    private static final int DEFAULT_MOVING_AMOUNT = 1;
     private final String name;
-    private Integer position;
+    private int position;
 
     public RacingCar(String name) {
         this.name = name;
@@ -21,7 +21,7 @@ public class RacingCar implements Comparable<RacingCar> {
         return name;
     }
 
-    public Integer getPosition() {
+    public int getPosition() {
         return position;
     }
 
