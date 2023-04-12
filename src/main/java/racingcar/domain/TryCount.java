@@ -23,4 +23,8 @@ public class TryCount {
             throw new IllegalArgumentException(String.format("시도 횟수는 %d회 이상이여야 합니다.", MIN_COUNT));
         }
     }
+
+    public int getCount() {
+        return count;
+    }
 }

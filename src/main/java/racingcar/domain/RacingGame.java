@@ -40,4 +40,7 @@ public class RacingGame {
         return cars.getWinners();
     }
 
+    public TryCount getTryCount() {
+        return tryCount;
+    }
 }

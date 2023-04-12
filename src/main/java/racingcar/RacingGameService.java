@@ -13,6 +13,11 @@ import java.util.stream.Collectors;
 @Service
 public class RacingGameService {
 
+    final RacingGameRepository repository;
+
+    public RacingGameService(RacingGameRepository repository) {
+        this.repository = repository;
+    }
 
     public ResultDto getResult(UserInputDto inputDto) {
         RacingGame racingGame = getRacingGame(inputDto);
@@ -20,11 +25,13 @@ public class RacingGameService {
         List<Cars> result = racingGame.start(new DefaultMovingStrategy());
         Cars finalResult = result.get(result.size() - 1);
         Cars winnersResult = racingGame.decideWinners();
+        TryCount tryCount = racingGame.getTryCount();
+        repository.save(tryCount, finalResult, winnersResult);
 
         return new ResultDto(winnersResult, finalResult);
     }
 
-    private static RacingGame getRacingGame(UserInputDto inputDto) {
+    private RacingGame getRacingGame(UserInputDto inputDto) {
         String names = inputDto.getNames();
         List<String> splitNames = List.of(names.split(","));
         List<Name> nameList = splitNames.stream()
