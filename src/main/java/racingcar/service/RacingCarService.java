@@ -10,6 +10,7 @@ import racingcar.dto.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RacingCarService {
@@ -42,7 +43,7 @@ public class RacingCarService {
         for (CarStatusResponse carStatusResponse : carStatusResponses) {
             String carName = carStatusResponse.getCarName();
             int carPosition = carStatusResponse.getCarPosition();
-            Long playerId = playerDao.save(carName);
+            Long playerId = findOrSavePlayer(carName);
             ParticipateDto participateDto = convertParticipate(winnerNames, gameId, carName, carPosition, playerId);
             participatesDao.save(participateDto);
         }
@@ -51,6 +52,14 @@ public class RacingCarService {
         List<RacingCarResponse> racingCarResponses = convertRacingCars(carStatusResponses);
 
         return new ResultResponse(winners, racingCarResponses);
+    }
+
+    private Long findOrSavePlayer(final String carName) {
+        Optional<PlayerDto> playerDtoOptional = playerDao.findByName(carName);
+        if (playerDtoOptional.isEmpty()) {
+            return playerDao.save(carName);
+        }
+        return playerDtoOptional.orElseThrow().getId();
     }
 
     private ParticipateDto convertParticipate(final List<String> winnerNames, final Long gameId, final String carName, final int carPosition, final Long playerId) {
