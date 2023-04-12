@@ -9,7 +9,7 @@ public class GameService {
 
     public void moveCars(Cars cars, int tryCount) {
         for (int count = 0; count < tryCount; count++) {
-            cars.moveResult(new RandomNumberGenerator());
+            cars.moveResult(numberGenerator);
         }
 
         // TODO: 2023/04/11 DB 저장
