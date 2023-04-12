@@ -4,17 +4,20 @@ import java.util.List;
 
 public class RaceResultDto {
 
-    private final List<CarStatusDto> carRaceResults;
+    private final String winners;
+    private final List<CarStatusDto> racingCars;
 
-    private RaceResultDto(final List<CarStatusDto> carRaceResults) {
-        this.carRaceResults = carRaceResults;
+    private RaceResultDto(final String winners, final List<CarStatusDto> racingCars) {
+        this.winners = winners;
+        this.racingCars = racingCars;
     }
 
-    public static RaceResultDto create(final List<CarStatusDto> carRaceResult) {
-        return new RaceResultDto(carRaceResult);
+    public static RaceResultDto create(final List<String> winners, final List<CarStatusDto> carRaceResult) {
+        final String winnerNames = String.join(",", winners);
+        return new RaceResultDto(winnerNames, carRaceResult);
     }
 
-    public List<CarStatusDto> getCarRaceResults() {
-        return carRaceResults;
+    public List<CarStatusDto> getRacingCars() {
+        return racingCars;
     }
 }

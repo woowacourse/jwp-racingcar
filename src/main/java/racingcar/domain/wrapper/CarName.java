@@ -2,11 +2,10 @@ package racingcar.domain.wrapper;
 
 import java.util.Objects;
 
-import static racingcar.domain.constant.CarConstant.CAR_NAME_MAX_LENGTH;
-import static racingcar.enumType.ExceptionMessage.BLANK_MESSAGE;
-import static racingcar.enumType.ExceptionMessage.LENGTH_MESSAGE;
-
 public class CarName {
+    private static final int CAR_NAME_MAX_LENGTH = 5;
+    private static final String BLANK_MESSAGE = "%s은(는) 빈 값이 들어올 수 없습니다.";
+    private static final String LENGTH_MESSAGE = "%d글자를 초과하였습니다.";
 
     private final String name;
 
@@ -22,13 +21,13 @@ public class CarName {
 
     private void validateNameBlank(final String name) {
         if (name.isBlank()) {
-            throw new IllegalArgumentException(String.format(BLANK_MESSAGE.getValue(), "이름"));
+            throw new IllegalArgumentException(String.format(BLANK_MESSAGE, "이름"));
         }
     }
 
     private void validateNameLength(final String name) {
-        if (name.length() > CAR_NAME_MAX_LENGTH.getValue()) {
-            throw new IllegalArgumentException(String.format(LENGTH_MESSAGE.getValue(), CAR_NAME_MAX_LENGTH.getValue()));
+        if (name.length() > CAR_NAME_MAX_LENGTH) {
+            throw new IllegalArgumentException(String.format(LENGTH_MESSAGE, CAR_NAME_MAX_LENGTH));
         }
     }
 

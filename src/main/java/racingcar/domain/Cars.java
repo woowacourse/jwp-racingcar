@@ -11,11 +11,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static racingcar.domain.constant.CarsConstant.SPLIT_DELIMITER;
-import static racingcar.enumType.ExceptionMessage.DUPLICATE_MESSAGE;
-import static racingcar.enumType.ExceptionMessage.NO_RESOURCE_MESSAGE;
-
 public class Cars {
+    private static final String SPLIT_DELIMITER = ",";
+    private static final String DUPLICATE_MESSAGE = "중복된 값을 입력할 수 없습니다.";
+    private static final String NO_RESOURCE_MESSAGE = "%s(이)가 존재하지 않습니다.";
 
     private final List<Car> cars;
 
@@ -38,10 +37,19 @@ public class Cars {
         });
     }
 
-    public Car getMaxPositionCar() {
+    public List<String> getWinnerCarNames() {
+        Car maxPositionCar = judgeMaxPositionCar();
+        return cars
+                .stream()
+                .filter(maxPositionCar::isSamePosition)
+                .map(Car::getName)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private Car judgeMaxPositionCar() {
         return cars.stream()
                 .max(Car::compareTo)
-                .orElseThrow(() -> new NoResourceException(String.format(NO_RESOURCE_MESSAGE.getValue(), "차량 리스트")));
+                .orElseThrow(() -> new NoResourceException(String.format(NO_RESOURCE_MESSAGE, "차량 리스트")));
     }
 
     private List<Car> create(final String carNames) {
@@ -52,13 +60,13 @@ public class Cars {
     }
 
     private String[] splitCarNames(final String carNames) {
-        return carNames.split(SPLIT_DELIMITER.getValue());
+        return carNames.split(SPLIT_DELIMITER);
     }
 
     private void validateDuplicateCarName() {
         int uniqueCarCount = new HashSet<>(cars).size();
         if (cars.size() != uniqueCarCount) {
-            throw new DuplicateException(DUPLICATE_MESSAGE.getValue());
+            throw new DuplicateException(DUPLICATE_MESSAGE);
         }
     }
 

@@ -5,9 +5,8 @@ import racingcar.domain.wrapper.CarPosition;
 
 import java.util.Objects;
 
-import static racingcar.domain.constant.CarConstant.CAR_FORWARD_NUMBER;
-
 public class Car implements Comparable<Car> {
+    private static final int CAR_FORWARD_NUMBER = 4;
 
     private final CarName name;
 
@@ -23,7 +22,7 @@ public class Car implements Comparable<Car> {
     }
 
     public void move(final int power) {
-        if (power >= CAR_FORWARD_NUMBER.getValue()) {
+        if (power >= CAR_FORWARD_NUMBER) {
             position.addPosition();
         }
     }
