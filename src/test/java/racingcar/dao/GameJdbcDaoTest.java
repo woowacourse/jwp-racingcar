@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @JdbcTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-public class GameDaoTest {
+public class GameJdbcDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -22,7 +22,7 @@ public class GameDaoTest {
 
     @BeforeEach
     void setUp() {
-        gameDao = new GameDao(jdbcTemplate);
+        gameDao = new GameJdbcDao(jdbcTemplate);
     }
 
     @Test

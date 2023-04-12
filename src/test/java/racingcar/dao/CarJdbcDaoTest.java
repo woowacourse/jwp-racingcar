@@ -18,7 +18,7 @@ import racingcar.utils.TestNumberGenerator;
 @JdbcTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-public class CarDaoTest {
+public class CarJdbcDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -30,8 +30,8 @@ public class CarDaoTest {
     void setUp() {
         final String sql = "insert into game (trial, winners) values (?,?)";
         jdbcTemplate.update(sql, 1, "car1");
-        carDao = new CarDao(jdbcTemplate);
-        gameDao = new GameDao(jdbcTemplate);
+        carDao = new CarJdbcDao(jdbcTemplate);
+        gameDao = new GameJdbcDao(jdbcTemplate);
     }
 
     @Test
