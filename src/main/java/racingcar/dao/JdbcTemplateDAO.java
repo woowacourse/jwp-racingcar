@@ -10,7 +10,6 @@ import racingcar.dto.GameResultDto;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-// TODO: 2023-04-12 데이터베이스 테스트 구현
 @Repository
 public class JdbcTemplateDAO {
     private final JdbcTemplate jdbcTemplate;
