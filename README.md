@@ -16,7 +16,7 @@
         
         content-type: application/json; charset=UTF-8
         host: localhost: 8080
-        
+        성
         {
             "names": "브리,토미,브라운",
             "count": 10
