@@ -15,5 +15,5 @@
 
 ### 3. DB 연동
 - [x] 데이터베이스 의존성 추가 및 설정
-- [ ] 결과 저장 DAO 구현
-  - [ ] `JdbcTemplate`사용
+- [x] 결과 저장 DAO 구현
+  - [x] `JdbcTemplate`사용
