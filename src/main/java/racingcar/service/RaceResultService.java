@@ -4,36 +4,32 @@ import org.springframework.stereotype.Service;
 import racingcar.controller.dto.CarStatusResponse;
 import racingcar.controller.dto.GameInfoRequest;
 import racingcar.controller.dto.RaceResultResponse;
-import racingcar.dao.car.CarDao;
-import racingcar.dao.car.dto.CarRegisterRequest;
 import racingcar.dao.raceresult.RaceResultDao;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
-import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.service.mapper.RaceResultMapper;
 import racingcar.util.NumberGenerator;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RaceResultService {
 
 
     private final RaceResultDao raceResultDao;
-    private final CarDao carDao;
+    private final CarService carService;
     private final NumberGenerator numberGenerator;
     private final RaceResultMapper raceResultMapper;
 
-    public RaceResultService(final RaceResultDao raceResultDao, final CarDao carDao,
+    public RaceResultService(final RaceResultDao raceResultDao, final CarService carService,
                              final NumberGenerator numberGenerator, final RaceResultMapper raceResultMapper) {
         this.raceResultDao = raceResultDao;
-        this.carDao = carDao;
+        this.carService = carService;
         this.numberGenerator = numberGenerator;
         this.raceResultMapper = raceResultMapper;
     }
 
-    public RaceResultResponse searchRaceResult(final GameInfoRequest gameInfoRequest) {
+    public RaceResultResponse createRaceResult(final GameInfoRequest gameInfoRequest) {
 
         final String names = gameInfoRequest.getNames();
         final RacingCars racingCars = RacingCars.makeCars(names);
@@ -42,23 +38,14 @@ public class RaceResultService {
 
         racingCars.moveAllCars(tryCount, numberGenerator);
 
-        final RaceResultRegisterRequest raceResultRegisterRequest = raceResultMapper.convertToRaceResult(tryCount,
-                                                                                                         racingCars);
+        final RaceResultRegisterRequest raceResultRegisterRequest =
+                raceResultMapper.mapToRaceResult(tryCount, racingCars);
 
-        //저장된 ResultId
         final int savedId = raceResultDao.save(raceResultRegisterRequest);
 
-        //Car 정보 저장
-        racingCars.getCars()
-                  .forEach(car -> carDao.save(new CarRegisterRequest(car.getName(), car.getPosition(), savedId)));
+        carService.registerCars(racingCars, savedId);
 
-        //경기 결과
-        final List<CarStatusResponse> carStatusResponses =
-                racingCars.getCars()
-                          .stream()
-                          .map(car -> new CarStatusResponse(car.getName(),
-                                                            car.getPosition()))
-                          .collect(Collectors.toList());
+        final List<CarStatusResponse> carStatusResponses = raceResultMapper.mapToCarStatus(racingCars);
 
         return new RaceResultResponse(raceResultRegisterRequest.getWinners(), carStatusResponses);
     }

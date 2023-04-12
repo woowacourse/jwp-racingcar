@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.GameInfoRequest;
 import racingcar.controller.dto.RaceResultResponse;
 import racingcar.service.RaceResultService;
-import racingcar.view.InputViewValidator;
 
 @RestController
 public class RacingCarWebController {
@@ -21,7 +20,7 @@ public class RacingCarWebController {
     }
 
     @PostMapping("/plays")
-    public RaceResultResponse showRaceResults(@RequestBody GameInfoRequest gameInfoRequest) {
+    public RaceResultResponse registerRaceResult(@RequestBody GameInfoRequest gameInfoRequest) {
         final String names = gameInfoRequest.getNames();
         if (names.length() < 1) {
             throw new IllegalArgumentException(CAR_NAMES_BLANK_ERROR);
@@ -32,6 +31,6 @@ public class RacingCarWebController {
             throw new IllegalArgumentException(TRY_NUM_NOT_POSITIVE_ERROR);
         }
 
-        return raceResultService.searchRaceResult(gameInfoRequest);
+        return raceResultService.createRaceResult(gameInfoRequest);
     }
 }
