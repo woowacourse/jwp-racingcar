@@ -15,7 +15,7 @@ public class RacingCar implements Comparable<RacingCar> {
     }
 
     public void advance(int number) {
-        if (number >= MOVABLE_MIN_THRESHOLD && number <= MOVABLE_MAX_THRESHOLD) {
+        if (MOVABLE_MIN_THRESHOLD <= number && number <= MOVABLE_MAX_THRESHOLD) {
             position += DEFAULT_MOVING_AMOUNT;
         }
     }

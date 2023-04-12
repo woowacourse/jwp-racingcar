@@ -28,15 +28,8 @@ public class RacingConsoleController {
             outputView.printRoundResult(createRacingCarDtos(racingGame));
         }
 
-        List<String> winningCarsName = racingGame.getWinningCarsName();
+        List<String> winningCarsName = racingGame.findWinningCarsName();
         outputView.printWinners(winningCarsName);
-    }
-
-    private List<RacingCarDto> createRacingCarDtos(RacingGame racingGame) {
-        return racingGame.getStatus()
-                .stream()
-                .map(RacingCarDto::from)
-                .collect(Collectors.toList());
     }
 
     private List<String> getValidCarNames() {
@@ -65,5 +58,12 @@ public class RacingConsoleController {
     private RacingGame initializeGame(List<String> carNames) {
         List<RacingCar> racingCars = carNames.stream().map(RacingCar::new).collect(Collectors.toUnmodifiableList());
         return new RacingGame(racingCars, new RandomNumberGenerator());
+    }
+
+    private List<RacingCarDto> createRacingCarDtos(RacingGame racingGame) {
+        return racingGame.getStatus()
+                .stream()
+                .map(RacingCarDto::from)
+                .collect(Collectors.toList());
     }
 }

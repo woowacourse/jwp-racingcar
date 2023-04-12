@@ -18,25 +18,25 @@ public class RacingGame {
         racingCars.forEach(racingCar -> racingCar.advance(numberGenerator.getNumber()));
     }
 
-    public Map<RacingCar, GameResult> getResult() {
+    public Map<RacingCar, GameResult> calculateResult() {
         Map<RacingCar, GameResult> results = new LinkedHashMap<>();
         racingCars.forEach(racingCar -> results.put(racingCar, GameResult.LOSE));
-        List<String> winningCarsName = getWinningCarsName();
+        List<String> winningCarsName = findWinningCarsName();
         racingCars.stream().filter(racingCar -> winningCarsName.contains(racingCar.getName()))
                 .forEach(racingCar -> results.put(racingCar, GameResult.WIN));
         return results;
     }
 
-    public List<RacingCar> getStatus() {
-        return List.copyOf(racingCars);
-    }
-
-    public List<String> getWinningCarsName() {
+    public List<String> findWinningCarsName() {
         List<RacingCar> sortedCars = racingCars.stream().sorted().collect(Collectors.toUnmodifiableList());
         RacingCar firstCar = sortedCars.get(0);
         return sortedCars.stream()
                 .filter(car -> car.getPosition() == firstCar.getPosition())
                 .map(RacingCar::getName)
                 .collect(Collectors.toList());
+    }
+
+    public List<RacingCar> getStatus() {
+        return List.copyOf(racingCars);
     }
 }
