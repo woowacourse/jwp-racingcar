@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class Car {
     private static final int POSITION_INIT = 1;
     private static final int MAX_NAME_LENGTH = 5;
-    private static final Pattern STRING_PATTERN = Pattern.compile("(\\w)+");
+    private static final Pattern STRING_PATTERN = Pattern.compile("(^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$)+");
 
     private final String carName;
     private int position;
