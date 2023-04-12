@@ -16,14 +16,11 @@ import java.util.List;
 public class RacingCarController {
 
     private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
-    private final DataSource dataSource = DataSourceBuilder.create()
-                                                           .url("jdbc:h2:mem:testdb")
-                                                           .username("sa")
-                                                           .password("")
-                                                           .type(HikariDataSource.class)
-                                                           .build();
-    private final ResultDao resultDao = new ResultDao(new JdbcTemplate(dataSource));
-    private final RacingCarDao racingCarDao  = new RacingCarDao(new JdbcTemplate(dataSource));
+    private final RacingCarService racingCarService;
+
+    public RacingCarController(RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
+    }
 
     @PostMapping("plays")
     public ResponseEntity<GameResultDto> createGame(@RequestBody GameInforamtionDto gameInforamtionDto) {
@@ -31,6 +28,7 @@ public class RacingCarController {
         int trialCount = getTrialCount(gameInforamtionDto);
 
         List<RacingCarDto> racingCars = playGame(cars, trialCount);
+        racingCarService.insertGame(trialCount, cars);
 
         GameResultDto gameResultDto = new GameResultDto(cars.getWinnerCars(), racingCars);
         return ResponseEntity.ok()

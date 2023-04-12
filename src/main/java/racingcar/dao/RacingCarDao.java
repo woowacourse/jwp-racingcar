@@ -7,7 +7,7 @@ import racingcar.domain.Car;
 @Repository
 public class RacingCarDao {
 
-    private final JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public RacingCarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
