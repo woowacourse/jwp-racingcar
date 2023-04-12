@@ -41,5 +41,15 @@
       - [x] RESPONSE : index 페이지를 보여준다
   - "api/plays"
     - POST : 
-      - [ ] REQUEST : 차량의 이름과 시도횟수를 전송한다
-      - [ ] RESPONSE : 우승자와 각 차량의 이름 및 위치를 출력한다
+      - [x] REQUEST : 차량의 이름과 시도횟수를 전송한다
+      - [x] RESPONSE : 우승자와 각 차량의 이름 및 위치를 출력한다
+- DAO
+  - PlayResult
+    - [ ] 결과를 저장한다
+      - 시도횟수
+      - 우승자
+      - 플레이한 날짜/시간
+  - PlayersInfo
+    - [ ] 플레이어의 정보를 저장한다
+      - 플레이어 이름
+      - 이동 거리
