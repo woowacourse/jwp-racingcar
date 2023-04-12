@@ -29,14 +29,13 @@ public class CarDao {
     }
 
     public Long save(final CarEntity carEntity) {
-        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(carEntity);
+        final SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(carEntity);
         return simpleJdbcInsert.executeAndReturnKey(sqlParameterSource).longValue();
     }
 
     public List<CarEntity> findByGameId(final Long gameId) {
         return template.query("SELECT * FROM CAR WHERE game_id = ?",
                 (rs, rowNum) -> new CarEntity(
-                        rs.getLong("id"),
                         rs.getString("name"),
                         rs.getInt("position"),
                         rs.getLong("game_id")

@@ -4,15 +4,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.infrastructure.persistence.entity.WinnerEntity;
 
-import java.sql.PreparedStatement;
 import java.util.List;
-
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Component
 public class WinnerDao {
@@ -28,14 +23,13 @@ public class WinnerDao {
     }
 
     public Long save(final WinnerEntity winnerEntity) {
-        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(winnerEntity);
+        final SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(winnerEntity);
         return simpleJdbcInsert.executeAndReturnKey(sqlParameterSource).longValue();
     }
 
     public List<WinnerEntity> findByGameId(final Long gameId) {
         return template.query("SELECT * FROM WINNER WHERE game_id = ?",
                 (rs, rowNum) -> new WinnerEntity(
-                        rs.getLong("id"),
                         rs.getString("name"),
                         rs.getLong("game_id")
                 ), gameId);
