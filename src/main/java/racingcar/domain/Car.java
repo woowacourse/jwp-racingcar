@@ -1,5 +1,7 @@
 package racingcar.domain;
 
+import java.util.Objects;
+
 public class Car implements Comparable<Car> {
 
     private static final int NAME_MIN_LENGTH = 1;
@@ -46,6 +48,19 @@ public class Car implements Comparable<Car> {
         if (name.length() < NAME_MIN_LENGTH || name.length() > NAME_MAX_LENGTH) {
             throw new IllegalArgumentException(NAME_LENGTH_ERROR);
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Car car = (Car) other;
+        return position == car.position && Objects.equals(name, car.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, position);
     }
 }
 

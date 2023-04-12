@@ -3,11 +3,14 @@ package racingcar.controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.dao.CarDao;
+import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
+import racingcar.dto.CarDto;
 import racingcar.dto.response.RacingCarResponse;
 import racingcar.dto.response.RacingResultResponse;
 import racingcar.dto.request.RacingStartRequest;
@@ -18,6 +21,14 @@ import java.util.stream.Collectors;
 
 @RestController
 public class WebRacingCarController {
+
+    private final RacingGameDao racingGameDao;
+    private final CarDao carDao;
+
+    public WebRacingCarController(RacingGameDao racingGameDao, CarDao carDao) {
+        this.racingGameDao = racingGameDao;
+        this.carDao = carDao;
+    }
 
     @PostMapping("/plays")
     public RacingResultResponse play(@RequestBody RacingStartRequest racingStartRequest) {
@@ -40,6 +51,30 @@ public class WebRacingCarController {
             racingGame.playOneRound();
         }
 
+        saveGameResult(round, racingGame);
+
+        return createRacingResultResponse(racingGame);
+    }
+
+    private void saveGameResult(int round, RacingGame racingGame) {
+        int gameId = racingGameDao.save(round);
+        carDao.save(createCarDtos(racingGame, gameId));
+    }
+
+    private List<CarDto> createCarDtos(RacingGame racingGame, int gameId) {
+        List<CarDto> carDtos = new ArrayList<>();
+
+        List<Car> winnerCars = racingGame.findWinnerCars();
+        List<Car> cars = racingGame.getCars();
+
+        for (Car car : cars) {
+            carDtos.add(new CarDto(gameId, car.getName(), car.getPosition(), winnerCars.contains(car)));
+        }
+
+        return carDtos;
+    }
+
+    private RacingResultResponse createRacingResultResponse(RacingGame racingGame) {
         List<RacingCarResponse> racingCars = getRacingCarResponses(racingGame);
         String winners = getWinners(racingGame);
 
