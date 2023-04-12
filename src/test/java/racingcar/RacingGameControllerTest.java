@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.dto.RacingGameRequest;
 
-@DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RacingGameControllerTest {
     @LocalServerPort
@@ -24,10 +23,7 @@ class RacingGameControllerTest {
         RestAssured.port = port;
     }
 
-    /**
-     * HttpMethodController > createUser 메서드
-     */
-    @DisplayName("Http Method - POST")
+    @DisplayName("게임 실행 시, JSON으로 결과를 조회할 수 있다")
     @Test
     void playGame() {
 
@@ -41,5 +37,7 @@ class RacingGameControllerTest {
                 .body("winners", notNullValue())
                 .body("racingCars", hasSize(3));
     }
+
+    // TODO: 2023/04/12 Service mocking 
 
 }

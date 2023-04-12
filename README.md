@@ -10,9 +10,9 @@
   - [x] 콘솔 출력 &rarr; HTTP 응답
     - [x] 우승자를 조회할 수 있다
     - [x] 모든 차의 최종 위치를 조회할 수 있다
-- [ ] DB 연동하기
+- [x] DB 연동하기
   - [x] H2 DB 연동
-  - [ ] RacingHistory, CarRecord 통합하는 서비스
+  - [x] RacingHistory, CarRecord 통합하는 서비스
   - [x] 플레이 이력 저장
     - [x] 플레이 횟수 (trialCount)
     - [x] 플레이한 시간, 날짜 (playTime)
