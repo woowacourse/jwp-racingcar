@@ -32,7 +32,7 @@ public class GameJdbcDaoTest {
         final String winners = "비버";
 
         // when
-        int id = gameDao.save(trialCount, winners);
+        final int id = gameDao.save(trialCount, winners);
 
         // then
         assertThat(id).isPositive();
