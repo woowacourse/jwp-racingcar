@@ -1,9 +1,12 @@
 package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.database.RacingCarDao;
+import racingcar.database.RacingGameDao;
 import racingcar.model.*;
 
 import java.util.Arrays;
@@ -13,8 +16,14 @@ import java.util.stream.Collectors;
 @RestController
 public class PlayRequestController {
 
-    public static final String DELIMITER = ",";
-    public static final int START_POSITION = 0;
+    private static final String DELIMITER = ",";
+    private static final int START_POSITION = 0;
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public PlayRequestController(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @PostMapping(path = "/plays")
     public ResponseEntity<PlayResponse> play(@RequestBody final PlayRequest request) {
@@ -24,7 +33,16 @@ public class PlayRequestController {
         final RacingCars racingCars = generateRacingCars(names);
         race(count, racingCars);
 
-        return ResponseEntity.ok().body(generateResponse(racingCars));
+
+        final String winners = generateWinners(racingCars);
+
+        final RacingGameDao racingGameDao = new RacingGameDao(jdbcTemplate);
+        final int gameId = racingGameDao.insert(count, winners);
+
+        final RacingCarDao racingCarDao = new RacingCarDao(jdbcTemplate);
+        racingCars.getCars().forEach(car -> racingCarDao.insert(car, gameId));
+
+        return ResponseEntity.ok().body(generateResponse(winners, racingCars));
     }
 
     private RacingCars generateRacingCars(final List<String> names) {
@@ -41,10 +59,13 @@ public class PlayRequestController {
         }
     }
 
-    private PlayResponse generateResponse(final RacingCars racingCars) {
-        final String winners = racingCars.getWinners().stream()
+    private static String generateWinners(final RacingCars racingCars) {
+        return racingCars.getWinners().stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(DELIMITER));
+    }
+
+    private PlayResponse generateResponse(final String winners, final RacingCars racingCars) {
         return new PlayResponse(winners, racingCars.getCars());
     }
 }
