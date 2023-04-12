@@ -97,11 +97,11 @@ flowchart
       | 1     | 5                     | 2020-02-31/11:22:33         |
     - Table 명 : `car_info`
   
-      | id    | racing_id | 이름(name) | 최종 위치(position) | isWinnner |
-      |-------|-----------|-----------|--------------------|-----------|
-      | 1     | 1         | backFox   | 3                  | false     |
-      | 2     | 1         | amaranth  | 5                  | true      |
-      | 3     | 1         | test      | 2                  | false     |
+      | id    | racing_id | 이름(name) | 최종 위치(position) | is_winnner |
+      |-------|-----------|-----------|--------------------|------------|
+      | 1     | 1         | backFox   | 3                  | false      |
+      | 2     | 1         | amaranth  | 5                  | true       |
+      | 3     | 1         | test      | 2                  | false      |
 - 삽입(Insert)
   - [ ] racing 테이블에 새 경주 기록을 추가한다.(플레이 횟수 데이터를 저장한다)
   - [ ] car_info 테이블에 경주에 참여한 자동차 정보를 추가한다.
