@@ -59,4 +59,9 @@ public class Cars {
                            new IllegalArgumentException(ExceptionMessage.GET_MAX_LOCATION_MESSAGE.getExceptionMessage()))
                    .getLocation();
     }
+
+    public String getWinnerCars() {
+        List<String> winners = getWinners();
+        return String.join(", ", winners);
+    }
 }
