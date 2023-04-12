@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.model.PlayRequest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.core.Is.is;
 
 @DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -27,15 +27,15 @@ class PlayRequestControllerTest {
     @DisplayName("Http Method - POST")
     @Test
     void playRacingCarGameTest() {
-        final PlayRequest playRequest = new PlayRequest("이름", 10);
+        final PlayRequest playRequest = new PlayRequest("echo,io", 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(playRequest)
                 .when().post("/plays")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.OK.value())
+                .body("racingCars.size()", is(2));
     }
-
-
+    
 }
