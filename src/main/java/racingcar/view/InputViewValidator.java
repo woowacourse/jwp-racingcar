@@ -31,7 +31,7 @@ public class InputViewValidator {
 
     private boolean isDuplicated(String[] splitCarNames) {
         Set<String> removedDuplicatedSplitCarNames = Arrays.stream(splitCarNames)
-                .collect(Collectors.toSet());
+                                                           .collect(Collectors.toSet());
         return splitCarNames.length != removedDuplicatedSplitCarNames.size();
     }
 

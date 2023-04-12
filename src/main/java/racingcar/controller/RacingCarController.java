@@ -1,12 +1,15 @@
 package racingcar.controller;
 
-import racingcar.util.NumberGenerator;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
+import racingcar.util.NumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RacingCarController {
@@ -44,8 +47,8 @@ public class RacingCarController {
 
     private List<Car> generateCars(String[] carNames) {
         return Arrays.stream(carNames)
-                .map(carName -> new Car(carName, START_POSITION))
-                .collect(Collectors.toUnmodifiableList());
+                     .map(carName -> new Car(carName, START_POSITION))
+                     .collect(Collectors.toUnmodifiableList());
     }
 
     private void showWinners(RacingCars racingCars) {
@@ -80,7 +83,7 @@ public class RacingCarController {
 
     private List<String> convertWinnersNameForPrint(List<Car> winners) {
         return winners.stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
+                      .map(Car::getName)
+                      .collect(Collectors.toList());
     }
 }
