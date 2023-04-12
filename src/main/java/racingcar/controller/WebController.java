@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -91,5 +92,11 @@ public class WebController {
         if (names.size() != namesWithoutDuplication.size()) {
             throw new IllegalArgumentException(DUPLICATING_NAME_EXCEPTION_MESSAGE);
         }
+    }
+
+    @ResponseBody
+    @ExceptionHandler
+    public ExceptionMessageDTO handle(IllegalArgumentException ex) {
+        return new ExceptionMessageDTO(ex.getMessage());
     }
 }

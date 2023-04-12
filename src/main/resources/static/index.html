@@ -50,21 +50,25 @@
     })
         .then(response => {
           if (response.ok) {
-            return response.json();
+              return response.json();
           } else {
             throw new Error("Network response was not ok.");
           }
         })
         .then(data => {
-          const resultPosition = document.createElement("div");
-          for (let index in data.racingCars) {
-            const span = document.createElement("span");
-            span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
-            resultPosition.appendChild(span);
+          if(data.success){
+            const resultPosition = document.createElement("div");
+                      for (let index in data.racingCars) {
+                        const span = document.createElement("span");
+                        span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
+                        resultPosition.appendChild(span);
+                      }
+                      document.getElementById("resultWinner").innerHTML = data.winners
+                      document.getElementById("resultPosition").innerHTML = '';
+                      document.getElementById("resultPosition").appendChild(resultPosition);
+          } else {
+            window.alert("Error:"+data.message);
           }
-          document.getElementById("resultWinner").innerHTML = data.winners
-          document.getElementById("resultPosition").innerHTML = '';
-          document.getElementById("resultPosition").appendChild(resultPosition);
         })
         .catch(error => {
           console.error("Error:", error);
