@@ -9,7 +9,7 @@ import racingcar.dto.RacingCarDto;
 
 import java.util.stream.Stream;
 
-class RoundManagerTest {
+class RacingGameTest {
     @ParameterizedTest
     @MethodSource("전진_결과_데이터")
     @DisplayName("range범위에 따른 전진 결과 테스트")
@@ -18,10 +18,10 @@ class RoundManagerTest {
         NumberGenerator numberGenerator = new DefaultNumberGenerator(num);
         AdvanceJudgement advanceJudgement = new AdvanceJudgement(range, numberGenerator);
 
-        RoundManager roundManager = new RoundManager(advanceJudgement);
-        roundManager.addRacingCar(new RacingCar("car"));
-        roundManager.runRound();
-        RacingCarDto racingCarDto = roundManager.getStatus().get(0);
+        RacingGame racingGame = new RacingGame(advanceJudgement);
+        racingGame.addRacingCar(new RacingCar("car"));
+        racingGame.runRound();
+        RacingCarDto racingCarDto = racingGame.getStatus().get(0);
         Integer position = racingCarDto.getPosition();
 
         Assertions.assertEquals(expectedPosition, position);

@@ -10,7 +10,7 @@ public class Validator {
     private static final String NAME_DUPLICATE_EXCEPTION_MESSAGE = "자동차 이름은 중복될 수 없습니다.";
     private static final String TRYCOUNT_NUMERIC_EXCEPTION_MESSAGE = "시도할 횟수는 자연수만 가능합니다.";
 
-    public void validateNames(List<String> names) {
+    public static void validateNames(List<String> names) {
         List<String> validNames = new ArrayList<>();
         for (String name : names) {
             checkNameLength(name);
@@ -19,7 +19,7 @@ public class Validator {
         }
     }
 
-    private void checkNameLength(String name) {
+    private static void checkNameLength(String name) {
         int length = name.length();
         if (NAME_MIN_LENGTH <= length && length <= NAME_MAX_LENGTH) {
             return;
@@ -27,24 +27,24 @@ public class Validator {
         throw new IllegalArgumentException(NAME_LENGTH_EXCEPTION_MESSAGE);
     }
 
-    private void checkNameDuplicate(String name, List<String> validNames) {
+    private static void checkNameDuplicate(String name, List<String> validNames) {
         if (!validNames.contains(name)) {
             return;
         }
         throw new IllegalArgumentException(NAME_DUPLICATE_EXCEPTION_MESSAGE);
     }
 
-    public void validateTryCount(String tryCount) {
+    public static void validateTryCount(String tryCount) {
         checkTryCountNumeric(tryCount);
     }
 
-    public void validateTryCount(int tryCount) {
+    public static void validateTryCount(int tryCount) {
         if (tryCount < 1) {
             throw new IllegalArgumentException(TRYCOUNT_NUMERIC_EXCEPTION_MESSAGE);
         }
     }
 
-    private void checkTryCountNumeric(String tryCount) {
+    private static void checkTryCountNumeric(String tryCount) {
         if (tryCount != null && tryCount.matches("[0-9]+") && !tryCount.equals("0")) {
             return;
         }
