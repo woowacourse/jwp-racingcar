@@ -43,7 +43,7 @@ class CarsTest {
 
         cars.move();
 
-        Long position = car.getPosition();
+        int position = car.getPosition();
         assertThat(position).isEqualTo(1L);
     }
 

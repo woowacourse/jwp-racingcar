@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 
 class PositionTest {
     @Nested
@@ -13,7 +14,7 @@ class PositionTest {
         @Test
         @DisplayName("Position 객체는 생성자로 접근이 불가능하고, 정적 메소드 of() 를 통해 생성할 수 있다.")
         void givenPosition_whenGeneratingPosition_thenReturnsPosition() {
-            long positionNumber = 30L;
+            int positionNumber = 30;
 
             Position position = Position.of(positionNumber);
 
@@ -29,8 +30,8 @@ class PositionTest {
         @Test
         @DisplayName("Position VO 객체는 내부 필드의 값이 동일하면 동일한 객체로 간주한다.")
         void givenPositionsHavingSameNumber_whenCallingEquals_thenReturnsTrue() {
-            Position position1 = Position.of(20L);
-            Position position2 = Position.of(20L);
+            Position position1 = Position.of(20);
+            Position position2 = Position.of(20);
 
             assertThat(position1)
                     .as("equals() 메소드 결과가 true이다.")
@@ -47,10 +48,10 @@ class PositionTest {
         @Test
         @DisplayName("getValue()를 통해 내부의 원시값을 가져올 수 있다.")
         void givenPosition_whenGettingValue_thenReturnsValue() {
-            long expected = 10L;
+            int expected = 10;
             Position position = Position.of(expected);
 
-            Long value = position.getValue();
+            int value = position.getValue();
 
             assertThat(value)
                     .as("getValue() 호출시 내부 필드인 Long 타입의 수를 반환한다.")
@@ -64,16 +65,16 @@ class PositionTest {
         @Test
         @DisplayName("이동 거리를 1 늘리는 plus() 메소드 호출시, 필드 내부의 값은 변하지 않고 position 값이 1 증가한 새로운 객체를 반환한다.")
         void givenPosition_whenAddingPosition_thenReturnsNewPosition() {
-            Position position = Position.of(3L);
+            Position position = Position.of(3);
 
             Position plusPosition = position.plus();
 
             assertThat(position.getValue())
                     .as("처음 생성한 position 객체의 내부 값은 그대로 있다.")
-                    .isEqualTo(3L);
+                    .isEqualTo(3);
             assertThat(plusPosition.getValue())
                     .as("plus() 메소드 호출 후 새로 생성되어 반환된 객체는 position 값이 1 증가해 있다.")
-                    .isEqualTo(4L);
+                    .isEqualTo(4);
         }
     }
 
@@ -83,7 +84,7 @@ class PositionTest {
         @Test
         @DisplayName("주어진 이동 정도 값을 나타내는 Position 객체인 지 확인하고 싶을 때에는 isValueOf 메소드를 호출할 수 있다.")
         void givenPositionNumber_whenCallingIsValueOf_thenReturnsIfPositionHavingGivenNumber() {
-            long positionNumber = 30L;
+            int positionNumber = 30;
             Position position = Position.of(positionNumber);
 
             assertThat(position.isValueOf(positionNumber))
