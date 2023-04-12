@@ -2,7 +2,7 @@ package racingcar.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
@@ -18,6 +18,8 @@ import racingcar.dto.RacingCarResultDto;
 
 @Service
 public class RacingGameService {
+    public static final int MOVABLE_MIN_THRESHOLD = 4;
+    public static final int MOVABLE_MAX_THRESHOLD = 9;
 
     private final GameDao gameDao;
     private final CarDao carDao;
@@ -28,28 +30,27 @@ public class RacingGameService {
     }
 
     public long run(List<String> carNames, int count) {
-        RacingGame racingGame = initializeRoundManager(carNames);
-        IntStream.range(0, count).forEach(ignored -> racingGame.runRound());
+        RacingGame racingGame = initializeGame(carNames);
+
+        for (int i = 0; i < count; i++) {
+            racingGame.runRound();
+        }
 
         long gameId = gameDao.save(count);
 
         Map<RacingCar, GameResult> results = racingGame.getResult();
-
         results.forEach((racingCar, isWin) ->
                 carDao.save(RacingCarResultDto.of(racingCar, isWin.getValue(), gameId)));
 
         return gameId;
     }
 
-    private RacingGame initializeRoundManager(List<String> carNames) {
-        Range range = new Range(4, 9);
+    private RacingGame initializeGame(List<String> carNames) {
+        Range range = new Range(MOVABLE_MIN_THRESHOLD, MOVABLE_MAX_THRESHOLD);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         AdvanceJudgement advanceJudgement = new AdvanceJudgement(range, numberGenerator);
-        RacingGame racingGame = new RacingGame(advanceJudgement);
-        for (String carName : carNames) {
-            racingGame.addRacingCar(new RacingCar(carName));
-        }
-        return racingGame;
+        List<RacingCar> racingCars = carNames.stream().map(RacingCar::new).collect(Collectors.toUnmodifiableList());
+        return new RacingGame(racingCars, advanceJudgement);
     }
 
     public List<String> findWinnersById(long id) {
