@@ -2,10 +2,12 @@ package racingcar.controller;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.dto.RacingCarGameDto;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -14,10 +16,10 @@ public class RacingcarController {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
-    @GetMapping("/")
-    public void run() {
-        Cars cars = makeCars();
-        TryCount tryCount = makeTryCount();
+    @PostMapping(path = "/plays")
+    public void run(@RequestBody RacingCarGameDto racingCarGameDto) {
+        Cars cars = new Cars(racingCarGameDto.getNames());
+        TryCount tryCount = new TryCount(racingCarGameDto.getTryCount());
         outputView.printResultMessage();
         playRound(cars, tryCount);
         outputView.printWinners(cars.getWinner());
@@ -29,25 +31,5 @@ public class RacingcarController {
             outputView.printRoundResult(roundResult);
         }
         outputView.printRoundResult(cars.getCars());
-    }
-
-    private Cars makeCars() {
-        try {
-            outputView.printNameInput();
-            return new Cars(inputView.readCarNames());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return makeCars();
-        }
-    }
-
-    private TryCount makeTryCount() {
-        try {
-            outputView.printCountInput();
-            return new TryCount(inputView.readTryCount());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return makeTryCount();
-        }
     }
 }
