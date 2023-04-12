@@ -24,7 +24,7 @@ public class GameLogDAOTest {
         jdbcTemplate.execute("DROP TABLE game_log IF EXISTS");
         jdbcTemplate.execute("create table game_log\n" +
                 "(\n" +
-                "    gameNumber Integer,\n" +
+                "    game_number Integer,\n" +
                 "    player_name       varchar(20),\n" +
                 "    result_position   integer\n" +
                 ")");
