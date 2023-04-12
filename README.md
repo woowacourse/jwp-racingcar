@@ -27,7 +27,6 @@
 
 - ID (id)
 - 플레이 횟수 (trial_count)
-- 우승자 (winners)
 - 플레이한 날짜/시간 (time)
 
 ### Winners
