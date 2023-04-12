@@ -25,4 +25,8 @@ public class TryCount {
             count--;
         }
     }
+
+    public int getCount() {
+        return count;
+    }
 }
