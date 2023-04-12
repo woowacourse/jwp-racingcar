@@ -3,7 +3,7 @@
 ## TODO
 
 - ~~winners talbe을 foreign key만 존재핟도록 변경 (game_id, car_id)~~
-    - cars table에서 winner의 car id를 다시 얻는 법에 대한 고민 필요
+    - [x] cars table에서 winner의 car id를 다시 얻는 법에 대한 고민 필요
 - 게임이 생성될때는 DB에 기록할 필요가 없는가?
 
 ## HOW

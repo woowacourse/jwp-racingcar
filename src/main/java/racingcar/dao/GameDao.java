@@ -1,7 +1,9 @@
 package racingcar.dao;
 
 import java.sql.PreparedStatement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -37,14 +39,25 @@ public class GameDao {
     }
 
     private void insertCars(final int gameId, final List<Car> cars, final List<Car> winners) {
-        final String sql = "INSERT INTO cars(game_id, name, position, is_winner) VALUES (?, ?, ?, ?)";
+        final String carsSql = "INSERT INTO cars(game_id, name, position) VALUES (?, ?, ?)";
+        final Map<Car, Integer> carIds = new HashMap<>();
 
-        jdbcTemplate.batchUpdate(sql, cars, cars.size(), (ps, argument) -> {
-            ps.setInt(1, gameId);
-            ps.setString(2, argument.getName());
-            ps.setInt(3, argument.getPosition());
-            ps.setBoolean(4, winners.contains(argument));
-        });
+        for (Car car : cars) {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                PreparedStatement preparedStatement = connection.prepareStatement(carsSql, new String[] {"id"});
+                preparedStatement.setInt(1, gameId);
+                preparedStatement.setString(2, car.getName());
+                preparedStatement.setInt(3, car.getPosition());
+                return preparedStatement;
+            }, keyHolder);
+            carIds.put(car, keyHolder.getKey().intValue());
+        }
+
+        final String winnersSql = "INSERT INTO winners(game_id, car_id) VALUES (?, ?)";
+        for (Car car : winners) {
+            jdbcTemplate.update(winnersSql, gameId, carIds.get(car));
+        }
     }
 
     private final RowMapper<TrialCountDto> rowMapper = (resultSet, rowNum) -> new TrialCountDto(
