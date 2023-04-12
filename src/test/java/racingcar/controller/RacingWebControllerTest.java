@@ -4,6 +4,8 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,7 @@ class RacingWebControllerTest {
         RestAssured.port = port;
     }
 
-    @DisplayName("정상 요청에 따른 응답을 반환한다")
+    @DisplayName("정상 요청이 오면 상태코드 OK 반환")
     @Test
     void requestSuccess() {
         final TrackRequest trackRequest = new TrackRequest("gray,hoy,logan", "10");
@@ -34,5 +36,24 @@ class RacingWebControllerTest {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", is(2));
+    }
+
+
+    @DisplayName("잘못된 이름 요청이 오면 상태코드 Bad Request 반환")
+    @ParameterizedTest
+    @CsvSource(value = {"gray.hoy.logan:InvalidCarNameFormatException",
+            "gra@,ho@,l@gan:InvalidCarNameFormatException",
+            "grayyy,hoy,logan:ExceedCarNameLengthException",
+            "hoy,hoy,hoy:DuplicateCarNamesException"}, delimiter = ':')
+    void requestFailWithWrongName(String names, String exceptionMessage) {
+        final TrackRequest trackRequest = new TrackRequest(names, "10");
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(trackRequest)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body(is(exceptionMessage));
     }
 }
