@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Repository
 public class PlayersInfoDAO {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public PlayersInfoDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Repository
 public class PlayerResultDAO {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public PlayerResultDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

@@ -1,8 +1,8 @@
 package racingcar.dto;
 
 public class RequestDto {
-    String names;
-    int count;
+    private final String names;
+    private final int count;
 
     public RequestDto(String names, int count) {
         this.names = names;
