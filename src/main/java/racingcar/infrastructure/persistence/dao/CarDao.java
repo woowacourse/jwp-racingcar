@@ -4,22 +4,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.infrastructure.persistence.entity.CarEntity;
 
-import java.sql.PreparedStatement;
 import java.util.List;
-
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Component
 public class CarDao {
 
     private final JdbcTemplate template;
     private final SimpleJdbcInsert simpleJdbcInsert;
-
 
     public CarDao(final JdbcTemplate template) {
         this.template = template;

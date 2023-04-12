@@ -18,10 +18,10 @@ public class Winners {
         int winnerPosition = getWinnerPosition(cars);
 
         return cars.getCars().stream()
-                    .filter(isSamePosition(winnerPosition))
-                    .map(Car::getCarName)
-                    .map(Winner::new)
-                    .collect(Collectors.toUnmodifiableList());
+                .filter(isSamePosition(winnerPosition))
+                .map(Car::getCarName)
+                .map(Winner::new)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private int getWinnerPosition(Cars cars) {
