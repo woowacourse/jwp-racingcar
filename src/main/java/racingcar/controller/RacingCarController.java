@@ -39,7 +39,7 @@ public class RacingCarController {
 
     private RacingCars generateRacingCarsStep(String[] carNames) {
         List<Car> cars = generateCars(carNames);
-        return new RacingCars(cars);
+        return null;
     }
 
     private List<Car> generateCars(String[] carNames) {
@@ -59,7 +59,7 @@ public class RacingCarController {
             List<Car> currentCars = racingCars.getCars();
             for (Car currentCar : currentCars) {
                 int randomValue = numberGenerator.generate();
-                currentCar.move(currentCar.canMoving(randomValue));
+                currentCar.move(randomValue);
             }
             outputView.printCurrentRacingCarsPosition(convertRacingCarsResultForPrint(currentCars));
         }

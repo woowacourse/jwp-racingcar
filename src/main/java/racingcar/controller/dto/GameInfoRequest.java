@@ -5,7 +5,7 @@ public class GameInfoRequest {
     private String names;
     private int count;
 
-    public GameInfoRequest() {
+    private GameInfoRequest() {
     }
 
     public String getNames() {

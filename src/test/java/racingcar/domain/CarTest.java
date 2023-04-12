@@ -36,19 +36,11 @@ class CarTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    @ParameterizedTest
-    @CsvSource(value = {"1:false", "3:false", "6:true", "7:true"}, delimiter = ':')
-    @DisplayName("자동차 전진 여부 결정 기능 테스트")
-    void carCanMovingTest(int power, boolean expected) {
-        Assertions.assertThat(car.canMoving(power)).isEqualTo(expected);
-    }
-
     @Test
     @DisplayName("자동차 전진 안하는 경우 테스트")
     void carNotMoveTest() {
         int beforePosition = car.getPosition();
-        car.move(false);
+        car.move(3);
 
         Assertions.assertThat(car.getPosition()).isEqualTo(beforePosition);
     }
@@ -57,7 +49,7 @@ class CarTest {
     @DisplayName("자동차 전진 하는 경우 테스트")
     void carMoveTest() {
         int beforePosition = car.getPosition();
-        car.move(true);
+        car.move(4);
 
         Assertions.assertThat(car.getPosition()).isEqualTo(beforePosition + 1);
     }

@@ -6,9 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.GameInfoRequest;
 import racingcar.controller.dto.RaceResultResponse;
 import racingcar.service.RaceResultService;
+import racingcar.view.InputViewValidator;
 
 @RestController
 public class RacingCarWebController {
+
+    private static final String CAR_NAMES_BLANK_ERROR = "[ERROR] 경주할 자동차 이름이 입력되지 않았습니다.";
+    private static final String TRY_NUM_NOT_POSITIVE_ERROR = "[ERROR] 시도할 횟수는 1 이상이어야 합니다.";
 
     private final RaceResultService raceResultService;
 
@@ -18,6 +22,16 @@ public class RacingCarWebController {
 
     @PostMapping("/plays")
     public RaceResultResponse showRaceResults(@RequestBody GameInfoRequest gameInfoRequest) {
+        final String names = gameInfoRequest.getNames();
+        if (names.length() < 1) {
+            throw new IllegalArgumentException(CAR_NAMES_BLANK_ERROR);
+        }
+
+        final int trialCount = gameInfoRequest.getCount();
+        if (trialCount <= 0) {
+            throw new IllegalArgumentException(TRY_NUM_NOT_POSITIVE_ERROR);
+        }
+
         return raceResultService.searchRaceResult(gameInfoRequest);
     }
 }

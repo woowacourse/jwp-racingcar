@@ -11,21 +11,16 @@ import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.util.NumberGenerator;
-import racingcar.view.InputViewValidator;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class RaceResultService {
 
-    private static final String CAR_NAMES_DELIMITER = ",";
-    private static final int START_POSITION = 0;
 
     private final RaceResultDao raceResultDao;
     private final CarDao carDao;
-    private final InputViewValidator inputViewValidator = new InputViewValidator();
     private final NumberGenerator numberGenerator;
 
     public RaceResultService(final RaceResultDao raceResultDao, final CarDao carDao,
@@ -38,13 +33,7 @@ public class RaceResultService {
     public RaceResultResponse searchRaceResult(final GameInfoRequest gameInfoRequest) {
 
         final String names = gameInfoRequest.getNames();
-
-        inputViewValidator.validateCarNames(names);
-        String[] splitCarNames = getSplitCarNames(names);
-        inputViewValidator.validateSplitCarNames(splitCarNames);
-
-        RacingCars racingCars = generateRacingCarsStep(splitCarNames);
-
+        final RacingCars racingCars = RacingCars.makeCars(names);
         final int tryCount = gameInfoRequest.getCount();
 
         racingCars.moveAllCars(tryCount, numberGenerator);
@@ -73,21 +62,6 @@ public class RaceResultService {
                           .collect(Collectors.toList());
 
         return new RaceResultResponse(findWinners(racingCars), carStatusResponses);
-    }
-
-    private RacingCars generateRacingCarsStep(String[] carNames) {
-        List<Car> cars = generateCars(carNames);
-        return new RacingCars(cars);
-    }
-
-    private String[] getSplitCarNames(String carNames) {
-        return carNames.split(CAR_NAMES_DELIMITER, -1);
-    }
-
-    private List<Car> generateCars(String[] carNames) {
-        return Arrays.stream(carNames)
-                     .map(carName -> new Car(carName, START_POSITION))
-                     .collect(Collectors.toUnmodifiableList());
     }
 
     private List<String> findWinners(RacingCars racingCars) {

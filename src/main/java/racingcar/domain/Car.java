@@ -33,12 +33,12 @@ public class Car implements Comparable<Car> {
         return carName.equals("");
     }
 
-    public boolean canMoving(final int power) {
+    private boolean canMoving(final int power) {
         return power >= MIN_MOVING_NUM;
     }
 
-    public void move(boolean isMoving) {
-        if (isMoving) {
+    public void move(final int power) {
+        if (canMoving(power)) {
             this.position++;
         }
     }
