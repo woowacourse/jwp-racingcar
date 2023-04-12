@@ -1,15 +1,16 @@
-package racingcar.application;
+package racingcar;
 
 import java.util.Scanner;
-import racingcar.controller.RacingGameController;
+import racingcar.controller.RacingCarConsoleController;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarConsoleApplication {
 
     public static void main(String[] args) {
-        final RacingGameController racingGameController = new RacingGameController(inputView(), outputView());
-        racingGameController.run();
+        final RacingCarConsoleController racingCarConsoleController = new RacingCarConsoleController(inputView(),
+                outputView());
+        racingCarConsoleController.run();
     }
 
     private static InputView inputView() {
