@@ -79,6 +79,5 @@ class RacingGameControllerTest {
         final String s = StringUtils.replaceWhitespaceCharacters(ex, "");
         assertThat(contentAsString)
                 .isEqualTo(s);
-
     }
 }

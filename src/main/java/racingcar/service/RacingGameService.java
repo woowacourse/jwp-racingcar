@@ -43,8 +43,8 @@ public class RacingGameService {
         private final String winners;
         private final List<CarDto> racingCars;
 
-        public GameResult(final Cars cars, final Winners winners) {
-            this.racingCars = cars.getCars().stream()
+        public GameResult(final List<Car> cars, final Winners winners) {
+            this.racingCars = cars.stream()
                     .map(CarDto::new)
                     .collect(Collectors.toList());
             this.winners = winners.getWinners().stream()

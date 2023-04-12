@@ -2,6 +2,8 @@ package racingcar.domain;
 
 import racingcar.domain.numbergenerator.NumberGenerator;
 
+import java.util.List;
+
 public class RacingGame {
 
     private final Cars cars;
@@ -23,8 +25,8 @@ public class RacingGame {
         return new Winners(cars);
     }
 
-    public Cars getCars() {
-        return cars;
+    public List<Car> getCars() {
+        return cars.getCars();
     }
 
     public int getGameTimeValue() {

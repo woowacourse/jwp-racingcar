@@ -36,15 +36,23 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
     public Long save(final RacingGame racingGame) {
         final RacingGameEntity racingGameEntity = new RacingGameEntity(racingGame);
         final Long id = racingGameDao.save(racingGameEntity);
-        racingGame.getCars().getCars()
+        saveCars(racingGame, id);
+        saveWinners(racingGame, id);
+        return id;
+    }
+
+    private void saveCars(final RacingGame racingGame, final Long id) {
+        racingGame.getCars()
                 .stream()
                 .map(it -> new CarEntity(it, id))
                 .forEach(carDao::save);
+    }
+
+    private void saveWinners(final RacingGame racingGame, final Long id) {
         racingGame.winners().getWinners()
                 .stream()
                 .map(it -> new WinnerEntity(it, id))
                 .forEach(winnerDao::save);
-        return id;
     }
 
     @Override
@@ -53,12 +61,16 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
         if (racingGameEntity.isEmpty()) {
             return Optional.empty();
         }
-        final RacingGameEntity get = racingGameEntity.get();
-        final List<CarEntity> carEntityByGameId = carDao.findByGameId(id);
-        final List<Car> carsByGameId = carEntityByGameId.stream()
+        return Optional.of(toRacingGame(id, racingGameEntity.get()));
+    }
+
+    private RacingGame toRacingGame(final Long id, final RacingGameEntity racingGameEntity) {
+        final List<Car> cars = carDao.findByGameId(id)
+                .stream()
                 .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition()))
                 .collect(Collectors.toList());
-        final Cars cars = new Cars(carsByGameId);
-        return Optional.of(new RacingGame(cars, new GameTime(String.valueOf(get.getTrialCount()))));
+        return new RacingGame(
+                new Cars(cars),
+                new GameTime(racingGameEntity.getTrialCount()));
     }
 }

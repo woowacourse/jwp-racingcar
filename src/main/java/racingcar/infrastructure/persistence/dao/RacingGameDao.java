@@ -23,7 +23,7 @@ public class RacingGameDao {
     }
 
     public Long save(final RacingGameEntity racingGameEntity) {
-        SqlParameterSource parameters = new BeanPropertySqlParameterSource(racingGameEntity);
+        final SqlParameterSource parameters = new BeanPropertySqlParameterSource(racingGameEntity);
         return (Long) simpleJdbcInsert.executeAndReturnKeyHolder(parameters)
                 .getKeys()
                 .get("id");
@@ -33,8 +33,6 @@ public class RacingGameDao {
         return Optional.ofNullable(
                 template.queryForObject("SELECT * FROM PLAY_RESULT WHERE id = ?",
                         (rs, rowNum) -> new RacingGameEntity(
-                                rs.getLong("id"),
-                                rs.getTimestamp("created_at").toLocalDateTime(),
                                 rs.getInt("trial_count")
                         ), id)
         );
