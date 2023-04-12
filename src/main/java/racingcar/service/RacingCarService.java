@@ -13,7 +13,7 @@ public class RacingCarService {
     private final int count;
     private final NumberGenerator numberGenerator;
 
-    public RacingCarService(Cars cars, int count,NumberGenerator numberGenerator) {
+    public RacingCarService(Cars cars, int count, NumberGenerator numberGenerator) {
         this.cars = cars;
         this.count = count;
         this.numberGenerator = numberGenerator;
