@@ -56,4 +56,21 @@ class RacingWebControllerTest {
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .body(is(exceptionMessage));
     }
+
+    @DisplayName("잘못된 시도 횟수 요청이 오면 상태코드 Bad Request 반환")
+    @ParameterizedTest
+    @CsvSource(value = {"two:InvalidTrialTimesFormatException",
+            "0:InvalidRangeTrialTimesException",
+            "101:InvalidRangeTrialTimesException"}, delimiter = ':')
+    void requestFailWithWrongTrialTimes(String trialTime, String exceptionMessage) {
+        final TrackRequest trackRequest = new TrackRequest("gray,hoy,logan", trialTime);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(trackRequest)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body(is(exceptionMessage));
+    }
 }
