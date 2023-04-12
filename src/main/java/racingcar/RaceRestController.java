@@ -25,7 +25,7 @@ public class RaceRestController {
 
     private RacingGame createGame(RacingGameRequest request) {
         List<String> names = splitNames(request.getNames());
-        return new RacingGame(names, new WinnerJudgeImpl());
+        return new RacingGame(names, new WinnerJudgeImpl(), request.getCount());
     }
 
     private List<String> splitNames(String names) {
