@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.race.Race;
+import racingcar.domain.race.RacingGame;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;
 
@@ -17,15 +17,15 @@ public class RaceRestController {
     public ResponseEntity<ResultDto> play(@RequestBody RacingGameRequest request) {
         // request 로 game 만들어주기
         int count = validateTryTime(request.getCount());
-        Race game = createGame(request);
+        RacingGame game = createGame(request);
         run2(game, count);
 
         return ResponseEntity.ok(new ResultDto(game.getWinners(), game.getRacingCars()));
     }
 
-    private Race createGame(RacingGameRequest request) {
+    private RacingGame createGame(RacingGameRequest request) {
         List<String> names = splitNames(request.getNames());
-        return new Race(names, new WinnerJudgeImpl());
+        return new RacingGame(names, new WinnerJudgeImpl());
     }
 
     private List<String> splitNames(String names) {
@@ -33,9 +33,9 @@ public class RaceRestController {
         return List.of(names.split(regex));
     }
 
-    private void run2(Race race, int tryTime) {
+    private void run2(RacingGame racingGame, int tryTime) {
         while (tryTime-- > 0) {
-            race.tryMoveOneTime();
+            racingGame.tryMoveOneTime();
         }
     }
 

@@ -3,11 +3,11 @@ package racingcar.domain.race;
 import java.util.List;
 import racingcar.domain.car.Car;
 
-public class Race {
+public class RacingGame {
     private final RacingCars racingCars = new RacingCars();
     private WinnerJudge winnerJudge;
 
-    public Race(List<String> carNames, WinnerJudge winnerJudge) {
+    public RacingGame(List<String> carNames, WinnerJudge winnerJudge) {
         for (String carName : carNames) {
             Car newCar = new Car(carName);
             racingCars.add(newCar);

@@ -15,7 +15,7 @@ import racingcar.dto.RacingGameRequest;
 
 @DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RaceControllerTest {
+class RacingGameControllerTest {
     @LocalServerPort
     int port;
 
