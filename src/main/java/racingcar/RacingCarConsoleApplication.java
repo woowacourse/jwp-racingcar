@@ -5,7 +5,7 @@ import racingcar.controller.RacingGameController;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class RacingGameApplication {
+public class RacingCarConsoleApplication {
 
     public static void main(String[] args) {
         final RacingGameController racingGameController = new RacingGameController(inputView(), outputView());
