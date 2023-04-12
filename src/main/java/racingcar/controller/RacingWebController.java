@@ -13,7 +13,6 @@ import racingcar.validator.Validator;
 
 @RestController
 public class RacingWebController {
-
     private final RacingGameService racingGameService;
 
     public RacingWebController(RacingGameService racingGameService) {
@@ -26,6 +25,7 @@ public class RacingWebController {
         int count = getValidTryCount(gameRequestDto.getCount());
 
         long id = racingGameService.run(carNames, count);
+
         List<String> winners = racingGameService.findWinnersById(id);
         List<RacingCarDto> racingCarDtos = racingGameService.findCarsById(id);
         return new GameResponseDto(winners, racingCarDtos);

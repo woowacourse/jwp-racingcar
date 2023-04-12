@@ -27,9 +27,8 @@ public class RacingGame {
         return results;
     }
 
-    public List<RacingCarDto> getStatus() {
-        return racingCars.stream().map(RacingCarDto::from)
-                .collect(Collectors.toUnmodifiableList());
+    public List<RacingCar> getStatus() {
+        return List.copyOf(racingCars);
     }
 
     public List<String> getWinningCarsName() {
