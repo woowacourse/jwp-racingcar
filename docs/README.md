@@ -2,8 +2,8 @@
 
 - 스프링 연결
   - [ ] POST `/plays` API
-    - [ ] Request DTO 작성
-    - [ ] Response DTO 작성
+    - [x] Request DTO 작성
+    - [x] Response DTO 작성
     - [ ] Request로 들어온 입력으로 자동차 게임 진행
     - [ ] Response로 자동차 게임 결과 전송
 
