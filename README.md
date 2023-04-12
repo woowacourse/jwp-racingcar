@@ -29,3 +29,19 @@
             - [ ] 최종 위치 (position)
         - [ ] 우승자 (winners)
         - [ ] 플레이한 날짜/시간 (time)
+
+- [x] DB 테이블
+    - [x] Race
+        - [x] id (pk) : SERIAL
+        - [x] 플레이한 날짜/시간 (time) : DATETIME DEFAULT NOW()
+
+    - [x] Winner
+        - [x] id (pk) : SERIAL
+        - [x] race_id (fk) : INT
+        - [x] player_id (fk) : INT
+
+    - [x] Player
+        - [x] id (pk) : SERIAL
+        - [x] 이름 (name) : VARCHAR(255)
+        - [x] 최종 위치 (position) : INT
+        - [x] race_id (fk) : INT
