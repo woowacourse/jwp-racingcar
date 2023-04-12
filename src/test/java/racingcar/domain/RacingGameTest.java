@@ -1,0 +1,57 @@
+package racingcar.domain;
+
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class RacingGameTest {
+
+    @ParameterizedTest
+    @MethodSource("parameterProvider")
+    void getWinnersTest(List<String> carNames, List<Integer> intendedNumbers, int gameTry, List<String> expectedWinners) {
+        IntendedNumberGenerator intendedNumberGenerator = new IntendedNumberGenerator();
+        RacingGame racingGame = new RacingGame(carNames, gameTry, intendedNumberGenerator);
+        intendedNumberGenerator.readRepository(intendedNumbers);
+
+        while (racingGame.isGameOnGoing()) {
+            racingGame.start();
+        }
+
+        assertEquals(
+                racingGame.getWinners().stream().map(Car::getCarName).collect(Collectors.toList()), expectedWinners
+        );
+    }
+
+    private Stream<Arguments> parameterProvider() {
+        return Stream.of(
+                Arguments.of(List.of("pobi", "crong"), List.of(5, 3, 9, 0, 0, 9), 3, List.of("pobi")),
+                Arguments.of(List.of("pobi", "crong"), List.of(3, 5, 9, 0, 0, 9), 3, List.of("crong")),
+                Arguments.of(List.of("pobi", "crong"), List.of(4, 4, 4, 4, 4, 4), 3, List.of("pobi", "crong")),
+                Arguments.of(List.of("pobi", "crong"), List.of(0, 0, 0, 0, 0, 0), 3, List.of("pobi", "crong")),
+                Arguments.of(List.of("pobi", "crong", "hadi"), List.of(3, 4, 9, 6, 7, 6, 0, 1, 2), 3, List.of("crong", "hadi")),
+                Arguments.of(List.of("pobi", "crong", "hadi"), List.of(7, 4, 9, 6, 7, 6, 0, 1, 2), 3, List.of("pobi", "crong", "hadi"))
+        );
+    }
+
+    class IntendedNumberGenerator implements NumberGenerator {
+
+        private List<Integer> repository;
+        private int index = 0;
+
+        public void readRepository(List<Integer> repository) {
+            this.repository = repository;
+        }
+
+        public int makeDigit() {
+            return repository.get(index++);
+        }
+    }
+}
