@@ -1,11 +1,14 @@
 package racingcar.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import racingcar.dao.GameDao;
+import racingcar.dao.CarsDao;
+import racingcar.dao.GamesDao;
+import racingcar.dao.WinnersDao;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.domain.MoveChance;
@@ -14,12 +17,15 @@ import racingcar.domain.RandomMoveChance;
 @Service
 public class GameService {
 
-    private final GameDao gameDao;
+    private final GamesDao gamesDao;
+    private final CarsDao carsDao;
+    private final WinnersDao winnersDao;
     private final MoveChance moveChance;
 
-
-    public GameService(GameDao gameDao) {
-        this.gameDao = gameDao;
+    public GameService(GamesDao gamesDao, CarsDao carsDao, WinnersDao winnersDao) {
+        this.gamesDao = gamesDao;
+        this.carsDao = carsDao;
+        this.winnersDao = winnersDao;
         this.moveChance = RandomMoveChance.getInstance();
     }
 
@@ -38,6 +44,12 @@ public class GameService {
             game.playOnceWith(moveChance);
         }
 
-        gameDao.insertResult(game);
+        insertResultOf(game);
+    }
+
+    private void insertResultOf(final Game game) {
+        int gameId = gamesDao.insert(game.getTrialCount());
+        Map<Car, Integer> carIds = carsDao.insert(gameId, game.getCars());
+        winnersDao.insert(gameId, carIds, game.findWinners());
     }
 }
