@@ -49,7 +49,7 @@ public class RacingGameService {
         return racingGame;
     }
 
-    private static GameResponse toGameResponse(final String winners, final List<Car> cars) {
+    private GameResponse toGameResponse(final String winners, final List<Car> cars) {
         final List<CarDto> carDtos = cars.stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
