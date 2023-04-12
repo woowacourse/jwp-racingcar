@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.dao.JdbcTemplateDAO;
 import racingcar.domain.Car;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
@@ -11,6 +12,7 @@ import racingcar.domain.TryCount;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameInfoDto;
 import racingcar.dto.GameResultDto;
+import racingcar.dto.GameResultResponseDto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +21,14 @@ import java.util.stream.Collectors;
 
 @RestController
 public class WebRacingGameController {
+    private final JdbcTemplateDAO jdbcTemplateDAO;
+
+    public WebRacingGameController(JdbcTemplateDAO jdbcTemplateDAO) {
+        this.jdbcTemplateDAO = jdbcTemplateDAO;
+    }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResultDto> playGame(@RequestBody GameInfoDto request) {
+    public ResponseEntity<GameResultResponseDto> playGame(@RequestBody GameInfoDto request) {
         List<Name> names = Arrays.stream(request.getNames().split(","))
                 .map(Name::new)
                 .collect(Collectors.toList());
@@ -43,6 +50,8 @@ public class WebRacingGameController {
             carDtoList.add(new CarDto(car.getName(), car.getPosition()));
         }
 
-        return ResponseEntity.ok(new GameResultDto(winners, carDtoList));
+        jdbcTemplateDAO.saveResult(new GameResultDto(trycount.getCount(), winners, carDtoList));
+
+        return ResponseEntity.ok(new GameResultResponseDto(winners, carDtoList));
     }
 }

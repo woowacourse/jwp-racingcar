@@ -1,0 +1,45 @@
+package racingcar.dao;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+import racingcar.dto.CarDto;
+import racingcar.dto.GameResultDto;
+
+import java.sql.PreparedStatement;
+import java.util.List;
+
+@Repository
+public class JdbcTemplateDAO {
+    private final JdbcTemplate jdbcTemplate;
+
+    public JdbcTemplateDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void saveResult(GameResultDto resultDto) {
+        String sql = "insert into GAME_RESULT (winners,trial_count) values (?,?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update((connection) -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
+            preparedStatement.setString(1, resultDto.getWinners());
+            preparedStatement.setInt(2, resultDto.getTrialCount());
+            return preparedStatement;
+        }, keyHolder);
+
+        savePlayerResult(keyHolder.getKey().intValue(), resultDto.getRacingCars());
+    }
+
+    private void savePlayerResult(int gameId, List<CarDto> carDtoList) {
+        String sql = "insert into PLAYER_RESULT (name, position, game_id) values (?,?,?)";
+
+        jdbcTemplate.batchUpdate(sql, carDtoList, carDtoList.size(),
+                (PreparedStatement preparedStatement, CarDto carDto) -> {
+                    preparedStatement.setString(1, carDto.getName());
+                    preparedStatement.setInt(2, carDto.getPosition());
+                    preparedStatement.setInt(3, gameId);
+                });
+    }
+}
