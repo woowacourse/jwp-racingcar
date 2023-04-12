@@ -1,24 +1,26 @@
 package racingcar.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.CarResultEntity;
 
-import java.sql.PreparedStatement;
+import javax.sql.DataSource;
 
 @Repository
 public class CarResultMapper {
 
-    @Autowired
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public CarResultMapper(JdbcTemplate jdbcTemplate) {
+    public CarResultMapper(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("car_result")
+                .usingGeneratedKeyColumns("id");
     }
 
     private final RowMapper<CarResultEntity> entityRowMapper = (resultSet, rowNum) -> {
@@ -32,18 +34,8 @@ public class CarResultMapper {
     };
 
     public long save(CarResultEntity carResultEntity) {
-        String sql = "INSERT INTO car_result(play_result_id, name, position) VALUES (?, ?, ?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        PreparedStatementCreator psc = (connection) -> {
-            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setLong(1, carResultEntity.getPlayResultId());
-            ps.setString(2, carResultEntity.getName());
-            ps.setInt(3, carResultEntity.getPosition());
-            return ps;
-        };
-
-        jdbcTemplate.update(psc, keyHolder);
-        return keyHolder.getKey().longValue();
+        SqlParameterSource source = new BeanPropertySqlParameterSource(carResultEntity);
+        return simpleJdbcInsert.executeAndReturnKey(source).longValue();
     }
 
     public CarResultEntity findById(long id) {

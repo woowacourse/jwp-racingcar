@@ -24,7 +24,7 @@ class CarResultMapperTest {
 
     @BeforeEach
     void setUp() {
-        jdbcTemplate.execute("DROP TABLE car IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE car_result IF EXISTS");
         jdbcTemplate.execute("CREATE TABLE CAR_RESULT" +
                 "(" +
                 "    id             INT         NOT NULL AUTO_INCREMENT," +
