@@ -32,10 +32,9 @@ public class GameController {
     // 매핑(직렬화)을 누가 해주는지 공부하면 좋을 것 같다.
     public ResponseEntity<ResultResponse> playGame(@RequestBody PlayRequest playRequest) {
         final List<String> names = List.of(playRequest.getNames().split(CAR_NAME_SEPARATOR));
-        final List<Car> cars = makeCarsWith(trim(names));
         final int playCount = playRequest.getCount();
 
-        final Game game = new Game(cars, playCount);
+        final Game game = gameService.createGameWith(trim(names), playCount);
         gameService.play(game);
 
         List<String> winnerNames = getNamesOf(game.findWinners());
@@ -44,19 +43,9 @@ public class GameController {
         return ResponseEntity.ok(new ResultResponse(winnerNames, finishedCars));
     }
 
-    // private 메서드들이 존재해도 되나?
-    // 필립: 너무 구체적인 메서드들이다(상세하다).
-    // 땡칠: 상관은 없을 것 같다, 컨트롤러가 이런일을 해도 될것같다.
     private List<String> getNamesOf(List<Car> cars) {
         return cars.stream()
                 .map(Car::getName)
-                .collect(Collectors.toList());
-    }
-
-    // 정팩메
-    private List<Car> makeCarsWith(List<String> carNames) {
-        return carNames.stream()
-                .map(Car::new)
                 .collect(Collectors.toList());
     }
 

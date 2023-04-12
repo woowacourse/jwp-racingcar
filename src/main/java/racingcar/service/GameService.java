@@ -14,6 +14,16 @@ public class GameService {
         this.moveChance = moveChance;
     }
 
+    public Game createGameWith(List<String> names, int trialCount) {
+        return new Game(makeCarsWith(names), trialCount);
+    }
+
+    private List<Car> makeCarsWith(List<String> carNames) {
+        return carNames.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
+    }
+
     public void play(Game game) {
         while (game.isNotDone()) {
             game.playOnceWith(moveChance);
