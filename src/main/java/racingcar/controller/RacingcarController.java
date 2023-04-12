@@ -1,9 +1,12 @@
 package racingcar.controller;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.service.RacingResponse;
 import racingcar.service.RacingcarService;
@@ -27,6 +30,12 @@ public class RacingcarController {
     @GetMapping("/plays")
     public List<RacingResponse> allResults(){
         return racingcarService.allResults();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorMessage handler(IllegalArgumentException exception){
+        return new ErrorMessage(exception.getMessage());
     }
 
 }
