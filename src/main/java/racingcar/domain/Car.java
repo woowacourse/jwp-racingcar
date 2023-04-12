@@ -5,7 +5,7 @@ public class Car {
     private static final int MIN_BOUNDARY_POWER = 4;
 
     private final CarName carName;
-    private Distance distance;
+    private final Distance distance;
 
     public Car(final String name, final int distance) {
         this.carName = new CarName(name);
