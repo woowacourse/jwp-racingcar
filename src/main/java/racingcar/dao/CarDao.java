@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarResultDto;
 
 @Repository
@@ -30,5 +31,16 @@ public class CarDao {
         String sql = "select name from car where game_id = :game_id and is_win = 1";
         Map<String, Long> parameter = Collections.singletonMap("game_id", gameId);
         return jdbcTemplate.query(sql, parameter, (resultSet, count) -> resultSet.getString("name"));
+    }
+
+    public List<RacingCarDto> findCarsById(long gameId) {
+        String sql = "select name, position from car where game_id = :game_id";
+        Map<String, Long> parameter = Collections.singletonMap("game_id", gameId);
+        return jdbcTemplate.query(sql, parameter, (resultSet, count) ->
+        {
+            String name = resultSet.getString("name");
+            int position = resultSet.getInt("position");
+            return RacingCarDto.of(name, position);
+        });
     }
 }
