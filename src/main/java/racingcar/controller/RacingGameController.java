@@ -1,43 +1,34 @@
 package racingcar.controller;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import racingcar.domain.Names;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
 
-
+@Controller
 public class RacingGameController {
 
-    private RacingCars racingCars;
-    private TryCount tryCount;
+    @PostMapping("/play")
+    public ResponseEntity<RacingCarResponse> play(@RequestBody final RacingCarRequest racingCarRequest) {
+        RacingCars racingCars = createRacingCar(racingCarRequest);
+        TryCount tryCount = new TryCount(racingCarRequest.getTryCount());
 
-    public void start() {
-        setUpGame();
-        playGame();
+        playGame(racingCars, tryCount);
+
+        return ResponseEntity.ok().body(
+                new RacingCarResponse(racingCars.getWinnerNames(), racingCars.getRacingCars()
+                ));
     }
 
-    private void setUpGame() {
-        racingCars = createRacingCar();
-        tryCount = getTryCount();
-    }
-
-    private RacingCars createRacingCar() {
-        Names names = getNames();
+    private RacingCars createRacingCar(RacingCarRequest racingCarRequest) {
+        Names names = new Names(racingCarRequest.getNames());
         return new RacingCars(createRacingCar(names));
-    }
-
-    private Names getNames() {
-        try {
-            return new Names(InputView.requestCarName());
-        } catch (IllegalArgumentException e) {
-            OutputView.printErrorMessage(e.getMessage());
-            return getNames();
-        }
     }
 
     private List<RacingCar> createRacingCar(Names names) {
@@ -47,28 +38,14 @@ public class RacingGameController {
                 .collect(Collectors.toList());
     }
 
-    private TryCount getTryCount() {
-        try {
-            return new TryCount(InputView.requestTryCount());
-        } catch (IllegalArgumentException e) {
-            OutputView.printErrorMessage(e.getMessage());
-            return getTryCount();
-        }
-    }
-
-    private void playGame() {
-        OutputView.printResultMessage();
-
-        while (canProceed()) {
+    private void playGame(RacingCars racingCars, TryCount tryCount) {
+        while (canProceed(tryCount)) {
             racingCars.moveAll();
-            this.tryCount = tryCount.deduct();
-            OutputView.printScoreBoard(racingCars);
+            tryCount = tryCount.deduct();
         }
-
-        OutputView.printWinner(racingCars);
     }
 
-    private boolean canProceed() {
+    private boolean canProceed(TryCount tryCount) {
         return tryCount.isOpportunity();
     }
 }
