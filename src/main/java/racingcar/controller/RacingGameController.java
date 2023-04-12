@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import java.util.InputMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ public class RacingGameController {
 
     private final RacingCarService racingCarService;
 
+    @Autowired
     public RacingGameController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }

@@ -4,8 +4,8 @@ import racingcar.domain.Car;
 
 public class CarStatusResponseDto {
 
-    private String name;
-    private int position;
+    private final String name;
+    private final int position;
 
     private CarStatusResponseDto(final String name, final int position) {
         this.name = name;

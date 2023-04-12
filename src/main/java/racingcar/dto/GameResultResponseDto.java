@@ -6,8 +6,8 @@ import racingcar.domain.Cars;
 
 public class GameResultResponseDto {
 
-    private List<String> winners;
-    private List<CarStatusResponseDto> racingCars;
+    private final List<String> winners;
+    private final List<CarStatusResponseDto> racingCars;
 
     private GameResultResponseDto(final List<String> winners, final List<CarStatusResponseDto> racingCars) {
         this.winners = winners;

@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameResultDao;
@@ -15,6 +16,7 @@ public class RacingCarService {
     private final RandomPowerGenerator randomPowerGenerator;
     private final GameResultDao gameResultDao;
 
+    @Autowired
     public RacingCarService(final GameResultDao gameResultDao) {
         this.randomPowerGenerator = new RandomPowerMaker();
         this.gameResultDao = gameResultDao;
@@ -25,7 +27,7 @@ public class RacingCarService {
         moveCars(cars, tryCount);
         GameResultResponseDto gameResult = GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
 
-        gameResultDao.save(tryCount, gameResult);
+        gameResultDao.saveGame(tryCount, gameResult);
         return gameResult;
     }
 

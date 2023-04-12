@@ -23,15 +23,14 @@ public class GameResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void save(final TryCount tryCount, final GameResultResponseDto gameResult) {
-        int gameId = saveGame(tryCount);
-        savePlayerStatus(gameResult, gameId);
+    public void saveGame(final TryCount tryCount, final GameResultResponseDto gameResult) {
+        int gameId = saveGameHistory(tryCount);
+        savePlayersStatus(gameResult, gameId);
     }
 
-    public int saveGame(final TryCount tryCount) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
+    public int saveGameHistory(final TryCount tryCount) {
         String sql = "INSERT INTO game (trialCount, dateTime) VALUES (?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -43,7 +42,7 @@ public class GameResultDao {
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
-    private void savePlayerStatus(final GameResultResponseDto gameResult, final int gameId) {
+    private void savePlayersStatus(final GameResultResponseDto gameResult, final int gameId) {
         String sql = "INSERT INTO player (game_id, name, position, isWinner) VALUES (?, ?, ?, ?)";
 
         gameResult.getRacingCars()
