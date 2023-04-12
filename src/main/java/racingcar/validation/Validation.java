@@ -1,6 +1,6 @@
 package racingcar.validation;
 
-import constant.ExceptionMessage;
+import racingcar.constant.ExceptionMessage;
 
 public class Validation {
     private static final int MIN_TRY_COUNT_INPUT = 1;

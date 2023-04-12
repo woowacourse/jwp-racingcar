@@ -1,11 +1,11 @@
 package racingcar.controller;
 
-import domain.Cars;
-import util.RandomNumberGenerator;
-import validation.Validation;
-import view.InputView;
-import view.MessageView;
-import view.OutputView;
+import racingcar.domain.Cars;
+import racingcar.util.RandomNumberGenerator;
+import racingcar.validation.Validation;
+import racingcar.view.InputView;
+import racingcar.view.MessageView;
+import racingcar.view.OutputView;
 
 public class Controller {
     private final Validation validation = new Validation();

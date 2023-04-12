@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import constant.ExceptionMessage;
+import racingcar.constant.ExceptionMessage;
 
 import java.util.Scanner;
 
