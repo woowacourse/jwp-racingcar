@@ -3,9 +3,8 @@ package racingcar.dao;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarResultDto;
@@ -19,10 +18,9 @@ public class CarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void save(RacingCarResultDto racingCarResultDto) {
+    public void saveAll(List<RacingCarResultDto> racingCarResultDtos) {
         String sql = "INSERT INTO car (name, position, is_win, game_id) VALUES (:name, :position, :isWin, :gameId)";
-        SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(racingCarResultDto);
-        jdbcTemplate.update(sql, namedParameters);
+        jdbcTemplate.batchUpdate(sql, SqlParameterSourceUtils.createBatch(racingCarResultDtos));
     }
 
     public List<String> findWinnersById(long gameId) {

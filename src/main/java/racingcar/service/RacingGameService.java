@@ -27,11 +27,13 @@ public class RacingGameService {
         for (int i = 0; i < count; i++) {
             racingGame.runRound();
         }
-
         long gameId = gameDao.save(count);
-
-        racingGame.calculateResult()
-                .forEach((racingCar, isWin) -> carDao.save(RacingCarResultDto.of(racingCar, isWin.getValue(), gameId)));
+        List<RacingCarResultDto> results = racingGame.calculateResult()
+                .entrySet()
+                .stream()
+                .map((e) -> RacingCarResultDto.of(e.getKey(), e.getValue().getValue(), gameId))
+                .collect(Collectors.toUnmodifiableList());
+        carDao.saveAll(results);
         return gameId;
     }
 
