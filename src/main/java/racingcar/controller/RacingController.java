@@ -10,6 +10,7 @@ import racingcar.view.OutputView;
 
 public class RacingController {
     private static final int START_INDEX = 0;
+
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final Cars cars = new Cars();
