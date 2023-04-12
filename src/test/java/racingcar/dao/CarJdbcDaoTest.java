@@ -1,8 +1,5 @@
 package racingcar.dao;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -14,6 +11,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.utils.TestNumberGenerator;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
