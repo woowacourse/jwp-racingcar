@@ -19,12 +19,6 @@ public class Cars {
         cars.forEach(car -> car.race(generator));
     }
 
-    public List<CarDto> getCarsDto() {
-        return cars.stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
-    }
-
     public WinnerCarDto getWinner() {
         Car winner = cars.stream()
                 .max(Car::compareTo)
@@ -39,8 +33,6 @@ public class Cars {
                 .map(Car::getName)
                 .collect(Collectors.toList());
     }
-
-
 
     private List<CarDto> findPlayers() {
         return cars.stream()
