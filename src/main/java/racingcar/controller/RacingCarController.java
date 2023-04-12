@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +26,7 @@ public class RacingCarController {
 
     @PostMapping("/plays")
     @ResponseBody
-    public GameResponse createGame(@RequestBody GameRequest gameRequest) {
+    public GameResponse createGame(@Valid @RequestBody GameRequest gameRequest) {
         List<String> carNames = splitNames(gameRequest);
         racingCarService.createGame(carNames);
 
