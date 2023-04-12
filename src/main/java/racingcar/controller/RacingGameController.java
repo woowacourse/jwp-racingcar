@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.dao.GameResultDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
@@ -17,22 +18,28 @@ import racingcar.utils.RandomPowerMaker;
 @RestController
 public class RacingGameController {
 
-    private final RandomPowerGenerator randomPowerGenerator = new RandomPowerMaker();
+    private final RandomPowerGenerator randomPowerGenerator;
+    private final GameResultDao gameResultDao;
+
+    public RacingGameController(final GameResultDao gameResultDao) {
+        this.randomPowerGenerator = new RandomPowerMaker();
+        this.gameResultDao = gameResultDao;
+    }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResultResponseDto> startGame(@RequestBody StartGameRequestDto request) {
+    public ResponseEntity<GameResultResponseDto> startGame(@RequestBody final StartGameRequestDto request) {
         Cars cars = getCars(request.getNames());
         TryCount tryCount = getTryCount(request.getCount());
 
         GameResultResponseDto gameResult = startRace(cars, tryCount);
+        gameResultDao.save(tryCount, gameResult);
 
         return new ResponseEntity<>(gameResult, HttpStatus.OK);
     }
 
     private Cars getCars(final String input) {
-        String[] carNames = input.split(",");
-
         try {
+            String[] carNames = input.split(",");
             return CarsFactory.createCars(carNames);
         } catch (IllegalArgumentException exception) {
             throw new IllegalArgumentException(exception.getMessage());
@@ -47,12 +54,11 @@ public class RacingGameController {
         }
     }
 
-    private GameResultResponseDto startRace(Cars cars, TryCount tryCount) {
+    private GameResultResponseDto startRace(final Cars cars, final TryCount tryCount) {
         for (int i = 0; i < tryCount.getTryCount(); i++) {
             cars.moveAll(randomPowerGenerator);
         }
 
-        String winners = String.join(",", cars.getWinnerNames());
-        return GameResultResponseDto.toDto(winners, cars);
+        return GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
     }
 }
