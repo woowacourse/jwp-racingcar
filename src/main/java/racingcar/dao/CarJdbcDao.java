@@ -20,7 +20,20 @@ public class CarJdbcDao implements CarDao {
     }
 
     @Override
-    public void saveAll(Long racingGameId, List<CarDto> racingCars) {
-        racingCars.forEach(carDto -> save(racingGameId, carDto));
+    public void saveAll(Long gameId, List<CarDto> racingCars) {
+        racingCars.forEach(carDto -> save(gameId, carDto));
+    }
+
+    @Override
+    public List<CarDto> findByGameId(Long gameId) {
+        String sql = "SELECT name, position, is_win FROM car WHERE racing_game_id = ?";
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> {
+            CarDto carDto = new CarDto(
+                    resultSet.getString("name"),
+                    resultSet.getInt("position"),
+                    resultSet.getBoolean("is_win")
+            );
+            return carDto;
+        }, gameId);
     }
 }
