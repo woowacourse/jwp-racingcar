@@ -4,17 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import racingcar.dao.GameDao;
-import racingcar.domain.Car;
-import racingcar.domain.Game;
-import racingcar.domain.RandomMoveChance;
 import racingcar.controller.dto.PlayRequest;
 import racingcar.controller.dto.ResultResponse;
+import racingcar.domain.Car;
+import racingcar.domain.Game;
 import racingcar.service.GameService;
 
 @RestController
@@ -24,8 +21,8 @@ public class GameController {
 
     private final GameService gameService;
 
-    public GameController(JdbcTemplate jdbcTemplate) {
-        this.gameService = new GameService(new GameDao(jdbcTemplate), new RandomMoveChance());
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
     }
 
     @PostMapping("/plays")

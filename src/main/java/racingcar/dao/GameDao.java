@@ -9,11 +9,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import racingcar.dao.dto.TrialCountDto;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
 
+@Repository
 public class GameDao {
 
     private final JdbcTemplate jdbcTemplate;

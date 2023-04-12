@@ -8,6 +8,15 @@ public class RandomMoveChance implements MoveChance {
     private static final int MIN_MOVABLE_NUMBER = 4;
     private static final int RANDOM_NUMBER_BOUNDARY = 10;
 
+    private static final RandomMoveChance randomMoveChance = new RandomMoveChance();
+
+    private RandomMoveChance() {
+    }
+
+    public static RandomMoveChance getInstance() {
+        return randomMoveChance;
+    }
+
     @Override
     public boolean isMovable() {
         return makeRandomNumber() < MIN_MOVABLE_NUMBER;
