@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.dao;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import racingcar.dto.RacingGameResultDto;
 
 @Repository
 public class RacingHistoryDao {
@@ -22,7 +23,6 @@ public class RacingHistoryDao {
         params.put("winners", racingGameResultDto.getWinners());
         params.put("play_count", racingGameResultDto.getPlayCount());
         params.put("created_at", LocalDateTime.now());
-        final Number resultId = insertActor.executeAndReturnKey(params);
-        return resultId.intValue();
+        return insertActor.executeAndReturnKey(params).intValue();
     }
 }
