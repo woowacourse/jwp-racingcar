@@ -2,10 +2,12 @@ package racingcar.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.dao.InsertDao;
 import racingcar.domain.Car;
 import racingcar.domain.CarGenerator;
 import racingcar.domain.RacingGame;
@@ -22,6 +24,9 @@ public class RacingGameController {
     private static final CarGenerator carGenerator = new CarGenerator();
     private static final String DELIMETER = ",";
 
+    @Autowired
+    private InsertDao insertDao;
+
     @PostMapping(value = "/plays", consumes = "application/json")
     @ResponseBody
     public ResponseDto play(@RequestBody RequestDto requestDto) {
@@ -36,6 +41,7 @@ public class RacingGameController {
         RacingGame racingGame = new RacingGame(cars, count, numberGenerator);
         racingGame.run();
         String winners = getWinners(racingGame);
+        insertDao.insert(winners, count, cars);
 
         return new ResponseDto(winners, cars);
     }
