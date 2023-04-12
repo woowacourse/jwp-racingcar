@@ -29,6 +29,7 @@ public class RacingCarWebController {
     @ResponseBody
     public ResponseEntity<ResultResponseDto> play(@RequestBody RacingGameRequestDto racingGameRequestDto) {
         List<String> names = Arrays.stream(racingGameRequestDto.getNames().split(","))
+                .map(String::trim)
                 .collect(Collectors.toList());
 
         RacingCarService racingCarService = new RacingCarService(
