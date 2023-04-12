@@ -3,15 +3,18 @@ package racingcar.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingGameResultDto;
 import racingcar.utils.powerGenerator.PowerGenerator;
+import racingcar.utils.powerGenerator.RandomPowerGenerator;
 
 public class RacingGame {
     private final List<Car> cars;
     private final PowerGenerator powerGenerator;
     private final int playCount;
 
-    public RacingGame(final String[] carNames, final int tryCount, final PowerGenerator powerGenerator) {
-        this.powerGenerator = powerGenerator;
+    public RacingGame(final String[] carNames, final int tryCount) {
+        this.powerGenerator = new RandomPowerGenerator();
         this.cars = generateCars(carNames);
         this.playCount = tryCount;
     }
@@ -55,12 +58,13 @@ public class RacingGame {
                 .max().orElse(0);
     }
 
-    public RacingGameResultDto convert() {
+    public RacingGameResultDto convertToDto() {
         final List<RacingCarDto> racingCarDtos = cars.stream()
-                .map(Car::convert)
+                .map(Car::convertToDto)
                 .collect(Collectors.toList());
-
-        final String names = getWinners().stream().map(Car::getName).collect(Collectors.joining(","));
+        final String names = getWinners().stream()
+                .map(Car::getName)
+                .collect(Collectors.joining(","));
 
         return new RacingGameResultDto(names, playCount, racingCarDtos);
     }
