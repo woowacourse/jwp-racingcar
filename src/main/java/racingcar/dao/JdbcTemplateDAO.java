@@ -10,6 +10,7 @@ import racingcar.dto.GameResultDto;
 import java.sql.PreparedStatement;
 import java.util.List;
 
+// TODO: 2023-04-12 데이터베이스 테스트 구현
 @Repository
 public class JdbcTemplateDAO {
     private final JdbcTemplate jdbcTemplate;
@@ -18,7 +19,7 @@ public class JdbcTemplateDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveResult(GameResultDto resultDto) {
+    public int saveResult(GameResultDto resultDto) {
         String sql = "insert into GAME_RESULT (winners,trial_count) values (?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -29,7 +30,10 @@ public class JdbcTemplateDAO {
             return preparedStatement;
         }, keyHolder);
 
-        savePlayerResult(keyHolder.getKey().intValue(), resultDto.getRacingCars());
+        int id = keyHolder.getKey().intValue();
+
+        savePlayerResult(id, resultDto.getRacingCars());
+        return id;
     }
 
     private void savePlayerResult(int gameId, List<CarDto> carDtoList) {

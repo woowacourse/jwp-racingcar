@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// TODO: 2023-04-12 Service 계층으로 비즈니스 로직 분리
 @RestController
 public class WebRacingGameController {
     private final JdbcTemplateDAO jdbcTemplateDAO;
@@ -50,8 +51,11 @@ public class WebRacingGameController {
             carDtoList.add(new CarDto(car.getName(), car.getPosition()));
         }
 
-        jdbcTemplateDAO.saveResult(new GameResultDto(trycount.getCount(), winners, carDtoList));
+        int savedId = jdbcTemplateDAO.saveResult(new GameResultDto(trycount.getCount(), winners, carDtoList));
 
+        if (savedId < 1) {
+            ResponseEntity.badRequest();
+        }
         return ResponseEntity.ok(new GameResultResponseDto(winners, carDtoList));
     }
 }
