@@ -1,15 +1,13 @@
-package racingcar;
+package racingcar.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import racingcar.controller.GamePlay;
 import racingcar.domain.Cars;
+import racingcar.dto.RequestDto;
+import racingcar.dto.ResponseDto;
 import racingcar.genertor.NumberGenerator;
 import racingcar.genertor.RandomNumberGenerator;
-import racingcar.service.CarFactory;
-import racingcar.view.OutputView;
+import racingcar.domain.CarFactory;
 
 import java.util.Arrays;
 import java.util.List;
