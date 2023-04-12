@@ -17,6 +17,10 @@ public class Cars {
         this.cars = createCarsByNames(carNames);
     }
 
+    public Cars(final String carNames) {
+        this(List.of(carNames.split(",")));
+    }
+
     public void moveCars(final NumberGenerator numberGenerator) {
         cars.forEach(car -> car.move(numberGenerator));
     }
