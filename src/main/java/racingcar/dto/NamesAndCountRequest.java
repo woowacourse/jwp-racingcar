@@ -1,8 +1,10 @@
 package racingcar.dto;
 
 public class NamesAndCountRequest {
-    private final String names;
-    private final int count;
+    private String names;
+    private int count;
+
+    public NamesAndCountRequest() {}
 
     public NamesAndCountRequest(final String names, final int count) {
         this.names = names;
