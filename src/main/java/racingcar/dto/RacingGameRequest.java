@@ -5,15 +5,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RacingGameRequest {
-    private final String names;
-    private final int count;
+    private String names;
+    private int count;
 
     public RacingGameRequest(String names, int count) {
         this.names = names;
         this.count = count;
     }
 
-    public List<String> getNames() {
+    public RacingGameRequest() {
+
+    }
+
+    public String getNames() {
+        return names;
+    }
+
+    public List<String> getNamesList() {
         return Arrays.stream(names.split(","))
                 .collect(Collectors.toList());
     }
