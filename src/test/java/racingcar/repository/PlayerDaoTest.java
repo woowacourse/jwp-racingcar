@@ -1,10 +1,7 @@
 package racingcar.repository;
 
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.dao.DuplicateKeyException;
@@ -15,8 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestPropertySource(locations = "/application.properties")
 @JdbcTest
@@ -60,5 +57,14 @@ class PlayerDaoTest {
         assertThatThrownBy(
                 () -> playerDao.insert("doggy")
         ).isInstanceOf(DuplicateKeyException.class);
+    }
+
+    @Test
+    @DisplayName("데이터 존재 유무 확인 테스트")
+    void 데이터가_존재_유무_확인_테스트() {
+        assertAll(
+                () -> assertThat(playerDao.isNotExist("emptyName")).isFalse(),
+                () -> assertThat(playerDao.isNotExist("power")).isTrue()
+        );
     }
 }

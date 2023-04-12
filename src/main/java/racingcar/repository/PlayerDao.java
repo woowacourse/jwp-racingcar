@@ -17,4 +17,10 @@ public class PlayerDao {
 
         jdbcTemplate.update(sql, name);
     }
+
+    public boolean isNotExist(final String name) {
+        String sql = "select count(*) from player where name = ?";
+
+        return Boolean.FALSE.equals(jdbcTemplate.queryForObject(sql, Boolean.class,name));
+    }
 }
