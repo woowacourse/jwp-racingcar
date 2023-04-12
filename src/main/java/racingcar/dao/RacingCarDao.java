@@ -3,10 +3,14 @@ package racingcar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 import racingcar.entity.RacingGameEntity;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -33,7 +37,18 @@ public class RacingCarDao {
 
     public void save(RacingGameEntity racingGameEntity) {
         String sql = "INSERT INTO RACING_GAME(count, winners, created_at) VALUES(?, ?, ?)";
-        int id = jdbcTemplate.update(sql, racingGameEntity.getCount(), racingGameEntity.getWinners(), racingGameEntity.getCreatedAt());
+//        int id = jdbcTemplate.update(sql, racingGameEntity.getCount(), racingGameEntity.getWinners(), racingGameEntity.getCreatedAt());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, Integer.toString(racingGameEntity.getCount()));
+            preparedStatement.setString(2, racingGameEntity.getWinners());
+            preparedStatement.setString(3, racingGameEntity.getCreatedAt().toString());
+            return preparedStatement;
+        }, keyHolder);
+        int id = (int) keyHolder.getKey();
+        System.out.println(id);
         String sqlForRacingGameEntity = "INSERT INTO RACING_CAR(position, name, racing_game_id) VALUES(?, ?, ?)";
         racingGameEntity.getRacingCars().stream()
                 .forEach(car -> jdbcTemplate.update(sqlForRacingGameEntity, car.getPosition(), car.getName(), id));

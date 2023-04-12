@@ -10,7 +10,7 @@ CREATE TABLE RACING_GAME (
     id                  INT         NOT NULL AUTO_INCREMENT,
     count               INT         NOT NULL,
     winners             VARCHAR(50) NOT NULL,
-    created_at          DATETIME    NOT NULL default current_timestamp,
+    created_at          DATETIME    NOT NULL,
     PRIMARY KEY (id)
 );
 
