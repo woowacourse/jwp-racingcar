@@ -67,7 +67,7 @@ Content-Type: application/json
 
 ### 5. DB 연동
 
-- [ ] 자동차 경주 게임의 플레이 이력을 DB에 저장한다.
+- [X] 자동차 경주 게임의 플레이 이력을 DB에 저장한다.
     - DB 저장 목록
         - 플레이 횟수(trialCount)
         - 플레이어 별 최종 이동 거리 (이름(name), 최종 위치(position))
