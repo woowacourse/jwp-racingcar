@@ -8,26 +8,23 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.RacingInfoRequest;
 import racingcar.controller.dto.RacingInfoResponse;
 import racingcar.domain.CarGroup;
-import racingcar.domain.RacingGame;
-import racingcar.domain.RacingResult;
-import racingcar.domain.RandomNumberGenerator;
+import racingcar.service.RacingGameService;
 
 @RestController
 public class RacingGameController {
 
+    private final RacingGameService racingGameService;
+
+    public RacingGameController(final RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
+
     @PostMapping("/plays")
-    public ResponseEntity<RacingInfoResponse> getPlayerNames(@RequestBody RacingInfoRequest request) {
+    public ResponseEntity<RacingInfoResponse> playRacingGame(@RequestBody RacingInfoRequest request) {
         final String[] carNames = request.getNames().split(",");
         final CarGroup carGroup = new CarGroup(carNames);
+        final RacingInfoResponse response = racingGameService.race(carGroup, request.getCount());
 
-        final RacingGame racingGame = new RacingGame(carGroup, new RandomNumberGenerator());
-        for (int i = 0; i < request.getCount(); i++) {
-            racingGame.race();
-        }
-
-        final RacingResult racingResult = racingGame.produceRacingResult();
-
-        final RacingInfoResponse racingInfoResponse = new RacingInfoResponse(racingResult.pickWinner(), carGroup.getCars());
-        return ResponseEntity.ok(racingInfoResponse);
+        return ResponseEntity.ok(response);
     }
 }
