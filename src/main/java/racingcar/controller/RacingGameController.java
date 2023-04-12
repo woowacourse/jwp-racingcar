@@ -14,7 +14,7 @@ import racingcar.domain.TryCount;
 @Controller
 public class RacingGameController {
 
-    @PostMapping("/play")
+    @PostMapping("/plays")
     public ResponseEntity<RacingCarResponse> play(@RequestBody final RacingCarRequest racingCarRequest) {
         RacingCars racingCars = createRacingCar(racingCarRequest);
         TryCount tryCount = new TryCount(racingCarRequest.getTryCount());
