@@ -2,8 +2,8 @@ package racingcar.controller;
 
 import racingcar.game.Game;
 import racingcar.util.RandomNumberGenerator;
-import racingcar.view.input.InputView;
-import racingcar.view.output.OutputView;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 public class ConsoleController {
 
