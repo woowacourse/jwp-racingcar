@@ -18,7 +18,7 @@ public class Car {
 
     public void runForward(int engine) {
         if (engine >= MOVE_CRITERIA) {
-            this.distance.increaseDistance();
+            distance.increaseDistance();
         }
     }
 
@@ -28,5 +28,9 @@ public class Car {
 
     public Name getName() {
         return name;
+    }
+
+    public boolean isSameDistance(int otherDistance) {
+        return otherDistance == distance.getValue();
     }
 }

@@ -1,6 +1,5 @@
 package racingcar.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -23,34 +22,26 @@ public class Cars {
         this.cars = cars;
     }
 
-    public List<Car> runRound() {
-        for (Car car : this.cars) {
+    public void runRound() {
+        for (Car car : cars) {
             int randomNumber = random.nextInt(RANDOM_NUM_MAX_VALUE);
             car.runForward(randomNumber);
         }
-        return this.cars;
     }
 
     public List<String> getWinner() {
-        List<String> winner = new ArrayList<>();
         int maxDistance = findMaxDistance();
-        for (Car car : this.cars) {
-            compareDistance(winner, car, maxDistance);
-        }
-        return winner;
+        return cars.stream().filter(car -> car.isSameDistance(maxDistance))
+                .map(Car::getName)
+                .map(Name::getValue)
+                .collect(Collectors.toList());
     }
 
     private int findMaxDistance() {
-        return this.cars.stream()
+        return cars.stream()
                 .mapToInt(car -> car.getDistance().getValue())
                 .max()
                 .orElse(-1);
-    }
-
-    private void compareDistance(List<String> winner, Car car, int maxDistance) {
-        if (car.getDistance().getValue() == maxDistance) {
-            winner.add(car.getName().getValue());
-        }
     }
 
     public List<Car> getCars() {
