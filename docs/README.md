@@ -39,7 +39,7 @@ flowchart
 ## 컨트롤러(Controller)
 ### 웹 요청/응답 구현하기
 웹을 통해 게임을 플레이 할 수 있도록 구현하세요.
-- [ ] 클라이언트로부터 다음과 같은 Post요청을 받을 수 있습니다.
+- [x] 클라이언트로부터 다음과 같은 Post요청을 받을 수 있습니다.
   ```
   Request
   POST /plays HTTP/1.1
@@ -51,12 +51,12 @@ flowchart
     "count": 10
   }
   ```
-    * [ ] content-type은 application-json이다.
-    * [ ] charset은 utf-8이다.
-    * [ ] body 안에 자동차 이름 목록(names)와 이동 횟수(count) 정보가 들어있다.
+    * [x] content-type은 application-json이다.
+    * [x] charset은 utf-8이다.
+    * [x] body 안에 자동차 이름 목록(names)와 이동 횟수(count) 정보가 들어있다.
       * [ ] 자동차 이름 또는 이동 횟수로 잘못된 값이 들어오면 예외 처리를 한다.
     
-- [ ] 애플리케이션은 받은 요청에 대해 자동차 경주를 진행하고, 우승자와 각 자동차들의 최종 위치를 JSON 형식으로 응답합니다.
+- [x] 애플리케이션은 받은 요청에 대해 자동차 경주를 진행하고, 우승자와 각 자동차들의 최종 위치를 JSON 형식으로 응답합니다.
   ```
   Response
   HTTP/1.1 200

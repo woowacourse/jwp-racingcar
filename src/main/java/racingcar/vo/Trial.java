@@ -15,13 +15,13 @@ public class Trial {
         return new Trial(number);
     }
 
-    private static void validateNumber(Long number) {
+    private static void validateNumber(int number) {
         if (number <= 0) {
             throw new IllegalArgumentException(NOT_POSITIVE_NUMBER_EXCEPTION_MESSAGE);
         }
     }
 
-    public Long getValue() {
+    public int getValue() {
         return trial;
     }
 
