@@ -29,7 +29,7 @@ public class CarService {
     }
 
     public WinnerCarDto playGame(GameInfo gameInfo) {
-        final Cars cars = setUpGame(gameInfo);
+        final Cars cars = initGame(gameInfo);
         final WinnerCarDto winner = cars.getWinner();
         save(gameInfo, winner);
         return winner;
@@ -40,7 +40,7 @@ public class CarService {
         insertPlayers(winner, id);
     }
 
-    private Cars setUpGame(final GameInfo gameInfo) {
+    private Cars initGame(final GameInfo gameInfo) {
         final Cars cars = generateCars(gameInfo.getNames());
         Round round = new Round(gameInfo.getCount());
 
