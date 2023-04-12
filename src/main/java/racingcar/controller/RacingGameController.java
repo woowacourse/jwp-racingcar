@@ -15,14 +15,13 @@ public class RacingGameController {
 
     private final RacingGameService racingGameService;
 
-
     public RacingGameController(final RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponse> doGame(@RequestBody final GameRequest gameRequest) {
-        final RacingCars racingCars = racingGameService.play(gameRequest.getNames(), gameRequest.getCount());
+        final RacingCars racingCars = racingGameService.run(gameRequest.getNames(), gameRequest.getCount());
 
         final List<String> winnerNames = racingCars.getWinnerNames();
         final String winnerName = String.join(", ", winnerNames);

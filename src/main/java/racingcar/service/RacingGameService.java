@@ -6,6 +6,8 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import racingcar.dao.PlayerSaveDto;
+import racingcar.dao.RacingGameDao;
 import racingcar.domain.Name;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
@@ -15,11 +17,20 @@ import racingcar.exception.CommaNotFoundException;
 @Service
 public class RacingGameService {
 
-    public RacingCars play(final String inputNames, final int inputCount) {
+    private final RacingGameDao racingGameDao;
+
+    public RacingGameService(final RacingGameDao racingGameDao) {
+        this.racingGameDao = racingGameDao;
+    }
+
+    public RacingCars run(final String inputNames, final int inputCount) {
         final List<Name> names = sliceNames(inputNames);
         final RacingCars racingCars = new RacingCars(createRacingCar(names));
         final TryCount tryCount = new TryCount(inputCount);
+
         moveCars(racingCars, tryCount);
+
+        saveRacingCars(inputCount, racingCars);
         return racingCars;
     }
 
@@ -63,5 +74,21 @@ public class RacingGameService {
 
     private boolean canProceed(final TryCount tryCount) {
         return !tryCount.isZero();
+    }
+
+    private void saveRacingCars(final int tryCount, final RacingCars racingCars) {
+        final Long gameId = racingGameDao.saveGame(tryCount);
+
+        final List<String> winnerNames = racingCars.getWinnerNames();
+        final List<PlayerSaveDto> playerSaveDtos = racingCars.getRacingCars().stream()
+                .map(racingCar -> createPlayerSaveDto(gameId, winnerNames, racingCar))
+                .collect(toList());
+        racingGameDao.saveAllPlayers(playerSaveDtos);
+    }
+
+    private static PlayerSaveDto createPlayerSaveDto(final Long gameId, final List<String> winnerNames,
+                                                  final RacingCar racingCar) {
+        return new PlayerSaveDto(gameId, racingCar.getName(),
+                racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 }
