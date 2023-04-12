@@ -22,4 +22,25 @@ public class PlaysResponseDto {
         return racingCars;
     }
 
+    public static class Builder {
+
+        private String winners;
+        private List<Car> racingCars;
+
+        public Builder winners(String winners) {
+            this.winners = winners;
+            return this;
+        }
+
+        public Builder racingCars(List<Car> racingCars) {
+            this.racingCars = racingCars;
+            return this;
+        }
+
+        public PlaysResponseDto build() {
+            return new PlaysResponseDto(winners, racingCars);
+        }
+
+    }
+
 }

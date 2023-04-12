@@ -6,19 +6,19 @@
 --     PRIMARY KEY (id)
 -- );
 
-CREATE TABLE ROOM (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    count       INT         NOT NULL,
-    winners     VARCHAR(50) NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
+CREATE TABLE RACING_GAME (
+    id                  INT         NOT NULL AUTO_INCREMENT,
+    count               INT         NOT NULL,
+    winners             VARCHAR(50) NOT NULL,
+    created_at          DATETIME    NOT NULL default current_timestamp,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE RACING_CARS (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    name        VARCHAR(50) NOT NULL,
-    position    INT         NOT NULL,
-    room_id     INT         NOT NULL,
+CREATE TABLE RACING_CAR (
+    id                  INT         NOT NULL AUTO_INCREMENT,
+    name                VARCHAR(50) NOT NULL,
+    position            INT         NOT NULL,
+    racing_game_id      INT         NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT `racing_cars_ibfk_1` FOREIGN KEY (room_id) REFERENCES ROOM (id) ON DELETE CASCADE
+    CONSTRAINT `racing_cars_ibfk_1` FOREIGN KEY (racing_game_id) REFERENCES RACING_GAME (id) ON DELETE CASCADE
 );
