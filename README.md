@@ -4,10 +4,9 @@
 - [x] 코드 가져오기
 
 2. 웹 요청/응답 구현하기
-- [ ] /plays에 대한 컨트롤러 생성
+- [x] /plays에 대한 컨트롤러 생성
   - [x] json request 받아 객체 생성
   - [x] 결과 json 형태로 response
-- [ ] list.html로 게임 이력 전달
 
 3. DB 연동하기
 - [ ] H2 DB를 연동
