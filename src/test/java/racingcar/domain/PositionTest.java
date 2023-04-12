@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -6,7 +6,6 @@ import static racingcar.exception.ExceptionMessage.ILLEGAL_POSITION;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.Position;
 
 class PositionTest {
     @Test

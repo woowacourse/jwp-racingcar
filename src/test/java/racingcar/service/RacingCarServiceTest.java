@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -13,8 +13,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarStatusResponse;
 import racingcar.dto.RacingCarWinnerResponse;
-import racingcar.service.CustomMoveStrategy;
-import racingcar.service.RacingCarService;
 
 class RacingCarServiceTest {
     private static final CustomMoveStrategy MOVE_STRATEGY = new CustomMoveStrategy(5);

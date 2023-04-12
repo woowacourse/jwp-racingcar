@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.dto;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static racingcar.exception.ExceptionMessage.OUT_OF_CAR_NAME_LENGTH;
