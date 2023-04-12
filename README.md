@@ -23,3 +23,13 @@
 - [x] Result 정보를 관리하는 DAO 기능 구현
 - [x] Car 정보를 관리하는 DAO 기능 구현
   - [x] Car 정보를 전달하는 CarEntity 기능 구현
+
+## API
+
+![](./docs/api.png)
+
+[링크](https://documenter.getpostman.com/view/19879275/2s93XvVQA1)에서도 확인하실 수 있습니다.
+
+## DB 테이블
+
+![](./docs/table.png)
