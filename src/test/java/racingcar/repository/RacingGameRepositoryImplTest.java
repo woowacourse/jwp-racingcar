@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RacingGameRepositoryTest {
+class RacingGameRepositoryImplTest {
 
     @Autowired
-    RacingGameRepository repository;
+    RacingGameRepositoryImpl repository;
 
     @DisplayName("게임 정보 저장")
     @Test
