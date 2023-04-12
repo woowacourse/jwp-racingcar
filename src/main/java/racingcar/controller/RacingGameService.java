@@ -5,6 +5,7 @@ import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ public class RacingGameService {
 
     private List<CarDto> mapCarDtosFrom(final RacingGame racingGame) {
         return racingGame.getCars().stream()
+                .sorted(Comparator.comparingInt(Car::getPosition).reversed())
                 .map(car -> new CarDto(car.getCarName(), String.valueOf(car.getPosition())))
                 .collect(Collectors.toList());
     }
