@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -9,8 +8,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
-import racingcar.domain.Car;
 
 @Repository
 public class WinnersDao {
