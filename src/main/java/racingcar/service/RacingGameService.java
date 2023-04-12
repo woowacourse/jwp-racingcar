@@ -1,9 +1,12 @@
-package racingcar.controller;
+package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
+import racingcar.dto.CarDto;
+import racingcar.dto.GameResultDto;
+import racingcar.dto.RacingGameRequestDto;
 
 import java.util.Comparator;
 import java.util.List;
@@ -21,6 +24,21 @@ public class RacingGameService {
         );
     }
 
+    private RacingGame createRacingGame(final RacingGameRequestDto racingGameRequestDto) {
+        return new RacingGame(
+                List.of(racingGameRequestDto.getNames().split(",")),
+                racingGameRequestDto.getCount(),
+                new RandomNumberGenerator()
+        );
+    }
+
+    private void play(final RacingGame racingGame) {
+        // TODO: 검증 로직 도메인 내로 이동 (미션 요구사항에 따라 2단계에서 수정 예정)
+        while (racingGame.isGameOnGoing()) {
+            racingGame.start();
+        }
+    }
+
     private List<CarDto> mapCarDtosFrom(final RacingGame racingGame) {
         return racingGame.getCars().stream()
                 .sorted(Comparator.comparingInt(Car::getPosition).reversed())
@@ -32,20 +50,5 @@ public class RacingGameService {
         return racingGame.getWinners().stream()
                 .map(Car::getCarName)
                 .collect(Collectors.joining(","));
-    }
-
-    private void play(final RacingGame racingGame) {
-        // TODO: 검증 로직 도메인 내로 이동 (미션 요구사항에 따라 2단계에서 수정 예정)
-        while (racingGame.isGameOnGoing()) {
-            racingGame.start();
-        }
-    }
-
-    private RacingGame createRacingGame(final RacingGameRequestDto racingGameRequestDto) {
-        return new RacingGame(
-                List.of(racingGameRequestDto.getNames().split(",")),
-                racingGameRequestDto.getCount(),
-                new RandomNumberGenerator()
-        );
     }
 }
