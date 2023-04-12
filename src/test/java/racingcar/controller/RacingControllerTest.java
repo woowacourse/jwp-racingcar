@@ -15,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.core.Is.is;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RacingControllerTest {
 
@@ -109,6 +112,29 @@ class RacingControllerTest {
                     .when().post("/plays")
                     .then().log().all()
                     .statusCode(HttpStatus.BAD_REQUEST.value());
+        }
+
+        @Test
+        @DisplayName("올바른 요청 시, 우승자와 자동차 정보를 반환한다")
+        void shouldReturnWinnersAndRacingCarsWhenRequestCorrectly() {
+            Model model = new ConcurrentModel();
+            model.addAttribute("names", "브리,토미,브라운");
+            model.addAttribute("count", "3");
+            RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(model)
+                    .when().post("/plays")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .body("winners", notNullValue())
+                    .body("racingCars", notNullValue())
+                    .body("racingCars.size()", is(3))
+                    .body("racingCars[0].name", notNullValue())
+                    .body("racingCars[0].position", notNullValue())
+                    .body("racingCars[1].name", notNullValue())
+                    .body("racingCars[1].position", notNullValue())
+                    .body("racingCars[2].name", notNullValue())
+                    .body("racingCars[2].position", notNullValue());
         }
     }
 

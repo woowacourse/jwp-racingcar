@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,10 +11,16 @@ import javax.validation.Valid;
 @Controller
 public class RacingController {
 
+    private final RacingGameService racingGameService;
+
+    @Autowired
+    public RacingController(final RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
+
     @PostMapping(path = "/plays")
     @ResponseBody
-    public void playRacingGame(
-            @Valid @RequestBody RacingGameRequestDto racingGameRequestDto
-    ) {
+    public GameResultDto playRacingGame(@Valid @RequestBody RacingGameRequestDto racingGameRequestDto) {
+        return racingGameService.playRacingGame(racingGameRequestDto);
     }
 }

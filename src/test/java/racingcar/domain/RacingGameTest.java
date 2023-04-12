@@ -16,10 +16,10 @@ class RacingGameTest {
 
     @ParameterizedTest
     @MethodSource("parameterProvider")
-    void getWinnersTest(List<String> carNames, List<Integer> intendedNumbers, int gameTry, List<String> expectedWinners) {
-        IntendedNumberGenerator intendedNumberGenerator = new IntendedNumberGenerator();
-        RacingGame racingGame = new RacingGame(carNames, gameTry, intendedNumberGenerator);
-        intendedNumberGenerator.readRepository(intendedNumbers);
+    void getWinnersTest(List<String> carNames, List<Integer> determinedNumbers, int gameTry, List<String> expectedWinners) {
+        DeterminedNumberGenerator determinedNumberGenerator = new DeterminedNumberGenerator();
+        RacingGame racingGame = new RacingGame(carNames, gameTry, determinedNumberGenerator);
+        determinedNumberGenerator.readRepository(determinedNumbers);
 
         while (racingGame.isGameOnGoing()) {
             racingGame.start();
@@ -39,19 +39,5 @@ class RacingGameTest {
                 Arguments.of(List.of("pobi", "crong", "hadi"), List.of(3, 4, 9, 6, 7, 6, 0, 1, 2), 3, List.of("crong", "hadi")),
                 Arguments.of(List.of("pobi", "crong", "hadi"), List.of(7, 4, 9, 6, 7, 6, 0, 1, 2), 3, List.of("pobi", "crong", "hadi"))
         );
-    }
-
-    class IntendedNumberGenerator implements NumberGenerator {
-
-        private List<Integer> repository;
-        private int index = 0;
-
-        public void readRepository(List<Integer> repository) {
-            this.repository = repository;
-        }
-
-        public int makeDigit() {
-            return repository.get(index++);
-        }
     }
 }
