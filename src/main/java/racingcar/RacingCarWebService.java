@@ -16,7 +16,10 @@ public class RacingCarWebService {
     private final RacingCarService racingCarService;
     private final JdbcTemplate jdbcTemplate;
     @Autowired
-    private SimpleInsertDao simpleInsertDao;
+    private GameInsertDao gameInsertDao;
+
+    @Autowired
+    private PlayerInsertDao playerInsertDao;
 
     public RacingCarWebService() {
         this.racingCarService = new RacingCarService();
@@ -27,11 +30,11 @@ public class RacingCarWebService {
         RacingCarNamesRequest racingCarNamesRequest = RacingCarNamesRequest.of(playRequest.getNames());
         racingCarService.createCars(racingCarNamesRequest);
         TryCount tryCount = new TryCount(playRequest.getCount());
-        Number gameId = simpleInsertDao.insertGame(tryCount);
+        Number gameId = gameInsertDao.insertGame(tryCount);
         playGame(tryCount);
         RacingCarWinnerResponse winners = findWinners();
         List<RacingCarStatusResponse> racingCars = racingCarService.getCarStatuses();
-        // TODO: PLAYER - name, position 저장
+        playerInsertDao.insertPlayer(racingCars);
         // TODO: WINNERS - game_id, player_id 저장
         return PlayResponse.of(winners, racingCars);
     }
@@ -47,4 +50,6 @@ public class RacingCarWebService {
     private RacingCarWinnerResponse findWinners() {
         return racingCarService.findWinners();
     }
+
+
 }
