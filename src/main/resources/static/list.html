@@ -53,7 +53,7 @@
     const cell = document.createElement("td");
     let movesText = "";
     for (let key in racingCars) {
-      movesText += `${racingCars[key].name}: ${racingCars[key].position}<br>`;
+      movesText += `${racingCars[key].name}: ${racingCars[key].distance}<br>`;
     }
     ;
     cell.innerHTML = movesText;
