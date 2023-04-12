@@ -10,6 +10,7 @@ import racingcar.dao.raceresult.RaceResultDao;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
+import racingcar.service.mapper.RaceResultMapper;
 import racingcar.util.NumberGenerator;
 
 import java.util.List;
@@ -22,29 +23,27 @@ public class RaceResultService {
     private final RaceResultDao raceResultDao;
     private final CarDao carDao;
     private final NumberGenerator numberGenerator;
+    private final RaceResultMapper raceResultMapper;
 
     public RaceResultService(final RaceResultDao raceResultDao, final CarDao carDao,
-                             final NumberGenerator numberGenerator) {
+                             final NumberGenerator numberGenerator, final RaceResultMapper raceResultMapper) {
         this.raceResultDao = raceResultDao;
         this.carDao = carDao;
         this.numberGenerator = numberGenerator;
+        this.raceResultMapper = raceResultMapper;
     }
 
     public RaceResultResponse searchRaceResult(final GameInfoRequest gameInfoRequest) {
 
         final String names = gameInfoRequest.getNames();
         final RacingCars racingCars = RacingCars.makeCars(names);
+
         final int tryCount = gameInfoRequest.getCount();
 
         racingCars.moveAllCars(tryCount, numberGenerator);
 
-        // db에 winner 저장하는 mapper
-        final String joinedWinners = findWinners(racingCars).stream()
-                                                            .collect(Collectors.joining(","));
-
-        //DB에 저장하는 DTO
-        final RaceResultRegisterRequest raceResultRegisterRequest = new RaceResultRegisterRequest(tryCount,
-                                                                                                  joinedWinners);
+        final RaceResultRegisterRequest raceResultRegisterRequest = raceResultMapper.convertToRaceResult(tryCount,
+                                                                                                         racingCars);
 
         //저장된 ResultId
         final int savedId = raceResultDao.save(raceResultRegisterRequest);
@@ -61,13 +60,6 @@ public class RaceResultService {
                                                             car.getPosition()))
                           .collect(Collectors.toList());
 
-        return new RaceResultResponse(findWinners(racingCars), carStatusResponses);
-    }
-
-    private List<String> findWinners(RacingCars racingCars) {
-        return racingCars.getWinners()
-                         .stream()
-                         .map(Car::getName)
-                         .collect(Collectors.toList());
+        return new RaceResultResponse(raceResultRegisterRequest.getWinners(), carStatusResponses);
     }
 }
