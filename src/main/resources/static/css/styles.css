@@ -54,6 +54,11 @@ h1 {
     color: #444;
 }
 
+#error {
+    color: red;
+    text-align: center;
+}
+
 /* 폼 */
 form {
     max-width: 600px;
