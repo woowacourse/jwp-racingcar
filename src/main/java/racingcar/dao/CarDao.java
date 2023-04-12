@@ -1,5 +1,8 @@
 package racingcar.dao;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,5 +24,11 @@ public class CarDao {
         String sql = "insert into car (name, position, is_win, game_id) values (:name, :position, :isWin, :gameId)";
         SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(racingCarResultDto);
         jdbcTemplate.update(sql, namedParameters);
+    }
+
+    public List<String> findWinnersById(long gameId) {
+        String sql = "select name from car where game_id = :game_id and is_win = 1";
+        Map<String, Long> parameter = Collections.singletonMap("game_id", gameId);
+        return jdbcTemplate.query(sql, parameter, (resultSet, count) -> resultSet.getString("name"));
     }
 }
