@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class GameDao {
-
     private final JdbcTemplate jdbcTemplate;
 
     public GameDao(DataSource dataSource) {
@@ -20,7 +19,7 @@ public class GameDao {
 
     public long save(int count) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        final String sql = "insert into game (trial_count) values (?)";
+        final String sql = "INSERT INTO game (trial_count) VALUES (?)";
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, count);
