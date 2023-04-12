@@ -17,7 +17,7 @@ public class GameDAOTest {
 
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
 
         jdbcTemplate.execute("DROP TABLE game IF EXISTS");
         jdbcTemplate.execute("create table game\n" +
@@ -29,7 +29,7 @@ public class GameDAOTest {
     }
 
     @Test
-    void saveGameTest(){
+    void saveGameTest() {
         int trialCount = 10;
         assertThat(gameDao.saveGame(trialCount)).isEqualTo(1);
         assertThat(gameDao.saveGame(trialCount)).isEqualTo(2);

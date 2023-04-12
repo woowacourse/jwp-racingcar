@@ -15,13 +15,13 @@ create table game
 
 create table game_log
 (
-    gameNumber Integer,
-    player_name       varchar(20),
-    result_position   integer
+    gameNumber      Integer,
+    player_name     varchar(20),
+    result_position integer
 );
 
 create table winners
 (
     game_number integer,
-    winner     varchar(20)
+    winner      varchar(20)
 );

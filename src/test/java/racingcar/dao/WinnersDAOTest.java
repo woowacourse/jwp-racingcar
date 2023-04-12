@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-@SpringBootTest(webEnvironment =  SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class WinnersDAOTest {
     @Autowired
     private WinnersDAO winnersDAO;
@@ -27,8 +27,9 @@ public class WinnersDAOTest {
                 "    winner      varchar(20)" +
                 ")");
     }
+
     @Test
     void insert() {
-        assertThatNoException().isThrownBy(()-> winnersDAO.insert(5, "달리"));
+        assertThatNoException().isThrownBy(() -> winnersDAO.insert(5, "달리"));
     }
 }

@@ -17,9 +17,9 @@ public class GameDAO {
                 .usingGeneratedKeyColumns("game_number");
     }
 
-    public int saveGame(int trialCount){
-        Map<String, Integer> parameters  = new HashMap<>();
-        parameters.put("trial_count",trialCount);
+    public int saveGame(int trialCount) {
+        Map<String, Integer> parameters = new HashMap<>();
+        parameters.put("trial_count", trialCount);
         return simpleJdbcInsert.executeAndReturnKey(parameters).intValue();
     }
 }
