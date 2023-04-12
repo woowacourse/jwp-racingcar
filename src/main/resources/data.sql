@@ -1,6 +1,5 @@
--- TODO: 기능 구현에 필요한 내용을 추가하거나 수정하세요.
-DROP TABLE IF EXISTS game;
 DROP TABLE IF EXISTS car;
+DROP TABLE IF EXISTS game;
 
 CREATE TABLE GAME
 (
@@ -17,5 +16,6 @@ CREATE TABLE CAR
     position INT    NOT NULL,
     is_win   TINYINT     NOT NULL,
     game_id  INT         NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (game_id) REFERENCES GAME(id) ON UPDATE CASCADE
 );
