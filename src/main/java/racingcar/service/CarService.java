@@ -9,7 +9,6 @@ import racingcar.exception.DuplicateCarNameException;
 import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.utils.RacingNumberGenerator;
-import racingcar.utils.StringUtils;
 import racingcar.wrapper.Round;
 
 import java.util.Arrays;
@@ -67,7 +66,7 @@ public class CarService {
     }
 
     public Cars generateCars(String inputCarsName) {
-        String[] carsName = StringUtils.splitBySeparator(inputCarsName);
+        String[] carsName = inputCarsName.split(",");
         checkDuplication(carsName);
         return new Cars(mapToCars(carsName));
     }
