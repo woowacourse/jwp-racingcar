@@ -14,24 +14,25 @@ public class PlayerInsertDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private WinnerInsertDao winnerInsertDao;
 
     public void insertPlayer(List<RacingCarStatusResponse> responses, List<String> winnerNames, int gameId) {
-        String insertPlayerSql = "INSERT INTO player(name, position) VALUES(?, ?)";
-        String insertWinnerSql = "INSERT INTO winners(game_id, player_id) VALUES(?, ?)";
+        String sql = "INSERT INTO player(name, position) VALUES(?, ?)";
+        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         for (RacingCarStatusResponse response : responses) {
-            GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
             String name = response.getName();
             jdbcTemplate.update(connection -> {
-                PreparedStatement preparedStatement = connection.prepareStatement(insertPlayerSql,
+                PreparedStatement preparedStatement = connection.prepareStatement(sql,
                         Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, name);
                 preparedStatement.setInt(2, response.getPosition());
-
                 return preparedStatement;
             }, generatedKeyHolder);
 
             if (winnerNames.contains(name)) {
-                jdbcTemplate.update(insertWinnerSql, gameId, generatedKeyHolder.getKey());
+                int playerId = generatedKeyHolder.getKey().intValue();
+                winnerInsertDao.insertWinner(gameId, playerId);
             }
         }
     }
