@@ -19,8 +19,8 @@ public class WebController {
 
     private final RacingCarService racingCarService;
 
-    public WebController() {
-        this.racingCarService = new RacingCarService();
+    public WebController(final RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
     }
 
     @PostMapping("/plays")
