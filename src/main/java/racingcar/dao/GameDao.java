@@ -1,14 +1,14 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import racingcar.dao.dto.TrialCountDto;
@@ -31,40 +31,44 @@ public class GameDao {
     }
 
     private int insertGame(Game game) {
-        final String sql = "INSERT INTO games(trial_count) VALUES (?)";
+        final SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("games")
+                .usingColumns("trial_count")
+                .usingGeneratedKeyColumns("id");
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[] {"id"});
-            preparedStatement.setInt(1, game.getTrialCount());
-            return preparedStatement;
-        }, keyHolder);
+        final SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("trial_count", game.getTrialCount());
 
-        return keyHolder.getKey().intValue();
+        return simpleJdbcInsert.executeAndReturnKey(parameterSource).intValue();
     }
 
     private Map<Car, Integer> insertCars(final int gameId, final List<Car> cars) {
-        final String carsSql = "INSERT INTO cars(game_id, name, position) VALUES (?, ?, ?)";
-        final Map<Car, Integer> carIds = new HashMap<>();
+        final SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("cars")
+                .usingGeneratedKeyColumns("id");
 
+        final Map<Car, Integer> carIds = new HashMap<>();
         for (Car car : cars) {
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            jdbcTemplate.update(connection -> {
-                PreparedStatement preparedStatement = connection.prepareStatement(carsSql, new String[] {"id"});
-                preparedStatement.setInt(1, gameId);
-                preparedStatement.setString(2, car.getName());
-                preparedStatement.setInt(3, car.getPosition());
-                return preparedStatement;
-            }, keyHolder);
-            carIds.put(car, keyHolder.getKey().intValue());
+            final SqlParameterSource parameterSource = new MapSqlParameterSource()
+                    .addValue("game_id", gameId)
+                    .addValue("name", car.getName())
+                    .addValue("position", car.getPosition());
+
+            int carId = simpleJdbcInsert.executeAndReturnKey(parameterSource).intValue();
+            carIds.put(car, carId);
         }
         return carIds;
     }
 
     private void insertWinners(final int gameId, Map<Car, Integer> carIds, final List<Car> winners) {
-        final String winnersSql = "INSERT INTO winners(game_id, car_id) VALUES (?, ?)";
+        final SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("winners");
         for (Car car : winners) {
-            jdbcTemplate.update(winnersSql, gameId, carIds.get(car));
+            final SqlParameterSource parameterSource = new MapSqlParameterSource()
+                    .addValue("game_id", gameId)
+                    .addValue("car_id", carIds.get(car));
+
+            simpleJdbcInsert.execute(parameterSource);
         }
     }
 
