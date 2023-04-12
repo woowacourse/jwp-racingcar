@@ -2,19 +2,23 @@ package racingcar.domain;
 
 import racingcar.dto.CarPositionDto;
 
-class Car {
+public class Car {
 
     private static final int GO = 4;
 
     private final CarName carName;
     private Position position;
 
-    public Car(String carName) {
-        this.carName = new CarName(carName);
-        position = Position.init();
+    public Car(final String carName) {
+        this(carName, 0);
     }
 
-    public void move(int power) {
+    public Car(final String carName, final int position) {
+        this.carName = new CarName(carName);
+        this.position = new Position(position);
+    }
+
+    public void move(final int power) {
         if (power >= GO) {
             position = position.next();
         }
@@ -28,7 +32,7 @@ class Car {
         return position.getMoveCount();
     }
 
-    public boolean matchPosition(int position) {
+    public boolean matchPosition(final int position) {
         return this.position.isMatchMoveCount(position);
     }
 

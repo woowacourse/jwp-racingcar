@@ -13,14 +13,14 @@ public class Cars {
 
     private final List<Car> cars;
 
-    public Cars(List<String> carNames) {
+    public Cars(final List<String> carNames) {
         validate(carNames);
         cars = carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
     }
 
-    private void validate(List<String> carNames) {
+    private void validate(final List<String> carNames) {
         if (carNames.isEmpty()) {
             throw new IllegalArgumentException(NO_CAR_EXCEPTION);
         }
@@ -29,14 +29,14 @@ public class Cars {
         }
     }
 
-    public void moveCars(NumberPicker numberPicker) {
-        for (Car car : cars) {
+    public void moveCars(final NumberPicker numberPicker) {
+        for (final Car car : cars) {
             move(car, numberPicker);
         }
     }
 
-    private void move(Car car, NumberPicker numberPicker) {
-        int power = numberPicker.pickNumber();
+    private void move(final Car car, final NumberPicker numberPicker) {
+        final int power = numberPicker.pickNumber();
         car.move(power);
     }
 
@@ -47,7 +47,7 @@ public class Cars {
     }
 
     public List<String> findWinner() {
-        int max = findMaxPosition();
+        final int max = findMaxPosition();
         return cars.stream()
                 .filter(car -> car.matchPosition(max))
                 .map(Car::getCarName)
@@ -59,5 +59,16 @@ public class Cars {
                 .mapToInt(Car::getPosition)
                 .max()
                 .orElseThrow(() -> new IllegalArgumentException(NO_MAX_VALUE_EXCEPTION));
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void race(final Count tryCount, final NumberPicker numberPicker) {
+        while (!tryCount.isFinished()) {
+            moveCars(numberPicker);
+            tryCount.next();
+        }
     }
 }

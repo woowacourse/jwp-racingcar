@@ -1,15 +1,15 @@
 package racingcar.domain;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.security.SecureRandom;
 
 public class RandomNumberPicker implements NumberPicker {
 
     private static final int MAX_NUMBER = 10;
 
-    private final ThreadLocalRandom random = ThreadLocalRandom.current();
+    private final SecureRandom secureRandom = new SecureRandom();
 
     @Override
     public int pickNumber() {
-        return random.nextInt(MAX_NUMBER);
+        return secureRandom.nextInt(MAX_NUMBER);
     }
 }

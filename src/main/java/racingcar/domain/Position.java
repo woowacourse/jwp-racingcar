@@ -9,7 +9,7 @@ final class Position {
 
     private final int moveCount;
 
-    private Position(int moveCount) {
+    public Position(final int moveCount) {
         this.moveCount = moveCount;
     }
 
@@ -25,19 +25,19 @@ final class Position {
         return moveCount;
     }
 
-    public boolean isMatchMoveCount(int moveCount) {
+    public boolean isMatchMoveCount(final int moveCount) {
         return this.moveCount == moveCount;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Position position = (Position) o;
+        final Position position = (Position) o;
         return moveCount == position.moveCount;
     }
 
