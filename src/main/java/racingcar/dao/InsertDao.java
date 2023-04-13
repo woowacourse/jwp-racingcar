@@ -30,7 +30,7 @@ public class InsertDao {
         cars.forEach(car -> insertPlayer(gameId, car));
     }
 
-    public int insertGame(String winners, Integer count) {
+    private int insertGame(String winners, Integer count) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("winners", winners);
         parameters.put("trial_count", count);
