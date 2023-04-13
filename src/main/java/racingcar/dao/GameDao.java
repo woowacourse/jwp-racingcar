@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Repository
 public class GameDao {
@@ -27,7 +28,6 @@ public class GameDao {
             pst.setDate(2, Date.valueOf(LocalDate.now()));
             return pst;
         }, keyHolder);
-        long gameId = keyHolder.getKey().longValue();
-        return gameId;
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 }
