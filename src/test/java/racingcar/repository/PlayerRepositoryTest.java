@@ -32,7 +32,7 @@ class PlayerRepositoryTest {
     @DisplayName("플레이어를 저장한다.")
     void insertPlayer() {
         // given
-        long gameId = gameRepository.save(10).longValue();
+        long gameId = gameRepository.save(10);
         RacingCarStatusResponse veroStatusResponse = RacingCarStatusResponse.of(new Car("vero", 10));
         RacingCarStatusResponse poiStatusResponse = RacingCarStatusResponse.of(new Car("poi", 7));
         List<String> winners = List.of("vero");

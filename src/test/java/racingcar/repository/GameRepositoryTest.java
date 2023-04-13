@@ -28,7 +28,7 @@ class GameRepositoryTest {
     @DisplayName("TryCount를 받아 게임을 저장한다.")
     void insertGame() {
         TryCount tryCount = new TryCount(10);
-        long gameId = gameRepository.save(tryCount.getCount()).longValue();
+        long gameId = gameRepository.save(tryCount.getCount());
 
         assertThat(gameId).isEqualTo(1L);
     }

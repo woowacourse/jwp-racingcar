@@ -47,7 +47,7 @@ public class RacingCarService {
     private PlayResponse save(final int trialCount, final RacingCarGame racingCarGame) {
         RacingCarWinnerResponse winners = findWinners(racingCarGame);
         List<RacingCarStatusResponse> racingCars = racingCarGame.getCarStatuses();
-        long gameId = gameRepository.save(trialCount).longValue();
+        long gameId = gameRepository.save(trialCount);
         playerRepository.saveAll(racingCars, winners.getWinners(), gameId);
         return PlayResponse.of(winners, racingCars);
     }

@@ -17,9 +17,9 @@ public class GameRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Number save(final int trialCount) {
+    public long save(final int trialCount) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("trial_count", trialCount);
-        return insertGame.executeAndReturnKey(parameters);
+        return insertGame.executeAndReturnKey(parameters).longValue();
     }
 }
