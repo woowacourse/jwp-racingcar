@@ -29,13 +29,13 @@ public class RacingService {
         final Track track = makeTrack(cars, trialTimes);
         final Cars finishedCars = startRace(track);
 
-        final int trackId = saveTrack(track);
+        final Integer trackId = saveTrack(track);
         saveCars(trackId, finishedCars);
 
         return finishedCars;
     }
 
-    private void saveCars(final int trackId, final Cars finishedCars) {
+    private void saveCars(final Integer trackId, final Cars finishedCars) {
         final List<Car> winnerCars = finishedCars.getWinnerCars();
         final List<Car> carsCurrentInfo = finishedCars.getCarsCurrentInfo();
 
@@ -44,7 +44,7 @@ public class RacingService {
         }
     }
 
-    private int saveTrack(final Track track) {
+    private Integer saveTrack(final Track track) {
         return racingDao.save(new TrackDto(track.getTrialTimes()));
     }
 
