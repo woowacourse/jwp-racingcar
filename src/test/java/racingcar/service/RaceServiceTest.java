@@ -9,9 +9,9 @@ import racingcar.domain.dao.entity.RaceEntity;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 import racingcar.mock.MockNumberGenerator;
-import racingcar.provider.TestProvider;
 import racingcar.repository.CarRaceRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -22,7 +22,7 @@ class RaceServiceTest {
 
     @BeforeEach
     void init() {
-        final MockNumberGenerator numberGenerator = TestProvider.createMockNumberGenerator(false);
+        final MockNumberGenerator numberGenerator = new MockNumberGenerator();
         raceService = new RaceService(numberGenerator, new TestCarRaceRepository());
     }
 
@@ -49,17 +49,16 @@ class RaceServiceTest {
 
         @Override
         public void save(final RaceResult raceResult) {
-
         }
 
         @Override
         public List<RaceEntity> findRaceEntities() {
-            return null;
+            return Collections.emptyList();
         }
 
         @Override
         public List<CarEntity> findCarEntities(final Long raceResultId) {
-            return null;
+            return Collections.emptyList();
         }
     }
 }

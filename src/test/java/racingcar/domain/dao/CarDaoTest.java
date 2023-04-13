@@ -17,6 +17,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Transactional
 class CarDaoTest {
 
+    private static final List<Car> cars = List.of(Car.create("test1"), Car.create("test2"));
+    private static final int trialCount = 10;
+    private static final String winners = "test1,test2";
+
     @Autowired
     private CarDao carDao;
     @Autowired
@@ -26,12 +30,7 @@ class CarDaoTest {
     @DisplayName("차들의 정보를 저장한다")
     public void testSaveAll() {
         //given
-        final int trialCount = 10;
-        final String winners = "test1,test2";
         final Long raceResultId = raceResultDao.save(trialCount, winners);
-        final Car car1 = Car.create("test1");
-        final Car car2 = Car.create("test2");
-        final List<Car> cars = List.of(car1, car2);
 
         //when
         carDao.saveAll(raceResultId, cars);
@@ -50,12 +49,7 @@ class CarDaoTest {
     @DisplayName("모든 차 리스트를 반환한다")
     public void findAll() {
         // given
-        final int trialCount = 10;
-        final String winners = "test1,test2";
         final Long raceResultId = raceResultDao.save(trialCount, winners);
-        final Car car1 = Car.create("test1");
-        final Car car2 = Car.create("test2");
-        final List<Car> cars = List.of(car1, car2);
         carDao.saveAll(raceResultId, cars);
 
         // when

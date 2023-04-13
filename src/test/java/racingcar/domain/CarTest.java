@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static racingcar.provider.TestProvider.createTestCar;
 
 public class CarTest {
 
@@ -15,7 +14,7 @@ public class CarTest {
 
     @BeforeEach
     void init() {
-        testCar = createTestCar("pobi");
+        testCar = Car.create("pobi");
     }
 
     @ParameterizedTest

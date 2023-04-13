@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import racingcar.mock.MockNumberGenerator;
-import racingcar.provider.TestProvider;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -15,14 +14,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 class CarsTest {
 
     private Cars testCars;
-
     private MockNumberGenerator numberGenerator;
 
     @BeforeEach
     void init() {
         String testCarNames = "pobi,crong,honux";
-        numberGenerator = TestProvider.createMockNumberGenerator(false);
-        testCars = TestProvider.createTestCars(testCarNames, numberGenerator);
+        numberGenerator = new MockNumberGenerator();
+        testCars = Cars.create(testCarNames, numberGenerator);
     }
 
     @ParameterizedTest

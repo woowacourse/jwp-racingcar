@@ -15,16 +15,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class RaceResultDaoTest {
 
+    private static final int trialCount = 10;
+    private static final String winners = "test1,test2";
+
     @Autowired
     private RaceResultDao raceResultDao;
 
     @Test
     @DisplayName("레이싱 결과를 저장한다.")
     public void testSave() {
-        //given
-        final int trialCount = 10;
-        final String winners = "test1,test2";
-
         //when
         final Long savedId = raceResultDao.save(trialCount, winners);
 
@@ -36,8 +35,6 @@ class RaceResultDaoTest {
     @DisplayName("모든 레이싱 결과를 가져온다.")
     public void testFindAll() {
         //given
-        final int trialCount = 10;
-        final String winners = "test1,test2";
         raceResultDao.save(trialCount, winners);
 
         //when

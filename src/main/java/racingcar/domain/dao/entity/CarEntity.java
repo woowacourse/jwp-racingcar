@@ -1,6 +1,7 @@
 package racingcar.domain.dao.entity;
 
 public class CarEntity {
+
     private final Long carId;
     private final String name;
     private final int position;

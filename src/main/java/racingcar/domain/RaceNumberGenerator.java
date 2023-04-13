@@ -8,7 +8,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RaceNumberGenerator implements NumberGenerator {
 
     private static final int minNumber = 0;
-
     private static final int maxNumber = 9;
 
     @Override

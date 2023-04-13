@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class RaceService {
 
     private final NumberGenerator numberGenerator;
@@ -24,6 +26,7 @@ public class RaceService {
         this.carRaceRepository = carRaceRepository;
     }
 
+    @Transactional
     public RaceResponse play(final RaceRequest raceRequest) {
         final Race race = Race.create(raceRequest.getCount());
         final Cars cars = Cars.create(raceRequest.getNames(), numberGenerator);
@@ -32,7 +35,6 @@ public class RaceService {
         carRaceRepository.save(raceResult);
         return raceResponse;
     }
-
 
     private RaceResponse getRaceResult(final Race race, final Cars cars) {
         int tryCount = 0;

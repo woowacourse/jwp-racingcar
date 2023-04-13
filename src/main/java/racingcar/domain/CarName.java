@@ -3,6 +3,7 @@ package racingcar.domain;
 import java.util.Objects;
 
 public class CarName {
+
     private static final int CAR_NAME_MAX_LENGTH = 5;
     private static final String BLANK_MESSAGE = "%s은(는) 빈 값이 들어올 수 없습니다.";
     private static final String LENGTH_MESSAGE = "%d글자를 초과하였습니다.";

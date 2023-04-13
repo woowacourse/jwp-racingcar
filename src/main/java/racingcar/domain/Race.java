@@ -15,7 +15,7 @@ public class Race {
         return new Race(raceCount);
     }
 
-    public boolean isRunning(int raceCount) {
+    public boolean isRunning(final int raceCount) {
         return raceCount != count;
     }
 

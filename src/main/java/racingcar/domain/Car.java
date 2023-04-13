@@ -3,10 +3,10 @@ package racingcar.domain;
 import java.util.Objects;
 
 public class Car implements Comparable<Car> {
+
     private static final int CAR_FORWARD_NUMBER = 4;
 
     private final CarName name;
-
     private final CarPosition position;
 
     private Car(final String name) {

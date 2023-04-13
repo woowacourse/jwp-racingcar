@@ -3,7 +3,6 @@ package racingcar.dto;
 public class CarStatusDto {
 
     private final String name;
-
     private final int position;
 
     public CarStatusDto(final String name, final int position) {

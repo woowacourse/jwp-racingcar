@@ -8,12 +8,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Cars {
+
     private static final String SPLIT_DELIMITER = ",";
     private static final String DUPLICATE_MESSAGE = "중복된 값을 입력할 수 없습니다.";
     private static final String NO_RESOURCE_MESSAGE = "%s(이)가 존재하지 않습니다.";
 
     private final List<Car> cars;
-
     private final NumberGenerator numberGenerator;
 
     private Cars(final String carNames, final NumberGenerator numberGenerator) {
@@ -28,13 +28,13 @@ public class Cars {
 
     public void race() {
         cars.forEach(car -> {
-            int power = numberGenerator.generate();
+            final int power = numberGenerator.generate();
             car.move(power);
         });
     }
 
     public List<String> getWinnerCarNames() {
-        Car maxPositionCar = judgeMaxPositionCar();
+        final Car maxPositionCar = judgeMaxPositionCar();
         return cars
                 .stream()
                 .filter(maxPositionCar::isSamePosition)
@@ -49,7 +49,7 @@ public class Cars {
     }
 
     private List<Car> create(final String carNames) {
-        String[] names = splitCarNames(carNames);
+        final String[] names = splitCarNames(carNames);
         return Arrays.stream(names)
                 .map(Car::create)
                 .collect(Collectors.toList());
@@ -60,7 +60,7 @@ public class Cars {
     }
 
     private void validateDuplicateCarName() {
-        int uniqueCarCount = new HashSet<>(cars).size();
+        final int uniqueCarCount = new HashSet<>(cars).size();
         if (cars.size() != uniqueCarCount) {
             throw new IllegalArgumentException(DUPLICATE_MESSAGE);
         }
@@ -70,7 +70,7 @@ public class Cars {
     public boolean equals(Object diffCars) {
         if (this == diffCars) return true;
         if (diffCars == null || getClass() != diffCars.getClass()) return false;
-        Cars cars = (Cars) diffCars;
+        final Cars cars = (Cars) diffCars;
         return Objects.equals(this.cars, cars.cars);
     }
 

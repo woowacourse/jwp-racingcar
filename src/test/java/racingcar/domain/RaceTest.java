@@ -8,9 +8,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static racingcar.provider.TestProvider.createTestRace;
 
 public class RaceTest {
+
     @ParameterizedTest
     @ValueSource(ints = {1, 10, 10000})
     @DisplayName("정상적인 시도 횟수가 들어오면 예외가 발생하지 않는다.")
@@ -33,7 +33,7 @@ public class RaceTest {
     void givenRaceOrder_thenReturnTrue() {
         // given
         int userRaceCount = 3;
-        Race testRace = createTestRace(userRaceCount);
+        Race testRace = Race.create(userRaceCount);
 
         // when
         boolean isRaceFinish = testRace.isRunning(userRaceCount);
@@ -48,7 +48,7 @@ public class RaceTest {
     void givenRaceOrder_thenReturnFalse() {
         // given
         final int userRaceCount = 3;
-        final Race testRace = createTestRace(userRaceCount);
+        final Race testRace = Race.create(userRaceCount);
         final int raceCount = 2;
 
         // when
