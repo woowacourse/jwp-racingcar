@@ -20,7 +20,7 @@ public class PlayerDao {
     public void insertAll(final RaceResultDto raceResultDto, final int raceId) {
         final List<CarDto> carDtos = raceResultDto.getCarDtos();
 
-        carDtos.forEach((carDto) -> insert(carDto, raceId));
+        carDtos.forEach(carDto -> insert(carDto, raceId));
     }
 
     public void insert(final CarDto carDto, final int raceId) {
