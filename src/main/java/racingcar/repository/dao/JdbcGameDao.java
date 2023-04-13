@@ -19,7 +19,7 @@ public class JdbcGameDao implements GameDao {
     private final RowMapper<GameEntity> actorRowMapper = (resultSet, rowNum) -> new GameEntity(
             resultSet.getLong("id"),
             resultSet.getInt("trial_count"),
-            resultSet.getString("play_time")
+            resultSet.getString("created_at")
     );
 
     @Autowired

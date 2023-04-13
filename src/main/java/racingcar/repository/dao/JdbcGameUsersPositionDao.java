@@ -19,7 +19,7 @@ public class JdbcGameUsersPositionDao implements GameUsersPositionDao {
     private final RowMapper<GameUsersPositionEntity> actorRowMapper = (resultSet, rowNum) -> new GameUsersPositionEntity(
             resultSet.getLong("id"),
             resultSet.getLong("game_id"),
-            resultSet.getLong("user_id"),
+            resultSet.getLong("users_id"),
             resultSet.getInt("position")
     );
 

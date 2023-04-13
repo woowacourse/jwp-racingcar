@@ -19,7 +19,7 @@ public class JdbcGameWinUsersDao implements GameWinUsersDao {
     private final RowMapper<GameWinUsersEntity> actorRowMapper = (resultSet, rowNum) -> new GameWinUsersEntity(
             resultSet.getLong("id"),
             resultSet.getLong("game_id"),
-            resultSet.getLong("user_id")
+            resultSet.getLong("users_id")
     );
 
     @Autowired
