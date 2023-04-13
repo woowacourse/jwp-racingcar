@@ -5,7 +5,8 @@ public class RequestDTO {
     private String names;
     private int count;
 
-    public RequestDTO() {}
+    public RequestDTO() {
+    }
 
     public RequestDTO(final String names, final int count) {
         this.names = names;

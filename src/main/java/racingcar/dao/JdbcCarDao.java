@@ -8,7 +8,7 @@ public class JdbcCarDao implements CarDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public JdbcCarDao(JdbcTemplate jdbcTemplate) {
+    public JdbcCarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
