@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ class InMemoryGameDaoTest {
     private GameDao gameDao;
 
     @Test
+    @DisplayName("시도 횟수, 승자를 DB에 저장하며 id를 반환하는 성공 테스트")
     void save() {
         String winner = "ocean";
         int trialCount = 5;

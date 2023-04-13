@@ -23,8 +23,8 @@ class WebControllerTest {
         RestAssured.port = port;
     }
 
-    @DisplayName("playGame - POST")
     @Test
+    @DisplayName("playGame - POST")
     void playGame() {
         RequestDto requestDto = new RequestDto("ocean,mint", 5);
 
