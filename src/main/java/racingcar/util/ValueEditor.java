@@ -18,6 +18,14 @@ public class ValueEditor {
                 .collect(Collectors.toList());
     }
 
+    public static int parseStringToInt(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch(NumberFormatException ex) {
+            throw new IllegalArgumentException("숫자만 입력가능 합니다.");
+        }
+    }
+
     private enum Regex {
         SPACE(" "), NO_SPACE("");
         private final String regex;

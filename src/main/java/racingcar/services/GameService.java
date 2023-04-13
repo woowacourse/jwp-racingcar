@@ -15,10 +15,12 @@ import racingcar.dto.GameInfoDto;
 import racingcar.dto.ResultDto;
 import racingcar.model.car.Cars;
 import racingcar.model.manager.CarMoveManager;
-import racingcar.util.MoveCountValidator;
+import racingcar.util.ValueEditor;
 
 @Service
 public class GameService {
+    public static final String MOVE_COUNT_EXCEPTION_MESSAGE = "1회 이상 이동해야 합니다.";
+    public static final int MIN_MOVE_COUNT = 1;
     private final GameDao gameDao;
     private final CarDao carDao;
     private final WinnerDao winnerDao;
@@ -50,10 +52,16 @@ public class GameService {
     }
 
     void moveCars(Cars cars, String countInput) {
-        MoveCountValidator.validate(countInput);
-        int count = Integer.parseInt(countInput);
+        int count = ValueEditor.parseStringToInt(countInput);
+        validateCount(count);
         for (int i = 0; i < count; i++) {
             cars.moveAllCarsOnce(carMoveManager);
+        }
+    }
+
+    private void validateCount(int count) {
+        if(count < MIN_MOVE_COUNT) {
+            throw new IllegalArgumentException(MOVE_COUNT_EXCEPTION_MESSAGE);
         }
     }
 

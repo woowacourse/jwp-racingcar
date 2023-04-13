@@ -1,6 +1,7 @@
 package racingcar.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 
@@ -8,6 +9,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import racingcar.dto.CarDto;
 import racingcar.model.car.Car;
@@ -36,7 +39,11 @@ class GameServiceTest {
         String namesInput = "폴로,이리내";
         gameService.createCars(cars, namesInput);
 
-        assertThat(cars.getCurrentResult()).containsExactlyInAnyOrder(new Car(new Name("폴로")), new Car(new Name("이리내")));
+        assertThat(cars.getCurrentResult())
+                .containsExactlyInAnyOrder(
+                        new Car(new Name("폴로")),
+                        new Car(new Name("이리내"))
+                );
     }
 
     @Test
@@ -50,6 +57,19 @@ class GameServiceTest {
         String winner = gameService.getWinner(cars);
 
         assertThat(winner).isEqualTo("폴로");
+    }
+
+    @ParameterizedTest(name = "moveInput 으로 숫자가 아닌 값이 들어오거나 0이하의 수가 들어오면 예외가 발생한다.")
+    @ValueSource(strings = {"a", "0", "-1"})
+    void moveCarsFail(String countInput) {
+        String nameInputs = "폴로,이리내,허브";
+        gameService.createCars(cars, nameInputs);
+        assertThatThrownBy(() -> gameService.moveCars(cars, countInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .message()
+                .containsAnyOf(
+                        "1회 이상 이동해야 합니다.", "숫자만 입력가능 합니다."
+                );
     }
 
     @Test

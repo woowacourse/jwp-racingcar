@@ -3,7 +3,6 @@ package racingcar.view;
 import java.util.List;
 import java.util.Scanner;
 
-import racingcar.util.MoveCountValidator;
 import racingcar.util.ValueEditor;
 
 public class InputView {
@@ -21,15 +20,12 @@ public class InputView {
     public List<String> readCarNames() {
         System.out.println(Message.INPUT_CARS.message);
         String input = ValueEditor.removeSpace(scanner.nextLine());
-        List<String> names = ValueEditor.splitByComma(input);
-        return names;
+        return ValueEditor.splitByComma(input);
     }
 
-    public int readMoveCount() {
+    public String readMoveCount() {
         System.out.println(Message.INPUT_MOVE_COUNT.message);
-        String input = ValueEditor.removeSpace(scanner.nextLine());
-        MoveCountValidator.validate(input);
-        return Integer.parseInt(input);
+        return ValueEditor.removeSpace(scanner.nextLine());
     }
 
     private enum Message {

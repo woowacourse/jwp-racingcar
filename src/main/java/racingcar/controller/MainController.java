@@ -4,6 +4,7 @@ import racingcar.model.car.CarRegisterer;
 import racingcar.model.car.Cars;
 import racingcar.model.car.Car;
 import racingcar.model.manager.CarMoveManager;
+import racingcar.util.ValueEditor;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -62,7 +63,8 @@ public class MainController {
     }
 
     private GameStatus race() {
-        int moveCount = inputView.readMoveCount();
+        String moveCountInput = inputView.readMoveCount();
+        int moveCount = ValueEditor.parseStringToInt(moveCountInput);
         Cars cars = carRegisterer.prepareCars();
         moveAllCars(moveCount, cars);
         outputView.printResultMessage();
