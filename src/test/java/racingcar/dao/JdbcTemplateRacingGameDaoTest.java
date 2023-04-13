@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.CarDto;
+import racingcar.dto.CarData;
 
 import java.util.List;
 
@@ -63,13 +63,13 @@ class JdbcTemplateRacingGameDaoTest {
         String expectedWinners = "브리,브라운";
         Number gameResultKey = jdbcTemplateRacingGameDao.saveGameResult(expectedWinners, 3);
 
-        List<CarDto> carDtos = List.of(
-                new CarDto("브리", 2),
-                new CarDto("토미", 1),
-                new CarDto("브라운", 2)
+        List<CarData> carData = List.of(
+                new CarData("브리", 2),
+                new CarData("토미", 1),
+                new CarData("브라운", 2)
         );
         // 저장한 GAME_RESULT 을 참조하는 PLAYER_RESULT 를 저장한다
-        jdbcTemplateRacingGameDao.savePlayerResults(carDtos, gameResultKey);
+        jdbcTemplateRacingGameDao.savePlayerResults(carData, gameResultKey);
 
         int positionOfBri = jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '브리'", Integer.class);
         int positionOfTomi = jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '토미'", Integer.class);

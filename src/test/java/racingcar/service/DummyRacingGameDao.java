@@ -1,7 +1,7 @@
 package racingcar.service;
 
 import racingcar.dao.RacingGameDao;
-import racingcar.dto.CarDto;
+import racingcar.dto.CarData;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ public class DummyRacingGameDao implements RacingGameDao {
     }
 
     @Override
-    public void savePlayerResults(final List<CarDto> racingCars, final Number gameResultKey) {
+    public void savePlayerResults(final List<CarData> racingCarData, final Number gameResultKey) {
     }
 }

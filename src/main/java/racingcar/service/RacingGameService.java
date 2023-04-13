@@ -6,9 +6,9 @@ import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
-import racingcar.dto.RacingGameRequestDto;
+import racingcar.dto.CarData;
+import racingcar.dto.GameResultResponse;
+import racingcar.dto.RacingGameRequest;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,21 +24,21 @@ public final class RacingGameService {
         this.racingGameDao = racingGameDao;
     }
 
-    public GameResultDto playRacingGame(final RacingGameRequestDto racingGameRequestDto) {
-        RacingGame racingGame = createRacingGame(racingGameRequestDto);
+    public GameResultResponse playRacingGame(final RacingGameRequest racingGameRequest) {
+        RacingGame racingGame = createRacingGame(racingGameRequest);
         play(racingGame);
-        GameResultDto gameResultDto = new GameResultDto(
+        GameResultResponse gameResultResponse = new GameResultResponse(
                 mapWinnerNamesTextFrom(racingGame),
                 mapCarDtosFrom(racingGame)
         );
-        save(gameResultDto, racingGameRequestDto.getCount());
-        return gameResultDto;
+        save(gameResultResponse, racingGameRequest.getCount());
+        return gameResultResponse;
     }
 
-    private RacingGame createRacingGame(final RacingGameRequestDto racingGameRequestDto) {
+    private RacingGame createRacingGame(final RacingGameRequest racingGameRequest) {
         return new RacingGame(
-                List.of(racingGameRequestDto.getNames().split(",")),
-                racingGameRequestDto.getCount(),
+                List.of(racingGameRequest.getNames().split(",")),
+                racingGameRequest.getCount(),
                 new RandomNumberGenerator()
         );
     }
@@ -50,10 +50,10 @@ public final class RacingGameService {
         }
     }
 
-    private List<CarDto> mapCarDtosFrom(final RacingGame racingGame) {
+    private List<CarData> mapCarDtosFrom(final RacingGame racingGame) {
         return racingGame.getCars().stream()
                 .sorted(Comparator.comparingInt(Car::getPosition).reversed())
-                .map(car -> new CarDto(car.getCarName(), car.getPosition()))
+                .map(car -> new CarData(car.getCarName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
 
@@ -63,8 +63,8 @@ public final class RacingGameService {
                 .collect(Collectors.joining(","));
     }
 
-    private void save(final GameResultDto gameResultDto, final int trialCount) {
-        Number gameResultKey = racingGameDao.saveGameResult(gameResultDto.getWinners(), trialCount);
-        racingGameDao.savePlayerResults(gameResultDto.getRacingCars(), gameResultKey);
+    private void save(final GameResultResponse gameResultResponse, final int trialCount) {
+        Number gameResultKey = racingGameDao.saveGameResult(gameResultResponse.getWinners(), trialCount);
+        racingGameDao.savePlayerResults(gameResultResponse.getRacingCars(), gameResultKey);
     }
 }

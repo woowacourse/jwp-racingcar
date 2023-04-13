@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.GameResultDto;
-import racingcar.dto.RacingGameRequestDto;
+import racingcar.dto.GameResultResponse;
+import racingcar.dto.RacingGameRequest;
 import racingcar.service.RacingGameService;
 
 import javax.validation.Valid;
@@ -22,9 +22,9 @@ public final class RacingController {
     }
 
     @PostMapping(path = "/plays")
-    public ResponseEntity<GameResultDto> playRacingGame(
-            @Valid @RequestBody final RacingGameRequestDto racingGameRequestDto
+    public ResponseEntity<GameResultResponse> playRacingGame(
+            @Valid @RequestBody final RacingGameRequest racingGameRequest
     ) {
-        return ResponseEntity.ok(racingGameService.playRacingGame(racingGameRequestDto));
+        return ResponseEntity.ok(racingGameService.playRacingGame(racingGameRequest));
     }
 }
