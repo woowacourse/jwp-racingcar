@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RacingCarController {
+
     private final RacingCarWebService racingCarWebService;
 
     public RacingCarController(final RacingCarWebService racingCarWebService) {
@@ -14,7 +15,7 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<PlayResponse> play(@RequestBody PlayRequest playRequest) {
+    public ResponseEntity<PlayResponse> play(@RequestBody final PlayRequest playRequest) {
         PlayResponse response = racingCarWebService.play(playRequest);
         return ResponseEntity.ok().body(response);
     }

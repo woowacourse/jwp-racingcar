@@ -8,16 +8,17 @@ import racingcar.service.TryCount;
 
 @Repository
 public class GameInsertDao {
+
     private final SimpleJdbcInsert insertGame;
 
-    public GameInsertDao(DataSource dataSource) {
+    public GameInsertDao(final DataSource dataSource) {
         this.insertGame = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingColumns("trial_count")
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Number insertGame(TryCount tryCount) {
+    public Number insertGame(final TryCount tryCount) {
         HashMap<String, Object> parameters = new HashMap<>();
         int trialCount = tryCount.getCount();
         parameters.put("trial_count", trialCount);

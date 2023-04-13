@@ -22,7 +22,7 @@ public class RacingCarWebService {
         this.playerInsertDao = playerInsertDao;
     }
 
-    public PlayResponse play(PlayRequest playRequest) {
+    public PlayResponse play(final PlayRequest playRequest) {
         createCars(playRequest);
         TryCount tryCount = new TryCount(playRequest.getCount());
         playGame(tryCount);
@@ -35,7 +35,7 @@ public class RacingCarWebService {
         racingCarService.createCars(racingCarNamesRequest);
     }
 
-    private void playGame(TryCount tryCount) {
+    private void playGame(final TryCount tryCount) {
         RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
         while (tryCount.isAvailable()) {
             racingCarService.moveCars(randomMoveStrategy);
@@ -43,7 +43,7 @@ public class RacingCarWebService {
         }
     }
 
-    private PlayResponse save(TryCount tryCount) {
+    private PlayResponse save(final TryCount tryCount) {
         RacingCarWinnerResponse winners = findWinners();
         List<RacingCarStatusResponse> racingCars = racingCarService.getCarStatuses();
         int gameId = gameInsertDao.insertGame(tryCount).intValue();
