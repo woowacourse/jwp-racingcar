@@ -14,7 +14,6 @@ public class WebController {
 
     private final GameService gameService;
 
-    @Autowired
     public WebController(GameService gameService) {
         this.gameService = gameService;
     }
@@ -28,5 +27,4 @@ public class WebController {
         gameService.saveResult(gameInfoDto.getCount(), resultDto);
         return resultDto;
     }
-
 }

@@ -23,7 +23,6 @@ public class GameService {
     private final CarMoveManager carMoveManager;
     private final GameDao gameDao;
 
-    @Autowired
     public GameService(Cars cars, CarMoveManager carMoveManager, GameDao gameDao) {
         this.cars = cars;
         this.carMoveManager = carMoveManager;
