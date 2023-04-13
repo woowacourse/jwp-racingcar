@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class WebRacingCarController {
     }
 
     @PostMapping("/plays")
-    public RacingResultResponse play(@RequestBody RacingStartRequest racingStartRequest) {
-        return racingCarService.play(racingStartRequest);
+    public ResponseEntity<RacingResultResponse> play(@RequestBody RacingStartRequest racingStartRequest) {
+        return ResponseEntity.ok(racingCarService.play(racingStartRequest));
     }
 }
