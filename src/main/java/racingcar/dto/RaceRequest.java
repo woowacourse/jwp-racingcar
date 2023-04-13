@@ -2,8 +2,11 @@ package racingcar.dto;
 
 public class RaceRequest {
 
-    private final String names;
-    private final int count;
+    private String names;
+    private int count;
+
+    public RaceRequest() {
+    }
 
     public RaceRequest(final String names, final int count) {
         this.names = names;
