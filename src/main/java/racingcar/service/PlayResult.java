@@ -1,7 +1,5 @@
 package racingcar.service;
 
-import java.time.LocalDateTime;
-
 /**
  * @author 우가
  * @version 1.0.0
@@ -9,14 +7,12 @@ import java.time.LocalDateTime;
  */
 public class PlayResult {
     private int id;
-    private String winners;
-    private int trialCount;
-    private LocalDateTime playedTime;
+    private final String winners;
+    private final int trialCount;
 
     public PlayResult(final String winners, final int trialCount) {
         this.winners = winners;
         this.trialCount = trialCount;
-        this.playedTime = LocalDateTime.now();
     }
 
     public PlayResult(final int id, final String winners, final int trialCount) {
@@ -41,7 +37,4 @@ public class PlayResult {
         return trialCount;
     }
 
-    public LocalDateTime getPlayedTime() {
-        return playedTime;
-    }
 }

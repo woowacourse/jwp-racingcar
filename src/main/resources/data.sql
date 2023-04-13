@@ -2,7 +2,7 @@ CREATE TABLE PLAY_RESULT (
     id          INT         NOT NULL AUTO_INCREMENT,
     winners     VARCHAR(50) NOT NULL,
     trial_count INT         NOT NULL,
-    played_time  DATETIME   NOT NULL,
+    played_time  DATETIME   NOT NULL default CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 

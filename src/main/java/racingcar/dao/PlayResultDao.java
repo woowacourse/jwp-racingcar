@@ -24,15 +24,15 @@ public class PlayResultDao {
     public PlayResultDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("PLAY_RESULT")
-                .usingGeneratedKeyColumns("id");
+                .usingGeneratedKeyColumns("id", "played_time");
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public PlayResult insertPlayResult(final PlayResult playResult) {
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(playResult);
 
-        Number newId = insertActor.executeAndReturnKey(parameterSource);
-        playResult.setId(newId.intValue());
+        int newId = (int) insertActor.executeAndReturnKeyHolder(parameterSource).getKeys().get("id");
+        playResult.setId(newId);
         return playResult;
     }
 
