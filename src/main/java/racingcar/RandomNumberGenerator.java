@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RandomNumberGenerator implements NumberGenerator {
-    public static final int MULTIPLIER = 10;
+    private static final int MULTIPLIER = 10;
 
     @Override
     public int generate() {
