@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import racingcar.dto.ResultDto;
-
 @Repository
 public class JdbcWinnerDao implements WinnerDao {
     private final JdbcTemplate jdbcTemplate;
@@ -18,10 +16,10 @@ public class JdbcWinnerDao implements WinnerDao {
     }
 
     @Override
-    public void insertWinner(ResultDto resultDto, long gameId) {
+    public void insertWinner(String winners, long gameId) {
         String sql = "INSERT INTO winner (g_id,winner) VALUES (?,?)";
-        String[] winners = resultDto.getWinners().split(", ");
-        jdbcTemplate.batchUpdate(sql, getWinnerNames(gameId, winners));
+        String[] winnerNames = winners.split(", ");
+        jdbcTemplate.batchUpdate(sql, getWinnerNames(gameId, winnerNames));
     }
 
     private List<Object[]> getWinnerNames(long gameId, String[] winners) {
