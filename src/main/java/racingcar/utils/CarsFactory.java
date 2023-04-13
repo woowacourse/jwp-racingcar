@@ -10,13 +10,13 @@ public class CarsFactory {
 
     private static final int DEFAULT_DISTANCE_VALUE = 0;
 
-    public static Cars createCars(final String[] carNames) {
+    public static Cars createCars(final List<String> carNames) {
         List<Car> cars = makeCars(carNames);
         return new Cars(cars);
     }
 
-    private static List<Car> makeCars(final String[] carNames) {
-        return Arrays.stream(carNames)
+    private static List<Car> makeCars(final List<String> carNames) {
+        return carNames.stream()
                 .map(CarsFactory::makeCar)
                 .collect(Collectors.toList());
     }

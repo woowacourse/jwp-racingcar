@@ -38,21 +38,4 @@ public class RacingCarService {
             cars.moveAll(randomPowerGenerator);
         }
     }
-
-    public Cars makeCars(final String input) {
-        try {
-            String[] carNames = input.split(",");
-            return CarsFactory.createCars(carNames);
-        } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException(exception.getMessage());
-        }
-    }
-
-    public TryCount makeTryCount(final int input) {
-        try {
-            return new TryCount(input);
-        } catch (IllegalArgumentException | InputMismatchException exception) {
-            throw new IllegalArgumentException(exception.getMessage());
-        }
-    }
 }
