@@ -24,11 +24,11 @@ public class GameResultDao {
     }
 
     public void saveGame(final TryCount tryCount, final GameResultResponseDto gameResult) {
-        int gameId = saveGameHistory(tryCount);
+        long gameId = saveGameHistory(tryCount);
         savePlayersStatus(gameResult, gameId);
     }
 
-    public int saveGameHistory(final TryCount tryCount) {
+    public long saveGameHistory(final TryCount tryCount) {
         String sql = "INSERT INTO game (trialCount, dateTime) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -39,10 +39,10 @@ public class GameResultDao {
             return preparedStatement;
         }, keyHolder);
 
-        return Objects.requireNonNull(keyHolder.getKey()).intValue();
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
-    private void savePlayersStatus(final GameResultResponseDto gameResult, final int gameId) {
+    private void savePlayersStatus(final GameResultResponseDto gameResult, final long gameId) {
         String sql = "INSERT INTO player (game_id, name, position, isWinner) VALUES (?, ?, ?, ?)";
 
         gameResult.getRacingCars()
