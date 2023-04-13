@@ -13,13 +13,13 @@ import racingcar.service.TryCount;
 public class RacingCarWebService {
 
     private final RacingCarService racingCarService;
-    private final GameInsertDao gameInsertDao;
-    private final PlayerInsertDao playerInsertDao;
+    private final GameRepository gameRepository;
+    private final PlayerRepository playerRepository;
 
-    public RacingCarWebService(final GameInsertDao gameInsertDao, final PlayerInsertDao playerInsertDao) {
+    public RacingCarWebService(final GameRepository gameRepository, final PlayerRepository playerRepository) {
         this.racingCarService = new RacingCarService();
-        this.gameInsertDao = gameInsertDao;
-        this.playerInsertDao = playerInsertDao;
+        this.gameRepository = gameRepository;
+        this.playerRepository = playerRepository;
     }
 
     public PlayResponse play(final PlayRequest playRequest) {
@@ -46,8 +46,8 @@ public class RacingCarWebService {
     private PlayResponse save(final TryCount tryCount) {
         RacingCarWinnerResponse winners = findWinners();
         List<RacingCarStatusResponse> racingCars = racingCarService.getCarStatuses();
-        int gameId = gameInsertDao.insertGame(tryCount).intValue();
-        playerInsertDao.insertPlayer(racingCars, winners.getWinners(), gameId);
+        int gameId = gameRepository.insertGame(tryCount).intValue();
+        playerRepository.insertPlayer(racingCars, winners.getWinners(), gameId);
         return PlayResponse.of(winners, racingCars);
     }
 

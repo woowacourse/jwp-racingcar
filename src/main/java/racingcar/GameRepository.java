@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 import racingcar.service.TryCount;
 
 @Repository
-public class GameInsertDao {
+public class GameRepository {
 
     private final SimpleJdbcInsert insertGame;
 
-    public GameInsertDao(final DataSource dataSource) {
+    public GameRepository(final DataSource dataSource) {
         this.insertGame = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingColumns("trial_count")

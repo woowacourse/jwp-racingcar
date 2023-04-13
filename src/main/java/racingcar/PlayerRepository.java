@@ -10,14 +10,14 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.RacingCarStatusResponse;
 
 @Repository
-public class PlayerInsertDao {
+public class PlayerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final WinnerInsertDao winnerInsertDao;
+    private final WinnerRepository winnerRepository;
 
-    public PlayerInsertDao(final NamedParameterJdbcTemplate jdbcTemplate, final WinnerInsertDao winnerInsertDao) {
+    public PlayerRepository(final NamedParameterJdbcTemplate jdbcTemplate, final WinnerRepository winnerRepository) {
         this.jdbcTemplate = jdbcTemplate;
-        this.winnerInsertDao = winnerInsertDao;
+        this.winnerRepository = winnerRepository;
     }
 
     public void insertPlayer(final List<RacingCarStatusResponse> responses, final List<String> winnerNames, final int gameId) {
@@ -30,7 +30,7 @@ public class PlayerInsertDao {
 
             if (winnerNames.contains(response.getName())) {
                 int playerId = generatedKeyHolder.getKey().intValue();
-                winnerInsertDao.insertWinner(gameId, playerId);
+                winnerRepository.insertWinner(gameId, playerId);
             }
         }
     }

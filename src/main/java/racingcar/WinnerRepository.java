@@ -7,11 +7,11 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class WinnerInsertDao {
+public class WinnerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public WinnerInsertDao(final NamedParameterJdbcTemplate jdbcTemplate) {
+    public WinnerRepository(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
