@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.error.ErrorMessage;
+import racingcar.exception.ExceptionMessage;
 
 public class Name {
     private static final int MAX_NAME_LENGTH = 5;
@@ -15,7 +15,7 @@ public class Name {
     private void validate(String name) {
         if (name.isBlank() || name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(
-                    String.format(ErrorMessage.INVALID_NAME_LENGTH.getValue(), MAX_NAME_LENGTH)
+                    String.format(ExceptionMessage.INVALID_NAME_LENGTH.getValue(), MAX_NAME_LENGTH)
             );
         }
     }
