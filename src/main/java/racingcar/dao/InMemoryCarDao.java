@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.model.Car;
@@ -11,6 +12,7 @@ public class InMemoryCarDao implements CarDao {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public InMemoryCarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

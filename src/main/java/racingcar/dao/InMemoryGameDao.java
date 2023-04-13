@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -11,6 +12,7 @@ import java.sql.PreparedStatement;
 public class InMemoryGameDao implements GameDao {
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public InMemoryGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
