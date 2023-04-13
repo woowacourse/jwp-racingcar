@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.JdbcTemplateDAO;
 import racingcar.domain.Car;
@@ -8,7 +9,7 @@ import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.GameResultResponseDto;
+import racingcar.dto.response.GameResponseDto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,11 +22,12 @@ public class RacingGameService {
 
     private final JdbcTemplateDAO jdbcTemplateDAO;
 
+    @Autowired
     public RacingGameService(JdbcTemplateDAO jdbcTemplateDAO) {
         this.jdbcTemplateDAO = jdbcTemplateDAO;
     }
 
-    public GameResultResponseDto play(String names, int tryCount) {
+    public GameResponseDto play(String names, int tryCount) {
         RacingGame racingGame = new RacingGame(convertToNames(names));
 
         racingGame.moveCars(new TryCount(tryCount));
@@ -35,7 +37,7 @@ public class RacingGameService {
 
         jdbcTemplateDAO.saveResult(new GameResultDto(tryCount, winners, resultCars));
 
-        return new GameResultResponseDto(winners, resultCars);
+        return new GameResponseDto(winners, resultCars);
     }
 
     private List<Name> convertToNames(String inputNames) {

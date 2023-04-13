@@ -1,13 +1,15 @@
-package racingcar.dto;
+package racingcar.dto.response;
 
+
+import racingcar.dto.CarDto;
 
 import java.util.List;
 
-public class GameResultResponseDto {
+public class GameResponseDto {
     private final String winners;
     private final List<CarDto> racingCars;
 
-    public GameResultResponseDto(String winners, List<CarDto> racingCars) {
+    public GameResponseDto(String winners, List<CarDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

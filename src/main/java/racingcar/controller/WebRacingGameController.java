@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.GameInfoDto;
-import racingcar.dto.GameResultResponseDto;
+import racingcar.dto.request.GameRequestDto;
+import racingcar.dto.response.GameResponseDto;
 import racingcar.service.RacingGameService;
 
 @RestController
@@ -20,8 +20,8 @@ public class WebRacingGameController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResultResponseDto> playGame(@RequestBody GameInfoDto request) {
-        GameResultResponseDto response = racingGameService.play(request.getNames(), request.getCount());
+    public ResponseEntity<GameResponseDto> playGame(@RequestBody GameRequestDto request) {
+        GameResponseDto response = racingGameService.play(request.getNames(), request.getCount());
 
         return ResponseEntity.ok(response);
     }
