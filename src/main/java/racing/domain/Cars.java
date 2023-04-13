@@ -54,6 +54,12 @@ public class Cars {
         return winners;
     }
 
+    public void moveCars(int count) {
+        while (count-- > 0) {
+            this.calculator(new Random());
+        }
+    }
+
     public List<Car> getCars() {
         return cars;
     }

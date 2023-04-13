@@ -3,6 +3,8 @@ package racing.repositroy;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -54,4 +56,9 @@ public class RacingGameDao {
         jdbcTemplate.batchUpdate(saveCarQuery, insertValues);
     }
 
+    public int findGameTrialById(Long gameId) {
+        String findGameById = "SELECT count FROM games as g where g.game_id = ?";
+
+        return jdbcTemplate.queryForObject(findGameById, Integer.class, gameId);
+    }
 }

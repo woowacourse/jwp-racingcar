@@ -7,7 +7,6 @@ import racing.repositroy.RacingGameDao;
 import racing.domain.Cars;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class RacingGameService {
@@ -18,17 +17,13 @@ public class RacingGameService {
         this.racingGameDao = racingGameDao;
     }
 
-    public void move(Cars cars, int count) {
-        while(count-- > 0) {
-            cars.calculator(new Random());
-        }
-    }
-
-    public Long createRacingGame(int count) {
+    public Long saveGameByCount(int count) {
         return racingGameDao.saveGame(count);
     }
 
-    public void saveCarsState(Long gameId, Cars cars) {
+    public void playGame(Long gameId, Cars cars) {
+        int gameTrialCount = racingGameDao.findGameTrialById(gameId);
+        cars.moveCars(gameTrialCount);
         List<String> winners = cars.getWinners();
 
         List<CarEntity> carEntities = cars.getCars().stream()

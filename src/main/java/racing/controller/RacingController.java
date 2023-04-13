@@ -27,10 +27,8 @@ public class RacingController {
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResultResponse> start(@RequestBody RacingGameInfoRequest request) {
         Cars cars = CarFactory.carFactory(request.getNames());
-        Long gameId = racingGameService.createRacingGame(request.getCount());
-
-        racingGameService.move(cars, request.getCount());
-        racingGameService.saveCarsState(gameId, cars);
+        Long gameId = racingGameService.saveGameByCount(request.getCount());
+        racingGameService.playGame(gameId, cars);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
