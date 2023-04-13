@@ -16,7 +16,7 @@ public class WinnerRepository {
     }
 
     public void insertWinner(final int gameId, final int playerId) {
-        String insertWinnerSql = "INSERT INTO winners(game_id, player_id) VALUES(:game_id, :player_id)";
+        String insertWinnerSql = "INSERT INTO winner(game_id, player_id) VALUES(:game_id, :player_id)";
 
         SqlParameterSource namedParameters = new MapSqlParameterSource(Map.of(
                 "game_id", gameId,
