@@ -1,5 +1,7 @@
 package racing.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,14 +25,16 @@ public class RacingController {
     }
 
     @PostMapping("/plays")
-    public RacingGameResultResponse start(@RequestBody RacingGameInfoRequest request) {
+    public ResponseEntity<RacingGameResultResponse> start(@RequestBody RacingGameInfoRequest request) {
         Cars cars = CarFactory.carFactory(request.getNames());
         Long gameId = racingGameService.createRacingGame(request.getCount());
 
         racingGameService.move(cars, request.getCount());
         racingGameService.saveCarsState(gameId, cars);
 
-        return getRacingGameResultResponse(cars);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(getRacingGameResultResponse(cars));
     }
 
     private RacingGameResultResponse getRacingGameResultResponse(Cars cars) {
