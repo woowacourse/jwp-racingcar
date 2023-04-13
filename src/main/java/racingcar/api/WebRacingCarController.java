@@ -8,6 +8,8 @@ import racingcar.dto.request.CarGameRequest;
 import racingcar.dto.response.CarGameResponse;
 import racingcar.service.RacingGameService;
 
+import javax.validation.Valid;
+
 @RestController
 public class WebRacingCarController {
 
@@ -18,7 +20,7 @@ public class WebRacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<CarGameResponse> plays(@RequestBody CarGameRequest request) {
+    public ResponseEntity<CarGameResponse> plays(@Valid @RequestBody CarGameRequest request) {
         CarGameResponse result = racingGameService.play(request);
         return ResponseEntity.ok(result);
     }
