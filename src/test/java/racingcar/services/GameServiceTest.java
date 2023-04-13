@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import racingcar.dto.CarDto;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
+import racingcar.model.car.Name;
 
 class GameServiceTest {
 
@@ -35,7 +36,7 @@ class GameServiceTest {
         String namesInput = "폴로,이리내";
         gameService.createCars(cars, namesInput);
 
-        assertThat(cars.getCurrentResult()).containsExactlyInAnyOrder(new Car("폴로"), new Car("이리내"));
+        assertThat(cars.getCurrentResult()).containsExactlyInAnyOrder(new Car(new Name("폴로")), new Car(new Name("이리내")));
     }
 
     @Test

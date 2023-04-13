@@ -18,7 +18,7 @@ public class CarRegisterer {
 
     public Cars prepareCars() {
         return new Cars(carNames.stream()
-                .map(Car::new)
+                .map(carName -> new Car(new Name(carName)))
                 .collect(Collectors.toUnmodifiableList()));
     }
 }

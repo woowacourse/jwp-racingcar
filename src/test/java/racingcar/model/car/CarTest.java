@@ -12,8 +12,8 @@ class CarTest {
 
     @BeforeEach
     void setUp() {
-        gitJjang = new Car("깃짱");
-        irene = new Car("이리내");
+        gitJjang = new Car(new Name("깃짱"));
+        irene = new Car(new Name("이리내"));
     }
 
     @Test

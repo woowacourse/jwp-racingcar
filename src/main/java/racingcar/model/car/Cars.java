@@ -13,6 +13,11 @@ public class Cars {
         this.cars = cars;
     }
 
+    public void createCars(List<String> names) {
+        for (String name : names) {
+            cars.add(new Car(new Name(name)));
+        }
+    }
 
     public List<Car> getCurrentResult() {
         return List.copyOf(cars);
@@ -35,9 +40,5 @@ public class Cars {
                 .mapToInt(Car::getPosition)
                 .max()
                 .orElse(0);
-    }
-
-    public void add(Car car) {
-        cars.add(car);
     }
 }

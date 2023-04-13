@@ -13,10 +13,8 @@ import racingcar.dao.WinnerDao;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameInfoDto;
 import racingcar.dto.ResultDto;
-import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.manager.CarMoveManager;
-import racingcar.util.CarNameValidator;
 import racingcar.util.MoveCountValidator;
 
 @Service
@@ -48,11 +46,7 @@ public class GameService {
 
     void createCars(Cars cars, String inputs) {
         List<String> names = Arrays.asList(inputs.split(","));
-        CarNameValidator.validate(names);
-        for (String name : names) {
-            Car car = new Car(name);
-            cars.add(car);
-        }
+            cars.createCars(names);
     }
 
     void moveCars(Cars cars, String countInput) {
