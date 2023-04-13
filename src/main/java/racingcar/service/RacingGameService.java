@@ -1,8 +1,10 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import racingcar.RandomNumberGenerator;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
+import racingcar.dto.request.CarGameRequest;
 import racingcar.dto.response.CarGameResponse;
 import racingcar.dto.response.CarResponse;
 import racingcar.entity.CarResultEntity;
@@ -10,6 +12,7 @@ import racingcar.entity.PlayResultEntity;
 import racingcar.mapper.CarResultMapper;
 import racingcar.mapper.PlayResultMapper;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,15 +20,22 @@ import java.util.stream.Collectors;
 public class RacingGameService {
 
     private final CarResultMapper carResultMapper;
-
     private final PlayResultMapper playResultMapper;
+    private final RandomNumberGenerator numberGenerator;
 
-    public RacingGameService(CarResultMapper carResultMapper, PlayResultMapper playResultMapper) {
+    public RacingGameService(CarResultMapper carResultMapper, PlayResultMapper playResultMapper, RandomNumberGenerator numberGenerator) {
         this.carResultMapper = carResultMapper;
         this.playResultMapper = playResultMapper;
+        this.numberGenerator = numberGenerator;
     }
 
-    public CarGameResponse play(RacingGame game) {
+    public CarGameResponse play(CarGameRequest request) {
+
+        List<String> names = Arrays.stream(request.getNames().split(",", -1))
+                .collect(Collectors.toList());
+
+        RacingGame game = new RacingGame(numberGenerator, new Cars(names), request.getCount());
+
         int tryCount = game.getTryCount();
         progress(game);
         Cars cars = game.getCars();
@@ -33,8 +43,8 @@ public class RacingGameService {
 
         saveCarResult(tryCount, cars, winners);
         List<CarResponse> carResponses = getCarResponses(cars);
-        
-        return new CarGameResponse(winners, carResponses);
+
+        return CarGameResponse.of(winners, carResponses);
     }
 
     private static List<CarResponse> getCarResponses(Cars cars) {

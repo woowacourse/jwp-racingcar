@@ -9,6 +9,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class CarTest {
 
     @Test
+    @DisplayName("비어있는 이름이면 예외")
+    void nameEmptyEx() {
+        assertThatThrownBy(() -> new Car(""))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     @DisplayName("이름이 5글자 초과면 예외")
     void nameLengthEx() {
         assertThatThrownBy(() -> new Car("loooooongName"))
