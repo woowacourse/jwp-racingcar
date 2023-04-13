@@ -23,4 +23,8 @@ public class PlayResultDao {
         Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count, "winners", winners));
         return savedId.longValue();
     }
+
+    public String findWinners(final long id) {
+        return jdbcTemplate.queryForObject("SELECT winners FROM play_result WHERE id = ?", String.class, id);
+    }
 }

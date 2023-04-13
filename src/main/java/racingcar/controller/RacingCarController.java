@@ -36,7 +36,7 @@ public class RacingCarController {
         String winners = String.join(", ", racingGame.getWinnerNames());
 
         long savedId = playResultDao.insert(count, winners);
-        carDao.save(savedId, cars);
+        carDao.insert(savedId, cars);
         return ResponseEntity.ok(new GameResultDto(cars, winners));
     }
 
