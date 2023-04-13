@@ -3,15 +3,14 @@ package racingcar.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.race.WinnerJudgeImpl;
 import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
 import racingcar.domain.race.WinnerJudge;
+import racingcar.domain.race.WinnerJudgeImpl;
 
 class RacingGameTest {
     @Nested
@@ -21,7 +20,7 @@ class RacingGameTest {
         @DisplayName("이름이 중복으로 입력되었을 때 예외 발생")
         void throwExceptionWhenDuplicateNameExists() {
             Assertions.assertThatThrownBy(
-                            () -> new RacingGame(List.of("rosie", "hong", "rosie"), new WinnerJudgeImpl(), 10))
+                            () -> new RacingGame(List.of("rosie", "hong", "rosie"), new WinnerJudgeImpl()))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -39,16 +38,12 @@ class RacingGameTest {
             // given
             Car winner = new Car("rosie");
             mockWinnerJudge = cars -> List.of(winner);
-            race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge, 10);
+            race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge);
 
             // when
 
             //then
             assertThat(race.isWinner(winner)).isTrue();
-        }
-
-        private List<String> getNamesOf(List<Car> winners) {
-            return winners.stream().map(Car::getName).collect(Collectors.toList());
         }
 
         @Test
@@ -57,7 +52,7 @@ class RacingGameTest {
             // given
             Car winner = new Car("rosie");
             mockWinnerJudge = cars -> List.of(winner);
-            race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge, 10);
+            race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge);
 
             // when
             //then
@@ -69,12 +64,13 @@ class RacingGameTest {
     @Test
     void testGameProgress() {
         //given
-        RacingGame race = new RacingGame(List.of("바론", "론이", "로니", "로지"), new WinnerJudgeImpl(), 10);
+        int trialCount = 10;
+        RacingGame race = new RacingGame(List.of("바론", "론이", "로니", "로지"), new WinnerJudgeImpl());
         //when
-        race.progress();
+        race.progress(trialCount);
         //then
         boolean isAllInTrialCount = race.getRacingCars().stream()
-                .allMatch(car -> 0 <= car.getPosition() && car.getPosition() <= 10);
+                .allMatch(car -> 0 <= car.getPosition() && car.getPosition() <= trialCount);
 
         assertThat(isAllInTrialCount).isTrue();
     }

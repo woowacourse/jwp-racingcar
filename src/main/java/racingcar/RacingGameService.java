@@ -1,5 +1,6 @@
 package racingcar;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarRecordDao;
@@ -21,9 +22,9 @@ public class RacingGameService {
     }
 
     public ResultDto start(int trialCount, List<String> names) {
-        RacingGame game = new RacingGame(names, new WinnerJudgeImpl(), trialCount);
-        Long historyId = racingHistoryDao.save(trialCount, game.getPlayTime());
-        game.progress();
+        RacingGame game = new RacingGame(names, new WinnerJudgeImpl());
+        Long historyId = racingHistoryDao.save(trialCount, LocalDateTime.now());
+        game.progress(trialCount);
         saveCars(game, historyId);
         return new ResultDto(game.getRacingCars(), game.getWinners());
     }

@@ -1,23 +1,18 @@
 package racingcar.domain.race;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import racingcar.domain.car.Car;
 
 public class RacingGame {
     private final RacingCars racingCars;
-    private final int trialCount;
-    private final LocalDateTime playTime;
     private WinnerJudge winnerJudge;
 
-    public RacingGame(List<String> carNames, WinnerJudge winnerJudge, int trialCount) {
+    public RacingGame(List<String> carNames, WinnerJudge winnerJudge) {
         this.racingCars = new RacingCars(carNames);
-        this.trialCount = trialCount;
-        this.playTime = LocalDateTime.now();
         this.winnerJudge = winnerJudge;
     }
 
-    public void progress() {
+    public void progress(int trialCount) {
         for (int count = 0; count < trialCount; count++) {
             racingCars.moveCars();
         }
@@ -36,7 +31,4 @@ public class RacingGame {
         return racingCars.getCars();
     }
 
-    public LocalDateTime getPlayTime() {
-        return playTime;
-    }
 }
