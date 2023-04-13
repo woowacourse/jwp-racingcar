@@ -30,13 +30,13 @@ public class RecordService {
         return new PlayResponse(winners, racingCars);
     }
 
-    private static List<String> findWinnerName(final Cars cars) {
+    private List<String> findWinnerName(final Cars cars) {
         return cars.getWinner().stream()
                 .map(Vehicle::getName)
                 .collect(Collectors.toList());
     }
 
-    private static List<VehicleDto> findAllVehicle(final Cars cars) {
+    private List<VehicleDto> findAllVehicle(final Cars cars) {
         return cars.getCars()
                 .stream()
                 .map(car -> new VehicleDto(car.getName(), car.getDistance()))
