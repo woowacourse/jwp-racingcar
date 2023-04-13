@@ -1,43 +1,72 @@
 package racingcar;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import io.restassured.RestAssured;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import racingcar.dao.CarRecord;
 import racingcar.dto.RacingGameRequest;
+import racingcar.dto.ResultDto;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ExtendWith(MockitoExtension.class)
 class RacingGameControllerTest {
-    @LocalServerPort
-    int port;
+
+    private MockMvc mockMvc;
+
+    @Mock
+    private RacingGameService racingGameService;
+
+    @InjectMocks
+    RacingGameController racingGameController;
+
+    private ResultDto mockResponse;
+
 
     @BeforeEach
     void setUp() {
-        RestAssured.port = port;
+        mockResponse = new ResultDto(List.of(new CarRecord("브리", 6, true),
+                new CarRecord("로지", 5, false),
+                new CarRecord("바론", 4, false)));
+
+        given(racingGameService.start(anyInt(), anyList())).willReturn(mockResponse);
+        MockitoAnnotations.openMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
     }
 
-    @DisplayName("게임 실행 시, JSON으로 결과를 조회할 수 있다")
     @Test
-    void playGame() {
+    void testPlay() throws Exception {
+        //given
+        ObjectMapper objectMapper = new ObjectMapper();
+        RacingGameRequest racingGameRequest = new RacingGameRequest("브리,로지,바론", 10);
+        String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
+        String responseAsString = objectMapper.writeValueAsString(mockResponse);
 
-        RacingGameRequest racingGameRequest = new RacingGameRequest("바론,로지,져니", 10);
-        RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(racingGameRequest)
-                .when().post("/plays")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .body("winners", notNullValue())
-                .body("racingCars", hasSize(3));
+        //when
+        //then
+        mockMvc.perform(post("/plays")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestAsString))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseAsString))
+                .andDo(MockMvcResultHandlers.print());
+
+
     }
-
-    // TODO: 2023/04/12 Service mocking 
-
 }

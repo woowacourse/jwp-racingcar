@@ -9,6 +9,9 @@ public class RacingGameRequest {
         this.count = count;
     }
 
+    public RacingGameRequest() {
+    }
+
     public String getNames() {
         return names;
     }
