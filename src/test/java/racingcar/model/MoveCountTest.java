@@ -1,16 +1,15 @@
-package racingcar.util;
+package racingcar.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import racingcar.util.MoveCountValidator.Message;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-class MoveCountValidatorTest {
+class MoveCountTest {
 
     @Nested
     @DisplayName("비정상 입력값이 들어온 케이스")
@@ -21,8 +20,8 @@ class MoveCountValidatorTest {
         @DisplayName("자연수가 아닌 입력의 경우 예외 처리한다.")
         void 자연수가_아닌_입력(String input) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> MoveCountValidator.validate(input))
-                    .withMessageStartingWith(Message.EXCEPTION_NUMERIC.getMessage());
+                    .isThrownBy(() -> MoveCount.from(input))
+                    .withMessageStartingWith("자연수만 입력 가능합니다.");
         }
 
 
@@ -31,16 +30,16 @@ class MoveCountValidatorTest {
         @DisplayName("int 범위를 초과한 입력의 경우 예외 처리한다.")
         void int_범위를_벗어난_입력(String input) {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> MoveCountValidator.validate(input))
-                    .withMessageStartingWith(Message.EXCEPTION_INT_RANGE.getMessage());
+                    .isThrownBy(() -> MoveCount.from(input))
+                    .withMessageStartingWith("int 범위를 초과하는 입력은 불가능합니다.");
         }
 
         @Test
         @DisplayName("0을 입력하는 경우 예외 처리한다.")
         void 빵을_입력() {
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> MoveCountValidator.validate("0"))
-                    .withMessageStartingWith(Message.EXCEPTION_NUMBER_RANGE.getMessage());
+                    .isThrownBy(() -> MoveCount.from("0"))
+                    .withMessageStartingWith("1회 이상 이동해야 합니다.");
         }
 
     }
@@ -52,7 +51,7 @@ class MoveCountValidatorTest {
         @ValueSource(strings = {"222000", "22222000", "1000"})
         @DisplayName("올바른 입력값이 들어왔을 때 잘 작동하는지 검사한다.")
         void 정상_입력(String input) {
-            assertThatCode(() -> MoveCountValidator.validate(input))
+            assertThatCode(() -> MoveCount.from(input))
                     .doesNotThrowAnyException();
         }
 
