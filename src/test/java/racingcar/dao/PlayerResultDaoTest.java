@@ -2,17 +2,28 @@ package racingcar.dao;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import io.restassured.RestAssured;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.service.PlayResult;
 import racingcar.service.PlayerResult;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class PlayerResultDaoTest {
+
+    @LocalServerPort
+    int port;
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.port = port;
+    }
 
     @Autowired
     PlayResultDao playResultDao;
@@ -41,7 +52,7 @@ class PlayerResultDaoTest {
         PlayerResult playerResult = new PlayerResult(playResult.getId(), "name", 10);
         playerResultDao.insertPlayer(playerResult);
 
-        List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByPlayResultId(2);
+        List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByPlayResultId(playResult.getId());
         PlayerResult findedPlayerResult = playerResults.get(0);
 
         assertThat(findedPlayerResult.getName()).isEqualTo(playerResult.getName());
