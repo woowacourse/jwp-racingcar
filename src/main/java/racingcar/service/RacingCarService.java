@@ -1,6 +1,5 @@
 package racingcar.service;
 
-import java.util.InputMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,7 +7,6 @@ import racingcar.dao.GameResultDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
-import racingcar.utils.CarsFactory;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.utils.RandomPowerMaker;
 
