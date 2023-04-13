@@ -27,9 +27,10 @@ public class RaceService {
     public RaceResponse play(final RaceRequest raceRequest) {
         final Race race = Race.create(raceRequest.getCount());
         final Cars cars = Cars.create(raceRequest.getNames(), numberGenerator);
-        final RaceResult raceResult = new RaceResult(raceRequest.getCount(), raceRequest.getNames(), cars);
+        final RaceResponse raceResponse = getRaceResult(race, cars);
+        final RaceResult raceResult = new RaceResult(raceRequest.getCount(), raceResponse.getWinners(), cars);
         carRaceRepository.save(raceResult);
-        return getRaceResult(race, cars);
+        return raceResponse;
     }
 
 
