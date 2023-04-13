@@ -1,11 +1,16 @@
 package racingcar.repository;
 
 import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import racingcar.repository.mapper.RacingGameInfo;
 
 @Repository
 public class RacingGameRepositoryImpl implements RacingGameRepository {
@@ -15,6 +20,17 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     public RacingGameRepositoryImpl(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    private final RowMapper<RacingGameInfo> actorRowMapper = (resultSet, rowNum) -> {
+        RacingGameInfo racingGameInfo = new RacingGameInfo(
+                resultSet.getInt("id"),
+                resultSet.getString("winners"),
+                resultSet.getObject("created_at", LocalDateTime.class),
+                resultSet.getInt("trial")
+        );
+
+        return racingGameInfo;
+    };
 
     @Override
     public int save(final String winners, final int count) {
@@ -29,5 +45,11 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
         }, keyHolder);
 
         return keyHolder.getKey().intValue();
+    }
+
+    @Override
+    public Optional<RacingGameInfo> findById(final int id) {
+        final String sql = "select * from racing_game where id = ?";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, actorRowMapper, id));
     }
 }

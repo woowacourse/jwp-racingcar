@@ -1,15 +1,15 @@
-CREATE TABLE racing_game
+CREATE TABLE IF NOT EXISTS RACING_GAME
 (
-    id         INT primary key NOT NULL AUTO_INCREMENT,
+    id         INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     winners    VARCHAR(50)     NOT NULL,
-    created_at DATETIME        NOT NULL default current_timestamp,
-    trial      int             not null
+    created_at DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    trial      INT             NOT NULL
 );
-create table player
+CREATE TABLE IF NOT EXISTS PLAYER
 (
-    id             int primary key not null auto_increment,
-    name           varchar(10)     not null,
-    position       int             not null,
-    racing_game_id int             not null,
-    foreign key (racing_game_id) references racing_game (id)
+    id             INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name           VARCHAR(10)     NOT NULL,
+    position       INT             NOT NULL,
+    racing_game_id INT             NOT NULL,
+    FOREIGN KEY (racing_game_id) REFERENCES RACING_GAME (id)
 );
