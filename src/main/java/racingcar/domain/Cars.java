@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 import racingcar.dto.CarDto;
-import racingcar.dto.RacingCarsDto;
 import racingcar.utils.NumberGenerator;
 
 import java.util.Collections;
@@ -36,10 +35,6 @@ public class Cars {
                 .filter(car -> hasHighestPosition(highestPosition, car))
                 .map(Car::getName)
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    public RacingCarsDto getRacingCars() {
-        return RacingCarsDto.of(cars);
     }
 
     private static boolean hasHighestPosition(int highestPosition, Car car) {
