@@ -55,7 +55,11 @@ public class Track {
         return trialTimes >= CAN_GAME;
     }
 
-    public Cars findWinner() {
+    public Cars getCars() {
         return cars;
+    }
+
+    public int getTrialTimes() {
+        return trialTimes;
     }
 }

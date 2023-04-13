@@ -54,7 +54,7 @@ public class RacingController {
     }
 
     public void concludeWinner(final Track track) {
-        outputView.printWinnerCars(track.findWinner());
+        outputView.printWinnerCars(track.getCars());
     }
 
     public void terminated(final CustomException customException) {
