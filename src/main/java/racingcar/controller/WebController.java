@@ -27,7 +27,7 @@ public class WebController {
         List<String> carNames = NameFormatConverter.splitNameByDelimiter(requestDto.getNames());
         Cars cars = new Cars(carNames);
 
-        gameService.moveCars(cars, requestDto.getCount());
+        gameService.executeRacingGame(cars, requestDto.getCount());
 
         final ResponseDto responseDto = new ResponseDto(cars.getWinners(), cars.getCars());
 
