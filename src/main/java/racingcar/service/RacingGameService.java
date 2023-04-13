@@ -1,6 +1,5 @@
 package racingcar.service;
 
-import java.util.List;
 import org.springframework.stereotype.Service;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.RaceDao;
@@ -9,7 +8,9 @@ import racingcar.dto.GameInputDto;
 import racingcar.dto.RaceResultDto;
 import racingcar.dto.RacingResultDto;
 import racingcar.game.Game;
-import racingcar.util.RandomNumberGenerator;
+import racingcar.util.NumberGenerator;
+
+import java.util.List;
 
 @Service
 public class RacingGameService {
@@ -24,9 +25,9 @@ public class RacingGameService {
         this.winnerDao = winnerDao;
     }
 
-    public RacingResultDto playGameWithoutPrint(GameInputDto gameInputDto) {
+    public RacingResultDto playGameWithoutPrint(GameInputDto gameInputDto, NumberGenerator numberGenerator) {
         Game game = new Game(gameInputDto.getNames(), gameInputDto.getCount());
-        game.playGameWithoutPrint(new RandomNumberGenerator());
+        game.playGameWithoutPrint(numberGenerator);
         RaceResultDto raceResultDto = new RaceResultDto(game);
 
         int raceId = raceDao.insert(gameInputDto);

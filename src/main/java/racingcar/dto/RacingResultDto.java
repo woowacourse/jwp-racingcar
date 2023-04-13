@@ -10,10 +10,16 @@ public class RacingResultDto {
     private final List<Car> racingCars;
 
     public RacingResultDto(List<Car> winners, List<Car> cars) {
-        this.winners = winners.stream().map(Car::getName).collect(Collectors.joining(","));
+        this.winners = initWinners(winners);
         this.racingCars = cars;
     }
-
+    
+    private String initWinners(List<Car> winners) {
+        return winners.stream()
+                .map(Car::getName)
+                .collect(Collectors.joining(","));
+    }
+    
     public String getWinners() {
         return winners;
     }

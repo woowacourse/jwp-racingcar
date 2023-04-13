@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GameInputDto;
 import racingcar.dto.RacingResultDto;
 import racingcar.service.RacingGameService;
+import racingcar.util.RandomNumberGenerator;
 
 @RestController
 public class RacingGameController {
@@ -20,7 +21,7 @@ public class RacingGameController {
 
     @PostMapping(path = "/plays", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RacingResultDto> play(@RequestBody GameInputDto gameInputDto) {
-        RacingResultDto racingResultDto = racingGameService.playGameWithoutPrint(gameInputDto);
+        RacingResultDto racingResultDto = racingGameService.playGameWithoutPrint(gameInputDto, new RandomNumberGenerator());
         return ResponseEntity.ok(racingResultDto);
     }
 }
