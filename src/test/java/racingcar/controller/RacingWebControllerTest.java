@@ -5,7 +5,8 @@ import static org.hamcrest.core.Is.is;
 import io.restassured.RestAssured;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -13,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.dto.GameRequestDto;
 
-@DisplayName("Http Method")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RacingWebControllerTest {
 
@@ -25,7 +26,6 @@ public class RacingWebControllerTest {
         RestAssured.port = port;
     }
 
-    @DisplayName("플레이어가 한명일 때")
     @Test
     void 플레이어_1명인_경우_테스트() {
         GameRequestDto requestDto = new GameRequestDto("오잉", 2);
@@ -40,7 +40,6 @@ public class RacingWebControllerTest {
                 .body("racingCars[0].name", is("오잉"));
     }
 
-    @DisplayName("플레이어가 여러명일 때")
     @Test
     void 플레이어_여러명인_경우_테스트() {
         GameRequestDto requestDto = new GameRequestDto("오잉,포이,브리", 3);
