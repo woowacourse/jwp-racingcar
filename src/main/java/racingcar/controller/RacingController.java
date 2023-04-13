@@ -12,7 +12,7 @@ import racingcar.service.RacingGameService;
 import javax.validation.Valid;
 
 @Controller
-public class RacingController {
+public final class RacingController {
 
     private final RacingGameService racingGameService;
 
@@ -23,7 +23,7 @@ public class RacingController {
 
     @PostMapping(path = "/plays")
     @ResponseBody
-    public GameResultDto playRacingGame(@Valid @RequestBody RacingGameRequestDto racingGameRequestDto) {
+    public GameResultDto playRacingGame(@Valid @RequestBody final RacingGameRequestDto racingGameRequestDto) {
         return racingGameService.playRacingGame(racingGameRequestDto);
     }
 }

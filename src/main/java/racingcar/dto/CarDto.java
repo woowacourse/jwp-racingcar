@@ -1,6 +1,6 @@
 package racingcar.dto;
 
-public class CarDto {
+public final class CarDto {
 
     private final String name;
     private final String position;

@@ -3,7 +3,7 @@ package racingcar.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
-public class RacingGameRequestDto {
+public final class RacingGameRequestDto {
 
     @NotBlank
     private final String names;

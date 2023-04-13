@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RacingGameService {
+public final class RacingGameService {
 
     private final RacingGameDao racingGameDao;
 
