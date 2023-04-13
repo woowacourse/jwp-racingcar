@@ -24,7 +24,7 @@ public class RacingGame {
     }
 
     public boolean isWinner(Car car) {
-        List<Car> winners = winnerJudge.getWinner(racingCars.getCars());
+        List<Car> winners = winnerJudge.getWinner(racingCars.getCars()); // TODO: 2023/04/13 winner 여부를 한 번만 연산하도록 변경
         return winners.stream().anyMatch(winner -> winner.getName().equals(car.getName()));
     }
 

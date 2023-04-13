@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import racingcar.WinnerJudgeImpl;
+import racingcar.domain.race.WinnerJudgeImpl;
 import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
 import racingcar.domain.race.WinnerJudge;

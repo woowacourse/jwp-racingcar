@@ -7,6 +7,7 @@ import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
+import racingcar.domain.race.WinnerJudgeImpl;
 import racingcar.dto.ResultDto;
 
 @Service
