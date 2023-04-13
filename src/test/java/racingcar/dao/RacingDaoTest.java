@@ -33,5 +33,4 @@ class RacingDaoTest {
 
         assertDoesNotThrow(() -> racingDao.save(carDto));
     }
-
 }

@@ -24,6 +24,4 @@ class RacingServiceTest {
 
         assertThat(finishedCars.getCarsCurrentInfo().size()).isEqualTo(names.split(",").length);
     }
-
-
 }
