@@ -4,7 +4,7 @@ public class TestNumberGenerator implements NumberGenerator {
 
     private final int number;
 
-    TestNumberGenerator(int number) {
+    public TestNumberGenerator(int number) {
         this.number = number;
     }
 

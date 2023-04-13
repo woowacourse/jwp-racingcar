@@ -2,6 +2,8 @@ package racingcar.entity;
 
 import racingcar.dto.request.GameSaveDto;
 
+import java.util.Objects;
+
 public class Game {
 
     private final long id;

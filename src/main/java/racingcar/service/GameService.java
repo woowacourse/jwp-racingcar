@@ -37,7 +37,8 @@ public class GameService {
 
     private Game createGame(final GameResultDto gameResult) {
         GameSaveDto gameSaveDto = new GameSaveDto(gameResult.getWinners(), gameResult.getTrialCount());
-        return gameRepository.createGame(gameSaveDto);
+        Game game = gameRepository.createGame(gameSaveDto);
+        return game;
     }
 
     private List<PlayerResult> createPlayerResults(final GameResultDto gameResult, final Game game) {
