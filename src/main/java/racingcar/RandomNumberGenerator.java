@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RandomNumberGenerator implements NumberGenerator {
-    public static final int BOUND = 10;
+    public static final int MULTIPLIER = 10;
 
     @Override
     public int generate() {
-        return (int) (Math.random() * BOUND);
+        return (int) (Math.random() * MULTIPLIER);
     }
 }
