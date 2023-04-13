@@ -21,7 +21,10 @@ class JdbcTemplateDAOTest {
 
     @BeforeEach
     void setUp() {
-        jdbcTemplate.execute("DELETE FROM GAME_RESULT");
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
+        jdbcTemplate.execute("TRUNCATE TABLE GAME_RESULT");
+        jdbcTemplate.execute("TRUNCATE TABLE PLAYER_RESULT");
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
     }
 
     @DisplayName("게임 결과를 저장할 수 있다.")
