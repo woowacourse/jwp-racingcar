@@ -77,18 +77,14 @@ public class RacingGameService {
     }
 
     private void saveRacingCars(final int tryCount, final RacingCars racingCars) {
-        final Long gameId = racingGameDao.saveGame(tryCount);
-
         final List<String> winnerNames = racingCars.getWinnerNames();
         final List<PlayerSaveDto> playerSaveDtos = racingCars.getRacingCars().stream()
-                .map(racingCar -> createPlayerSaveDto(gameId, winnerNames, racingCar))
+                .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
                 .collect(toList());
-        racingGameDao.saveAllPlayers(playerSaveDtos);
+        racingGameDao.save(tryCount, playerSaveDtos);
     }
 
-    private static PlayerSaveDto createPlayerSaveDto(final Long gameId, final List<String> winnerNames,
-                                                  final RacingCar racingCar) {
-        return new PlayerSaveDto(gameId, racingCar.getName(),
-                racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
+    private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
+        return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 }

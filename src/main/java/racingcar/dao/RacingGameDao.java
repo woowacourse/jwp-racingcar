@@ -4,7 +4,5 @@ import java.util.List;
 
 public interface RacingGameDao {
 
-    Long saveGame(final int trialCount);
-
-    void saveAllPlayers(final List<PlayerSaveDto> playerSaveDtos);
+    void save(final int trialCount, final List<PlayerSaveDto> playerSaveDtos);
 }
