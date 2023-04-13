@@ -17,11 +17,10 @@ public class SpringController {
     private SpringService springService;
 
     @PostMapping("")
-    public ResponseEntity postInput(@RequestBody RequestDto requestDto) {
+    public ResponseDto postInput(@RequestBody RequestDto requestDto) {
         springService.setUpGame(requestDto.getNames());
         springService.play(requestDto.getCount());
         ResponseDto responseDto = new ResponseDto(springService.findWinners(), springService.getCars());
-        return ResponseEntity.ok()
-                .body(responseDto);
+        return responseDto;
     }
 }
