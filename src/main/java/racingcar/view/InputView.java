@@ -1,7 +1,5 @@
 package racingcar.view;
 
-import racingcar.error.ErrorMessage;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -31,13 +29,13 @@ public class InputView {
 
     private static void validateNames(List<String> input) {
         if (input.size() != input.stream().distinct().count()) {
-            throw new IllegalArgumentException(ErrorMessage.DUPLICATED_NAMES.getValue());
+            throw new IllegalArgumentException("중복된 이름이 존재합니다.");
         }
     }
 
     private static void validateCount(String input) {
         if (!isNumeric(input)) {
-            throw new IllegalArgumentException(ErrorMessage.IS_NOT_NUMERIC.getValue());
+            throw new IllegalArgumentException("숫자를 입력해야 합니다.");
         }
     }
 
