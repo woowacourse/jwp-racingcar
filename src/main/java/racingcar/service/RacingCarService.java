@@ -8,7 +8,6 @@ import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
 import racingcar.utils.RandomPowerGenerator;
-import racingcar.utils.RandomPowerMaker;
 
 @Service
 public class RacingCarService {
@@ -17,8 +16,8 @@ public class RacingCarService {
     private final GameResultDao gameResultDao;
 
     @Autowired
-    public RacingCarService(final GameResultDao gameResultDao) {
-        this.randomPowerGenerator = new RandomPowerMaker();
+    public RacingCarService(final RandomPowerGenerator powerGenerator ,final GameResultDao gameResultDao) {
+        this.randomPowerGenerator = powerGenerator;
         this.gameResultDao = gameResultDao;
     }
 
