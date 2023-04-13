@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import racingcar.exception.IllegalGameArgumentException;
+
 public class GameTest {
 
     public static final MoveChance MOVABLE_CHANCE = () -> true;
@@ -60,6 +62,6 @@ public class GameTest {
     void 중복된_차가_있으면_안된다() {
         List<Car> cars = List.of(new Car("물떡"), new Car("물떡"));
         assertThatThrownBy(() -> new Game(cars, 0))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalGameArgumentException.class);
     }
 }

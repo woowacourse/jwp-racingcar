@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import racingcar.exception.IllegalGameArgumentException;
+
 public class TrialCountTest {
 
     private static final int NEGATIVE_COUNT = -1;
@@ -14,7 +16,7 @@ public class TrialCountTest {
     @Test
     void 시도_횟수는_음이_아니어야_한다() {
         assertThatThrownBy(() -> new TrialCount(NEGATIVE_COUNT))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalGameArgumentException.class);
     }
 
     @Test
