@@ -21,6 +21,7 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public Number saveGameResult(final String winners, final int trialCount) {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -33,6 +34,7 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
         return keyHolder.getKey();
     }
 
+    @Override
     public void savePlayerResults(final List<CarData> racingCarData, final Number gameResultKey) {
         for (CarData carData : racingCarData) {
             String sql = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
