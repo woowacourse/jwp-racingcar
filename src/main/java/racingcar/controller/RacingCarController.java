@@ -6,25 +6,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.PlaysRequest;
 import racingcar.controller.dto.PlaysResponse;
-import racingcar.domain.Race;
-import racingcar.utils.NumberGenerator;
+import racingcar.service.RacingCarService;
 
 @RestController
 public class RacingCarController {
 
-    private final NumberGenerator numberGenerator;
+    private final RacingCarService racingCarService;
 
-    public RacingCarController(NumberGenerator numberGenerator) {
-        this.numberGenerator = numberGenerator;
+    public RacingCarController(RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<PlaysResponse> play(@RequestBody PlaysRequest playsRequest) {
-        Race race = new Race(playsRequest.getCount(), playsRequest.getNames(), numberGenerator);
-        while (!race.isFinished()) {
-            race.playRound();
-        }
-        PlaysResponse response = PlaysResponse.from(race.findWinners(), race.getParticipants());
+        PlaysResponse response = racingCarService.play(playsRequest);
         return ResponseEntity.ok().body(response);
     }
 }

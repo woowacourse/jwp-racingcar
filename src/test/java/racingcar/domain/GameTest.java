@@ -1,18 +1,18 @@
 package racingcar.domain;
 
 
-import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import racingcar.domain.Race;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
 
-class RaceTest {
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+class GameTest {
 
     List<String> correctCarNames = List.of("a", "b", "c");
     NumberGenerator numberGenerator = new RandomNumberGenerator();
@@ -25,8 +25,8 @@ class RaceTest {
         assertThatThrownBy(() -> {
             new Race(count, correctCarNames, numberGenerator);
         }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("[ERROR] ")
-            .hasMessageContaining("올바르지 않은 시도횟수입니다.(1 ~ 999,999,999)");
+                .hasMessageContaining("[ERROR] ")
+                .hasMessageContaining("올바르지 않은 시도횟수입니다.(1 ~ 999,999,999)");
     }
 
     @Test
@@ -37,16 +37,16 @@ class RaceTest {
         assertThatThrownBy(() -> {
             new Race(count, correctCarNames, numberGenerator);
         }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("[ERROR] ")
-            .hasMessageContaining("올바르지 않은 시도횟수입니다.(1 ~ 999,999,999)");
+                .hasMessageContaining("[ERROR] ")
+                .hasMessageContaining("올바르지 않은 시도횟수입니다.(1 ~ 999,999,999)");
     }
 
     @ValueSource(ints = {1, 10, 999999999})
     @ParameterizedTest
     void 올바른_시도횟수인경우(int count) {
         assertThatNoException().isThrownBy(() -> {
-                new Race(count, correctCarNames, numberGenerator);
-            }
+                    new Race(count, correctCarNames, numberGenerator);
+                }
         );
     }
 }

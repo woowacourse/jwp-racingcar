@@ -18,7 +18,7 @@ public class PlaysResponse {
         this.racingCars = racingCars;
     }
 
-    public static PlaysResponse from(List<Car> winners, List<Car> racingCars) {
+    public static PlaysResponse of(List<Car> winners, List<Car> racingCars) {
         List<String> winnerNames = winners.stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
