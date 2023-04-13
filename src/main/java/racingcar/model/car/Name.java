@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Name {
     public static final int MAX_NAME_LENGTH = 5;
-    private static final String EXCEPTION_CAR_NAME_LENGTH = "5자 이하의 이름을 입력해주세요.";
+    private static final String EXCEPTION_CAR_NAME_LENGTH = "1글자 이상 5자 이하의 이름을 입력해주세요.";
     private final String value;
 
     public Name(String value) {
@@ -17,6 +17,10 @@ public class Name {
     }
 
     private void validateCarNameLength(String name) {
+        if(name == null || name.isBlank()) {
+            throw new IllegalArgumentException(EXCEPTION_CAR_NAME_LENGTH);
+        }
+
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(EXCEPTION_CAR_NAME_LENGTH);
         }
