@@ -12,9 +12,9 @@ import racingcar.domain.Lap;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.domain.WinnerMaker;
-import racingcar.dto.GameRequestDto;
-import racingcar.dto.GameResponseDto;
-import racingcar.dto.GameResultDto;
+import racingcar.dto.request.GameRequestDto;
+import racingcar.dto.response.GameResponseDto;
+import racingcar.dto.request.GameResultDto;
 import racingcar.service.GameService;
 
 import java.util.List;

@@ -1,7 +1,5 @@
-package racingcar.dto;
+package racingcar.dto.response;
 
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
 

@@ -1,10 +1,8 @@
-package racingcar.dto;
+package racingcar.dto.request;
 
 import racingcar.domain.Car;
-import racingcar.domain.Cars;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GameResultDto {
     private final String winners;
