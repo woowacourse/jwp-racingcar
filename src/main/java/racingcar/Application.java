@@ -1,10 +1,13 @@
 package racingcar;
 
-import racingcar.controller.Controller;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class Application {
+
 	public static void main(String[] args) {
-		Controller controller = new Controller();
-		controller.run();
+		SpringApplication.run(Application.class, args);
 	}
+
 }

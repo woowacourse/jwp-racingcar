@@ -13,15 +13,15 @@ import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.NamesAndCountDto;
 import racingcar.dto.ResultDto;
-import racingcar.jdbc.RacingCarDao;
+import racingcar.dao.RacingCarGameDao;
 
 @RestController
-public class RacingCarController {
-	private final RacingCarDao racingCarDao = new RacingCarDao();
+public class RacingCarGameController {
+	private final RacingCarGameDao racingCarGameDao = new RacingCarGameDao();
 
 	@GetMapping("/plays")
 	public List<ResultDto> findData(){
-		return racingCarDao.find();
+		return racingCarGameDao.find();
 	}
 
 	@PostMapping("/plays")
@@ -33,7 +33,7 @@ public class RacingCarController {
 		startRacing(count, racingGame);
 
 		Cars cars = racingGame.getCars();
-		racingCarDao.insertCar(cars, count);
+		racingCarGameDao.insertCar(cars, count);
 		return toResultDto(cars);
 	}
 

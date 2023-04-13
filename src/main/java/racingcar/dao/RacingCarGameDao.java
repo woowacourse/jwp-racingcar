@@ -1,4 +1,4 @@
-package racingcar.jdbc;
+package racingcar.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -22,11 +22,11 @@ import racingcar.dto.CarDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.WinnerAndGameIdDto;
 
-public class RacingCarDao {
+public class RacingCarGameDao {
 
 	private final JdbcTemplate jdbcTemplate;
 
-	public RacingCarDao() {
+	public RacingCarGameDao() {
 		final DataSource dataSource = DataSourceBuilder.create()
 			.url("jdbc:h2:mem:testdb")
 			.username("sa")
@@ -37,7 +37,7 @@ public class RacingCarDao {
 	}
 
 	private final RowMapper<WinnerAndGameIdDto> gameRowMapper = (resultSet, rowNum) -> new WinnerAndGameIdDto(
-		resultSet.getInt("gameId"),
+		resultSet.getInt("game_id"),
 		resultSet.getString("winner")
 	);
 
@@ -48,7 +48,7 @@ public class RacingCarDao {
 
 	public void insertCar(Cars cars, int count) {
 		String sqlGame = "INSERT INTO games(count, winner, timestamp) VALUES (?,?,?)";
-		String sqlCars = "INSERT INTO cars(name, position, gameId) VALUES(?,?,?)";
+		String sqlCars = "INSERT INTO cars(name, position, game_id) VALUES(?,?,?)";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(connection -> {
@@ -66,14 +66,14 @@ public class RacingCarDao {
 	public List<ResultDto> find() {
 		List<ResultDto> resultDtos = new ArrayList<>();
 
-		String sqlGames = "SELECT winner, gameId FROM GAMES";
+		String sqlGames = "SELECT winner, game_id FROM GAMES";
 		List<WinnerAndGameIdDto> winnerAndGameIdDtos = jdbcTemplate.query(sqlGames, gameRowMapper);
 		for (WinnerAndGameIdDto winnerAndGameIdDto : winnerAndGameIdDtos) {
 			ResultDto resultDto = new ResultDto();
 			String winner = winnerAndGameIdDto.getWinner();
 			resultDto.setWinners(winner);
 
-			String sqlCars = "SELECT name, position FROM cars WHERE gameId = ?";// ? <= gameId
+			String sqlCars = "SELECT name, position FROM cars WHERE game_id = ?";// ? <= gameId
 			int gameId = winnerAndGameIdDto.getGameId();
 			List<CarDto> carDtos = jdbcTemplate.query(sqlCars, carRowMapper, gameId);
 
