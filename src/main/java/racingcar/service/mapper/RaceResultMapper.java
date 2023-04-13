@@ -33,4 +33,11 @@ public class RaceResultMapper {
                                                            car.getPosition()))
                          .collect(Collectors.toList());
     }
+
+    public List<CarStatusResponse> mapToCarStatus(final List<Car> cars) {
+        return cars.stream()
+                   .map(car -> new CarStatusResponse(car.getName(),
+                                                     car.getPosition()))
+                   .collect(Collectors.toList());
+    }
 }

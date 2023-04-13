@@ -6,11 +6,14 @@ import racingcar.controller.dto.GameInfoRequest;
 import racingcar.controller.dto.RaceResultResponse;
 import racingcar.dao.raceresult.RaceResultDao;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
+import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.service.mapper.RaceResultMapper;
 import racingcar.util.NumberGenerator;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class RaceResultService {
@@ -47,5 +50,16 @@ public class RaceResultService {
         final List<CarStatusResponse> carStatusResponses = raceResultMapper.mapToCarStatus(racingCars);
 
         return new RaceResultResponse(raceResultRegisterRequest.getWinners(), carStatusResponses);
+    }
+
+    public List<RaceResultResponse> searchRaceResult() {
+
+        final Map<String, List<Car>> allRaceResult = raceResultDao.findAllRaceResult();
+
+        return allRaceResult.entrySet()
+                            .stream()
+                            .map(it -> new RaceResultResponse(it.getKey(),
+                                                              raceResultMapper.mapToCarStatus(it.getValue())))
+                            .collect(Collectors.toList());
     }
 }
