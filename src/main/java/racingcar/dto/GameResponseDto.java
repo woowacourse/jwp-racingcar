@@ -2,6 +2,8 @@ package racingcar.dto;
 
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
+import racingcar.entity.Game;
+import racingcar.entity.PlayerResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +17,12 @@ public class GameResponseDto {
         this.racingCars = racingCars;
     }
 
-    public static GameResponseDto of(final List<String> winners, final Cars cars) {
+    public static GameResponseDto of(final Game game, final List<PlayerResult> cars) {
         final List<PlayerResponse> racingCars = new ArrayList<>();
-        List<Car> carsResult = cars.getLatestResult();
-        for (Car car : carsResult) {
-            racingCars.add(new PlayerResponse(car.getCarName().getName(), car.getCurrentPosition().getPosition()));
+        for (PlayerResult playerResult : cars) {
+            racingCars.add(new PlayerResponse(playerResult.getName(), playerResult.getFinalPosition()));
         }
-        return new GameResponseDto(String.join(",", winners), racingCars);
+        return new GameResponseDto(String.join(",", game.getWinners()), racingCars);
     }
 
     public String getWinners() {
