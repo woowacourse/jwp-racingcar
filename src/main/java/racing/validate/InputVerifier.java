@@ -4,13 +4,6 @@ import racing.ui.output.OutputView;
 
 public class InputVerifier {
 
-    public static void validateNameLength(String input) {
-        for (String name : input.split(",")) {
-            checkNameLength(name);
-            checkSpace(name);
-        }
-    }
-
     private static void checkSpace(String name) {
         if (name.contains(" ")) {
             throw new IllegalArgumentException(OutputView.CANT_CONTAIN_SPACE);
