@@ -3,6 +3,7 @@ package racingcar.controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.PlayRequestDto;
 import racingcar.service.RacingGameService;
 
 import java.util.Arrays;
@@ -21,21 +22,9 @@ public class RacingGameController {
 
     @PostMapping("/plays")
     GameResult play(
-            @RequestBody Request request
+            @RequestBody PlayRequestDto playRequestDto
     ) {
-        return racingGameService.play(request.getNames(), request.getCount());
-    }
-
-    public static class Request {
-        private String names;
-        private int count;
-
-        public List<String> getNames() {
-            return Arrays.asList(names.split(","));
-        }
-
-        public int getCount() {
-            return count;
-        }
+        List<String> names = Arrays.asList(playRequestDto.getNames().split(","));
+        return racingGameService.play(names, playRequestDto.getCount());
     }
 }
