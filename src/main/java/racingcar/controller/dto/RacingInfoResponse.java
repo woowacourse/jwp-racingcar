@@ -10,9 +10,6 @@ public class RacingInfoResponse {
     private String winners;
     private List<CarInfoDto> racingCars;
 
-    public RacingInfoResponse() {
-    }
-
     public RacingInfoResponse(final String winners, final List<Car> racingCars) {
         this.winners = winners;
         List<CarInfoDto> carInfoDtos = racingCars.stream()
