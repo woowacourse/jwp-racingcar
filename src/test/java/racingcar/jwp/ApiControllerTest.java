@@ -10,15 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import racingcar.controller.RacingCarController;
+import racingcar.controller.ApiController;
 import racingcar.dto.request.GameRequestDto;
 import racingcar.service.GameService;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.doReturn;
-
-@WebMvcTest(RacingCarController.class)
+@WebMvcTest(ApiController.class)
 public class ApiControllerTest {
 
     @Autowired
@@ -26,6 +22,9 @@ public class ApiControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private GameService gameService;
 
     @Test
     @DisplayName("게임 실행 테스트")
