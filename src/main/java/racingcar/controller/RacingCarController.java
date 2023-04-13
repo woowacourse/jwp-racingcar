@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.*;
 import racingcar.service.RacingCarService;
-import racingcar.util.RandomNumberGenerator;
+import racingcar.util.NumberGenerator;
 import racingcar.validation.Validation;
 
 import java.util.ArrayList;
@@ -15,11 +15,12 @@ import java.util.List;
 @RestController
 public class RacingCarController {
 
-    private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
     private final RacingCarService racingCarService;
+    private final NumberGenerator numberGenerator;
 
-    public RacingCarController(RacingCarService racingCarService) {
+    public RacingCarController(RacingCarService racingCarService, NumberGenerator numberGenerator) {
         this.racingCarService = racingCarService;
+        this.numberGenerator = numberGenerator;
     }
 
     @PostMapping("plays")
@@ -50,7 +51,7 @@ public class RacingCarController {
 
     private List<RacingCarDto> playGame(Cars cars, int trialCount) {
         for (int count = 0; count < trialCount; count++) {
-            cars.moveForRound(randomNumberGenerator);
+            cars.moveForRound(numberGenerator);
         }
 
         List<RacingCarDto> racingCars = new ArrayList<>();
