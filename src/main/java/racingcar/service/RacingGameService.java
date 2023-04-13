@@ -7,8 +7,8 @@ import racingcar.dto.response.CarGameResponse;
 import racingcar.dto.response.CarResponse;
 import racingcar.domain.CarResult;
 import racingcar.domain.PlayResult;
-import racingcar.mapper.CarResultMapper;
-import racingcar.mapper.PlayResultMapper;
+import racingcar.dao.CarResultDao;
+import racingcar.dao.PlayResultDao;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class RacingGameService {
 
-    private final CarResultMapper carResultMapper;
+    private final CarResultDao carResultDao;
 
-    private final PlayResultMapper playResultMapper;
+    private final PlayResultDao playResultDao;
 
-    public RacingGameService(CarResultMapper carResultMapper, PlayResultMapper playResultMapper) {
-        this.carResultMapper = carResultMapper;
-        this.playResultMapper = playResultMapper;
+    public RacingGameService(CarResultDao carResultDao, PlayResultDao playResultDao) {
+        this.carResultDao = carResultDao;
+        this.playResultDao = playResultDao;
     }
 
     public CarGameResponse play(RacingGame game) {
@@ -46,14 +46,14 @@ public class RacingGameService {
     }
 
     private long savePlayResult(int tryCount, RacingGame racingGame, String winners) {
-        return playResultMapper.save(PlayResult.of(tryCount, winners, racingGame.getCreatedAt()));
+        return playResultDao.save(PlayResult.of(tryCount, winners, racingGame.getCreatedAt()));
     }
 
     private void saveCarResult(Cars cars, long playResultId) {
         cars.getUnmodifiableCars()
                 .stream()
                 .map(car -> CarResult.of(playResultId, car.getName(), car.getPosition()))
-                .forEach(carResultMapper::save);
+                .forEach(carResultDao::save);
     }
 
     private void progress(RacingGame game) {

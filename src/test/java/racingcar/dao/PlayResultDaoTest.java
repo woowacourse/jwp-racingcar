@@ -1,4 +1,4 @@
-package racingcar.mapper;
+package racingcar.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,15 +13,15 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class PlayResultMapperTest {
+class PlayResultDaoTest {
 
-    private final PlayResultMapper mapper;
+    private final PlayResultDao mapper;
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PlayResultMapperTest(PlayResultMapper playResultMapper, JdbcTemplate jdbcTemplate){
-        this.mapper = playResultMapper;
+    public PlayResultDaoTest(PlayResultDao playResultDao, JdbcTemplate jdbcTemplate){
+        this.mapper = playResultDao;
         this.jdbcTemplate = jdbcTemplate;
     }
 

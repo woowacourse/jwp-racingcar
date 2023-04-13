@@ -1,4 +1,4 @@
-package racingcar.mapper;
+package racingcar.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,18 +14,18 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class CarResultMapperTest {
+class CarResultDaoTest {
 
-    private final PlayResultMapper playResultMapper;
+    private final PlayResultDao playResultDao;
 
-    private final CarResultMapper carResultMapper;
+    private final CarResultDao carResultDao;
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    CarResultMapperTest(PlayResultMapper playResultMapper, CarResultMapper carResultMapper, JdbcTemplate jdbcTemplate) {
-        this.playResultMapper = playResultMapper;
-        this.carResultMapper = carResultMapper;
+    CarResultDaoTest(PlayResultDao playResultDao, CarResultDao carResultDao, JdbcTemplate jdbcTemplate) {
+        this.playResultDao = playResultDao;
+        this.carResultDao = carResultDao;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -45,10 +45,10 @@ class CarResultMapperTest {
     @Test
     void key() {
         PlayResult playResult = PlayResult.of(10, "juno", Timestamp.valueOf(LocalDateTime.now()));
-        Long playResultId = playResultMapper.save(playResult);
+        Long playResultId = playResultDao.save(playResult);
         CarResult carResult = CarResult.of(playResultId, "juno", 3);
-        Long carId = carResultMapper.save(carResult);
-        CarResult result = carResultMapper.findById(carId);
+        Long carId = carResultDao.save(carResult);
+        CarResult result = carResultDao.findById(carId);
         System.out.println(result);
         assertThat(result).isNotNull();
     }

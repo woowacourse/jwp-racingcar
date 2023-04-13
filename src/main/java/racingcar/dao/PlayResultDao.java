@@ -1,4 +1,4 @@
-package racingcar.mapper;
+package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,12 +11,12 @@ import racingcar.domain.PlayResult;
 import javax.sql.DataSource;
 
 @Repository
-public class PlayResultMapper {
+public class PlayResultDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public PlayResultMapper(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public PlayResultDao(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("play_result")
