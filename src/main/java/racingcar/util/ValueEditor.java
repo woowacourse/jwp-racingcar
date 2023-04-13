@@ -18,6 +18,10 @@ public class ValueEditor {
                 .collect(Collectors.toList());
     }
 
+    public static String joinWithComma(List<String> inputs){
+        return String.join(", ", inputs);
+    }
+
     private enum Regex {
         SPACE(" "), NO_SPACE("");
         private final String regex;
