@@ -21,22 +21,28 @@ public class RecordService {
         this.recordDao = recordDao;
     }
 
-    public PlayResponse result(final long gameId, final Cars cars) {
-        List<String> winners = findWinnerName(cars);
-        List<VehicleDto> racingCars = findAllVehicle(cars);
-        for (Vehicle car : cars.getCars()) {
-            recordDao.insert(gameId, winners.contains(car.getName()), car);
+    public void saveResults(final long gameId, final Cars cars) {
+        List<String> winnerNames = findWinnerName(cars);
+
+        for (final Vehicle car : cars.getCars()) {
+            recordDao.insert(gameId, winnerNames.contains(car.getName()), car);
         }
-        return new PlayResponse(winners, racingCars);
     }
 
-    private static List<String> findWinnerName(final Cars cars) {
+    public PlayResponse result(final Cars cars) {
+        List<String> winnerNames = findWinnerName(cars);
+        List<VehicleDto> racingCars = toVehicleDto(cars);
+
+        return new PlayResponse(winnerNames, racingCars);
+    }
+
+    private List<String> findWinnerName(final Cars cars) {
         return cars.getWinner().stream()
                 .map(Vehicle::getName)
                 .collect(Collectors.toList());
     }
 
-    private static List<VehicleDto> findAllVehicle(final Cars cars) {
+    private List<VehicleDto> toVehicleDto(final Cars cars) {
         return cars.getCars()
                 .stream()
                 .map(car -> new VehicleDto(car.getName(), car.getDistance()))
