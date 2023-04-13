@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RacingCarController {
 
-    private final RacingCarWebService racingCarWebService;
+    private final RacingCarService racingCarService;
 
-    public RacingCarController(final RacingCarWebService racingCarWebService) {
-        this.racingCarWebService = racingCarWebService;
+    public RacingCarController(final RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<PlayResponse> play(@RequestBody final PlayRequest playRequest) {
-        PlayResponse response = racingCarWebService.play(playRequest);
+        PlayResponse response = racingCarService.play(playRequest);
         return ResponseEntity.ok().body(response);
     }
 }

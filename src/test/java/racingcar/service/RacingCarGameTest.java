@@ -14,14 +14,14 @@ import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarStatusResponse;
 import racingcar.dto.RacingCarWinnerResponse;
 
-class RacingCarServiceTest {
+class RacingCarGameTest {
     private static final CustomMoveStrategy MOVE_STRATEGY = new CustomMoveStrategy(5);
 
-    private RacingCarService service;
+    private RacingCarGame service;
 
     @BeforeEach
     void setUp() {
-        service = new RacingCarService();
+        service = new RacingCarGame();
     }
 
     @ParameterizedTest

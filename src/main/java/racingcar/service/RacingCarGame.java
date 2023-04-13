@@ -12,7 +12,7 @@ import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarStatusResponse;
 import racingcar.dto.RacingCarWinnerResponse;
 
-public class RacingCarService {
+public class RacingCarGame {
     private Cars cars;
 
     public void createCars(RacingCarNamesRequest request) {

@@ -5,17 +5,17 @@ import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarStatusResponse;
 import racingcar.dto.RacingCarWinnerResponse;
 import racingcar.dto.TryCountRequest;
-import racingcar.service.RacingCarService;
+import racingcar.service.RacingCarGame;
 import racingcar.service.RandomMoveStrategy;
 import racingcar.service.TryCount;
 import racingcar.view.RacingCarView;
 
 public class RacingCarController {
-    private final RacingCarService racingCarService;
+    private final RacingCarGame racingCarGame;
     private final RacingCarView racingCarView;
 
-    public RacingCarController(RacingCarService racingCarService, RacingCarView racingCarView) {
-        this.racingCarService = racingCarService;
+    public RacingCarController(RacingCarGame racingCarGame, RacingCarView racingCarView) {
+        this.racingCarGame = racingCarGame;
         this.racingCarView = racingCarView;
     }
 
@@ -27,7 +27,7 @@ public class RacingCarController {
 
     private void createCar() {
         RacingCarNamesRequest racingCarNamesRequest = receiveCarNames();
-        racingCarService.createCars(racingCarNamesRequest);
+        racingCarGame.createCars(racingCarNamesRequest);
     }
 
     private RacingCarNamesRequest receiveCarNames() {
@@ -57,7 +57,7 @@ public class RacingCarController {
         RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
         racingCarView.printStartMessage();
         while (tryCount.isAvailable()) {
-            racingCarService.moveCars(randomMoveStrategy);
+            racingCarGame.moveCars(randomMoveStrategy);
             printCarStatuses();
             tryCount.moveUntilZero();
         }
@@ -67,7 +67,7 @@ public class RacingCarController {
 
     private void findWinners() {
         try {
-            RacingCarWinnerResponse racingCarWinnerResponse = racingCarService.findWinners();
+            RacingCarWinnerResponse racingCarWinnerResponse = racingCarGame.findWinners();
             racingCarView.printWinners(racingCarWinnerResponse);
         } catch (RuntimeException e) {
             racingCarView.printExceptionMessage(e);
@@ -75,7 +75,7 @@ public class RacingCarController {
     }
 
     private void printCarStatuses() {
-        List<RacingCarStatusResponse> carStatuses = racingCarService.getCarStatuses();
+        List<RacingCarStatusResponse> carStatuses = racingCarGame.getCarStatuses();
         racingCarView.printRacingProgress(carStatuses);
     }
 }
