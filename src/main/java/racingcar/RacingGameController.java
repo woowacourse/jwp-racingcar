@@ -10,11 +10,11 @@ import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;
 
 @RestController
-public class RaceRestController {
+public class RacingGameController {
 
     private final RacingGameService racingGameService;
 
-    public RaceRestController(RacingGameService racingGameService) {
+    public RacingGameController(RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }
 
