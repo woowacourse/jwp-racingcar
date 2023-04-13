@@ -16,13 +16,14 @@ public class RacingCarRepository {
         this.racingCarGameDao = racingCarGameDao;
     }
 
-    public void save(RacingGameDto racingGameDto, List<PlayerDto> players) {
+    public void save(RacingGameDto racingGameDto, List<PlayerDto> playerDtos) {
         Long gameId = racingCarGameDao.insertGameWithKeyHolder(new Game(racingGameDto));
-        List<Player> collect = players.stream()
+
+        List<Player> players = playerDtos.stream()
                 .map(playerDto -> new Player(playerDto.getName(), playerDto.getPosition(), gameId))
                 .collect(Collectors.toList());
 
-        for (Player player : collect) {
+        for (Player player : players) {
             racingCarGameDao.insertPlayers(player);
         }
     }
