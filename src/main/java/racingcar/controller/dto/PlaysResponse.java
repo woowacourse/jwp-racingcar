@@ -1,17 +1,13 @@
 package racingcar.controller.dto;
 
-import racingcar.domain.Car;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.Car;
 
 public class PlaysResponse {
-    private String winners;
-    private List<CarResponse> racingCars;
 
-    public PlaysResponse() {
-
-    }
+    private final String winners;
+    private final List<CarResponse> racingCars;
 
     private PlaysResponse(String winners, List<CarResponse> racingCars) {
         this.winners = winners;

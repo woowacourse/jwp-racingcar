@@ -1,17 +1,9 @@
 package racingcar.controller.dto;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class PlaysRequest {
 
-    private String names;
-    private int count;
-
-    public PlaysRequest() {
-
-    }
+    private final String names;
+    private final int count;
 
     public PlaysRequest(String names, int count) {
         validateNames(names);
@@ -25,10 +17,8 @@ public class PlaysRequest {
         }
     }
 
-    public List<String> getNames() {
-        String delimiter = ",";
-        return Arrays.stream(names.split(delimiter, -1)).map(String::strip)
-                .collect(Collectors.toList());
+    public String getNames() {
+        return names;
     }
 
     public int getCount() {
