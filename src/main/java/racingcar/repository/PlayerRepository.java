@@ -1,37 +1,29 @@
 package racingcar.repository;
 
 import java.util.List;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import java.util.stream.Collectors;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Repository;
+import racingcar.PlayerDto;
 import racingcar.dto.RacingCarStatusResponse;
 
 @Repository
 public class PlayerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final WinnerRepository winnerRepository;
 
-    public PlayerRepository(final NamedParameterJdbcTemplate jdbcTemplate, final WinnerRepository winnerRepository) {
+    public PlayerRepository(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.winnerRepository = winnerRepository;
     }
 
-    public void insertPlayer(final List<RacingCarStatusResponse> responses, final List<String> winnerNames, final int gameId) {
-        KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO player(name, position) VALUES(:name, :position)";
+    public void insertPlayer(final List<RacingCarStatusResponse> responses, final List<String> winnerNames, final long gameId) {
+        String sql = "INSERT INTO player(game_id, name, position, is_winner) VALUES(:gameId, :name, :position, :isWinner)";
 
-        for (RacingCarStatusResponse response : responses) {
-            SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(response);
-            jdbcTemplate.update(sql, parameterSource, generatedKeyHolder);
+        List<PlayerDto> playerDtos = responses.stream()
+                .map(response -> PlayerDto.of(response, gameId, winnerNames.contains(response.getName())))
+                .collect(Collectors.toList());
 
-            if (winnerNames.contains(response.getName())) {
-                int playerId = generatedKeyHolder.getKey().intValue();
-                winnerRepository.insertWinner(gameId, playerId);
-            }
-        }
+        jdbcTemplate.batchUpdate(sql, SqlParameterSourceUtils.createBatch(playerDtos));
     }
 }
