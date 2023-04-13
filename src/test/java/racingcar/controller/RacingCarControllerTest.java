@@ -8,10 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import racingcar.domain.GameInforamtionDto;
 import racingcar.util.NumberGenerator;
 import racingcar.util.TestNumberGenerator;
@@ -29,7 +27,7 @@ class RacingCarControllerTest {
 
         @Bean
         public NumberGenerator numberGenerator() {
-            return new TestNumberGenerator(new ArrayList<>(List.of(7,3,7,3,7,3,7,2,7,2,7,2)));
+            return new TestNumberGenerator(new ArrayList<>(List.of(7, 3, 7, 3, 7, 3, 7, 2, 7, 2, 7, 2)));
         }
     }
 
@@ -46,11 +44,16 @@ class RacingCarControllerTest {
     void createGame() {
         GameInforamtionDto gameInforamtionDto = new GameInforamtionDto("roy,jamie", 3);
 
-        RestAssured.given().log().all()
+        RestAssured.given()
+                   .log()
+                   .all()
                    .contentType(MediaType.APPLICATION_JSON_VALUE)
                    .body(gameInforamtionDto)
-                   .when().post("/plays")
-                   .then().log().all()
+                   .when()
+                   .post("/plays")
+                   .then()
+                   .log()
+                   .all()
                    .statusCode(HttpStatus.OK.value());
     }
 
@@ -59,11 +62,16 @@ class RacingCarControllerTest {
     void createGameReturn() {
         GameInforamtionDto gameInforamtionDto = new GameInforamtionDto("roy,jamie", 3);
 
-        RestAssured.given().log().all()
+        RestAssured.given()
+                   .log()
+                   .all()
                    .contentType(MediaType.APPLICATION_JSON_VALUE)
                    .body(gameInforamtionDto)
-                   .when().post("/plays")
-                   .then().log().all()
+                   .when()
+                   .post("/plays")
+                   .then()
+                   .log()
+                   .all()
                    .statusCode(HttpStatus.OK.value())
                    .body("winners", is("roy"));
     }

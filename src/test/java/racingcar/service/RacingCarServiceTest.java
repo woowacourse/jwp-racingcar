@@ -23,7 +23,6 @@ class RacingCarServiceTest {
     @InjectMocks
     RacingCarService racingCarService;
 
-
     @Test
     @DisplayName("Dao 메서드가 제대로 호출되는지 확인")
     void insertGame() {

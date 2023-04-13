@@ -17,16 +17,16 @@ class CarsTest {
     void createCarsTest() {
         Cars cars = new Cars("pobi,crong,honux");
 
-        assertThat(cars.getCars().size()).isEqualTo(3);
+        assertThat(cars.getCars()
+                       .size()).isEqualTo(3);
     }
 
     @Test
     @DisplayName("Cars 객체 생성 시 중복으로 인한 예외 발생 테스트")
     void createCarsExceptionTest() {
-        assertThatThrownBy(() -> {
-            new Cars("pobi,pobi,pobi");
-        }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessageContaining("[ERROR]");
+        assertThatThrownBy(() -> new Cars("pobi,pobi,pobi"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
     }
 
     @Test

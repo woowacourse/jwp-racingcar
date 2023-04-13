@@ -17,9 +17,8 @@ class CarTest {
     @ParameterizedTest(name = "Car 객체 생성 예외 테스트 name = {0}")
     @ValueSource(strings = {"pobiiii", "", "  "})
     void createExceptionCarTest(String name) {
-        assertThatThrownBy(() -> {
-            new Car(new Name(name));
-        }).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> new Car(new Name(name)))
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
 
