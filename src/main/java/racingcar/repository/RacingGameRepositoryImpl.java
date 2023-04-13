@@ -34,7 +34,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
 
     @Override
     public int save(final String winners, final int count) {
-        final String sql = "insert into racing_game(winners, trial) values(?, ?)";
+        final String sql = "INSERT INTO RACING_GAME(winners, trial) VALUES(?, ?)";
         final KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(con -> {
@@ -49,7 +49,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
 
     @Override
     public Optional<RacingGameInfo> findById(final int id) {
-        final String sql = "select * from racing_game where id = ?";
+        final String sql = "SELECT * FROM RACING_GAME WHERE id = ?";
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, actorRowMapper, id));
     }
 }

@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.RacingInfoRequest;
 import racingcar.controller.dto.RacingInfoResponse;
 import racingcar.domain.CarGroup;
-import racingcar.service.RacingGameServiceImpl;
+import racingcar.service.RacingGameService;
 
 @RestController
 public class RacingGameController {
 
-    private final RacingGameServiceImpl racingGameServiceImpl;
+    private final RacingGameService racingGameServiceImpl;
 
-    public RacingGameController(final RacingGameServiceImpl racingGameServiceImpl) {
-        this.racingGameServiceImpl = racingGameServiceImpl;
+    public RacingGameController(final RacingGameService racingGameService) {
+        this.racingGameServiceImpl = racingGameService;
     }
 
     @PostMapping("/plays")
