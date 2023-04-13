@@ -4,7 +4,6 @@ import java.util.HashMap;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.service.TryCount;
 
 @Repository
 public class GameRepository {
@@ -18,9 +17,8 @@ public class GameRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Number insertGame(final TryCount tryCount) {
+    public Number insertGame(final int trialCount) {
         HashMap<String, Object> parameters = new HashMap<>();
-        int trialCount = tryCount.getCount();
         parameters.put("trial_count", trialCount);
         return insertGame.executeAndReturnKey(parameters);
     }

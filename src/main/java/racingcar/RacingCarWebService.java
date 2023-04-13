@@ -28,7 +28,7 @@ public class RacingCarWebService {
         createCars(playRequest);
         TryCount tryCount = new TryCount(playRequest.getCount());
         playGame(tryCount);
-        PlayResponse response = save(tryCount);
+        PlayResponse response = save(playRequest.getCount());
         return response;
     }
 
@@ -45,10 +45,10 @@ public class RacingCarWebService {
         }
     }
 
-    private PlayResponse save(final TryCount tryCount) {
+    private PlayResponse save(final int trialCount) {
         RacingCarWinnerResponse winners = findWinners();
         List<RacingCarStatusResponse> racingCars = racingCarService.getCarStatuses();
-        int gameId = gameRepository.insertGame(tryCount).intValue();
+        long gameId = gameRepository.insertGame(trialCount).longValue();
         playerRepository.insertPlayer(racingCars, winners.getWinners(), gameId);
         return PlayResponse.of(winners, racingCars);
     }
