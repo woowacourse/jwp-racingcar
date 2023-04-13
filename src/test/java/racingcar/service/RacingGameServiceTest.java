@@ -1,19 +1,33 @@
 package racingcar.service;
 
+import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import racingcar.dto.GameResultResponse;
 import racingcar.dto.RacingGameRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RacingGameServiceTest {
+
+    @LocalServerPort
+    private int port;
+    @Autowired
+    private RacingGameService racingGameService;
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.port = port;
+    }
 
     @Test
     @DisplayName("플레이어가 한명일 때 GameResultDto가 잘 반환된다")
     void shouldReturnCorrectlyWhenInputOnePlayer() {
-        RacingGameService racingGameService = new RacingGameService(new DummyRacingGameDao());
         RacingGameRequest racingGameRequest = new RacingGameRequest(
                 "브리",
                 3
@@ -28,7 +42,6 @@ class RacingGameServiceTest {
     @Test
     @DisplayName("플레이어가 여려명일 때 GameResultDto가 잘 반환된다")
     void shouldReturnCorrectlyWhenInputManyPlayer() {
-        RacingGameService racingGameService = new RacingGameService(new DummyRacingGameDao());
         RacingGameRequest racingGameRequest = new RacingGameRequest(
                 "브리,토미,브라운",
                 3
