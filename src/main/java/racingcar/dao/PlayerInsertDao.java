@@ -10,31 +10,18 @@ import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
 @Repository
-public class InsertDao {
+public class PlayerInsertDao {
 
-    private final SimpleJdbcInsert insertGameActor;
     private final SimpleJdbcInsert insertPlayerActor;
 
-    public InsertDao(DataSource dataSource) {
-        this.insertGameActor = new SimpleJdbcInsert(dataSource)
-                .withTableName("GAME")
-                .usingGeneratedKeyColumns("game_id")
-                .usingColumns("winners", "trial_count");
+    public PlayerInsertDao(DataSource dataSource) {
         this.insertPlayerActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("PLAYER")
                 .usingGeneratedKeyColumns("player_id");
     }
 
-    public void insert(String winners, Integer count, List<Car> cars) {
-        int gameId = insertGame(winners, count);
+    public void insertPlayers(int gameId, List<Car> cars) {
         cars.forEach(car -> insertPlayer(gameId, car));
-    }
-
-    private int insertGame(String winners, Integer count) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("winners", winners);
-        parameters.put("trial_count", count);
-        return insertGameActor.executeAndReturnKey(parameters).intValue();
     }
 
     private void insertPlayer(int gameId, Car car) {

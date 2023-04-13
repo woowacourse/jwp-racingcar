@@ -1,23 +1,20 @@
 package racingcar.dao;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.domain.Car;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class InsertDaoTest {
+public class GameInsertDaoTest {
 
     @Autowired
-    private InsertDao insertDao;
+    private GameInsertDao gameInsertDao;
 
     @Test
-    void insert() {
-        Assertions.assertThatNoException()
-                .isThrownBy(() ->
-                        insertDao.insert("jena", 3, List.of(new Car("jena", 1), new Car("odo", 2))));
+    void insertGame() {
+        int gameId1 = gameInsertDao.insertGame("jena", 3);
+        int gameId2 = gameInsertDao.insertGame("jena", 3);
+        Assertions.assertThat(gameId2 - gameId1).isEqualTo(1);
     }
 }
