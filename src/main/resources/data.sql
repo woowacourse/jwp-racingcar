@@ -1,4 +1,4 @@
-CREATE TABLE PLAY_RESULT (
+CREATE TABLE IF NOT EXISTS PLAY_RESULT (
     id          INT         NOT NULL AUTO_INCREMENT,
     trial_count INT         NOT NULL,
     winners     VARCHAR(50) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE PLAY_RESULT (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE CAR_RESULT (
+CREATE TABLE IF NOT EXISTS CAR_RESULT (
     play_result_id  INT         NOT NULL,
     car_name        VARCHAR(5)  NOT NULL,
     car_position    INT         NOT NULL,
