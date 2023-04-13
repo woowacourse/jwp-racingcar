@@ -2,7 +2,6 @@ package racingcar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -10,6 +9,7 @@ import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -17,25 +17,6 @@ import java.util.List;
 public class RacingCarDao {
 
     private JdbcTemplate jdbcTemplate;
-
-    private final RowMapper<CarEntity> carEntityRowMapper = (resultSet, rowNum) ->
-            new CarEntity.Builder()
-                    .id(resultSet.getInt("id"))
-                    .name(resultSet.getString("name"))
-                    .position(resultSet.getInt("position"))
-                    .build();
-
-    private final RowMapper<GameEntity> gameEntityRowMapper = (resultSet, rowNum) -> {
-        int gameId = resultSet.getInt("id");
-        String sql = "SELECT * FROM RACING_CAR WHERE racing_game_id = ?";
-        List<CarEntity> carEntities = jdbcTemplate.query(sql, carEntityRowMapper, gameId);
-        return new GameEntity.Builder()
-                .id(gameId)
-                .racingCars(carEntities)
-                .count(resultSet.getInt("count"))
-                .winners(resultSet.getString("winners"))
-                .build();
-    };
 
     @Autowired
     public RacingCarDao(JdbcTemplate jdbcTemplate) {
@@ -65,21 +46,25 @@ public class RacingCarDao {
         );
     }
 
-    private int getIdAfterInsert(String sqlForRacingGameEntity, String... args) {
+    private int getIdAfterInsert(String sqlForRacingGameEntity, String... sqlParameters) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlForRacingGameEntity, Statement.RETURN_GENERATED_KEYS);
-            for (int parameterIndex = 1; parameterIndex < args.length; parameterIndex++) {
-                preparedStatement.setString(parameterIndex, args[parameterIndex]);
-            }
+            setSqlParameter(preparedStatement, sqlParameters);
             return preparedStatement;
         }, keyHolder);
         return (int) keyHolder.getKey();
     }
 
+    private static void setSqlParameter(PreparedStatement preparedStatement, String... sqlParameters) throws SQLException {
+        for (int parameterIndex = 1; parameterIndex < sqlParameters.length; parameterIndex++) {
+            preparedStatement.setString(parameterIndex, sqlParameters[parameterIndex]);
+        }
+    }
+
     public List<GameEntity> findAll() {
         String sqlForGameEntities = "SELECT * FROM RACING_GAME";
-        return jdbcTemplate.query(sqlForGameEntities, gameEntityRowMapper);
+        return jdbcTemplate.query(sqlForGameEntities, ObjectMapper.getGameEntityMapper(jdbcTemplate));
     }
 
 }
