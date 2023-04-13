@@ -4,11 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.GameTime;
-import racingcar.domain.RacingGame;
-import racingcar.domain.RacingGameRepository;
+import racingcar.domain.*;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
