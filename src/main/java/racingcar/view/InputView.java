@@ -16,14 +16,12 @@ public class InputView {
     private final BufferedReader bufferedReader;
 
     public InputView() {
-        this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));;
+        this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
 
-    public String[] readCarNames() throws IOException {
+    public String readCarNames() throws IOException {
         System.out.println(CAR_NAME_INPUT_MESSAGE);
-        String input = bufferedReader.readLine();
-
-        return input.split(COMMA);
+        return bufferedReader.readLine();
     }
 
     public int readMovingTrial() throws IOException {
