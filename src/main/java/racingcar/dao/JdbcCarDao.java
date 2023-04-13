@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import racingcar.dto.CarDto;
-import racingcar.dto.ResultDto;
 
 @Repository
 public class JdbcCarDao implements CarDao{
@@ -18,15 +17,14 @@ public class JdbcCarDao implements CarDao{
     }
 
     @Override
-    public void insertCar(ResultDto resultDto, long gameId) {
+    public void insertCar(List<CarDto> carDtos, long gameId) {
         String sql = "INSERT INTO car(g_id, name, position) VALUES (?,?,?)";
-        List<CarDto> racingCars = resultDto.getRacingCars();
-        List<Object[]> carsInfo = getCarsInfo(gameId, racingCars);
+        List<Object[]> carsInfo = getCarsInfo(gameId, carDtos);
         jdbcTemplate.batchUpdate(sql, carsInfo);
     }
 
-    private List<Object[]> getCarsInfo(long gameId, List<CarDto> racingCars) {
-        return racingCars.stream()
+    private List<Object[]> getCarsInfo(long gameId, List<CarDto> carDtos) {
+        return carDtos.stream()
                 .map(carDto -> {
                     Object[] objects = new Object[3];
                     objects[0] = gameId;
