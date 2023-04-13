@@ -64,6 +64,7 @@ public final class RacingGameService {
     }
 
     private void save(final GameResultDto gameResultDto, final int trialCount) {
-        this.racingGameDao.save(gameResultDto, trialCount);
+        Number gameResultKey = racingGameDao.saveGameResult(gameResultDto.getWinners(), trialCount);
+        racingGameDao.savePlayerResults(gameResultDto.getRacingCars(), gameResultKey);
     }
 }
