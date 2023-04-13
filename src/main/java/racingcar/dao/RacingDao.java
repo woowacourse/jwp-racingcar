@@ -10,10 +10,10 @@ import racingcar.vo.Trial;
 import java.sql.PreparedStatement;
 
 @Repository
-public class UpdatingDAO {
+public class RacingDao {
     private JdbcTemplate jdbcTemplate;
 
-    public UpdatingDAO(JdbcTemplate jdbcTemplate) {
+    public RacingDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
