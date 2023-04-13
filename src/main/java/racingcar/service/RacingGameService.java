@@ -53,7 +53,7 @@ public final class RacingGameService {
     private List<CarDto> mapCarDtosFrom(final RacingGame racingGame) {
         return racingGame.getCars().stream()
                 .sorted(Comparator.comparingInt(Car::getPosition).reversed())
-                .map(car -> new CarDto(car.getCarName(), String.valueOf(car.getPosition())))
+                .map(car -> new CarDto(car.getCarName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
 

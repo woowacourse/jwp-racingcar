@@ -64,9 +64,9 @@ class JdbcTemplateRacingGameDaoTest {
         Number gameResultKey = jdbcTemplateRacingGameDao.saveGameResult(expectedWinners, 3);
 
         List<CarDto> carDtos = List.of(
-                new CarDto("브리", "2"),
-                new CarDto("토미", "1"),
-                new CarDto("브라운", "2")
+                new CarDto("브리", 2),
+                new CarDto("토미", 1),
+                new CarDto("브라운", 2)
         );
         // 저장한 GAME_RESULT 을 참조하는 PLAYER_RESULT 를 저장한다
         jdbcTemplateRacingGameDao.savePlayerResults(carDtos, gameResultKey);

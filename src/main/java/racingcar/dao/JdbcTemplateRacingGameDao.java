@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public class JdbcTemplateRacingGameDao implements RacingGameDao {
-    
+
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -35,7 +35,7 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
     public void savePlayerResults(final List<CarDto> racingCars, final Number gameResultKey) {
         for (CarDto carDto : racingCars) {
             String sqlToInsertPlayerResult = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
-            jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), Integer.parseInt(carDto.getPosition()), gameResultKey);
+            jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), carDto.getPosition(), gameResultKey);
         }
     }
 }

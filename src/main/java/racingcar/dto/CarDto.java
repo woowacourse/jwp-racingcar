@@ -3,9 +3,9 @@ package racingcar.dto;
 public final class CarDto {
 
     private final String name;
-    private final String position;
+    private final int position;
 
-    public CarDto(final String name, final String position) {
+    public CarDto(final String name, final int position) {
         this.name = name;
         this.position = position;
     }
@@ -14,7 +14,7 @@ public final class CarDto {
         return name;
     }
 
-    public String getPosition() {
+    public int getPosition() {
         return position;
     }
 }
