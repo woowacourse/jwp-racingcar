@@ -11,7 +11,7 @@ import racingcar.dto.GameResultDto;
 import java.sql.PreparedStatement;
 
 @Repository
-public final class RacingGameDao {
+public class RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
 
