@@ -4,12 +4,22 @@ import java.util.Objects;
 
 public class Car {
 
+    private static final int MAX_NAME_LENGTH = 5;
+    private static final String INVALID_NAME_LENGTH = "5자 이하의 이름을 입력해주세요.";
+
     private final String name;
     private int position;
 
     public Car(String name) {
+        validate(name);
         this.name = name;
         this.position = 0;
+    }
+
+    private void validate(String name){
+        if (name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException(INVALID_NAME_LENGTH);
+        }
     }
 
     public void move(boolean isMoveForward) {

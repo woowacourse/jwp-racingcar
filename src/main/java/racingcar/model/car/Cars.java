@@ -7,12 +7,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Cars {
+
+    private static final int MIN_CAR_NUMBER = 2;
+    private static final String INVALID_CAR_NUMBER = "2개 이상의 자동차를 입력해 주세요.";
+
     private final List<Car> cars;
 
     public Cars(List<Car> cars) {
+        validateCarNumber(cars);
         this.cars = cars;
     }
 
+    public static Cars from(List<String> carNames){
+        return new Cars(carNames.stream()
+                .map(Car::new)
+                .collect(Collectors.toUnmodifiableList()));
+    }
+
+    private void validateCarNumber(List<?> names) {
+        if (names.size() < MIN_CAR_NUMBER) {
+            throw new IllegalArgumentException(INVALID_CAR_NUMBER);
+        }
+    }
 
     public List<Car> getCurrentResult() {
         return List.copyOf(cars);
