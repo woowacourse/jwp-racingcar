@@ -17,9 +17,9 @@ public class Cars {
         return cars.get(n);
     }
 
-    public void calculator(Random random) {
+    public void calculator(int randomNumber) {
         cars.stream()
-                .filter(car -> 4 <= random.nextInt(10))
+                .filter(car -> 4 <= randomNumber)
                 .forEach(Car::move);
     }
 
