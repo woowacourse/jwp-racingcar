@@ -2,13 +2,13 @@ package racingcar.dto;
 
 public class RequestBodyDTO {
     private String names;
-    private String count;
+    private int count;
 
     public String getNames() {
         return names;
     }
 
-    public String getCount() {
+    public int getCount() {
         return count;
     }
 }
