@@ -30,7 +30,7 @@ public class GameDao {
     }
 
     private long insertGame(int trialCount) {
-        String sql = "INSERT INTO game (trialCount, date) VALUES (?, ?)";
+        String sql = "INSERT INTO game (trial_count, date) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -43,7 +43,7 @@ public class GameDao {
     }
 
     private void insertCar(ResultDto resultDto, long gameId) {
-        String sql2 = "INSERT INTO car(g_id, name, position) VALUES (?,?,?)";
+        String sql2 = "INSERT INTO car(game_id, name, position) VALUES (?,?,?)";
         List<CarDto> racingCars = resultDto.getRacingCars();
         jdbcTemplate.batchUpdate(sql2, new BatchPreparedStatementSetter() {
             @Override
@@ -61,7 +61,7 @@ public class GameDao {
     }
 
     private void insertWinner(ResultDto resultDto, long gameId) {
-        String sql3 = "INSERT INTO winner (g_id,winner) VALUES (?,?)";
+        String sql3 = "INSERT INTO winner (game_id,winner) VALUES (?,?)";
         String[] winners = resultDto.getWinners().split(", ");
         jdbcTemplate.batchUpdate(sql3, new BatchPreparedStatementSetter() {
             @Override
