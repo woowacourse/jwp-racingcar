@@ -6,9 +6,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class RacingGameDao {
@@ -20,20 +20,22 @@ public class RacingGameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void save(final GameResultDto gameResultDto, final int trialCount) {
-
-        final String sqlToInsertGameResult = "INSERT INTO GAME_RESULT (trial_count, winners) values (?, ?)";
+    public Number saveGameResult(final String winners, final int trialCount) {
+        final String sqlToInsertGameResult = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlToInsertGameResult, new String[]{"id"});
-            preparedStatement.setInt(1, trialCount);
-            preparedStatement.setString(2, gameResultDto.getWinners());
+            preparedStatement.setString(1, winners);
+            preparedStatement.setInt(2, trialCount);
             return preparedStatement;
         }, keyHolder);
+        return keyHolder.getKey();
+    }
 
-        for (CarDto carDto : gameResultDto.getRacingCars()) {
+    public void savePlayerResults(final List<CarDto> racingCars, final Number gameResultKey) {
+        for (CarDto carDto : racingCars) {
             String sqlToInsertPlayerResult = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
-            jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), Integer.parseInt(carDto.getPosition()), keyHolder.getKey());
+            jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), Integer.parseInt(carDto.getPosition()), gameResultKey);
         }
     }
 }
