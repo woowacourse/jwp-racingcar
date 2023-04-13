@@ -21,7 +21,7 @@ class GameServiceTest {
     @BeforeEach
     void setUp() {
         gameService = new GameService(
-                (trialCount, resultDto) -> 1,
+                (trialCount) -> 1,
                 (resultDto, gameId) -> {},
                 (resultDto, gameId) -> {},
                 new TestMoveManager(List.of(true, false, false))
