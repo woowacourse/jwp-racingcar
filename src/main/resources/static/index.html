@@ -52,6 +52,11 @@
           if (response.ok) {
             return response.json();
           } else {
+            response.json()
+                    .then(data =>{
+                      alert(data.message)
+                    }
+                )
             throw new Error("Network response was not ok.");
           }
         })
