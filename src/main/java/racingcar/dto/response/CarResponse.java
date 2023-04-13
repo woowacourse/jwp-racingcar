@@ -18,4 +18,12 @@ public class CarResponse {
     public int getPosition() {
         return position;
     }
+
+    @Override
+    public String toString() {
+        return "CarResponse{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                '}';
+    }
 }
