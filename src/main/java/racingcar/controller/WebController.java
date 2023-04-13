@@ -18,12 +18,7 @@ public class WebController {
 
     @PostMapping("/plays")
     public ResultDto play(@RequestBody GameInfoDto gameInfoDto) {
-        gameService.initialize();
-        gameService.createCars(gameInfoDto.getNames());
-        gameService.moveCars(gameInfoDto.getCount());
-        ResultDto resultDto = new ResultDto(gameService.getWinner(), gameService.getResult());
-        gameService.saveResult(gameInfoDto.getCount(), resultDto);
-        return resultDto;
+        return gameService.play(gameInfoDto);
     }
 
 }
