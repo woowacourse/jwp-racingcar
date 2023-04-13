@@ -1,7 +1,6 @@
 package racingcar;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarStatusResponse;
@@ -12,15 +11,15 @@ import racingcar.service.TryCount;
 
 @Service
 public class RacingCarWebService {
+
     private final RacingCarService racingCarService;
-    @Autowired
-    private GameInsertDao gameInsertDao;
+    private final GameInsertDao gameInsertDao;
+    private final PlayerInsertDao playerInsertDao;
 
-    @Autowired
-    private PlayerInsertDao playerInsertDao;
-
-    public RacingCarWebService() {
+    public RacingCarWebService(final GameInsertDao gameInsertDao, final PlayerInsertDao playerInsertDao) {
         this.racingCarService = new RacingCarService();
+        this.gameInsertDao = gameInsertDao;
+        this.playerInsertDao = playerInsertDao;
     }
 
     public PlayResponse play(PlayRequest playRequest) {

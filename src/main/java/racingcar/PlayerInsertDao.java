@@ -1,7 +1,6 @@
 package racingcar;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -13,12 +12,15 @@ import racingcar.dto.RacingCarStatusResponse;
 @Repository
 public class PlayerInsertDao {
 
-    @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
-    @Autowired
-    private WinnerInsertDao winnerInsertDao;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final WinnerInsertDao winnerInsertDao;
 
-    public void insertPlayer(List<RacingCarStatusResponse> responses, List<String> winnerNames, int gameId) {
+    public PlayerInsertDao(final NamedParameterJdbcTemplate jdbcTemplate, final WinnerInsertDao winnerInsertDao) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.winnerInsertDao = winnerInsertDao;
+    }
+
+    public void insertPlayer(final List<RacingCarStatusResponse> responses, final List<String> winnerNames, final int gameId) {
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         String sql = "INSERT INTO player(name, position) VALUES(:name, :position)";
 
