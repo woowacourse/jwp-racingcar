@@ -3,7 +3,6 @@ package racingcar.view;
 import java.util.List;
 import java.util.Scanner;
 
-import racingcar.util.CarNameValidator;
 import racingcar.util.MoveCountValidator;
 import racingcar.util.ValueEditor;
 
@@ -23,7 +22,6 @@ public class InputView {
         System.out.println(Message.INPUT_CARS.message);
         String input = ValueEditor.removeSpace(scanner.nextLine());
         List<String> names = ValueEditor.splitByComma(input);
-        CarNameValidator.validate(names);
         return names;
     }
 

@@ -7,6 +7,8 @@ import racingcar.model.manager.CarMoveManager;
 import racingcar.util.RandomNumberGenerator;
 
 public class Cars {
+    public static final int MIN_CAR_NUMBER = 2;
+    private static final String EXCEPTION_CAR_NUMBER = "2개 이상의 자동차를 입력해 주세요.";
     private final List<Car> cars;
 
     public Cars(List<Car> cars) {
@@ -14,8 +16,16 @@ public class Cars {
     }
 
     public void createCars(List<String> names) {
+        validate(names);
         for (String name : names) {
             cars.add(new Car(new Name(name)));
+        }
+    }
+
+    private void validate(List<String> names) {
+        int size = names.size();
+        if (size < MIN_CAR_NUMBER) {
+            throw new IllegalArgumentException(EXCEPTION_CAR_NUMBER);
         }
     }
 

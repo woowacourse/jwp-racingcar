@@ -1,5 +1,6 @@
 package racingcar.model.car;
 
+import static java.util.List.of;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import racingcar.model.manager.ThresholdCarMoveManager;
-import racingcar.util.CarNameValidator;
 
 class CarsTest {
 
@@ -26,12 +26,12 @@ class CarsTest {
         @Test
         @DisplayName("경주에 참여하는 자동차가 1대 이하면 예외처리 한다.")
         void carNumberTest() {
-            Car gitJjang = new Car(new Name("깃짱"));
-            List<Car> cars = new ArrayList<>(List.of(gitJjang));
+            Cars cars = new Cars(new ArrayList<>());
 
-            assertThatThrownBy(() -> new Cars(cars))
+            assertThatThrownBy(() -> cars.createCars(of("깃짱")))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(CarNameValidator.Message.EXCEPTION_CAR_NUMBER.getMessage());
+                    .hasMessage("2개 이상의 자동차를 입력해 주세요.");
+
         }
     }
 
@@ -44,7 +44,7 @@ class CarsTest {
         void 정상_입력() {
             Car gitJjang = new Car(new Name("깃짱"));
             Car irene = new Car(new Name("이리내"));
-            List<Car> cars = new ArrayList<>(List.of(gitJjang, irene));
+            List<Car> cars = new ArrayList<>(of(gitJjang, irene));
 
             assertThatCode(() -> new Cars(cars)).doesNotThrowAnyException();
         }
