@@ -3,7 +3,6 @@ package racingcar.domain.race;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.car.Car;
-import racingcar.domain.race.WinnerJudge;
 
 public class WinnerJudgeImpl implements WinnerJudge {
     @Override

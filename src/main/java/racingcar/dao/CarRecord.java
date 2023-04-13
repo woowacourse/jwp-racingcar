@@ -1,7 +1,5 @@
 package racingcar.dao;
 
-import racingcar.domain.car.Car;
-
 public class CarRecord {
     private final String name;
     private final int position;
@@ -12,11 +10,6 @@ public class CarRecord {
         this.position = position;
         this.isWinner = isWinner;
     }
-
-    public Car toEntity() {
-        return new Car(name, position);
-    }
-
     public String getName() {
         return name;
     }

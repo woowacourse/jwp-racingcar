@@ -1,6 +1,5 @@
 package racingcar.domain.race;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,11 +22,9 @@ public class RacingCars {
     }
 
     private boolean hasSameName(List<String> carNames) {
-        carNames.forEach(System.out::println);
         long distinctNameCount = carNames.stream()
                 .distinct()
                 .count();
-        System.out.println("distinctNameCount = " + distinctNameCount);
         return carNames.size() != distinctNameCount;
     }
 

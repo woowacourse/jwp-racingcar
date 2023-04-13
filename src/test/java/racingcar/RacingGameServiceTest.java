@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.dao.CarRecord;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.dto.ResultDto;

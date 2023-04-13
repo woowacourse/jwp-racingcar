@@ -6,8 +6,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.race.WinnerJudgeImpl;
 import racingcar.domain.car.Car;
+import racingcar.domain.race.WinnerJudgeImpl;
 
 class WinnerJudgeTest {
     private WinnerJudgeImpl winnerJudge = new WinnerJudgeImpl();

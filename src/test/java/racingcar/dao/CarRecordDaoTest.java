@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +51,7 @@ class CarRecordDaoTest {
 
         assertAll(
                 () -> assertThat(foundCar.getName()).isEqualTo(carName),
-                () -> assertThat(foundCar.getPosition()).isEqualTo(0),
+                () -> assertThat(foundCar.getPosition()).isZero(),
                 () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner)
                 );
 
