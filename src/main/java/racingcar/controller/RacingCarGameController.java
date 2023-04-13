@@ -4,6 +4,7 @@ import static racingcar.dto.DtoMapper.*;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,11 +14,17 @@ import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.NamesAndCountDto;
 import racingcar.dto.ResultDto;
-import racingcar.dao.RacingCarGameDao;
+import racingcar.service.RacingCarGameService;
 
 @RestController
 public class RacingCarGameController {
-	private final RacingCarGameDao racingCarGameDao = new RacingCarGameDao();
+
+	private final RacingCarGameService racingCarGameService;
+
+	@Autowired
+	public RacingCarGameController(final RacingCarGameService racingCarGameService) {
+		this.racingCarGameService = racingCarGameService;
+	}
 
 	@GetMapping("/plays")
 	public List<ResultDto> findData(){
