@@ -2,7 +2,6 @@ package racingcar;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import racingcar.dao.CarRecord;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.car.Car;
@@ -26,7 +25,7 @@ public class RacingGameService {
         Long historyId = racingHistoryDao.save(trialCount, game.getPlayTime());
         game.progress();
         saveCars(game, historyId);
-        return findResult(historyId);
+        return new ResultDto(game.getRacingCars(), game.getWinners());
     }
 
     private void saveCars(RacingGame game, long historyId) {
@@ -35,8 +34,4 @@ public class RacingGameService {
         }
     }
 
-    private ResultDto findResult(long historyId) {
-        List<CarRecord> carRecords = carRecordDao.findByRacingHistoryId(historyId);
-        return new ResultDto(carRecords);
-    }
 }

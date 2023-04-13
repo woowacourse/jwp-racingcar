@@ -28,6 +28,10 @@ public class RacingGame {
         return winners.stream().anyMatch(winner -> winner.getName().equals(car.getName()));
     }
 
+    public List<Car> getWinners() {
+        return winnerJudge.getWinner(racingCars.getCars());
+    }
+
     public List<Car> getRacingCars() {
         return racingCars.getCars();
     }

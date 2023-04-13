@@ -20,7 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import racingcar.dao.CarRecord;
+import racingcar.domain.car.Car;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;
 
@@ -40,9 +40,10 @@ class RacingGameControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockResponse = new ResultDto(List.of(new CarRecord("브리", 6, true),
-                new CarRecord("로지", 5, false),
-                new CarRecord("바론", 4, false)));
+        mockResponse = new ResultDto(List.of(new Car("브리", 6),
+                new Car("로지", 5),
+                new Car("바론", 4)),
+                List.of(new Car("브리", 6)));
 
         given(racingGameService.start(anyInt(), anyList())).willReturn(mockResponse);
         MockitoAnnotations.openMocks(this);

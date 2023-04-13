@@ -58,23 +58,4 @@ class CarRecordDaoTest {
 
     }
 
-    @DisplayName("자동차 이동 기록을 조회한다.")
-    @Test
-    void selectCarRecord() {
-        //given
-        String carName = "Rosie";
-        Car car = new Car(carName);
-        boolean isWinner = false;
-        carRecordDao.save(racingHistoryId, car, isWinner);
-        //when
-        List<CarRecord> carRecords = carRecordDao.findByRacingHistoryId(racingHistoryId);
-        //then
-        assertAll(
-                () -> assertThat(carRecords).hasSize(1),
-                () -> assertThat(carRecords.get(0).getName()).isEqualTo(carName),
-                () -> assertThat(carRecords.get(0).getPosition()).isEqualTo(0),
-                () -> assertThat(carRecords.get(0).isWinner()).isEqualTo(isWinner)
-        );
-    }
-
 }

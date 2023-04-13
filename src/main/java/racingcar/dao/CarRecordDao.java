@@ -30,15 +30,4 @@ public class CarRecordDao {
         return keyHolder.getKeyAs(Long.class);
     }
 
-    public List<CarRecord> findByRacingHistoryId(long racingHistoryId) {
-        return jdbcTemplate.query(
-                "SELECT * FROM car_record WHERE game_id = :id",
-                new MapSqlParameterSource("id", racingHistoryId),
-                (rs, rowNum) -> new CarRecord(
-                        rs.getString("name"),
-                        rs.getInt("position"),
-                        rs.getBoolean("is_winner")
-                )
-        );
-    }
 }

@@ -26,10 +26,4 @@ public class RacingHistoryDao {
         return keyHolder.getKeyAs(Long.class);
     }
 
-    public List<RacingHistory> findAll() {
-        return jdbcTemplate.query(
-                "SELECT trial_count, play_time FROM racing_game",
-                (rs, rowNum) -> new RacingHistory(rs.getInt("trial_count"),
-                        rs.getTimestamp("play_time").toLocalDateTime()));
-    }
 }
