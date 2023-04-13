@@ -44,11 +44,14 @@ public class CarResult {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CarResult that = (CarResult) o;
+        if (id.equals(null) && that.id.equals(null)) {
+            return Objects.equals(name, that.name) && playResultId == that.playResultId;
+        }
         return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, name, playResultId);
     }
 }

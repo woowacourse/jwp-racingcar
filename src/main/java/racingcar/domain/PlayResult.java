@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class PlayResult {
     private final Long id;
@@ -37,5 +38,18 @@ public class PlayResult {
 
     public Timestamp getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayResult that = (PlayResult) o;
+        return !id.equals(null) && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, trialCount, winners, createdAt);
     }
 }
