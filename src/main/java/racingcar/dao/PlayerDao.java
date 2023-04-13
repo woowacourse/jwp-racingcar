@@ -42,7 +42,7 @@ public class PlayerDao {
             .collect(Collectors.toList());
     }
 
-    public Integer getWinnerCarId(final int raceId, final CarDto carDto) {
+    public int getWinnerCarId(final int raceId, final CarDto carDto) {
         final String sql = "SELECT id FROM PLAYER WHERE name = :name AND identifier = :identifier AND race_id = :race_id";
         final MapSqlParameterSource params = new MapSqlParameterSource()
             .addValue("name", carDto.getName())

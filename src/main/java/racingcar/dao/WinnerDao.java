@@ -15,7 +15,7 @@ public class WinnerDao {
     }
 
     public void insertAll(final int raceId, final List<Integer> winnerCarIds) {
-        winnerCarIds.forEach((winnerCarId) -> insert(raceId, winnerCarId));
+        winnerCarIds.forEach(winnerCarId -> insert(raceId, winnerCarId));
     }
 
     public void insert(final int raceId, final Integer winnerCarId) {
