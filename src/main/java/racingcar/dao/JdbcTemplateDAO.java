@@ -37,7 +37,6 @@ public class JdbcTemplateDAO {
         return id;
     }
 
-    // TODO: 2023-04-12 Service에서 각각 호출하는 것은 어떤가 ?
     private void savePlayerResult(int gameId, List<CarDto> carDtoList) {
         String sql = "insert into PLAYER_RESULT (name, position, game_id) values (?, ?, ?)";
 

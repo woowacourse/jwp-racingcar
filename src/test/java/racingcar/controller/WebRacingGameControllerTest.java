@@ -1,47 +1,58 @@
 package racingcar.controller;
 
-import io.restassured.RestAssured;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import racingcar.dto.GameInfoDto;
+import org.springframework.test.web.servlet.MockMvc;
+import racingcar.dto.CarDto;
+import racingcar.dto.request.GameRequestDto;
+import racingcar.dto.response.GameResponseDto;
+import racingcar.service.RacingGameService;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.mockito.Mockito.doReturn;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WebMvcTest(WebRacingGameController.class)
 public class WebRacingGameControllerTest {
 
-    @LocalServerPort
-    int port;
+    @MockBean
+    RacingGameService racingGameService;
 
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
+    @Autowired
+    ObjectMapper objectMapper;
 
+    @Autowired
+    MockMvc mockMvc;
+
+    @DisplayName("/plays로 post 요청시, 게임을 수행하고, 결과를 반환한다.")
     @Test
-    void 자동차_경주_이름과_시도횟수_post() {
-        GameInfoDto gameInfoDto = new GameInfoDto("브리,토미,브라운", 10);
+    void playGameSuccessTest() throws Exception {
+        //given
+        GameRequestDto request = new GameRequestDto("브리,브라운", 10);
+        GameResponseDto response = new GameResponseDto("브라운",
+                List.of(new CarDto("브리", 7), new CarDto("브라운", 8)));
 
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(gameInfoDto)
-                .when().post("/plays")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract();
+        //when
+        doReturn(response)
+                .when(racingGameService)
+                .play(request.getNames(), request.getCount());
 
-        List<String> carNames = response.jsonPath().getList("racingCars.name", String.class);
-
-        assertThat(carNames)
-                .containsExactly("브리", "토미", "브라운");
+        //then
+        mockMvc.perform(post("/plays")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.winners").value("브라운"))
+                .andExpect(jsonPath("$.racingCars[*].name", containsInAnyOrder("브리", "브라운")))
+                .andExpect(jsonPath("$.racingCars[*].position", containsInAnyOrder(7, 8)));
     }
 }
