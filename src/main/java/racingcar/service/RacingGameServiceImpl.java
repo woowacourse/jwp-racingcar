@@ -35,7 +35,7 @@ public class RacingGameServiceImpl implements RacingGameService {
         final int racingGameId = racingGameRepository.save(winners, count);
         final boolean isSaved = playerRepository.save(carGroup, racingGameId);
         if (!isSaved) {
-            throw new IllegalStateException("레이싱 플레이어 저장에 실패하였습니다.");
+            throw new IllegalStateException("[ERROR] 레이싱 플레이어 저장에 실패하였습니다.");
         }
 
         return new RacingInfoResponse(winners, carGroup.getCars());

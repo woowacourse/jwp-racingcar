@@ -21,16 +21,12 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<RacingGameInfo> actorRowMapper = (resultSet, rowNum) -> {
-        RacingGameInfo racingGameInfo = new RacingGameInfo(
-                resultSet.getInt("id"),
-                resultSet.getString("winners"),
-                resultSet.getObject("created_at", LocalDateTime.class),
-                resultSet.getInt("trial")
-        );
-
-        return racingGameInfo;
-    };
+    private final RowMapper<RacingGameInfo> actorRowMapper = (resultSet, rowNum) -> new RacingGameInfo(
+            resultSet.getInt("id"),
+            resultSet.getString("winners"),
+            resultSet.getObject("created_at", LocalDateTime.class),
+            resultSet.getInt("trial")
+    );
 
     @Override
     public int save(final String winners, final int count) {
