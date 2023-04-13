@@ -12,11 +12,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class PlayResultMapperTest {
 
-    @Autowired
-    private PlayResultMapper mapper;
+    private final PlayResultMapper mapper;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    PlayResultMapperTest(PlayResultMapper mapper, JdbcTemplate jdbcTemplate) {
+        this.mapper = mapper;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     void setUp() {
@@ -32,9 +35,9 @@ class PlayResultMapperTest {
     }
 
     @Test
-    void key() {
+    void 게임_기록_저장_조회_테스트() {
         PlayResultEntity entity = PlayResultEntity.of(0, 10, "aa", null);
-        Long id = mapper.save(entity);
+        long id = mapper.save(entity);
         PlayResultEntity result = mapper.findById(id);
         System.out.println(result);
         assertThat(result).isNotNull();

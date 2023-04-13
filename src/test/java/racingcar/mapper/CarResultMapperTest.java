@@ -13,14 +13,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class CarResultMapperTest {
 
-    @Autowired
-    private PlayResultMapper playResultMapper;
+    private final PlayResultMapper playResultMapper;
+    private final CarResultMapper carResultMapper;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private CarResultMapper carResultMapper;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    CarResultMapperTest(PlayResultMapper playResultMapper, CarResultMapper carResultMapper, JdbcTemplate jdbcTemplate) {
+        this.playResultMapper = playResultMapper;
+        this.carResultMapper = carResultMapper;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     void setUp() {
@@ -36,11 +38,11 @@ class CarResultMapperTest {
     }
 
     @Test
-    void key() {
+    void 자동차_기록_저장_조회_테스트() {
         PlayResultEntity playResultEntity = PlayResultEntity.of(0, 10, "juno", null);
-        Long playResultId = playResultMapper.save(playResultEntity);
+        long playResultId = playResultMapper.save(playResultEntity);
         CarResultEntity carResultEntity = CarResultEntity.of(0, playResultId, "juno", 3);
-        Long carId = carResultMapper.save(carResultEntity);
+        long carId = carResultMapper.save(carResultEntity);
         CarResultEntity result = carResultMapper.findById(carId);
         System.out.println(result);
         assertThat(result).isNotNull();
