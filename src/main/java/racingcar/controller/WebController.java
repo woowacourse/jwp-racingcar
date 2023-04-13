@@ -12,7 +12,6 @@ import racingcar.services.GameService;
 @RestController
 public class WebController {
 
-    @Autowired
     private final GameService gameService;
 
     public WebController(GameService gameService) {
