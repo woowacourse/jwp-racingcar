@@ -2,7 +2,6 @@ package racingcar;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import racingcar.controller.RacingController;
 
 @SpringBootApplication
 public class RacingCarApplication {

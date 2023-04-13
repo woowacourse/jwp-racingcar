@@ -1,12 +1,12 @@
 package racingcar.entity;
 
-public class RacingCarEntity {
+public class CarEntity {
 
     private int id;
     private final String name;
     private final int position;
 
-    public RacingCarEntity(int id, String name, int position) {
+    public CarEntity(int id, String name, int position) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -49,8 +49,8 @@ public class RacingCarEntity {
             return this;
         }
 
-        public RacingCarEntity build() {
-            return new RacingCarEntity(id, name, position);
+        public CarEntity build() {
+            return new CarEntity(id, name, position);
         }
 
     }

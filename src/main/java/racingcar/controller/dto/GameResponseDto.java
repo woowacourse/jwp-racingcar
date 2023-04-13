@@ -2,13 +2,13 @@ package racingcar.controller.dto;
 
 import java.util.List;
 
-public class RacingGameResponseDto {
+public class GameResponseDto {
 
     private final int id;
     private final String winners;
-    private final List<RacingCarResponseDto> racingCars;
+    private final List<CarResponseDto> racingCars;
 
-    public RacingGameResponseDto(int id, String winners, List<RacingCarResponseDto> racingCars) {
+    public GameResponseDto(int id, String winners, List<CarResponseDto> racingCars) {
         this.id = id;
         this.winners = winners;
         this.racingCars = racingCars;
@@ -22,7 +22,7 @@ public class RacingGameResponseDto {
         return winners;
     }
 
-    public List<RacingCarResponseDto> getRacingCars() {
+    public List<CarResponseDto> getRacingCars() {
         return racingCars;
     }
 

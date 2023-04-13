@@ -6,32 +6,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.controller.dto.RacingGameRequestDtoForPlays;
-import racingcar.controller.dto.RacingGameResponseDto;
+import racingcar.controller.dto.GameRequestDtoForPlays;
+import racingcar.controller.dto.GameResponseDto;
 import racingcar.service.RacingCarService;
 
 import java.util.List;
 
 @RestController
-public class RacingController {
+public class RacingCarController {
 
     private final RacingCarService racingCarService;
 
     @Autowired
-    public RacingController(RacingCarService racingCarService) {
+    public RacingCarController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<RacingGameResponseDto>> query() {
+    public ResponseEntity<List<GameResponseDto>> bringGameHistory() {
         return ResponseEntity.ok()
-                .body(racingCarService.query());
+                .body(racingCarService.findAll());
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingGameResponseDto> submit(@RequestBody RacingGameRequestDtoForPlays racingGameRequestDtoForPlays) {
+    public ResponseEntity<GameResponseDto> playGame(@RequestBody GameRequestDtoForPlays gameRequestDtoForPlays) {
         return ResponseEntity.ok()
-                .body(racingCarService.plays(racingGameRequestDtoForPlays));
+                .body(racingCarService.plays(gameRequestDtoForPlays));
     }
 
 }

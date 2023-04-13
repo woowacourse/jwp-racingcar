@@ -3,15 +3,15 @@ package racingcar.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class RacingGameEntity {
+public class GameEntity {
 
     private int id;
     private final int count;
     private final String winners;
     private final LocalDateTime createdAt;
-    private final List<RacingCarEntity> racingCars;
+    private final List<CarEntity> racingCars;
 
-    public RacingGameEntity(int id, int count, String winners, LocalDateTime createdAt, List<RacingCarEntity> racingCars) {
+    public GameEntity(int id, int count, String winners, LocalDateTime createdAt, List<CarEntity> racingCars) {
         this.id = id;
         this.count = count;
         this.winners = winners;
@@ -35,7 +35,7 @@ public class RacingGameEntity {
         return createdAt;
     }
 
-    public List<RacingCarEntity> getRacingCars() {
+    public List<CarEntity> getRacingCars() {
         return racingCars;
     }
 
@@ -48,7 +48,7 @@ public class RacingGameEntity {
         private int id;
         private int count;
         private String winners;
-        private List<RacingCarEntity> racingCars;
+        private List<CarEntity> racingCars;
 
         public Builder id(int id) {
             this.id = id;
@@ -65,13 +65,13 @@ public class RacingGameEntity {
             return this;
         }
 
-        public Builder racingCars(List<RacingCarEntity> racingCars) {
+        public Builder racingCars(List<CarEntity> racingCars) {
             this.racingCars = racingCars;
             return this;
         }
 
-        public RacingGameEntity build() {
-            return new RacingGameEntity(id, count, winners, LocalDateTime.now(), racingCars);
+        public GameEntity build() {
+            return new GameEntity(id, count, winners, LocalDateTime.now(), racingCars);
         }
 
     }
