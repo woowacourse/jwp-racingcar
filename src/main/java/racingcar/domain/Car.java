@@ -3,7 +3,6 @@ package racingcar.domain;
 public class Car {
 
     public static final int MIN_POSITION = 0;
-    private static final String POSITION_WORD = "-";
     private static final int MAX_NAME_LENGTH = 5;
     private static final int MIN_POWER = 4;
 
@@ -11,8 +10,19 @@ public class Car {
     private int position = MIN_POSITION;
 
     public Car(final String name) {
-        validateNameLength(name);
+        validateName(name);
         this.name = name;
+    }
+
+    private void validateName(final String name) {
+        validateNameEmpty(name);
+        validateNameLength(name);
+    }
+
+    private void validateNameEmpty(final String name) {
+        if (name.isBlank()) {
+            throw new IllegalArgumentException("이름은 비어있을 수 없습니다.\n" + "Name : " + name);
+        }
     }
 
     private void validateNameLength(final String name) {
