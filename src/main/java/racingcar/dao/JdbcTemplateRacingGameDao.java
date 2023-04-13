@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.CarData;
 
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -26,7 +25,7 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
             preparedStatement.setString(1, winners);
             preparedStatement.setInt(2, trialCount);
             return preparedStatement;
