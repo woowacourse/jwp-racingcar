@@ -7,6 +7,7 @@ CREATE TABLE RACE (
 CREATE TABLE PLAYER (
     id          INT           NOT NULL AUTO_INCREMENT,
     name        VARCHAR(50)   NOT NULL,
+    identifier  INT           NOT NULL,
     position    INT           NOT NULL,
     race_id     INT           NOT NULL,
     PRIMARY KEY (id),
