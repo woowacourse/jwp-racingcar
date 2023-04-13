@@ -1,6 +1,6 @@
 package racing.ui.input;
 
-import racing.validate.InputVerifier;
+import racing.ui.validate.InputVerifier;
 
 import java.util.Scanner;
 

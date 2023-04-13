@@ -1,4 +1,4 @@
-package racing.validate;
+package racing.ui.validate;
 
 import racing.ui.output.OutputView;
 

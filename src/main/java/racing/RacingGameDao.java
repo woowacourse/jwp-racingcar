@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racing.controller.dto.request.CarRequest;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -36,7 +37,7 @@ public class RacingGameDao {
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
-    public void saveCar(CarEntity car) {
+    public void saveCar(CarRequest car) {
         String saveCarQuery = "INSERT INTO cars(car_name, step, winner, game_id) VALUES (?, ?, ?, ?)";
 
         jdbcTemplate.update(saveCarQuery,

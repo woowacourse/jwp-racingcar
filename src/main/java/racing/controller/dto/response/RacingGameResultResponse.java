@@ -10,8 +10,8 @@ public class RacingGameResultResponse {
     public RacingGameResultResponse() {
     }
 
-    public RacingGameResultResponse(String winners, List<RacingCarStateResponse> racingCars) {
-        this.winners = winners;
+    public RacingGameResultResponse(List<String> winners, List<RacingCarStateResponse> racingCars) {
+        this.winners = String.join("", winners);
         this.racingCars = racingCars;
     }
 
