@@ -11,7 +11,7 @@ import racingcar.dto.GameResultDto;
 import java.sql.PreparedStatement;
 
 @Repository
-public class RacingGameDao {
+public final class RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -20,7 +20,7 @@ public class RacingGameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void save(final GameResultDto gameResultDto, int trialCount) {
+    public void save(final GameResultDto gameResultDto, final int trialCount) {
 
         final String sqlToInsertGameResult = "INSERT INTO GAME_RESULT (trial_count, winners) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
