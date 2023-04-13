@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import racingcar.util.CarNameValidator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,24 +24,19 @@ class CarsTest {
         @Test
         @DisplayName("경주에 참여하는 자동차가 1대 이하면 예외처리 한다.")
         void carNumberTest() {
-            Car gitJjang = new Car("깃짱");
-            List<Car> cars = new ArrayList<>(List.of(gitJjang));
-
+            List<String> names = new ArrayList<>(List.of("깃짱"));
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> new Cars(cars))
-                    .withMessage(CarNameValidator.Message.EXCEPTION_CAR_NUMBER.getMessage());
+                    .isThrownBy(() -> Cars.from(names))
+                    .withMessage("2개 이상의 자동차를 입력해 주세요.");
         }
 
         @Test
         @DisplayName("6글자 이상의 이름은 예외 처리한다.")
         void carNameLengthTest() {
-            Car gitJjang = new Car("깃짱");
-            Car irene = new Car("이리내이리내");
-            List<Car> cars = new ArrayList<>(List.of(gitJjang, irene));
-
+            List<String> names = new ArrayList<>(List.of("깃짱", "이리내이리내"));
             assertThatIllegalArgumentException()
-                    .isThrownBy(() -> new Cars(cars))
-                    .withMessage(CarNameValidator.Message.EXCEPTION_CAR_NAME_LENGTH.getMessage());
+                    .isThrownBy(() -> Cars.from(names))
+                    .withMessage("5자 이하의 이름을 입력해주세요.");
         }
 
     }
@@ -58,7 +52,7 @@ class CarsTest {
             Car irene = new Car("이리내");
             List<Car> cars = new ArrayList<>(List.of(gitJjang, irene));
 
-            assertThatCode(() -> new Cars(cars)).doesNotThrowAnyException();
+            assertThatCode(()-> new Cars(cars)).doesNotThrowAnyException();
         }
 
     }
@@ -83,7 +77,7 @@ class CarsTest {
     void maxPositionTest() {
         Car gitJjang = new Car("깃짱");
         Car irene = new Car("이리내");
-        Cars cars = new Cars(Arrays.asList(gitJjang, irene));
+        Cars cars = Cars.from(Arrays.asList("깃짱", "이리내"));
 
         gitJjang.move(true);
         irene.move(true);

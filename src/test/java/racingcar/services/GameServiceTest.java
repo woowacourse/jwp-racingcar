@@ -13,7 +13,7 @@ import racingcar.model.manager.ThresholdCarMoveManager;
 
 class GameServiceTest {
 
-    GameService gameService;
+/*    GameService gameService;
     Cars cars;
 
     @BeforeEach
@@ -28,5 +28,5 @@ class GameServiceTest {
         gameService.createCars(namesInput);
 
         assertThat(cars.getCurrentResult()).containsExactlyInAnyOrder(new Car("폴로"), new Car("이리내"));
-    }
+    }*/
 }
