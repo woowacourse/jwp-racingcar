@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,22 @@ import racingcar.domain.RandomNumberGenerator;
 import racingcar.domain.WinnerMaker;
 import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
+import racingcar.dto.GameResultDto;
+import racingcar.service.GameService;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
 public class ApiController {
     private static final int MINIMUM_RANDOM_NUMBER = 0;
     private static final int MAXIMUM_RANDOM_NUMBER = 9;
+
+    private final GameService gameService;
+
+    @Autowired
+    public ApiController(final GameService gameService) {
+        this.gameService = gameService;
+    }
 
     @PostMapping(value = "/plays", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameResponseDto> playGame(@RequestBody GameRequestDto request) {
@@ -29,9 +38,10 @@ public class ApiController {
         race(cars, lap, new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER));
         final WinnerMaker winnerMaker = new WinnerMaker();
         List<String> winners = winnerMaker.getWinnerCarsName(cars.getLatestResult());
-        final GameResponseDto response = GameResponseDto.of(winners, cars);
-//        return new ResponseEntity<>(response, HttpStatus.CREATED);
-        return ResponseEntity.created(URI.create("/plays")).body(response);
+        final GameResultDto gameResult = GameResultDto.of(winners, request.getCount(), cars.getLatestResult());
+        GameResponseDto gameResponseDto = gameService.playGame(gameResult);
+        return new ResponseEntity<>(gameResponseDto, HttpStatus.CREATED);
+//        return ResponseEntity.created(URI.create("/plays")).body(response);
     }
 
     private void race(Cars cars, Lap lap, NumberGenerator numberGenerator) {
