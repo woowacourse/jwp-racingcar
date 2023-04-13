@@ -22,7 +22,7 @@ public class GameService {
         this.carDao = carDao;
     }
 
-    public void moveCars(Cars cars, int tryCount) {
+    public void executeRacingGame(Cars cars, int tryCount) {
         for (int count = 0; count < tryCount; count++) {
             cars.moveResult(numberGenerator);
         }
