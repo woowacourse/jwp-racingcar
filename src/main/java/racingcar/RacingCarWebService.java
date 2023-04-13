@@ -48,8 +48,8 @@ public class RacingCarWebService {
     private PlayResponse save(final int trialCount) {
         RacingCarWinnerResponse winners = findWinners();
         List<RacingCarStatusResponse> racingCars = racingCarService.getCarStatuses();
-        long gameId = gameRepository.insertGame(trialCount).longValue();
-        playerRepository.insertPlayer(racingCars, winners.getWinners(), gameId);
+        long gameId = gameRepository.save(trialCount).longValue();
+        playerRepository.saveAll(racingCars, winners.getWinners(), gameId);
         return PlayResponse.of(winners, racingCars);
     }
 

@@ -32,13 +32,13 @@ class PlayerRepositoryTest {
     @DisplayName("플레이어를 저장한다.")
     void insertPlayer() {
         // given
-        long gameId = gameRepository.insertGame(10).longValue();
+        long gameId = gameRepository.save(10).longValue();
         RacingCarStatusResponse veroStatusResponse = RacingCarStatusResponse.of(new Car("vero", 10));
         RacingCarStatusResponse poiStatusResponse = RacingCarStatusResponse.of(new Car("poi", 7));
         List<String> winners = List.of("vero");
 
         // when
-        playerRepository.insertPlayer(List.of(veroStatusResponse, poiStatusResponse), winners, gameId);
+        playerRepository.saveAll(List.of(veroStatusResponse, poiStatusResponse), winners, gameId);
         String winner = jdbcTemplate.getJdbcTemplate()
                 .queryForObject("SELECT name FROM player WHERE is_winner = TRUE AND game_id = ?", String.class, gameId);
         String loser = jdbcTemplate.getJdbcTemplate()

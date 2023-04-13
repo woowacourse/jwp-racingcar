@@ -17,7 +17,7 @@ public class PlayerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertPlayer(final List<RacingCarStatusResponse> responses, final List<String> winnerNames, final long gameId) {
+    public void saveAll(final List<RacingCarStatusResponse> responses, final List<String> winnerNames, final long gameId) {
         String sql = "INSERT INTO player(game_id, name, position, is_winner) VALUES(:gameId, :name, :position, :isWinner)";
 
         List<PlayerDto> playerDtos = responses.stream()
