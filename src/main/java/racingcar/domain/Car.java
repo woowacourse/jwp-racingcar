@@ -13,6 +13,12 @@ public class Car {
         this.engine = engine;
     }
 
+    public Car(Name name, int position, Engine engine) {
+        this.name = name;
+        this.position = new Position(position);
+        this.engine = engine;
+    }
+
     public void tryMove() {
         if (engine.isMovable()) {
             position.move();

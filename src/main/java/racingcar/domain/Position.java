@@ -11,6 +11,10 @@ public class Position {
         this.position = INITIAL_POSITION;
     }
 
+    public Position(int position) {
+        this.position = position;
+    }
+
     public void move() {
         position++;
     }
