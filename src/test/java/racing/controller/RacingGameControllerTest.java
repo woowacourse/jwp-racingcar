@@ -12,7 +12,7 @@ import racing.controller.dto.request.RacingGameInfoRequest;
 import racing.controller.dto.response.RacingGameResultResponse;
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingControllerTest {
+class RacingGameControllerTest {
 
     @LocalServerPort
     private int randomServerPort;
