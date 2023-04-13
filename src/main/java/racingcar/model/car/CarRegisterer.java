@@ -17,7 +17,8 @@ public class CarRegisterer {
     }
 
     public Cars prepareCars(){
-        return new Cars(carNames.stream().map(carName -> new Car(carName)).collect(Collectors.toUnmodifiableList()));
+        return new Cars(carNames.stream()
+                .map(Car::new)
+                .collect(Collectors.toUnmodifiableList()));
     }
-
 }

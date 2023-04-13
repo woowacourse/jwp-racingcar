@@ -1,6 +1,6 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,12 +19,16 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResultDto play(@RequestBody GameInfoDto gameInfoDto) {
-        gameService.initialize();
-        gameService.createCars(gameInfoDto.getNames());
-        gameService.moveCars(gameInfoDto.getCount());
-        ResultDto resultDto = new ResultDto(gameService.getWinner(), gameService.getResult());
-        gameService.saveResult(gameInfoDto.getCount(), resultDto);
-        return resultDto;
+    public ResponseEntity<ResultDto> play(@RequestBody GameInfoDto gameInfoDto) {
+        try {
+            gameService.initialize();
+            gameService.createCars(gameInfoDto.getNames());
+            gameService.moveCars(gameInfoDto.getCount());
+            ResultDto resultDto = new ResultDto(gameService.getWinner(), gameService.getResult());
+            gameService.saveResult(gameInfoDto.getCount(), resultDto);
+            return ResponseEntity.ok().body(resultDto);
+        } catch(IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
