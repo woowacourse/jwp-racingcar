@@ -1,8 +1,5 @@
 package racingcar.dao;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +8,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameResultDto;
 
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-
 public class PlayersHistoryDaoTest {
-
     @Autowired
     private RacingHistoryDao racingHistoryDao;
 
