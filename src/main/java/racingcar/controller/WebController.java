@@ -18,7 +18,7 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity createGame(@RequestBody RequestDTO requestDTO) {
+    public ResponseEntity createGameAndPlay(@RequestBody RequestDTO requestDTO) {
         ResponseDTO responseDTO = racingCarService.play(requestDTO.getNames(), requestDTO.getCount());
         return ResponseEntity.ok().body(responseDTO);
     }
