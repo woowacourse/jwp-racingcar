@@ -10,10 +10,12 @@ import java.util.stream.Collectors;
 
 public class Cars {
 
+    private static final int MAX_SIZE = 20;
     private final List<Car> cars;
 
     public Cars(final List<String> cars) {
         validateCars(cars);
+        validateSize(cars);
         this.cars = cars.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
@@ -36,6 +38,12 @@ public class Cars {
 
         if (refined.size() != cars.size()) {
             throw new IllegalArgumentException("자동차 이름은 중복될 수 없습니다.");
+        }
+    }
+
+    private void validateSize(final List<String> cars) {
+        if (cars.size() > MAX_SIZE) {
+            throw new IllegalArgumentException("경주 게임을 진행할 자동차는 최대 20개까지 생성할 수 있습니다.");
         }
     }
 
