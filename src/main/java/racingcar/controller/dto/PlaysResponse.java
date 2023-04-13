@@ -14,17 +14,12 @@ public class PlaysResponse {
         this.racingCars = racingCars;
     }
 
-    public static PlaysResponse of(List<Car> winners, List<Car> racingCars) {
-        List<String> winnerNames = winners.stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
-        String winnerResponse = String.join(",", winnerNames);
-
+    public static PlaysResponse of(String winners, List<Car> racingCars) {
         List<CarResponse> carResponses = racingCars.stream()
-                .map(CarResponse::of)
+                .map(CarResponse::from)
                 .collect(Collectors.toList());
 
-        return new PlaysResponse(winnerResponse, carResponses);
+        return new PlaysResponse(winners, carResponses);
     }
 
     public String getWinners() {

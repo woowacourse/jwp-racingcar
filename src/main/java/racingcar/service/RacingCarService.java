@@ -1,5 +1,8 @@
 package racingcar.service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.controller.dto.PlaysRequest;
 import racingcar.controller.dto.PlaysResponse;
@@ -10,9 +13,6 @@ import racingcar.domain.Race;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
 import racingcar.utils.NumberGenerator;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RacingCarService {
@@ -28,7 +28,7 @@ public class RacingCarService {
     }
 
     public PlaysResponse play(PlaysRequest playsRequest) {
-        Race race = new Race(playsRequest.getCount(), playsRequest.getNames(), numberGenerator);
+        Race race = createRace(playsRequest);
         while (!race.isFinished()) {
             race.playRound();
         }
@@ -44,6 +44,14 @@ public class RacingCarService {
                 .collect(Collectors.toList());
         playerDao.insert(players);
 
-        return PlaysResponse.of(winners, participants);
+        return PlaysResponse.of(game.getWinners(), participants);
+    }
+
+    private Race createRace(PlaysRequest playsRequest) {
+        String delimiter = ",";
+        List<String> carNames = Arrays.stream(playsRequest.getNames().split(delimiter, -1)).map(String::strip)
+                .collect(Collectors.toList());
+
+        return new Race(playsRequest.getCount(), carNames, numberGenerator);
     }
 }
