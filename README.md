@@ -20,15 +20,16 @@
 
 ---
 
-- [ ] DB 연동하기
-    - [ ] H2 DB 연동
-    - [ ] 플레이 이력 저장
-        - [ ] 플레이 횟수 (trialCount)
-        - [ ] 플레이어 별 최종 이동 거리
-            - [ ] 이름 (name)
-            - [ ] 최종 위치 (position)
-        - [ ] 우승자 (winners)
-        - [ ] 플레이한 날짜/시간 (time)
+- [x] DB 연동하기
+    - [x] H2 DB 연동
+    - [x] 플레이 이력 저장
+        - [x] 플레이 횟수 (trialCount)
+        - [x] 플레이어 별 최종 이동 거리
+            - [x] 이름 (name)
+            - [x] 최종 위치 (position)
+        - [x] 우승자 (winners)
+        - [x] 플레이한 날짜/시간 (time)
+        - [x] 플레이 횟수 (play_count)
 
 - [x] DB 테이블
     - [x] Race
