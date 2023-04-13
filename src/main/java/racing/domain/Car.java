@@ -1,10 +1,9 @@
 package racing.domain;
 
-import racing.ui.output.OutputView;
+import static racing.ui.output.OutputView.HYPHEN;
 
 import java.util.List;
-
-import static racing.ui.output.OutputView.HYPHEN;
+import racing.ui.output.OutputView;
 
 public class Car {
 
@@ -14,6 +13,11 @@ public class Car {
     public Car(String name) {
         this.name = name;
         this.step = 0;
+    }
+
+    public Car(String name, int step) {
+        this.name = name;
+        this.step = step;
     }
 
     public String getName() {

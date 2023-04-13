@@ -1,12 +1,11 @@
 package racing.service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racing.repositroy.CarEntity;
-import racing.repositroy.RacingGameDao;
 import racing.domain.Cars;
-
-import java.util.List;
+import racing.repository.CarEntity;
+import racing.repository.RacingGameDao;
 
 @Service
 public class RacingGameService {

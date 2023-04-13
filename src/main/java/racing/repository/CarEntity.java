@@ -1,4 +1,4 @@
-package racing.repositroy;
+package racing.repository;
 
 import racing.domain.Car;
 
