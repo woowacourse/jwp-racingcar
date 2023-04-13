@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarStatusResponse;
 import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.repository.GameRepository;
+import racingcar.repository.PlayerRepository;
 import racingcar.service.RacingCarService;
 import racingcar.service.RandomMoveStrategy;
 import racingcar.service.TryCount;

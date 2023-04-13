@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.repository;
 
 import java.util.Map;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.repository;
 
 import java.util.HashMap;
 import javax.sql.DataSource;
