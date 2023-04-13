@@ -8,18 +8,11 @@ CREATE TABLE GAME
 
 CREATE TABLE PLAYER
 (
-    id       BIGINT      NOT NULL AUTO_INCREMENT,
-    name     VARCHAR(10) NOT NULL,
-    position INT         NOT NULL,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE WINNER
-(
-    id        BIGINT NOT NULL AUTO_INCREMENT,
-    game_id   BIGINT NOT NULL,
-    player_id BIGINT NOT NULL,
+    id        BIGINT      NOT NULL AUTO_INCREMENT,
+    game_id   BIGINT      NOT NULL,
+    name      VARCHAR(10) NOT NULL,
+    position  INT         NOT NULL,
+    is_winner BOOL     NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) references GAME (id),
-    FOREIGN KEY (player_id) references PLAYER (id)
+    FOREIGN KEY (game_id) references GAME (id) on update cascade
 );
