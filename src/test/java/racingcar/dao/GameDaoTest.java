@@ -1,6 +1,10 @@
 package racingcar.dao;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static racingcar.constant.RacingCarDDL.CREATE_TABLE_CAR;
+import static racingcar.constant.RacingCarDDL.CREATE_TABLE_GAME;
+import static racingcar.constant.RacingCarDDL.DROP_TABLE_CAR;
+import static racingcar.constant.RacingCarDDL.DROP_TABLE_GAME;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,15 +24,10 @@ class GameDaoTest {
 
     @BeforeEach
     void setUp() {
-        jdbcTemplate.execute("DROP TABLE car IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE game IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE GAME ("
-                + "id          INT         NOT NULL AUTO_INCREMENT,"
-                + "trial_count  INT         NOT NULL,"
-                + "created_at  DATETIME    NOT NULL default current_timestamp,"
-                + "PRIMARY KEY (id)"
-                + ");"
-        );
+        jdbcTemplate.execute(DROP_TABLE_CAR);
+        jdbcTemplate.execute(DROP_TABLE_GAME);
+        jdbcTemplate.execute(CREATE_TABLE_GAME);
+        jdbcTemplate.execute(CREATE_TABLE_CAR);
     }
 
     @Test

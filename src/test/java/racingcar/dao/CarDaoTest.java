@@ -3,6 +3,10 @@ package racingcar.dao;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static racingcar.constant.RacingCarDDL.CREATE_TABLE_CAR;
+import static racingcar.constant.RacingCarDDL.CREATE_TABLE_GAME;
+import static racingcar.constant.RacingCarDDL.DROP_TABLE_CAR;
+import static racingcar.constant.RacingCarDDL.DROP_TABLE_GAME;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,18 +33,11 @@ class CarDaoTest {
 
     @BeforeEach
     void setUp() {
-        jdbcTemplate.execute("DROP TABLE car IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE car ("
-                + "id          INT         NOT NULL AUTO_INCREMENT,"
-                + "name        VARCHAR(50) NOT NULL,"
-                + "position    INT         NOT NULL,"
-                + "is_winner    TINYINT(1) NOT NULL DEFAULT 0,"
-                + "game_id     INT         NOT NULL,"
-                + "PRIMARY KEY (id),"
-                + "FOREIGN KEY (game_id)"
-                + "REFERENCES GAME(id) ON DELETE CASCADE"
-                + ");"
-        );
+        jdbcTemplate.execute(DROP_TABLE_CAR);
+        jdbcTemplate.execute(DROP_TABLE_GAME);
+        jdbcTemplate.execute(CREATE_TABLE_GAME);
+        jdbcTemplate.execute(CREATE_TABLE_CAR);
+
         gameId = gameDao.insertGame(5);
         carDao.insertCar(carDto, gameId);
     }
