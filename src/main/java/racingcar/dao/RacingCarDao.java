@@ -17,7 +17,8 @@ import java.util.List;
 public class RacingCarDao {
     private JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Car> carRowMapper = (resultSet, rowNum) -> new Car(resultSet.getString("name"), resultSet.getInt("position"));
+    private final RowMapper<Car> carRowMapper = (resultSet, rowNum) ->
+            new Car(resultSet.getString("name"), resultSet.getInt("position"));
 
     private final RowMapper<RacingGameEntity> rowMapper = (resultSet, rowNum) -> {
         int gameId = resultSet.getInt("id");

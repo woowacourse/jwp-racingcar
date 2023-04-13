@@ -43,10 +43,7 @@ public class RacingGameEntity {
     }
 
     public PlaysResponseDto toPlaysResponseDto() {
-        return new PlaysResponseDto.Builder()
-                .winners(winners)
-                .racingCars(racingCars)
-                .build();
+        return new PlaysResponseDto(this);
     }
 
     public static class Builder {

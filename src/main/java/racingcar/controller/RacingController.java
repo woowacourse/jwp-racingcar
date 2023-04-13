@@ -8,17 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.PlaysRequestDto;
 import racingcar.controller.dto.PlaysResponseDto;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.GameCount;
-import racingcar.domain.PowerGenerator;
 import racingcar.service.RacingCarService;
-import racingcar.util.CarNamesDivider;
 
 import java.util.List;
-import java.util.Random;
-
-import static java.util.stream.Collectors.*;
 
 @RestController
 public class RacingController {
