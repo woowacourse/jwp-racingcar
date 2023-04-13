@@ -1,4 +1,4 @@
-package racingcar.api;
+package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class WebRacingCarController {
+public class WebRacingGameController {
 
     private final RacingGameService racingGameService;
 
-    public WebRacingCarController(RacingGameService racingGameService) {
+    public WebRacingGameController(RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }
 

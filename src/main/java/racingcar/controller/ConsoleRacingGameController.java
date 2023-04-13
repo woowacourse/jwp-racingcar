@@ -8,11 +8,11 @@ import racingcar.view.OutputView;
 
 import java.util.List;
 
-public class RacingGameController {
+public class ConsoleRacingGameController {
 
     private final RacingGame racingGame;
 
-    public RacingGameController() {
+    public ConsoleRacingGameController() {
         List<String> carNames = InputView.inputCarNames();
         int tryCount = InputView.inputTryCount();
         racingGame = new RacingGame(new CarRandomNumberGenerator(), new Cars(carNames), tryCount);
