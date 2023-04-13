@@ -19,3 +19,8 @@
   - 플레이어 별 최종 이동 거리 (이름(name), 최종 위치(position))
   - 우승자(winners)
   - 플레이한 날짜/시간
+
+### 설명
+
+- RacingCarConsoleApplication : 터미널에서 작동
+- RacingCarApplication : h2 db와 web 연결
