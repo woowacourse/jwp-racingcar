@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class PlayResultEntity {
 
+    private static final long ID_DUMMY_VALUE = 0;
     private final long id;
     private final int trialCount;
     private final String winners;
@@ -17,7 +18,7 @@ public class PlayResultEntity {
     }
 
     public static PlayResultEntity of(int trialCount, String winners) {
-        return new PlayResultEntity(0, trialCount, winners, null);
+        return new PlayResultEntity(ID_DUMMY_VALUE, trialCount, winners, null);
     }
 
     public static PlayResultEntity of(long id, int trialCount, String winners, Timestamp createdAt) {
