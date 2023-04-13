@@ -9,19 +9,16 @@ import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
 import racingcar.model.Cars;
 import racingcar.service.GameService;
-import racingcar.service.PlayerService;
 import racingcar.service.RecordService;
 
 @RestController
 public class WebController {
 
-    private final PlayerService playerService;
     private final GameService gameService;
     private final RecordService recordService;
 
     @Autowired
-    public WebController(final PlayerService playerService, final GameService gameService, final RecordService recordService) {
-        this.playerService = playerService;
+    public WebController(final GameService gameService, final RecordService recordService) {
         this.gameService = gameService;
         this.recordService = recordService;
     }
@@ -29,8 +26,7 @@ public class WebController {
     @PostMapping("/plays")
     @Transactional
     public PlayResponse plays(@RequestBody final PlayRequest playRequest) {
-        Cars cars = playerService.createCars(playRequest);
-        playerService.saveCars(cars);
+        Cars cars = gameService.createCars(playRequest);
 
         long gameId = gameService.saveGame(playRequest);
         gameService.play(playRequest, cars);
