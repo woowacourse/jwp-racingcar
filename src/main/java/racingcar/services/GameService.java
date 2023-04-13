@@ -1,7 +1,10 @@
 package racingcar.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.WinnerDao;
 import racingcar.dto.CarDto;
 import racingcar.dto.ResultDto;
 import racingcar.model.car.Car;
@@ -20,11 +23,15 @@ public class GameService {
     private Cars cars;
     private final CarMoveManager carMoveManager;
     private final GameDao gameDao;
+    private final WinnerDao winnerDao;
+    private final CarDao carDao;
 
-    public GameService(Cars cars, CarMoveManager carMoveManager, GameDao gameDao) {
+    public GameService(Cars cars, CarMoveManager carMoveManager, GameDao gameDao, WinnerDao winnerDao, CarDao carDao) {
         this.cars = cars;
         this.carMoveManager = carMoveManager;
         this.gameDao = gameDao;
+        this.winnerDao = winnerDao;
+        this.carDao = carDao;
     }
 
     public void initialize(){
@@ -48,9 +55,12 @@ public class GameService {
         }
     }
 
+    @Transactional
     public void saveResult(String countInput, ResultDto resultDto) {
         int moveCount = Integer.parseInt(countInput);
-        gameDao.saveGame(moveCount, resultDto);
+        long gameId = gameDao.insertGame(moveCount);
+        carDao.insertCar(resultDto, gameId);
+        winnerDao.insertWinner(resultDto, gameId);
     }
 
     public List<CarDto> getResult(){
