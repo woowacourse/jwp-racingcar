@@ -36,7 +36,7 @@ public class RacingController {
         return makeCars(movingStrategy);
     }
 
-    private Track makeTrack(final Cars cars, String trialTimes) {
+    private Track makeTrack(final Cars cars, final String trialTimes) {
         try {
             return new Track(cars, trialTimes);
         } catch (CustomException customException) {

@@ -21,7 +21,7 @@ public class RacingWebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<TrackResponse> play(@RequestBody TrackRequest trackRequest) {
+    public ResponseEntity<TrackResponse> play(@RequestBody final TrackRequest trackRequest) {
         final String names = trackRequest.getNames();
         final String trialTimes = trackRequest.getCount();
 

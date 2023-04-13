@@ -35,11 +35,11 @@ public class RacingService {
         return finishedCars;
     }
 
-    private Cars makeCars(String name, final MovingStrategy movingStrategy) {
+    private Cars makeCars(final String name, final MovingStrategy movingStrategy) {
         return new Cars(name, movingStrategy);
     }
 
-    private Track makeTrack(final Cars cars, String trialTimes) {
+    private Track makeTrack(final Cars cars, final String trialTimes) {
         return new Track(cars, trialTimes);
     }
 
@@ -59,7 +59,7 @@ public class RacingService {
         final List<Car> winnerCars = finishedCars.getWinnerCars();
         final List<Car> carsCurrentInfo = finishedCars.getCarsCurrentInfo();
 
-        for (Car car : carsCurrentInfo) {
+        for (final Car car : carsCurrentInfo) {
             racingDao.save(new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId));
         }
     }
