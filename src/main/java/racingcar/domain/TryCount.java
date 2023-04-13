@@ -2,21 +2,16 @@ package racingcar.domain;
 
 public class TryCount {
 
-    private int count;
+    private final int count;
 
     TryCount(int count) {
         validateCount(count);
         this.count = count;
     }
 
-    public void decreaseCount() {
-        validateCount(this.count);
-        this.count--;
-    }
-
     private void validateCount(final int tryCount) {
         if (tryCount <= 0) {
-            throw new IllegalArgumentException("실행 횟수 보다 많이 실행할 수 없습니다.");
+            throw new IllegalArgumentException("실행 횟수는 1 이상이여야 합니다." + System.lineSeparator() + "tryCount : " + tryCount);
         }
     }
 

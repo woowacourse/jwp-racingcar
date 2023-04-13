@@ -11,15 +11,20 @@ public class RacingGame {
     private final Cars cars;
     private final TryCount tryCount;
 
+    private boolean end;
+
     public RacingGame(final RandomNumberGenerator numberGenerator, final Cars cars, final int tryCount) {
         this.cars = cars;
         this.tryCount = new TryCount(tryCount);
         this.numberGenerator = numberGenerator;
+        this.end = false;
     }
 
     public void play() {
-        cars.moveAll(numberGenerator);
-        tryCount.decreaseCount();
+        for (int i = 0; i < tryCount.getCount(); i++) {
+            cars.moveAll(numberGenerator);
+        }
+        this.end = true;
     }
 
     public List<String> decideWinners() {
@@ -29,7 +34,7 @@ public class RacingGame {
     }
 
     public boolean isEnd() {
-        return tryCount.isEnd();
+        return end;
     }
 
     public Cars getCars() {
