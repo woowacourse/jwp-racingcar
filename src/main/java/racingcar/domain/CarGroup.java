@@ -1,6 +1,5 @@
 package racingcar.domain;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,8 @@ public class CarGroup {
 
     private final List<Car> cars;
 
-    public CarGroup(String[] names){
+    public CarGroup(String inputName) {
+        List<String> names = List.of(inputName.split(","));
         validateDuplicatedName(names);
         validateNumberOfCars(names);
         this.cars = setUp(names);
@@ -29,20 +29,20 @@ public class CarGroup {
         return cars;
     }
 
-    private List<Car> setUp(String[] names) {
-        return Arrays.stream(names)
+    private List<Car> setUp(List<String> names) {
+        return names.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
     }
 
-    private void validateDuplicatedName(String[] names) {
-        if (names.length != Arrays.stream(names).distinct().count()) {
+    private void validateDuplicatedName(List<String> names) {
+        if (names.size() != names.stream().distinct().count()) {
             throw new IllegalArgumentException(DUPLICATED_CAR_NAME_ERROR);
         }
     }
 
-    private void validateNumberOfCars(String[] names) {
-        if (names.length < MINIMUM_NUMBER_OF_CARS || names.length > MAXIMUM_NUMBER_OF_CARS){
+    private void validateNumberOfCars(List<String> names) {
+        if (names.size() < MINIMUM_NUMBER_OF_CARS || names.size() > MAXIMUM_NUMBER_OF_CARS) {
             throw new IllegalArgumentException(RANGE_OF_CAR_GROUP_ERROR);
         }
     }

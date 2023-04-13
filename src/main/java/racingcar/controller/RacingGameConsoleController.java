@@ -32,8 +32,7 @@ public class RacingGameConsoleController {
 
     private CarGroup createCarGroup() throws IOException {
         try {
-            String[] carNames = inputView.readCarNames();
-            return new CarGroup(carNames);
+            return new CarGroup(inputView.readCarNames());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return createCarGroup();
@@ -49,7 +48,6 @@ public class RacingGameConsoleController {
         }
     }
 
-    //TODO: movingTrial을 RacingGame으로 이동
     private void raceWithHistory(int movingTrial, RacingGame racingGame) {
         for (int i = 0; i < movingTrial; i++) {
             racingGame.race();

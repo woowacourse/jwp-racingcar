@@ -26,7 +26,7 @@ class RacingGameServiceImplTest {
         // given
         final String jeomoon = "저문";
         final String hyena = "헤나";
-        final CarGroup carGroup = new CarGroup(new String[]{"저문", "헤나"});
+        final CarGroup carGroup = new CarGroup("저문,헤나");
         final int trial = 10;
 
         // when

@@ -22,7 +22,7 @@ class PlayerRepositoryImplTest {
     @Test
     void save() {
         // given
-        CarGroup carGroup = new CarGroup(new String[]{"저문", "헤나"});
+        CarGroup carGroup = new CarGroup("저문,헤나");
         int racingGameId = racingGameRepositoryImpl.save("저문,헤나", 10);
 
         // when

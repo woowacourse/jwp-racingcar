@@ -21,8 +21,7 @@ public class RacingGameController {
 
     @PostMapping("/plays")
     public ResponseEntity<RacingInfoResponse> playRacingGame(@RequestBody RacingInfoRequest request) {
-        final String[] carNames = request.getNames().split(",");
-        final CarGroup carGroup = new CarGroup(carNames);
+        final CarGroup carGroup = new CarGroup(request.getNames());
         final RacingInfoResponse response = racingGameServiceImpl.race(carGroup, request.getCount());
 
         return ResponseEntity.ok(response);
