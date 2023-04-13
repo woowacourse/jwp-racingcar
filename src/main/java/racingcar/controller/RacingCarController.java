@@ -1,14 +1,9 @@
 package racingcar.controller;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import javax.sql.DataSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,18 +14,17 @@ import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayRequestDto;
 import racingcar.view.util.TextParser;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
 @RestController
 public class RacingCarController {
 
     private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert insertActor;
 
-    public RacingCarController(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+    public RacingCarController(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.insertActor = new SimpleJdbcInsert(dataSource)
-                .withTableName("PLAY_RESULT")
-                .usingGeneratedKeyColumns("id")
-                .usingColumns("trial_count", "winners");
     }
 
     @Transactional
@@ -38,13 +32,13 @@ public class RacingCarController {
     public ResponseEntity<GameResultDto> play(@RequestBody PlayRequestDto playRequestDto) {
         RacingGame racingGame = createGame(playRequestDto.getNames());
         int count = playRequestDto.getCount();
+        racingGame.race(count);
 
-        race(count, racingGame);
-        Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count));
-
-        List<Car> cars = racingGame.getCars();
         String winners = String.join(", ", racingGame.getWinnerNames());
-        saveResult(savedId, cars, winners);
+        final List<Car> cars = racingGame.getCars();
+
+        final long resultId = saveWinners(count, winners);
+        saveCars(resultId, cars);
 
         return ResponseEntity.ok(new GameResultDto(cars, winners));
     }
@@ -54,15 +48,19 @@ public class RacingCarController {
         return RacingGame.of(carNames);
     }
 
-    private void race(final int count, final RacingGame racingGame) {
-        for (int i = 0; i < count; i++) {
-            racingGame.race();
-        }
-    }
+    private long saveWinners(final int count, final String winners) {
+        String sql = "INSERT INTO play_result(winners, trial_count) VALUES (?, ?)";
+        final GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
-    private void saveResult(final Number savedId, final List<Car> cars, final String winners) {
-        saveCars(savedId, cars);
-        jdbcTemplate.update("UPDATE play_result SET winners = ? WHERE id = " + savedId, winners);
+        jdbcTemplate.update(con -> {
+            final PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
+            preparedStatement.setString(1, winners);
+            preparedStatement.setInt(2, count);
+
+            return preparedStatement;
+        }, generatedKeyHolder);
+
+        return generatedKeyHolder.getKey().longValue();
     }
 
     private void saveCars(final Number savedId, final List<Car> cars) {

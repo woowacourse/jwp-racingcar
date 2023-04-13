@@ -22,8 +22,10 @@ public class RacingGame {
         return new RacingGame(racingCars);
     }
 
-    public void race() {
-        racingCars.process(powerValueGenerator);
+    public void race(final int tryCount) {
+        for (int i = 0; i < tryCount; i++) {
+            racingCars.process(powerValueGenerator);
+        }
     }
 
     public List<Car> getCars() {
