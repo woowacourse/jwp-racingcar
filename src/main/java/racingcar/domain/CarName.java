@@ -2,7 +2,7 @@ package racingcar.domain;
 
 public class CarName {
 
-    private static final int CAR_NAME_LENGTH_MAX = 5;
+    private static final int CAR_NAME_LENGTH_MAX = 10;
 
     private final String name;
 
@@ -12,7 +12,7 @@ public class CarName {
     }
 
     private void validate(final String carName) {
-        if (carName == null) {
+        if (carName.isEmpty() || carName.isBlank()) {
             throw new IllegalArgumentException("자동차 이름을 입력해주세요.");
         }
 

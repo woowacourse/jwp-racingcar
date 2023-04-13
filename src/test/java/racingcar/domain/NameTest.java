@@ -22,8 +22,8 @@ public class NameTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"kokodak", "sunghaa"})
-    @DisplayName("생성자 이름 예외 테스트 : 실패 경우 (이름이 5자 이상)")
+    @ValueSource(strings = {"kokodakkokodak", "sunghaasungha"})
+    @DisplayName("생성자 이름 예외 테스트 : 실패 경우 (이름이 10자 이상)")
     void test_name_constructor_fail_over_length_name(String carName) {
         // given
         String expectedMessage = "자동차 이름은 5자 이하로 작성해주세요.";
@@ -38,7 +38,7 @@ public class NameTest {
     @DisplayName("생성자 이름 예외 테스트 : 실패 경우 (이름이 null)")
     void test_name_constructor_fail_empty_name() {
         // given
-        String carName = null;
+        String carName = " ";
         String expectedMessage = "자동차 이름을 입력해주세요.";
 
         // when & then
