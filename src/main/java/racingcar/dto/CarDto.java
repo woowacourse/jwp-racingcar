@@ -15,6 +15,10 @@ public class CarDto {
         return new CarDto(car.getName(), car.getPosition());
     }
 
+    public static CarDto of(String name, int position) {
+        return new CarDto(name, position);
+    }
+
     public String getName() {
         return name;
     }
