@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
 import racingcar.dto.CarDto;
 
 @Repository
@@ -30,19 +29,19 @@ public class CarDao {
             resultSet.getInt("position")
     );
 
-    public int insertCar(final Car car, final int gameId) {
+    public int insertCar(final CarDto carDto, final int gameId) {
         Map<String, Object> parameters = new HashMap<>(4);
-        parameters.put("name", car.getName());
-        parameters.put("position", car.getPosition());
+        parameters.put("name", carDto.getName());
+        parameters.put("position", carDto.getPosition());
         parameters.put("is_winner", 0);
         parameters.put("game_id", gameId);
 
         return insertActor.executeAndReturnKey(parameters).intValue();
     }
 
-    public void updatePosition(final Car car, final int gameId) {
+    public void updatePosition(final CarDto carDto, final int gameId) {
         String sql = "UPDATE car SET position = ? WHERE game_id = ? AND name = ?";
-        jdbcTemplate.update(sql, car.getPosition(), gameId, car.getName());
+        jdbcTemplate.update(sql, carDto.getPosition(), gameId, carDto.getName());
     }
 
     public void updateWinner(final String name, final int gameId) {

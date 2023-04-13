@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
@@ -44,7 +45,7 @@ public class RacingCarService {
         int gameId = gameDao.insertGame(tryTimes);
         RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), movingStrategy);
         List<Car> cars = game.getCars();
-        cars.forEach(car -> carDao.insertCar(car, gameId));
+        convertDto(cars).forEach(car -> carDao.insertCar(car, gameId));
 
         return game;
     }
@@ -55,7 +56,13 @@ public class RacingCarService {
         }
 
         List<Car> cars = racingGame.getCars();
-        cars.forEach(car -> carDao.updatePosition(car, racingGame.getId()));
+        convertDto(cars).forEach(car -> carDao.updatePosition(car, racingGame.getId()));
+    }
+
+    private List<CarDto> convertDto(final List<Car> cars) {
+        return cars.stream()
+                .map(CarDto::from)
+                .collect(Collectors.toList());
     }
 
     private void updateWinners(final RacingGame racingGame) {
