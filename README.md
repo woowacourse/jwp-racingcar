@@ -35,6 +35,7 @@
     - [x] Race
         - [x] id (pk) : SERIAL
         - [x] 플레이한 날짜/시간 (time) : DATETIME DEFAULT NOW()
+        - [x] 플레이 횟수 (play_count)
 
     - [x] Winner
         - [x] id (pk) : SERIAL
