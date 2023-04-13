@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.WinnerDao;
 import racingcar.dto.CarDto;
 import racingcar.dto.ResultDto;
 import racingcar.model.car.Car;
@@ -19,10 +21,14 @@ import racingcar.util.MoveCountValidator;
 @Service
 public class GameService {
     private final GameDao gameDao;
+    private final CarDao carDao;
+    private final WinnerDao winnerDao;
     private final CarMoveManager carMoveManager;
 
-    public GameService(GameDao gameDao, CarMoveManager carMoveManager) {
+    public GameService(GameDao gameDao, CarDao carDao, WinnerDao winnerDao, CarMoveManager carMoveManager) {
         this.gameDao = gameDao;
+        this.carDao = carDao;
+        this.winnerDao = winnerDao;
         this.carMoveManager = carMoveManager;
     }
 
@@ -49,7 +55,9 @@ public class GameService {
 
     public void saveResult(String countInput, ResultDto resultDto) {
         int moveCount = Integer.parseInt(countInput);
-        gameDao.saveGame(moveCount, resultDto);
+        long gameId = gameDao.saveGame(moveCount, resultDto);
+        carDao.insertCar(resultDto, gameId);
+        winnerDao.insertWinner(resultDto, gameId);
     }
 
     public List<CarDto> getResult(Cars cars) {
