@@ -7,6 +7,7 @@ import racingcar.dto.ResultDto;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class WinnerDao {
@@ -19,17 +20,17 @@ public class WinnerDao {
 
     public void insertWinner(ResultDto resultDto, long gameId) {
         String sql3 = "INSERT INTO winner (game_id,winner) VALUES (?,?)";
-        String[] winners = resultDto.getWinners().split(", ");
+        List<String> winners = resultDto.getWinners();
         jdbcTemplate.batchUpdate(sql3, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 ps.setLong(1, gameId);
-                ps.setString(2, winners[i]);
+                ps.setString(2, winners.get(i));
             }
 
             @Override
             public int getBatchSize() {
-                return winners.length;
+                return winners.size();
             }
         });
     }

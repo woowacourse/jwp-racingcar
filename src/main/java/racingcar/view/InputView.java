@@ -1,8 +1,9 @@
 package racingcar.view;
 
+import racingcar.util.ValueEditor;
+
 import java.util.List;
 import java.util.Scanner;
-import racingcar.util.ValueEditor;
 
 public class InputView {
 

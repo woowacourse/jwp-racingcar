@@ -35,7 +35,7 @@ public class GameService {
         MoveCount moveCount = MoveCount.from(gameInfoDto.getCount());
 
         moveCars(cars, moveCount);
-        ResultDto resultDto = new ResultDto(getWinner(cars), getResult(cars));
+        ResultDto resultDto = new ResultDto(cars.getWinners(), getResult(cars));
         saveResult(gameInfoDto.getCount(), resultDto);
         return resultDto;
     }
@@ -65,9 +65,5 @@ public class GameService {
                 .stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    private String getWinner(Cars cars){
-        return ValueEditor.joinWithComma(cars.getWinners());
     }
 }
