@@ -2,10 +2,10 @@
 
 CREATE TABLE PLAY_RESULT
 (
-    id          INT         NOT NULL AUTO_INCREMENT,
+    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     winners     VARCHAR(50) NOT NULL,
     trial_count INT         NOT NULL,
-    created_at  DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at  DATETIME    NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -18,3 +18,4 @@ CREATE TABLE LOG
     PRIMARY KEY (id),
     FOREIGN KEY (game_id) REFERENCES PLAY_RESULT (id)
 );
+
