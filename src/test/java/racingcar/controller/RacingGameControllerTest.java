@@ -1,13 +1,9 @@
 package racingcar.controller;
 
-import static org.hamcrest.Matchers.is;
-
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -15,14 +11,15 @@ import org.springframework.http.MediaType;
 import racingcar.AlwaysMoveNumberGenerator;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
-import racingcar.service.RacingGameService;
+
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @Import(value = AlwaysMoveNumberGenerator.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class RacingGameControllerTest {
-
-    @Autowired
-    RacingGameService racingGameService;
 
     @LocalServerPort
     int port;
@@ -33,9 +30,9 @@ class RacingGameControllerTest {
     }
 
     @Test
-    void playGame() {
+    void playGame_success() {
         RacingGameRequest request = new RacingGameRequest("브리,토미,브라운", 10);
-        RacingGameResponse response = racingGameService.play(request);
+        RacingGameResponse response = new RacingGameResponse(List.of("브리", "토미", "브라운"), null);
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
@@ -45,4 +42,16 @@ class RacingGameControllerTest {
                 .body("winners", is(response.getWinners()));
     }
 
+    @Test
+    void playGame_fail() {
+        RacingGameRequest request = new RacingGameRequest("브리,브리,브라운", 10);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body(is("중복된 이름은 사용할 수 없습니다"));
+    }
 }

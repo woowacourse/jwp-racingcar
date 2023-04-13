@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,5 +21,10 @@ public class RacingGameController {
     public ResponseEntity<RacingGameResponse> play(@RequestBody RacingGameRequest racingGameRequest) {
         RacingGameResponse response = racingGameService.play(racingGameRequest);
         return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handle(Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
