@@ -1,6 +1,5 @@
 package racingcar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameResultDao;
@@ -13,27 +12,26 @@ import racingcar.utils.RandomPowerMaker;
 @Service
 public class RacingCarService {
 
-    private final RandomPowerGenerator randomPowerGenerator;
-    private final GameResultDao gameResultDao;
+	private final RandomPowerGenerator randomPowerGenerator;
+	private final GameResultDao gameResultDao;
 
-    @Autowired
-    public RacingCarService(final GameResultDao gameResultDao) {
-        this.randomPowerGenerator = new RandomPowerMaker();
-        this.gameResultDao = gameResultDao;
-    }
+	public RacingCarService (final GameResultDao gameResultDao) {
+		this.randomPowerGenerator = new RandomPowerMaker();
+		this.gameResultDao = gameResultDao;
+	}
 
-    @Transactional
-    public GameResultResponseDto startRace(final Cars cars, final TryCount tryCount) {
-        moveCars(cars, tryCount);
-        GameResultResponseDto gameResult = GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
+	@Transactional
+	public GameResultResponseDto startRace (final Cars cars, final TryCount tryCount) {
+		moveCars(cars, tryCount);
+		GameResultResponseDto gameResult = GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
 
-        gameResultDao.saveGame(tryCount, gameResult);
-        return gameResult;
-    }
+		gameResultDao.saveGame(tryCount, gameResult);
+		return gameResult;
+	}
 
-    private void moveCars(final Cars cars, final TryCount tryCount) {
-        for (int i = 0; i < tryCount.getTryCount(); i++) {
-            cars.moveAll(randomPowerGenerator);
-        }
-    }
+	private void moveCars (final Cars cars, final TryCount tryCount) {
+		for (int i = 0; i < tryCount.getTryCount(); i++) {
+			cars.moveAll(randomPowerGenerator);
+		}
+	}
 }
