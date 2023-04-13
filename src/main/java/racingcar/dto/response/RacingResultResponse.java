@@ -3,6 +3,7 @@ package racingcar.dto.response;
 import java.util.List;
 
 public class RacingResultResponse {
+
     private final List<RacingCarResponse> racingCars;
     private final String winners;
 

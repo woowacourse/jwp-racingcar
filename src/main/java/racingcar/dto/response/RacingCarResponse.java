@@ -1,6 +1,7 @@
 package racingcar.dto.response;
 
 public class RacingCarResponse {
+
     private final String name;
     private final int position;
 
