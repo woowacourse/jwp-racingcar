@@ -74,5 +74,4 @@ class RacingGameTest {
 
         assertThat(isAllInTrialCount).isTrue();
     }
-
 }

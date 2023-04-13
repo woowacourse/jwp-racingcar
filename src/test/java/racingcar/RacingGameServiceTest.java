@@ -46,5 +46,4 @@ class RacingGameServiceTest {
                 () -> assertThat(result.getWinners()).isNotEmpty()
         );
     }
-
 }

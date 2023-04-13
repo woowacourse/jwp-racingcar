@@ -47,7 +47,6 @@ class RacingHistoryDaoTest {
                 now.format(timeFormatter)),
             () -> assertThat(racingHistory.getTrialCount()).isEqualTo(trialCount)
         );
-
     }
 
 }

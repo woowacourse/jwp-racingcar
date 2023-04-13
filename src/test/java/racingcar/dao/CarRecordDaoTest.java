@@ -48,13 +48,11 @@ class CarRecordDaoTest {
                         rs.getBoolean("is_winner")
                 )
         );
-
         assertAll(
                 () -> assertThat(foundCar.getName()).isEqualTo(carName),
                 () -> assertThat(foundCar.getPosition()).isZero(),
                 () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner)
                 );
-
     }
 
 }
