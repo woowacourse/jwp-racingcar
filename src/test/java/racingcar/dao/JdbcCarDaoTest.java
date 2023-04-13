@@ -18,12 +18,10 @@ public class JdbcCarDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private CarDao carDao;
     private GameDao gameDao;
 
     @BeforeEach
     void setUp() {
-        carDao = new JdbcCarDao(jdbcTemplate);
         gameDao = new JdbcGameDao(jdbcTemplate);
     }
 
