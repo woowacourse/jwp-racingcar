@@ -17,8 +17,8 @@ public class PlayResultEntity {
         this.createdAt = createdAt;
     }
 
-    public static PlayResultEntity of(int trialCount, String winners) {
-        return new PlayResultEntity(ID_DUMMY_VALUE, trialCount, winners, null);
+    public static PlayResultEntity of(int trialCount, String winners, Timestamp createdAt) {
+        return new PlayResultEntity(ID_DUMMY_VALUE, trialCount, winners, createdAt);
     }
 
     public static PlayResultEntity of(long id, int trialCount, String winners, Timestamp createdAt) {

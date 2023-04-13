@@ -31,7 +31,8 @@ public class RacingGameService {
         Cars cars = game.getCars();
         String winners = String.join(",", game.decideWinners());
 
-        saveCarResult(tryCount, cars, winners);
+        long playResultId = savePlayResult(game, winners);
+        saveCarResult(cars, playResultId);
         List<CarResponse> carResponses = getCarResponses(cars);
         
         return new CarGameResponse(winners, carResponses);
@@ -44,11 +45,14 @@ public class RacingGameService {
                 .collect(Collectors.toList());
     }
 
-    private void saveCarResult(int tryCount, Cars cars, String winners) {
-        long resultId = playResultMapper.save(PlayResultEntity.of(tryCount, winners));
+    private long savePlayResult(RacingGame racingGame, String winners) {
+        return playResultMapper.save(PlayResultEntity.of(racingGame.getTryCount(), winners, racingGame.getCreatedAt()));
+    }
+
+    private void saveCarResult(Cars cars, long playResultId) {
         cars.getUnmodifiableCars()
                 .stream()
-                .map(car -> CarResultEntity.of(resultId, car.getName(), car.getPosition()))
+                .map(car -> CarResultEntity.of(playResultId, car.getName(), car.getPosition()))
                 .forEach(carResultMapper::save);
     }
 

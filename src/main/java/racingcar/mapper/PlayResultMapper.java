@@ -2,13 +2,13 @@ package racingcar.mapper;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.PlayResultEntity;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
 
 @Repository
 public class PlayResultMapper {
@@ -20,7 +20,6 @@ public class PlayResultMapper {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("play_result")
-                .usingColumns("trial_count", "winners")
                 .usingGeneratedKeyColumns("id");
     }
 
@@ -33,13 +32,10 @@ public class PlayResultMapper {
             );
 
     public long save(PlayResultEntity playResultEntity) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("trial_count", playResultEntity.getTrialCount());
-        parameters.put("winners", playResultEntity.getWinners());
-        long key = simpleJdbcInsert
-                .executeAndReturnKey(parameters)
+        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(playResultEntity);
+        return simpleJdbcInsert
+                .executeAndReturnKey(sqlParameterSource)
                 .longValue();
-        return key;
     }
 
     public PlayResultEntity findById(long id) {

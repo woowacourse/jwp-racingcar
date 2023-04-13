@@ -4,7 +4,7 @@ CREATE TABLE PLAY_RESULT
     id          INT         UNSIGNED NOT NULL AUTO_INCREMENT,
     winners     VARCHAR(120) NOT NULL,
     trial_count INT         NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
+    created_at  DATETIME    NOT NULL,
     PRIMARY KEY (id)
 );
 

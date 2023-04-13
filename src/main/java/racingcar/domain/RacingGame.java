@@ -2,6 +2,8 @@ package racingcar.domain;
 
 import racingcar.RandomNumberGenerator;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,11 +12,13 @@ public class RacingGame {
     private final RandomNumberGenerator numberGenerator;
     private final Cars cars;
     private final TryCount tryCount;
+    private final Timestamp createdAt;
 
     public RacingGame(final RandomNumberGenerator numberGenerator, final Cars cars, final int tryCount) {
         this.cars = cars;
         this.tryCount = new TryCount(tryCount);
         this.numberGenerator = numberGenerator;
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public void play() {
@@ -38,5 +42,9 @@ public class RacingGame {
 
     public int getTryCount() {
         return tryCount.getCount();
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 }
