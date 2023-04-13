@@ -8,7 +8,7 @@
     - [x] Response로 자동차 게임 결과 전송
 
 - DB
-  - [ ] H2 Database 세팅
-  - [ ] `game` table 세팅
-  - [ ] `player_result` table 세팅
-  - [ ] DB 연결
+  - [x] H2 Database 세팅
+  - [x] `game` table 세팅
+  - [x] `player_result` table 세팅
+  - [x] DB 연결
