@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-class CarNameTest {
+class NameTest {
     @Nested
     @DisplayName("of() 메소드 테스트")
     class OfTest {
@@ -18,7 +18,7 @@ class CarNameTest {
         void givenCarName_whenGeneratingCarName_thenReturnsCarName() {
             String name = "Car";
 
-            CarName carName = CarName.of(name);
+            Name carName = Name.of(name);
 
             assertThat(carName)
                     .as("정상적으로 객체가 생성된다.")
@@ -30,13 +30,13 @@ class CarNameTest {
         void givenCarNames_whenGeneratingCarName_thenReturnsCarNames() {
             List<String> names = List.of("Car", "Car2", "Car3");
 
-            List<CarName> carNames = CarName.of(names);
+            List<Name> carNames = Name.of(names);
 
             Assertions.assertThat(carNames)
                     .containsExactly(
-                            CarName.of("Car"),
-                            CarName.of("Car2"),
-                            CarName.of("Car3")
+                            Name.of("Car"),
+                            Name.of("Car2"),
+                            Name.of("Car3")
                     );
         }
     }
@@ -49,7 +49,7 @@ class CarNameTest {
         void givenCarNameUnder5Length_whenGeneratingCarName_thenSuccess() {
             String name = "AmCar";
 
-            assertThatCode(() -> CarName.of(name))
+            assertThatCode(() -> Name.of(name))
                     .doesNotThrowAnyException();
         }
 
@@ -58,9 +58,9 @@ class CarNameTest {
         void givenCarNameOver5Length_whenGeneratingCarName_thenThrowsException() {
             String name = "CarOver5";
 
-            assertThatThrownBy(() -> CarName.of(name))
+            assertThatThrownBy(() -> Name.of(name))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(CarName.INVALID_NAME_LENGTH_EXCEPTION_MESSAGE);
+                    .hasMessage(Name.INVALID_NAME_LENGTH_EXCEPTION_MESSAGE);
         }
 
         @Test
@@ -68,9 +68,9 @@ class CarNameTest {
         void givenCarNamesHavingInvalid_GeneratingCarNames_thenThrowsException() {
             List<String> names = List.of("Car", "Car2", "CarOver5", "Car3");
 
-            assertThatThrownBy(() -> CarName.of(names))
+            assertThatThrownBy(() -> Name.of(names))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(CarName.INVALID_NAME_LENGTH_EXCEPTION_MESSAGE);
+                    .hasMessage(Name.INVALID_NAME_LENGTH_EXCEPTION_MESSAGE);
         }
     }
 
@@ -80,15 +80,15 @@ class CarNameTest {
         @Test
         @DisplayName("CarName VO 객체는 내부 필드의 값이 동일하면 동일한 객체로 간주한다.")
         void givenCarNamesHavingSameName_whenCallingEquals_thenReturnsTrue() {
-            CarName carName = CarName.of("Car");
-            CarName carName2 = CarName.of("Car");
+            Name name = Name.of("Car");
+            Name name2 = Name.of("Car");
 
-            assertThat(carName)
+            assertThat(name)
                     .as("equals() 메소드 결과가 true이다.")
-                    .isEqualTo(carName2);
-            assertThat(carName.hashCode())
+                    .isEqualTo(name2);
+            assertThat(name.hashCode())
                     .as("hash값이 동일하다.")
-                    .isEqualTo(carName2.hashCode());
+                    .isEqualTo(name2.hashCode());
         }
     }
 
@@ -99,9 +99,9 @@ class CarNameTest {
         @DisplayName("getValue()를 통해 내부의 원시값을 가져올 수 있다.")
         void givenCarName_whenGettingValue_thenReturnsValue() {
             String expected = "Car";
-            CarName carName = CarName.of(expected);
+            Name name = Name.of(expected);
 
-            String value = carName.getValue();
+            String value = name.getValue();
 
             assertThat(value)
                     .as("getValue() 호출시 내부 필드인 String 타입의 이름을 반환한다.")

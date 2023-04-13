@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
-import racingcar.vo.CarName;
+import racingcar.vo.Name;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CarsTest {
     Cars cars;
-    Car car = Car.of(CarName.of("test"));
-    Car foxCar = Car.of(CarName.of("fox"));
+    Car car = Car.of(Name.of("test"));
+    Car foxCar = Car.of(Name.of("fox"));
 
     @Test
     @DisplayName("차 추가 테스트")

@@ -4,24 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CarName {
+public class Name {
     public static final int MAX_NAME_LENGTH = 5;
+    public static final String EMPTY_INPUT_EXCEPTION_MESSAGE = "입력값은 비어있을 수 없습니다.";
     public static final String INVALID_NAME_LENGTH_EXCEPTION_MESSAGE = "5글자 까지만 가능합니다.";
 
     private final String name;
 
-    private CarName(String name) {
+    private Name(String name) {
         this.name = name;
     }
 
-    public static CarName of(String name) {
+    public static Name of(String name) {
         validateName(name);
-        return new CarName(name);
+        return new Name(name);
     }
 
-    public static List<CarName> of(List<String> names) {
-        ArrayList<CarName> carNames = new ArrayList<>();
-        names.forEach(name -> carNames.add(CarName.of(name)));
+    public static List<Name> of(List<String> names) {
+        ArrayList<Name> carNames = new ArrayList<>();
+        names.forEach(name -> carNames.add(Name.of(name)));
         return carNames;
     }
 
@@ -30,8 +31,20 @@ public class CarName {
     }
 
     private static void validateName(String name) {
+        validateBlank(name);
+
+        validateLength(name);
+    }
+
+    private static void validateLength(String name) {
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(INVALID_NAME_LENGTH_EXCEPTION_MESSAGE);
+        }
+    }
+
+    private static void validateBlank(String name) {
+        if (name.equals("")) {
+            throw new IllegalArgumentException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
     }
 
@@ -39,8 +52,8 @@ public class CarName {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CarName carName1 = (CarName) o;
-        return name.equals(carName1.name);
+        Name name1 = (Name) o;
+        return name.equals(name1.name);
     }
 
     @Override
@@ -53,9 +66,5 @@ public class CarName {
         return "Name{" +
                 "name='" + name + '\'' +
                 '}';
-    }
-
-    public boolean isBlank() {
-        return this.name.equals("");
     }
 }

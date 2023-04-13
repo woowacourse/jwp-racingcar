@@ -7,9 +7,9 @@ public class FinalResultDto {
     private final List<String> winners;
     private final List<CarDto> racingCars;
 
-    public FinalResultDto(List<String> winners, List<CarDto> racingCars) {
-        this.winners = winners;
-        this.racingCars = racingCars;
+    public FinalResultDto(ResultDto resultDto) {
+        this.winners = resultDto.getWinners();
+        this.racingCars = resultDto.getRacingCars();
     }
 
     public boolean getSuccess() {

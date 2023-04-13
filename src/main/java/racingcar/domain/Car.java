@@ -1,20 +1,20 @@
 package racingcar.domain;
 
-import racingcar.vo.CarName;
+import racingcar.vo.Name;
 import racingcar.vo.Position;
 
 public class Car {
     public static final int MIN_REQUIRED_POWER = 3;
 
-    private final CarName name;
+    private final Name name;
     private Position position;
 
-    private Car(CarName name) {
+    private Car(Name name) {
         this.name = name;
         this.position = Position.of(0);
     }
 
-    public static Car of(CarName name) {
+    public static Car of(Name name) {
         return new Car(name);
     }
 

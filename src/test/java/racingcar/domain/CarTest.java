@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import racingcar.vo.CarName;
+import racingcar.vo.Name;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +25,7 @@ class CarTest {
         void givenName_whenMakingCar_thenReturnsCar() {
             String expected = "test";
 
-            Car car = Car.of(CarName.of(expected));
+            Car car = Car.of(Name.of(expected));
 
             assertThat(car).isNotNull();
         }
@@ -35,7 +35,7 @@ class CarTest {
         void givenName_whenGettingName_thenReturnsNameString() {
             String expected = "test";
 
-            Car car = Car.of(CarName.of(expected));
+            Car car = Car.of(Name.of(expected));
 
             assertThat(car.getName())
                     .as("getName() 호출시 원시값을 반환한다.")
@@ -46,7 +46,7 @@ class CarTest {
         @Test
         @DisplayName("Car 객체 생성시, position 필드의 초기값은 0이다.")
         void givenCar_whenGettingPosition_thenReturnsPositionNumber() {
-            Car car = Car.of(CarName.of("test"));
+            Car car = Car.of(Name.of("test"));
 
             assertThat(car.getPosition())
                     .as("getPosition() 호출시 원시값을 반환한다.")
@@ -61,7 +61,7 @@ class CarTest {
         @ParameterizedTest(name = "move() 메소드를 호출하여, 주어진 power 값({0})에 따라 position의 전진 여부 테스트")
         @CsvSource(value = {"4,1", "3,0"})
         void givenCar_whenMovingCar_thenAddsPosition(int power, long expected) {
-            Car car = Car.of(CarName.of("test"));
+            Car car = Car.of(Name.of("test"));
 
             car.move(power);
 
@@ -77,8 +77,8 @@ class CarTest {
         @ParameterizedTest()
         @CsvSource(value = {"4,true", "3,false"})
         @DisplayName("차가 주어진 이동 정도를 가지고 있는 지를 참 거짓 값으로 판단할 수 있다.")
-        void givenPosition_whenAskingHasPosition_thenReturnsResult(Long position, boolean expected) {
-            Car car = Car.of(CarName.of("Car"));
+        void givenPosition_whenAskingHasPosition_thenReturnsResult(int position, boolean expected) {
+            Car car = Car.of(Name.of("Car"));
             for (int i = 0; i < 4; i++) {
                 car.move(4);
             }
