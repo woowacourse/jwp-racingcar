@@ -11,14 +11,16 @@ import racingcar.vo.Trial;
 @RestController
 public class RacingController {
     final private RacingDao racingDao;
+    final private RacingUtil racingUtil;
 
-    public RacingController(RacingDao racingDao){
+    public RacingController(RacingDao racingDao, RacingUtil racingUtil) {
         this.racingDao = racingDao;
+        this.racingUtil = racingUtil;
     }
 
     @PostMapping("/plays")
     public FinalResultDto playRacing(@RequestBody RequestBodyDTO dto) {
-        ResultDto resultDto = RacingUtil.race(dto.getNames(), dto.getCount());
+        ResultDto resultDto = racingUtil.race(dto.getNames(), dto.getCount());
         final int racingId = racingDao.insert(Trial.of(dto.getCount()));
         for(CarDto car : resultDto.getRacingCars()){
             String name = car.getName();
