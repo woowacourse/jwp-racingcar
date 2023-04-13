@@ -20,9 +20,8 @@ public class Cars {
     }
 
     private void validateCars(final List<String> cars) {
-
-        validateDuplicatedName(cars);
         validateEmpty(cars);
+        validateDuplicatedName(cars);
     }
 
     private void validateEmpty(final List<String> cars) {
