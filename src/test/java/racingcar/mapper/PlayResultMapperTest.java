@@ -4,9 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestComponent;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.entity.PlayResultEntity;
+import racingcar.domain.PlayResult;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,9 +40,9 @@ class PlayResultMapperTest {
 
     @Test
     void key() {
-        PlayResultEntity entity = PlayResultEntity.of(0, 10, "aa", null);
+        PlayResult entity = PlayResult.of(10, "aa", Timestamp.valueOf(LocalDateTime.now()));
         Long id = mapper.save(entity);
-        PlayResultEntity result = mapper.findById(id);
+        PlayResult result = mapper.findById(id);
         System.out.println(result);
         assertThat(result).isNotNull();
     }

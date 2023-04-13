@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.entity.CarResultEntity;
+import racingcar.domain.CarResult;
 
 import javax.sql.DataSource;
 
@@ -15,14 +15,14 @@ public class CarResultMapper {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
-    private final RowMapper<CarResultEntity> entityRowMapper = (resultSet, rowNum) -> {
-        CarResultEntity carResultEntity = CarResultEntity.of(
+    private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> {
+        CarResult carResult = CarResult.of(
                 resultSet.getLong("id"),
                 resultSet.getLong("play_result_id"),
                 resultSet.getString("name"),
                 resultSet.getInt("position")
         );
-        return carResultEntity;
+        return carResult;
     };
 
     public CarResultMapper(JdbcTemplate jdbcTemplate, DataSource dataSource) {
@@ -32,12 +32,12 @@ public class CarResultMapper {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public long save(CarResultEntity carResultEntity) {
-        SqlParameterSource source = new BeanPropertySqlParameterSource(carResultEntity);
+    public long save(CarResult carResult) {
+        SqlParameterSource source = new BeanPropertySqlParameterSource(carResult);
         return simpleJdbcInsert.executeAndReturnKey(source).longValue();
     }
 
-    public CarResultEntity findById(long id) {
+    public CarResult findById(long id) {
         String sql = "SELECT * FROM car_result WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
     }

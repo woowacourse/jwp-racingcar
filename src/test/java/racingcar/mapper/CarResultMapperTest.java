@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.entity.CarResultEntity;
-import racingcar.entity.PlayResultEntity;
+import racingcar.domain.CarResult;
+import racingcar.domain.PlayResult;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,11 +44,11 @@ class CarResultMapperTest {
 
     @Test
     void key() {
-        PlayResultEntity playResultEntity = PlayResultEntity.of(0, 10, "juno", null);
-        Long playResultId = playResultMapper.save(playResultEntity);
-        CarResultEntity carResultEntity = CarResultEntity.of(0, playResultId, "juno", 3);
-        Long carId = carResultMapper.save(carResultEntity);
-        CarResultEntity result = carResultMapper.findById(carId);
+        PlayResult playResult = PlayResult.of(10, "juno", Timestamp.valueOf(LocalDateTime.now()));
+        Long playResultId = playResultMapper.save(playResult);
+        CarResult carResult = CarResult.of(playResultId, "juno", 3);
+        Long carId = carResultMapper.save(carResult);
+        CarResult result = carResultMapper.findById(carId);
         System.out.println(result);
         assertThat(result).isNotNull();
     }

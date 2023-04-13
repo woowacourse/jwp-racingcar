@@ -5,8 +5,8 @@ import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.response.CarGameResponse;
 import racingcar.dto.response.CarResponse;
-import racingcar.entity.CarResultEntity;
-import racingcar.entity.PlayResultEntity;
+import racingcar.domain.CarResult;
+import racingcar.domain.PlayResult;
 import racingcar.mapper.CarResultMapper;
 import racingcar.mapper.PlayResultMapper;
 
@@ -31,7 +31,7 @@ public class RacingGameService {
         Cars cars = game.getCars();
         String winners = String.join(",", game.decideWinners());
 
-        long playResultId = savePlayResult(game, winners);
+        long playResultId = savePlayResult(tryCount, game, winners);
         saveCarResult(cars, playResultId);
         List<CarResponse> carResponses = getCarResponses(cars);
         
@@ -45,14 +45,14 @@ public class RacingGameService {
                 .collect(Collectors.toList());
     }
 
-    private long savePlayResult(RacingGame racingGame, String winners) {
-        return playResultMapper.save(PlayResultEntity.of(racingGame.getTryCount(), winners, racingGame.getCreatedAt()));
+    private long savePlayResult(int tryCount, RacingGame racingGame, String winners) {
+        return playResultMapper.save(PlayResult.of(tryCount, winners, racingGame.getCreatedAt()));
     }
 
     private void saveCarResult(Cars cars, long playResultId) {
         cars.getUnmodifiableCars()
                 .stream()
-                .map(car -> CarResultEntity.of(playResultId, car.getName(), car.getPosition()))
+                .map(car -> CarResult.of(playResultId, car.getName(), car.getPosition()))
                 .forEach(carResultMapper::save);
     }
 
