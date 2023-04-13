@@ -35,7 +35,7 @@ public class RacingCarService {
         List<GameEntity> racingGameEntities = racingCarDao.findAll(); // List<RacingGameEntity>
         return racingGameEntities.stream()
                 .map(RacingCarService::generateRacingGameResponseDto)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
     }
 
     private static GameResponseDto generateRacingGameResponseDto(GameEntity gameEntity) {
@@ -50,7 +50,7 @@ public class RacingCarService {
         return gameEntity.getRacingCars()
                 .stream()
                 .map(RacingCarService::generateRacingCarResponseDto)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
     }
 
     private static CarResponseDto generateRacingCarResponseDto(CarEntity carEntity) {
@@ -105,7 +105,7 @@ public class RacingCarService {
         return cars.getCars()
                 .stream()
                 .map(RacingCarService::generateRacingCarEntity)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
     }
 
     private static CarEntity generateRacingCarEntity(Car car) {
