@@ -1,5 +1,7 @@
 package racingcar.domain;
 
+import racingcar.exception.IllegalGameArgumentException;
+
 import java.util.Objects;
 
 public class Name {
@@ -19,7 +21,7 @@ public class Name {
 
     public void validateNameLength(String name) {
         if (name.length() < MIN_LENGTH || MAX_LENGTH < name.length()) {
-            throw new IllegalArgumentException(LENGTH_EXCEPTION_MESSAGE);
+            throw new IllegalGameArgumentException(LENGTH_EXCEPTION_MESSAGE);
         }
     }
 
@@ -30,7 +32,7 @@ public class Name {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Name name1 = (Name)o;
+        Name name1 = (Name) o;
 
         return Objects.equals(name, name1.name);
     }

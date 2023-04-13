@@ -1,18 +1,19 @@
 package racingcar.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import racingcar.controller.dto.PlayRequest;
 import racingcar.controller.dto.ResultResponse;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
+import racingcar.exception.GameException;
 import racingcar.service.GameService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class GameController {
@@ -50,5 +51,10 @@ public class GameController {
         return carNames.stream()
                 .map(String::trim)
                 .collect(Collectors.toList());
+    }
+
+    @ExceptionHandler(GameException.class)
+    private ResponseEntity<String> userInputExceptionHandler(final GameException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 }

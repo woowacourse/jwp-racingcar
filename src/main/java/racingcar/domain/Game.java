@@ -1,5 +1,8 @@
 package racingcar.domain;
 
+import racingcar.exception.IllegalGameArgumentException;
+import racingcar.exception.IllegalGameStateException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -41,7 +44,7 @@ public class Game {
     private Car findFarthestCar() {
         return cars.stream()
                 .reduce(this::getFartherCar)
-                .orElseThrow(() -> new IllegalStateException("차량이 없습니다"));
+                .orElseThrow(() -> new IllegalGameStateException("차량이 없습니다"));
     }
 
     private Car getFartherCar(Car car, Car other) {
@@ -53,13 +56,13 @@ public class Game {
 
     private void validateNoDuplicateCar(List<Car> cars) {
         if (cars.size() > new HashSet<>(cars).size()) {
-            throw new IllegalArgumentException("자동차 이름은 중복되면 안됩니다");
+            throw new IllegalGameArgumentException("자동차 이름은 중복되면 안됩니다");
         }
     }
 
     private void validateCarsLength(List<Car> cars) {
         if (cars.isEmpty()) {
-            throw new IllegalArgumentException("차량이 없습니다");
+            throw new IllegalGameArgumentException("차량이 없습니다");
         }
     }
 

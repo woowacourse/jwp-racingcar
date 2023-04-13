@@ -1,5 +1,7 @@
 package racingcar.domain;
 
+import racingcar.exception.IllegalGameArgumentException;
+
 import java.util.Objects;
 
 public class Car {
@@ -35,7 +37,7 @@ public class Car {
 
     private void validatePosition(int position) {
         if (position < START_POSITION) {
-            throw new IllegalArgumentException("[ERROR] 위치는 시작점보다 작으면 안됩니다.");
+            throw new IllegalGameArgumentException("[ERROR] 위치는 시작점보다 작으면 안됩니다.");
         }
     }
 
@@ -48,7 +50,7 @@ public class Car {
             return false;
         }
 
-        Car car = (Car)o;
+        Car car = (Car) o;
 
         return Objects.equals(name, car.name);
     }
