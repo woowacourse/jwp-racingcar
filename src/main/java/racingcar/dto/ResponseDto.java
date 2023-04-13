@@ -13,6 +13,10 @@ public class ResponseDto {
         this.racingCars = racingCars;
     }
 
+    public ResponseDto(final List<String> winners, final List<Car> racingCars) {
+        this(String.join(",", winners), racingCars);
+    }
+
     public String getWinners() {
         return winners;
     }

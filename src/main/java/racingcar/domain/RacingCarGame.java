@@ -16,6 +16,12 @@ public class RacingCarGame {
         this.numberGenerator = numberGenerator;
     }
 
+    public RacingCarGame(final List<String> names, final int attempt, final NumberGenerator numberGenerator) {
+        this.cars = Cars.from(names);
+        this.attemptNumber = new AttemptNumber(attempt);
+        this.numberGenerator = numberGenerator;
+    }
+
     public List<String> findWinners() {
         play();
         final Cars winners = cars.findWinners();
