@@ -15,20 +15,4 @@ public class RacingGameInfo {
         this.createdAt = createdAt;
         this.trial = trial;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getWinners() {
-        return winners;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public int getTrial() {
-        return trial;
-    }
 }
