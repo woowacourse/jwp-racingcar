@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class RaceResultService {
 
-
     private final RaceResultDao raceResultDao;
     private final CarService carService;
     private final NumberGenerator numberGenerator;
