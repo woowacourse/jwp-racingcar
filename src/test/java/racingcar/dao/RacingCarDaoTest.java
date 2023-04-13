@@ -35,8 +35,8 @@ class RacingCarDaoTest {
                 + "    PRIMARY KEY (id))");
 
         jdbcTemplate.execute("CREATE TABLE LOG("
-                + "    id      INT         NOT NULL AUTO_INCREMENT,"
-                + "    game_id INT         NOT NULL,"
+                + "    id      INT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                + "    game_id INT UNSIGNED NOT NULL,"
                 + "    name    VARCHAR(50) NOT NULL,"
                 + "    move    INT         NOT NULL,"
                 + "    PRIMARY KEY (id),"
