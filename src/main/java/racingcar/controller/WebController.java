@@ -1,5 +1,8 @@
 package racingcar.controller;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +13,7 @@ import racingcar.service.RacingCarService;
 
 @RestController
 public class WebController {
+    private static final String DELIMITER = ",";
 
     private final RacingCarService racingCarService;
 
@@ -19,7 +23,8 @@ public class WebController {
 
     @PostMapping("/plays")
     public ResponseEntity createGame(@RequestBody RequestDTO requestDTO) {
-        ResponseDTO responseDTO = racingCarService.play(requestDTO.getNames(), requestDTO.getCount());
+        List<String> carNames = Arrays.stream(requestDTO.getNames().split(DELIMITER)).collect(Collectors.toList());
+        ResponseDTO responseDTO = racingCarService.play(carNames, requestDTO.getCount());
         return ResponseEntity.ok().body(responseDTO);
     }
 }

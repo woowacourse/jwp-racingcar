@@ -3,18 +3,19 @@ package racingcar.dto;
 import java.util.List;
 
 public class ResponseDTO {
-    private String winners;
+
+    private List<String> winners;
     private List<CarDTO> racingCars;
 
     public ResponseDTO() {
     }
 
-    public ResponseDTO(final String winners, final List<CarDTO> racingCars) {
+    public ResponseDTO(final List<String> winners, final List<CarDTO> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public String getWinners() {
+    public List<String> getWinners() {
         return winners;
     }
 

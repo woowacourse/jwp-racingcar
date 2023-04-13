@@ -1,7 +1,6 @@
 package racingcar.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import racingcar.dto.ResponseDTO;
 
 @Service
 public class RacingCarService {
-    private static final String DELIMITER = ",";
 
     private final GameDao gameDao;
     private final CarDao carDao;
@@ -29,7 +27,7 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
-    public ResponseDTO play(final String names, final int count) {
+    public ResponseDTO play(final List<String> names, final int count) {
         final GameSystem gameSystem = createGameSystem(count);
         final Long gameId = gameDao.insert(count);
 
@@ -44,10 +42,9 @@ public class RacingCarService {
         return new GameSystem(gameRound, new GameRecorder(new ArrayList<>()));
     }
 
-    private Cars makeCars(final String names) {
-        List<String> carNames = Arrays.stream(names.split(DELIMITER)).collect(Collectors.toList());
+    private Cars makeCars(final List<String> names) {
         CarFactory carFactory = new CarFactory();
-        return carFactory.createCars(carNames);
+        return carFactory.createCars(names);
     }
 
     private void insertCar(final Cars cars, final Long id, final GameSystem gameSystem) {
@@ -69,7 +66,7 @@ public class RacingCarService {
     }
 
     private ResponseDTO createResponseDTO(final int count, final GameSystem gameSystem) {
-        final String winners = String.join(DELIMITER, getWinners(gameSystem));
+        final List<String> winners = getWinners(gameSystem);
         final List<CarDTO> carDTOs = getCarDTOs(count, gameSystem);
         return new ResponseDTO(winners, carDTOs);
     }

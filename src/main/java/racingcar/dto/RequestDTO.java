@@ -1,6 +1,7 @@
 package racingcar.dto;
 
 public class RequestDTO {
+
     private String names;
     private int count;
 
