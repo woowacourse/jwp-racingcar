@@ -1,15 +1,10 @@
 package racingcar.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.FixNumberGenerator;
 import racingcar.domain.Cars;
 import racingcar.domain.Count;
@@ -17,7 +12,15 @@ import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.dto.response.RacingGameResponseDto;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 @SpringBootTest
+@Transactional
 class RacingCarServiceTest {
 
     @Autowired
