@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import racingcar.dao.GameDao;
@@ -19,21 +18,19 @@ import racingcar.util.MoveCountValidator;
 
 @Service
 public class GameService {
-    private Cars cars;
-    private final CarMoveManager carMoveManager;
     private final GameDao gameDao;
+    private final CarMoveManager carMoveManager;
 
-    public GameService(Cars cars, CarMoveManager carMoveManager, GameDao gameDao) {
-        this.cars = cars;
-        this.carMoveManager = carMoveManager;
+    public GameService(GameDao gameDao, CarMoveManager carMoveManager) {
         this.gameDao = gameDao;
+        this.carMoveManager = carMoveManager;
     }
 
-    public void initialize(){
-        this.cars = new Cars(new ArrayList<>());
+    public Cars initialize() {
+        return new Cars(new ArrayList<>());
     }
 
-    public void createCars(String inputs) {
+    public void createCars(Cars cars, String inputs) {
         List<String> names = Arrays.asList(inputs.split(","));
         CarNameValidator.validate(names);
         for (String name : names) {
@@ -42,7 +39,7 @@ public class GameService {
         }
     }
 
-    public void moveCars(String countInput) {
+    public void moveCars(Cars cars, String countInput) {
         MoveCountValidator.validate(countInput);
         int count = Integer.parseInt(countInput);
         for (int i = 0; i < count; i++) {
@@ -55,14 +52,14 @@ public class GameService {
         gameDao.saveGame(moveCount, resultDto);
     }
 
-    public List<CarDto> getResult(){
+    public List<CarDto> getResult(Cars cars) {
         return cars.getCurrentResult()
                 .stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public String getWinner(){
+    public String getWinner(Cars cars) {
         return String.join(", ", cars.getWinners());
     }
 }

@@ -14,13 +14,12 @@ class GameServiceTest {
 
     @Autowired
     GameService gameService;
-    @Autowired
-    Cars cars;
 
     @Test
     void createCars() {
         String namesInput = "폴로,이리내";
-        gameService.createCars(namesInput);
+        Cars cars = gameService.initialize();
+        gameService.createCars(cars, namesInput);
 
         assertThat(cars.getCurrentResult()).containsExactlyInAnyOrder(new Car("폴로"), new Car("이리내"));
     }
