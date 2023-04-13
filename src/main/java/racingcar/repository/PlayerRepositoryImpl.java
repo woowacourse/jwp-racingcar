@@ -20,7 +20,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
     @Override
     public boolean save(final CarGroup carGroup, final int racingGameId) {
-        final String sql = "INSERT INTO player(name, position, racing_game_id) VALUES(?, ?, ?)";
+        final String sql = "INSERT INTO PLAYER(name, position, racing_game_id) VALUES(?, ?, ?)";
         final int[] updatedCounts = jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
             @Override
