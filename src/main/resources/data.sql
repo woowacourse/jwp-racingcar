@@ -1,5 +1,6 @@
 CREATE TABLE RACE (
     id          INT         NOT NULL AUTO_INCREMENT,
+    play_count  INT         NOT NULL,
     created_at  DATETIME    NOT NULL default current_timestamp,
     PRIMARY KEY (id)
 );

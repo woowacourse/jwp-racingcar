@@ -29,7 +29,7 @@ public class RacingGameService {
         game.playGameWithoutPrint(new RandomNumberGenerator());
         RaceResultDto raceResultDto = new RaceResultDto(game);
 
-        int raceId = raceDao.insert();
+        int raceId = raceDao.insert(gameInputDto);
         playerDao.insertAll(raceResultDto, raceId);
         List<Integer> winnerCarIds = playerDao.getWinnerCarIds(raceId, raceResultDto);
         winnerDao.insertAll(raceId, winnerCarIds);
