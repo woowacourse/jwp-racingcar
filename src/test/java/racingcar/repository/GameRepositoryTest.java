@@ -28,8 +28,8 @@ class GameRepositoryTest {
     @DisplayName("TryCount를 받아 게임을 저장한다.")
     void insertGame() {
         TryCount tryCount = new TryCount(10);
-        int gameId = gameRepository.insertGame(tryCount).intValue();
+        long gameId = gameRepository.insertGame(tryCount.getCount()).longValue();
 
-        assertThat(gameId).isEqualTo(1);
+        assertThat(gameId).isEqualTo(1L);
     }
 }
