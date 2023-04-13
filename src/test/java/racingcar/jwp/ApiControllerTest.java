@@ -17,13 +17,15 @@ import racingcar.dto.request.GameRequestDto;
 public class ApiControllerTest {
 
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @DisplayName("게임 실행 테스트")
     void postTest() throws Exception {
         final GameRequestDto gameRequestDto = new GameRequestDto("ditoo,leo", 10);
-        final ObjectMapper objectMapper = new ObjectMapper();
 
         mvc.perform(MockMvcRequestBuilders.post("/plays")
                         .content(objectMapper.writeValueAsString(gameRequestDto))
