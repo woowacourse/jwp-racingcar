@@ -27,17 +27,31 @@ public class RacingGameService {
     }
 
     public RacingGameResponse play(RacingGameRequest racingGameRequest) {
-        Cars cars = new Cars(racingGameRequest.getNamesList().stream()
-                .map(Car::new)
-                .collect(Collectors.toList()));
-        RacingGame game = new RacingGame(numberGenerator, racingGameRequest.getCount(), cars);
+        RacingGame game = playGame(racingGameRequest);
+
+        RacingGameResponse result = getResult(game);
+        saveGame(racingGameRequest, result);
+        return result;
+    }
+
+    private RacingGame playGame(RacingGameRequest racingGameRequest) {
+        RacingGame game = initializeGame(racingGameRequest);
         while (!game.isEnd()) {
             game.playOneRound();
         }
-        RacingGameResponse result = getResult(game);
+        return game;
+    }
+
+    private RacingGame initializeGame(RacingGameRequest racingGameRequest) {
+        Cars cars = new Cars(racingGameRequest.getNamesList().stream()
+                .map(Car::new)
+                .collect(Collectors.toList()));
+        return new RacingGame(numberGenerator, racingGameRequest.getCount(), cars);
+    }
+
+    private void saveGame(RacingGameRequest racingGameRequest, RacingGameResponse result) {
         Long racingGameId = racingGameDao.save(result.getWinners(), racingGameRequest.getCount());
         carDao.saveAll(racingGameId, result.getRacingCars());
-        return result;
     }
 
     private RacingGameResponse getResult(RacingGame racingGame) {
