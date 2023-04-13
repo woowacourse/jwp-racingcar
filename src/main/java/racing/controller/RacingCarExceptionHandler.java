@@ -13,4 +13,10 @@ public class RacingCarExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(HttpStatus.BAD_REQUEST.getReasonPhrase());
+    }
 }

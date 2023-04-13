@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racing.controller.dto.request.validator.RacingGameInfoRequestValidator;
+import racing.controller.dto.request.validator.RequestValidator;
 import racing.domain.CarFactory;
 import racing.controller.dto.request.RacingGameInfoRequest;
 import racing.controller.dto.response.RacingCarStateResponse;
@@ -26,6 +28,9 @@ public class RacingController {
 
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResultResponse> start(@RequestBody RacingGameInfoRequest request) {
+        RequestValidator<RacingGameInfoRequest> requestValidator = new RacingGameInfoRequestValidator();
+        requestValidator.validate(request);
+
         Cars cars = CarFactory.carFactory(request.getNames());
         Long gameId = racingGameService.saveGameByCount(request.getCount());
         racingGameService.playGame(gameId, cars);
