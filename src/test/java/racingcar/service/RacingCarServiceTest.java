@@ -16,7 +16,7 @@ class RacingCarServiceTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    RacingCarService racingCarService;
+    private RacingCarService racingCarService;
 
     @BeforeEach
     public void setUp() {

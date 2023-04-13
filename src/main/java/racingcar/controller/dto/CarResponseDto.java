@@ -23,4 +23,5 @@ public class CarResponseDto {
     public int getPosition() {
         return position;
     }
+
 }
