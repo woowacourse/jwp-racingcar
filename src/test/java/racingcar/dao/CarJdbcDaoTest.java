@@ -28,8 +28,6 @@ public class CarJdbcDaoTest {
 
     @BeforeEach
     void setUp() {
-        final String sql = "insert into game (trial, winners) values (?,?)";
-        jdbcTemplate.update(sql, 1, "car1");
         carDao = new CarJdbcDao(jdbcTemplate);
         gameDao = new GameJdbcDao(jdbcTemplate);
     }
@@ -46,7 +44,7 @@ public class CarJdbcDaoTest {
         carDao.saveAll(gameId, cars.getCars());
 
         // then
-        final String sql = "select count(*) from game";
+        final String sql = "select count(*) from car";
         final int count = jdbcTemplate.queryForObject(sql, Integer.class);
         assertThat(count).isEqualTo(2);
     }
