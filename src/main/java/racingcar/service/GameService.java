@@ -7,6 +7,7 @@ import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.repository.GameDao;
 import racingcar.util.CarNameValidator;
+import racingcar.util.RepeatCountValidator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,11 +20,13 @@ public class GameService {
 
     private final GameDao gameDao;
     private final CarNameValidator carNameValidator;
+    private final RepeatCountValidator repeatCountValidator;
 
     @Autowired
-    public GameService(final GameDao gameDao, final CarNameValidator carNameValidator) {
+    public GameService(final GameDao gameDao, final CarNameValidator carNameValidator, final RepeatCountValidator repeatCountValidator) {
         this.gameDao = gameDao;
         this.carNameValidator = carNameValidator;
+        this.repeatCountValidator = repeatCountValidator;
     }
 
     public long saveGame(final PlayRequest playRequest) {
@@ -44,7 +47,10 @@ public class GameService {
     }
 
     public void play(final PlayRequest playRequest, final Cars cars) {
-        for (int i = 0; i < playRequest.getCount(); i++) {
+        int count = playRequest.getCount();
+        repeatCountValidator.validate(count);
+
+        for (int i = 0; i < count; i++) {
             cars.moveAll();
         }
     }
