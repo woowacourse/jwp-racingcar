@@ -1,4 +1,4 @@
-package racing;
+package racing.repositroy;
 
 import racing.domain.Car;
 
