@@ -26,10 +26,10 @@ public class WebController {
     @PostMapping("/plays")
     @Transactional
     public PlayResponse plays(@RequestBody final PlayRequest playRequest) {
-        Cars cars = gameService.createCars(playRequest);
+        Cars cars = gameService.createCars(playRequest.getNames());
 
-        long gameId = gameService.saveGame(playRequest);
-        gameService.play(playRequest, cars);
+        long gameId = gameService.saveGame(playRequest.getCount());
+        gameService.play(playRequest.getCount(), cars);
         recordService.saveResults(gameId, cars);
 
         return recordService.result(cars);

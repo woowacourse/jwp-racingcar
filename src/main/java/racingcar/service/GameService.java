@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.toUnmodifiableList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dto.PlayRequest;
 import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.repository.GameDao;
@@ -27,9 +26,7 @@ public class GameService {
         this.gameDao = gameDao;
     }
 
-    public Cars createCars(final PlayRequest playRequest) {
-        String names = playRequest.getNames();
-
+    public Cars createCars(final String names) {
         List<String> carNames = splitNames(names);
 
         carNameValidator.validate(carNames);
@@ -45,12 +42,12 @@ public class GameService {
                 .collect(toList());
     }
 
-    public long saveGame(final PlayRequest playRequest) {
-        return gameDao.insert(playRequest.getCount());
+    public long saveGame(final int trialCount) {
+        return gameDao.insert(trialCount);
     }
 
-    public void play(final PlayRequest playRequest, final Cars cars) {
-        for (int i = 0; i < playRequest.getCount(); i++) {
+    public void play(final int trialCount, final Cars cars) {
+        for (int i = 0; i < trialCount; i++) {
             cars.moveAll();
         }
     }
