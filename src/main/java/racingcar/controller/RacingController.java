@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.controller.dto.PlaysRequestDto;
-import racingcar.controller.dto.PlaysResponseDto;
+import racingcar.controller.dto.RacingGameRequestDtoForPlays;
+import racingcar.controller.dto.RacingGameResponseDto;
 import racingcar.service.RacingCarService;
 
 import java.util.List;
@@ -23,15 +23,15 @@ public class RacingController {
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<PlaysResponseDto>> query() {
+    public ResponseEntity<List<RacingGameResponseDto>> query() {
         return ResponseEntity.ok()
                 .body(racingCarService.query());
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<PlaysResponseDto> submit(@RequestBody PlaysRequestDto playsRequestDto) {
+    public ResponseEntity<RacingGameResponseDto> submit(@RequestBody RacingGameRequestDtoForPlays racingGameRequestDtoForPlays) {
         return ResponseEntity.ok()
-                .body(racingCarService.plays(playsRequestDto));
+                .body(racingCarService.plays(racingGameRequestDtoForPlays));
     }
 
 }

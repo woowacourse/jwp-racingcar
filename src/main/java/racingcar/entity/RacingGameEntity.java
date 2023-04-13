@@ -1,20 +1,17 @@
 package racingcar.entity;
 
-import racingcar.controller.dto.PlaysResponseDto;
-import racingcar.domain.Car;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class RacingGameEntity {
 
-    private final int id;
+    private int id;
     private final int count;
     private final String winners;
     private final LocalDateTime createdAt;
-    private final List<Car> racingCars;
+    private final List<RacingCarEntity> racingCars;
 
-    public RacingGameEntity(int id, int count, String winners, LocalDateTime createdAt, List<Car> racingCars) {
+    public RacingGameEntity(int id, int count, String winners, LocalDateTime createdAt, List<RacingCarEntity> racingCars) {
         this.id = id;
         this.count = count;
         this.winners = winners;
@@ -38,12 +35,12 @@ public class RacingGameEntity {
         return createdAt;
     }
 
-    public List<Car> getRacingCars() {
+    public List<RacingCarEntity> getRacingCars() {
         return racingCars;
     }
 
-    public PlaysResponseDto toPlaysResponseDto() {
-        return new PlaysResponseDto(this);
+    public void setId(int id) {
+        this.id = id;
     }
 
     public static class Builder {
@@ -51,7 +48,7 @@ public class RacingGameEntity {
         private int id;
         private int count;
         private String winners;
-        private List<Car> racingCars;
+        private List<RacingCarEntity> racingCars;
 
         public Builder id(int id) {
             this.id = id;
@@ -68,7 +65,7 @@ public class RacingGameEntity {
             return this;
         }
 
-        public Builder racingCars(List<Car> racingCars) {
+        public Builder racingCars(List<RacingCarEntity> racingCars) {
             this.racingCars = racingCars;
             return this;
         }
