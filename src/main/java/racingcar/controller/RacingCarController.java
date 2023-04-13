@@ -1,17 +1,13 @@
 package racingcar.controller;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.dao.CarDao;
+import racingcar.dao.PlayResultDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.dto.GameResultDto;
@@ -21,15 +17,12 @@ import racingcar.view.util.TextParser;
 @RestController
 public class RacingCarController {
 
-    private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert insertActor;
+    private final PlayResultDao playResultDao;
+    private final CarDao carDao;
 
-    public RacingCarController(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("PLAY_RESULT")
-                .usingGeneratedKeyColumns("id")
-                .usingColumns("trial_count", "winners");
+    public RacingCarController(final PlayResultDao playResultDao, final CarDao carDao) {
+        this.playResultDao = playResultDao;
+        this.carDao = carDao;
     }
 
     @Transactional
@@ -39,7 +32,7 @@ public class RacingCarController {
         int count = playRequestDto.getCount();
 
         race(count, racingGame);
-        Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count));
+        long savedId = playResultDao.insert(count);
 
         List<Car> cars = racingGame.getCars();
         String winners = String.join(", ", racingGame.getWinnerNames());
@@ -59,25 +52,9 @@ public class RacingCarController {
         }
     }
 
-    private void saveResult(final Number savedId, final List<Car> cars, final String winners) {
-        saveCars(savedId, cars);
-        jdbcTemplate.update("UPDATE play_result SET winners = ? WHERE id = " + savedId, winners);
+    private void saveResult(final long savedId, final List<Car> cars, final String winners) {
+        carDao.save(savedId, cars);
+        playResultDao.update(savedId, winners);
     }
 
-    private void saveCars(final Number savedId, final List<Car> cars) {
-        jdbcTemplate.batchUpdate("INSERT INTO car (play_result_id, name, position) VALUES (?, ?, ?)",
-                new BatchPreparedStatementSetter() {
-                    @Override
-                    public void setValues(final PreparedStatement ps, final int i) throws SQLException {
-                        ps.setLong(1, savedId.longValue());
-                        ps.setString(2, cars.get(i).getName());
-                        ps.setInt(3, cars.get(i).getPosition());
-                    }
-
-                    @Override
-                    public int getBatchSize() {
-                        return cars.size();
-                    }
-                });
-    }
 }
