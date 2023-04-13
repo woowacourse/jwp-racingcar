@@ -38,11 +38,11 @@ public class PlayerDao {
         final List<CarDto> winners = raceResultDto.getWinners();
 
         return winners.stream()
-            .map((winner) -> getWinnerCardId(raceId, winner))
+            .map(winner -> getWinnerCarId(raceId, winner))
             .collect(Collectors.toList());
     }
 
-    public Integer getWinnerCardId(final int raceId, final CarDto carDto) {
+    public Integer getWinnerCarId(final int raceId, final CarDto carDto) {
         final String sql = "SELECT id FROM PLAYER WHERE name = :name AND identifier = :identifier AND race_id = :race_id";
         final MapSqlParameterSource params = new MapSqlParameterSource()
             .addValue("name", carDto.getName())
