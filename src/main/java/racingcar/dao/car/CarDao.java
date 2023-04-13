@@ -24,7 +24,7 @@ public class CarDao {
         final SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("name", carRegisterRequest.getName())
                 .addValue("position", carRegisterRequest.getPosition())
-                .addValue("play_result_id", carRegisterRequest.getPlayResultId());
+                .addValue("race_result_id", carRegisterRequest.getPlayResultId());
 
         jdbcInsert.execute(params);
     }

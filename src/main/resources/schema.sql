@@ -12,6 +12,6 @@ CREATE TABLE CAR
     id             BIGINT         NOT NULL AUTO_INCREMENT,
     name           VARCHAR(50) NOT NULL,
     position       INT         NOT NULL,
-    play_result_id BIGINT         NOT NULL,
+    race_result_id BIGINT         NOT NULL,
     PRIMARY KEY (id)
 );

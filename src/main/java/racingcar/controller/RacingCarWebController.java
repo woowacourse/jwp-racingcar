@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.GameInfoRequest;
 import racingcar.controller.dto.RaceResultResponse;
-import racingcar.controller.validator.GameOptionValidator;
 import racingcar.service.RaceResultService;
 
 @RestController
