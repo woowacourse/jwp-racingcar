@@ -2,6 +2,7 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.dto.response.GameResponseDto;
 import racingcar.dto.request.GameResultDto;
@@ -27,6 +28,7 @@ public class GameService {
         this.playerResultRepository = playerResultRepository;
     }
 
+    @Transactional
     public GameResponseDto playGame(GameResultDto gameResult) {
         GameSaveDto gameSaveDto = new GameSaveDto(gameResult.getWinners(), gameResult.getTrialCount());
         Game game = gameRepository.createGame(gameSaveDto);
