@@ -18,7 +18,7 @@ public class RacingHistoryDao {
     }
 
     public Long save(int trialCount, LocalDateTime playTime) {
-        String sql = "INSERT INTO racing_game (trial_count, play_time) VALUES (:trialCount, :playTime)";
+        String sql = "INSERT INTO racing_history (trial_count, play_time) VALUES (:trialCount, :playTime)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, new MapSqlParameterSource(Map.of("trialCount", trialCount, "playTime", playTime)),
                 keyHolder);

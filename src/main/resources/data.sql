@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS racing_game(
+CREATE TABLE IF NOT EXISTS racing_history(
     id BIGINT NOT NULL AUTO_INCREMENT,
     trial_count INT,
     play_time DATETIME,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS car_record(
     name VARCHAR(255),
     position INT,
     is_winner TINYINT,
-    game_id BIGINT NOT NULL,
+    history_id BIGINT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES racing_game(id)
+    FOREIGN KEY (history_id) REFERENCES racing_history(id)
 );
