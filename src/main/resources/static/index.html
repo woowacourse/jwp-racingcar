@@ -67,9 +67,7 @@
             document.getElementById("resultPosition").innerHTML = '';
             document.getElementById("resultPosition").appendChild(resultPosition);
           }
-          if (status === 400) {
-            alert("ERROR: " + data.message);
-          }
+          alert("ERROR: " + data.message);
         })
         .catch(error => {
           console.log("Error:", error);
