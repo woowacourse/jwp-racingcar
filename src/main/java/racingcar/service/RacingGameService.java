@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class RacingGameService {
     private final RacingGameDao racingGameDao;
 
-    //    @Autowired
+    @Autowired
     public RacingGameService(final RacingGameDao racingGameDao) {
         this.racingGameDao = racingGameDao;
     }
