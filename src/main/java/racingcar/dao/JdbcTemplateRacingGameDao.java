@@ -21,10 +21,10 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
     }
 
     public Number saveGameResult(final String winners, final int trialCount) {
-        final String sqlToInsertGameResult = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
+        final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlToInsertGameResult, new String[]{"id"});
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
             preparedStatement.setString(1, winners);
             preparedStatement.setInt(2, trialCount);
             return preparedStatement;
@@ -34,8 +34,8 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
 
     public void savePlayerResults(final List<CarDto> racingCars, final Number gameResultKey) {
         for (CarDto carDto : racingCars) {
-            String sqlToInsertPlayerResult = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
-            jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), carDto.getPosition(), gameResultKey);
+            String sql = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
+            jdbcTemplate.update(sql, carDto.getName(), carDto.getPosition(), gameResultKey);
         }
     }
 }
