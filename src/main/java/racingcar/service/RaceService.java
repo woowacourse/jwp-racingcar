@@ -4,9 +4,11 @@ import org.springframework.stereotype.Service;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
+import racingcar.domain.RaceResult;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
+import racingcar.repository.CarRaceRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,30 +17,31 @@ import java.util.stream.Collectors;
 public class RaceService {
 
     private final NumberGenerator numberGenerator;
+    private final CarRaceRepository carRaceRepository;
 
-    public RaceService(final NumberGenerator numberGenerator) {
+    public RaceService(final NumberGenerator numberGenerator, final CarRaceRepository carRaceRepository) {
         this.numberGenerator = numberGenerator;
+        this.carRaceRepository = carRaceRepository;
     }
 
-    public RaceResponse getRaceResults(final RaceRequest raceRequest) {
+    public RaceResponse play(final RaceRequest raceRequest) {
         final Race race = Race.create(raceRequest.getCount());
         final Cars cars = Cars.create(raceRequest.getNames(), numberGenerator);
-        return makeRaceResults(race, cars);
+        final RaceResult raceResult = new RaceResult(raceRequest.getCount(), raceRequest.getNames(), cars);
+        carRaceRepository.save(raceResult);
+        return getRaceResult(race, cars);
     }
 
-    private RaceResponse makeRaceResults(final Race race, final Cars cars) {
+
+    private RaceResponse getRaceResult(final Race race, final Cars cars) {
         int tryCount = 0;
         while (race.isRunning(tryCount++)) {
-            startRace(cars);
+            cars.race();
         }
-        return getRaceResult(cars);
+        return makeRaceResponse(cars);
     }
 
-    private void startRace(final Cars cars) {
-        cars.race();
-    }
-
-    private RaceResponse getRaceResult(final Cars cars) {
+    private RaceResponse makeRaceResponse(final Cars cars) {
         final List<String> winners = cars.getWinnerCarNames();
         final List<CarStatusDto> carRaceResult = cars.getCars()
                 .stream()

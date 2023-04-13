@@ -1,9 +1,5 @@
 package racingcar.domain.dao;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.dao.entity.CarEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -38,11 +39,11 @@ class CarDaoTest {
         // then
         final List<CarEntity> result = carDao.findAll(raceResultId);
         final List<String> resultNames = result.stream().map(CarEntity::getName)
-            .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toUnmodifiableList());
 
         // then
         assertThat(resultNames)
-            .isEqualTo(List.of("test1", "test2"));
+                .isEqualTo(List.of("test1", "test2"));
     }
 
     @Test
@@ -60,10 +61,10 @@ class CarDaoTest {
         // when
         final List<CarEntity> result = carDao.findAll(raceResultId);
         final List<String> resultNames = result.stream().map(CarEntity::getName)
-            .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toUnmodifiableList());
 
         // then
         assertThat(resultNames)
-            .isEqualTo(List.of("test1", "test2"));
+                .isEqualTo(List.of("test1", "test2"));
     }
 }

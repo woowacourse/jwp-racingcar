@@ -1,15 +1,16 @@
 package racingcar.domain.dao;
 
-import java.sql.PreparedStatement;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.domain.dao.entity.RaceEntity;
+
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 public class RaceResultDao {
@@ -25,7 +26,7 @@ public class RaceResultDao {
         final KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             final PreparedStatement preparedStatement = con.prepareStatement(query,
-                new String[]{"race_result_id"});
+                    new String[]{"race_result_id"});
             preparedStatement.setString(1, String.valueOf(trialCount));
             preparedStatement.setString(2, winners);
             preparedStatement.setString(3, LocalDateTime.now().toString());
@@ -36,10 +37,10 @@ public class RaceResultDao {
 
     public List<RaceEntity> findAll() {
         final String query = "SELECT * FROM race_result";
-        return jdbcTemplate.query(query, (result ,count) -> new RaceEntity(
-            result.getLong("race_result_id"),
-            result.getInt("trial_count"),
-            result.getString("winners")
+        return jdbcTemplate.query(query, (result, count) -> new RaceEntity(
+                result.getLong("race_result_id"),
+                result.getInt("trial_count"),
+                result.getString("winners")
         ));
     }
 }

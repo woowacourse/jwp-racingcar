@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CarRaceRepositoryTest {
 
     @Autowired
-    private CarRaceRepository carRaceRepository;
+    private CarRaceRepositoryImpl carRaceRepository;
 
     @Test
     @DisplayName("레이싱 결과를 저장한다.")
@@ -72,7 +72,7 @@ class CarRaceRepositoryTest {
 
         //when
         final List<CarEntity> carEntities = carRaceRepository.findCarEntities(
-            raceEntities.get(0).getId());
+                raceEntities.get(0).getId());
 
         //then
         assertThat(carEntities.size()).isEqualTo(2);

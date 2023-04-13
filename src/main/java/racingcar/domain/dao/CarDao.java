@@ -1,11 +1,12 @@
 package racingcar.domain.dao;
 
-import java.util.List;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import racingcar.domain.Car;
 import racingcar.domain.dao.entity.CarEntity;
+
+import javax.sql.DataSource;
+import java.util.List;
 
 @Component
 public class CarDao {
@@ -23,8 +24,8 @@ public class CarDao {
     public List<CarEntity> findAll(final Long resultId) {
         final String query = "SELECT * FROM car WHERE race_result_id = ?";
         return jdbcTemplate.query(query, (result, count) ->
-            new CarEntity(result.getLong("car_id"), result.getString("name"),
-                result.getInt("position")), resultId);
+                new CarEntity(result.getLong("car_id"), result.getString("name"),
+                        result.getInt("position")), resultId);
     }
 
     private void save(final Long raceResultId, final Car car) {

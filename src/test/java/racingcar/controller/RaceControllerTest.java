@@ -44,7 +44,7 @@ class RaceControllerTest {
         final CarStatusDto carStatusDto = new CarStatusDto("두둠", 6);
         final RaceResponse raceResponse = RaceResponse.create(List.of("두둠"), List.of(carStatusDto));
 
-        when(raceService.getRaceResults(any()))
+        when(raceService.play(any()))
                 .thenReturn(raceResponse);
 
         // when, then
@@ -65,7 +65,7 @@ class RaceControllerTest {
         final String request = objectMapper.writeValueAsString(raceRequest);
 
         // when
-        when(raceService.getRaceResults(any()))
+        when(raceService.play(any()))
                 .thenThrow(IllegalArgumentException.class);
 
         // then

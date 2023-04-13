@@ -18,6 +18,6 @@ public class RaceController {
 
     @PostMapping("/plays")
     public RaceResponse play(@RequestBody final RaceRequest raceRequest) {
-        return raceService.getRaceResults(raceRequest);
+        return raceService.play(raceRequest);
     }
 }
