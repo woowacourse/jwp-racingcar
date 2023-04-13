@@ -2,7 +2,7 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dao.JdbcTemplateDAO;
+import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 public class RacingGameService {
     private static final String DELIMITER = ",";
 
-    private final JdbcTemplateDAO jdbcTemplateDAO;
+    private final RacingGameDao racingGameDao;
 
     @Autowired
-    public RacingGameService(JdbcTemplateDAO jdbcTemplateDAO) {
-        this.jdbcTemplateDAO = jdbcTemplateDAO;
+    public RacingGameService(RacingGameDao racingGameDao) {
+        this.racingGameDao = racingGameDao;
     }
 
     public GameResponseDto play(String names, int tryCount) {
@@ -35,7 +35,7 @@ public class RacingGameService {
         String winners = decideWinners(racingGame);
         List<CarDto> resultCars = getResultCars(racingGame);
 
-        jdbcTemplateDAO.saveResult(new GameResultDto(tryCount, winners, resultCars));
+        racingGameDao.saveResult(new GameResultDto(tryCount, winners, resultCars));
 
         return new GameResponseDto(winners, resultCars);
     }

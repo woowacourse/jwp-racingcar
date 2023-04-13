@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
-public class JdbcTemplateDAO {
+public class JdbcTemplateDAO implements RacingGameDao {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
