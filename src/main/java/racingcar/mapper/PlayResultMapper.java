@@ -20,7 +20,6 @@ public class PlayResultMapper {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("play_result")
-                .usingColumns("trial_count", "winners")
                 .usingGeneratedKeyColumns("id");
     }
 
@@ -36,7 +35,9 @@ public class PlayResultMapper {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("trial_count", playResultEntity.getTrialCount());
         parameters.put("winners", playResultEntity.getWinners());
-        return simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
+        return simpleJdbcInsert
+                .usingColumns("trial_count", "winners")
+                .executeAndReturnKey(parameters).longValue();
     }
 
     public PlayResultEntity findById(long id) {
