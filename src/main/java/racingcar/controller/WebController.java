@@ -28,7 +28,7 @@ public class WebController {
             ResultDto resultDto = new ResultDto(gameService.getWinner(cars), gameService.getResult(cars));
             gameService.saveResult(gameInfoDto.getCount(), resultDto);
             return ResponseEntity.ok().body(resultDto);
-        } catch(IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().build();
         }
     }
