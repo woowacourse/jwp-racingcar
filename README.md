@@ -17,3 +17,41 @@
 - [x] 데이터베이스 의존성 추가 및 설정
 - [x] 결과 저장 DAO 구현
   - [x] `JdbcTemplate`사용
+
+## DB 설계
+### ERD (N:M)
+```mermaid
+erDiagram
+  GAME }o--|{ PLAYER : participates
+  GAME {
+    BIGINT id PK
+    INT trial_count
+    DATETIME date_time
+  }
+  PLAYER {
+    BIGINT id PK
+    VARCHAR name
+  }
+```
+### ERD (N:M -> 1:N & 1:N)
+```mermaid
+erDiagram
+  GAME ||--o{ PARTICIPATES : ""
+  PARTICIPATES }o--|| PLAYER : ""
+  
+  GAME {
+    BIGINT id PK
+    INT trial_count
+    DATETIME date_time
+  }
+  PLAYER {
+    BIGINT id PK
+    VARCHAR name
+  }
+  PARTICIPATES {
+      BIGINT game_id PK,FK
+      BIGINT player_id PK,FK
+      INT position
+      BOOLEAN is_winner
+  }
+```
