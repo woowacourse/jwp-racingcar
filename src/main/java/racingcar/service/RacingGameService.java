@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
+
     private final RacingGameDao racingGameDao;
 
     @Autowired
