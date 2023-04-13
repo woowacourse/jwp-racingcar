@@ -13,10 +13,14 @@ import racingcar.dto.RacingCarStatusResponse;
 @Repository
 public class PlayerInsertDao {
 
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final WinnerInsertDao winnerInsertDao;
+
     @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
-    @Autowired
-    private WinnerInsertDao winnerInsertDao;
+    public PlayerInsertDao(final NamedParameterJdbcTemplate jdbcTemplate, final WinnerInsertDao winnerInsertDao) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.winnerInsertDao = winnerInsertDao;
+    }
 
     public void insertPlayer(List<RacingCarStatusResponse> responses, List<String> winnerNames, int gameId) {
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();

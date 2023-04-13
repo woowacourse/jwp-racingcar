@@ -9,8 +9,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class WinnerInsertDao {
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
     @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    public WinnerInsertDao(final NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public void insertWinner(int gameId, int playerId) {
         String insertWinnerSql = "INSERT INTO winners(game_id, player_id) VALUES(:game_id, :player_id)";
