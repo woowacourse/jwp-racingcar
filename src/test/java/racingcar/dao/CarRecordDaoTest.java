@@ -53,7 +53,7 @@ class CarRecordDaoTest {
                 () -> assertThat(foundCar.getName()).isEqualTo(carName),
                 () -> assertThat(foundCar.getPosition()).isZero(),
                 () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner)
-                );
+        );
 
     }
 

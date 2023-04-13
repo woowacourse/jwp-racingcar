@@ -10,6 +10,7 @@ public class CarRecord {
         this.position = position;
         this.isWinner = isWinner;
     }
+
     public String getName() {
         return name;
     }

@@ -48,9 +48,11 @@ public class CarTest {
 
 class TestNumberPicker implements NumberPicker {
     final Queue<Integer> numbers;
+
     public TestNumberPicker(Integer... numbers) {
         this.numbers = new ArrayDeque<>(List.of(numbers));
     }
+
     @Override
     public int pickNumber() {
         return numbers.remove();
