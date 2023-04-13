@@ -16,6 +16,8 @@ import racingcar.utils.CarsFactory;
 @RestController
 public class RacingGameController {
 
+    private static final String CAR_NAME_SEPARATOR = ",";
+
     private final RacingCarService racingCarService;
 
     public RacingGameController(final RacingCarService racingCarService) {
@@ -31,7 +33,7 @@ public class RacingGameController {
     }
 
     public Cars makeCars(final String input) {
-        List<String> carNames = List.of(input.split(","));
+        List<String> carNames = List.of(input.split(CAR_NAME_SEPARATOR));
         return CarsFactory.createCars(carNames);
     }
 
