@@ -1,15 +1,17 @@
 package racingcar.entity;
 
+import racingcar.dto.request.GameSaveDto;
+
 public class Game {
 
     private final long id;
     private final int trialCount;
     private final String winners;
 
-    public Game(final long id, final int trialCount, final String winners) {
+    public Game(final long id, final GameSaveDto gameSaveDto) {
         this.id = id;
-        this.trialCount = trialCount;
-        this.winners = winners;
+        this.trialCount = gameSaveDto.getTrialCount();
+        this.winners = gameSaveDto.getWinners();
     }
 
     public long getId() {

@@ -30,16 +30,23 @@ public class GameService {
 
     @Transactional
     public GameResponseDto playGame(GameResultDto gameResult) {
-        GameSaveDto gameSaveDto = new GameSaveDto(gameResult.getWinners(), gameResult.getTrialCount());
-        Game game = gameRepository.createGame(gameSaveDto);
+        final Game game = createGame(gameResult);
+        final List<PlayerResult> playerResults = createPlayerResults(gameResult, game);
+        return GameResponseDto.of(game, playerResults);
+    }
 
-        List<PlayerResult> playerResults = new ArrayList<>();
+    private Game createGame(final GameResultDto gameResult) {
+        GameSaveDto gameSaveDto = new GameSaveDto(gameResult.getWinners(), gameResult.getTrialCount());
+        return gameRepository.createGame(gameSaveDto);
+    }
+
+    private List<PlayerResult> createPlayerResults(final GameResultDto gameResult, final Game game) {
+        final List<PlayerResult> playerResults = new ArrayList<>();
         for (Car car : gameResult.getCars()) {
-            PlayerResult playerResult = playerResultRepository.savePlayerResult(
-                    new PlayerResultSaveDto(game.getId(), car.getCarName().getName(), car.getCurrentPosition().getPosition())
-            );
+            final PlayerResultSaveDto playerResultSaveDto = new PlayerResultSaveDto(game.getId(), car);
+            final PlayerResult playerResult = playerResultRepository.savePlayerResult(playerResultSaveDto);
             playerResults.add(playerResult);
         }
-        return GameResponseDto.of(game, playerResults);
+        return playerResults;
     }
 }

@@ -20,9 +20,9 @@ public class PlayerResultRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public PlayerResult savePlayerResult(final PlayerResultSaveDto playerResult) {
-        SqlParameterSource params = new BeanPropertySqlParameterSource(playerResult);
-        long id = insertPlayerResult.executeAndReturnKey(params).longValue();
-        return new PlayerResult(id, playerResult.getName(), playerResult.getFinalPosition(), playerResult.getGameId());
+    public PlayerResult savePlayerResult(final PlayerResultSaveDto playerResultSaveDto) {
+        final SqlParameterSource params = new BeanPropertySqlParameterSource(playerResultSaveDto);
+        final long id = insertPlayerResult.executeAndReturnKey(params).longValue();
+        return new PlayerResult(id, playerResultSaveDto);
     }
 }
