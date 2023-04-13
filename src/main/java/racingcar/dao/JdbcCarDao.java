@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.CarDto;
 
 @Repository
-public class JdbcCarDao implements CarDao{
+public class JdbcCarDao implements CarDao {
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCarDao(JdbcTemplate jdbcTemplate) {

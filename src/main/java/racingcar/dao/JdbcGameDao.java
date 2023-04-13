@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JdbcGameDao implements GameDao{
+public class JdbcGameDao implements GameDao {
     private final SimpleJdbcInsert insertActor;
 
     public JdbcGameDao(DataSource dataSource) {
