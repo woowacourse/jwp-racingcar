@@ -1,6 +1,7 @@
 package racingcar;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Cars;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
@@ -20,6 +21,7 @@ public class RacingGameService {
         this.repository = repository;
     }
 
+    @Transactional
     public ResultDto getResult(UserInputDto inputDto) {
         RacingGame racingGame = getRacingGame(inputDto);
 
