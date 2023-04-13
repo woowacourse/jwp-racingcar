@@ -28,12 +28,12 @@ public class RacingCarController {
     @Transactional
     @PostMapping("/plays")
     public ResponseEntity<GameResultDto> play(@RequestBody PlayRequestDto playRequestDto) {
-        RacingGame racingGame = createGame(playRequestDto.getNames());
-        int count = playRequestDto.getCount();
+        final RacingGame racingGame = createGame(playRequestDto.getNames());
+        final int count = playRequestDto.getCount();
 
         race(count, racingGame);
-        List<Car> cars = racingGame.getCars();
-        String winners = String.join(", ", racingGame.getWinnerNames());
+        final List<Car> cars = racingGame.getCars();
+        final String winners = String.join(", ", racingGame.getWinnerNames());
 
         long savedId = playResultDao.insert(count, winners);
         carDao.insert(savedId, cars);
@@ -41,7 +41,7 @@ public class RacingCarController {
     }
 
     private static RacingGame createGame(final String rawCarNames) {
-        List<String> carNames = TextParser.parseByDelimiter(rawCarNames, ",");
+        final List<String> carNames = TextParser.parseByDelimiter(rawCarNames, ",");
         return RacingGame.of(carNames);
     }
 

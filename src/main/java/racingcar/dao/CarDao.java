@@ -12,7 +12,7 @@ import racingcar.domain.Car;
 @Repository
 public class CarDao {
 
-    private RowMapper<Car> actorRowMapper = (resultSet, rowNum) -> {
+    private final RowMapper<Car> actorRowMapper = (resultSet, rowNum) -> {
         Car car = new Car(
                 resultSet.getString("name"),
                 resultSet.getInt("position")
