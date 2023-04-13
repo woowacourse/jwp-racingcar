@@ -21,8 +21,8 @@ public class WebController {
 
     @PostMapping("/plays")
     public ResponseEntity<ResultDto> play(@RequestBody GameInfoDto gameInfoDto) {
-            ResultDto resultDto = gameService.play(gameInfoDto);
-            return ResponseEntity.ok().body(resultDto);
+        ResultDto resultDto = gameService.play(gameInfoDto);
+        return ResponseEntity.ok().body(resultDto);
     }
 
     @ExceptionHandler
