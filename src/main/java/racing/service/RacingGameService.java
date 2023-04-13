@@ -1,12 +1,16 @@
-package racing.domain.service;
+package racing.service;
 
 import org.springframework.stereotype.Service;
 import racing.CarEntity;
+import racing.CarFactory;
 import racing.RacingGameDao;
+import racing.controller.dto.response.RacingCarStateResponse;
+import racing.controller.dto.response.RacingGameResultResponse;
 import racing.domain.Cars;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
@@ -17,9 +21,13 @@ public class RacingGameService {
         this.racingGameDao = racingGameDao;
     }
 
-    public void move(Cars cars, int count) {
-        while(count-- > 0) {
-            cars.calculator(new Random());
+    public Cars createCars(String names) {
+        return CarFactory.carFactory(names);
+    }
+
+    public void move(int randomNumber, Cars cars, int count) {
+        for (int i = 0; i < count; i++) {
+            cars.calculator(randomNumber);
         }
     }
 
@@ -38,6 +46,14 @@ public class RacingGameService {
     public String getWinners(Cars cars) {
         List<String> winners = cars.getWinners();
         return String.join("", winners);
+    }
+
+    public RacingGameResultResponse getRacingGameResultResponse(Cars cars) {
+        List<RacingCarStateResponse> racingCarsState = cars.getCars().stream()
+                .map(car -> new RacingCarStateResponse(car.getName(), car.getStep()))
+                .collect(Collectors.toList());
+
+        return new RacingGameResultResponse(getWinners(cars), racingCarsState);
     }
 
 }

@@ -5,7 +5,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
