@@ -1,12 +1,12 @@
 package racingcar.dto;
 
-public class CarInfoDto {
+public class CarInfo {
     private int racingId;
     private String name;
     private int position;
     private boolean isWinner;
 
-    public CarInfoDto(int racingId, String name, int position, boolean isWinner) {
+    public CarInfo(int racingId, String name, int position, boolean isWinner) {
         this.racingId = racingId;
         this.name = name;
         this.position = position;
@@ -25,7 +25,7 @@ public class CarInfoDto {
         return position;
     }
 
-    public boolean isWinner() {
+    public boolean getIsWinner() {
         return isWinner;
     }
 }

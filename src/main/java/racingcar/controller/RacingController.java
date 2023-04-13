@@ -22,7 +22,7 @@ public class RacingController {
         final int racingId = racingDao.insert(Trial.of(dto.getCount()));
         for(CarDto car : resultDto.getRacingCars()){
             String name = car.getName();
-            racingDao.insert(new CarInfoDto(racingId, name, car.getPosition(), resultDto.isWinnerContaining(name)));
+            racingDao.insert(new CarInfo(racingId, name, car.getPosition(), resultDto.isWinnerContaining(name)));
         }
         return new FinalResultDto(resultDto);
     }

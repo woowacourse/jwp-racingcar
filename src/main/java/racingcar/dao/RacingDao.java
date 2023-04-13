@@ -1,20 +1,26 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarInfoDto;
+import racingcar.dto.CarInfo;
 import racingcar.vo.Trial;
 
+import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 
 @Repository
 public class RacingDao {
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public RacingDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public RacingDao(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("car_info");
     }
 
     public int insert(Trial trial) {
@@ -32,12 +38,8 @@ public class RacingDao {
         return keyHolder.getKey().intValue();
     }
 
-    public void insert(CarInfoDto carInfoDto) {
-        String sql = "INSERT INTO car_info (racing_id, name, position, is_winner) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                carInfoDto.getRacingId(),
-                carInfoDto.getName(),
-                carInfoDto.getPosition(),
-                carInfoDto.isWinner());
+    public void insert(CarInfo carInfo) {
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(carInfo);
+        simpleJdbcInsert.execute(parameterSource);
     }
 }
