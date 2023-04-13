@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -14,12 +15,13 @@ import java.util.List;
 public class JdbcTemplateDAO {
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public JdbcTemplateDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public int saveResult(GameResultDto resultDto) {
-        String sql = "insert into GAME_RESULT (winners,trial_count) values (?,?)";
+        String sql = "insert into GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((connection) -> {
@@ -35,8 +37,9 @@ public class JdbcTemplateDAO {
         return id;
     }
 
+    // TODO: 2023-04-12 Service에서 각각 호출하는 것은 어떤가 ?
     private void savePlayerResult(int gameId, List<CarDto> carDtoList) {
-        String sql = "insert into PLAYER_RESULT (name, position, game_id) values (?,?,?)";
+        String sql = "insert into PLAYER_RESULT (name, position, game_id) values (?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql, carDtoList, carDtoList.size(),
                 (PreparedStatement preparedStatement, CarDto carDto) -> {

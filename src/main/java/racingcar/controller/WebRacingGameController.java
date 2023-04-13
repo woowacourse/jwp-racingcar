@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import racingcar.service.RacingGameService;
 public class WebRacingGameController {
     private final RacingGameService racingGameService;
 
+    @Autowired
     public WebRacingGameController(RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }

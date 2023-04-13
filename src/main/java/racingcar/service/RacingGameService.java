@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
+    private static final String DELIMITER = ",";
+
     private final JdbcTemplateDAO jdbcTemplateDAO;
 
     public RacingGameService(JdbcTemplateDAO jdbcTemplateDAO) {
@@ -37,7 +39,7 @@ public class RacingGameService {
     }
 
     private List<Name> convertToNames(String inputNames) {
-        return Arrays.stream(inputNames.split(","))
+        return Arrays.stream(inputNames.split(DELIMITER))
                 .map(Name::new)
                 .collect(Collectors.toList());
     }
@@ -45,7 +47,7 @@ public class RacingGameService {
     private String decideWinners(RacingGame racingGame) {
         return racingGame.decideWinners().getCars().stream()
                 .map(Car::getName)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(DELIMITER));
     }
 
     private List<CarDto> getResultCars(RacingGame racingGame) {
