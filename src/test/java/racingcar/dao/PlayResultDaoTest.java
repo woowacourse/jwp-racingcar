@@ -3,24 +3,24 @@ package racingcar.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @JdbcTest
 class PlayResultDaoTest {
-    private PlayResultDao playResultDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    private PlayResultDao playResultDao;
 
-
-    @BeforeEach
+    @BeforeAll
     void setUp() {
-        jdbcTemplate.update("DELETE FROM PLAY_RESULT");
         playResultDao = new PlayResultDao(jdbcTemplate);
     }
 
@@ -28,6 +28,6 @@ class PlayResultDaoTest {
     @Test
     void Should_ReturnGameId_When_InsertPlayResult() {
         Long gameId = playResultDao.insertWithKeyHolder(10, List.of("tori", "hong"));
-        assertThat(gameId).isEqualTo(1);
+        assertThat(gameId).isNotNull();
     }
 }

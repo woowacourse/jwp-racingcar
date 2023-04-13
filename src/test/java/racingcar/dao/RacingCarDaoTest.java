@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @JdbcTest
 class RacingCarDaoTest {
     private RacingCarDao racingCarDao;
-    private PlayResultDao playResultDao;
     private Long gameId;
 
     @Autowired
@@ -23,7 +22,7 @@ class RacingCarDaoTest {
     void setup() {
         jdbcTemplate.update("DELETE FROM RACING_CAR");
 
-        playResultDao = new PlayResultDao(jdbcTemplate);
+        PlayResultDao playResultDao = new PlayResultDao(jdbcTemplate);
         racingCarDao = new RacingCarDao(jdbcTemplate);
 
         gameId = playResultDao.insertWithKeyHolder(10, List.of("tori", "hong"));
@@ -32,6 +31,6 @@ class RacingCarDaoTest {
     @DisplayName("자동차 이름과 포지션을 저장하는 기능 테스트")
     @Test
     void Should_Success_When_InsertRacingCar() {
-        assertDoesNotThrow(()->racingCarDao.insert(gameId, "tori", 9));
+        assertDoesNotThrow(() -> racingCarDao.insert(gameId, "tori", 9));
     }
 }
