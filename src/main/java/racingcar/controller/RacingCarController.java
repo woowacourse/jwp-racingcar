@@ -32,12 +32,11 @@ public class RacingCarController {
         int count = playRequestDto.getCount();
 
         race(count, racingGame);
-        long savedId = playResultDao.insert(count);
-
         List<Car> cars = racingGame.getCars();
         String winners = String.join(", ", racingGame.getWinnerNames());
-        saveResult(savedId, cars, winners);
 
+        long savedId = playResultDao.insert(count, winners);
+        carDao.save(savedId, cars);
         return ResponseEntity.ok(new GameResultDto(cars, winners));
     }
 
@@ -51,10 +50,4 @@ public class RacingCarController {
             racingGame.race();
         }
     }
-
-    private void saveResult(final long savedId, final List<Car> cars, final String winners) {
-        carDao.save(savedId, cars);
-        playResultDao.update(savedId, winners);
-    }
-
 }

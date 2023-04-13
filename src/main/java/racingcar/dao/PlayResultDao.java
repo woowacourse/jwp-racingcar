@@ -19,13 +19,8 @@ public class PlayResultDao {
                 .usingColumns("trial_count", "winners");
     }
 
-    public long insert(int count) {
-        Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count));
+    public long insert(final int count, String winners) {
+        Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count, "winners", winners));
         return savedId.longValue();
-    }
-
-    public void update(long id, String winners) {
-        jdbcTemplate.update("UPDATE play_result SET winners = ? WHERE id = " + id, winners);
-
     }
 }
