@@ -1,12 +1,11 @@
 package racingcar.model.car;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Component;
-
 import racingcar.model.manager.CarMoveManager;
 import racingcar.util.RandomNumberGenerator;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class Cars {

@@ -1,13 +1,6 @@
 package racingcar.services;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import racingcar.dao.GameDao;
 import racingcar.dto.CarDto;
 import racingcar.dto.ResultDto;
@@ -16,6 +9,11 @@ import racingcar.model.car.Cars;
 import racingcar.model.manager.CarMoveManager;
 import racingcar.util.CarNameValidator;
 import racingcar.util.MoveCountValidator;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {

@@ -1,8 +1,8 @@
 package racingcar.controller;
 
+import racingcar.model.car.Car;
 import racingcar.model.car.CarRegisterer;
 import racingcar.model.car.Cars;
-import racingcar.model.car.Car;
 import racingcar.model.manager.CarMoveManager;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;

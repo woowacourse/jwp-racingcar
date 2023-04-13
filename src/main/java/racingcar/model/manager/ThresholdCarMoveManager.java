@@ -1,7 +1,6 @@
 package racingcar.model.manager;
 
 import org.springframework.stereotype.Component;
-
 import racingcar.util.RandomNumberValidator;
 
 @Component

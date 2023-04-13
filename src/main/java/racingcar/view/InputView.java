@@ -1,10 +1,11 @@
 package racingcar.view;
 
-import java.util.List;
-import java.util.Scanner;
 import racingcar.util.CarNameValidator;
 import racingcar.util.MoveCountValidator;
 import racingcar.util.ValueEditor;
+
+import java.util.List;
+import java.util.Scanner;
 
 public class InputView {
 
