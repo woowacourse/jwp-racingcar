@@ -1,10 +1,12 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class RacingGameJdbcDao implements RacingGameDao {
@@ -16,13 +18,14 @@ public class RacingGameJdbcDao implements RacingGameDao {
     }
 
     @Override
-    public Long save(int trialCount) {
-        String sql = "INSERT into RACING_GAME (trial_count) values (?)";
+    public Long save(List<String> winners, int trialCount) {
+        String sql = "INSERT into RACING_GAME (winners, trial_count) values (?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
-            preparedStatement.setInt(1, trialCount);
+            preparedStatement.setString(1, String.join(",", winners));
+            preparedStatement.setInt(2, trialCount);
             return preparedStatement;
         }, keyHolder);
 

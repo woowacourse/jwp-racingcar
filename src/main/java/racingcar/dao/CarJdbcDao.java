@@ -16,8 +16,8 @@ public class CarJdbcDao implements CarDao {
 
     @Override
     public void save(Long gameId, CarDto carDto) {
-        String sql = "INSERT INTO CAR (name, position, is_win, racing_game_id) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, carDto.getName(), carDto.getPosition(), carDto.isWin(), gameId);
+        String sql = "INSERT INTO CAR (name, position, racing_game_id) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, carDto.getName(), carDto.getPosition(), gameId);
     }
 
     @Override
@@ -26,13 +26,12 @@ public class CarJdbcDao implements CarDao {
     }
 
     @Override
-    public List<CarDto> findByGameId(Long gameId) {
-        String sql = "SELECT name, position, is_win FROM car WHERE racing_game_id = ?";
+    public List<CarDto> findCarsByGameId(Long gameId) {
+        String sql = "SELECT name, position FROM car WHERE racing_game_id = ?";
         return jdbcTemplate.query(sql,
-                (resultSet, rowNum) -> new CarDto(
+                (resultSet, rowNum) -> CarDto.of(
                         resultSet.getString("name"),
-                        resultSet.getInt("position"),
-                        resultSet.getBoolean("is_win")
-        ), gameId);
+                        resultSet.getInt("position")),
+                gameId);
     }
 }

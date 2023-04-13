@@ -1,15 +1,23 @@
 package racingcar.dto;
 
+import racingcar.domain.Car;
+
 public class CarDto {
 
     private final String name;
     private final int position;
-    private final boolean isWin;
 
-    public CarDto(String name, int position, boolean isWin) {
+    private CarDto(String name, int position) {
         this.name = name;
         this.position = position;
-        this.isWin = isWin;
+    }
+
+    public static CarDto from(Car car) {
+        return new CarDto(car.getName(), car.getPosition());
+    }
+
+    public static CarDto of(String name, int position) {
+        return new CarDto(name, position);
     }
 
     public String getName() {
@@ -18,9 +26,5 @@ public class CarDto {
 
     public int getPosition() {
         return position;
-    }
-
-    public boolean isWin() {
-        return isWin;
     }
 }

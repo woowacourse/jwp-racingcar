@@ -1,7 +1,8 @@
 package racingcar.dao;
 
-import java.util.List;
 import racingcar.dto.CarDto;
+
+import java.util.List;
 
 public interface CarDao {
 
@@ -9,5 +10,5 @@ public interface CarDao {
 
     void saveAll(Long gameId, List<CarDto> racingCars);
 
-    List<CarDto> findByGameId(Long gameId);
+    List<CarDto> findCarsByGameId(Long gameId);
 }
