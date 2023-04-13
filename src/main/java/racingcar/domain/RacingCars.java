@@ -21,19 +21,6 @@ public class RacingCars {
         return new ArrayList<>(cars);
     }
 
-    /**
-     * TODO: RacingCar 생성자에서 List<Car>을 인자로 전달받을때 방어적 복사를 통해 저장하였습니다.
-     * <p>
-     * 또, Stream의 collect(Collectors.toUnmodifiableList()) 의 경우,
-     * Collections.unmodifiableList() 메서드가 원본 객체 잠조를 그대로 가져오는 것에 반해
-     * 스트림의 요소들로 새로운 ArrayList<>를 생성하는 것과 같이 원본 객체에 대한 참조가 끊겼습니다.
-     * <p>
-     * <p>
-     * 그럼에도 불구하고  pickWinnerCarNames()메서드가 List를 반환할 때, 아래와 같이 새 리스트를 생성하는 방어적 복사를 하는 것이 적합할까요?
-     * 아니면 반환값을 받는 메서드에서 방어적 복사를 하라는 말인가요?
-     * <p>
-     * 또, List<> 형태로 반환하는 메서드는 모두 방어적 복사를 이용해야 하는 것인지요?
-     */
     public List<String> pickWinnerCarNames() {
         Car winner = pickMaxPositionCar();
 
