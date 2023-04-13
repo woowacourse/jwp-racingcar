@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
 
-@Repository
+@Component
 public class GameResultDao {
 
     private final JdbcTemplate jdbcTemplate;
