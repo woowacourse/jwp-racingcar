@@ -4,11 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @JdbcTest
 class GameDaoTest {
 
@@ -20,6 +23,7 @@ class GameDaoTest {
     @BeforeEach
     void setUp() {
         gameDao = new GameDao(jdbcTemplate.getDataSource());
+        jdbcTemplate.execute("ALTER TABLE game ALTER COLUMN id RESTART WITH 1");
     }
 
     @Test
