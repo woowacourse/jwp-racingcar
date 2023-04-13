@@ -122,3 +122,17 @@ th {
 .gnb button:hover {
     background-color: #444;
 }
+
+/* exception */
+#retry {
+    background-color: #444;
+    color: #fff;
+    padding: 10px 15px;
+    margin: auto;
+    display: block;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}

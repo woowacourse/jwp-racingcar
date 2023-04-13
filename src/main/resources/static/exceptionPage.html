@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>자동차 경주 게임</title>
+  <link href="css/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="gnb">
+  <h1>Racing Car</h1>
+  <div>
+    <button onclick="handlePlayButtonClick()">게임하기</button>
+    <button onclick="handleListButtonClick()">이력조회</button>
+  </div>
+</div>
+<h1>자동차 경주 게임</h1>
+<div class="output-area">
+  <p> 잘못된 입력입니다. </p>
+  <button id ="retry" onclick="handleRetryButtonClick()">Retry</button>
+</div>
+<script>
+  function handleRetryButtonClick() {
+    window.location.href = "/";
+  }
+</script>
+</body>
+</html>
