@@ -15,14 +15,6 @@ public class CarResultMapper {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
-
-    public CarResultMapper(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("car_result")
-                .usingGeneratedKeyColumns("id");
-    }
-
     private final RowMapper<CarResultEntity> entityRowMapper = (resultSet, rowNum) -> {
         CarResultEntity carResultEntity = CarResultEntity.of(
                 resultSet.getLong("id"),
@@ -32,6 +24,13 @@ public class CarResultMapper {
         );
         return carResultEntity;
     };
+
+    public CarResultMapper(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("car_result")
+                .usingGeneratedKeyColumns("id");
+    }
 
     public long save(CarResultEntity carResultEntity) {
         SqlParameterSource source = new BeanPropertySqlParameterSource(carResultEntity);
