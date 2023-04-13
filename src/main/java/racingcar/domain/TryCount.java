@@ -29,4 +29,8 @@ public class TryCount {
     public boolean isOpportunity() {
         return this.tryCount != EXCEPTION_FLAG;
     }
+
+    public int getCount() {
+        return this.tryCount;
+    }
 }

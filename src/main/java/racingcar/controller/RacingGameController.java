@@ -2,18 +2,29 @@ package racingcar.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import racingcar.dao.RacingCarDao;
 import racingcar.domain.Names;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
+import racingcar.dto.RacingCarRequest;
+import racingcar.dto.RacingCarResponse;
 
 @Controller
 public class RacingGameController {
+
+    private final RacingCarDao racingCarDao;
+
+    @Autowired
+    public RacingGameController(final RacingCarDao racingCarDao) {
+        this.racingCarDao = racingCarDao;
+    }
 
     @PostMapping("/plays")
     public ResponseEntity<RacingCarResponse> play(@RequestBody final RacingCarRequest racingCarRequest) {
@@ -22,9 +33,9 @@ public class RacingGameController {
 
         playGame(racingCars, tryCount);
 
+        racingCarDao.insertGame(racingCars, tryCount);
         return ResponseEntity.ok().body(
-                new RacingCarResponse(racingCars.getWinnerNames(), racingCars.getRacingCars()
-                ));
+                new RacingCarResponse(racingCars.getWinnerNames(), racingCars.getRacingCars()));
     }
 
     private RacingCars createRacingCar(RacingCarRequest racingCarRequest) {
