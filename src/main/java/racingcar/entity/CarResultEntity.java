@@ -1,6 +1,7 @@
 package racingcar.entity;
 
 public class CarResultEntity {
+    private static final int ID_DUMMY_VALUE = 0;
     private final long id;
     private final long playResultId;
     private final String name;
@@ -14,7 +15,7 @@ public class CarResultEntity {
     }
 
     public static CarResultEntity of(long resultId, String name, int position) {
-        return new CarResultEntity(0, resultId, name, position);
+        return new CarResultEntity(ID_DUMMY_VALUE, resultId, name, position);
     }
 
     public static CarResultEntity of(long id, long resultId, String name, int position) {
