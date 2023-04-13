@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class RacingCarDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public RacingCarDao(JdbcTemplate jdbcTemplate) {
@@ -36,7 +36,7 @@ public class RacingCarDao {
         return gameEntity;
     }
 
-    public void saveCar(int gameId, CarEntity carEntity) {
+    private void saveCar(int gameId, CarEntity carEntity) {
         String sqlForCarEntity = "INSERT INTO RACING_CAR(position, name, racing_game_id) VALUES(?, ?, ?)";
         carEntity.setId(getIdAfterInsert(
                 sqlForCarEntity,
@@ -57,8 +57,8 @@ public class RacingCarDao {
     }
 
     private static void setSqlParameter(PreparedStatement preparedStatement, String... sqlParameters) throws SQLException {
-        for (int parameterIndex = 1; parameterIndex < sqlParameters.length; parameterIndex++) {
-            preparedStatement.setString(parameterIndex, sqlParameters[parameterIndex]);
+        for (int parameterIndex = 1; parameterIndex <= sqlParameters.length; parameterIndex++) {
+            preparedStatement.setString(parameterIndex, sqlParameters[parameterIndex - 1]);
         }
     }
 
