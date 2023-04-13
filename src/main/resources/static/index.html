@@ -48,14 +48,15 @@
             },
             body: JSON.stringify(data)
         })
-            .then(response => {
+            .then(async response => {
                 if (response.ok) {
                     return response.json();
                 } else {
-                    throw new Error("Network response was not ok.");
+                    throw new Error(await response.text());
                 }
             })
             .then(data => {
+                console.log(data);
                 const resultPosition = document.createElement("div");
                 for (let index in data.racingCars) {
                     const span = document.createElement("span");
@@ -67,6 +68,7 @@
                 document.getElementById("resultPosition").appendChild(resultPosition);
             })
             .catch(error => {
+                window.alert(JSON.parse(error.message).message);
                 console.error("Error:", error);
             });
     }
