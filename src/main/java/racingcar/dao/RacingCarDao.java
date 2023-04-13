@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,11 @@ public class RacingCarDao {
 
     public void insertGame(final RacingCars racingCars, final TryCount tryCount) {
         final HashMap<String, String> parameter = new HashMap<>();
+
         parameter.put("winners", concat(racingCars.getWinnerNames()));
         parameter.put("trial_count", String.valueOf(tryCount.getCount()));
+        parameter.put("created_at", LocalDateTime.now().toString());
+
         final int gameId = insertActor.executeAndReturnKey(parameter).intValue();
 
         insertGameLog(racingCars, gameId);
