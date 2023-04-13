@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import racingcar.controller.dto.RacingInfoResponse;
+import racingcar.controller.dto.RacingGameResponse;
 import racingcar.domain.CarGroup;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
@@ -27,7 +27,7 @@ public class RacingGameServiceImpl implements RacingGameService {
 
     @Override
     @Transactional
-    public RacingInfoResponse race(final CarGroup carGroup, final int count) {
+    public RacingGameResponse race(final CarGroup carGroup, final int count) {
         final RacingGame racingGame = new RacingGame(carGroup, new RandomNumberGenerator());
         raceBy(count, racingGame);
         final String winners = createWinners(racingGame);
@@ -38,7 +38,7 @@ public class RacingGameServiceImpl implements RacingGameService {
             throw new IllegalStateException("[ERROR] 레이싱 플레이어 저장에 실패하였습니다.");
         }
 
-        return new RacingInfoResponse(winners, carGroup.getCars());
+        return new RacingGameResponse(winners, carGroup.getCars());
     }
 
     private void raceBy(final int count, final RacingGame racingGame) {

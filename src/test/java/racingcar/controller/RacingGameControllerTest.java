@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
-import racingcar.controller.dto.RacingInfoRequest;
+import racingcar.controller.dto.RacingGameRequest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RacingGameControllerTest {
@@ -26,7 +26,7 @@ class RacingGameControllerTest {
     @DisplayName("사용자 이름과 횟수를 이용한 레이싱 게임 결과 반환 스토리")
     @Test
     void playRacingGame() {
-        final RacingInfoRequest request = new RacingInfoRequest("저문,헤나", 10);
+        final RacingGameRequest request = new RacingGameRequest("저문,헤나", 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

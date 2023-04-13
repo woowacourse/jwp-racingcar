@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import racingcar.controller.dto.CarInfoDto;
-import racingcar.controller.dto.RacingInfoResponse;
+import racingcar.controller.dto.CarDto;
+import racingcar.controller.dto.RacingGameResponse;
 import racingcar.domain.CarGroup;
 
 @SpringBootTest
@@ -30,11 +30,11 @@ class RacingGameServiceImplTest {
         final int trial = 10;
 
         // when
-        final RacingInfoResponse response = service.race(carGroup, trial);
+        final RacingGameResponse response = service.race(carGroup, trial);
 
         final List<String> names = response.getRacingCars()
                 .stream()
-                .map(CarInfoDto::getName)
+                .map(CarDto::getName)
                 .collect(Collectors.toList());
 
         // then

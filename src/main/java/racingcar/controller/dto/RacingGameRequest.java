@@ -1,13 +1,13 @@
 package racingcar.controller.dto;
 
-public class RacingInfoRequest {
+public class RacingGameRequest {
     private String names;
     private int count;
 
-    public RacingInfoRequest() {
+    public RacingGameRequest() {
     }
 
-    public RacingInfoRequest(final String names, final int count) {
+    public RacingGameRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }
