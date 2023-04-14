@@ -36,4 +36,30 @@ class RacingGameControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .body(Matchers.stringContainsInOrder("winners", "racingCars", "name", "position"));
     }
+
+    @DisplayName("사용자 이름의 수가 올바르지 않을 때 400반환")
+    @Test
+    void playRacingGameInvalidNumberOfName() {
+        final RacingGameRequest request = new RacingGameRequest("저문", 10);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @DisplayName("사용자 이름의 길이가 올바르지 않을 때 400반환")
+    @Test
+    void playRacingGameInvalidLengthOfName() {
+        final RacingGameRequest request = new RacingGameRequest("저문,내이름은헤나", 10);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
 }
