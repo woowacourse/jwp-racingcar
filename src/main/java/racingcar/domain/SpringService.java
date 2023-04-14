@@ -9,6 +9,7 @@ import racingcar.dao.WinnersDAO;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
@@ -16,22 +17,20 @@ import static racingcar.option.Option.MIN_TRIAL_COUNT;
 public class SpringService {
     private List<Car> cars;
     private final MoveChance moveChance;
+    private final GameDAO gameDAO;
+    private final GameLogDAO gameLogDAO;
+    private final WinnersDAO winnersDAO;
 
-    @Autowired
-    private GameDAO gameDAO;
-    @Autowired
-    private GameLogDAO gameLogDAO;
-    @Autowired
-    private WinnersDAO winnersDAO;
-
-    public SpringService() {
+    public SpringService(final GameDAO gameDAO,final GameLogDAO gameLogDAO, final WinnersDAO winnersDAO) {
+        this.gameDAO = gameDAO;
+        this.gameLogDAO =gameLogDAO;
+        this.winnersDAO = winnersDAO;
         this.moveChance = new RandomMoveChance();
     }
 
     public void setUpGame(String names) {
-        this.cars = List.of(names.split(","))
-                .stream()
-                .map(name -> new Car(name))
+        this.cars = Stream.of(names.split(","))
+                .map(Car::new)
                 .collect(Collectors.toList());
     }
 

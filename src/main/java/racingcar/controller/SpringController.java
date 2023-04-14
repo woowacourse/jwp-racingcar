@@ -11,12 +11,12 @@ import racingcar.dto.RequestDto;
 import racingcar.dto.ResponseDto;
 
 @RestController
-@RequestMapping("/plays")
 public class SpringController {
-    @Autowired
-    private SpringService springService;
-
-    @PostMapping("")
+    private final SpringService springService;
+    public SpringController(final SpringService springService){
+        this.springService =springService;
+    }
+    @PostMapping("/plays")
     public ResponseDto postInput(@RequestBody RequestDto requestDto) {
         springService.setUpGame(requestDto.getNames());
         springService.play(requestDto.getCount());
