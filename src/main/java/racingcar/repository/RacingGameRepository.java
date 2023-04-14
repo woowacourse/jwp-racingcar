@@ -20,19 +20,19 @@ public final class RacingGameRepository {
         this.carDao = carDao;
     }
 
-    public void saveCars(Long gameResultId, Cars finalResult, Cars winnersResult) {
+    public void saveCars(final Long gameId, final Cars finalResult, final Cars winnersResult) {
         finalResult.getCars()
                 .stream()
-                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameResultId))
+                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameId))
                 .forEach(carDao::save);
     }
 
-    public Long saveGameResult(TryCount tryCount) {
+    public Long saveGameResult(final TryCount tryCount) {
         GameResultEntity gameResultEntity = new GameResultEntity(tryCount.getCount());
         return gameResultDao.insert(gameResultEntity);
     }
 
-    private boolean checkWinner(Car currentCar, Cars winnersResult) {
+    private boolean checkWinner(final Car currentCar, final Cars winnersResult) {
         return winnersResult.getCars().contains(currentCar);
     }
 }
