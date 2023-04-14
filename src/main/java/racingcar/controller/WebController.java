@@ -11,6 +11,7 @@ import racingcar.model.Cars;
 import racingcar.service.GameService;
 import racingcar.util.NameFormatConverter;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -24,7 +25,7 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResponseDto> playGame(@RequestBody RequestDto requestDto) {
+    public ResponseEntity<ResponseDto> playGame(final @RequestBody @Valid RequestDto requestDto) {
         List<String> carNames = NameFormatConverter.splitNameByDelimiter(requestDto.getNames());
         Cars cars = new Cars(carNames);
 
