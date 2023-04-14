@@ -1,12 +1,9 @@
 package racingcar.dao;
 
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.CarData;
 
@@ -15,33 +12,16 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@JdbcTest
 class JdbcTemplateRacingGameDaoTest {
 
-    @LocalServerPort
-    private int port;
-    @Autowired
-    private JdbcTemplateRacingGameDao jdbcTemplateRacingGameDao;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplateRacingGameDao jdbcTemplateRacingGameDao;
 
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-        jdbcTemplate.execute("DROP TABLE PLAYER_RESULT IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE GAME_RESULT IF EXISTS");
-
-        jdbcTemplate.execute("CREATE TABLE GAME_RESULT (" +
-                "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
-                "trial_count INT NOT NULL," +
-                "winners VARCHAR(50) NOT NULL," +
-                "created_at DATETIME NOT NULL default current_timestamp)");
-        jdbcTemplate.execute("CREATE TABLE PLAYER_RESULT (" +
-                "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
-                "name VARCHAR(50) NOT NULL," +
-                "position INT NOT NULL," +
-                "game_result_id INT NOT NULL," +
-                "FOREIGN KEY (game_result_id) REFERENCES GAME_RESULT (`id`))");
+    @Autowired
+    JdbcTemplateRacingGameDaoTest(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.jdbcTemplateRacingGameDao = new JdbcTemplateRacingGameDao(jdbcTemplate);
     }
 
     @Test
