@@ -1,7 +1,27 @@
--- TODO: 기능 구현에 필요한 내용을 추가하거나 수정하세요.
-CREATE TABLE PLAY_RESULT (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    winners     VARCHAR(50) NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
-    PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS GAME
+(
+    game_id     INT       NOT NULL AUTO_INCREMENT,
+    created_at  TIMESTAMP NOT NULL,
+    trial_count INT       NOT NULL,
+    PRIMARY KEY (game_id)
+);
+
+CREATE TABLE IF NOT EXISTS CAR
+(
+    car_id   INT         NOT NULL AUTO_INCREMENT,
+    name     VARCHAR(10) NOT NULL,
+    position INT         NOT NULL,
+    game_id  INT         NOT NULL,
+    PRIMARY KEY (car_id),
+    FOREIGN KEY (game_id) REFERENCES GAME (game_id)
+);
+
+CREATE TABLE IF NOT EXISTS WINNER
+(
+    winner_id INT NOT NULL AUTO_INCREMENT,
+    game_id   INT NOT NULL,
+    car_id    INT NOT NULL,
+    PRIMARY KEY (winner_id),
+    FOREIGN KEY (car_id) REFERENCES CAR (car_id),
+    FOREIGN KEY (game_id) REFERENCES GAME (game_id)
 );
