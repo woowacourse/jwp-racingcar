@@ -9,15 +9,15 @@ import java.util.Map;
 
 @Repository
 public class GameDAO {
-    private SimpleJdbcInsert simpleJdbcInsert;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public GameDAO(DataSource dataSource) {
+    public GameDAO(final DataSource dataSource) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingGeneratedKeyColumns("game_number", "created_at");
     }
 
-    public int saveGame(int trialCount) {
+    public int saveGame(final int trialCount) {
         Map<String, Integer> parameters = new HashMap<>();
         parameters.put("trial_count", trialCount);
         return (int) simpleJdbcInsert.executeAndReturnKeyHolder(parameters).getKeys().get("game_number");

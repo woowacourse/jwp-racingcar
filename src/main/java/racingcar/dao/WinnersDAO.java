@@ -6,13 +6,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class WinnersDAO {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    public WinnersDAO(JdbcTemplate jdbcTemplate) {
+    public WinnersDAO(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(int gameNumber, String winner) {
+    public void insert(final int gameNumber,final String winner) {
         String sql = "insert into winners(game_number, winner) values(?,?)";
         jdbcTemplate.update(sql, gameNumber, winner);
     }

@@ -5,13 +5,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class GameLogDAO {
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    public GameLogDAO(JdbcTemplate jdbcTemplate) {
+    public GameLogDAO(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(int gameNumber, String playerName, int resultPosition) {
+    public void insert(final int gameNumber,final String playerName,final int resultPosition) {
         String sql = "insert into game_log (game_number, player_name, result_position) values (?, ?, ?)";
         jdbcTemplate.update(sql, gameNumber, playerName, resultPosition);
     }
