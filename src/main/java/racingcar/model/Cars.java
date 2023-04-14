@@ -34,6 +34,6 @@ public class Cars {
     private Car getMaxLocation() {
         return cars.stream()
                 .max(Car::compareTo)
-                .get();
+                .orElseThrow();
     }
 }
