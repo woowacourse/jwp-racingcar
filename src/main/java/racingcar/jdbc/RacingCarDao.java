@@ -25,6 +25,14 @@ import racingcar.dto.WinnerAndGameIdDto;
 public class RacingCarDao {
 
 	private final JdbcTemplate jdbcTemplate;
+	private final RowMapper<WinnerAndGameIdDto> gameRowMapper = (resultSet, rowNum) -> new WinnerAndGameIdDto(
+		resultSet.getInt("gameId"),
+		resultSet.getString("winner")
+	);
+	private final RowMapper<CarDto> carRowMapper = (resultSet, rowNum) -> new CarDto(
+		resultSet.getString("name"),
+		resultSet.getInt("position")
+	);
 
 	public RacingCarDao() {
 		final DataSource dataSource = DataSourceBuilder.create()
@@ -36,19 +44,9 @@ public class RacingCarDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public JdbcTemplate getJdbcTemplate(){
+	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}
-
-	private final RowMapper<WinnerAndGameIdDto> gameRowMapper = (resultSet, rowNum) -> new WinnerAndGameIdDto(
-		resultSet.getInt("gameId"),
-		resultSet.getString("winner")
-	);
-
-	private final RowMapper<CarDto> carRowMapper = (resultSet, rowNum) -> new CarDto(
-			resultSet.getString("name"),
-			resultSet.getInt("position")
-		);
 
 	public void insertCar(Cars cars, int count) {
 		String sqlGame = "INSERT INTO games(count, winner, timestamp) VALUES (?,?,?)";
