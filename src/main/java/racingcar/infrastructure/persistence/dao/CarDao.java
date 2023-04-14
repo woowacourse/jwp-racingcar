@@ -15,7 +15,6 @@ public class CarDao {
     private final JdbcTemplate template;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-
     public CarDao(final JdbcTemplate template) {
         this.template = template;
         this.simpleJdbcInsert = new SimpleJdbcInsert(template)

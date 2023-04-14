@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 public class RacingGameController {
 
+    private static final String DELIMITER = ",";
     private final RacingGameService racingGameService;
 
     public RacingGameController(final RacingGameService racingGameService) {
@@ -20,10 +21,8 @@ public class RacingGameController {
     }
 
     @PostMapping("/plays")
-    GameResultDto play(
-            @RequestBody PlayRequestDto playRequestDto
-    ) {
-        List<String> names = Arrays.asList(playRequestDto.getNames().split(","));
+    GameResultDto play(@RequestBody PlayRequestDto playRequestDto) {
+        List<String> names = Arrays.asList(playRequestDto.getNames().split(DELIMITER));
         return racingGameService.play(names, playRequestDto.getCount());
     }
 }
