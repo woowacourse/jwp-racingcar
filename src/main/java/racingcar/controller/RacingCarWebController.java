@@ -3,10 +3,9 @@ package racingcar.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import racingcar.dao.RacingCarGameDao;
 import racingcar.domain.Cars;
 import racingcar.dto.RacingGameRequestDto;
@@ -19,14 +18,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class RacingCarWebController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @PostMapping("/plays")
-    @ResponseBody
     public ResponseEntity<ResultResponseDto> play(@RequestBody RacingGameRequestDto racingGameRequestDto) {
         List<String> names = Arrays.stream(racingGameRequestDto.getNames().split(","))
                 .map(String::trim)
