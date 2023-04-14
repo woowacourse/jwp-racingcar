@@ -1,19 +1,16 @@
 package racingcar.service;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toUnmodifiableList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.response.PlayResponse;
 import racingcar.dto.VehicleDto;
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TrialCount;
 import racingcar.domain.Vehicle;
 import racingcar.repository.GameDao;
-import racingcar.util.CarNameValidator;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,13 +20,11 @@ public class GameService {
 
     private static final String DELIMITER = ",";
 
-    private final CarNameValidator carNameValidator;
     private final RecordService recordService;
     private final GameDao gameDao;
 
     @Autowired
-    public GameService(final CarNameValidator carNameValidator, final RecordService recordService, final GameDao gameDao) {
-        this.carNameValidator = carNameValidator;
+    public GameService(final RecordService recordService, final GameDao gameDao) {
         this.recordService = recordService;
         this.gameDao = gameDao;
     }
@@ -50,11 +45,7 @@ public class GameService {
     private Cars createCars(final String names) {
         List<String> carNames = splitNames(names);
 
-        carNameValidator.validate(carNames);
-
-        return new Cars(carNames.stream()
-                .map(Car::new)
-                .collect(toUnmodifiableList()));
+        return new Cars(carNames);
     }
 
     private List<String> splitNames(final String names) {

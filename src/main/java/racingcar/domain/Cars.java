@@ -1,9 +1,10 @@
 package racingcar.domain;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Cars {
 
@@ -11,26 +12,29 @@ public class Cars {
 
     private final List<Car> cars;
 
-    public Cars(List<Car> cars) {
-        validateCount(cars);
-        validateNameDuplicate(cars);
-        this.cars = cars;
+    public Cars(final List<String> carNames) {
+        validate(carNames);
+
+        this.cars = carNames.stream()
+                .map(Car::new)
+                .collect(toList());
     }
 
-    private void validateCount(final List<Car> cars) {
-        if (cars.size() < MIN_CAR_COUNT) {
-            throw new IllegalArgumentException("최소 " + MIN_CAR_COUNT +"개 이상의 자동차를 입력해주세요.");
+    private void validate(final List<String> carNames) {
+        validateCount(carNames);
+        validateNameDuplicate(carNames);
+    }
+
+    private void validateCount(final List<String> carNames) {
+        if (carNames.size() < MIN_CAR_COUNT) {
+            throw new IllegalArgumentException("최소 " + MIN_CAR_COUNT + "개 이상의 자동차를 입력해주세요.");
         }
     }
 
-    private void validateNameDuplicate(final List<Car> cars) {
-        List<String> carNames = cars.stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
+    private void validateNameDuplicate(final List<String> cars) {
+        Set<String> nonDuplicateNames = new HashSet<>(cars);
 
-        Set<String> nonDuplicateNames = new HashSet<>(carNames);
-
-        if (nonDuplicateNames.size() != carNames.size()) {
+        if (nonDuplicateNames.size() != cars.size()) {
             throw new IllegalArgumentException("자동차 이름은 중복될 수 없습니다.");
         }
     }
@@ -48,7 +52,7 @@ public class Cars {
                 .orElseThrow();
         return cars.stream()
                 .filter(car2 -> car2.getDistance() == winnerDistance)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public List<Car> getCars() {

@@ -1,11 +1,9 @@
 package racingcar.controller;
 
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.stream.Collectors;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class RacingController {
@@ -21,11 +19,8 @@ public class RacingController {
     }
 
     private void initializeCars() {
-        this.cars = new Cars(inputView.getCarNames()
-                .stream()
-                .map(name -> new Car(name))
-                .collect(Collectors.toUnmodifiableList())
-        );
+        List<String> carNames = inputView.getCarNames();
+        this.cars = new Cars(carNames);
     }
 
     public void race() {
