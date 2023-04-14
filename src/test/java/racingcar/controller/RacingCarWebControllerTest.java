@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.dto.RacingGameRequestDto;
 
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -29,12 +32,12 @@ class RacingCarWebControllerTest {
         RacingGameRequestDto racingGameRequestDto = new RacingGameRequestDto("마코,아코", 10);
 
         RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(racingGameRequestDto)
-                .when().post("/plays")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .body("size()", is(2));
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(racingGameRequestDto)
+            .when().post("/plays")
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("size()", is(2))
+            .body("racingCars.name", hasItems("아코", "마코"));
     }
-
 }
