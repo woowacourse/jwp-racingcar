@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import racingcar.repository.entity.GameEntity;
 
 public class InsertGameDao {
 
@@ -16,12 +17,13 @@ public class InsertGameDao {
                 .usingGeneratedKeyColumns("game_id");
     }
 
-    public int save(final int count) {
+    public GameEntity save(final GameEntity gameEntity) {
         final Map<String, Object> parameters = new HashMap<>(2);
+        final LocalDateTime createAt = LocalDateTime.now();
 
-        parameters.put("trial_count", count);
-        parameters.put("created_at", LocalDateTime.now());
+        parameters.put("trial_count", gameEntity.getCount());
+        parameters.put("created_at", createAt);
 
-        return insertActor.executeAndReturnKey(parameters).intValue();
+        return new GameEntity(insertActor.executeAndReturnKey(parameters).intValue(), gameEntity);
     }
 }

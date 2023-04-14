@@ -4,7 +4,7 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
+import racingcar.repository.entity.CarEntity;
 
 @Repository
 public class CarDao {
@@ -17,15 +17,8 @@ public class CarDao {
         selectCarDao = new SelectCarDao(jdbcTemplate);
     }
 
-    public CarEntity save(final Car car, final int gameId) {
-        return insertCarDao.save(car, gameId);
-    }
-
-    public List<CarEntity> findByGameId(final int gameId) {
-        return selectCarDao.findByGameId(gameId);
-    }
-
-    public CarEntity findById(final int carId) {
-        return selectCarDao.findById(carId);
+    public List<CarEntity> saveAll(final List<CarEntity> carEntities, final int gameId) {
+        insertCarDao.saveAll(carEntities, gameId);
+        return selectCarDao.findAllByGameId(gameId);
     }
 }

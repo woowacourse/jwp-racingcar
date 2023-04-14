@@ -3,6 +3,7 @@ package racingcar.repository;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import racingcar.repository.entity.CarEntity;
 
 public class SelectCarDao {
 
@@ -17,15 +18,9 @@ public class SelectCarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<CarEntity> findByGameId(final int gameId) {
+    public List<CarEntity> findAllByGameId(final int gameId) {
         final String sql = "SELECT car_id, name, position FROM CAR WHERE game_id = ?";
 
         return jdbcTemplate.query(sql, actorRowMapper, gameId);
-    }
-
-    public CarEntity findById(final int carId) {
-        final String sql = "SELECT car_id, name, position FROM CAR WHERE car_id = ?";
-
-        return jdbcTemplate.queryForObject(sql, actorRowMapper, carId);
     }
 }

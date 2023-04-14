@@ -2,6 +2,7 @@ package racingcar.repository;
 
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
+import racingcar.repository.entity.GameEntity;
 
 @Repository
 public class GamesDao {
@@ -12,7 +13,7 @@ public class GamesDao {
         insertGameDao = new InsertGameDao(dataSource);
     }
 
-    public int save(final int count) {
-        return insertGameDao.save(count);
+    public GameEntity save(final GameEntity gameEntity) {
+        return insertGameDao.save(gameEntity);
     }
 }

@@ -4,6 +4,8 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import racingcar.repository.entity.CarEntity;
+import racingcar.repository.entity.WinnerEntity;
 
 @Repository
 public class WinnerDao {
@@ -16,11 +18,8 @@ public class WinnerDao {
         selectWinnerDao = new SelectWinnerDao(jdbcTemplate);
     }
 
-    public List<Integer> findByGameId(final int gameId) {
-        return selectWinnerDao.findByGameId(gameId);
-    }
-
-    public int save(final int gameId, final int winnerCarId) {
-        return insertWinnerDao.save(gameId, winnerCarId);
+    public List<WinnerEntity> saveAll(final List<CarEntity> winners, final int gameId) {
+        insertWinnerDao.saveAll(winners, gameId);
+        return selectWinnerDao.findAllByGameId(gameId);
     }
 }

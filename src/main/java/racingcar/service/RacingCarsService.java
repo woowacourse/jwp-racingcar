@@ -5,50 +5,36 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.RaceDto;
-import racingcar.domain.Cars;
-import racingcar.domain.Count;
+import racingcar.domain.Car;
 import racingcar.domain.NumberPicker;
+import racingcar.domain.RacingGame;
 import racingcar.dto.CarPositionDto;
+import racingcar.repository.entity.GameEntity;
 
 @Service
-@Transactional(readOnly = true)
 public class RacingCarsService {
 
     private final NumberPicker numberPicker;
-    private final CarsRepository carsRepository;
-    private final GamesRepository gamesRepository;
+    private final RacingGameRepository racingGameRepository;
 
-    public RacingCarsService(
-            final NumberPicker numberPicker,
-            final CarsRepository carsRepository,
-            final GamesRepository gamesRepository) {
+    public RacingCarsService(final NumberPicker numberPicker, final RacingGameRepository racingGameRepository) {
         this.numberPicker = numberPicker;
-        this.carsRepository = carsRepository;
-        this.gamesRepository = gamesRepository;
+        this.racingGameRepository = racingGameRepository;
     }
 
     @Transactional
     public RaceDto race(final List<String> carsName, final int count) {
-        final int gameId = gamesRepository.save(count);
-        final Cars cars = new Cars(carsName);
-        final Count tryCount = new Count(count);
+        final RacingGame racingGame = new RacingGame(carsName, count);
+        racingGame.race(numberPicker);
 
-        cars.race(tryCount, numberPicker);
-        carsRepository.save(cars, gameId);
+        final GameEntity gameEntity = racingGameRepository.save(racingGame);
+        final RacingGame saved = gameEntity.getRacingGame();
 
-        return new RaceDto(gameId, cars.toDto(), cars.findWinner());
+        return new RaceDto(gameEntity.getGameId(), toDto(saved.findResult()), toDto(saved.findWinner()));
     }
 
-    public List<CarPositionDto> findCarsWithPosition(final int gameId) {
-        return carsRepository.findCars(gameId)
-                .stream()
-                .map(CarPositionDto::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<CarPositionDto> findWinners(final int gameId) {
-        return carsRepository.findWinner(gameId)
-                .stream()
+    private List<CarPositionDto> toDto(final List<Car> cars) {
+        return cars.stream()
                 .map(CarPositionDto::new)
                 .collect(Collectors.toList());
     }
