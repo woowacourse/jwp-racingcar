@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 public class RacingGameService {
 
+    public static final String WINNER_DELIMITER = ",";
     private final CarResultDao carResultDao;
 
     private final PlayResultDao playResultDao;
@@ -29,7 +30,7 @@ public class RacingGameService {
         int tryCount = racingGame.getTryCount();
         progress(racingGame);
         Cars cars = racingGame.getCars();
-        String winners = String.join(",", racingGame.decideWinners());
+        String winners = String.join(WINNER_DELIMITER, racingGame.decideWinners());
 
         long playResultId = savePlayResult(tryCount, racingGame, winners);
         saveCarResult(cars, playResultId);
