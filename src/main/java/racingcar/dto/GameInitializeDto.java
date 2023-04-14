@@ -1,16 +1,11 @@
 package racingcar.dto;
 
 public class GameInitializeDto {
+
     private String names;
     private int count;
 
-    public GameInitializeDto() {
-
-    }
-
-    public GameInitializeDto(String names, int count) {
-        this.names = names;
-        this.count = count;
+    private GameInitializeDto() {
     }
 
     public String getNames() {
