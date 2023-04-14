@@ -16,11 +16,8 @@ import static org.hamcrest.core.Is.is;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PlayRequestControllerTest {
 
-    @LocalServerPort
-    int port;
-
     @BeforeEach
-    void setUp() {
+    void setUp(@LocalServerPort final int port) {
         RestAssured.port = port;
     }
 
@@ -37,5 +34,5 @@ class PlayRequestControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("racingCars.size()", is(2));
     }
-    
+
 }
