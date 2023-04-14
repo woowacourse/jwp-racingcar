@@ -9,6 +9,7 @@ import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 import racingcar.service.RaceService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class RaceController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RaceResponse> play(@RequestBody final RaceRequest raceRequest) {
+    public ResponseEntity<RaceResponse> play(@RequestBody @Valid final RaceRequest raceRequest) {
         return ResponseEntity.ok().body(raceService.play(raceRequest));
     }
 

@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import racingcar.common.ErrorData;
+import racingcar.common.exception.DuplicateResourceException;
+import racingcar.common.exception.ResourceLengthException;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
@@ -39,7 +42,7 @@ class RaceControllerTest {
 
     @Test
     @DisplayName("자동차 경주 성공")
-    void plays_post_success() throws Exception {
+    void plays_success() throws Exception {
         // given
         final RaceRequest raceRequest = new RaceRequest("두둠,져니", 10);
         final String request = objectMapper.writeValueAsString(raceRequest);
@@ -53,28 +56,39 @@ class RaceControllerTest {
         mockMvc.perform(post("/plays")
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$.winners").value("두둠"))
-                .andExpect(jsonPath("$.racingCars[0].name").value("두둠"))
-                .andExpect(jsonPath("$.racingCars[0].position").value(6));
+                .andExpectAll(status().is2xxSuccessful(),
+                        jsonPath("$.winners").value("두둠"),
+                        jsonPath("$.racingCars[0].name").value("두둠"),
+                        jsonPath("$.racingCars[0].position").value(6));
     }
 
     @Test
-    @DisplayName("자동차 경주 실패 - 비즈니스 로직 예외")
-    void plays_post_fail_business_exception() throws Exception {
-        // given
-        final RaceRequest raceRequest = new RaceRequest("두둠,져니", 10);
+    @DisplayName("자동차 경주 실패 - 자동차 이름에 빈 값이 들어온 경우")
+    void plays_fail_car_name_blank_exception() throws Exception {
+        final RaceRequest raceRequest = new RaceRequest("", 10);
         final String request = objectMapper.writeValueAsString(raceRequest);
 
-        // when
-        when(raceService.play(any()))
-                .thenThrow(IllegalArgumentException.class);
-
-        // then
+        // when, then
         mockMvc.perform(post("/plays")
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is4xxClientError());
+                .andExpectAll(status().is4xxClientError(),
+                        jsonPath("$.message").value("자동차 이름은 비어있을 수 없습니다."));
+    }
+
+    @Test
+    @DisplayName("자동차 경주 실패 - 경주 횟수가 0 이하의 값이 들어온 경우")
+    void plays_fail_race_count_exception() throws Exception {
+        // given
+        final RaceRequest raceRequest = new RaceRequest("두둠,져니", 0);
+        final String request = objectMapper.writeValueAsString(raceRequest);
+
+        // when, then
+        mockMvc.perform(post("/plays")
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(status().is4xxClientError(),
+                        jsonPath("$.message").value("경주 횟수는 최소 1번부터 가능합니다."));
     }
 
     @Test
@@ -92,12 +106,12 @@ class RaceControllerTest {
 
         // then
         mockMvc.perform(get("/plays"))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[0].winners").value("져니"))
-                .andExpect(jsonPath("$.[0].racingCars[0].name").value("두둠"))
-                .andExpect(jsonPath("$.[0].racingCars[0].position").value(7))
-                .andExpect(jsonPath("$.[0].racingCars[1].name").value("져니"))
-                .andExpect(jsonPath("$.[0].racingCars[1].position").value(10));
+                .andExpectAll(status().is2xxSuccessful(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.[0].winners").value("져니"),
+                        jsonPath("$.[0].racingCars[0].name").value("두둠"),
+                        jsonPath("$.[0].racingCars[0].position").value(7),
+                        jsonPath("$.[0].racingCars[1].name").value("져니"),
+                        jsonPath("$.[0].racingCars[1].position").value(10));
     }
 }
