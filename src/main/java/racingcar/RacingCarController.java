@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class RacingCarController {
 
-    final RacingGameService racingGameService;
+    private final RacingGameService racingGameService;
 
     public RacingCarController(RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
