@@ -2,21 +2,23 @@ package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@JdbcTest
 class RacingGameJdbcDaoTest {
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
     private RacingGameDao racingGameDao;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @BeforeEach
+    void setUp() {
+        racingGameDao = new RacingGameJdbcDao(jdbcTemplate);
+    }
 
     @Test
     void insert() {

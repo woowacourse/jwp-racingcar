@@ -1,29 +1,26 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.CarDto;
 
-@SpringBootTest
-@Transactional
+@JdbcTest
 class CarJdbcDaoTest {
 
     @Autowired
-    private CarDao carDao;
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
-
+    private CarDao carDao;
     private Long gameId;
 
     @BeforeEach
     void setUp() {
+        carDao = new CarJdbcDao(jdbcTemplate);
         RacingGameDao racingGameDao = new RacingGameJdbcDao(jdbcTemplate);
         gameId = racingGameDao.save(10);
 
@@ -39,11 +36,12 @@ class CarJdbcDaoTest {
 
     @Test
     void insert() {
-        CarDto carDto = new CarDto("car", 9, false);
-        carDao.save(gameId, carDto);
+        List<CarDto> carDtos = List.of(new CarDto("gumak", 9, false), new CarDto("benz", 10, true));
 
-        List<CarDto> cars = carDao.findByGameId(gameId);
+        carDao.saveAll(gameId, carDtos);
 
-        Assertions.assertThat(cars).hasSize(3);
+        Integer count = jdbcTemplate.queryForObject("SELECT count(*) FROM CAR", Integer.class);
+
+        assertThat(count).isEqualTo(4);
     }
 }
