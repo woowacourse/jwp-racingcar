@@ -13,10 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.repository.mapper.RacingGameInfo;
 
 @SpringBootTest
-class RacingGameRepositoryImplTest {
+class RacingGameJdbcRepositoryTest {
 
     @Autowired
-    RacingGameRepositoryImpl repository;
+    RacingGameJdbcRepository repository;
 
     @DisplayName("게임 정보 저장 후 조회")
     @Test

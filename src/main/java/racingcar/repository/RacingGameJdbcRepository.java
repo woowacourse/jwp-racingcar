@@ -13,11 +13,11 @@ import org.springframework.stereotype.Repository;
 import racingcar.repository.mapper.RacingGameInfo;
 
 @Repository
-public class RacingGameRepositoryImpl implements RacingGameRepository {
+public class RacingGameJdbcRepository implements RacingGameRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public RacingGameRepositoryImpl(final JdbcTemplate jdbcTemplate) {
+    public RacingGameJdbcRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

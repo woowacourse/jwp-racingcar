@@ -10,23 +10,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.domain.CarGroup;
 
 @SpringBootTest
-class PlayerRepositoryImplTest {
+class PlayerJdbcRepositoryTest {
 
     @Autowired
-    private PlayerRepositoryImpl playerRepositoryImpl;
+    private PlayerJdbcRepository playerJdbcRepository;
 
     @Autowired
-    private RacingGameRepositoryImpl racingGameRepositoryImpl;
+    private RacingGameJdbcRepository racingGameJdbcRepository;
 
     @DisplayName("플레이어 저장")
     @Test
     void save() {
         // given
         CarGroup carGroup = new CarGroup("저문,헤나");
-        int racingGameId = racingGameRepositoryImpl.save("저문,헤나", 10);
+        int racingGameId = racingGameJdbcRepository.save("저문,헤나", 10);
 
         // when
-        boolean isSaved = playerRepositoryImpl.save(carGroup, racingGameId);
+        boolean isSaved = playerJdbcRepository.save(carGroup, racingGameId);
 
         // then
         assertThat(isSaved).isTrue();

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 import racingcar.domain.CarGroup;
 
 @Repository
-public class PlayerRepositoryImpl implements PlayerRepository {
+public class PlayerJdbcRepository implements PlayerRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public PlayerRepositoryImpl(final JdbcTemplate jdbcTemplate) {
+    public PlayerJdbcRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
