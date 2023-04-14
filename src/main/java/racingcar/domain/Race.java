@@ -7,15 +7,20 @@ public class Race {
 
     private final int count;
 
-    private Race(final int raceCount) {
+    public Race(final int raceCount) {
         this.count = validateRange(raceCount);
     }
 
-    public static Race create(final int raceCount) {
-        return new Race(raceCount);
+    public Cars run(final Cars cars) {
+        int tryCount = 0;
+        Cars currentCars = cars;
+        while (isRunning(tryCount++)) {
+            currentCars = currentCars.race();
+        }
+        return currentCars;
     }
 
-    public boolean isRunning(final int raceCount) {
+    private boolean isRunning(final int raceCount) {
         return raceCount != count;
     }
 

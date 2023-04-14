@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
+import racingcar.domain.CarName;
+import racingcar.domain.CarPosition;
 import racingcar.domain.dao.entity.CarEntity;
 
 import java.util.List;
@@ -15,16 +17,17 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @Transactional
-class CarDaoTest {
+class CarDaoImplTest {
 
-    private static final List<Car> cars = List.of(Car.create("test1"), Car.create("test2"));
+    private static final List<Car> cars = List.of(Car.create(CarName.create("test1"),
+            CarPosition.init()), Car.create(CarName.create("test2"), CarPosition.init()));
     private static final int trialCount = 10;
     private static final String winners = "test1,test2";
 
     @Autowired
-    private CarDao carDao;
+    private CarDaoImpl carDaoImpl;
     @Autowired
-    private RaceResultDao raceResultDao;
+    private RaceResultDaoImpl raceResultDao;
 
     @Test
     @DisplayName("차들의 정보를 저장한다")
@@ -33,10 +36,10 @@ class CarDaoTest {
         final Long raceResultId = raceResultDao.save(trialCount, winners);
 
         //when
-        carDao.saveAll(raceResultId, cars);
+        carDaoImpl.saveAll(raceResultId, cars);
 
         // then
-        final List<CarEntity> result = carDao.findAll(raceResultId);
+        final List<CarEntity> result = carDaoImpl.findAll(raceResultId);
         final List<String> resultNames = result.stream().map(CarEntity::getName)
                 .collect(Collectors.toUnmodifiableList());
 
@@ -50,10 +53,10 @@ class CarDaoTest {
     public void findAll() {
         // given
         final Long raceResultId = raceResultDao.save(trialCount, winners);
-        carDao.saveAll(raceResultId, cars);
+        carDaoImpl.saveAll(raceResultId, cars);
 
         // when
-        final List<CarEntity> result = carDao.findAll(raceResultId);
+        final List<CarEntity> result = carDaoImpl.findAll(raceResultId);
         final List<String> resultNames = result.stream().map(CarEntity::getName)
                 .collect(Collectors.toUnmodifiableList());
 

@@ -13,13 +13,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class RaceResultDaoTest {
+class RaceResultDaoImplTest {
 
     private static final int trialCount = 10;
     private static final String winners = "test1,test2";
 
     @Autowired
-    private RaceResultDao raceResultDao;
+    private RaceResultDaoImpl raceResultDao;
 
     @Test
     @DisplayName("레이싱 결과를 저장한다.")

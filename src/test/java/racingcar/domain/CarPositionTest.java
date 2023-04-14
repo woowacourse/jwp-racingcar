@@ -12,7 +12,7 @@ class CarPositionTest {
 
     @BeforeEach
     void init() {
-        carPosition = CarPosition.create();
+        carPosition = CarPosition.init();
     }
 
     @Test
@@ -33,13 +33,13 @@ class CarPositionTest {
     @DisplayName("위치 값을 1 증가시킨다.")
     void whenAddPosition_thenPositionPlus() {
         // given
-        int beforePosition = carPosition.getPosition();
+        final int beforePosition = carPosition.getPosition();
 
         // when
-        carPosition.addPosition();
+        final CarPosition newPosition = carPosition.addPosition();
 
         // then
-        assertThat(carPosition.getPosition())
-                .isEqualTo(beforePosition + 1);
+        assertThat(newPosition)
+                .isEqualTo(CarPosition.create(beforePosition + 1));
     }
 }

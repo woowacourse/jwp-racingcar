@@ -15,4 +15,8 @@ public class RaceEntity {
     public Long getId() {
         return id;
     }
+
+    public String getWinners() {
+        return winners;
+    }
 }

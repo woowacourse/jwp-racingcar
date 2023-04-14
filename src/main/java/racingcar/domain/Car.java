@@ -1,7 +1,5 @@
 package racingcar.domain;
 
-import java.util.Objects;
-
 public class Car implements Comparable<Car> {
 
     private static final int CAR_FORWARD_NUMBER = 4;
@@ -9,19 +7,21 @@ public class Car implements Comparable<Car> {
     private final CarName name;
     private final CarPosition position;
 
-    private Car(final String name) {
-        this.name = CarName.create(name);
-        this.position = CarPosition.create();
+    private Car(final CarName name, final CarPosition position) {
+        this.name = name;
+        this.position = position;
     }
 
-    public static Car create(final String name) {
-        return new Car(name);
+    public static Car create(final CarName name, final CarPosition position) {
+        return new Car(name, position);
     }
 
-    public void move(final int power) {
+    public Car move(final int power) {
         if (power >= CAR_FORWARD_NUMBER) {
-            position.addPosition();
+            final CarPosition newPosition = position.addPosition();
+            return new Car(name, newPosition);
         }
+        return new Car(name, position);
     }
 
     public boolean isSamePosition(final Car diffCar) {
@@ -29,21 +29,12 @@ public class Car implements Comparable<Car> {
     }
 
     @Override
-    public boolean equals(Object diffCar) {
-        if (this == diffCar) return true;
-        if (diffCar == null || getClass() != diffCar.getClass()) return false;
-        Car car = (Car) diffCar;
-        return Objects.equals(name, car.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
     public int compareTo(Car diffCar) {
         return position.getPosition() - diffCar.position.getPosition();
+    }
+
+    public CarPosition getCarPosition() {
+        return position;
     }
 
     public String getName() {
