@@ -19,10 +19,6 @@ public class Names {
         return new Names(names);
     }
 
-    public Iterator<Name> nameIterator() {
-        return names.stream().iterator();
-    }
-
     private static void validateCarNames(List<Name> names) {
         isEmpty(names);
         isDuplicating(names);
@@ -39,5 +35,9 @@ public class Names {
         if (names.size() == 0) {
             throw new IllegalArgumentException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
+    }
+
+    public Iterator<Name> nameIterator() {
+        return names.stream().iterator();
     }
 }

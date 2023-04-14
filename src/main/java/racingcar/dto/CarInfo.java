@@ -1,10 +1,10 @@
 package racingcar.dto;
 
 public class CarInfo {
-    private int racingId;
-    private String name;
-    private int position;
-    private boolean isWinner;
+    private final int racingId;
+    private final String name;
+    private final int position;
+    private final boolean isWinner;
 
     public CarInfo(int racingId, String name, int position, boolean isWinner) {
         this.racingId = racingId;

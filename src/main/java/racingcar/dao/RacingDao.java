@@ -28,7 +28,7 @@ public class RacingDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 con -> {
-                    PreparedStatement preparedStatement = con.prepareStatement(sql, new String[] {"id"});
+                    PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
                     preparedStatement.setInt(1, trial.getValue());
                     return preparedStatement;
                 },

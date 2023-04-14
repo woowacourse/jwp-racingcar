@@ -26,10 +26,6 @@ public class Name {
         return carNames;
     }
 
-    public String getValue() {
-        return name;
-    }
-
     private static void validateName(String name) {
         validateBlank(name);
 
@@ -46,6 +42,10 @@ public class Name {
         if (name.equals("")) {
             throw new IllegalArgumentException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
+    }
+
+    public String getValue() {
+        return name;
     }
 
     @Override

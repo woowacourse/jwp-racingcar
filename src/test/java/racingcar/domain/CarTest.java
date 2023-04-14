@@ -15,7 +15,8 @@ class CarTest {
     @Nested
     @Disabled("모든 검증 작업을 CarName 객체 생성 시에 진행하는데," +
             "CarNameTest에서 해당 작업을 이미 하고 있으므로 테스트 코드를 따로 작성하지 않습니다.")
-    class ValidationTest {}
+    class ValidationTest {
+    }
 
     @Nested
     @DisplayName("객체 정보 테스트")

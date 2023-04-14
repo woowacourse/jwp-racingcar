@@ -1,8 +1,8 @@
 package racingcar.dto;
 
 public class ExceptionMessageDTO {
-    private boolean success = false;
-    private String message;
+    private final boolean success = false;
+    private final String message;
 
     public ExceptionMessageDTO(String message) {
         this.message = message;

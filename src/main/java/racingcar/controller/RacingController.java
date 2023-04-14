@@ -10,8 +10,8 @@ import racingcar.vo.Trial;
 
 @RestController
 public class RacingController {
-    final private RacingDao racingDao;
-    final private RacingUtil racingUtil;
+    private final RacingDao racingDao;
+    private final RacingUtil racingUtil;
 
     public RacingController(RacingDao racingDao, RacingUtil racingUtil) {
         this.racingDao = racingDao;
@@ -22,7 +22,7 @@ public class RacingController {
     public FinalResultDto playRacing(@RequestBody RequestBodyDTO dto) {
         ResultDto resultDto = racingUtil.race(dto.getNames(), dto.getCount());
         final int racingId = racingDao.insert(Trial.of(dto.getCount()));
-        for(CarDto car : resultDto.getRacingCars()){
+        for (CarDto car : resultDto.getRacingCars()) {
             String name = car.getName();
             racingDao.insert(new CarInfo(racingId, name, car.getPosition(), resultDto.isWinnerContaining(name)));
         }

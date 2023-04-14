@@ -3,8 +3,8 @@ package racingcar.dto;
 import racingcar.domain.Car;
 
 public class CarDto {
-    private String name;
-    private int position;
+    private final String name;
+    private final int position;
 
     public CarDto(Car car) {
         this.name = car.getName();

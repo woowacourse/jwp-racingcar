@@ -16,6 +16,10 @@ public class Cars {
         this.numberGenerator = numberGenerator;
     }
 
+    private static boolean hasHighestPosition(int highestPosition, Car car) {
+        return car.hasPosition(highestPosition);
+    }
+
     public List<CarDto> getCarDtos() {
         return cars.stream().map(CarDto::new)
                 .collect(Collectors.toList());
@@ -35,10 +39,6 @@ public class Cars {
                 .filter(car -> hasHighestPosition(highestPosition, car))
                 .map(Car::getName)
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    private static boolean hasHighestPosition(int highestPosition, Car car) {
-        return car.hasPosition(highestPosition);
     }
 
     private int calculateHighestPosition() {

@@ -1,16 +1,16 @@
 package racingcar.study;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SetTest {
 
@@ -34,14 +34,14 @@ public class SetTest {
     }
 
     @ParameterizedTest(name = "{0} 포함해야 한다.")
-    @ValueSource(ints = {1,2,3})
+    @ValueSource(ints = {1, 2, 3})
     void givenNumberSetHaving_whenAskingContains_thenReturnsTrue(int value) {
         assertThat(numbers.contains(value)).isTrue();
     }
 
     @ParameterizedTest(name = "{0} 값이 포함되어있으면 true, 없으면 false를 반환")
-    @CsvSource(value = {"1,true","2,true","3,true","4,false","5,false"})
+    @CsvSource(value = {"1,true", "2,true", "3,true", "4,false", "5,false"})
     void givenNumber_whenAskingSetContains_thenReturnsResult(int value, boolean expect) {
         assertThat(numbers.contains(value)).isEqualTo(expect);
     }
- }
+}

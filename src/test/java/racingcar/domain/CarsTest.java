@@ -20,6 +20,13 @@ class CarsTest {
     Car car = Car.of(Name.of("test"));
     Car foxCar = Car.of(Name.of("fox"));
 
+    private static Cars makeCarsWithMockValues(Integer... testNumbers) {
+        return new Cars(new ArrayList<>(),
+                new TestRandomNumberGenerator(
+                        Arrays.stream(testNumbers).collect(Collectors.toList())
+                ));
+    }
+
     @Test
     @DisplayName("차 추가 테스트")
     void givenCar_whenSavingCar_thenSavesCar() {
@@ -71,13 +78,6 @@ class CarsTest {
         List<String> winnerNames = cars.getWinnerNames();
 
         assertThat(winnerNames).containsExactly("test", "fox");
-    }
-
-    private static Cars makeCarsWithMockValues(Integer... testNumbers) {
-        return new Cars(new ArrayList<>(),
-                new TestRandomNumberGenerator(
-                        Arrays.stream(testNumbers).collect(Collectors.toList())
-                ));
     }
 
     static class TestRandomNumberGenerator implements NumberGenerator {
