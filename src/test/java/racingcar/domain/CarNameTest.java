@@ -1,13 +1,13 @@
 package racingcar.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class CarNameTest {
 
@@ -16,10 +16,10 @@ class CarNameTest {
     @ValueSource(strings = {"junpk", "jney", "pobi", "neo"})
     void givenNormalCarName_thenSuccess(final String carName) {
         assertThat(CarName.create(carName))
-                .isInstanceOf(CarName.class);
+            .isInstanceOf(CarName.class);
 
         assertThatCode(() -> CarName.create(carName))
-                .doesNotThrowAnyException();
+            .doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -27,8 +27,8 @@ class CarNameTest {
     @ValueSource(strings = {"junpak", "journey", "pobiconan", "neocat"})
     void givenFiveOverLength_thenFail(final String carName) {
         assertThatThrownBy(() -> CarName.create(carName))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(String.format("%d글자를 초과하였습니다.", 5));
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining(String.format("%d글자를 초과하였습니다.", 5));
     }
 
     @ParameterizedTest
@@ -36,7 +36,7 @@ class CarNameTest {
     @EmptySource
     void givenBlankName_thenFail(final String carName) {
         assertThatThrownBy(() -> CarName.create(carName))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(String.format("%s은(는) 빈 값이 들어올 수 없습니다.", "이름"));
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining(String.format("%s은(는) 빈 값이 들어올 수 없습니다.", "이름"));
     }
 }

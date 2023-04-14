@@ -1,7 +1,5 @@
 package racingcar.domain;
 
-import java.util.Objects;
-
 public class Car implements Comparable<Car> {
 
     private static final int CAR_FORWARD_NUMBER = 4;
@@ -33,23 +31,6 @@ public class Car implements Comparable<Car> {
 
     public boolean isSamePosition(final Car diffCar) {
         return position.equals(diffCar.getCarPosition());
-    }
-
-    @Override
-    public boolean equals(Object diffCar) { // car가 이름만 같은건가(db에서도?)
-        if (this == diffCar) {
-            return true;
-        }
-        if (diffCar == null || getClass() != diffCar.getClass()) {
-            return false;
-        }
-        Car car = (Car) diffCar;
-        return Objects.equals(name, car.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
     }
 
     @Override

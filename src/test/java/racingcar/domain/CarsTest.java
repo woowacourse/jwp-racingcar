@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.util.Arrays;
@@ -36,8 +35,6 @@ class CarsTest {
         // when & then
         assertThatCode(() -> new Cars(cars, numberGenerator))
             .doesNotThrowAnyException();
-        assertThat(new Cars(cars, numberGenerator))
-            .isEqualTo(testCars);
     }
 
     @ParameterizedTest

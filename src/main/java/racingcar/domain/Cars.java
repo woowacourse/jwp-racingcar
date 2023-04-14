@@ -1,9 +1,7 @@
 package racingcar.domain;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Cars {
@@ -46,27 +44,13 @@ public class Cars {
     }
 
     private void validateDuplicateCarName() {
-        final int uniqueCarCount = new HashSet<>(cars).size();
+        final int uniqueCarCount = cars.stream()
+            .map(Car::getName)
+            .collect(Collectors.toUnmodifiableSet())
+            .size();
         if (cars.size() != uniqueCarCount) {
             throw new IllegalArgumentException(DUPLICATE_MESSAGE);
         }
-    }
-
-    @Override
-    public boolean equals(Object diffCars) {
-        if (this == diffCars) {
-            return true;
-        }
-        if (diffCars == null || getClass() != diffCars.getClass()) {
-            return false;
-        }
-        final Cars cars = (Cars) diffCars;
-        return Objects.equals(this.cars, cars.cars);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cars);
     }
 
     public List<Car> getCars() {
