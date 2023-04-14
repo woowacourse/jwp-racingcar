@@ -20,7 +20,7 @@ public class RacingCarRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveWinner(int gameId, List<String> winners) {
+    public void saveWinners(int gameId, List<String> winners) {
         String sql = "INSERT INTO winner_result (game_id,winner) VALUES(?,?)";
         jdbcTemplate.batchUpdate(sql, winners, winners.size(), (ps, winner) -> {
             ps.setInt(1, gameId);

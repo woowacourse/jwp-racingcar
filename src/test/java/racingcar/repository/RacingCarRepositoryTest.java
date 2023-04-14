@@ -32,7 +32,7 @@ class RacingCarRepositoryTest {
         int gameId = racingCarRepository.saveGame(1);
 
         // expect
-        racingCarRepository.saveWinner(gameId, List.of("glen", "raon"));
+        racingCarRepository.saveWinners(gameId, List.of("glen", "raon"));
         List<String> winners = racingCarRepository.findWinners(gameId);
 
         assertThat(winners)

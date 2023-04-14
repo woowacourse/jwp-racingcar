@@ -33,7 +33,7 @@ public class RacingCarService {
             racingCars.moveCars(numberGenerator);
         }
         racingCarRepository.saveCars(gameId, racingCars.getCars());
-        racingCarRepository.saveWinner(gameId, racingCars.getWinners());
+        racingCarRepository.saveWinners(gameId, racingCars.getWinners());
         return gameId;
     }
 
