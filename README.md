@@ -24,3 +24,4 @@
 
 - RacingCarConsoleApplication : 터미널에서 작동
 - RacingCarApplication : h2 db와 web 연결
+
