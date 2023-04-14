@@ -42,9 +42,10 @@ public class WebRacingGameControllerTest {
                 List.of(new CarDto("브리", 7), new CarDto("브라운", 8)));
 
         //when
+        List<String> names = List.of(request.getNames().split(","));
         doReturn(response)
                 .when(racingGameService)
-                .play(request.getNames(), request.getCount());
+                .play(names, request.getCount());
 
         //then
         mockMvc.perform(post("/plays")

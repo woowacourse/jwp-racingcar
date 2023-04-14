@@ -11,6 +11,8 @@ import racingcar.dto.response.BadResponseDto;
 import racingcar.dto.response.GameResponseDto;
 import racingcar.service.RacingGameService;
 
+import java.util.List;
+
 @RestController
 public class WebRacingGameController {
     private final RacingGameService racingGameService;
@@ -22,7 +24,9 @@ public class WebRacingGameController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponseDto> playGame(@RequestBody GameRequestDto request) {
-        GameResponseDto response = racingGameService.play(request.getNames(), request.getCount());
+        List<String> names = List.of(request.getNames().split(","));
+
+        GameResponseDto response = racingGameService.play(names, request.getCount());
 
         return ResponseEntity.ok(response);
     }

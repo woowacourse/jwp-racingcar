@@ -12,7 +12,6 @@ import racingcar.dto.GameResultDto;
 import racingcar.dto.response.GameResponseDto;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,7 @@ public class RacingGameService {
         this.jdbcTemplateDAO = jdbcTemplateDAO;
     }
 
-    public GameResponseDto play(String names, int tryCount) {
+    public GameResponseDto play(List<String> names, int tryCount) {
         RacingGame racingGame = new RacingGame(convertToNames(names));
 
         racingGame.moveCars(new TryCount(tryCount));
@@ -40,8 +39,8 @@ public class RacingGameService {
         return new GameResponseDto(winners, resultCars);
     }
 
-    private List<Name> convertToNames(String inputNames) {
-        return Arrays.stream(inputNames.split(DELIMITER))
+    private List<Name> convertToNames(List<String> names) {
+        return names.stream()
                 .map(Name::new)
                 .collect(Collectors.toList());
     }
