@@ -20,7 +20,7 @@ public class RacingCarController {
 	private final RacingCarDao racingCarDao = new RacingCarDao();
 
 	@GetMapping("/plays")
-	public List<ResultDto> findData() {
+	public List<ResultDto> findResult() {
 		return racingCarDao.find();
 	}
 
