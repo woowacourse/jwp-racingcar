@@ -6,16 +6,8 @@ import java.util.Set;
 
 public class Validator {
 
-    public static final int MIN_TRY_COUNT = 1;
-    public static final int MAX_TRY_COUNT = 100;
     public static final int MIN_NAME_LENGTH = 1;
     private static final int MAX_NAME_LENGTH = 5;
-
-    public static void checkRange(final int tryCount) {
-        if (tryCount < MIN_TRY_COUNT || tryCount > MAX_TRY_COUNT) {
-            throw new IllegalArgumentException("[ERROR] : 시도 횟수는 1 이상 100 이하의 양의 정수만 가능합니다.");
-        }
-    }
 
     public static void checkBlank(final String carName) {
         if (carName.isBlank()) {
