@@ -1,7 +1,5 @@
 package racingcar.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameResultDao;
@@ -14,21 +12,21 @@ import racingcar.entity.GameResultEntity;
 @Repository
 public class RacingGameRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private GameResultDao gameResultDao;
+    private final GameResultDao gameResultDao;
+    private final CarDao carDao;
 
-    @Autowired
-    private CarDao carDao;
+    public RacingGameRepository(final GameResultDao gameResultDao, final CarDao carDao) {
+        this.gameResultDao = gameResultDao;
+        this.carDao = carDao;
+    }
 
     public void saveCars(Long gameResultId, Cars finalResult, Cars winnersResult) {
 
         finalResult.getCars()
                 .stream()
                 .map(car -> new CarEntity(car.getName().getName(), car.getPosition().getPosition(), checkWinner(car, winnersResult), gameResultId))
-                .forEach(carEntity -> carDao.save(carEntity));
+                .forEach(carDao::save);
     }
 
     public Long saveGameResult(TryCount tryCount) {
