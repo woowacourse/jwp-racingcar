@@ -1,10 +1,9 @@
-package racingcar.dto;
-
-import racingcar.model.Car;
-import racingcar.util.NameFormatConverter;
+package racingcar.controller.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import racingcar.model.Car;
+import racingcar.util.NameFormatConverter;
 
 public class ResponseDto {
     private final String winners;
