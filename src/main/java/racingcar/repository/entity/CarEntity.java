@@ -1,4 +1,4 @@
-package racingcar.repository;
+package racingcar.repository.entity;
 
 import racingcar.domain.Car;
 
@@ -13,14 +13,13 @@ public class CarEntity {
         this.position = position;
     }
 
-    public CarEntity(final Car car, final int id) {
-        this(car.getCarName(), car.getPosition());
-        this.id = id;
-    }
-
     public CarEntity(final int id, final String name, final int position) {
         this(name, position);
         this.id = id;
+    }
+
+    public static CarEntity fromDomain(final Car car) {
+        return new CarEntity(car.getCarName(), car.getPosition());
     }
 
     public String getName() {
@@ -33,9 +32,5 @@ public class CarEntity {
 
     public Integer getId() {
         return id;
-    }
-
-    public Car toDomain() {
-        return new Car(name, position);
     }
 }
