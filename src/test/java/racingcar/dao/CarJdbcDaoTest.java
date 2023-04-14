@@ -26,7 +26,7 @@ class CarJdbcDaoTest {
     @BeforeEach
     void setUp() {
         RacingGameDao racingGameDao = new RacingGameJdbcDao(jdbcTemplate);
-        gameId = racingGameDao.save(List.of("boxster"), 10);
+        gameId = racingGameDao.save("boxster", 10);
 
         CarDto carDto1 = CarDto.of("boxster", 10);
         CarDto carDto2 = CarDto.of("encho", 7);

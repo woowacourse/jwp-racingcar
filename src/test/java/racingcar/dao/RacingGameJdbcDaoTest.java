@@ -6,8 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -22,7 +20,7 @@ class RacingGameJdbcDaoTest {
 
     @Test
     void insert() {
-        List<String> winners = List.of("win1", "win2");
+        String winners = "win1,win2";
         int trialCount = 5;
         Long gameId = racingGameDao.save(winners, trialCount);
 
@@ -33,6 +31,6 @@ class RacingGameJdbcDaoTest {
         String savedWinners = jdbcTemplate.queryForObject(sqlForWinners, String.class);
 
         assertThat(trialCount).isEqualTo(savedTrialCount);
-        assertThat(String.join(",", winners)).isEqualTo(savedWinners);
+        assertThat(winners).isEqualTo(savedWinners);
     }
 }

@@ -12,8 +12,6 @@ import racingcar.AlwaysMoveNumberGenerator;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
 
-import java.util.List;
-
 import static org.hamcrest.Matchers.is;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
@@ -31,8 +29,9 @@ class RacingGameControllerTest {
 
     @Test
     void playGame_success() {
-        RacingGameRequest request = new RacingGameRequest("브리,토미,브라운", 10);
-        RacingGameResponse response = new RacingGameResponse(List.of("브리", "토미", "브라운"), null);
+        String names = "브리,토미,브라운";
+        RacingGameRequest request = new RacingGameRequest(names, 10);
+        RacingGameResponse response = new RacingGameResponse(names, null);
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
