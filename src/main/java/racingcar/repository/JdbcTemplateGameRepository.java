@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.sql.DataSource;
-import org.springframework.stereotype.Repository;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.WinnerDao;
@@ -14,7 +13,6 @@ import racingcar.dto.GameHistoryDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.WinnerDto;
 
-@Repository
 public class JdbcTemplateGameRepository implements GameRepository {
     private final GameDao gameDao;
     private final PlayerDao playerDao;

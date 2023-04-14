@@ -2,14 +2,12 @@ package racingcar.service;
 
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.stereotype.Service;
 import racingcar.domain.RacingGame;
 import racingcar.dto.GameInputDto;
 import racingcar.dto.GameResultDto;
 import racingcar.repository.GameRepository;
 import racingcar.view.OutputView;
 
-@Service
 public class GameService {
 
     private final GameRepository gameRepository;
