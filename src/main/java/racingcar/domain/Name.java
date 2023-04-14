@@ -3,23 +3,25 @@ package racingcar.domain;
 import java.util.Objects;
 
 public class Name {
+
     public static final int MIN_LENGTH = 5;
+
     private final String name;
 
-    private Name(String name) {
+    private Name(final String name) {
         validate(name);
         this.name = name;
     }
 
-    public Name(Name name) {
+    public Name(final Name name) {
         this.name = name.getName();
     }
 
-    public static Name of(String name) {
+    public static Name of(final String name) {
         return new Name(name);
     }
 
-    private void validate(String name) {
+    private void validate(final String name) {
         if (name.isBlank() || name.length() > MIN_LENGTH) {
             throw new IllegalArgumentException(String.format("이름은 %d글자 이하여야 합니다.", MIN_LENGTH));
         }
@@ -37,8 +39,8 @@ public class Name {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Name name1 = (Name) o;
-        return Objects.equals(name, name1.name);
+        Name other = (Name) o;
+        return Objects.equals(name, other.name);
     }
 
     @Override

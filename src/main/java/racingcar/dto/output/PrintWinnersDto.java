@@ -2,7 +2,7 @@ package racingcar.dto.output;
 
 import racingcar.domain.Cars;
 
-public class PrintWinnersDto {
+public final class PrintWinnersDto {
     private final Cars cars;
 
     public PrintWinnersDto(final Cars cars) {

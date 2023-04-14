@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.utils.MovingStrategy;
+import racingcar.domain.movingstrategy.MovingStrategy;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,30 +8,30 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Cars implements Iterable<Car> {
+public final class Cars implements Iterable<Car> {
     private final List<Car> cars;
 
-    public Cars(List<Car> cars) {
+    public Cars(final List<Car> cars) {
         this.cars = cars;
     }
 
-    public Cars(Cars cars) {
-        List<Car> result = new ArrayList<>();
+    public Cars(final Cars cars) {
+        final List<Car> result = new ArrayList<>();
         for (Car car : cars) {
             result.add(new Car(car));
         }
         this.cars = result;
     }
 
-    public void moveCars(MovingStrategy strategy) {
+    public void moveCars(final MovingStrategy strategy) {
         for (Car car : cars) {
             car.move(strategy.movable());
         }
     }
 
     public Cars getWinners() {
-        Position maxPosition = getMaxPosition();
-        List<Car> result = cars.stream()
+        final Position maxPosition = getMaxPosition();
+        final List<Car> result = cars.stream()
                 .filter(car -> car.getPosition().equals(maxPosition))
                 .collect(Collectors.toUnmodifiableList());
 

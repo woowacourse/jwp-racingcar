@@ -5,7 +5,7 @@ import racingcar.domain.Cars;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ResultDto {
+public final class ResultDto {
 
     private final List<String> winners;
     private final List<CarDto> racingCars;

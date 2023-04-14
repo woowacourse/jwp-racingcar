@@ -4,21 +4,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.domain.TryCount;
 import racingcar.entity.GameResultEntity;
 
 import java.sql.PreparedStatement;
 
 @Component
-public class GameResultDao {
+public final class GameResultDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public GameResultDao(JdbcTemplate jdbcTemplate) {
+    public GameResultDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long insert(GameResultEntity gameResultEntity) {
+    public Long insert(final GameResultEntity gameResultEntity) {
         String sql = "insert into game_result (try_count) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {

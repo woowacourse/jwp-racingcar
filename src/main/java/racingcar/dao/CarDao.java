@@ -9,10 +9,10 @@ import racingcar.entity.CarEntity;
 import java.sql.PreparedStatement;
 
 @Component
-public class CarDao {
+public final class CarDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public CarDao(JdbcTemplate jdbcTemplate) {
+    public CarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

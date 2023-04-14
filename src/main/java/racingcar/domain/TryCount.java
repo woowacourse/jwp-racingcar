@@ -1,11 +1,11 @@
 package racingcar.domain;
 
-public class TryCount {
+public final class TryCount {
     private static final int MIN_COUNT = 1;
 
     private int count;
 
-    public TryCount(int count) {
+    public TryCount(final int count) {
         validate(count);
         this.count = count;
     }

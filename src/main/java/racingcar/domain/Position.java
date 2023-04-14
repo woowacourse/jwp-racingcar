@@ -2,7 +2,7 @@ package racingcar.domain;
 
 import java.util.Objects;
 
-public class Position {
+public final class Position {
     private static final int INITIAL_POSITION = 0;
 
     private int position;
@@ -11,11 +11,11 @@ public class Position {
         this.position = position;
     }
 
-    public Position(Position position) {
+    public Position(final Position position) {
         this.position = position.getPosition();
     }
 
-    public static Position of(int position) {
+    public static Position of(final int position) {
         return new Position(position);
     }
 
@@ -39,8 +39,8 @@ public class Position {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Position position1 = (Position) o;
-        return getPosition() == position1.getPosition();
+        Position other = (Position) o;
+        return getPosition() == other.getPosition();
     }
 
     @Override

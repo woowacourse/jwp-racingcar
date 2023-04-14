@@ -2,25 +2,26 @@ package racingcar.domain;
 
 import java.util.Objects;
 
-public class Car {
+public final class Car {
+
     private final Name name;
     private final Position position;
 
-    public Car(Name name, Position position) {
+    public Car(final Name name, final Position position) {
         this.name = name;
         this.position = position;
     }
 
-    public Car(Name name) {
+    public Car(final Name name) {
         this(name, Position.create());
     }
 
-    public Car(Car car) {
+    public Car(final Car car) {
         this.name = new Name(car.getName());
         this.position = new Position(car.getPosition());
     }
 
-    public void move(boolean movable) {
+    public void move(final boolean movable) {
         if (movable) {
             position.move();
         }
@@ -43,19 +44,19 @@ public class Car {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Car car = (Car) o;
-        return Objects.equals(name, car.name) && Objects.equals(position, car.position);
+        final Car car = (Car) o;
+        return Objects.equals(name, car.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, position);
+        return Objects.hash(name);
     }
 }

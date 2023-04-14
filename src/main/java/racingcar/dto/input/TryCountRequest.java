@@ -2,7 +2,7 @@ package racingcar.dto.input;
 
 import racingcar.domain.TryCount;
 
-public class TryCountRequest {
+public final class TryCountRequest {
     private final TryCount tryCount;
 
     public TryCountRequest(final TryCount tryCount) {

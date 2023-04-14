@@ -12,7 +12,6 @@ import racingcar.entity.GameResultEntity;
 @Repository
 public class RacingGameRepository {
 
-
     private final GameResultDao gameResultDao;
     private final CarDao carDao;
 
@@ -22,7 +21,6 @@ public class RacingGameRepository {
     }
 
     public void saveCars(Long gameResultId, Cars finalResult, Cars winnersResult) {
-
         finalResult.getCars()
                 .stream()
                 .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameResultId))

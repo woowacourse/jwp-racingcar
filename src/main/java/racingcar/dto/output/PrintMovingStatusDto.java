@@ -4,7 +4,8 @@ import racingcar.domain.Cars;
 
 import java.util.List;
 
-public class PrintMovingStatusDto {
+public final class PrintMovingStatusDto {
+
     private final List<Cars> movingStatus;
 
     public PrintMovingStatusDto(final List<Cars> movingStatus) {
