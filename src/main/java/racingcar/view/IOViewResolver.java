@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class IOViewResolver {
+public final class IOViewResolver {
 
     private final Map<Class<?>, Supplier<Object>> inputViewMap;
     private final Map<Class<?>, Consumer<Object>> outputViewMap;

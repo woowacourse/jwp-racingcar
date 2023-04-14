@@ -10,7 +10,7 @@ import racingcar.entity.CarEntity;
 import racingcar.entity.GameResultEntity;
 
 @Repository
-public class RacingGameRepository {
+public final class RacingGameRepository {
 
     private final GameResultDao gameResultDao;
     private final CarDao carDao;

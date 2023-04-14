@@ -1,6 +1,6 @@
 package racingcar.entity;
 
-public class GameResultEntity {
+public final class GameResultEntity {
     private final int tryCount;
 
     public GameResultEntity(int tryCount) {

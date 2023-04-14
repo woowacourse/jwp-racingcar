@@ -1,6 +1,6 @@
 package racingcar.entity;
 
-public class CarEntity {
+public final class CarEntity {
     private final String playerName;
     private final int finalPosition;
     private final boolean isWinner;
