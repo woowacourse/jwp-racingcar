@@ -14,6 +14,7 @@ import racingcar.utils.NumberGenerator;
 
 @Service
 public class RacingCarService {
+    private static final int MAX_TRY_COUNT = 25;
     private final RacingCarRepository racingCarRepository;
     private final NumberGenerator numberGenerator;
 
@@ -24,6 +25,7 @@ public class RacingCarService {
 
     @Transactional
     public int playRacingGame(List<String> carNames, int tryCount) {
+        validateCount(tryCount);
         int gameId = racingCarRepository.saveGame(tryCount);
         RacingCars racingCars = carNames.stream()
                 .map(Car::new)
@@ -34,6 +36,15 @@ public class RacingCarService {
         racingCarRepository.saveCars(gameId, racingCars.getCars());
         racingCarRepository.saveWinner(gameId, racingCars.getWinners());
         return gameId;
+    }
+
+    private void validateCount(int tryCount) {
+        if (tryCount <= 0) {
+            throw new IllegalArgumentException("[ERROR]: 시도 횟수는 0보다 커야 합니다.");
+        }
+        if (tryCount > MAX_TRY_COUNT) {
+            throw new IllegalArgumentException("[ERROR]: 시도 횟수는 " + MAX_TRY_COUNT + "이하여야 합니다.");
+        }
     }
 
     public List<String> findWinners(int gameId) {
