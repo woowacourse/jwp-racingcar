@@ -12,8 +12,6 @@ import racing.domain.Cars;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class RacingGameServiceTest {
 
@@ -27,8 +25,7 @@ class RacingGameServiceTest {
     @ValueSource(strings = {"bebe,royce,dd"})
     void createCars(String names) {
         // when, then
-        Assertions.assertThat(racingGameService.createCars(names).getCars().size())
-                .isEqualTo(3);
+        Assertions.assertThat(racingGameService.createCars(names).getCars().size()).isEqualTo(3);
     }
 
     @DisplayName("게임을 생성해야 한다.")
@@ -36,30 +33,26 @@ class RacingGameServiceTest {
     @ValueSource(ints = {7})
     void createRacingGame(int count) {
         // when, then
-        Assertions.assertThat(racingGameService.createRacingGame(count))
-                .isEqualTo(1);
+        Assertions.assertThat(racingGameService.createRacingGame(count)).isEqualTo(1);
     }
 
     @DisplayName("게임의 승자를 반환해야 한다.")
     @Test
     void getWinners() {
         // when
-        Assertions.assertThat(racingGameService.getWinners(cars))
-                .isEqualTo("beberoycedd");
+        Assertions.assertThat(racingGameService.getWinners(cars)).isEqualTo(List.of("bebe", "royce", "dd"));
     }
 
     @DisplayName("자동차를 움직일 수 있어야 한다.")
     @Test
     void move() {
         // when
-        racingGameService.move(6, cars, 7);
+        racingGameService.move(6, cars.getCar(0));
+        racingGameService.move(5, cars.getCar(0));
+        racingGameService.move(7, cars.getCar(0));
 
         // then
-        assertAll(
-                () -> Assertions.assertThat(cars.getCars().get(0).getStep()).isEqualTo(7),
-                () -> Assertions.assertThat(cars.getCars().get(1).getStep()).isEqualTo(7),
-                () -> Assertions.assertThat(cars.getCars().get(2).getStep()).isEqualTo(7)
-        );
+        Assertions.assertThat(cars.getCars().get(0).getStep()).isEqualTo(3);
     }
 
 }
