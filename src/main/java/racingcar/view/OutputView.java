@@ -1,5 +1,6 @@
 package racingcar.view;
 
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Vehicle;
 
@@ -32,11 +33,11 @@ public class OutputView {
         return String.format(CAR_RESULT, car.getName(), STICK.repeat(car.getDistance()));
     }
 
-    public void winner(List<Vehicle> winners) {
+    public void winner(List<Car> winners) {
         System.out.printf(WIN_MENTION, convertwinnersToString(winners));
     }
 
-    private String convertwinnersToString(List<Vehicle> winners) {
+    private String convertwinnersToString(List<Car> winners) {
         return winners.stream()
                 .map(Vehicle::getName)
                 .collect(joining(WINNER_CONNECTOR));
