@@ -8,7 +8,7 @@ public class Position {
     }
 
     public void increase() {
-        position ++;
+        position++;
     }
 
     public int getValue() {

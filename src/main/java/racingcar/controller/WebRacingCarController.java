@@ -11,6 +11,8 @@ import racingcar.service.RacingCarService;
 
 @RestController
 public class WebRacingCarController {
+    private static final String SPLIT_DELIMITER = ",";
+
     private final RacingCarService racingCarService;
 
     public WebRacingCarController(RacingCarService racingCarService) {
@@ -28,6 +30,6 @@ public class WebRacingCarController {
     }
 
     private List<String> getCarNames(String names) {
-        return List.of(names.split(","));
+        return List.of(names.split(SPLIT_DELIMITER));
     }
 }
