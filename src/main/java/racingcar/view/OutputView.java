@@ -2,7 +2,6 @@ package racingcar.view;
 
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.domain.Vehicle;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +28,7 @@ public class OutputView {
         System.out.println(result);
     }
 
-    private String convertResultToString(Vehicle car) {
+    private String convertResultToString(Car car) {
         return String.format(CAR_RESULT, car.getName(), STICK.repeat(car.getDistance()));
     }
 
@@ -39,7 +38,7 @@ public class OutputView {
 
     private String convertwinnersToString(List<Car> winners) {
         return winners.stream()
-                .map(Vehicle::getName)
+                .map(Car::getName)
                 .collect(joining(WINNER_CONNECTOR));
     }
 }

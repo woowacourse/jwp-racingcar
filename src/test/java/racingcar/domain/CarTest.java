@@ -15,7 +15,7 @@ class CarTest {
     @DisplayName("자동차 이동 테스트 실패")
     @Test
     void isMoveFail() {
-        Vehicle car = new TestCarFail("falseTest");
+        Car car = new TestCarFail("stop");
 
         assertThat(car.isMove()).isEqualTo(false);
     }
@@ -23,7 +23,7 @@ class CarTest {
     @DisplayName("자동차 이동 테스트 성공")
     @Test
     void isMoveSuccess() {
-        Vehicle car = new TestCarSuccess("trueTest");
+        Car car = new TestCarSuccess("move");
 
         assertThat(car.isMove()).isEqualTo(true);
     }
@@ -45,10 +45,10 @@ class CarTest {
         );
     }
 
-    private static class TestCarSuccess extends Vehicle {
+    private static class TestCarSuccess extends Car {
 
         public TestCarSuccess(String name) {
-            super(name, 0);
+            super(name);
         }
 
         @Override
@@ -57,10 +57,10 @@ class CarTest {
         }
     }
 
-    private static class TestCarFail extends Vehicle {
+    private static class TestCarFail extends Car {
 
         public TestCarFail(String name) {
-            super(name, 0);
+            super(name);
         }
     }
 }

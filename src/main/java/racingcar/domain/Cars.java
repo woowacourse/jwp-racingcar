@@ -42,7 +42,7 @@ public class Cars {
     public void moveAll() {
         cars.stream()
                 .filter(MovableStrategy::isMove)
-                .forEach(Car::updateDistance);
+                .forEach(Car::move);
     }
 
     public List<Car> getWinner() {

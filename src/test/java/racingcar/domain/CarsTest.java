@@ -19,7 +19,7 @@ class CarsTest {
 
         List<Car> carObjects = cars.getCars();
         Car moveCar = carObjects.get(0);
-        moveCar.updateDistance();
+        moveCar.move();
 
         assertThat(cars.getWinner().get(0).getName()).isEqualTo("move");
     }

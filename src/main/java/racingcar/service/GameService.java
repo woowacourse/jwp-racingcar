@@ -5,12 +5,12 @@ import static java.util.stream.Collectors.toList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.VehicleDto;
+import racingcar.domain.Car;
+import racingcar.dto.CarDto;
 import racingcar.repository.RecordDao;
 import racingcar.response.PlayResponse;
 import racingcar.domain.Cars;
 import racingcar.domain.TrialCount;
-import racingcar.domain.Vehicle;
 import racingcar.repository.GameDao;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +39,7 @@ public class GameService {
         long savedGameId = gameDao.insert(trialCount.getValue());
         saveResults(savedGameId, cars);
 
-        return new PlayResponse(winnerNames(cars), toVehicleDto(cars));
+        return new PlayResponse(winnerNames(cars), toCarDto(cars));
     }
 
     private Cars createCars(final String names) {
@@ -59,21 +59,21 @@ public class GameService {
     public void saveResults(final long gameId, final Cars cars) {
         List<String> winnerNames = winnerNames(cars);
 
-        for (final Vehicle car : cars.getCars()) {
+        for (final Car car : cars.getCars()) {
             recordDao.insert(gameId, winnerNames.contains(car.getName()), car);
         }
     }
 
     private List<String> winnerNames(final Cars cars) {
         return cars.getWinner().stream()
-                .map(Vehicle::getName)
+                .map(Car::getName)
                 .collect(toList());
     }
 
-    private List<VehicleDto> toVehicleDto(final Cars cars) {
+    private List<CarDto> toCarDto(final Cars cars) {
         return cars.getCars()
                 .stream()
-                .map(car -> new VehicleDto(car.getName(), car.getDistance()))
+                .map(car -> new CarDto(car.getName(), car.getDistance()))
                 .collect(toList());
     }
 }
