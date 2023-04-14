@@ -17,6 +17,10 @@ public class RaceResponse {
         return new RaceResponse(winnerNames, carRaceResult);
     }
 
+    public static RaceResponse create(final String winners, final List<CarStatusDto> carStatusDtos) {
+        return new RaceResponse(winners, carStatusDtos);
+    }
+
     public String getWinners() {
         return winners;
     }

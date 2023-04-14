@@ -18,7 +18,9 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +39,7 @@ class RaceControllerTest {
 
     @Test
     @DisplayName("자동차 경주 성공")
-    void plays_success() throws Exception {
+    void plays_post_success() throws Exception {
         // given
         final RaceRequest raceRequest = new RaceRequest("두둠,져니", 10);
         final String request = objectMapper.writeValueAsString(raceRequest);
@@ -59,7 +61,7 @@ class RaceControllerTest {
 
     @Test
     @DisplayName("자동차 경주 실패 - 비즈니스 로직 예외")
-    void plays_fail_business_exception() throws Exception {
+    void plays_post_fail_business_exception() throws Exception {
         // given
         final RaceRequest raceRequest = new RaceRequest("두둠,져니", 10);
         final String request = objectMapper.writeValueAsString(raceRequest);
@@ -73,5 +75,29 @@ class RaceControllerTest {
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @DisplayName("자동차 경주 결과 조회 성공")
+    void plays_get_success() throws Exception {
+        // given
+        final List<CarStatusDto> carStatusDtos = List.of(new CarStatusDto("두둠", 7),
+                new CarStatusDto("져니", 10));
+        final RaceResponse raceResponse = RaceResponse.create("져니", carStatusDtos);
+        final List<RaceResponse> raceResponses = List.of(raceResponse);
+
+        // when
+        when(raceService.getRaceResult())
+                .thenReturn(raceResponses);
+
+        // then
+        mockMvc.perform(get("/plays"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.[0].winners").value("져니"))
+                .andExpect(jsonPath("$.[0].racingCars[0].name").value("두둠"))
+                .andExpect(jsonPath("$.[0].racingCars[0].position").value(7))
+                .andExpect(jsonPath("$.[0].racingCars[1].name").value("져니"))
+                .andExpect(jsonPath("$.[0].racingCars[1].position").value(10));
     }
 }
