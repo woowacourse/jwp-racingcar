@@ -1,9 +1,9 @@
 package racingcar.domain;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.GameDAO;
-import racingcar.dao.GameLogDAO;
-import racingcar.dao.WinnersDAO;
+import racingcar.dao.GameDao;
+import racingcar.dao.GameLogDao;
+import racingcar.dao.WinnersDao;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,11 +16,11 @@ import static racingcar.option.Option.MIN_TRIAL_COUNT;
 public class WebService {
     private List<Car> cars;
     private final MoveChance moveChance;
-    private final GameDAO gameDAO;
-    private final GameLogDAO gameLogDAO;
-    private final WinnersDAO winnersDAO;
+    private final GameDao gameDAO;
+    private final GameLogDao gameLogDAO;
+    private final WinnersDao winnersDAO;
 
-    public WebService(final GameDAO gameDAO, final GameLogDAO gameLogDAO, final WinnersDAO winnersDAO) {
+    public WebService(final GameDao gameDAO, final GameLogDao gameLogDAO, final WinnersDao winnersDAO) {
         this.gameDAO = gameDAO;
         this.gameLogDAO =gameLogDAO;
         this.winnersDAO = winnersDAO;

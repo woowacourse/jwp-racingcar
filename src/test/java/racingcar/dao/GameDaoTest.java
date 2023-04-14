@@ -11,9 +11,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureTestDatabase
-public class GameDAOTest {
+public class GameDaoTest {
     @Autowired
-    private GameDAO gameDao;
+    private GameDao gameDao;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

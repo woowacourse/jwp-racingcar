@@ -11,30 +11,27 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureTestDatabase
-public class GameLogDAOTest {
-
+public class WinnersDaoTest {
     @Autowired
-    private GameLogDAO gameLogDao;
+    private WinnersDao winnersDAO;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        gameLogDao = new GameLogDAO(jdbcTemplate);
+        winnersDAO = new WinnersDao(jdbcTemplate);
 
-        jdbcTemplate.execute("DROP TABLE game_log IF EXISTS");
-        jdbcTemplate.execute("create table game_log\n" +
+        jdbcTemplate.execute("DROP TABLE winners IF EXISTS");
+        jdbcTemplate.execute("create table winners\n" +
                 "(\n" +
                 "    game_number Integer,\n" +
-                "    player_name       varchar(20),\n" +
-                "    result_position   integer\n" +
+                "    winner      varchar(20)" +
                 ")");
     }
 
     @Test
     void insert() {
-        assertThatNoException().isThrownBy(() -> gameLogDao.insert(5, "달리", 10));
-
+        assertThatNoException().isThrownBy(() -> winnersDAO.insert(5, "달리"));
     }
 }

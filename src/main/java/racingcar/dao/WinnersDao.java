@@ -4,11 +4,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class WinnersDAO {
+public class WinnersDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public WinnersDAO(final JdbcTemplate jdbcTemplate) {
+    public WinnersDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
