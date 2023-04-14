@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dao.RacingCarGameDao;
 import racingcar.domain.Cars;
+import racingcar.domain.Count;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
 import racingcar.repository.RacingCarRepository;
@@ -38,6 +39,6 @@ public class RacingCarWebController {
         racingCarService.play(racingGameRequestDto.getCount());
 
         ResultResponseDto resultResponseDto = new ResultResponseDto(racingCarService.getWinners(), racingCarService.getCars());
-        return ResponseEntity.ok().body(resultResponseDto);
+        return ResponseEntity.ok(resultResponseDto);
     }
 }
