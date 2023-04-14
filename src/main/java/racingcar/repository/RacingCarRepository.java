@@ -21,7 +21,7 @@ public class RacingCarRepository {
     }
 
     public void saveWinner(int gameId, List<String> winners) {
-        String sql = "INSERT INTO WINNER_RESULT (GAME_ID,WINNER) VALUES(?,?)";
+        String sql = "INSERT INTO winner_result (game_id,winner) VALUES(?,?)";
         jdbcTemplate.batchUpdate(sql, winners, winners.size(), (ps, winner) -> {
             ps.setInt(1, gameId);
             ps.setString(2, winner);
@@ -29,7 +29,7 @@ public class RacingCarRepository {
     }
 
     public void saveCars(int gameId, List<Car> cars) {
-        String sql = "INSERT INTO PLAYER_RESULT (GAME_ID,NAME,POSITION) VALUES(?,?,?)";
+        String sql = "INSERT INTO player_result (game_id,name,position) VALUES(?,?,?)";
         jdbcTemplate.batchUpdate(sql, cars, cars.size(), (ps, car) -> {
             ps.setInt(1, gameId);
             ps.setString(2, car.getName());
@@ -39,7 +39,7 @@ public class RacingCarRepository {
 
     public int saveGame(int count) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO GAME_RESULT (TRIAL_COUNT) VALUES(?)";
+        String sql = "INSERT INTO game_result (trial_count) VALUES(?)";
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, count);
@@ -53,7 +53,7 @@ public class RacingCarRepository {
     }
 
     public List<String> findWinners(int gameId) {
-        String sql = "SELECT winner FROM WINNER_RESULT WHERE game_id = ?";
+        String sql = "SELECT winner FROM winner_result WHERE game_id = ?";
         return jdbcTemplate.query(sql, ps -> ps.setInt(1, gameId), rs -> {
             ArrayList<String> winners = new ArrayList<>();
             while (rs.next()) {
@@ -65,7 +65,7 @@ public class RacingCarRepository {
     }
 
     public List<RacingCarDto> findRacingCars(int gameId) {
-        String sql = "SELECT name, position FROM PLAYER_RESULT WHERE game_id = ?";
+        String sql = "SELECT name, position FROM player_result WHERE game_id = ?";
         return jdbcTemplate.query(sql, ps -> ps.setInt(1, gameId), rs -> {
             ArrayList<RacingCarDto> racingCars = new ArrayList<>();
             while (rs.next()) {
