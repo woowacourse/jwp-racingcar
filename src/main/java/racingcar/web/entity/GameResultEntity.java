@@ -1,4 +1,4 @@
-package racingcar.entity;
+package racingcar.web.entity;
 
 public class GameResultEntity {
     private final int tryCount;

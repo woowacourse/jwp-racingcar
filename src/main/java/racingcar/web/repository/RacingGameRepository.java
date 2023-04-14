@@ -1,15 +1,15 @@
-package racingcar.repository;
+package racingcar.web.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.dao.CarDao;
-import racingcar.dao.GameResultDao;
+import racingcar.web.dao.CarDao;
+import racingcar.web.dao.GameResultDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.entity.CarEntity;
-import racingcar.entity.GameResultEntity;
+import racingcar.web.entity.CarEntity;
+import racingcar.web.entity.GameResultEntity;
 
 @Repository
 public class RacingGameRepository {

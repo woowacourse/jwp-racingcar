@@ -1,4 +1,4 @@
-package racingcar.entity;
+package racingcar.web.entity;
 
 public class CarEntity {
     private final String playerName;
