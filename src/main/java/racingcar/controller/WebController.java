@@ -30,6 +30,6 @@ public class WebController {
         Cars cars = new Cars(carNames);
 
         gameService.executeRacingGame(cars, racingGameRequestDto.getCount());
-        return ResponseEntity.ok().body(new RacingGameResponseDto(cars.getWinners(), cars.getCars()));
+        return ResponseEntity.ok(new RacingGameResponseDto(cars.getWinners(), cars.getCars()));
     }
 }
