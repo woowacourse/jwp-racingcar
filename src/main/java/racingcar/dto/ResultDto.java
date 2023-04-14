@@ -1,14 +1,22 @@
 package racingcar.dto;
 
+import racingcar.vo.Trial;
+
 import java.util.List;
 
 public class ResultDto {
+    private final Trial trial;
     private final List<String> winners;
     private final List<CarDto> racingCars;
 
-    public ResultDto(List<String> winners, List<CarDto> racingCars) {
+    public ResultDto(Trial trial, List<String> winners, List<CarDto> racingCars) {
+        this.trial = trial;
         this.winners = winners;
         this.racingCars = racingCars;
+    }
+
+    public Trial getTrial() {
+        return trial;
     }
 
     public List<CarDto> getRacingCars() {
