@@ -51,11 +51,12 @@
             .then(response => {
                 return new Promise((resolve) => response.json()
                     .then((json) => resolve({
+                        ok: response.ok,
                         status: response.status,
                         data: json,
                     })));
             })
-            .then(({status, data}) => {
+            .then(({ok, status, data}) => {
                 if (status === 200) {
                     const resultPosition = document.createElement("div");
                     for (let index in data.racingCars) {
@@ -67,7 +68,9 @@
                     document.getElementById("resultPosition").innerHTML = '';
                     document.getElementById("resultPosition").appendChild(resultPosition);
                 }
-                alert("ERROR: " + data.message);
+                if (!ok) {
+                    alert("ERROR: " + data.message);
+                }
             })
             .catch(error => {
                 console.log("Error:", error);
