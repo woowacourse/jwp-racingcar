@@ -20,7 +20,7 @@ class CarTest {
 
     @Nested
     @DisplayName("객체 정보 테스트")
-    class CarInformationTest {
+    class CarInformationTestSavingDto {
         @Test
         @DisplayName("Car 객체는 생성자로 접근이 불가능하고, 정적 메소드 of() 를 통해 생성할 수 있다.")
         void givenName_whenMakingCar_thenReturnsCar() {

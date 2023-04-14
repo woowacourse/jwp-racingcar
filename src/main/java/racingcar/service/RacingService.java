@@ -6,8 +6,8 @@ import racingcar.dao.RacingDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.dto.CarDto;
-import racingcar.dto.CarInfo;
-import racingcar.dto.ResultDto;
+import racingcar.dto.CarSavingDto;
+import racingcar.dto.RacingResultDto;
 import racingcar.utils.NumberGenerator;
 import racingcar.vo.Name;
 import racingcar.vo.Names;
@@ -29,11 +29,11 @@ public class RacingService {
         this.racingDao = racingDao;
     }
 
-    public ResultDto race(String names, int count) {
+    public RacingResultDto race(String names, int count) {
         Cars cars = initializeCars(names);
         Trial trial = Trial.of(count);
         playGame(cars, trial);
-        return new ResultDto(trial, cars.getWinnerNames(), cars.getCarDtos());
+        return new RacingResultDto(trial, cars.getWinnerNames(), cars.getCarDtos());
     }
 
     private Cars initializeCars(String names) {
@@ -60,11 +60,11 @@ public class RacingService {
         return new Cars(cars, numberGenerator);
     }
 
-    public void saveResult(ResultDto resultDto) {
-        final int racingId = racingDao.insert(resultDto.getTrial());
-        for (CarDto car : resultDto.getRacingCars()) {
+    public void saveResult(RacingResultDto racingResultDto) {
+        final int racingId = racingDao.saveRacing(racingResultDto.getTrial());
+        for (CarDto car : racingResultDto.getRacingCars()) {
             String name = car.getName();
-            racingDao.insert(new CarInfo(racingId, name, car.getPosition(), resultDto.isWinnerContaining(name)));
+            racingDao.saveCar(new CarSavingDto(racingId, name, car.getPosition(), racingResultDto.isWinnerContaining(name)));
         }
     }
 }

@@ -4,12 +4,12 @@ import racingcar.vo.Trial;
 
 import java.util.List;
 
-public class ResultDto {
+public class RacingResultDto {
     private final Trial trial;
     private final List<String> winners;
     private final List<CarDto> racingCars;
 
-    public ResultDto(Trial trial, List<String> winners, List<CarDto> racingCars) {
+    public RacingResultDto(Trial trial, List<String> winners, List<CarDto> racingCars) {
         this.trial = trial;
         this.winners = winners;
         this.racingCars = racingCars;

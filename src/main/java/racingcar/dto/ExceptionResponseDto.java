@@ -1,9 +1,9 @@
 package racingcar.dto;
 
-public class ExceptionMessageDTO {
+public class ExceptionResponseDto {
     private final String message;
 
-    public ExceptionMessageDTO(String message) {
+    public ExceptionResponseDto(String message) {
         this.message = message;
     }
 
