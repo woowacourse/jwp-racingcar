@@ -37,17 +37,6 @@ public class RacingGameService {
         return new GameResultResponseDto(carEntities);
     }
 
-    private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId) {
-        final List<Cars> result = racingGame.start(new DefaultMovingStrategy());
-        final Cars finalResult = result.get(result.size() - 1);
-        final Cars winnersResult = racingGame.decideWinners();
-
-        return finalResult.getCars()
-                .stream()
-                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameResultId))
-                .collect(Collectors.toList());
-    }
-
     private RacingGame mapToRacingGame(final UserRequestDto inputDto) {
         final String names = inputDto.getNames();
         final List<String> splitNames = List.of(names.split(","));
@@ -57,6 +46,17 @@ public class RacingGameService {
         final TryCount tryCount = new TryCount(inputDto.getCount());
 
         return new RacingGame(nameList, tryCount);
+    }
+
+    private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId) {
+        final List<Cars> result = racingGame.start(new DefaultMovingStrategy());
+        final Cars finalResult = result.get(result.size() - 1);
+        final Cars winnersResult = racingGame.decideWinners();
+
+        return finalResult.getCars()
+                .stream()
+                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameResultId))
+                .collect(Collectors.toList());
     }
 
     private boolean checkWinner(final Car currentCar, final Cars winnersResult) {

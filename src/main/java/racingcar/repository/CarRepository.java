@@ -15,9 +15,13 @@ public class CarRepository {
         this.carDao = carDao;
     }
 
+    public void save(final CarEntity carEntity) {
+        carDao.save(carEntity);
+    }
+
     public void saveAll(final List<CarEntity> carEntities) {
         for (CarEntity carEntity : carEntities) {
-            carDao.save(carEntity);
+            save(carEntity);
         }
     }
 }
