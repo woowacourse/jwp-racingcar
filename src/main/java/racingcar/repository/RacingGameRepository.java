@@ -25,7 +25,7 @@ public class RacingGameRepository {
 
         finalResult.getCars()
                 .stream()
-                .map(car -> new CarEntity(car.getName().getName(), car.getPosition().getPosition(), checkWinner(car, winnersResult), gameResultId))
+                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameResultId))
                 .forEach(carDao::save);
     }
 

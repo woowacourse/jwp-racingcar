@@ -30,8 +30,16 @@ public class Car {
         return position;
     }
 
+    public int getPositionValue() {
+        return position.getPosition();
+    }
+
     public Name getName() {
         return name;
+    }
+
+    public String getNameValue() {
+        return name.getName();
     }
 
     @Override
