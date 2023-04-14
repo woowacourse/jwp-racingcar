@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,6 +35,7 @@ public class RacingGameControllerTest {
     private RacingGameService racingGameService;
 
     @Test
+    @DisplayName("자동차 경주를 실행하고 결과를 반환한다.")
     public void plays() throws Exception {
         RacingGameRequest request = new RacingGameRequest("현구막,박스터", 10);
         RacingGameResponse expectedResponse = new RacingGameResponse(

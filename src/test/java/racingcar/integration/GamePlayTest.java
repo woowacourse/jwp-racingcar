@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -22,6 +23,7 @@ class GamePlayTest {
     }
 
     @Test
+    @DisplayName("자동차 경주 게임을 진행한다.")
     void playGame() {
         RacingGameRequest request = new RacingGameRequest("브리,토미,브라운", 10);
         RestAssured.given().log().all()
