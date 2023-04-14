@@ -1,11 +1,13 @@
 package racingcar.service;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameResultDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
+import racingcar.utils.CarsFactory;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.utils.RandomPowerMaker;
 
@@ -21,7 +23,8 @@ public class RacingCarService {
 	}
 
 	@Transactional
-	public GameResultResponseDto startRace (final Cars cars, final TryCount tryCount) {
+	public GameResultResponseDto startRace (final List<String> carNames, final TryCount tryCount) {
+		Cars cars = CarsFactory.createCars(carNames.toArray(new String[0]));
 		moveCars(cars, tryCount);
 		GameResultResponseDto gameResult = GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
 
