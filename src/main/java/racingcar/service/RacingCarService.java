@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.RacingCarDao;
 import racingcar.dao.RacingGameDao;
-import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.dto.response.RacingGameResponse;
 
@@ -35,17 +34,11 @@ public class RacingCarService {
 
     private void saveRacingGame(final RacingGame racingGame, final int trialCount) {
         final Long gameId = saveGame(racingGame, trialCount);
-        saveCars(racingGame, gameId);
+        racingCarDao.saveAll(gameId, racingGame.getCurrentResult());
     }
 
     private Long saveGame(final RacingGame racingGame, final int trialCount) {
         final String names = String.join(",", racingGame.findWinners());
         return racingGameDao.save(names, trialCount);
-    }
-
-    private void saveCars(final RacingGame racingGame, final Long gameId) {
-        for (final Car car : racingGame.getCurrentResult()) {
-            racingCarDao.save(gameId, car);
-        }
     }
 }

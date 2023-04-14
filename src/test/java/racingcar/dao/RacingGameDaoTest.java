@@ -15,7 +15,6 @@ class RacingGameDaoTest {
 
     @Autowired
     private DataSource dataSource;
-
     private RacingGameDao racingGameDao;
 
     @BeforeEach

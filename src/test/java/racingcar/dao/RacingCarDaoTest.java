@@ -8,22 +8,21 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import racingcar.domain.Car;
 
 import javax.sql.DataSource;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @JdbcTest
 class RacingCarDaoTest {
 
     @Autowired
     private DataSource dataSource;
-
-    private RacingGameDao racingGameDao;
     private RacingCarDao racingCarDao;
     private Long gameId;
 
     @BeforeEach
     void setUp() {
-        racingGameDao = new RacingGameDao(dataSource);
+        final RacingGameDao racingGameDao = new RacingGameDao(dataSource);
         racingCarDao = new RacingCarDao(dataSource);
         gameId = racingGameDao.save("루쿠", 10);
     }
@@ -31,6 +30,7 @@ class RacingCarDaoTest {
     @DisplayName("자동차 정보를 저장한다.")
     @Test
     void save() {
-        assertThat(racingCarDao.save(gameId, new Car("다즐"))).isNotNull();
+        assertThatNoException()
+                .isThrownBy(() -> racingCarDao.saveAll(gameId, List.of(new Car("다즐"))));
     }
 }

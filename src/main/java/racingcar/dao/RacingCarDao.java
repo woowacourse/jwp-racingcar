@@ -1,12 +1,13 @@
 package racingcar.dao;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Repository
 public class RacingCarDao {
@@ -19,11 +20,15 @@ public class RacingCarDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Long save(final Long gameId, final Car car) {
-        final Map<String, Object> parameters = new HashMap<>();
-        parameters.put("game_id", gameId);
-        parameters.put("name", car.getName());
-        parameters.put("position", car.getPosition());
-        return simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
+    public void saveAll(final Long gameId, final List<Car> cars) {
+        final SqlParameterSource[] batchParameters = cars.stream()
+                .map(car -> new MapSqlParameterSource()
+                        .addValue("game_id", gameId)
+                        .addValue("name", car.getName())
+                        .addValue("position", car.getPosition()))
+                .toArray(MapSqlParameterSource[]::new);
+
+
+        simpleJdbcInsert.executeBatch(batchParameters);
     }
 }
