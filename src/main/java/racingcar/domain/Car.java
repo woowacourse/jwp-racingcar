@@ -30,7 +30,8 @@ public class Car implements MovableStrategy {
         this.distance++;
     }
 
-    public boolean isMove() {
+    @Override
+    public boolean canMove() {
         return new Random().nextInt(RANDOM_NUMBER_GENERATE_RANGE) >= RANDOM_MOVE_BOUNDARY;
     }
 

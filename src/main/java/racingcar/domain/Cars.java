@@ -41,7 +41,7 @@ public class Cars {
 
     public void moveAll() {
         cars.stream()
-                .filter(MovableStrategy::isMove)
+                .filter(MovableStrategy::canMove)
                 .forEach(Car::move);
     }
 

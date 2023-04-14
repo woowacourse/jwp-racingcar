@@ -12,20 +12,20 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class CarTest {
 
-    @DisplayName("자동차 이동 테스트 실패")
-    @Test
-    void isMoveFail() {
-        Car car = new TestCarFail("stop");
-
-        assertThat(car.isMove()).isEqualTo(false);
-    }
-
     @DisplayName("자동차 이동 테스트 성공")
     @Test
-    void isMoveSuccess() {
-        Car car = new TestCarSuccess("move");
+    void isMoveFail() {
+        Car car = new MovableCar("move");
 
-        assertThat(car.isMove()).isEqualTo(true);
+        assertThat(car.canMove()).isEqualTo(true);
+    }
+
+    @DisplayName("자동차 이동 테스트 실패")
+    @Test
+    void isMoveSuccess() {
+        Car car = new DontMovableCar("stop");
+
+        assertThat(car.canMove()).isEqualTo(false);
     }
 
     @ParameterizedTest(name = "잘못된 자동차 이름의 글자수를 입력하면 예외가 발생한다")
@@ -45,22 +45,27 @@ class CarTest {
         );
     }
 
-    private static class TestCarSuccess extends Car {
+     private static class MovableCar extends Car {
 
-        public TestCarSuccess(String name) {
-            super(name);
-        }
+         public MovableCar(final String name) {
+             super(name);
+         }
 
-        @Override
-        public boolean isMove() {
-            return true;
-        }
-    }
+         @Override
+         public boolean canMove() {
+             return true;
+         }
+     }
 
-    private static class TestCarFail extends Car {
+     private static class DontMovableCar extends Car {
 
-        public TestCarFail(String name) {
-            super(name);
-        }
-    }
+         public DontMovableCar(final String name) {
+             super(name);
+         }
+
+         @Override
+         public boolean canMove() {
+             return false;
+         }
+     }
 }
