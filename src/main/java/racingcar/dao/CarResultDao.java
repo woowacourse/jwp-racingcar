@@ -1,4 +1,4 @@
-package racingcar.mapper;
+package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
