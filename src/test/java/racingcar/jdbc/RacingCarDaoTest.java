@@ -12,12 +12,10 @@ import racingcar.domain.RacingGame;
 class RacingCarDaoTest {
 
 	private final RacingCarDao racingCarDao = new RacingCarDao();
-	private JdbcTemplate jdbcTemplate;
-	private RacingGame racingGame;
 
 	@BeforeEach
 	void setUp() {
-		jdbcTemplate = racingCarDao.getJdbcTemplate();
+		JdbcTemplate jdbcTemplate = racingCarDao.getJdbcTemplate();
 
 		jdbcTemplate.execute("CREATE TABLE games\n"
 			+ "(\n"
@@ -40,7 +38,7 @@ class RacingCarDaoTest {
 
 	@Test
 	void insertAndFindCar() {
-		racingGame = new RacingGame("a,b,c,d");
+		RacingGame racingGame = new RacingGame("a,b,c,d");
 		Cars cars = racingGame.moveCars();
 		int count = 5;
 
