@@ -31,13 +31,17 @@ public class RacingcarService {
         String winners = findWinners(cars);
 
         PlayResult playResult = playResultDao.insertPlayResult(new PlayResult(winners, count));
+        List<PlayerResult> playerResults = insertPlayerResults(cars, playResult);
+        return new RacingResponse(winners, playerResults);
+    }
 
+    private List<PlayerResult> insertPlayerResults(final List<Car> cars, final PlayResult playResult) {
         List<PlayerResult> playerResults = cars.stream()
                 .map(car -> new PlayerResult(playResult.getId(), car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
 
         playerResults.forEach(playerResultDao::insertPlayer);
-        return new RacingResponse(winners, playerResults);
+        return playerResults;
     }
 
     private void moveAllCars(final List<Car> cars) {
@@ -77,16 +81,21 @@ public class RacingcarService {
 
     public List<RacingResponse> allResults() {
         List<PlayResult> playResults = playResultDao.selectAllResults();
-        List<List<PlayerResult>> playerResults = new ArrayList<>();
-        for (PlayResult playResult : playResults) {
-            int playResultId = playResult.getId();
-            playerResults.add(playerResultDao.selectPlayerResultByPlayResultId(playResultId));
-        }
+        List<List<PlayerResult>> playerResults = selectPlayerResultListsByPlayResultIds(playResults);
 
         List<RacingResponse> racingResponses = new ArrayList<>();
         for (int i = 0; i < playerResults.size(); i++) {
             racingResponses.add(new RacingResponse(playResults.get(i).getWinners(), playerResults.get(i)));
         }
         return racingResponses;
+    }
+
+    private List<List<PlayerResult>> selectPlayerResultListsByPlayResultIds(final List<PlayResult> playResults) {
+        List<List<PlayerResult>> playerResults = new ArrayList<>();
+        for (PlayResult playResult : playResults) {
+            int playResultId = playResult.getId();
+            playerResults.add(playerResultDao.selectPlayerResultByPlayResultId(playResultId));
+        }
+        return playerResults;
     }
 }
