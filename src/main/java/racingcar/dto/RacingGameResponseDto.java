@@ -6,11 +6,11 @@ import racingcar.util.NameFormatConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResponseDto {
+public class RacingGameResponseDto {
     private final String winners;
     private final List<CarDto> racingCars;
 
-    public ResponseDto(List<String> winners, List<Car> racingCars) {
+    public RacingGameResponseDto(List<String> winners, List<Car> racingCars) {
         this.winners = NameFormatConverter.joinNameWithDelimiter(winners);
         this.racingCars = convert(racingCars);
     }
