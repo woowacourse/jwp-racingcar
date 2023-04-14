@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayerDto;
+import racingcar.dto.WinnerDto;
 import racingcar.utils.PowerGenerator;
 import racingcar.utils.RandomPowerGenerator;
 
@@ -47,13 +48,13 @@ public class RacingGame {
     }
 
     public GameResultDto convertToDto() {
-        final List<String> winnerNames = extractWinners().stream()
-                .map(Car::getName)
+        final List<WinnerDto> winnerNames = extractWinners().stream()
+                .map(car -> new WinnerDto(car.getName()))
                 .collect(Collectors.toList());
         final List<PlayerDto> players = cars.stream()
                 .map(Car::convertToDto)
                 .collect(Collectors.toList());
-        return new GameResultDto(winnerNames, playCount, players);
+        return new GameResultDto(playCount, winnerNames, players);
     }
 
     private List<Car> extractWinners() {

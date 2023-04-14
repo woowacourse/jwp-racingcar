@@ -4,14 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import racingcar.dto.WinnerDto;
 
 public class WinnerDao {
+
+    private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
     public WinnerDao(final DataSource dataSource) {
-        this.insertActor = new SimpleJdbcInsert(dataSource)
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("winner")
                 .usingGeneratedKeyColumns("id");
     }
@@ -23,5 +28,14 @@ public class WinnerDao {
             params.put("name", winner.getName());
             insertActor.execute(params);
         }
+    }
+
+    public List<WinnerDto> findAllByGameId(final long gameId) {
+        final String sql = "SELECT name FROM WINNER WHERE game_id = ?";
+        return jdbcTemplate.query(sql, playerDtoRowMapper(), gameId);
+    }
+
+    private RowMapper<WinnerDto> playerDtoRowMapper() {
+        return (rs, rowNum) -> new WinnerDto(rs.getString("name"));
     }
 }

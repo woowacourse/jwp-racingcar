@@ -2,6 +2,7 @@ package racingcar.repository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.WinnerDao;
 import racingcar.dto.GameDto;
+import racingcar.dto.GameHistoryDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.WinnerDto;
 
@@ -24,6 +26,12 @@ public class JdbcTemplateGameRepository implements GameRepository {
         this.winnerDao = new WinnerDao(dataSource);
     }
 
+    private static List<WinnerDto> convertStringToWinnerDtos(final String winners) {
+        return Arrays.stream(winners.split(",")).
+                map(WinnerDto::new)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void save(final GameResultDto gameResultDto) {
         final GameDto gameDto = new GameDto(gameResultDto.getPlayCount());
@@ -33,9 +41,15 @@ public class JdbcTemplateGameRepository implements GameRepository {
         winnerDao.insertWinners(winners, gameId);
     }
 
-    private static List<WinnerDto> convertStringToWinnerDtos(final String winners) {
-        return Arrays.stream(winners.split(",")).
-                map(WinnerDto::new)
+    @Override
+    public List<GameResultDto> findAllResult() {
+        final List<GameHistoryDto> allHistory = gameDao.findAllHistory();
+        final Function<GameHistoryDto, GameResultDto> longGameResultDtoFunction = history ->
+                new GameResultDto(history.getPlayCount(),
+                        winnerDao.findAllByGameId(history.getGameId()),
+                        playerDao.findAllByGameId(history.getGameId()));
+        return allHistory.stream()
+                .map(longGameResultDtoFunction)
                 .collect(Collectors.toList());
     }
 }

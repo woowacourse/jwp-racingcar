@@ -25,4 +25,8 @@ public class GameService {
         gameRepository.save(gameResultDto);
         return gameResultDto;
     }
+
+    public List<GameResultDto> fetchHistory() {
+        return gameRepository.findAllResult();
+    }
 }

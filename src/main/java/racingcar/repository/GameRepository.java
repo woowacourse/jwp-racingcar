@@ -1,5 +1,6 @@
 package racingcar.repository;
 
+import java.util.List;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.GameResultDto;
 
@@ -7,4 +8,6 @@ import racingcar.dto.GameResultDto;
 public interface GameRepository {
 
     void save(GameResultDto gameResultDto);
+
+    List<GameResultDto> findAllResult();
 }
