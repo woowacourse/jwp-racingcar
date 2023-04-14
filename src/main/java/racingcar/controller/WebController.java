@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.request.PlayRequest;
 import racingcar.response.PlayResponse;
 import racingcar.service.GameService;
+import javax.validation.Valid;
 
 @RestController
 public class WebController {
@@ -19,7 +20,7 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public PlayResponse plays(@RequestBody final PlayRequest playRequest) {
+    public PlayResponse plays(@RequestBody @Valid final PlayRequest playRequest) {
         return gameService.playRacing(playRequest.getNames(), playRequest.getCount());
     }
 }
