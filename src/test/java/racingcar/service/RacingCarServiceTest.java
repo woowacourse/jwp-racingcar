@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.anyInt;
 import static org.mockito.BDDMockito.given;
 
@@ -47,5 +48,39 @@ class RacingCarServiceTest {
         // then
         assertThat(gameId)
                 .isEqualTo(1);
+    }
+
+    @ParameterizedTest
+    @DisplayName("시도 횟수가 0 또는 음수거나 25를 초과하면 예외가 발생해야 한다.")
+    @ValueSource(ints = {-1, 0, 26})
+    void playRacingGame_invalidTryCount(int tryCount) {
+        // given
+        List<String> carNames = List.of("glen", "raon");
+
+        // expect
+        assertThatThrownBy(() -> racingCarService.playRacingGame(carNames, tryCount))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("중복된 이름이 주어지면 예외가 발생해야 한다.")
+    void playRacingGame_duplicateName() {
+        // given
+        List<String> carNames = List.of("glen", "glen");
+
+        // expect
+        assertThatThrownBy(() -> racingCarService.playRacingGame(carNames, 1))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("이름이 5글자를 초과하면 예외가 발생해야 한다.")
+    void playRacingGame_nameLength() {
+        // given
+        List<String> carNames = List.of("glen", "glenfiddich");
+
+        // expect
+        assertThatThrownBy(() -> racingCarService.playRacingGame(carNames, 1))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
