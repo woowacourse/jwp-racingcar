@@ -7,6 +7,7 @@ import racingcar.domain.RacingGame;
 import racingcar.dto.GameInputDto;
 import racingcar.dto.GameResultDto;
 import racingcar.repository.GameRepository;
+import racingcar.view.OutputView;
 
 @Service
 public class GameService {
@@ -20,9 +21,9 @@ public class GameService {
     public GameResultDto playGame(final GameInputDto inputDto) {
         final List<String> playerNames = Arrays.asList(inputDto.getNames().split(","));
         final RacingGame racingGame = new RacingGame(playerNames, inputDto.getPlayCount());
-        racingGame.play();
-        final GameResultDto gameResultDto = racingGame.convertToDto();
+        final GameResultDto gameResultDto = racingGame.play();
         gameRepository.save(gameResultDto);
+        OutputView.printResult(gameResultDto);
         return gameResultDto;
     }
 

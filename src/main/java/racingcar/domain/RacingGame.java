@@ -40,11 +40,12 @@ public class RacingGame {
         }
     }
 
-    public void play() {
+    public GameResultDto play() {
         int tryCount = playCount;
         while (!isEnd(tryCount--)) {
             moveCars();
         }
+        return convertToDto();
     }
 
     public GameResultDto convertToDto() {
