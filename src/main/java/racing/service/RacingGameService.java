@@ -1,11 +1,12 @@
 package racing.service;
 
 import org.springframework.stereotype.Service;
-import racing.controller.dto.request.CarRequest;
 import racing.CarFactory;
 import racing.RacingGameDao;
+import racing.controller.dto.request.CarRequest;
 import racing.controller.dto.response.RacingCarStateResponse;
 import racing.controller.dto.response.RacingGameResultResponse;
+import racing.domain.Car;
 import racing.domain.Cars;
 
 import java.util.List;
@@ -24,10 +25,11 @@ public class RacingGameService {
         return CarFactory.carFactory(names);
     }
 
-    public void move(int randomNumber, Cars cars, int count) {
-        for (int i = 0; i < count; i++) {
-            cars.calculator(randomNumber);
+    public void move(int randomNumber, Car car) {
+        if (randomNumber >= 4) {
+            car.move();
         }
+
     }
 
     public Long createRacingGame(int count) {

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racing.controller.dto.request.RacingGameInfoRequest;
 import racing.controller.dto.response.RacingGameResultResponse;
+import racing.domain.Car;
 import racing.domain.Cars;
 import racing.service.RacingGameService;
 
@@ -25,12 +26,18 @@ public class RacingGameController {
         Long gameId = racingGameService.createRacingGame(request.getCount());
         Random random = new Random();
 
-        for (int i = 0; i < request.getCount(); i++) {
-            racingGameService.move(random.nextInt(10), cars, request.getCount());
-        }
+        moveCar(request, cars, random);
         racingGameService.saveCarsState(gameId, cars);
 
         return racingGameService.getRacingGameResultResponse(cars);
+    }
+
+    private void moveCar(RacingGameInfoRequest request, Cars cars, Random random) {
+        for (int i = 0; i < request.getCount(); i++) {
+            for (Car car : cars.getCars()) {
+                racingGameService.move(random.nextInt(10), car);
+            }
+        }
     }
 
 }

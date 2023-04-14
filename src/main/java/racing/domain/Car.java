@@ -4,6 +4,7 @@ import racing.ui.output.OutputView;
 
 import java.util.List;
 
+import static racing.ui.output.OutputView.COLON;
 import static racing.ui.output.OutputView.HYPHEN;
 
 public class Car {
@@ -28,7 +29,6 @@ public class Car {
         this.step++;
     }
 
-
     public List<String> ifMeetAddWinners(List<String> winners, int winnerStep) {
         if (step == winnerStep) {
             winners.add(name);
@@ -38,7 +38,7 @@ public class Car {
     }
 
     public String getCarStepForm() {
-        return name + OutputView.COLON + HYPHEN.repeat(step);
+        return name + COLON + HYPHEN.repeat(step);
     }
 
     public int getCarStep(int winnerStep) {
