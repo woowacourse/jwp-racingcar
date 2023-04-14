@@ -2,7 +2,9 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
 import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.repository.GameDao;
@@ -18,12 +20,14 @@ public class GameService {
 
     public static final String DELIMITER = ",";
 
+    private final RecordService recordService;
     private final GameDao gameDao;
     private final CarNameValidator carNameValidator;
     private final RepeatCountValidator repeatCountValidator;
 
     @Autowired
-    public GameService(final GameDao gameDao, final CarNameValidator carNameValidator, final RepeatCountValidator repeatCountValidator) {
+    public GameService(final RecordService recordService, final GameDao gameDao, final CarNameValidator carNameValidator, final RepeatCountValidator repeatCountValidator) {
+        this.recordService = recordService;
         this.gameDao = gameDao;
         this.carNameValidator = carNameValidator;
         this.repeatCountValidator = repeatCountValidator;
@@ -46,12 +50,18 @@ public class GameService {
                 .collect(Collectors.toUnmodifiableList()));
     }
 
-    public void play(final PlayRequest playRequest, final Cars cars) {
+    @Transactional
+    public PlayResponse play(final PlayRequest playRequest) {
+        Cars cars = createCars(playRequest);
+        long gameId = saveGame(playRequest);
+
         int count = playRequest.getCount();
         repeatCountValidator.validate(count);
 
         for (int i = 0; i < count; i++) {
             cars.moveAll();
         }
+
+        return recordService.result(gameId, cars);
     }
 }

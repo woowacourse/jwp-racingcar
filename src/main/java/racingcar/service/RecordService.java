@@ -1,6 +1,5 @@
 package racingcar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dto.PlayResponse;
 import racingcar.dto.VehicleDto;
@@ -16,7 +15,6 @@ public class RecordService {
 
     private final RecordDao recordDao;
 
-    @Autowired
     public RecordService(final RecordDao recordDao) {
         this.recordDao = recordDao;
     }
