@@ -14,7 +14,7 @@ import racingcar.domain.record.GameRecorder;
 import racingcar.domain.result.GameResultOfCar;
 import racingcar.domain.system.GameSystem;
 import racingcar.dto.CarDTO;
-import racingcar.dto.ResponseDTO;
+import racingcar.dto.RacingGameResponseDTO;
 
 @Service
 public class RacingCarService {
@@ -27,7 +27,7 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
-    public ResponseDTO play(final List<String> names, final int count) {
+    public RacingGameResponseDTO play(final List<String> names, final int count) {
         final GameSystem gameSystem = createGameSystem(count);
         final Long gameId = gameDao.insert(count);
 
@@ -35,7 +35,7 @@ public class RacingCarService {
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
         insertCar(cars, gameId, gameSystem);
 
-        return createResponseDTO(count, gameSystem);
+        return createRacingGameResponseDTO(count, gameSystem);
     }
 
     private GameSystem createGameSystem(final int gameRound) {
@@ -65,10 +65,10 @@ public class RacingCarService {
                 .collect(Collectors.toList());
     }
 
-    private ResponseDTO createResponseDTO(final int count, final GameSystem gameSystem) {
+    private RacingGameResponseDTO createRacingGameResponseDTO(final int count, final GameSystem gameSystem) {
         final List<String> winners = getWinners(gameSystem);
         final List<CarDTO> carDTOs = getCarDTOs(count, gameSystem);
-        return new ResponseDTO(winners, carDTOs);
+        return new RacingGameResponseDTO(winners, carDTOs);
     }
 
     private List<CarDTO> getCarDTOs(final int count, final GameSystem gameSystem) {
