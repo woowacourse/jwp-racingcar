@@ -14,24 +14,35 @@ public class Car implements Comparable<Car> {
         this.position = CarPosition.create();
     }
 
+    private Car(CarName name, CarPosition position) {
+        this.name = name;
+        this.position = position;
+    }
+
     public static Car create(final String name) {
         return new Car(name);
     }
 
-    public void move(final int power) {
+    public Car move(final int power) {
         if (power >= CAR_FORWARD_NUMBER) {
-            position.addPosition();
+            final CarPosition newPosition = position.addPosition();
+            return new Car(name, newPosition);
         }
+        return new Car(name, position);
     }
 
     public boolean isSamePosition(final Car diffCar) {
-        return position.getPosition() == diffCar.position.getPosition();
+        return position.equals(diffCar.getCarPosition());
     }
 
     @Override
-    public boolean equals(Object diffCar) {
-        if (this == diffCar) return true;
-        if (diffCar == null || getClass() != diffCar.getClass()) return false;
+    public boolean equals(Object diffCar) { // car가 이름만 같은건가(db에서도?)
+        if (this == diffCar) {
+            return true;
+        }
+        if (diffCar == null || getClass() != diffCar.getClass()) {
+            return false;
+        }
         Car car = (Car) diffCar;
         return Objects.equals(name, car.name);
     }
@@ -42,12 +53,20 @@ public class Car implements Comparable<Car> {
     }
 
     @Override
-    public int compareTo(Car diffCar) {
-        return position.getPosition() - diffCar.position.getPosition();
+    public int compareTo(final Car diffCar) {
+        return position.compareTo(diffCar.getCarPosition());
+    }
+
+    public CarName getCarName() {
+        return name;
     }
 
     public String getName() {
         return name.getName();
+    }
+
+    public CarPosition getCarPosition() {
+        return position;
     }
 
     public int getPosition() {

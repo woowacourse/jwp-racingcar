@@ -7,16 +7,8 @@ public class Race {
 
     private final int count;
 
-    private Race(final int raceCount) {
+    public Race(final int raceCount) {
         this.count = validateRange(raceCount);
-    }
-
-    public static Race create(final int raceCount) {
-        return new Race(raceCount);
-    }
-
-    public boolean isRunning(final int raceCount) {
-        return raceCount != count;
     }
 
     private int validateRange(final int raceCount) {
@@ -24,5 +16,18 @@ public class Race {
             throw new IllegalArgumentException(String.format(RANGE_MESSAGE, RACE_MIN_TRY_COUNT));
         }
         return raceCount;
+    }
+
+    public Cars run(final Cars cars) {
+        int tryCount = 0;
+        Cars result = cars;
+        while (isRunning(tryCount++)) {
+            result = cars.race();
+        }
+        return result;
+    }
+
+    private boolean isRunning(final int raceCount) {
+        return raceCount != count;
     }
 }

@@ -22,14 +22,13 @@ public class CarTest {
     @DisplayName("랜덤값이 4 이상이면 자동차가 전진한다.")
     void givenFourMoreNumber_thenCarMove(final int randomNumber) {
         // given
-        int initPosition = testCar.getPosition();
+        final CarPosition initPosition = testCar.getCarPosition();
 
         // when
-        testCar.move(randomNumber);
+        final Car result = testCar.move(randomNumber);
 
         // then
-        assertThat(testCar.getPosition())
-                .isEqualTo(initPosition + 1);
+        assertThat(result.getCarPosition()).isEqualTo(initPosition.addPosition());
     }
 
     @ParameterizedTest
@@ -37,14 +36,13 @@ public class CarTest {
     @DisplayName("랜덤값이 3 이하면 자동차가 정지한다.")
     void givenThreeLessNumber_thenCarStop(final int randomNumber) {
         // given
-        int initPosition = testCar.getPosition();
+        final CarPosition initPosition = testCar.getCarPosition();
 
         // when
         testCar.move(randomNumber);
 
         // then
-        assertThat(testCar.getPosition())
-                .isEqualTo(initPosition);
+        assertThat(testCar.getCarPosition()).isEqualTo(initPosition);
     }
 
     @Test
@@ -65,11 +63,11 @@ public class CarTest {
     @DisplayName("입력으로 들어온 위치와 현재 자동차의 위치가 일치하지 않는다면 false를 리턴한다.")
     void givenSamePosition_thenReturnFalse() {
         // given
-        Car diffCar = Car.create("test");
-        diffCar.move(9);
+        final Car diffCar = Car.create("test");
+        final Car movedCar = diffCar.move(9);
 
         // when
-        boolean isSamePosition = testCar.isSamePosition(diffCar);
+        boolean isSamePosition = movedCar.isSamePosition(diffCar);
 
         // then
         assertThat(isSamePosition)
