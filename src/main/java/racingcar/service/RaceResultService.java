@@ -34,11 +34,9 @@ public class RaceResultService {
     public RaceResultResponse createRaceResult(final GameInfoRequest gameInfoRequest) {
 
         final String names = gameInfoRequest.getNames();
-        final RacingCars racingCars = RacingCars.makeCars(names);
-
         final int tryCount = gameInfoRequest.getCount();
 
-        racingCars.moveAllCars(tryCount, numberGenerator);
+        final RacingCars racingCars = moveCars(names, tryCount);
 
         final RaceResultRegisterRequest raceResultRegisterRequest =
                 raceResultMapper.mapToRaceResult(tryCount, racingCars);
@@ -50,6 +48,12 @@ public class RaceResultService {
         final List<CarStatusResponse> carStatusResponses = raceResultMapper.mapToCarStatus(racingCars);
 
         return new RaceResultResponse(raceResultRegisterRequest.getWinners(), carStatusResponses);
+    }
+
+    private RacingCars moveCars(final String names, final int tryCount) {
+        final RacingCars racingCars = RacingCars.makeCars(names);
+        racingCars.moveAllCars(tryCount, numberGenerator);
+        return racingCars;
     }
 
     public List<RaceResultResponse> searchRaceResult() {
