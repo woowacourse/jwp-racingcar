@@ -15,14 +15,14 @@ public class Cars {
         }
     }
 
-    public List<Car> getCars() {
-        return List.copyOf(cars);
-    }
-
     public void moveResult(NumberGenerator numberGenerator) {
         for (Car car : cars) {
             car.moveByNumber(numberGenerator.generateNumber());
         }
+    }
+
+    public List<Car> getCars() {
+        return List.copyOf(cars);
     }
 
     public List<String> getWinners() {
