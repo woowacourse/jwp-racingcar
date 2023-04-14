@@ -12,6 +12,7 @@ import racingcar.vo.Trial;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 @Repository
 public class RacingDao {
@@ -28,14 +29,19 @@ public class RacingDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 con -> {
-                    PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
+                    PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                     preparedStatement.setInt(1, trial.getValue());
                     return preparedStatement;
                 },
                 keyHolder
         );
 
-        return keyHolder.getKey().intValue();
+        Number key = keyHolder.getKey();
+        if (key != null) {
+            return key.intValue();
+        }
+
+        throw new IllegalStateException("레이싱 정보를 저장하고 키를 가져오지 못했습니다.");
     }
 
     public int saveCar(CarSavingDto carSavingDto) {
