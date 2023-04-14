@@ -36,20 +36,18 @@ class CarsTest {
                 () -> assertThat(carPositionDtos.get(2).getStatus()).isEqualTo(1),
                 () -> assertThat(carPositionDtos.get(2).getCarName()).isEqualTo("pobi")
         );
-
-
     }
 
     @Test
-    void findWinner_함수는_아무것도_하지_않는다면_모두가_우승자가_됨() {
-        assertThat(cars.findWinner()).containsExactly("judy", "nunu", "pobi");
+    void findWinnerName_함수는_아무것도_하지_않는다면_모두가_우승자가_됨() {
+        assertThat(cars.findWinnerName()).containsExactly("judy", "nunu", "pobi");
     }
 
     @Test
-    void findWinner_함수로_우승자들이_반환됨() {
+    void findWinnerName_함수로_우승자들이_반환됨() {
 
         cars.moveCars(mockRandomPicker);
-        assertThat(cars.findWinner()).containsExactly("judy", "pobi");
+        assertThat(cars.findWinnerName()).containsExactly("judy", "pobi");
     }
 
     @Test
