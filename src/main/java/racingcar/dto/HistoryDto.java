@@ -1,10 +1,10 @@
 package racingcar.dto;
 
-public class WinnerAndGameIdDto {
+public class HistoryDto {
 	private int gameId;
 	private String winner;
 
-	public WinnerAndGameIdDto(int gameId, String winner) {
+	public HistoryDto(int gameId, String winner) {
 		this.gameId = gameId;
 		this.winner = winner;
 	}
