@@ -30,11 +30,20 @@ public final class Cars implements Iterable<Car> {
         }
     }
 
+    public boolean contains(final Car car) {
+        return cars.contains(car);
+    }
+
+    @Override
+    public Iterator<Car> iterator() {
+        return cars.iterator();
+    }
+
     public Cars getWinners() {
         final Position maxPosition = getMaxPosition();
         final List<Car> result = cars.stream()
                 .filter(car -> car.getPosition().equals(maxPosition))
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
 
         return new Cars(result);
     }
@@ -48,10 +57,5 @@ public final class Cars implements Iterable<Car> {
 
     public List<Car> getCars() {
         return cars;
-    }
-
-    @Override
-    public Iterator<Car> iterator() {
-        return cars.iterator();
     }
 }

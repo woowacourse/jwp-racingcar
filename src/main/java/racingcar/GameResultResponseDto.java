@@ -12,6 +12,7 @@ public final class GameResultResponseDto {
 
     public GameResultResponseDto(final List<CarEntity> carEntities) {
         this.winners = carEntities.stream()
+                .filter(CarEntity::isWinner)
                 .map(CarEntity::getPlayerName)
                 .collect(Collectors.toList());
         this.racingCars = carEntities.stream()

@@ -31,8 +31,7 @@ public final class RacingGame {
         return movingStatus;
     }
 
-    public Cars decideWinners() {
+    public Cars getWinners() {
         return cars.getWinners();
     }
-
 }

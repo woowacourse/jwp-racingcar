@@ -2,7 +2,6 @@ package racingcar;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Names;
 import racingcar.domain.RacingGame;
@@ -48,15 +47,11 @@ public class RacingGameService {
     private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId) {
         final List<Cars> result = racingGame.start(new DefaultMovingStrategy());
         final Cars finalResult = result.get(result.size() - 1);
-        final Cars winnersResult = racingGame.decideWinners();
+        final Cars winnersResults = racingGame.getWinners();
 
         return finalResult.getCars()
                 .stream()
-                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameResultId))
+                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), winnersResults.contains(car), gameResultId))
                 .collect(Collectors.toList());
-    }
-
-    private boolean checkWinner(final Car currentCar, final Cars winnersResult) {
-        return winnersResult.getCars().contains(currentCar);
     }
 }

@@ -17,7 +17,7 @@ public class RacingCarController {
 
     @PostMapping("/plays")
     @ResponseBody
-    public ResponseEntity<GameResultResponseDto> racingGame(@RequestBody final UserRequestDto inputDto) {
+    public ResponseEntity<GameResultResponseDto> racingGame(@RequestBody UserRequestDto inputDto) {
         final GameResultResponseDto gameResultResponseDto = racingGameService.getResult(inputDto);
         return ResponseEntity.ok(gameResultResponseDto);
     }
