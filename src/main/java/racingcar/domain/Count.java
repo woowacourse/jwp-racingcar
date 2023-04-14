@@ -7,12 +7,12 @@ public class Count {
     private final int targetCount;
     private int now = 0;
 
-    public Count(int targetCount) {
+    public Count(final int targetCount) {
         validate(targetCount);
         this.targetCount = targetCount;
     }
 
-    private void validate(int targetCount) {
+    private void validate(final int targetCount) {
         if (targetCount < 0) {
             throw new IllegalArgumentException(LESS_THAN_ZERO_MESSAGE);
         }
@@ -24,5 +24,9 @@ public class Count {
 
     public void next() {
         now++;
+    }
+
+    public int getTargetCount() {
+        return targetCount;
     }
 }

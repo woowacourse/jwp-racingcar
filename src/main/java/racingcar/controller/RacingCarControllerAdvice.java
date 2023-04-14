@@ -21,7 +21,8 @@ public class RacingCarControllerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    private ResponseEntity<ExceptionResponse> methodArgumentNotValidExceptionHandler(final MethodArgumentNotValidException e) {
+    private ResponseEntity<ExceptionResponse> methodArgumentNotValidExceptionHandler(
+            final MethodArgumentNotValidException e) {
         return ResponseEntity.badRequest().body(new ExceptionResponse(e.getFieldError().getDefaultMessage()));
     }
 
