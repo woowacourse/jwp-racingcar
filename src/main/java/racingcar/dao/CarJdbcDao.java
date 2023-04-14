@@ -5,11 +5,12 @@ import java.sql.SQLException;
 import java.util.List;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import racingcar.dto.CarDto;
 
-@Repository
+@Component
 public class CarJdbcDao implements CarDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     public CarJdbcDao(JdbcTemplate jdbcTemplate) {

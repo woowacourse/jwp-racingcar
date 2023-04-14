@@ -4,9 +4,9 @@ import java.sql.PreparedStatement;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 public class RacingGameJdbcDao implements RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
