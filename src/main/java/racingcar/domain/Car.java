@@ -2,20 +2,26 @@ package racingcar.domain;
 
 
 import racingcar.dto.RacingCarDto;
-import racingcar.utils.Validator;
 
 public class Car {
     private static final int MIN_MOVE_POWER = 4;
     private static final int DEFAULT_POSITION = 0;
+    private static final int MIN_NAME_LENGTH = 1;
+    private static final int MAX_NAME_LENGTH = 10;
 
     private final String name;
     private int position;
 
     public Car(final String name) {
-        Validator.checkBlank(name);
-        Validator.checkLength(name);
+        validateName(name);
         this.name = name;
         this.position = DEFAULT_POSITION;
+    }
+
+    private void validateName(final String name) {
+        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException("1글자 이상 10글자 이하의 이름을 입력해 주세요.");
+        }
     }
 
     public void move(final int power) {
@@ -24,15 +30,15 @@ public class Car {
         }
     }
 
+    public RacingCarDto convertToDto() {
+        return new RacingCarDto(name, position);
+    }
+
     public int getPosition() {
         return position;
     }
 
     public String getName() {
         return name;
-    }
-
-    public RacingCarDto convertToDto() {
-        return new RacingCarDto(name, position);
     }
 }

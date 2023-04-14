@@ -1,7 +1,9 @@
 package racingcar.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,13 +24,18 @@ public class RacingGameController {
     @PostMapping(path = "/plays", consumes = "application/json")
     public ResponseEntity<RacingGameResultDto> play(@RequestBody final RacingGameDto racingGameDto) {
 
-        final RacingGame racingGame = new RacingGame(InputUtil.splitNames(racingGameDto.getNames()),
-                racingGameDto.getCount());
+        final List<String> names = InputUtil.splitNames(racingGameDto.getNames());
+        final RacingGame racingGame = new RacingGame(names, racingGameDto.getCount());
         racingGame.start();
 
         final RacingGameResultDto racingGameResultDto = racingGame.convertToDto();
         final int resultId = racingHistoryDao.insertResult(racingGameResultDto);
         playersHistoryDao.insertResult(racingGameResultDto.getRacingCars(), resultId);
         return ResponseEntity.ok(racingGameResultDto);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handle(final IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

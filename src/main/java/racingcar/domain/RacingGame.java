@@ -13,7 +13,10 @@ public class RacingGame {
     private final PowerGenerator powerGenerator;
     private final int playCount;
 
-    public RacingGame(final String[] carNames, final int tryCount) {
+    public RacingGame(final List<String> carNames, final int tryCount) {
+        if (tryCount < 1 || tryCount > 100) {
+            throw new IllegalArgumentException("1이상 100이하의 시도 횟수를 입력해 주세요.");
+        }
         this.powerGenerator = new RandomPowerGenerator();
         this.cars = generateCars(carNames);
         this.playCount = tryCount;
@@ -33,7 +36,7 @@ public class RacingGame {
                 .collect(Collectors.toList());
     }
 
-    private List<Car> generateCars(final String[] carNames) {
+    private List<Car> generateCars(final List<String> carNames) {
         final List<Car> cars = new ArrayList<>();
         for (final String carName : carNames) {
             cars.add(new Car(carName));
