@@ -3,6 +3,7 @@ package racingcar.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResponse> plays(@RequestBody final GameRequest gameRequest) {
+    public ResponseEntity<GameResponse> plays(@RequestBody @Valid final GameRequest gameRequest) {
         final List<String> carNames = Arrays.asList(gameRequest.getNames().split(CAR_NAME_DELIMITER));
 
         final int gameId = racingCarsService.race(carNames, gameRequest.getCount());
