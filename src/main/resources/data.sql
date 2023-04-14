@@ -1,7 +1,21 @@
--- TODO: 기능 구현에 필요한 내용을 추가하거나 수정하세요.
-CREATE TABLE PLAY_RESULT (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    winners     VARCHAR(50) NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
+DROP TABLE IF EXISTS PLAYER;
+DROP TABLE IF EXISTS GAME;
+
+CREATE TABLE GAME
+(
+    id          BIGINT   NOT NULL AUTO_INCREMENT,
+    trial_count INT      NOT NULL,
+    time        DATETIME NOT NULL default current_timestamp,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE PLAYER
+(
+    id        BIGINT      NOT NULL AUTO_INCREMENT,
+    game_id   BIGINT      NOT NULL,
+    name      VARCHAR(10) NOT NULL,
+    position  INT         NOT NULL,
+    is_winner BOOL     NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (game_id) references GAME (id) on update cascade
 );
