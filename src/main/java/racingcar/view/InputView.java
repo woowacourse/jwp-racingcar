@@ -21,7 +21,7 @@ public final class InputView {
 
     public CarNameRequest readCarNames() {
         printMessage("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
-        List<String> input = Arrays.stream(readLine().split(DELIMITER))
+        final List<String> input = Arrays.stream(readLine().split(DELIMITER))
                 .collect(Collectors.toUnmodifiableList());
         validateDuplicatedCarNames(input);
 
@@ -30,19 +30,18 @@ public final class InputView {
 
     public TryCountRequest readTryCount() {
         printMessage("시도할 횟수는 몇회인가요?");
-
-        int input = validateCount(readLine());
+        final int input = validateCount(readLine());
 
         return new TryCountRequest(new TryCount(input));
     }
 
-    private void validateDuplicatedCarNames(List<String> input) {
+    private void validateDuplicatedCarNames(final List<String> input) {
         if (input.size() != input.stream().distinct().count()) {
             throw new IllegalArgumentException("중복된 이름이 존재합니다.");
         }
     }
 
-    private int validateCount(String input) {
+    private int validateCount(final String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException exception) {
@@ -54,7 +53,7 @@ public final class InputView {
         return scanner.nextLine();
     }
 
-    private void printMessage(String message) {
+    private void printMessage(final String message) {
         System.out.print(message + System.lineSeparator());
     }
 

@@ -18,19 +18,19 @@ public final class IOViewResolver {
     private final Map<Class<?>, Supplier<Object>> inputViewMap;
     private final Map<Class<?>, Consumer<Object>> outputViewMap;
 
-    public IOViewResolver(InputView inputView, OutputView outputView) {
+    public IOViewResolver(final InputView inputView, final OutputView outputView) {
         inputViewMap = new HashMap<>();
         outputViewMap = new HashMap<>();
         initInputViewMappings(inputView);
         initOutputViewMappings(outputView);
     }
 
-    private void initInputViewMappings(InputView inputView) {
+    private void initInputViewMappings(final InputView inputView) {
         inputViewMap.put(CarNameRequest.class, inputView::readCarNames);
         inputViewMap.put(TryCountRequest.class, inputView::readTryCount);
     }
 
-    private void initOutputViewMappings(OutputView outputView) {
+    private void initOutputViewMappings(final OutputView outputView) {
         outputViewMap.put(PrintMovingStatusDto.class, dto -> outputView.printTotalMovingStatus((PrintMovingStatusDto) dto));
         outputViewMap.put(PrintWinnersDto.class, dto -> outputView.printWinners((PrintWinnersDto) dto));
         outputViewMap.put(PrintExceptionDto.class, dto -> outputView.printException((PrintExceptionDto) dto));
