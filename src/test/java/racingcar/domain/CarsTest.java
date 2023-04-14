@@ -3,6 +3,7 @@ package racingcar.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import racingcar.common.exception.DuplicateResourceException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +24,6 @@ class CarsTest {
 
         // when & then
         assertThatThrownBy(() -> new Cars(cars, () -> 1))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("중복된 값을 입력할 수 없습니다.");
+                .isInstanceOf(DuplicateResourceException.class);
     }
 }

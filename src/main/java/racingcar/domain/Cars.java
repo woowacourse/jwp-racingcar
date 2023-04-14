@@ -1,14 +1,13 @@
 package racingcar.domain;
 
+import racingcar.common.exception.DuplicateResourceException;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Cars {
-
-    private static final String DUPLICATE_MESSAGE = "중복된 값을 입력할 수 없습니다.";
-    private static final String NO_RESOURCE_MESSAGE = "%s(이)가 존재하지 않습니다.";
 
     private final List<Car> cars;
     private final NumberGenerator numberGenerator;
@@ -42,14 +41,14 @@ public class Cars {
         return cars.stream()
                 .map(Car::getCarPosition)
                 .max(CarPosition::compareTo)
-                .orElseThrow(() -> new IllegalArgumentException(String.format(NO_RESOURCE_MESSAGE, "차량 리스트")));
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     private void validateDuplicateCarName() {
         final List<String> carNames = getCarNames();
         final int uniqueCarCount = new HashSet<>(carNames).size();
         if (carNames.size() != uniqueCarCount) {
-            throw new IllegalArgumentException(DUPLICATE_MESSAGE);
+            throw new DuplicateResourceException();
         }
     }
 
