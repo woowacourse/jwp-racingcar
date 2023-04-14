@@ -23,7 +23,7 @@ public class CarResult {
         return new CarResult(id, resultId, name, position);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

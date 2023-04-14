@@ -24,7 +24,7 @@ public class PlayResult {
         return new PlayResult(id, trialCount, winners, createdAt);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
