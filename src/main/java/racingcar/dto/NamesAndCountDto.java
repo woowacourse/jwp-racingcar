@@ -2,9 +2,9 @@ package racingcar.dto;
 
 public class NamesAndCountDto {
 	private String names;
-	private String  count;
+	private String count;
 
-	public String getNames(){
+	public String getNames() {
 		return names;
 	}
 
@@ -12,11 +12,11 @@ public class NamesAndCountDto {
 		this.names = names;
 	}
 
-	public String  getCount(){
+	public String getCount() {
 		return count;
 	}
 
-	public void setCount(String  count) {
+	public void setCount(String count) {
 		this.count = count;
 	}
 }
