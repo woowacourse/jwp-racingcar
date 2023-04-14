@@ -1,9 +1,9 @@
 package racingcar.controller;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.anyList;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.anyInt;
+import static org.mockito.BDDMockito.anyList;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,20 +39,18 @@ class WebRacingCarControllerTest {
         // given
         RacingCarRequest request = new RacingCarRequest("glen,raon", 10);
 
-        // when
-        doReturn(1)
-                .when(racingCarService)
-                .playRacingGame(anyList(), anyInt());
+        given(racingCarService.playRacingGame(anyList(), anyInt()))
+                .willReturn(1);
 
-        doReturn(List.of("raon"))
-                .when(racingCarService)
-                .findWinners(anyInt());
+        given(racingCarService.findWinners(1))
+                .willReturn(List.of("raon"));
 
-        doReturn(List.of(new RacingCarDto("glen", 4), new RacingCarDto("raon", 6)))
-                .when(racingCarService)
-                .findRacingCars(anyInt());
+        given(racingCarService.findRacingCars(1))
+                .willReturn(List.of(
+                        new RacingCarDto("glen", 4),
+                        new RacingCarDto("raon", 6)));
 
-        // then
+        // expect
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))

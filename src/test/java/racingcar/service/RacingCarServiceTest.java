@@ -1,12 +1,15 @@
 package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.anyInt;
+import static org.mockito.BDDMockito.given;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,17 +35,16 @@ class RacingCarServiceTest {
         List<String> carNames = List.of("glen", "raon");
         int tryCount = 10;
 
-        // when
-        doReturn(1)
-                .when(numberGenerator)
-                .generateNumber();
+        given(numberGenerator.generateNumber())
+                .willReturn(1);
 
-        doReturn(1)
-                .when(racingCarRepository)
-                .saveGame(10);
+        given(racingCarRepository.saveGame(anyInt()))
+                .willReturn(1);
+
+        // when
+        int gameId = racingCarService.playRacingGame(carNames, tryCount);
 
         // then
-        int gameId = racingCarService.playRacingGame(carNames, tryCount);
         assertThat(gameId)
                 .isEqualTo(1);
     }
