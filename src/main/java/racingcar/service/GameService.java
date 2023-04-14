@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dto.RacingGameRequestDto;
+import racingcar.dto.RacingGameResponseDto;
 import racingcar.model.Cars;
 import racingcar.util.NameFormatConverter;
 import racingcar.util.NumberGenerator;
@@ -22,7 +24,10 @@ public class GameService {
         this.carDao = carDao;
     }
 
-    public void executeRacingGame(Cars cars, int tryCount) {
+    public RacingGameResponseDto executeRacingGame(RacingGameRequestDto racingGameRequestDto) {
+        int tryCount = racingGameRequestDto.getCount();
+        Cars cars = new Cars(NameFormatConverter.splitNameByDelimiter(racingGameRequestDto.getNames()));
+
         for (int count = 0; count < tryCount; count++) {
             cars.moveResult(numberGenerator);
         }
@@ -30,5 +35,7 @@ public class GameService {
         String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
         int gameId = gameDao.save(tryCount, winners);
         carDao.saveAll(gameId, cars.getCars());
+
+        return new RacingGameResponseDto(cars.getWinners(), cars.getCars());
     }
 }

@@ -7,12 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
-import racingcar.model.Cars;
 import racingcar.service.GameService;
-import racingcar.util.NameFormatConverter;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class WebController {
@@ -26,10 +23,7 @@ public class WebController {
 
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponseDto> playGame(final @RequestBody @Valid RacingGameRequestDto racingGameRequestDto) {
-        List<String> carNames = NameFormatConverter.splitNameByDelimiter(racingGameRequestDto.getNames());
-        Cars cars = new Cars(carNames);
-
-        gameService.executeRacingGame(cars, racingGameRequestDto.getCount());
-        return ResponseEntity.ok(new RacingGameResponseDto(cars.getWinners(), cars.getCars()));
+        RacingGameResponseDto racingGameResponseDto = gameService.executeRacingGame(racingGameRequestDto);
+        return ResponseEntity.ok(racingGameResponseDto);
     }
 }
