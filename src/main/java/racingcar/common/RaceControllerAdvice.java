@@ -51,8 +51,8 @@ public class RaceControllerAdvice {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponse> exception() {
-        final ExceptionResponse exceptionResponse = new ExceptionResponse("오류가 발생하였습니다");
+    public ResponseEntity<ExceptionResponse> exception(final Exception e) {
+        final ExceptionResponse exceptionResponse = new ExceptionResponse("오류가 발생하였습니다, 오류 = " + e.getMessage());
         return ResponseEntity.badRequest().body(exceptionResponse);
     }
 
