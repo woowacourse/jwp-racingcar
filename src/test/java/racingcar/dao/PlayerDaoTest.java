@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.dto.CarDto;
@@ -25,6 +26,8 @@ class PlayerDaoTest {
     
     @BeforeEach
     void setUp() {
+        DbInitializer.init(namedParameterJdbcTemplate);
+        
         playerDao = new PlayerDao(namedParameterJdbcTemplate);
         game = new Game("아벨,스플릿,포비", "12");
         
