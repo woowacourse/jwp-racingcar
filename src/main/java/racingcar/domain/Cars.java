@@ -12,12 +12,15 @@ public class Cars {
     private final List<Car> cars;
     private final NumberGenerator numberGenerator;
 
-    public Cars(final List<Car> cars, final NumberGenerator numberGenerator) {
+    private Cars(final List<Car> cars, final NumberGenerator numberGenerator) {
         this.cars = cars;
         this.numberGenerator = numberGenerator;
         validateDuplicateCarName();
     }
 
+    public static Cars create(final List<String> carNames, final NumberGenerator numberGenerator) {
+        return new Cars(createCars(carNames), numberGenerator);
+    }
 
     public Cars race() {
         final List<Car> movedCars = cars.stream()
@@ -29,7 +32,7 @@ public class Cars {
     }
 
     public List<String> getWinnerCarNames() {
-        final CarPosition maxPosition = judgeMaxPosition();
+        final CarPosition maxPosition = getMaxPosition();
         return cars
                 .stream()
                 .filter(car -> maxPosition.isSamePosition(car.getCarPosition()))
@@ -37,7 +40,13 @@ public class Cars {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private CarPosition judgeMaxPosition() {
+    private static List<Car> createCars(final List<String> carNames) {
+        return carNames.stream()
+                .map(name -> new Car(CarName.create(name), CarPosition.init()))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private CarPosition getMaxPosition() {
         return cars.stream()
                 .map(Car::getCarPosition)
                 .max(CarPosition::compareTo)

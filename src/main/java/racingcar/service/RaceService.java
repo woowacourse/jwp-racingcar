@@ -2,9 +2,6 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.Car;
-import racingcar.domain.CarName;
-import racingcar.domain.CarPosition;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
@@ -36,7 +33,7 @@ public class RaceService {
     @Transactional
     public RaceResponse play(final RaceRequest raceRequest) {
         final List<String> names = raceRequest.makeSplitNames();
-        final Cars cars = new Cars(createCars(names), numberGenerator);
+        final Cars cars = Cars.create(names, numberGenerator);
         final Race race = new Race(raceRequest.getCount());
 
         final Cars movedCars = race.run(cars);
@@ -55,12 +52,6 @@ public class RaceService {
                     final List<CarResponse> carResponses = makeCarRaceResult(carEntities);
                     return RaceResponse.create(raceEntity.getWinners(), carResponses);
                 })
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    private List<Car> createCars(final List<String> carNames) {
-        return carNames.stream()
-                .map(name -> new Car(CarName.create(name), CarPosition.init()))
                 .collect(Collectors.toUnmodifiableList());
     }
 

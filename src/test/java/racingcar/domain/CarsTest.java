@@ -7,7 +7,6 @@ import racingcar.common.exception.DuplicateResourceException;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -19,11 +18,9 @@ class CarsTest {
     void create(final String names) {
         // given
         final List<String> carNames = Arrays.asList(names.split(","));
-        final List<Car> cars = carNames.stream().map(name -> new Car(CarName.create(name), CarPosition.init()))
-                .collect(Collectors.toUnmodifiableList());
 
         // when & then
-        assertThatThrownBy(() -> new Cars(cars, () -> 1))
+        assertThatThrownBy(() -> Cars.create(carNames, () -> 1))
                 .isInstanceOf(DuplicateResourceException.class);
     }
 }
