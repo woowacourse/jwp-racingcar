@@ -28,4 +28,9 @@ public final class GameResultDao {
 
         return keyHolder.getKey().longValue();
     }
+
+    public void deleteAll() {
+        String sql = "drop table game_result";
+        jdbcTemplate.update(sql);
+    }
 }

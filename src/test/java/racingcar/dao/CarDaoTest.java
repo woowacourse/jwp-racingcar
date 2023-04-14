@@ -1,14 +1,15 @@
 package racingcar.dao;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameResultEntity;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
 class CarDaoTest {
 
     @Autowired
@@ -17,16 +18,14 @@ class CarDaoTest {
     @Autowired
     private GameResultDao gameResultDao;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
     @Test
+    @Rollback
     void save() {
         Long gameResultId = gameResultDao.save(new GameResultEntity(3));
-        Assertions.assertThat(1L).isEqualTo(gameResultId);
+        assertThat(1L).isEqualTo(gameResultId);
 
         CarEntity carEntity = new CarEntity("헙크", 3, true, 1L);
         Long carId = carDao.save(carEntity);
-        Assertions.assertThat(1L).isEqualTo(carId);
+        assertThat(1L).isEqualTo(carId);
     }
 }

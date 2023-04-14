@@ -1,25 +1,23 @@
 package racingcar.dao;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import racingcar.entity.GameResultEntity;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class GameResultDaoTest {
 
-
     @Autowired
     private GameResultDao gameResultDao;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Test
+    @Rollback
     void save() {
         Long id = gameResultDao.save(new GameResultEntity(3));
-        Assertions.assertThat(1L).isEqualTo(id);
+        assertThat(1L).isEqualTo(id);
     }
-
 }
