@@ -1,5 +1,6 @@
-package racingcar.dto;
+package racingcar.response;
 
+import racingcar.dto.VehicleDto;
 import java.util.List;
 
 public class PlayResponse {

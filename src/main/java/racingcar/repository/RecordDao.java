@@ -2,7 +2,7 @@ package racingcar.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.model.Vehicle;
+import racingcar.domain.Vehicle;
 
 @Repository
 public class RecordDao {

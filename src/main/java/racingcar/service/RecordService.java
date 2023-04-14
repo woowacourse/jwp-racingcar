@@ -2,10 +2,10 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dto.PlayResponse;
+import racingcar.response.PlayResponse;
 import racingcar.dto.VehicleDto;
-import racingcar.model.Cars;
-import racingcar.model.Vehicle;
+import racingcar.domain.Cars;
+import racingcar.domain.Vehicle;
 import racingcar.repository.RecordDao;
 
 import java.util.List;

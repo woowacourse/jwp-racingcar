@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
-import racingcar.model.Vehicle;
+import racingcar.domain.Vehicle;
 
 import java.util.Arrays;
 import java.util.List;

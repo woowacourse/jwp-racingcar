@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.request;
 
 public class PlayRequest {
 

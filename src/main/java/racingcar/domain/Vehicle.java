@@ -1,4 +1,4 @@
-package racingcar.model;
+package racingcar.domain;
 
 public class Vehicle implements MovableStrategy {
     private final String name;
