@@ -13,4 +13,16 @@ public class ErrorResponse {
         this.timestamp = timestamp;
         this.statusCode = statusCode;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
 }
