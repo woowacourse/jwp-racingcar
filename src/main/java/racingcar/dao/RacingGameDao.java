@@ -1,31 +1,28 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 public class RacingGameDao {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public RacingGameDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public RacingGameDao(final DataSource dataSource) {
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("racing_game")
+                .usingColumns("winners", "trial_count")
+                .usingGeneratedKeyColumns("id");
     }
 
     public Long save(final String winners, final Integer trialCount) {
-        final String sql = "insert into racing_game (winners, trial_count) values (?,?)";
-
-        final KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            final PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
-            preparedStatement.setString(1, winners);
-            preparedStatement.setInt(2, trialCount);
-            return preparedStatement;
-        }, keyHolder);
-
-        return keyHolder.getKey().longValue();
+        final Map<String, Object> parameters = new HashMap<>();
+        parameters.put("winners", winners);
+        parameters.put("trial_count", trialCount);
+        return simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
     }
 }
