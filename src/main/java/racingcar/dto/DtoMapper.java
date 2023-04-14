@@ -7,7 +7,7 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 
 public class DtoMapper {
-	public static ResultDto toResultDto(Cars cars){
+	public static ResultDto toResultDto(Cars cars) {
 		final ResultDto resultDto = new ResultDto();
 
 		List<Car> carList = cars.getCars();
