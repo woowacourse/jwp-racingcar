@@ -31,9 +31,4 @@ public final class CarDao {
 
         return keyHolder.getKey().longValue();
     }
-
-    public void deleteAll() {
-        String sql = "drop table car";
-        jdbcTemplate.update(sql);
-    }
 }
