@@ -9,9 +9,9 @@ import racingcar.domain.Race;
 import racingcar.util.NumberGenerator;
 
 public class Game {
-
     private static final int MOVE_DISTANCE = 1;
     private static final int MOVE_THRESHOLDS = 4;
+    
     private final Race race;
     private final Participants participants;
 
@@ -62,37 +62,4 @@ public class Game {
     public List<Car> getCars() {
         return participants.getCars();
     }
-//    public Game(RaceController raceController) {
-//        this.raceController = raceController;
-//    }
-
-//    public void ready(InputView inputView) {
-//        raceController.getParticipants(inputView);
-//        raceController.getCount(inputView);
-//    }
-
-//    public void showResult(OutputView outputView) {
-//        outputView.printResultMessage();
-//        outputView.printWinners(raceController.getWinners());
-//    }
-
-//    private void raceOneRound(NumberGenerator numberGenerator, OutputView outputView) {
-//        final List<Car> cars = participants.getCars();
-//        cars.forEach((car) -> driveOrNot(car, numberGenerator));
-//        race.isFinished();
-//        raceController.printRoundResult(outputView);
-//    }
-
-//    private void raceOneRound(NumberGenerator numberGenerator) {
-//        List<Car> cars = participants.getCars();
-//        cars.forEach((car) -> driveOrNot(car, numberGenerator));
-//        race.isFinished();
-//    }
-
-//    public void playGame(NumberGenerator numberGenerator, OutputView outputView) {
-//        while (!race.isFinished()) {
-//            raceOneRound(numberGenerator, outputView);
-//        }
-//        raceController.printRoundResult(outputView);
-//    }
 }
