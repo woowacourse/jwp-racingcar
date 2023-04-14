@@ -31,4 +31,10 @@ public class RaceResultDao {
 
         return jdbcInsert.executeAndReturnKey(params).intValue();
     }
+
+    public String findWinnersByPlayResultId(final int playResultId) {
+        String sql = "SELECT winners FROM race_result WHERE id=?";
+
+        return jdbcTemplate.queryForObject(sql, String.class, playResultId);
+    }
 }
