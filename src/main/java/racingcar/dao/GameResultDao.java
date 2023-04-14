@@ -17,7 +17,7 @@ public final class GameResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long insert(final GameResultEntity gameResultEntity) {
+    public Long save(final GameResultEntity gameResultEntity) {
         String sql = "insert into game_result (try_count) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {

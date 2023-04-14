@@ -14,6 +14,6 @@ public class GameResultRepository {
     }
 
     public Long save(final GameResultEntity gameResultEntity) {
-        return gameResultDao.insert(gameResultEntity);
+        return gameResultDao.save(gameResultEntity);
     }
 }
