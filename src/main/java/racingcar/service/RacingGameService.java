@@ -1,15 +1,14 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.domain.Cars;
-import racingcar.domain.RacingGame;
+import racingcar.domain.*;
+import racingcar.dto.request.CarGameRequest;
 import racingcar.dto.response.CarGameResponse;
 import racingcar.dto.response.CarResponse;
-import racingcar.domain.CarResult;
-import racingcar.domain.PlayResult;
 import racingcar.dao.CarResultDao;
 import racingcar.dao.PlayResultDao;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,17 +24,24 @@ public class RacingGameService {
         this.playResultDao = playResultDao;
     }
 
-    public CarGameResponse play(RacingGame game) {
-        int tryCount = game.getTryCount();
-        progress(game);
-        Cars cars = game.getCars();
-        String winners = String.join(",", game.decideWinners());
+    public CarGameResponse play(CarGameRequest carGameRequest) {
+        RacingGame racingGame = getRacingGame(carGameRequest);
+        int tryCount = racingGame.getTryCount();
+        progress(racingGame);
+        Cars cars = racingGame.getCars();
+        String winners = String.join(",", racingGame.decideWinners());
 
-        long playResultId = savePlayResult(tryCount, game, winners);
+        long playResultId = savePlayResult(tryCount, racingGame, winners);
         saveCarResult(cars, playResultId);
         List<CarResponse> carResponses = getCarResponses(cars);
-        
+
         return new CarGameResponse(winners, carResponses);
+    }
+
+    private static RacingGame getRacingGame(CarGameRequest carGameRequest) {
+        List<String> names = Arrays.stream(carGameRequest.getNames().split(",")).collect(Collectors.toList());
+        RacingGame racingGame = new RacingGame(new CarRandomNumberGenerator(), new Cars(names), carGameRequest.getCount());
+        return racingGame;
     }
 
     private static List<CarResponse> getCarResponses(Cars cars) {
@@ -56,9 +62,9 @@ public class RacingGameService {
                 .forEach(carResultDao::save);
     }
 
-    private void progress(RacingGame game) {
-        while (!game.isEnd()) {
-            game.play();
+    private void progress(RacingGame racingGame) {
+        while (!racingGame.isEnd()) {
+            racingGame.play();
         }
     }
 }

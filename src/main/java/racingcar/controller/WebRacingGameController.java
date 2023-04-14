@@ -26,9 +26,7 @@ public class WebRacingGameController {
 
     @PostMapping("/plays")
     public ResponseEntity<CarGameResponse> plays(@RequestBody CarGameRequest carGameRequest) {
-        List<String> names = Arrays.stream(carGameRequest.getNames().split(",")).collect(Collectors.toList());
-        RacingGame game = new RacingGame(new CarRandomNumberGenerator(), new Cars(names), carGameRequest.getCount());
-        CarGameResponse result = racingGameService.play(game);
+        CarGameResponse result = racingGameService.play(carGameRequest);
         return ResponseEntity.ok(result);
     }
 }
