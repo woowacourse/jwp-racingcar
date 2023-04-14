@@ -1,7 +1,5 @@
 package racingcar.controller;
 
-import java.io.IOException;
-
 import racingcar.domain.CarGroup;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RacingResult;
@@ -19,7 +17,7 @@ public class RacingGameConsoleController {
         this.outputView = new OutputView();
     }
 
-    public void run() throws IOException {
+    public void run() {
         CarGroup carGroup = createCarGroup();
         int movingTrial = createMovingTrial();
 
@@ -30,7 +28,7 @@ public class RacingGameConsoleController {
         outputView.printWinner(racingGame.produceRacingResult().pickWinner());
     }
 
-    private CarGroup createCarGroup() throws IOException {
+    private CarGroup createCarGroup() {
         try {
             return new CarGroup(inputView.readCarNames());
         } catch (IllegalArgumentException e) {
@@ -42,7 +40,7 @@ public class RacingGameConsoleController {
     private int createMovingTrial() {
         try {
             return inputView.readMovingTrial();
-        } catch (IllegalArgumentException | IOException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return createMovingTrial();
         }
