@@ -20,6 +20,10 @@ public class Car {
 		return number >= MIN_MOVE_NUMBER;
 	}
 
+	public boolean isMaxPosition(final int maxPosition) {
+		return position.getValue() == maxPosition;
+	}
+
 	public int getPosition() {
 		return position.getValue();
 	}
