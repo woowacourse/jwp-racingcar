@@ -10,7 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import racingcar.repository.mapper.RacingGameInfo;
+import racingcar.repository.mapper.RacingGameDto;
 
 @Repository
 public class RacingGameRepositoryImpl implements RacingGameRepository {
@@ -21,7 +21,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<RacingGameInfo> actorRowMapper = (resultSet, rowNum) -> new RacingGameInfo(
+    private final RowMapper<RacingGameDto> RacingGameRowMapper = (resultSet, rowNum) -> new RacingGameDto(
             resultSet.getInt("id"),
             resultSet.getString("winners"),
             resultSet.getObject("created_at", LocalDateTime.class),
@@ -44,8 +44,8 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     }
 
     @Override
-    public Optional<RacingGameInfo> findById(final int id) {
+    public Optional<RacingGameDto> findById(final int id) {
         final String sql = "SELECT * FROM RACING_GAME WHERE id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, actorRowMapper, id));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, RacingGameRowMapper, id));
     }
 }
