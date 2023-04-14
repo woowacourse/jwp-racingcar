@@ -5,22 +5,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dao.RacingDao;
 import racingcar.dto.*;
-import racingcar.utils.RacingUtil;
+import racingcar.service.RacingService;
 import racingcar.vo.Trial;
 
 @RestController
 public class RacingController {
     private final RacingDao racingDao;
-    private final RacingUtil racingUtil;
+    private final RacingService racingService;
 
-    public RacingController(RacingDao racingDao, RacingUtil racingUtil) {
+    public RacingController(RacingDao racingDao, RacingService racingService) {
         this.racingDao = racingDao;
-        this.racingUtil = racingUtil;
+        this.racingService = racingService;
     }
 
     @PostMapping("/plays")
     public FinalResultDto playRacing(@RequestBody RequestBodyDTO dto) {
-        ResultDto resultDto = racingUtil.race(dto.getNames(), dto.getCount());
+        ResultDto resultDto = racingService.race(dto.getNames(), dto.getCount());
         final int racingId = racingDao.insert(Trial.of(dto.getCount()));
         for (CarDto car : resultDto.getRacingCars()) {
             String name = car.getName();

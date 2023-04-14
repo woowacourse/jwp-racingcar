@@ -1,9 +1,10 @@
-package racingcar.utils;
+package racingcar.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.dto.ResultDto;
+import racingcar.utils.NumberGenerator;
 import racingcar.vo.Name;
 import racingcar.vo.Names;
 import racingcar.vo.Trial;
@@ -12,12 +13,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
-public class RacingUtil {
+@Service
+public class RacingService {
 
     private final NumberGenerator numberGenerator;
 
-    public RacingUtil(NumberGenerator numberGenerator) {
+    public RacingService(NumberGenerator numberGenerator) {
         this.numberGenerator = numberGenerator;
     }
 
