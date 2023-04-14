@@ -17,7 +17,7 @@ public final class Car {
     }
 
     public Car(final Car car) {
-        this.name = new Name(car.getName());
+        this.name = Name.of(car.getNameValue());
         this.position = new Position(car.getPosition());
     }
 

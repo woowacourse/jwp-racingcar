@@ -4,10 +4,8 @@ import racingcar.domain.TryCount;
 import racingcar.dto.input.CarNameRequest;
 import racingcar.dto.input.TryCountRequest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public final class InputView {
 
@@ -21,11 +19,8 @@ public final class InputView {
 
     public CarNameRequest readCarNames() {
         printMessage("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
-        final List<String> input = Arrays.stream(readLine().split(DELIMITER))
-                .collect(Collectors.toUnmodifiableList());
-        validateDuplicatedCarNames(input);
-
-        return new CarNameRequest(input);
+        final String[] split = readLine().split(DELIMITER);
+        return new CarNameRequest(List.of(split));
     }
 
     public TryCountRequest readTryCount() {
@@ -33,12 +28,6 @@ public final class InputView {
         final int input = validateCount(readLine());
 
         return new TryCountRequest(new TryCount(input));
-    }
-
-    private void validateDuplicatedCarNames(final List<String> input) {
-        if (input.size() != input.stream().distinct().count()) {
-            throw new IllegalArgumentException("중복된 이름이 존재합니다.");
-        }
     }
 
     private int validateCount(final String input) {

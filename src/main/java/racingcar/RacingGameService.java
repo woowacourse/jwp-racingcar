@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.domain.Name;
+import racingcar.domain.Names;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
 import racingcar.domain.movingstrategy.DefaultMovingStrategy;
@@ -40,12 +40,9 @@ public class RacingGameService {
     private RacingGame mapToRacingGame(final UserRequestDto inputDto) {
         final String names = inputDto.getNames();
         final List<String> splitNames = List.of(names.split(","));
-        final List<Name> nameList = splitNames.stream()
-                .map(Name::of)
-                .collect(Collectors.toList());
         final TryCount tryCount = new TryCount(inputDto.getCount());
 
-        return new RacingGame(nameList, tryCount);
+        return new RacingGame(new Names(splitNames), tryCount);
     }
 
     private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId) {

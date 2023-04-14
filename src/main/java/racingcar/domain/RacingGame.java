@@ -11,8 +11,9 @@ public final class RacingGame {
     private final Cars cars;
     private TryCount tryCount;
 
-    public RacingGame(final List<Name> carNames, final TryCount tryCount) {
-        final List<Car> collect = carNames.stream()
+    public RacingGame(final Names carNames, final TryCount tryCount) {
+        final List<Car> collect = carNames.getNames()
+                .stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
 

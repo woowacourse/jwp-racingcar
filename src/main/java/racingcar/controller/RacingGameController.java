@@ -2,7 +2,7 @@ package racingcar.controller;
 
 import racingcar.domain.Cars;
 import racingcar.domain.GameProcess;
-import racingcar.domain.Name;
+import racingcar.domain.Names;
 import racingcar.domain.RacingGame;
 import racingcar.domain.movingstrategy.MovingStrategy;
 import racingcar.dto.input.CarNameRequest;
@@ -17,7 +17,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public final class RacingGameController {
 
@@ -25,7 +24,7 @@ public final class RacingGameController {
     private final Map<GameProcess, Supplier<GameProcess>> processMap;
 
     private RacingGame racingGame;
-    private List<Name> carNames;
+    private Names names;
 
     public RacingGameController(final IOViewResolver ioViewResolver, final MovingStrategy strategy) {
         this.ioViewResolver = ioViewResolver;
@@ -54,16 +53,14 @@ public final class RacingGameController {
 
     private GameProcess readCarNames() {
         final CarNameRequest carNameRequest = ioViewResolver.inputViewResolve(CarNameRequest.class);
-        this.carNames = carNameRequest.getCarNames()
-                .stream()
-                .map(Name::of)
-                .collect(Collectors.toUnmodifiableList());
+        this.names = new Names(carNameRequest.getCarNames());
+
         return GameProcess.READ_TRY_COUNT;
     }
 
     private GameProcess readTryCount() {
         final TryCountRequest tryCountRequest = ioViewResolver.inputViewResolve(TryCountRequest.class);
-        racingGame = new RacingGame(carNames, tryCountRequest.getTryCount());
+        racingGame = new RacingGame(names, tryCountRequest.getTryCount());
         return GameProcess.START_RACE;
     }
 

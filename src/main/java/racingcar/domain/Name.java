@@ -13,10 +13,6 @@ public class Name {
         this.name = name;
     }
 
-    public Name(final Name name) {
-        this.name = name.getName();
-    }
-
     public static Name of(final String name) {
         return new Name(name);
     }
