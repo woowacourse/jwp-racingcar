@@ -28,26 +28,27 @@ public class RacingGameService {
     }
 
     @Transactional
-    public GameResultDto getResult(final UserInputDto inputDto) {
-        final RacingGame racingGame = getRacingGame(inputDto);
-
+    public GameResultResponseDto getResult(final UserRequestDto inputDto) {
+        final RacingGame racingGame = mapToRacingGame(inputDto);
         final Long gameResultId = gameResultRepository.save(new GameResultEntity(inputDto.getCount()));
+        final List<CarEntity> carEntities = startAndGetResult(racingGame, gameResultId);
+        carRepository.saveAll(carEntities);
 
+        return new GameResultResponseDto(carEntities);
+    }
+
+    private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId) {
         final List<Cars> result = racingGame.start(new DefaultMovingStrategy());
         final Cars finalResult = result.get(result.size() - 1);
         final Cars winnersResult = racingGame.decideWinners();
 
-        final List<CarEntity> carEntities = finalResult.getCars()
+        return finalResult.getCars()
                 .stream()
                 .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameResultId))
                 .collect(Collectors.toList());
-
-        carRepository.saveAll(carEntities);
-
-        return new GameResultDto(winnersResult, finalResult);
     }
 
-    private RacingGame getRacingGame(final UserInputDto inputDto) {
+    private RacingGame mapToRacingGame(final UserRequestDto inputDto) {
         final String names = inputDto.getNames();
         final List<String> splitNames = List.of(names.split(","));
         final List<Name> nameList = splitNames.stream()
