@@ -60,7 +60,7 @@ public class RaceService {
 
     private List<Car> createCars(final List<String> carNames) {
         return carNames.stream()
-                .map(name -> Car.create(CarName.create(name), CarPosition.init()))
+                .map(name -> new Car(CarName.create(name), CarPosition.init()))
                 .collect(Collectors.toUnmodifiableList());
     }
 

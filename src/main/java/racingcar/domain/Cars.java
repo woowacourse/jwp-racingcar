@@ -30,17 +30,18 @@ public class Cars {
     }
 
     public List<String> getWinnerCarNames() {
-        final Car maxPositionCar = judgeMaxPositionCar();
+        final CarPosition maxPosition = judgeMaxPosition();
         return cars
                 .stream()
-                .filter(maxPositionCar::isSamePosition)
+                .filter(car -> maxPosition.isSamePosition(car.getCarPosition()))
                 .map(Car::getName)
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private Car judgeMaxPositionCar() {
+    private CarPosition judgeMaxPosition() {
         return cars.stream()
-                .max(Car::compareTo)
+                .map(Car::getCarPosition)
+                .max(CarPosition::compareTo)
                 .orElseThrow(() -> new IllegalArgumentException(String.format(NO_RESOURCE_MESSAGE, "차량 리스트")));
     }
 

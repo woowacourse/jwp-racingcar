@@ -24,6 +24,10 @@ public class CarPosition implements Comparable<CarPosition> {
         return new CarPosition(position + 1);
     }
 
+    public boolean isSamePosition(final CarPosition diffPosition) {
+        return position == diffPosition.position;
+    }
+
     @Override
     public int compareTo(final CarPosition diffPosition) {
         return position - diffPosition.position;

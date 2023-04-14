@@ -7,7 +7,6 @@ import racingcar.dto.CarStatusDto;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 import racingcar.mock.MockCarDao;
-import racingcar.mock.MockNumberGenerator;
 import racingcar.mock.MockRaceResultDao;
 
 import java.util.List;
@@ -21,8 +20,7 @@ class RaceServiceTest {
 
     @BeforeEach
     void init() {
-        final MockNumberGenerator numberGenerator = new MockNumberGenerator();
-        raceService = new RaceService(numberGenerator, new MockCarDao(), new MockRaceResultDao());
+        raceService = new RaceService(() -> 1, new MockCarDao(), new MockRaceResultDao());
     }
 
     @Test

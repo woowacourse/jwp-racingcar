@@ -20,14 +20,14 @@ public class Race {
         return currentCars;
     }
 
-    private boolean isRunning(final int raceCount) {
-        return raceCount != count;
-    }
-
     private int validateRange(final int raceCount) {
         if (raceCount <= RACE_MIN_TRY_COUNT) {
             throw new IllegalArgumentException(String.format(RANGE_MESSAGE, RACE_MIN_TRY_COUNT));
         }
         return raceCount;
+    }
+
+    private boolean isRunning(final int raceCount) {
+        return raceCount != count;
     }
 }

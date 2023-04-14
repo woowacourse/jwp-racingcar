@@ -79,7 +79,7 @@ class RaceControllerTest {
 
     @Test
     @DisplayName("자동차 경주 결과 조회 성공")
-    void plays_get_success() throws Exception {
+    void raceResult_success() throws Exception {
         // given
         final List<CarStatusDto> carStatusDtos = List.of(new CarStatusDto("두둠", 7),
                 new CarStatusDto("져니", 10));

@@ -23,7 +23,7 @@ class RaceResultDaoImplTest {
 
     @Test
     @DisplayName("레이싱 결과를 저장한다.")
-    public void testSave() {
+    public void save() {
         //when
         final Long savedId = raceResultDao.save(trialCount, winners);
 
@@ -33,7 +33,7 @@ class RaceResultDaoImplTest {
 
     @Test
     @DisplayName("모든 레이싱 결과를 가져온다.")
-    public void testFindAll() {
+    public void findAll() {
         //given
         raceResultDao.save(trialCount, winners);
 

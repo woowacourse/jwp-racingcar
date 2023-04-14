@@ -19,8 +19,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Transactional
 class CarDaoImplTest {
 
-    private static final List<Car> cars = List.of(Car.create(CarName.create("test1"),
-            CarPosition.init()), Car.create(CarName.create("test2"), CarPosition.init()));
+    private static final List<Car> cars = List.of(new Car(CarName.create("test1"),
+            CarPosition.init()), new Car(CarName.create("test2"), CarPosition.init()));
     private static final int trialCount = 10;
     private static final String winners = "test1,test2";
 
@@ -31,7 +31,7 @@ class CarDaoImplTest {
 
     @Test
     @DisplayName("차들의 정보를 저장한다")
-    public void testSaveAll() {
+    public void saveAll() {
         //given
         final Long raceResultId = raceResultDao.save(trialCount, winners);
 
