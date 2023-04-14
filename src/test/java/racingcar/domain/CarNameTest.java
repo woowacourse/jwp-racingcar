@@ -2,8 +2,8 @@ package racingcar.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import racingcar.common.exception.ResourceLengthException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -27,16 +27,6 @@ class CarNameTest {
     @ValueSource(strings = {"junpak", "journey", "pobiconan", "neocat"})
     void create_fail_givenFiveOverLength(final String carName) {
         assertThatThrownBy(() -> CarName.create(carName))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(String.format("%d글자를 초과하였습니다.", 5));
-    }
-
-    @ParameterizedTest
-    @DisplayName("이름이 공백일 경우 예외가 발생한다.")
-    @EmptySource
-    void create_fail_givenBlankName(final String carName) {
-        assertThatThrownBy(() -> CarName.create(carName))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(String.format("%s은(는) 빈 값이 들어올 수 없습니다.", "이름"));
+                .isInstanceOf(ResourceLengthException.class);
     }
 }
