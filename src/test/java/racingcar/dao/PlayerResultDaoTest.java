@@ -1,17 +1,21 @@
 package racingcar.dao;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
+
 import racingcar.service.PlayResult;
 import racingcar.service.PlayerResult;
 
 @SpringBootTest
+@Transactional
 class PlayerResultDaoTest {
 
     @Autowired
@@ -27,12 +31,6 @@ class PlayerResultDaoTest {
 
     @BeforeEach
     void initialize(){
-        String deletePlayerResultSql = "delete from player_result";
-        jdbcTemplate.execute(deletePlayerResultSql);
-
-        String deletePlayResultSql = "delete from play_result";
-        jdbcTemplate.execute(deletePlayResultSql);
-
         playResult = playResultDao.insertPlayResult(new PlayResult("name1,name2", 3));
     }
 
