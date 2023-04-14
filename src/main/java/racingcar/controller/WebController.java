@@ -1,6 +1,8 @@
 package racingcar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +21,9 @@ public class WebController {
         this.gameService = gameService;
     }
 
-    @PostMapping("/plays")
-    public PlayResponse plays(@RequestBody @Valid final PlayRequest playRequest) {
-        return gameService.playRacing(playRequest.getNames(), playRequest.getCount());
+    @PostMapping(value = "/plays", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PlayResponse> plays(@RequestBody @Valid final PlayRequest playRequest) {
+        PlayResponse playResponse = gameService.playRacing(playRequest.getNames(), playRequest.getCount());
+        return ResponseEntity.ok().body(playResponse);
     }
 }
