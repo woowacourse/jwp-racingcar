@@ -33,7 +33,7 @@ public class RacingcarController {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessage handler(IllegalArgumentException exception){
         return new ErrorMessage(exception.getMessage());
     }
