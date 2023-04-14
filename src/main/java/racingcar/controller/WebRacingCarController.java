@@ -1,11 +1,13 @@
 package racingcar.controller;
 
+import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.request.RacingStartRequest;
-import racingcar.dto.response.RacingResultResponse;
+import racingcar.dto.request.RacingGameRequest;
+import racingcar.dto.response.RacingGameResultResponse;
 import racingcar.service.RacingCarService;
 
 @RestController
@@ -17,8 +19,15 @@ public class WebRacingCarController {
         this.racingCarService = racingCarService;
     }
 
+
+    //TODO: count에 int default value가 들어가는 문제
     @PostMapping("/plays")
-    public ResponseEntity<RacingResultResponse> play(@RequestBody RacingStartRequest racingStartRequest) {
-        return ResponseEntity.ok(racingCarService.play(racingStartRequest));
+    public ResponseEntity<RacingGameResultResponse> play(@RequestBody RacingGameRequest racingGameRequest) {
+        return ResponseEntity.ok().body(racingCarService.play(racingGameRequest));
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<RacingGameResultResponse>> findGameResults() {
+        return ResponseEntity.ok().body(racingCarService.findGameResults());
     }
 }

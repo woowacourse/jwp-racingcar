@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @Repository
-public class H2RacingGameDao implements RacingGameDao {
+public class H2RacingGameResultDao implements RacingGameResultDao {
 
     @Override
     public int save(int count) {

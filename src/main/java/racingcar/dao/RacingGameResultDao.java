@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-public interface RacingGameDao {
+public interface RacingGameResultDao {
 
     int save(int count);
 }

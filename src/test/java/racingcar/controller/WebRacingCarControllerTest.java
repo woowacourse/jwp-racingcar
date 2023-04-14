@@ -16,8 +16,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import racingcar.dto.response.RacingCarResponse;
-import racingcar.dto.response.RacingResultResponse;
+import racingcar.dto.response.CarResponse;
+import racingcar.dto.response.RacingGameResultResponse;
 import racingcar.service.RacingCarService;
 
 @WebMvcTest(WebRacingCarController.class)
@@ -34,10 +34,10 @@ class WebRacingCarControllerTest {
     void test1() throws Exception {
         final String content = "{\"names\":\"포비,네오,브리\", \"count\":10}";
 
-        final RacingResultResponse then = new RacingResultResponse(
-                List.of(new RacingCarResponse("포비", 6),
-                        new RacingCarResponse("네오", 10),
-                        new RacingCarResponse("브리", 10)),
+        final RacingGameResultResponse then = new RacingGameResultResponse(
+                List.of(new CarResponse("포비", 6),
+                        new CarResponse("네오", 10),
+                        new CarResponse("브리", 10)),
                 "네오,브리");
 
         given(racingCarService.play(any()))

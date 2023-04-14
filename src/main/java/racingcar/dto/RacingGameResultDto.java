@@ -5,18 +5,18 @@ import java.util.List;
 public class RacingGameResultDto {
 
     private final int round;
-    private final List<CarDto> carDtos;
+    private final List<CarResultDto> carResultDtos;
 
-    public RacingGameResultDto(int round, List<CarDto> carDtos) {
+    public RacingGameResultDto(int round, List<CarResultDto> carResultDtos) {
         this.round = round;
-        this.carDtos = carDtos;
+        this.carResultDtos = carResultDtos;
     }
 
     public int getRound() {
         return round;
     }
 
-    public List<CarDto> getCarDtos() {
-        return carDtos;
+    public List<CarResultDto> getCarDtos() {
+        return carResultDtos;
     }
 }

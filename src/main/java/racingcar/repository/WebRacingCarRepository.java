@@ -1,24 +1,31 @@
 package racingcar.repository;
 
+import java.util.List;
 import org.springframework.stereotype.Repository;
-import racingcar.dao.CarDao;
-import racingcar.dao.RacingGameDao;
+import racingcar.dao.CarResultDao;
+import racingcar.dao.RacingGameResultDao;
+import racingcar.dto.CarResultDto;
 import racingcar.dto.RacingGameResultDto;
 
 @Repository
 public class WebRacingCarRepository implements RacingCarRepository {
 
-    private final RacingGameDao racingGameDao;
-    private final CarDao carDao;
+    private final RacingGameResultDao racingGameResultDao;
+    private final CarResultDao carResultDao;
 
-    public WebRacingCarRepository(RacingGameDao racingGameDao, CarDao carDao) {
-        this.racingGameDao = racingGameDao;
-        this.carDao = carDao;
+    public WebRacingCarRepository(RacingGameResultDao racingGameResultDao, CarResultDao carResultDao) {
+        this.racingGameResultDao = racingGameResultDao;
+        this.carResultDao = carResultDao;
     }
 
     @Override
     public void save(RacingGameResultDto racingGameResultDto) {
-        int gameId = racingGameDao.save(racingGameResultDto.getRound());
-        carDao.save(gameId, racingGameResultDto.getCarDtos());
+        int gameId = racingGameResultDao.save(racingGameResultDto.getRound());
+        carResultDao.save(gameId, racingGameResultDto.getCarDtos());
+    }
+
+    @Override
+    public List<CarResultDto> findAll() {
+        return carResultDao.findAll();
     }
 }

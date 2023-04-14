@@ -1,16 +1,19 @@
 package racingcar.service;
 
+import static java.util.stream.Collectors.groupingBy;
+
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.CarDto;
+import racingcar.dto.CarResultDto;
 import racingcar.dto.RacingGameResultDto;
-import racingcar.dto.request.RacingStartRequest;
-import racingcar.dto.response.RacingCarResponse;
-import racingcar.dto.response.RacingResultResponse;
+import racingcar.dto.request.RacingGameRequest;
+import racingcar.dto.response.CarResponse;
+import racingcar.dto.response.RacingGameResultResponse;
 import racingcar.repository.RacingCarRepository;
 
 import java.util.ArrayList;
@@ -27,11 +30,38 @@ public class WebRacingCarService implements RacingCarService {
     }
 
     @Override
-    public RacingResultResponse play(RacingStartRequest racingStartRequest) {
-        Cars cars = generateCars(racingStartRequest.getNames());
-        return playGame(cars, racingStartRequest.getCount());
+    public RacingGameResultResponse play(RacingGameRequest racingGameRequest) {
+        Cars cars = generateCars(racingGameRequest.getNames());
+        return playGame(cars, racingGameRequest.getCount());
     }
 
+    @Override
+    public List<RacingGameResultResponse> findGameResults() {
+        final List<CarResultDto> carResultDtos = racingCarRepository.findAll();
+
+        final Map<Integer, List<CarResultDto>> eachResults = carResultDtos.stream()
+                .collect(groupingBy(CarResultDto::getGameId));
+
+        List<RacingGameResultResponse> racingResultResponses = new ArrayList<>();
+
+        for (List<CarResultDto> carResultDtosById : eachResults.values()) {
+
+            List<CarResponse> carResponses = carResultDtosById.stream()
+                    .map(CarResponse::new)
+                    .collect(Collectors.toList());
+
+            final String winners = carResultDtosById.stream()
+                    .filter(CarResultDto::isWin)
+                    .map(CarResultDto::getName)
+                    .collect(Collectors.joining(", "));
+
+            racingResultResponses.add(new RacingGameResultResponse(carResponses, winners));
+        }
+
+        return racingResultResponses;
+    }
+
+    //TODO: Dto에서 수행하도록 변경
     private Cars generateCars(List<String> carNames) {
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         List<Car> carInstances = new ArrayList<>();
@@ -41,7 +71,7 @@ public class WebRacingCarService implements RacingCarService {
         return new Cars(carInstances);
     }
 
-    private RacingResultResponse playGame(Cars cars, int round) {
+    private RacingGameResultResponse playGame(Cars cars, int round) {
         RacingGame racingGame = new RacingGame(cars, round);
         while (!racingGame.isGameEnded()) {
             racingGame.playOneRound();
@@ -57,37 +87,27 @@ public class WebRacingCarService implements RacingCarService {
     }
 
     private RacingGameResultDto createRacingGameResultDto(int round, RacingGame racingGame) {
-        List<CarDto> carDtos = new ArrayList<>();
+        List<CarResultDto> carResultDtos = new ArrayList<>();
 
         List<Car> winnerCars = racingGame.findWinnerCars();
         List<Car> cars = racingGame.getCars();
 
         for (Car car : cars) {
-            carDtos.add(new CarDto(car.getName(), car.getPosition(), winnerCars.contains(car)));
+            carResultDtos.add(new CarResultDto(car.getName(), car.getPosition(), winnerCars.contains(car)));
         }
 
-        return new RacingGameResultDto(round, carDtos);
+        return new RacingGameResultDto(round, carResultDtos);
     }
 
-    private RacingResultResponse createRacingResultResponse(RacingGame racingGame) {
-        List<RacingCarResponse> racingCars = getRacingCarResponses(racingGame);
-        String winners = getWinners(racingGame);
+    private RacingGameResultResponse createRacingResultResponse(RacingGame racingGame) {
+        List<CarResponse> racingCars = racingGame.getCars().stream()
+                .map(CarResponse::new)
+                .collect(Collectors.toList());
 
-        return new RacingResultResponse(racingCars, winners);
-    }
-
-    private List<RacingCarResponse> getRacingCarResponses(RacingGame racingGame) {
-        List<RacingCarResponse> racingCars = new ArrayList<>();
-
-        for (Car car : racingGame.getCars()) {
-            racingCars.add(new RacingCarResponse(car.getName(), car.getPosition()));
-        }
-        return racingCars;
-    }
-
-    private String getWinners(RacingGame racingGame) {
-        return racingGame.findWinnerCars().stream()
+        String winners = racingGame.findWinnerCars().stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(", "));
+
+        return new RacingGameResultResponse(racingCars, winners);
     }
 }
