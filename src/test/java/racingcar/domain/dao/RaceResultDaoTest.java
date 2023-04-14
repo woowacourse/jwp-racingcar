@@ -19,7 +19,7 @@ class RaceResultDaoTest {
     private static final String winners = "test1,test2";
 
     @Autowired
-    private RaceResultDao raceResultDao;
+    private H2RaceResultResultDao raceResultDao;
 
     @Test
     @DisplayName("레이싱 결과를 저장한다.")

@@ -11,13 +11,15 @@ import racingcar.dto.ExceptionDto;
 public class ControllerAdvice {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ExceptionDto> handleIllegalArgumentException(final IllegalArgumentException exception) {
+    public ResponseEntity<ExceptionDto> handleIllegalArgumentException(
+        final IllegalArgumentException exception) {
         final ExceptionDto exceptionDto = new ExceptionDto(exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDto);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ExceptionDto> handleHttpMessageNotReadableException(final HttpMessageNotReadableException exception) {
+    public ResponseEntity<ExceptionDto> handleHttpMessageNotReadableException(
+        final HttpMessageNotReadableException exception) {
         final ExceptionDto exceptionDto = new ExceptionDto("입력 형식이 맞지 않습니다.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDto);
     }

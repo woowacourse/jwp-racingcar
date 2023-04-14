@@ -22,9 +22,9 @@ class CarDaoTest {
     private static final String winners = "test1,test2";
 
     @Autowired
-    private CarDao carDao;
+    private H2CarDao carDao;
     @Autowired
-    private RaceResultDao raceResultDao;
+    private H2RaceResultResultDao raceResultDao;
 
     @Test
     @DisplayName("차들의 정보를 저장한다")

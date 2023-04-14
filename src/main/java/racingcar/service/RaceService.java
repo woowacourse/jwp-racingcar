@@ -8,23 +8,25 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
-import racingcar.domain.RaceResult;
+import racingcar.domain.dao.CarDao;
+import racingcar.domain.dao.RaceResultDao;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
-import racingcar.repository.CarRaceRepository;
 
 @Service
 @Transactional(readOnly = true)
 public class RaceService {
 
     private final NumberGenerator numberGenerator;
-    private final CarRaceRepository carRaceRepository;
+    private final CarDao carDao;
+    private final RaceResultDao raceResultDao;
 
-    public RaceService(final NumberGenerator numberGenerator,
-        final CarRaceRepository carRaceRepository) {
+    public RaceService(final NumberGenerator numberGenerator, final CarDao carDao,
+        final RaceResultDao raceResultDao) {
         this.numberGenerator = numberGenerator;
-        this.carRaceRepository = carRaceRepository;
+        this.carDao = carDao;
+        this.raceResultDao = raceResultDao;
     }
 
     @Transactional
@@ -32,9 +34,9 @@ public class RaceService {
         final Race race = new Race(raceRequest.getCount());
         final Cars cars = makeCars(raceRequest);
         final RaceResponse raceResponse = getRaceResult(race, cars);
-        final RaceResult raceResult = new RaceResult(raceRequest.getCount(),
-            raceResponse.getWinners(), cars);
-        carRaceRepository.save(raceResult);
+        final Long raceResultId = raceResultDao.save(raceRequest.getCount(),
+            raceRequest.getNames());
+        carDao.saveAll(raceResultId, cars.getCars());
         return raceResponse;
     }
 

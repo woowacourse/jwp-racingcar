@@ -12,7 +12,8 @@ public class RaceResponse {
         this.racingCars = racingCars;
     }
 
-    public static RaceResponse create(final List<String> winners, final List<CarStatusDto> carRaceResult) {
+    public static RaceResponse create(final List<String> winners,
+        final List<CarStatusDto> carRaceResult) {
         final String winnerNames = String.join(",", winners);
         return new RaceResponse(winnerNames, carRaceResult);
     }

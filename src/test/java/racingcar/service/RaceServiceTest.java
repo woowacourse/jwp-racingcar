@@ -1,20 +1,19 @@
 package racingcar.service;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.RaceResult;
+import racingcar.domain.Car;
+import racingcar.domain.dao.CarDao;
+import racingcar.domain.dao.RaceResultDao;
 import racingcar.domain.dao.entity.CarEntity;
 import racingcar.domain.dao.entity.RaceEntity;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 import racingcar.mock.MockNumberGenerator;
-import racingcar.repository.CarRaceRepository;
-
-import java.util.Collections;
-import java.util.List;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class RaceServiceTest {
 
@@ -23,7 +22,7 @@ class RaceServiceTest {
     @BeforeEach
     void init() {
         final MockNumberGenerator numberGenerator = new MockNumberGenerator();
-        raceService = new RaceService(numberGenerator, new TestCarRaceRepository());
+        raceService = new RaceService(numberGenerator, new TestCarDao(), new TestRaceResultDao());
     }
 
     @Test
@@ -39,26 +38,34 @@ class RaceServiceTest {
 
         // then
         assertThat(raceResults.getWinners())
-                .isEqualTo(testCarNames);
+            .isEqualTo(testCarNames);
 
         assertThat(raceResults.getRacingCars().size())
-                .isEqualTo(3);
+            .isEqualTo(3);
     }
 
-    private static class TestCarRaceRepository implements CarRaceRepository {
+    private static class TestCarDao implements CarDao {
 
         @Override
-        public void save(final RaceResult raceResult) {
+        public void saveAll(final Long raceResultId, final List<Car> cars) {
         }
 
         @Override
-        public List<RaceEntity> findRaceEntities() {
-            return Collections.emptyList();
+        public List<CarEntity> findAll(final Long resultId) {
+            return null;
+        }
+    }
+
+    private static class TestRaceResultDao implements RaceResultDao {
+
+        @Override
+        public Long save(int trialCount, String winners) {
+            return null;
         }
 
         @Override
-        public List<CarEntity> findCarEntities(final Long raceResultId) {
-            return Collections.emptyList();
+        public List<RaceEntity> findAll() {
+            return null;
         }
     }
 }

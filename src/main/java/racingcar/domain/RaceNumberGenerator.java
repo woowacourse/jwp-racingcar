@@ -1,8 +1,7 @@
 package racingcar.domain;
 
-import org.springframework.stereotype.Component;
-
 import java.util.concurrent.ThreadLocalRandom;
+import org.springframework.stereotype.Component;
 
 @Component
 public class RaceNumberGenerator implements NumberGenerator {
