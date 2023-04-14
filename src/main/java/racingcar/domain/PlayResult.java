@@ -45,7 +45,7 @@ public class PlayResult {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlayResult that = (PlayResult) o;
-        return !id.equals(null) && Objects.equals(id, that.id);
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
