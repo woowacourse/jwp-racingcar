@@ -1,11 +1,10 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import racingcar.dao.UpdatingDAO;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
@@ -21,30 +20,31 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class WebController {
+
     public static final String DUPLICATING_NAME_EXCEPTION_MESSAGE = "중복된 이름은 사용할 수 없습니다.";
     public static final String EMPTY_INPUT_EXCEPTION_MESSAGE = "입력값은 비어있을 수 없습니다.";
 
     final private UpdatingDAO updatingDAO;
 
-    public WebController(UpdatingDAO updatingDAO){
-        this.updatingDAO=updatingDAO;
+    public WebController(UpdatingDAO updatingDAO) {
+        this.updatingDAO = updatingDAO;
     }
 
-    @ResponseBody
     @PostMapping("/plays")
     public FinalResultDto run(@RequestBody RequestBodyDTO dto) {
         Cars cars = initializeCars(dto.getNames());
         Trial trial = getTrial(dto.getCount());
         Cars updatedCars = playGame(cars, trial);
-        final int racingId=updatingDAO.insert(trial);
+        final int racingId = updatingDAO.insert(trial);
         List<CarDto> carDtos = cars.getCarDtos();
         List<String> winnerNames = cars.getWinnerNames();
 
-        for(CarDto car : carDtos){
+        for (CarDto car : carDtos) {
             String name = car.getName();
-            updatingDAO.insert(new CarInfoDto(racingId, name, car.getPosition(), winnerNames.contains(name)));
+            updatingDAO.insert(
+                new CarInfoDto(racingId, name, car.getPosition(), winnerNames.contains(name)));
         }
         return new FinalResultDto(updatedCars.getWinnerNames(), updatedCars.getCarDtos());
     }
@@ -68,7 +68,7 @@ public class WebController {
 
     private List<CarName> getCarNames(String names) {
         List<CarName> carNames = CarName.of(
-                Arrays.asList(names.split(","))
+            Arrays.asList(names.split(","))
         );
 
         validateCarNames(carNames);
@@ -97,7 +97,7 @@ public class WebController {
 
     private Cars saveCars(List<CarName> carNames) {
         List<Car> cars = carNames.stream().map(Car::of)
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
         return new Cars(cars, RandomNumberGenerator.makeInstance());
     }
 
