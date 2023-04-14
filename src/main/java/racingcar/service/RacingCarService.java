@@ -37,6 +37,7 @@ public class RacingCarService {
         return gameId;
     }
 
+    @Transactional(readOnly = true)
     public RacingResultResponse obtainRacingResult(int gameId) {
         List<String> winners = racingCarRepository.findWinners(gameId);
         List<RacingCarDto> racingCars = racingCarRepository.findRacingCars(gameId);
