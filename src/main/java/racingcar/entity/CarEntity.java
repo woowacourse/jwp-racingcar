@@ -7,7 +7,8 @@ public final class CarEntity {
     private final boolean isWinner;
     private final Long gameResultId;
 
-    public CarEntity(String playerName, int finalPosition, boolean isWinner, Long gameResultId) {
+    public CarEntity(final String playerName, final int finalPosition,
+                     final boolean isWinner, final Long gameResultId) {
         this.playerName = playerName;
         this.finalPosition = finalPosition;
         this.isWinner = isWinner;

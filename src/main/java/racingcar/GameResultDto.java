@@ -5,12 +5,12 @@ import racingcar.domain.Cars;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class ResultDto {
+public final class GameResultDto {
 
     private final List<String> winners;
     private final List<CarDto> racingCars;
 
-    public ResultDto(Cars winnersResult, Cars finalResult) {
+    public GameResultDto(Cars winnersResult, Cars finalResult) {
         this.winners = winnersResult.getCars()
                 .stream()
                 .map(car -> car.getName().getName())

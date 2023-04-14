@@ -2,11 +2,14 @@ package racingcar;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
 import racingcar.domain.movingstrategy.DefaultMovingStrategy;
+import racingcar.entity.CarEntity;
+import racingcar.entity.GameResultEntity;
 import racingcar.repository.CarRepository;
 import racingcar.repository.GameResultRepository;
 
@@ -24,20 +27,24 @@ public class RacingGameService {
         this.carRepository = carRepository;
     }
 
-
     @Transactional
-    public ResultDto getResult(final UserInputDto inputDto) {
+    public GameResultDto getResult(final UserInputDto inputDto) {
         final RacingGame racingGame = getRacingGame(inputDto);
 
-        final Long gameResultId = gameResultRepository.saveGameResult(new TryCount(inputDto.getCount()));
+        final Long gameResultId = gameResultRepository.save(new GameResultEntity(inputDto.getCount()));
 
         final List<Cars> result = racingGame.start(new DefaultMovingStrategy());
         final Cars finalResult = result.get(result.size() - 1);
         final Cars winnersResult = racingGame.decideWinners();
 
-        carRepository.saveCars(gameResultId, finalResult, winnersResult);
+        final List<CarEntity> carEntities = finalResult.getCars()
+                .stream()
+                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), checkWinner(car, winnersResult), gameResultId))
+                .collect(Collectors.toList());
 
-        return new ResultDto(winnersResult, finalResult);
+        carRepository.saveAll(carEntities);
+
+        return new GameResultDto(winnersResult, finalResult);
     }
 
     private RacingGame getRacingGame(final UserInputDto inputDto) {
@@ -49,5 +56,9 @@ public class RacingGameService {
         final TryCount tryCount = new TryCount(inputDto.getCount());
 
         return new RacingGame(nameList, tryCount);
+    }
+
+    private boolean checkWinner(final Car currentCar, final Cars winnersResult) {
+        return winnersResult.getCars().contains(currentCar);
     }
 }
