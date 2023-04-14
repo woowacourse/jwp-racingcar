@@ -15,7 +15,7 @@ public final class Application {
 
     public static void main(String[] args) {
         try (final Scanner scanner = new Scanner(System.in)) {
-            IOViewResolver ioViewResolver = new IOViewResolver(new InputView(scanner), OutputView.getInstance());
+            IOViewResolver ioViewResolver = new IOViewResolver(new InputView(scanner), new OutputView());
             RacingGameController controller = new RacingGameController(ioViewResolver, new DefaultMovingStrategy());
 
             GameProcess process = INITIAL_STATUS;
