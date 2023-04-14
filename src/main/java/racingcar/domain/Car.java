@@ -1,7 +1,7 @@
 package racingcar.domain;
 
 
-import racingcar.dto.RacingCarDto;
+import racingcar.dto.PlayerDto;
 
 public class Car {
     private static final int MIN_MOVE_POWER = 4;
@@ -30,8 +30,8 @@ public class Car {
         }
     }
 
-    public RacingCarDto convertToDto() {
-        return new RacingCarDto(name, position);
+    public PlayerDto convertToDto() {
+        return new PlayerDto(name, position);
     }
 
     public int getPosition() {

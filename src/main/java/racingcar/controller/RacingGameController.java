@@ -1,37 +1,28 @@
 package racingcar.controller;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dao.PlayersHistoryDao;
-import racingcar.dao.RacingHistoryDao;
-import racingcar.domain.RacingGame;
-import racingcar.dto.RacingGameDto;
-import racingcar.dto.RacingGameResultDto;
-import racingcar.utils.InputUtil;
+import racingcar.dto.GameInputDto;
+import racingcar.dto.GameResultDto;
+import racingcar.service.GameService;
 
 @RestController
 public class RacingGameController {
+
+    private final GameService gameService;
+
     @Autowired
-    private RacingHistoryDao racingHistoryDao;
-    @Autowired
-    private PlayersHistoryDao playersHistoryDao;
+    public RacingGameController(final GameService gameService) {
+        this.gameService = gameService;
+    }
 
     @PostMapping(path = "/plays", consumes = "application/json")
-    public ResponseEntity<RacingGameResultDto> play(@RequestBody final RacingGameDto racingGameDto) {
-
-        final List<String> names = InputUtil.splitNames(racingGameDto.getNames());
-        final RacingGame racingGame = new RacingGame(names, racingGameDto.getCount());
-        racingGame.start();
-
-        final RacingGameResultDto racingGameResultDto = racingGame.convertToDto();
-        final int resultId = racingHistoryDao.insertResult(racingGameResultDto);
-        playersHistoryDao.insertResult(racingGameResultDto.getRacingCars(), resultId);
-        return ResponseEntity.ok(racingGameResultDto);
+    public GameResultDto play(@RequestBody final GameInputDto gameInputDto) {
+        return gameService.playGame(gameInputDto);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

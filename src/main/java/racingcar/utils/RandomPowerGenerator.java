@@ -1,4 +1,4 @@
-package racingcar.utils.powerGenerator;
+package racingcar.utils;
 
 import java.util.Random;
 

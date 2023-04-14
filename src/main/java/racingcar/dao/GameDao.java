@@ -6,23 +6,23 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.RacingGameResultDto;
+import racingcar.dto.GameDto;
 
 @Repository
-public class RacingHistoryDao {
+public class GameDao {
+
     private final SimpleJdbcInsert insertActor;
 
-    public RacingHistoryDao(final DataSource dataSource) {
+    public GameDao(final DataSource dataSource) {
         this.insertActor = new SimpleJdbcInsert(dataSource)
-                .withTableName("play_result")
+                .withTableName("game")
                 .usingGeneratedKeyColumns("id");
     }
 
-    public int insertResult(final RacingGameResultDto racingGameResultDto) {
+    public long insertGame(final GameDto gameDto) {
         final Map<String, Object> params = new HashMap<>();
-        params.put("winners", racingGameResultDto.getWinners());
-        params.put("play_count", racingGameResultDto.getPlayCount());
+        params.put("play_count", gameDto.getPlayCount());
         params.put("created_at", LocalDateTime.now());
-        return insertActor.executeAndReturnKey(params).intValue();
+        return insertActor.executeAndReturnKey(params).longValue();
     }
 }
