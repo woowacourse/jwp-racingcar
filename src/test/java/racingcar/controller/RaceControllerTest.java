@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import racingcar.common.ErrorData;
 import racingcar.common.exception.DuplicateResourceException;
 import racingcar.common.exception.ResourceLengthException;
+import racingcar.common.exception.ResourceMinRangeException;
 import racingcar.dto.CarResponse;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
@@ -83,12 +84,17 @@ class RaceControllerTest {
         final RaceRequest raceRequest = new RaceRequest("두둠,져니", 0);
         final String request = objectMapper.writeValueAsString(raceRequest);
 
-        // when, then
+        // when
+        final ResourceMinRangeException resourceMinRangeException = new ResourceMinRangeException(new ErrorData<>(0));
+        when(raceService.play(any()))
+                .thenThrow(resourceMinRangeException);
+
+        // then
         mockMvc.perform(post("/plays")
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(status().is4xxClientError(),
-                        jsonPath("$.message").value("경주 횟수는 최소 1번부터 가능합니다."));
+                        jsonPath("$.message").value("0보다 큰 값을 입력해 주세요."));
     }
 
     @Test
