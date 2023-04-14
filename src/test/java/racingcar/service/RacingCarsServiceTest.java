@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import racingcar.RaceDto;
 import racingcar.dto.CarPositionDto;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -27,9 +28,9 @@ class RacingCarsServiceTest {
 
     @Test
     void 레이스_진행() {
-        final int result = racingCarsService.race(carsName, count);
+        final RaceDto result = racingCarsService.race(carsName, count);
 
-        assertThat(result).isOne();
+        assertThat(result.getGameId()).isOne();
     }
 
     @Nested
