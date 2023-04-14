@@ -3,7 +3,7 @@ package racingcar.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.dto.CarStatusDto;
+import racingcar.dto.CarResponse;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 import racingcar.mock.MockCarDao;
@@ -46,7 +46,7 @@ class RaceServiceTest {
     void getRaceResult() {
         // given
         final List<RaceResponse> expected = List.of(RaceResponse.create("pobi",
-                List.of(new CarStatusDto("pobi", 10))));
+                List.of(new CarResponse("pobi", 10))));
 
         // when
         final List<RaceResponse> actual = raceService.getRaceResult();

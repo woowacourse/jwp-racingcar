@@ -12,7 +12,7 @@ import racingcar.domain.dao.CarDao;
 import racingcar.domain.dao.RaceResultDao;
 import racingcar.domain.dao.entity.CarEntity;
 import racingcar.domain.dao.entity.RaceEntity;
-import racingcar.dto.CarStatusDto;
+import racingcar.dto.CarResponse;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 
@@ -52,8 +52,8 @@ public class RaceService {
         return raceEntities.stream()
                 .map(raceEntity -> {
                     final List<CarEntity> carEntities = carDao.findAll(raceEntity.getId());
-                    final List<CarStatusDto> carStatusDtos = makeCarRaceResult(carEntities);
-                    return RaceResponse.create(raceEntity.getWinners(), carStatusDtos);
+                    final List<CarResponse> carResponses = makeCarRaceResult(carEntities);
+                    return RaceResponse.create(raceEntity.getWinners(), carResponses);
                 })
                 .collect(Collectors.toUnmodifiableList());
     }
@@ -66,20 +66,20 @@ public class RaceService {
 
     private RaceResponse makeRaceResponse(final Cars cars) {
         final List<String> winners = cars.getWinnerCarNames();
-        final List<CarStatusDto> carRaceResult = makeCarRaceResult(cars);
+        final List<CarResponse> carRaceResult = makeCarRaceResult(cars);
         return RaceResponse.create(winners, carRaceResult);
     }
 
-    private List<CarStatusDto> makeCarRaceResult(final Cars cars) {
+    private List<CarResponse> makeCarRaceResult(final Cars cars) {
         return cars.getCars()
                 .stream()
-                .map(car -> new CarStatusDto(car.getName(), car.getPosition()))
+                .map(car -> new CarResponse(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private List<CarStatusDto> makeCarRaceResult(final List<CarEntity> carEntities) {
+    private List<CarResponse> makeCarRaceResult(final List<CarEntity> carEntities) {
         return carEntities.stream()
-                .map(carEntity -> new CarStatusDto(carEntity.getName(), carEntity.getPosition()))
+                .map(carEntity -> new CarResponse(carEntity.getName(), carEntity.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
     }
 }

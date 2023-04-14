@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import racingcar.common.ErrorData;
 import racingcar.common.exception.DuplicateResourceException;
 import racingcar.common.exception.ResourceLengthException;
-import racingcar.dto.CarStatusDto;
+import racingcar.dto.CarResponse;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 import racingcar.service.RaceService;
@@ -46,8 +46,8 @@ class RaceControllerTest {
         // given
         final RaceRequest raceRequest = new RaceRequest("두둠,져니", 10);
         final String request = objectMapper.writeValueAsString(raceRequest);
-        final CarStatusDto carStatusDto = new CarStatusDto("두둠", 6);
-        final RaceResponse raceResponse = RaceResponse.create(List.of("두둠"), List.of(carStatusDto));
+        final CarResponse carResponse = new CarResponse("두둠", 6);
+        final RaceResponse raceResponse = RaceResponse.create(List.of("두둠"), List.of(carResponse));
 
         when(raceService.play(any()))
                 .thenReturn(raceResponse);
@@ -134,9 +134,9 @@ class RaceControllerTest {
     @DisplayName("자동차 경주 결과 조회 성공")
     void raceResult_success() throws Exception {
         // given
-        final List<CarStatusDto> carStatusDtos = List.of(new CarStatusDto("두둠", 7),
-                new CarStatusDto("져니", 10));
-        final RaceResponse raceResponse = RaceResponse.create("져니", carStatusDtos);
+        final List<CarResponse> carResponses = List.of(new CarResponse("두둠", 7),
+                new CarResponse("져니", 10));
+        final RaceResponse raceResponse = RaceResponse.create("져니", carResponses);
         final List<RaceResponse> raceResponses = List.of(raceResponse);
 
         // when
