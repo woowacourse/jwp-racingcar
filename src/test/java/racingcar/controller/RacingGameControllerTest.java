@@ -1,36 +1,54 @@
 package racingcar.controller;
 
-import io.restassured.RestAssured;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameRequest;
+import racingcar.dto.RacingGameResponse;
+import racingcar.service.RacingGameService;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class RacingGameControllerTest {
+@WebMvcTest(RacingGameController.class)
+public class RacingGameControllerTest {
 
-    @BeforeEach
-    void setUp(@LocalServerPort int port) {
-        RestAssured.port = port;
-    }
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private RacingGameService racingGameService;
 
     @Test
-    void playGame() {
-        RacingGameRequest request = new RacingGameRequest("브리,토미,브라운", 10);
+    public void plays() throws Exception {
+        RacingGameRequest request = new RacingGameRequest("현구막,박스터", 10);
+        RacingGameResponse expectedResponse = new RacingGameResponse(
+                List.of("현구막"),
+                List.of(new CarDto("현구막", 10, true), new CarDto("박스터", 7, false))
+        );
+        String requestString = objectMapper.writeValueAsString(request);
+        when(racingGameService.play(any())).thenReturn(expectedResponse);
 
-        RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(request)
-                .when().post("/plays")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .body("winners", Matchers.notNullValue())
-                .body("racingCars", Matchers.hasSize(3));
+        mockMvc.perform(post("/plays")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestString))
+
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.winners", is(List.of("현구막"))))
+                .andExpect(jsonPath("$.racingCars", hasSize(2)));
     }
-
 }
