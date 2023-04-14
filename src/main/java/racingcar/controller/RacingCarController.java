@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
-import racingcar.dto.NamesAndCountDto;
+import racingcar.dto.InputDto;
 import racingcar.dto.ResultDto;
 import racingcar.jdbc.RacingCarDao;
 
@@ -25,9 +25,9 @@ public class RacingCarController {
 	}
 
 	@PostMapping("/plays")
-	public ResultDto createData(@RequestBody NamesAndCountDto namesAndCountDto) {
-		String carNames = namesAndCountDto.getNames();
-		int count = Integer.parseInt(namesAndCountDto.getCount());
+	public ResultDto createData(@RequestBody InputDto inputDto) {
+		String carNames = inputDto.getNames();
+		int count = Integer.parseInt(inputDto.getCount());
 
 		RacingGame racingGame = new RacingGame(carNames);
 		startRacing(count, racingGame);

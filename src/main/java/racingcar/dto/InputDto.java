@@ -1,6 +1,6 @@
 package racingcar.dto;
 
-public class NamesAndCountDto {
+public class InputDto {
 	private String names;
 	private String count;
 
