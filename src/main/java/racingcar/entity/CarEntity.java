@@ -1,6 +1,7 @@
 package racingcar.entity;
 
 public final class CarEntity {
+
     private final String playerName;
     private final int finalPosition;
     private final boolean isWinner;
@@ -29,13 +30,4 @@ public final class CarEntity {
         return gameResultId;
     }
 
-    @Override
-    public String toString() {
-        return "CarEntity{" +
-                "playerName='" + playerName + '\'' +
-                ", finalPosition=" + finalPosition +
-                ", isWinner=" + isWinner +
-                ", gameResultId=" + gameResultId +
-                '}';
-    }
 }
