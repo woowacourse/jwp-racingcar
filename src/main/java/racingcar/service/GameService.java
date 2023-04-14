@@ -5,75 +5,75 @@ import static java.util.stream.Collectors.toList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.response.PlayResponse;
 import racingcar.dto.VehicleDto;
+import racingcar.repository.RecordDao;
+import racingcar.response.PlayResponse;
 import racingcar.domain.Cars;
 import racingcar.domain.TrialCount;
 import racingcar.domain.Vehicle;
 import racingcar.repository.GameDao;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GameService {
 
-    private static final String DELIMITER = ",";
+    private static final String CAR_NAME_DELIMITER = ",";
 
-    private final RecordService recordService;
     private final GameDao gameDao;
+    private final RecordDao recordDao;
 
     @Autowired
-    public GameService(final RecordService recordService, final GameDao gameDao) {
-        this.recordService = recordService;
+    public GameService(final GameDao gameDao, final RecordDao recordDao) {
         this.gameDao = gameDao;
+        this.recordDao = recordDao;
     }
 
     @Transactional
     public PlayResponse playRacing(final String names, final int count) {
-        Cars cars = createCars(names);
         TrialCount trialCount = new TrialCount(count);
-
-        long gameId = saveGame(trialCount);
+        Cars cars = createCars(names);
 
         play(trialCount, cars);
-        recordService.saveResults(gameId, cars);
 
-        return new PlayResponse(findWinnerNames(cars), toVehicleDto(cars));
+        long savedGameId = gameDao.insert(trialCount.getValue());
+        saveResults(savedGameId, cars);
+
+        return new PlayResponse(winnerNames(cars), toVehicleDto(cars));
     }
 
     private Cars createCars(final String names) {
-        List<String> carNames = splitNames(names);
+        List<String> carNames = Arrays.stream(names.split(CAR_NAME_DELIMITER, -1))
+                .map(String::trim)
+                .collect(toList());
 
         return new Cars(carNames);
     }
 
-    private List<String> splitNames(final String names) {
-        return Arrays.stream(names.split(DELIMITER, -1))
-                .map(String::trim)
-                .collect(toList());
-    }
-
-    private long saveGame(final TrialCount trialCount) {
-        return gameDao.insert(trialCount.getTrialCount());
-    }
-
     private void play(final TrialCount trialCount, final Cars cars) {
-        for (int i = 0; i < trialCount.getTrialCount(); i++) {
+        for (int i = 0; i < trialCount.getValue(); i++) {
             cars.moveAll();
         }
     }
 
-    private List<String> findWinnerNames(final Cars cars) {
+    public void saveResults(final long gameId, final Cars cars) {
+        List<String> winnerNames = winnerNames(cars);
+
+        for (final Vehicle car : cars.getCars()) {
+            recordDao.insert(gameId, winnerNames.contains(car.getName()), car);
+        }
+    }
+
+    private List<String> winnerNames(final Cars cars) {
         return cars.getWinner().stream()
                 .map(Vehicle::getName)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     private List<VehicleDto> toVehicleDto(final Cars cars) {
         return cars.getCars()
                 .stream()
                 .map(car -> new VehicleDto(car.getName(), car.getDistance()))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }
