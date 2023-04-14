@@ -1,8 +1,5 @@
 package racingcar.domain;
 
-import racingcar.NumberGenerator;
-import racingcar.RandomNumberGenerator;
-
 public class RacingGame {
     public static final int MAX_TRY_COUNT_BOUND = 100;
 

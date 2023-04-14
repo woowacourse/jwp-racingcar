@@ -3,7 +3,6 @@ package racingcar.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racingcar.NumberGenerator;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
@@ -17,19 +16,17 @@ import racingcar.dto.RacingGameResponse;
 public class RacingGameService {
     private final CarDao carDao;
     private final RacingGameDao racingGameDao;
-    private final NumberGenerator numberGenerator;
 
-    public RacingGameService(CarDao carDao, RacingGameDao racingGameDao, NumberGenerator numberGenerator) {
+    public RacingGameService(CarDao carDao, RacingGameDao racingGameDao) {
         this.carDao = carDao;
         this.racingGameDao = racingGameDao;
-        this.numberGenerator = numberGenerator;
     }
 
     public RacingGameResponse play(RacingGameRequest racingGameRequest) {
         Cars cars = new Cars(racingGameRequest.getNamesList().stream()
                 .map(Car::new)
                 .collect(Collectors.toList()));
-        RacingGame game = new RacingGame(numberGenerator, racingGameRequest.getCount(), cars);
+        RacingGame game = new RacingGame(racingGameRequest.getCount(), cars);
         Long racingGameId = racingGameDao.save(racingGameRequest.getCount());
         while (!game.isEnd()) {
             game.playOneRound();
