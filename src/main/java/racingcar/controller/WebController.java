@@ -22,7 +22,7 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity createGame(@RequestBody RequestDTO requestDTO) {
+    public ResponseEntity<ResponseDTO> createGame(@RequestBody RequestDTO requestDTO) {
         List<String> carNames = Arrays.stream(requestDTO.getNames().split(DELIMITER)).collect(Collectors.toList());
         ResponseDTO responseDTO = racingCarService.play(carNames, requestDTO.getCount());
         return ResponseEntity.ok().body(responseDTO);
