@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public class OutputView {
+
     private static class OutputViewSingletonHelper {
         private static final OutputView OUTPUT_VIEW = new OutputView();
     }

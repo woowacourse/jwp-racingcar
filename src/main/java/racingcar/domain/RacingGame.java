@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public final class RacingGame {
 
     private final Cars cars;
-    private final TryCount tryCount;
+    private TryCount tryCount;
 
     public RacingGame(final List<Name> carNames, final TryCount tryCount) {
         final List<Car> collect = carNames.stream()
@@ -20,18 +20,12 @@ public final class RacingGame {
         this.tryCount = tryCount;
     }
 
-    public RacingGame(final Cars cars, final TryCount tryCount) {
-        this.cars = cars;
-        this.tryCount = tryCount;
-    }
-
     public List<Cars> start(final MovingStrategy strategy) {
         final List<Cars> movingStatus = new ArrayList<>();
-
-        while (tryCount.canTry()) {
+        for (int i = 0; i < tryCount.getCount(); i++) {
             cars.moveCars(strategy);
             movingStatus.add(new Cars(cars));
-            tryCount.decreaseCount();
+            tryCount = tryCount.decreaseCount();
         }
         return movingStatus;
     }

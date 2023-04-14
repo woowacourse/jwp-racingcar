@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 public final class TryCount {
+
     private static final int MIN_COUNT = 1;
 
     private int count;
@@ -10,12 +11,11 @@ public final class TryCount {
         this.count = count;
     }
 
-    public void decreaseCount() {
-        count--;
-    }
-
-    public boolean canTry() {
-        return this.count > 0;
+    public TryCount decreaseCount() {
+        if (this.count > 0) {
+            return new TryCount(count--);
+        }
+        throw new IllegalStateException("시도 횟수를 초과하셨습니다.");
     }
 
     private void validate(int count) {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class Cars implements Iterable<Car> {
+
     private final List<Car> cars;
 
     public Cars(final List<Car> cars) {

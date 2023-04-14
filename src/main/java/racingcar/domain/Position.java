@@ -3,6 +3,7 @@ package racingcar.domain;
 import java.util.Objects;
 
 public final class Position {
+
     private static final int INITIAL_POSITION = 0;
 
     private int position;
