@@ -1,6 +1,5 @@
 package racingcar.domain;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.GameDAO;
 import racingcar.dao.GameLogDAO;
@@ -14,14 +13,14 @@ import java.util.stream.Stream;
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
 @Service
-public class SpringService {
+public class WebService {
     private List<Car> cars;
     private final MoveChance moveChance;
     private final GameDAO gameDAO;
     private final GameLogDAO gameLogDAO;
     private final WinnersDAO winnersDAO;
 
-    public SpringService(final GameDAO gameDAO,final GameLogDAO gameLogDAO, final WinnersDAO winnersDAO) {
+    public WebService(final GameDAO gameDAO, final GameLogDAO gameLogDAO, final WinnersDAO winnersDAO) {
         this.gameDAO = gameDAO;
         this.gameLogDAO =gameLogDAO;
         this.winnersDAO = winnersDAO;
