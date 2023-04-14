@@ -34,9 +34,10 @@ public class PlayRequestController {
 
         final RacingCars racingCars = generateRacingCars(names);
         race(count, racingCars);
-        
+
         final String winners = generateWinners(racingCars);
-        final int gameId = racingGameDao.insert(count, winners);
+        racingGameDao.insert(count, winners);
+        final int gameId = racingGameDao.getGameId();
         racingCars.getCars().forEach(car -> racingCarDao.insert(car, gameId));
 
         return ResponseEntity.ok().body(generateResponse(winners, racingCars));
