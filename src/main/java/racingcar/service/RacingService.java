@@ -2,6 +2,7 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.CarInfoDao;
 import racingcar.dao.RacingDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
@@ -23,10 +24,12 @@ public class RacingService {
 
     private final NumberGenerator numberGenerator;
     private final RacingDao racingDao;
+    private final CarInfoDao carInfoDao;
 
-    public RacingService(NumberGenerator numberGenerator, RacingDao racingDao) {
+    public RacingService(NumberGenerator numberGenerator, RacingDao racingDao, CarInfoDao carInfoDao) {
         this.numberGenerator = numberGenerator;
         this.racingDao = racingDao;
+        this.carInfoDao = carInfoDao;
     }
 
     public RacingResultDto race(String names, int count) {
@@ -64,7 +67,7 @@ public class RacingService {
         final int racingId = racingDao.saveRacing(racingResultDto.getTrial());
         for (CarDto car : racingResultDto.getRacingCars()) {
             String name = car.getName();
-            racingDao.saveCar(new CarSavingDto(racingId, name, car.getPosition(), racingResultDto.isWinnerContaining(name)));
+            carInfoDao.saveCar(new CarSavingDto(racingId, name, car.getPosition(), racingResultDto.isWinnerContaining(name)));
         }
     }
 }
