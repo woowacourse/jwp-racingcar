@@ -20,7 +20,8 @@ class RacingGameCarTest {
         final RacingGameDao gameDao = new RacingGameDao(jdbcTemplate);
 
         final Car car = new Car("echo", 5);
-        final int gameId = gameDao.insert(10, "echo");
+        gameDao.insert(10, "echo");
+        final int gameId = gameDao.getGameId();
 
         Assertions.assertDoesNotThrow(() -> carDao.insert(car, gameId));
     }
