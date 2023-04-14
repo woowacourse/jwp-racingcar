@@ -1,13 +1,10 @@
 package racingcar.repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
@@ -15,9 +12,14 @@ import racingcar.dto.RacingCarDto;
 @Repository
 public class RacingCarRepository {
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public RacingCarRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("GAME_RESULT")
+                .usingGeneratedKeyColumns("ID")
+                .usingColumns("TRIAL_COUNT");
     }
 
     public void saveWinner(int gameId, List<String> winners) {
@@ -38,18 +40,10 @@ public class RacingCarRepository {
     }
 
     public int saveGame(int count) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO GAME_RESULT (TRIAL_COUNT) VALUES(?)";
-        jdbcTemplate.update(con -> {
-            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, count);
-            return ps;
-        }, keyHolder);
-        Map<String, Object> keys = keyHolder.getKeys();
-        if (keys == null) {
-            throw new IllegalArgumentException("[ERROR] 게임이 정상적으로 저장되지 못했습니다.");
-        }
-        return (int) keys.get("ID");
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("TRIAL_COUNT", count);
+        return simpleJdbcInsert.executeAndReturnKey(parameterSource)
+                .intValue();
     }
 
     public List<String> findWinners(int gameId) {
