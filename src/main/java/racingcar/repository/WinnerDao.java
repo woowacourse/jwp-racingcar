@@ -1,6 +1,8 @@
 package racingcar.repository;
 
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -9,9 +11,9 @@ public class WinnerDao {
     private final InsertWinnerDao insertWinnerDao;
     private final SelectWinnerDao selectWinnerDao;
 
-    public WinnerDao(final InsertWinnerDao insertWinnerDao, final SelectWinnerDao selectWinnerDao) {
-        this.insertWinnerDao = insertWinnerDao;
-        this.selectWinnerDao = selectWinnerDao;
+    public WinnerDao(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
+        insertWinnerDao = new InsertWinnerDao(dataSource);
+        selectWinnerDao = new SelectWinnerDao(jdbcTemplate);
     }
 
     public List<Integer> findByGameId(final int gameId) {

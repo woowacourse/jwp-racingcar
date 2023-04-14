@@ -1,6 +1,8 @@
 package racingcar.repository;
 
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
@@ -10,9 +12,9 @@ public class CarDao {
     private final InsertCarDao insertCarDao;
     private final SelectCarDao selectCarDao;
 
-    public CarDao(final InsertCarDao insertCarDao, final SelectCarDao selectCarDao) {
-        this.insertCarDao = insertCarDao;
-        this.selectCarDao = selectCarDao;
+    public CarDao(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
+        insertCarDao = new InsertCarDao(dataSource);
+        selectCarDao = new SelectCarDao(jdbcTemplate);
     }
 
     public CarEntity save(final Car car, final int gameId) {

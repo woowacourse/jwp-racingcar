@@ -16,23 +16,15 @@ public final class RepositoryFactory {
     }
 
     public static CarDao carDao(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
-        return new CarDao(insertCarDao(dataSource), selectCarDao(jdbcTemplate));
+        return new CarDao(dataSource, jdbcTemplate);
     }
 
     public static InsertCarDao insertCarDao(final DataSource dataSource) {
         return new InsertCarDao(dataSource);
     }
 
-    public static SelectCarDao selectCarDao(final JdbcTemplate jdbcTemplate) {
-        return new SelectCarDao(jdbcTemplate);
-    }
-
     public static WinnerDao winnerDao(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
-        return new WinnerDao(insertWinnerDao(dataSource), selectWinnerDao(jdbcTemplate));
-    }
-
-    public static SelectWinnerDao selectWinnerDao(final JdbcTemplate jdbcTemplate) {
-        return new SelectWinnerDao(jdbcTemplate);
+        return new WinnerDao(dataSource, jdbcTemplate);
     }
 
     public static InsertWinnerDao insertWinnerDao(final DataSource dataSource) {
@@ -40,6 +32,6 @@ public final class RepositoryFactory {
     }
 
     public static GamesDao gamesDao(final DataSource dataSource) {
-        return new GamesDao(new InsertGameDao(dataSource));
+        return new GamesDao(dataSource);
     }
 }

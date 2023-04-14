@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
-@Repository
 public class InsertCarDao {
 
     private final SimpleJdbcInsert insertActor;
