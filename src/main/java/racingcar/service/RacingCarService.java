@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.RacingCarDao;
 import racingcar.domain.Car;
@@ -17,7 +18,8 @@ public class RacingCarService {
         this.racingCarDao = racingCarDao;
     }
 
-    public void saveGameResult(Cars cars, TryCount tryCount){
+    @Transactional
+    public void saveGameResult(Cars cars, TryCount tryCount) {
         Long gameId = playResultDao.insertWithKeyHolder(tryCount.getValue(), cars.getWinner());
         for (Car car : cars.getCars()) {
             racingCarDao.insert(gameId, car.getName().getValue(), car.getDistance().getValue());
