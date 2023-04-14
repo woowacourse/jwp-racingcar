@@ -15,15 +15,12 @@ public class CarResultDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
-    private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> {
-        CarResult carResult = CarResult.of(
-                resultSet.getLong("id"),
-                resultSet.getLong("play_result_id"),
-                resultSet.getString("name"),
-                resultSet.getInt("position")
-        );
-        return carResult;
-    };
+    private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> CarResult.of(
+            resultSet.getLong("id"),
+            resultSet.getLong("play_result_id"),
+            resultSet.getString("name"),
+            resultSet.getInt("position")
+    );
 
     public CarResultDao(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
