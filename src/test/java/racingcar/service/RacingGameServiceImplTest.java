@@ -24,8 +24,6 @@ class RacingGameServiceImplTest {
     @Test
     void race() {
         // given
-        final String jeomoon = "저문";
-        final String hyena = "헤나";
         final CarGroup carGroup = new CarGroup("저문,헤나");
         final int trial = 10;
 
@@ -38,6 +36,6 @@ class RacingGameServiceImplTest {
                 .collect(Collectors.toList());
 
         // then
-        assertThat(names).contains(jeomoon, hyena);
+        assertThat(names).contains("저문", "헤나");
     }
 }

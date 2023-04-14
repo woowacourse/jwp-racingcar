@@ -36,7 +36,7 @@ class RacingGameJdbcRepositoryTest {
         // then
         assertThat(racingGameInfo)
                 .hasFieldOrPropertyWithValue("id", savedId)
-                .hasFieldOrPropertyWithValue("winners", winners)
-                .hasFieldOrPropertyWithValue("trial", trial);
+                .hasFieldOrPropertyWithValue("winners", "저문,헤나")
+                .hasFieldOrPropertyWithValue("trial", 10);
     }
 }
