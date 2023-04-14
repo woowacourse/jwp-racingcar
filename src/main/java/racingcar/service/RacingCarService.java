@@ -19,6 +19,10 @@ public class RacingCarService {
         this.cars = new Cars(request.getNames());
     }
 
+    public void createCars(List<String> names) {
+        this.cars = new Cars(names);
+    }
+
     public void moveCars(MoveStrategy moveStrategy) {
         validateEmptyCars();
         for (Car car : cars.getCars()) {

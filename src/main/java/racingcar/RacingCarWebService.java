@@ -2,7 +2,6 @@ package racingcar;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarStatusResponse;
 import racingcar.dto.RacingCarWinnerResponse;
 import racingcar.service.RacingCarService;
@@ -22,17 +21,17 @@ public class RacingCarWebService {
         this.playerInsertDao = playerInsertDao;
     }
 
-    public PlayResponse play(PlayRequest playRequest) {
-        createCars(playRequest);
-        TryCount tryCount = new TryCount(playRequest.getCount());
+    public PlayResponse play(RacingCarGameDto racingCarGameDto) {
+        createCars(racingCarGameDto);
+        TryCount tryCount = new TryCount(racingCarGameDto.getTrialCount());
         playGame(tryCount);
-        PlayResponse response = save(new TryCount(playRequest.getCount()));
+        PlayResponse response = save(new TryCount(racingCarGameDto.getTrialCount()));
         return response;
     }
 
-    private void createCars(final PlayRequest playRequest) {
-        RacingCarNamesRequest racingCarNamesRequest = RacingCarNamesRequest.of(playRequest.getNames());
-        racingCarService.createCars(racingCarNamesRequest);
+    private void createCars(final RacingCarGameDto racingCarGameDto) {
+        final List<String> names = racingCarGameDto.getNames();
+        racingCarService.createCars(names);
     }
 
     private void playGame(TryCount tryCount) {

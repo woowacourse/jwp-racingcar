@@ -15,7 +15,8 @@ public class RacingCarController {
 
     @PostMapping("/plays")
     public ResponseEntity<PlayResponse> play(@RequestBody PlayRequest playRequest) {
-        PlayResponse response = racingCarWebService.play(playRequest);
+        final RacingCarGameDto racingCarGameDto = new RacingCarGameDto(playRequest);
+        PlayResponse response = racingCarWebService.play(racingCarGameDto);
         return ResponseEntity.ok().body(response);
     }
 }
