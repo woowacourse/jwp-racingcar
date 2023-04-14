@@ -20,7 +20,7 @@ public class RacingCarController {
 	private final RacingCarDao racingCarDao = new RacingCarDao();
 
 	@GetMapping("/plays")
-	public List<ResultDto> findData(){
+	public List<ResultDto> findData() {
 		return racingCarDao.find();
 	}
 
@@ -37,7 +37,7 @@ public class RacingCarController {
 		return toResultDto(cars);
 	}
 
-	public void startRacing(int count, RacingGame racingGame) {
+	private void startRacing(int count, RacingGame racingGame) {
 		for (int i = 0; i < count; i++) {
 			racingGame.moveCars();
 		}
