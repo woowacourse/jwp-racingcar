@@ -23,10 +23,7 @@ public class WebRacingCarController {
     public RacingResultResponse play(@RequestBody RacingCarRequest request) {
         List<String> carNames = getCarNames(request.getNames());
         int gameId = racingCarService.playRacingGame(carNames, request.getCount());
-
-        List<String> winners = racingCarService.findWinners(gameId);
-        List<RacingCarDto> racingCars = racingCarService.findRacingCars(gameId);
-        return new RacingResultResponse(winners, racingCars);
+        return racingCarService.obtainRacingResult(gameId);
     }
 
     private List<String> getCarNames(String names) {

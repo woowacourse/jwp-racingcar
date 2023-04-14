@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingResultResponse;
 import racingcar.repository.RacingCarRepository;
 import racingcar.utils.NumberGenerator;
 
@@ -36,11 +37,9 @@ public class RacingCarService {
         return gameId;
     }
 
-    public List<String> findWinners(int gameId) {
-        return racingCarRepository.findWinners(gameId);
-    }
-
-    public List<RacingCarDto> findRacingCars(int gameId) {
-        return racingCarRepository.findRacingCars(gameId);
+    public RacingResultResponse obtainRacingResult(int gameId) {
+        List<String> winners = racingCarRepository.findWinners(gameId);
+        List<RacingCarDto> racingCars = racingCarRepository.findRacingCars(gameId);
+        return new RacingResultResponse(winners, racingCars);
     }
 }
