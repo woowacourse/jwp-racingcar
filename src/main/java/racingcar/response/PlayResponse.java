@@ -5,15 +5,19 @@ import java.util.List;
 
 public class PlayResponse {
 
-    private final List<String> winners;
+    private final String winners;
     private final List<VehicleDto> racingCars;
 
     public PlayResponse(final List<String> winners, final List<VehicleDto> racingCars) {
-        this.winners = winners;
+        this.winners = convertToString(winners);
         this.racingCars = racingCars;
     }
 
-    public List<String> getWinners() {
+    private String convertToString(final List<String> winners) {
+        return String.join(",", winners);
+    }
+
+    public String getWinners() {
         return winners;
     }
 
