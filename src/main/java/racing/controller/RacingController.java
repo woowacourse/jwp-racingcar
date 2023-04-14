@@ -1,21 +1,20 @@
 package racing.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racing.controller.dto.request.RacingGameInfoRequest;
 import racing.controller.dto.request.validator.RacingGameInfoRequestValidator;
 import racing.controller.dto.request.validator.RequestValidator;
-import racing.domain.CarFactory;
-import racing.controller.dto.request.RacingGameInfoRequest;
 import racing.controller.dto.response.RacingCarStateResponse;
 import racing.controller.dto.response.RacingGameResultResponse;
+import racing.domain.CarFactory;
 import racing.domain.Cars;
 import racing.service.RacingGameService;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class RacingController {
@@ -27,7 +26,7 @@ public class RacingController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingGameResultResponse> start(@RequestBody RacingGameInfoRequest request) {
+    public ResponseEntity<RacingGameResultResponse> playGame(@RequestBody RacingGameInfoRequest request) {
         RequestValidator<RacingGameInfoRequest> requestValidator = new RacingGameInfoRequestValidator();
         requestValidator.validate(request);
 
