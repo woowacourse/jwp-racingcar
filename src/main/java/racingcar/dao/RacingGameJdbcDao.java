@@ -4,8 +4,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.dto.CarDto;
+import racingcar.dto.RacingGameResponse;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class RacingGameJdbcDao implements RacingGameDao {
@@ -29,5 +32,21 @@ public class RacingGameJdbcDao implements RacingGameDao {
         }, keyHolder);
 
         return keyHolder.getKey().longValue();
+    }
+
+    @Override
+    public List<RacingGameResponse> loadHistories(CarDao carDao) {
+        String sqlForHistories = "SELECT id, winners FROM racing_game";
+
+        return jdbcTemplate.query(
+                sqlForHistories,
+                (resultSet, rowNum) -> {
+                    Long gameId = resultSet.getLong("id");
+                    String winners = resultSet.getString("winners");
+                    List<CarDto> racingCars = carDao.findCarsByGameId(gameId);
+
+                    return new RacingGameResponse(winners, racingCars);
+
+                });
     }
 }

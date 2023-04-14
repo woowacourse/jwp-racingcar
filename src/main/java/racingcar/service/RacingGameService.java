@@ -70,4 +70,8 @@ public class RacingGameService {
                 .map(Car::getName)
                 .collect(joining(","));
     }
+
+    public List<RacingGameResponse> getHistory() {
+        return racingGameDao.loadHistories(carDao);
+    }
 }
