@@ -4,7 +4,7 @@ import racingcar.controller.RacingController;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class Application {
+public class ConsoleApplication {
 
     public static void main(String[] args) {
         try {
