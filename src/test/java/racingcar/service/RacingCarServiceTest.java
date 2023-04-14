@@ -10,7 +10,7 @@ import racingcar.domain.Cars;
 import racingcar.domain.Count;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
-import racingcar.dto.response.RacingGameResponseDto;
+import racingcar.dto.response.RacingGameResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,15 +36,15 @@ class RacingCarServiceTest {
         final Count count = new Count(3);
         final RacingGame racingGame = new RacingGame(numberGenerator, cars, count);
 
-        final RacingGameResponseDto racingGameResponseDto = racingCarService.play(racingGame);
+        final RacingGameResponse racingGameResponse = racingCarService.play(racingGame);
 
         assertAll(
-                () -> assertThat(racingGameResponseDto.getWinners()).isEqualTo("다즐"),
-                () -> assertThat(racingGameResponseDto.getRacingCars().size()).isEqualTo(2),
-                () -> assertThat(racingGameResponseDto.getRacingCars().get(0).getName()).isEqualTo("다즐"),
-                () -> assertThat(racingGameResponseDto.getRacingCars().get(0).getPosition()).isEqualTo(3),
-                () -> assertThat(racingGameResponseDto.getRacingCars().get(1).getName()).isEqualTo("루쿠"),
-                () -> assertThat(racingGameResponseDto.getRacingCars().get(1).getPosition()).isEqualTo(2)
+                () -> assertThat(racingGameResponse.getWinners()).isEqualTo("다즐"),
+                () -> assertThat(racingGameResponse.getRacingCars().size()).isEqualTo(2),
+                () -> assertThat(racingGameResponse.getRacingCars().get(0).getName()).isEqualTo("다즐"),
+                () -> assertThat(racingGameResponse.getRacingCars().get(0).getPosition()).isEqualTo(3),
+                () -> assertThat(racingGameResponse.getRacingCars().get(1).getName()).isEqualTo("루쿠"),
+                () -> assertThat(racingGameResponse.getRacingCars().get(1).getPosition()).isEqualTo(2)
         );
     }
 }

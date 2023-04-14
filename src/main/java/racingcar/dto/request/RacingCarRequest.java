@@ -1,15 +1,15 @@
 package racingcar.dto.request;
 
-public class RacingCarRequestDto {
+public class RacingCarRequest {
 
     private String names;
     private Integer count;
 
-    public RacingCarRequestDto() {
+    public RacingCarRequest() {
 
     }
 
-    public RacingCarRequestDto(final String names, final Integer count) {
+    public RacingCarRequest(final String names, final Integer count) {
         this.names = names;
         this.count = count;
     }

@@ -8,8 +8,8 @@ import racingcar.domain.Cars;
 import racingcar.domain.Count;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.request.RacingCarRequestDto;
-import racingcar.dto.response.RacingGameResponseDto;
+import racingcar.dto.request.RacingCarRequest;
+import racingcar.dto.response.RacingGameResponse;
 import racingcar.service.RacingCarService;
 
 import java.util.Arrays;
@@ -26,11 +26,11 @@ public class RacingCarApiController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingGameResponseDto> play(@RequestBody RacingCarRequestDto racingCarRequestDto) {
-        final List<String> names = Arrays.stream(racingCarRequestDto.getNames().split(","))
+    public ResponseEntity<RacingGameResponse> play(@RequestBody RacingCarRequest racingCarRequest) {
+        final List<String> names = Arrays.stream(racingCarRequest.getNames().split(","))
                 .collect(Collectors.toList());
-        final RacingGameResponseDto result = racingCarService.play(
-                new RacingGame(new RandomNumberGenerator(), new Cars(names), new Count(racingCarRequestDto.getCount()))
+        final RacingGameResponse result = racingCarService.play(
+                new RacingGame(new RandomNumberGenerator(), new Cars(names), new Count(racingCarRequest.getCount()))
         );
         return ResponseEntity.ok(result);
     }

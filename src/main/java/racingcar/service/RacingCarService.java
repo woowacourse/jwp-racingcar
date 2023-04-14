@@ -6,7 +6,7 @@ import racingcar.dao.RacingCarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.dto.response.RacingGameResponseDto;
+import racingcar.dto.response.RacingGameResponse;
 
 @Service
 public class RacingCarService {
@@ -20,11 +20,11 @@ public class RacingCarService {
     }
 
     @Transactional
-    public RacingGameResponseDto play(final RacingGame racingGame) {
+    public RacingGameResponse play(final RacingGame racingGame) {
         final int trialCount = racingGame.getCount();
         playGame(racingGame);
         saveRacingGame(racingGame, trialCount);
-        return RacingGameResponseDto.of(racingGame.findWinners(), racingGame.getCurrentResult());
+        return RacingGameResponse.of(racingGame.findWinners(), racingGame.getCurrentResult());
     }
 
     private static void playGame(final RacingGame racingGame) {
