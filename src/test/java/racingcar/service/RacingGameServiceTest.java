@@ -15,10 +15,10 @@ import racingcar.controller.dto.RacingGameResponse;
 import racingcar.domain.CarGroup;
 
 @SpringBootTest
-class RacingGameServiceImplTest {
+class RacingGameServiceTest {
 
     @Autowired
-    private RacingGameServiceImpl service;
+    private RacingGameService service;
 
     @DisplayName("자동차 경주를 통해 게임 결과를 반환한다.")
     @Test
