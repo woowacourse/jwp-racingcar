@@ -3,17 +3,12 @@ package racingcar.dto;
 import java.util.List;
 
 public class FinalResultDto {
-    private final boolean success = true;
     private final List<String> winners;
     private final List<CarDto> racingCars;
 
     public FinalResultDto(ResultDto resultDto) {
         this.winners = resultDto.getWinners();
         this.racingCars = resultDto.getRacingCars();
-    }
-
-    public boolean getSuccess() {
-        return success;
     }
 
     public List<String> getWinners() {
