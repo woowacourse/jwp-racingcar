@@ -6,6 +6,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import racingcar.common.exception.DuplicateResourceException;
+import racingcar.common.exception.ResourceLengthException;
 import racingcar.dto.ExceptionDto;
 
 import java.util.stream.Collectors;
@@ -24,6 +26,18 @@ public class RaceControllerAdvice {
             final MethodArgumentNotValidException e) {
         final String errorMessage = getErrorMessage(e);
         return ResponseEntity.badRequest().body(new ExceptionDto(errorMessage));
+    }
+
+    @ExceptionHandler(ResourceLengthException.class)
+    public ResponseEntity<ExceptionDto> resourceLengthException(final ResourceLengthException e) {
+        final Integer nameLimit = e.getLength().getData();
+        final ExceptionDto exceptionDto = new ExceptionDto(String.format("최대 %d글자까지 입력할 수 있습니다.", nameLimit));
+        return ResponseEntity.badRequest().body(exceptionDto);
+    }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ExceptionDto> duplicateResourceException() {
+        return ResponseEntity.badRequest().body(new ExceptionDto("중복된 값을 입력할 수 없습니다."));
     }
 
     @ExceptionHandler(Exception.class)

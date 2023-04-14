@@ -92,6 +92,45 @@ class RaceControllerTest {
     }
 
     @Test
+    @DisplayName("자동차 경주 실패 - 자동차 이름에 중복된 이름이 들어왔을 경우")
+    void plays_fail_car_name_duplicate_exception() throws Exception {
+        // given
+        final RaceRequest raceRequest = new RaceRequest("져니,져니", 2);
+        final String request = objectMapper.writeValueAsString(raceRequest);
+
+        // when
+        when(raceService.play(any()))
+                .thenThrow(DuplicateResourceException.class);
+
+        // then
+        mockMvc.perform(post("/plays")
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(status().is4xxClientError(),
+                        jsonPath("$.message").value("중복된 값을 입력할 수 없습니다."));
+    }
+
+    @Test
+    @DisplayName("자동차 경주 실패 - 자동차 이름이 5글자를 초과하는 경우")
+    void plays_fail_car_name_length_exceed_exception() throws Exception {
+        // given
+        final RaceRequest raceRequest = new RaceRequest("져니져니져니", 2);
+        final String request = objectMapper.writeValueAsString(raceRequest);
+
+        // when
+        final ResourceLengthException exception = new ResourceLengthException(new ErrorData<>(5));
+        when(raceService.play(any()))
+                .thenThrow(exception);
+
+        //  then
+        mockMvc.perform(post("/plays")
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(status().is4xxClientError(),
+                        jsonPath("$.message").value("최대 5글자까지 입력할 수 있습니다."));
+    }
+
+    @Test
     @DisplayName("자동차 경주 결과 조회 성공")
     void raceResult_success() throws Exception {
         // given
