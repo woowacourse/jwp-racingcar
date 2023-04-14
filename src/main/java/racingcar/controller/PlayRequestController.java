@@ -19,10 +19,12 @@ public class PlayRequestController {
     private static final String DELIMITER = ",";
     private static final int START_POSITION = 0;
 
-    private final JdbcTemplate jdbcTemplate;
+    private final RacingGameDao racingGameDao;
+    private final RacingCarDao racingCarDao;
 
     public PlayRequestController(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        this.racingGameDao = new RacingGameDao(jdbcTemplate);
+        this.racingCarDao = new RacingCarDao(jdbcTemplate);
     }
 
     @PostMapping(path = "/plays")
@@ -32,14 +34,9 @@ public class PlayRequestController {
 
         final RacingCars racingCars = generateRacingCars(names);
         race(count, racingCars);
-
-
+        
         final String winners = generateWinners(racingCars);
-
-        final RacingGameDao racingGameDao = new RacingGameDao(jdbcTemplate);
         final int gameId = racingGameDao.insert(count, winners);
-
-        final RacingCarDao racingCarDao = new RacingCarDao(jdbcTemplate);
         racingCars.getCars().forEach(car -> racingCarDao.insert(car, gameId));
 
         return ResponseEntity.ok().body(generateResponse(winners, racingCars));
