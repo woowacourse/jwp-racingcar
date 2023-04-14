@@ -36,6 +36,10 @@ public class RacingCarDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
+	public JdbcTemplate getJdbcTemplate(){
+		return jdbcTemplate;
+	}
+
 	private final RowMapper<WinnerAndGameIdDto> gameRowMapper = (resultSet, rowNum) -> new WinnerAndGameIdDto(
 		resultSet.getInt("gameId"),
 		resultSet.getString("winner")
