@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.mapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -5,8 +5,8 @@ import racingcar.domain.*;
 import racingcar.dto.request.CarGameRequest;
 import racingcar.dto.response.CarGameResponse;
 import racingcar.dto.response.CarResponse;
-import racingcar.dao.CarResultDao;
-import racingcar.dao.PlayResultDao;
+import racingcar.mapper.CarResultDao;
+import racingcar.mapper.PlayResultDao;
 
 import java.util.Arrays;
 import java.util.List;
