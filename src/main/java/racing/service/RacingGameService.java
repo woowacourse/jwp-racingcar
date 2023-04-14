@@ -33,7 +33,7 @@ public class RacingGameService {
 
     public String getWinners(Cars cars) {
         List<String> winners = cars.getWinners();
-        return String.join("", winners);
+        return String.join(", ", winners);
     }
 
 }
