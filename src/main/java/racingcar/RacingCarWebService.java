@@ -1,7 +1,6 @@
 package racingcar;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarStatusResponse;
@@ -16,7 +15,6 @@ public class RacingCarWebService {
     private final GameInsertDao gameInsertDao;
     private final PlayerInsertDao playerInsertDao;
 
-    @Autowired
     public RacingCarWebService(final GameInsertDao gameInsertDao,
                                final PlayerInsertDao playerInsertDao) {
         this.racingCarService = new RacingCarService();

@@ -2,7 +2,6 @@ package racingcar;
 
 import java.util.List;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -17,7 +16,6 @@ public class PlayerInsertDao {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final WinnerInsertDao winnerInsertDao;
 
-    @Autowired
     public PlayerInsertDao(final NamedParameterJdbcTemplate jdbcTemplate, final WinnerInsertDao winnerInsertDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.winnerInsertDao = winnerInsertDao;
