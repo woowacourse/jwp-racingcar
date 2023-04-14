@@ -36,7 +36,7 @@ public class RacingCarWebController {
                 new RandomNumberGenerator(),
                 new RacingCarRepository(new RacingCarGameDao(jdbcTemplate))
         );
-        racingCarService.play(racingGameRequestDto.getCount());
+        racingCarService.play(Count.of(racingGameRequestDto.getCount()));
 
         ResultResponseDto resultResponseDto = new ResultResponseDto(racingCarService.getWinners(), racingCarService.getCars());
         return ResponseEntity.ok(resultResponseDto);

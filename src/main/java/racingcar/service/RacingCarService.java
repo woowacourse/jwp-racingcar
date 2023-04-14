@@ -2,6 +2,7 @@ package racingcar.service;
 
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
+import racingcar.domain.Count;
 import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingGameDto;
 import racingcar.repository.RacingCarRepository;
@@ -22,13 +23,13 @@ public class RacingCarService {
         this.racingCarRepository = racingCarRepository;
     }
 
-    public void play(int count) {
+    public void play(Count count) {
         move(count);
-        racingCarRepository.save(new RacingGameDto(getWinners(), count), carsToPlayerDtos());
+        racingCarRepository.save(new RacingGameDto(getWinners(), count.getCount()), carsToPlayerDtos());
     }
 
-    private void move(int count) {
-        for (int i = 0; i < count; i++) {
+    private void move(Count count) {
+        for (int i = 0; i < count.getCount(); i++) {
             cars.moveAll(numberGenerator);
         }
     }
