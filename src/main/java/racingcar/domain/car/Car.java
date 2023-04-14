@@ -1,6 +1,7 @@
 package racingcar.domain.car;
 
 import java.util.Objects;
+import racingcar.exception.CarException;
 
 public class Car {
 
@@ -25,10 +26,10 @@ public class Car {
 
     private void validate(final String name) {
         if (isInvalidFormat(name)) {
-            throw new IllegalArgumentException("[ERROR] 자동차 이름은 영어로만 구성되어야 합니다.");
+            throw new CarException("[ERROR] 자동차 이름은 영어로만 구성되어야 합니다.");
         }
         if (isOutOfRange(name)) {
-            throw new IllegalArgumentException("[ERROR] 자동차 이름은 한 글자 이상 다섯 글자 이하여야 합니다.");
+            throw new CarException("[ERROR] 자동차 이름은 한 글자 이상 다섯 글자 이하여야 합니다.");
         }
     }
 

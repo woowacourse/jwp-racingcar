@@ -4,6 +4,7 @@ import racingcar.domain.car.Car;
 import racingcar.domain.numbergenerator.NumberGenerator;
 
 import java.util.List;
+import racingcar.exception.CarsException;
 
 public class Cars {
 
@@ -17,10 +18,10 @@ public class Cars {
 
     private void validate(final List<Car> cars) {
         if (isOutOfSize(cars)) {
-            throw new IllegalArgumentException("[ERROR] 자동차는 2대 이상 입력되어야 합니다.");
+            throw new CarsException("[ERROR] 자동차는 2대 이상 입력되어야 합니다.");
         }
         if (hasDuplication(cars)) {
-            throw new IllegalArgumentException("[ERROR] 자동차 이름은 중복될 수 없습니다.");
+            throw new CarsException("[ERROR] 자동차 이름은 중복될 수 없습니다.");
         }
     }
 
