@@ -18,12 +18,12 @@ public class RacingCarRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("GAME_RESULT")
-                .usingGeneratedKeyColumns("ID")
-                .usingColumns("TRIAL_COUNT");
+                .usingGeneratedKeyColumns("id")
+                .usingColumns("trial_count");
     }
 
     public void saveWinner(int gameId, List<String> winners) {
-        String sql = "INSERT INTO WINNER_RESULT (GAME_ID,WINNER) VALUES(?,?)";
+        String sql = "INSERT INTO WINNER_RESULT (game_id,winner) VALUES(?,?)";
         jdbcTemplate.batchUpdate(sql, winners, winners.size(), (ps, winner) -> {
             ps.setInt(1, gameId);
             ps.setString(2, winner);
@@ -31,7 +31,7 @@ public class RacingCarRepository {
     }
 
     public void saveCars(int gameId, List<Car> cars) {
-        String sql = "INSERT INTO PLAYER_RESULT (GAME_ID,NAME,POSITION) VALUES(?,?,?)";
+        String sql = "INSERT INTO PLAYER_RESULT (game_id,name,position) VALUES(?,?,?)";
         jdbcTemplate.batchUpdate(sql, cars, cars.size(), (ps, car) -> {
             ps.setInt(1, gameId);
             ps.setString(2, car.getName());
@@ -41,7 +41,7 @@ public class RacingCarRepository {
 
     public int saveGame(int count) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("TRIAL_COUNT", count);
+        parameterSource.addValue("trial_count", count);
         return simpleJdbcInsert.executeAndReturnKey(parameterSource)
                 .intValue();
     }
