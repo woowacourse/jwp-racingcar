@@ -45,8 +45,6 @@ public class Trial {
 
     @Override
     public String toString() {
-        return "Trial{" +
-            "trial=" + trial +
-            '}';
+        return "Trial{" + "trial=" + trial + '}';
     }
 }
