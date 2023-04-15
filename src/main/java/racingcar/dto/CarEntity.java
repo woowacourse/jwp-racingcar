@@ -1,5 +1,6 @@
 package racingcar.dto;
 
+//TODO: build 패턴 고민
 public class CarEntity {
 
     private int gameId;

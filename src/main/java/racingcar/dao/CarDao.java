@@ -4,7 +4,7 @@ import racingcar.dto.CarEntity;
 
 import java.util.List;
 
-public interface CarResultDao {
+public interface CarDao {
 
     void save(int gameId, List<CarEntity> carResultDtos);
 

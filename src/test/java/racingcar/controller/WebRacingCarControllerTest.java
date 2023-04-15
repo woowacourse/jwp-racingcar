@@ -50,7 +50,7 @@ class WebRacingCarControllerTest {
                         .content(content))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath(winnersPath, Matchers.is("네오,브리")))
-                .andExpect(jsonPath("racingCars", Matchers.hasSize(3)))
+                .andExpect(jsonPath("carResponses", Matchers.hasSize(3)))
                 .andDo(print());
     }
 }
