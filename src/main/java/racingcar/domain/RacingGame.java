@@ -24,13 +24,19 @@ public class RacingGame {
         }
     }
 
-    public void playOneRound() {
+    public void run() {
+        while (isNotEnd()) {
+            playOneRound();
+        }
+    }
+
+    private void playOneRound() {
         cars.moveAll(numberGenerator);
         tryCount--;
     }
 
-    public boolean isEnd() {
-        return tryCount == 0;
+    private boolean isNotEnd() {
+        return tryCount != 0;
     }
 
     public Cars getCars() {
