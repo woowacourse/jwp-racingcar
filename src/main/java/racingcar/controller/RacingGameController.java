@@ -21,7 +21,7 @@ public class RacingGameController {
 
     @PostMapping(path = "/plays", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RacingResultDto> play(@RequestBody GameInputDto gameInputDto) {
-        RacingResultDto racingResultDto = racingGameService.playGameWithoutPrint(gameInputDto, new RandomNumberGenerator());
+        RacingResultDto racingResultDto = racingGameService.playGame(gameInputDto, new RandomNumberGenerator());
         return ResponseEntity.ok(racingResultDto);
     }
 }
