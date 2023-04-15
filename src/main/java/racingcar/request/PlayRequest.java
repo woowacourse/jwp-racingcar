@@ -5,10 +5,10 @@ import javax.validation.constraints.NotBlank;
 
 public class PlayRequest {
 
-    @NotBlank
+    @NotBlank(message = "자동차 이름을 입력해주세요.")
     private final String names;
 
-    @Min(1)
+    @Min(value = 1, message = "시도 횟수는 1 이상이어야 합니다")
     private final int count;
 
     public PlayRequest(final String names, final int count) {
