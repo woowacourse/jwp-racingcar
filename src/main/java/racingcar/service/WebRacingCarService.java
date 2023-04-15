@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import static java.util.stream.Collectors.*;
 import static java.util.stream.Collectors.groupingBy;
 
 import java.util.Map;
@@ -43,25 +44,20 @@ public class WebRacingCarService implements RacingCarService {
 
         final List<CarEntity> carEntities = racingGame.getCars().stream()
                 .map(car -> new CarEntity(car.getName(), car.getPosition(), winnerCars.contains(car)))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         return new RacingGameEntity(carEntities,racingGame.getTotalRound());
     }
 
-    //TODO: 생성 로직 간소화
     @Override
     public List<RacingGameResponse> findGameResults() {
-        final List<CarEntity> findCarEntities = racingCarRepository.findAll();
+        final List<CarEntity> carEntities = racingCarRepository.findAll();
 
-        final Map<Integer, List<CarEntity>> carEntitiesByGameId = findCarEntities.stream()
+        final Map<Integer, List<CarEntity>> carEntitiesByGameId = carEntities.stream()
                 .collect(groupingBy(CarEntity::getGameId));
 
-        List<RacingGameResponse> racingResultResponses = new ArrayList<>();
-
-        for (List<CarEntity> carEntities : carEntitiesByGameId.values()) {
-            racingResultResponses.add(RacingGameResponse.createByEntity(carEntities));
-        }
-
-        return racingResultResponses;
+        return carEntitiesByGameId.values().stream()
+                .map(RacingGameResponse::createByEntity)
+                .collect(toList());
     }
 }
