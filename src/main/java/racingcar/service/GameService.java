@@ -14,6 +14,8 @@ import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.domain.MoveChance;
 import racingcar.domain.RandomMoveChance;
+import racingcar.service.dto.CarDto;
+import racingcar.service.dto.ResultDto;
 
 @Service
 public class GameService {
@@ -30,8 +32,24 @@ public class GameService {
         this.moveChance = RandomMoveChance.getInstance();
     }
 
-    public Game createGameWith(List<String> names, int trialCount) {
+    public ResultDto playWith(List<String> names, int trialCount) {
+        Game game = createGameWith(names, trialCount);
+        while (game.isNotDone()) {
+            game.playOnceWith(moveChance);
+        }
+
+        insertResultOf(game);
+        return new ResultDto(getNamesOf(game.findWinners()), createDtosOf(game.getCars()));
+    }
+
+    private Game createGameWith(List<String> names, int trialCount) {
         return new Game(makeCarsWith(names), trialCount);
+    }
+
+    private List<CarDto> createDtosOf(List<Car> cars) {
+        return cars.stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
     }
 
     private List<Car> makeCarsWith(List<String> carNames) {
@@ -40,12 +58,10 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public void play(Game game) {
-        while (game.isNotDone()) {
-            game.playOnceWith(moveChance);
-        }
-
-        insertResultOf(game);
+    private List<String> getNamesOf(List<Car> cars) {
+        return cars.stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
     }
 
     private void insertResultOf(final Game game) {
