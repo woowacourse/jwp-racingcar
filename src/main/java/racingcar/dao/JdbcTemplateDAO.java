@@ -25,7 +25,7 @@ public class JdbcTemplateDAO implements RacingGameDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((connection) -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"game_id"});
             preparedStatement.setString(1, resultDto.getWinners());
             preparedStatement.setInt(2, resultDto.getTrialCount());
             return preparedStatement;
@@ -38,7 +38,7 @@ public class JdbcTemplateDAO implements RacingGameDao {
     }
 
     private void savePlayerResult(int gameId, List<CarDto> carDtoList) {
-        String sql = "insert into PLAYER_RESULT (name, position, game_id) values (?, ?, ?)";
+        String sql = "insert into RESULT_CAR (name, position, game_id) values (?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql, carDtoList, carDtoList.size(),
                 (PreparedStatement preparedStatement, CarDto carDto) -> {
