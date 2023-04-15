@@ -6,12 +6,13 @@ import racingcar.domain.vo.Position;
 public class Car {
 
     public static final int MIN_REQUIRED_POWER = 3;
+    public static final int ZERO_POSITION = 0;
     private final CarName name;
     private Position position;
 
     private Car(CarName name) {
         this.name = name;
-        this.position = Position.of(0);
+        this.position = Position.of(ZERO_POSITION);
     }
 
     public static Car of(CarName name) {
