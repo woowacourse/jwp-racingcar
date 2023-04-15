@@ -14,6 +14,7 @@ import racingcar.dto.GameResultDto;
 import racingcar.dto.WinnerDto;
 
 public class JdbcTemplateGameRepository implements GameRepository {
+
     private final GameDao gameDao;
     private final PlayerDao playerDao;
     private final WinnerDao winnerDao;

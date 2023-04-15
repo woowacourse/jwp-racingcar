@@ -1,6 +1,7 @@
 package racingcar.dto;
 
 public class GameHistoryDto {
+
     private final long gameId;
     private final int playCount;
 

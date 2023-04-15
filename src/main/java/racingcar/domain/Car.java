@@ -4,6 +4,7 @@ package racingcar.domain;
 import racingcar.dto.PlayerDto;
 
 public class Car {
+
     private static final int MIN_MOVE_POWER = 4;
     private static final int DEFAULT_POSITION = 0;
     private static final int MIN_NAME_LENGTH = 1;
@@ -30,7 +31,7 @@ public class Car {
         }
     }
 
-    public PlayerDto convertToDto() {
+    public PlayerDto getPlayer() {
         return new PlayerDto(name, position);
     }
 

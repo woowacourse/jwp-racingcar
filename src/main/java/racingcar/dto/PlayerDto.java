@@ -1,6 +1,7 @@
 package racingcar.dto;
 
 public class PlayerDto {
+
     private final String name;
     private final int position;
 

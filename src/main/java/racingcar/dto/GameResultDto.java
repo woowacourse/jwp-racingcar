@@ -10,6 +10,7 @@ public class GameResultDto {
 
     private final String winners;
     private final int playCount;
+
     @JsonProperty(value = "racingCars")
     private final List<PlayerDto> players;
 
