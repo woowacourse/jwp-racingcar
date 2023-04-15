@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class RacingCarGameController {
+public class RacingCarGameWebController {
 
     private final RacingCarGameService racingCarGameService;
 
     @Autowired
-    public RacingCarGameController(final RacingCarGameService racingCarGameService) {
+    public RacingCarGameWebController(final RacingCarGameService racingCarGameService) {
         this.racingCarGameService = racingCarGameService;
     }
 
