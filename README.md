@@ -49,7 +49,7 @@
         - [x] race_id (fk) : INT
 
 - [ ] 게임 플레이 이력 조회 API 구현
-  - [ ] 모든 Race_id를 찾기
+  - [x] 모든 Race_id를 찾기
   - [ ] player_id들로 Car를 찾기
   - [ ] race_id로 Car를 찾기
   - [ ] race_id로 winner_id 찾기
