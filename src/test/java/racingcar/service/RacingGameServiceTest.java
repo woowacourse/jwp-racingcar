@@ -1,11 +1,17 @@
 package racingcar.service;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import racingcar.dao.PlayerDao;
+import racingcar.dao.RaceDao;
+import racingcar.dao.WinnerDao;
 import racingcar.domain.Car;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameInputDto;
 import racingcar.dto.RacingResultResponseDto;
 
@@ -14,22 +20,32 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 
-@Sql("/init.sql")
-@SpringBootTest
+@SuppressWarnings("NonAsciiCharacters")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@ExtendWith(MockitoExtension.class)
 class RacingGameServiceTest {
-    @Autowired
+    @Mock
+    private RaceDao raceDao;
+    @Mock
+    private PlayerDao playerDao;
+    @Mock
+    private WinnerDao winnerDao;
     private RacingGameService racingGameService;
-    private RacingResultResponseDto racingResultResponseDto;
     
     @BeforeEach
     void setUp() {
-        GameInputDto gameInputDto = new GameInputDto("스플릿,아벨,포비", "12");
-        racingResultResponseDto = racingGameService.playGameWithoutPrint(gameInputDto, () -> 5);
+        racingGameService = new RacingGameService(raceDao, playerDao, winnerDao);
     }
     
     @Test
-    void playGameWithoutPrint() {
+    void 게임_진행_후_결과를_반환한다() {
+        GameInputDto gameInputDto = new GameInputDto("스플릿,아벨,포비", "12");
+        final RacingResultResponseDto racingResultResponseDto = racingGameService.playGameWithoutPrint(gameInputDto, () -> 3);
+        
         assertAll(
                 () -> assertThat(racingResultResponseDto.getWinners()).isEqualTo("스플릿,아벨,포비"),
                 () -> assertThat(racingResultResponseDto.getRacingCars())
@@ -42,23 +58,29 @@ class RacingGameServiceTest {
     }
     
     @Test
-    void findAllGameResult() {
-        GameInputDto gameInputDto = new GameInputDto("aa,bb,cc", "12");
-        racingResultResponseDto = racingGameService.playGameWithoutPrint(gameInputDto, () -> 5);
-        
+    void 모든_게임_결과를_반환한다() {
+        List<CarDto> carDtos = List.of(
+                new CarDto(new Car("아벨", 0)),
+                new CarDto(new Car("스플릿", 0)),
+                new CarDto(new Car("포비", 0))
+        );
+        given(raceDao.findAllIds()).willReturn(List.of(1L));
+        given(playerDao.findByIds(anyList())).willReturn(List.of(new CarDto(new Car("포비", 0))));
+        given(playerDao.findByRaceIds(anyLong())).willReturn(carDtos);
+
         List<RacingResultResponseDto> allGameResult = racingGameService.findAllGameResult();
         List<String> winners = allGameResult.stream()
                 .map(RacingResultResponseDto::getWinners)
                 .collect(Collectors.toUnmodifiableList());
-        
+
         List<String> carNames = allGameResult.stream()
                 .map(RacingResultResponseDto::getRacingCars)
                 .map(this::parseCarNames)
                 .collect(Collectors.toUnmodifiableList());
-        
+
         assertAll(
-                () -> assertThat(winners).containsExactly("스플릿,아벨,포비", "aa,bb,cc"),
-                () -> assertThat(carNames).containsExactly("스플릿,아벨,포비", "aa,bb,cc")
+                () -> assertThat(winners).containsExactly("포비"),
+                () -> assertThat(carNames).containsExactly("아벨,스플릿,포비")
         );
     }
     
