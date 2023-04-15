@@ -13,6 +13,7 @@ import racingcar.dto.PlayResponseDto;
 import racingcar.dto.PlayResponseDtoConverter;
 
 @Service
+@Transactional(readOnly = true)
 public class RacingCarService {
 
     private final PlayRecordsDao gameDao;
@@ -25,7 +26,6 @@ public class RacingCarService {
         this.racingGame = racingGame;
     }
 
-    // TODO Transactional 사용법, 적용 범위 등 학습
     @Transactional
     public PlayResponseDto playGame(int count, List<String> carNames) {
         List<JudgedCarDto> judgedCars = racingGame.play(count, carNames);
