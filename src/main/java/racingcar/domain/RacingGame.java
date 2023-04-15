@@ -35,4 +35,8 @@ public class RacingGame {
     public List<Car> getCars() {
         return cars.getCars();
     }
+
+    public int getTotalRound() {
+        return totalRound;
+    }
 }

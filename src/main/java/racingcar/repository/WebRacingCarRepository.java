@@ -21,7 +21,7 @@ public class WebRacingCarRepository implements RacingCarRepository {
     @Override
     public void save(RacingGameResultDto racingGameResultDto) {
         int gameId = racingGameResultDao.save(racingGameResultDto.getRound());
-        carResultDao.save(gameId, racingGameResultDto.getCarDtos());
+        carResultDao.save(gameId, racingGameResultDto.getCarResultDtos());
     }
 
     @Override

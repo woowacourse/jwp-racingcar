@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.groupingBy;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
-import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
@@ -32,8 +31,8 @@ public class WebRacingCarService implements RacingCarService {
 
     @Override
     public RacingGameResultResponse play(RacingGameRequest racingGameRequest) {
-        Cars cars = generateCars(racingGameRequest.getNames());
-        return playGame(cars, racingGameRequest.getCount());
+        final RacingGame racingGame = racingGameRequest.toEntity();
+        return playGame(racingGame);
     }
 
     @Override
@@ -62,28 +61,14 @@ public class WebRacingCarService implements RacingCarService {
         return racingResultResponses;
     }
 
-    //TODO: Dto에서 수행하도록 변경
-    private Cars generateCars(List<String> carNames) {
-        List<Car> carInstances = new ArrayList<>();
-        for (String name : carNames) {
-            carInstances.add(new Car(name));
-        }
-        return new Cars(carInstances);
-    }
-
-    private RacingGameResultResponse playGame(Cars cars, int round) {
-        RacingGame racingGame = new RacingGame(cars, round);
+    private RacingGameResultResponse playGame(RacingGame racingGame) {
         racingGame.play(numberGenerator);
-        saveGameResult(round, racingGame);
-
+        racingCarRepository.save(createRacingGameResultDto(racingGame));
         return createRacingResultResponse(racingGame);
     }
 
-    private void saveGameResult(int round, RacingGame racingGame) {
-        racingCarRepository.save(createRacingGameResultDto(round, racingGame));
-    }
 
-    private RacingGameResultDto createRacingGameResultDto(int round, RacingGame racingGame) {
+    private RacingGameResultDto createRacingGameResultDto(RacingGame racingGame) {
         List<CarResultDto> carResultDtos = new ArrayList<>();
 
         List<Car> winnerCars = racingGame.findWinnerCars();
@@ -93,7 +78,7 @@ public class WebRacingCarService implements RacingCarService {
             carResultDtos.add(new CarResultDto(car.getName(), car.getPosition(), winnerCars.contains(car)));
         }
 
-        return new RacingGameResultDto(round, carResultDtos);
+        return new RacingGameResultDto(carResultDtos,racingGame.getTotalRound());
     }
 
     private RacingGameResultResponse createRacingResultResponse(RacingGame racingGame) {
