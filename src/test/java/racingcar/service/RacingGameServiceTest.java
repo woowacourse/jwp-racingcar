@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@Sql("/data.sql")
+@Sql("/init.sql")
 @SpringBootTest
 class RacingGameServiceTest {
     @Autowired

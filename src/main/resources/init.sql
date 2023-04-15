@@ -1,9 +1,13 @@
+DROP TABLE player IF EXISTS cascade constraints;
+DROP TABLE RACE IF EXISTS cascade constraints;
+DROP TABLE WINNER IF EXISTS cascade constraints;
+
 CREATE TABLE IF NOT EXISTS RACE(
     id          LONG         NOT NULL AUTO_INCREMENT,
     play_count  INT         NOT NULL,
     created_at  DATETIME    NOT NULL default current_timestamp,
     PRIMARY KEY (id)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS PLAYER(
     id          LONG           NOT NULL AUTO_INCREMENT,
@@ -13,7 +17,7 @@ CREATE TABLE IF NOT EXISTS PLAYER(
     race_id     INT           NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (race_id) REFERENCES RACE(id)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS WINNER(
     id          LONG         NOT NULL AUTO_INCREMENT,
@@ -22,7 +26,4 @@ CREATE TABLE IF NOT EXISTS WINNER(
     PRIMARY KEY (id),
     FOREIGN KEY (race_id) REFERENCES RACE(id),
     FOREIGN KEY (player_id) REFERENCES PLAYER(id)
-);
-
-
-
+    );

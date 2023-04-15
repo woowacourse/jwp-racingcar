@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@Sql("/data.sql")
+@Sql("/init.sql")
 @JdbcTest
 class RaceDaoTest {
     @Autowired
