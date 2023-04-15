@@ -36,7 +36,7 @@ public class ConsoleController {
 
     private Trial initializeTrial() {
         try {
-            return Trial.of(Converter.convertStringToLong(inputView.getTrial()));
+            return Trial.of(Converter.convertStringToInt(inputView.getTrial()));
         } catch (IllegalArgumentException exception) {
             outputView.printErrorMessage(exception.getMessage());
             return initializeTrial();

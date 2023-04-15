@@ -7,7 +7,7 @@ public class Converter {
     private Converter() {
     }
 
-    public static int convertStringToLong(String target) {
+    public static int convertStringToInt(String target) {
         try {
             return Integer.parseInt(target);
         } catch (NumberFormatException exception) {

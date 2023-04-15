@@ -39,7 +39,7 @@ public class WebController {
     }
 
     public Trial getTrial(String input) {
-        return Trial.of(Converter.convertStringToLong(input));
+        return Trial.of(Converter.convertStringToInt(input));
     }
 
     private Cars playGame(Cars cars, Trial trial) {
