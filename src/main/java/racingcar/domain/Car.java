@@ -10,19 +10,15 @@ public class Car implements Comparable<Car> {
     private static final String NAME_LENGTH_ERROR = "[ERROR] 자동차 이름은 1자 이상 5자 이하여야 합니다.";
 
     private String name;
-    private int position;
-    private NumberGenerator numberGenerator;
+    private int position = 0;
 
-    public Car(String name, NumberGenerator numberGenerator) {
-        name = name.trim();
+    public Car(final String name) {
         validateName(name);
         this.name = name;
-        this.position = 0;
-        this.numberGenerator = numberGenerator;
     }
 
-    public void goForward() {
-        if (numberGenerator.generate() >= MOVABLE_MIN_NUMBER) {
+    public void move(int number) {
+        if (number >= MOVABLE_MIN_NUMBER) {
             position++;
         }
     }

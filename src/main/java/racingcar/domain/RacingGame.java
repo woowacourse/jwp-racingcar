@@ -5,12 +5,10 @@ import java.util.List;
 public class RacingGame {
 
     private static final String ROUND_NUMBER_ERROR = "[ERROR] 시도 횟수는 1이상이어야 합니다.";
-    private static final int INITIAL_CURRENT_ROUND = 0;
     private static final int ROUND_MIN_NUM = 1;
 
     private final Cars cars;
-    private int totalRound;
-    private int currentRound = INITIAL_CURRENT_ROUND;
+    private final int totalRound;
 
     public RacingGame(final Cars cars, int totalRound){
         validateRound(totalRound);
@@ -18,13 +16,16 @@ public class RacingGame {
         this.totalRound = totalRound;
     }
 
-    public List<Car> playOneRound(){
-        currentRound++;
-        return cars.moveEachCar();
+    private void validateRound(int totalRound) {
+        if (totalRound < ROUND_MIN_NUM) {
+            throw new IllegalArgumentException(ROUND_NUMBER_ERROR);
+        }
     }
 
-    public boolean isGameEnded(){
-        return totalRound <= currentRound;
+    public void play(NumberGenerator numberGenerator) {
+        for (int i = 0; i < totalRound; i++) {
+            cars.move(numberGenerator);
+        }
     }
 
     public List<Car> findWinnerCars(){
@@ -33,11 +34,5 @@ public class RacingGame {
 
     public List<Car> getCars() {
         return cars.getCars();
-    }
-
-    private void validateRound(int totalRound) {
-        if (totalRound < ROUND_MIN_NUM) {
-            throw new IllegalArgumentException(ROUND_NUMBER_ERROR);
-        }
     }
 }

@@ -31,7 +31,7 @@ public class ConsoleRacingCarController {
     private Cars generateCars(List<String> carNames) {
         List<Car> carInstances = new ArrayList<>();
         for (String name : carNames) {
-            carInstances.add(new Car(name, numberGenerator));
+            carInstances.add(new Car(name));
         }
         return new Cars(carInstances);
     }
@@ -39,9 +39,7 @@ public class ConsoleRacingCarController {
     private void playGame(Cars cars, int round) {
         RacingGame racingGame = new RacingGame(cars, round);
         outputView.printResultMessage();
-        while (!racingGame.isGameEnded()) {
-            outputView.printRoundResult(racingGame.playOneRound());
-        }
+        racingGame.play(numberGenerator);
         outputView.printFinalResult(racingGame.findWinnerCars());
     }
 }

@@ -16,25 +16,23 @@ public class Cars {
         this.cars = new ArrayList<>(cars);
     }
 
+    private void validateCarsSize(List<Car> cars) {
+        if (cars.size() < CARS_MIN_SIZE) {
+            throw new IllegalArgumentException(CARS_SIZE_ERROR);
+        }
+    }
+
+    public void move(NumberGenerator numberGenerator) {
+        for (Car car : cars) {
+            car.move(numberGenerator.generate());
+        }
+    }
+
     public List<Car> findAllWinner() {
         Car maxPositionCar = findMaxPositionCar();
         return cars.stream()
                 .filter(car -> car.isSamePosition(maxPositionCar))
                 .collect(Collectors.toList());
-    }
-
-    public List<Car> moveEachCar() {
-        for (Car car : cars) {
-            car.goForward();
-        }
-        return new ArrayList<>(cars);
-    }
-
-    // Todo : 나중에 중복되는 이름은 입력되면 예외처리 되도록 구현해야 한다.
-    private void validateCarsSize(List<Car> cars) {
-        if (cars.size() < CARS_MIN_SIZE) {
-            throw new IllegalArgumentException(CARS_SIZE_ERROR);
-        }
     }
 
     private Car findMaxPositionCar() {

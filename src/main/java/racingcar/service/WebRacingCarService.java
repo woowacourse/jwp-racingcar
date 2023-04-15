@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class WebRacingCarService implements RacingCarService {
 
     private final RacingCarRepository racingCarRepository;
+    private final NumberGenerator numberGenerator = new RandomNumberGenerator();
 
     public WebRacingCarService(RacingCarRepository racingCarRepository) {
         this.racingCarRepository = racingCarRepository;
@@ -63,20 +64,16 @@ public class WebRacingCarService implements RacingCarService {
 
     //TODO: Dto에서 수행하도록 변경
     private Cars generateCars(List<String> carNames) {
-        NumberGenerator numberGenerator = new RandomNumberGenerator();
         List<Car> carInstances = new ArrayList<>();
         for (String name : carNames) {
-            carInstances.add(new Car(name, numberGenerator));
+            carInstances.add(new Car(name));
         }
         return new Cars(carInstances);
     }
 
     private RacingGameResultResponse playGame(Cars cars, int round) {
         RacingGame racingGame = new RacingGame(cars, round);
-        while (!racingGame.isGameEnded()) {
-            racingGame.playOneRound();
-        }
-
+        racingGame.play(numberGenerator);
         saveGameResult(round, racingGame);
 
         return createRacingResultResponse(racingGame);
