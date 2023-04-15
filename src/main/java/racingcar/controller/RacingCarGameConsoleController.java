@@ -1,7 +1,7 @@
 package racingcar.controller;
 
 import racingcar.domain.car.Car;
-import racingcar.domain.car.Cars;
+import racingcar.domain.game.RacingCarGame;
 import racingcar.domain.strategy.MovingStrategy;
 import racingcar.domain.strategy.NumberMovingStrategy;
 import racingcar.view.InputView;
@@ -24,32 +24,29 @@ public class RacingCarGameConsoleController {
     }
 
     public void run() {
-        final Cars cars = createCars();
-        race(cars);
-        printResult(cars);
+        final RacingCarGame racingCarGame = createNewGame();
+        race(racingCarGame);
+        printResult(racingCarGame);
     }
 
-    private Cars createCars() {
+    private RacingCarGame createNewGame() {
         final String carNames = repeatUntilNoIAE(inputView::readCarNames);
-        return Cars.createCars(carNames);
+        return RacingCarGame.createNewGame(carNames);
     }
 
-    private void race(final Cars cars) {
+    private void race(final RacingCarGame racingCarGame) {
         int count = repeatUntilNoIAE(inputView::readTryCount);
-
-        while (count-- > 0) {
-            cars.moveCars(movingStrategy);
-        }
+        racingCarGame.moveCars(count, movingStrategy);
     }
 
-    private void printResult(final Cars cars) {
-        final Map<String, Integer> raceResult = cars.getCars()
-                                                    .stream()
-                                                    .collect(Collectors.toUnmodifiableMap(Car::getName, Car::getPosition));
-        final List<String> winners = cars.getWinningCars()
-                                         .stream()
-                                         .map(Car::getName)
-                                         .collect(Collectors.toUnmodifiableList());
+    private void printResult(final RacingCarGame racingCarGame) {
+        final Map<String, Integer> raceResult = racingCarGame.getCars()
+                                                             .stream()
+                                                             .collect(Collectors.toUnmodifiableMap(Car::getName, Car::getPosition));
+        final List<String> winners = racingCarGame.getWinners()
+                                                  .stream()
+                                                  .map(Car::getName)
+                                                  .collect(Collectors.toUnmodifiableList());
 
         outputView.printResultOpeningMessage();
         outputView.printRaceResult(raceResult);

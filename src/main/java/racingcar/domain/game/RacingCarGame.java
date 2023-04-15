@@ -3,8 +3,6 @@ package racingcar.domain.game;
 import racingcar.domain.car.Car;
 import racingcar.domain.car.Cars;
 import racingcar.domain.strategy.MovingStrategy;
-import racingcar.domain.strategy.NumberMovingStrategy;
-import racingcar.domain.strategy.RandomNumberGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +19,10 @@ public class RacingCarGame {
         return new RacingCarGame(Cars.createCars(carNames));
     }
 
-    public void moveCars(int count) {
+    public void moveCars(int count, MovingStrategy movingStrategy) {
         for (int i = 0; i < count; i++) {
-            cars.moveCars(getMovingStrategy());
+            cars.moveCars(movingStrategy);
         }
-    }
-
-    private MovingStrategy getMovingStrategy() {
-        return new NumberMovingStrategy(new RandomNumberGenerator());
     }
 
     public List<Car> getCars() {

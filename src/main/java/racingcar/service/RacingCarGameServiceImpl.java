@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.RacingCarGameDao;
 import racingcar.domain.car.Car;
 import racingcar.domain.game.RacingCarGame;
+import racingcar.domain.strategy.MovingStrategy;
 import racingcar.dto.CarDto;
 import racingcar.dto.DtoMapper;
 
@@ -21,9 +22,9 @@ public class RacingCarGameServiceImpl implements RacingCarGameService {
     }
 
     @Override
-    public int play(final String names, final int count) {
-        final RacingCarGame newGame = RacingCarGame.createNewGame(names);
-        newGame.moveCars(count);
+    public int play(final String carNames, final int count, MovingStrategy movingStrategy) {
+        final RacingCarGame newGame = RacingCarGame.createNewGame(carNames);
+        newGame.moveCars(count, movingStrategy);
         return racingCarGameDao.save(newGame, count);
     }
 

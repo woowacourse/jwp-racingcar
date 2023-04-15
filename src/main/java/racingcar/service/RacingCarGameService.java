@@ -1,12 +1,14 @@
 package racingcar.service;
 
+import racingcar.domain.strategy.MovingStrategy;
 import racingcar.dto.CarDto;
 
 import java.util.List;
 
 public interface RacingCarGameService {
 
-    int play(String names, int count);
+
+    int play(String carNames, int count, MovingStrategy movingStrategy);
 
     List<CarDto> getCars(int gameId);
 

@@ -1,5 +1,8 @@
 package racingcar.domain.strategy;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class NumberMovingStrategy implements MovingStrategy {
 
 	private static final int MOVABLE_NUMBER_LOWER_BOUND = 4;
