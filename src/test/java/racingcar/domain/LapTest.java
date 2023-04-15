@@ -17,16 +17,16 @@ class LapTest {
             lap.reduce();
         }
 
-        assertThat(lap.isFinish()).isTrue();
+        assertThat(lap.isPlayable()).isFalse();
     }
 
     @ParameterizedTest()
-    @CsvSource(value = {"1,false", "0,true"})
+    @CsvSource(value = {"1,true", "0,false"})
     @DisplayName("isFinish 메소드에 대한 테스트")
     void isFinishTest(int lapLeft, boolean expected) {
         Lap lap = new Lap(lapLeft);
 
-        assertThat(lap.isFinish())
+        assertThat(lap.isPlayable())
                 .isEqualTo(expected);
     }
 }

@@ -11,7 +11,7 @@ public class Lap {
         lap--;
     }
 
-    public boolean isFinish() {
-        return lap == 0;
+    public boolean isPlayable() {
+        return lap > 0;
     }
 }
