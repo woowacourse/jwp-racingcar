@@ -8,7 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.*;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.GameTime;
+import racingcar.domain.RacingGame;
+import racingcar.domain.RacingGameRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -31,7 +35,7 @@ class JdbcRacingGameRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        String sql = "INSERT INTO PLAY_RESULT (trial_count) VALUES (?)";
+        String sql = "INSERT INTO GAME (trial_count) VALUES (?)";
         var keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(conn -> {
             PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
