@@ -36,6 +36,4 @@ public class RacingGameEntity {
     public int getCount() {
         return count;
     }
-
-
 }

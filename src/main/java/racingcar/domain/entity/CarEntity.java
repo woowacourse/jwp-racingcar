@@ -9,16 +9,7 @@ public class CarEntity {
     private final int position;
     private final boolean isWin;
 
-
-
     public CarEntity(String name, int position, boolean isWin) {
-        this.name = name;
-        this.position = position;
-        this.isWin = isWin;
-    }
-
-    public CarEntity(final int gameId, final String name, final int position, final boolean isWin) {
-        this.gameId = gameId;
         this.name = name;
         this.position = position;
         this.isWin = isWin;

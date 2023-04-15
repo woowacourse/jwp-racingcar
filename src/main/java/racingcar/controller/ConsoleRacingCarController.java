@@ -1,25 +1,21 @@
 package racingcar.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ConsoleRacingCarController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final NumberGenerator numberGenerator;
 
-    public ConsoleRacingCarController(InputView inputView, OutputView outputView, NumberGenerator numberGenerator) {
+    public ConsoleRacingCarController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.numberGenerator = numberGenerator;
     }
 
     public void run() {
@@ -39,7 +35,7 @@ public class ConsoleRacingCarController {
     private void playGame(Cars cars, int round) {
         RacingGame racingGame = new RacingGame(cars, round);
         outputView.printResultMessage();
-        racingGame.play(numberGenerator);
+        racingGame.play();
         outputView.printFinalResult(racingGame.findWinnerCars());
     }
 }

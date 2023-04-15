@@ -10,7 +10,7 @@ import racingcar.domain.entity.CarEntity;
 
 public class RacingGameResponse {
 
-    private static final String DELIMITER = ", ";
+    private static final String DELIMITER = ",";
 
     private final List<CarResponse> carResponses;
     private final String winners;
@@ -24,7 +24,6 @@ public class RacingGameResponse {
         List<CarResponse> carResponses = cars.stream()
                 .map(CarResponse::new)
                 .collect(toList());
-
         String winners = winningCars.stream()
                 .map(Car::getName)
                 .collect(joining(DELIMITER));

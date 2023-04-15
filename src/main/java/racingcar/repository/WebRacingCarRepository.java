@@ -40,5 +40,4 @@ public class WebRacingCarRepository implements RacingCarRepository {
 
         return racingGameEntities;
     }
-
 }
