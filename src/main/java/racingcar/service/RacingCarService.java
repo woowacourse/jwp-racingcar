@@ -57,10 +57,7 @@ public class RacingCarService {
     @Transactional
     public GameResultResponseDto startRace(final Cars cars, final TryCount tryCount) {
         moveCars(cars, tryCount);
-        GameResultResponseDto gameResult = GameResultResponseDto.toDto(cars);
-
-        gameResultDao.saveGame(tryCount, gameResult);
-        return gameResult;
+        return gameResultDao.saveGame(cars, tryCount);
     }
 
     private void moveCars(final Cars cars, final TryCount tryCount) {

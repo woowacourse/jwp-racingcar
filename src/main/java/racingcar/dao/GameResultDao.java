@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
 import racingcar.dto.PlayerHistoryDto;
@@ -44,9 +45,9 @@ public class GameResultDao {
         return playerHistories;
     }
 
-    public void saveGame(final TryCount tryCount, final GameResultResponseDto gameResult) {
+    public GameResultResponseDto saveGame(final Cars cars, final TryCount tryCount) {
         long gameId = saveGameHistory(tryCount);
-        savePlayersStatus(gameResult, gameId);
+        return savePlayersStatus(cars, gameId);
     }
 
     public Long saveGameHistory(final TryCount tryCount) {
@@ -63,16 +64,18 @@ public class GameResultDao {
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
-    private void savePlayersStatus(final GameResultResponseDto gameResult, final long gameId) {
+    private GameResultResponseDto savePlayersStatus(final Cars cars, final long gameId) {
         String sql = "INSERT INTO player (game_id, name, position, isWinner) VALUES (?, ?, ?, ?)";
 
-        gameResult.getRacingCars()
+        cars.getCars()
                 .forEach(racingCar -> {
                     jdbcTemplate.update(sql,
                             gameId,
-                            racingCar.getName(),
-                            racingCar.getPosition(),
-                            gameResult.isWinner(racingCar.getName()));
+                            racingCar.getCarName(),
+                            racingCar.getDistance(),
+                            cars.isWinner(racingCar.getCarName()));
                 });
+
+        return GameResultResponseDto.toDto(cars);
     }
 }
