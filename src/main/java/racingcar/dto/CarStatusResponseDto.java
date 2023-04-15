@@ -16,6 +16,14 @@ public class CarStatusResponseDto {
         return new CarStatusResponseDto(car.getCarName(), car.getDistance());
     }
 
+    public static CarStatusResponseDto toDto(final String name, final int position) {
+        return new CarStatusResponseDto(name, position);
+    }
+
+    public static CarStatusResponseDto toDto(final PlayerHistoryDto playerHistoryDto) {
+        return new CarStatusResponseDto(playerHistoryDto.getName(), playerHistoryDto.getPosition());
+    }
+
     public String getName() {
         return name;
     }

@@ -1,11 +1,13 @@
 package racingcar.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameResultDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.dto.GameHistoriesResponseDto;
 import racingcar.dto.GameResultResponseDto;
 import racingcar.utils.RandomPowerGenerator;
 
@@ -19,6 +21,11 @@ public class RacingCarService {
     public RacingCarService(final RandomPowerGenerator powerGenerator ,final GameResultDao gameResultDao) {
         this.randomPowerGenerator = powerGenerator;
         this.gameResultDao = gameResultDao;
+    }
+
+    @Transactional(readOnly = true)
+    public List<GameHistoriesResponseDto> findGameHistories() {
+        return gameResultDao.findGameHistories();
     }
 
     @Transactional
