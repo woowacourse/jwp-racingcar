@@ -59,14 +59,14 @@ public class GameServiceTest {
     }
 
     private PlayerResult getDitooResult(Car ditooCar) {
-        ditooCar.move(new TestNumberGenerator(7));
-        ditooCar.move(new TestNumberGenerator(7));
+        ditooCar.move(new TestNumberGenerator(7).generate());
+        ditooCar.move(new TestNumberGenerator(7).generate());
         PlayerResultSaveDto ditoo = new PlayerResultSaveDto(1, ditooCar);
         return new PlayerResult(1, ditoo);
     }
 
     private PlayerResult getLeoResult(Car leoCar) {
-        leoCar.move(new TestNumberGenerator(7));
+        leoCar.move(new TestNumberGenerator(7).generate());
         PlayerResultSaveDto leo = new PlayerResultSaveDto(1, leoCar);
         return new PlayerResult(1, leo);
     }

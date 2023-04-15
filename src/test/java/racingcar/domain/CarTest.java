@@ -27,7 +27,7 @@ class CarTest {
         @DisplayName("랜덤 숫자가 4이상이면 이동한다")
         void move(int number) {
             numberGenerator = new TestNumberGenerator(number);
-            car.move(numberGenerator);
+            car.move(numberGenerator.generate());
 
             assertThat(car.getCurrentPosition().getPosition())
                     .isEqualTo(1);
@@ -38,7 +38,7 @@ class CarTest {
         @ValueSource(ints = {1, 3})
         void notMove(int number) {
             numberGenerator = new TestNumberGenerator(number);
-            car.move(numberGenerator);
+            car.move(numberGenerator.generate());
 
             assertThat(car.getCurrentPosition().getPosition())
                     .isEqualTo(0);
@@ -52,7 +52,7 @@ class CarTest {
         int moveCount = 5;
         numberGenerator = new TestNumberGenerator(numberCanMove);
         for (int i = 0; i < moveCount; i++) {
-            car.move(numberGenerator);
+            car.move(numberGenerator.generate());
         }
 
         assertThat(car.getCarName())
@@ -68,7 +68,7 @@ class CarTest {
         Car other = new Car("crong");
         numberGenerator = new TestNumberGenerator(8);
         for (int i = 0; i < targetPosition; i++) {
-            other.move(numberGenerator);
+            other.move(numberGenerator.generate());
         }
 
         assertThat(car.isSamePosition(other.getCurrentPosition()))

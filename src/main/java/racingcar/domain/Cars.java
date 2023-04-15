@@ -22,7 +22,8 @@ public class Cars {
     }
 
     public void moveCars(final NumberGenerator numberGenerator) {
-        cars.forEach(car -> car.move(numberGenerator));
+        int moveNumber = numberGenerator.generate();
+        cars.forEach(car -> car.move(moveNumber));
     }
 
     public List<Car> getLatestResult() {

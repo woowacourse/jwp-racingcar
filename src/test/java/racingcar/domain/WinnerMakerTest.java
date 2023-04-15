@@ -14,7 +14,7 @@ public class WinnerMakerTest {
         Cars cars = new Cars(List.of("박정훈", "김혜수", "윤예지", "원하연"));
         List<Car> movedCars = cars.getLatestResult();
         movedCars.get(0)
-                .move(new TestNumberGenerator(4));
+                .move(new TestNumberGenerator(4).generate());
         WinnerMaker winnerMaker = new WinnerMaker();
 
         assertThat(winnerMaker.getWinnerCarsName(cars.getLatestResult()))
