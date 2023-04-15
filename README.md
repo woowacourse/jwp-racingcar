@@ -52,7 +52,7 @@
   - [x] 모든 Race_id를 찾기
   - [x] player_id들로 Car를 찾기
   - [x] race_id로 Car를 찾기
-  - [ ] race_id로 winner_id 찾기
+  - [x] race_id로 player_id 찾기
   - [ ] 모든 게임 결과 정보를 가져오기
   - [ ] 모든 게임 결과 정보를 Json으로 반환하기
 - [ ] 기존 기능 수정 - 출력 방식 수정
