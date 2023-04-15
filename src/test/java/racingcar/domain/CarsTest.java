@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -17,7 +18,8 @@ class CarsTest {
 
     @BeforeEach
     void setup() {
-        cars = new Cars();
+        List<String> empty = new ArrayList<>();
+        cars = Cars.from(empty);
     }
 
     @DisplayName("Car 등록 테스트")
@@ -40,8 +42,8 @@ class CarsTest {
         cars.addCar(car2);
         cars.addCar(car3);
         car1.move(9);
-        List<String> winnerNames = cars.findWinnerNames();
-        assertThat(winnerNames.get(0)).isEqualTo("car1");
+        List<Car> winner = cars.findWinner();
+        assertThat(winner.get(0).getName()).isEqualTo("car1");
     }
 
     static Stream<Arguments> carNamesDummy() {
