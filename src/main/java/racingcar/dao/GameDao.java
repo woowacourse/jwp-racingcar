@@ -1,4 +1,4 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -10,11 +10,11 @@ import racingcar.entity.Game;
 import javax.sql.DataSource;
 
 @Repository
-public class GameRepository {
+public class GameDao {
 
     private final SimpleJdbcInsert insertGame;
 
-    public GameRepository(final DataSource dataSource) {
+    public GameDao(final DataSource dataSource) {
         this.insertGame = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingGeneratedKeyColumns("id");
