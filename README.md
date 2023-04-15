@@ -115,8 +115,9 @@ Content-Type: application/json
         - [x] 기존 불필요한 디폴트 생성자 선언 코드 삭제
         - @RequestBody 사용법 학습
     - [ ] [컨트롤러의 책임 분리](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
-        - [ ] 서비스 계층 도입
+        - [x] 서비스 계층 도입
         - [ ] 자동차 레이스 로직 도메인으로 이동 (콘솔 어플리케이션 기능 수정 후)
+        - [ ] 서비스 계층 트랜잭션 관련 고민
     - [ ] [@Transactional 사용 이유, 방법, 동작 방식](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165351296)
     - [ ] [@Component 와 @Repository 의 차이](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)
     - [ ] [@Repository, @Component, @Service 어노테이션의 차이점](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)

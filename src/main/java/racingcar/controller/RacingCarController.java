@@ -1,53 +1,26 @@
 package racingcar.controller;
 
-import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dao.CarDao;
-import racingcar.dao.PlayResultDao;
-import racingcar.domain.Car;
-import racingcar.domain.RacingGame;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayRequestDto;
-import racingcar.view.util.TextParser;
+import racingcar.service.RacingCarService;
 
 @RestController
 public class RacingCarController {
 
-    private final PlayResultDao playResultDao;
-    private final CarDao carDao;
+    private final RacingCarService racingCarService;
 
-    public RacingCarController(final PlayResultDao playResultDao, final CarDao carDao) {
-        this.playResultDao = playResultDao;
-        this.carDao = carDao;
+    public RacingCarController(final RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
     }
 
-    @Transactional
     @PostMapping("/plays")
     public ResponseEntity<GameResultDto> play(@RequestBody PlayRequestDto playRequestDto) {
-        final RacingGame racingGame = createGame(playRequestDto.getNames());
-        final int count = playRequestDto.getCount();
-
-        race(count, racingGame);
-        final List<Car> cars = racingGame.getCars();
-        final String winners = String.join(", ", racingGame.getWinnerNames());
-
-        long savedId = playResultDao.insert(count, winners);
-        carDao.insert(savedId, cars);
-        return ResponseEntity.ok(new GameResultDto(cars, winners));
+        GameResultDto gameResult = racingCarService.playGame(playRequestDto);
+        return ResponseEntity.ok(gameResult);
     }
 
-    private static RacingGame createGame(final String rawCarNames) {
-        final List<String> carNames = TextParser.parseByDelimiter(rawCarNames, ",");
-        return RacingGame.of(carNames);
-    }
-
-    private void race(final int count, final RacingGame racingGame) {
-        for (int i = 0; i < count; i++) {
-            racingGame.race();
-        }
-    }
 }
