@@ -1,7 +1,9 @@
 package racingcar.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import racingcar.controller.dto.GamePlayResponseDto;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.model.Cars;
@@ -30,5 +32,9 @@ public class GameService {
         String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
         int gameId = gameDao.save(tryCount, winners);
         carDao.saveAll(gameId, cars.getCars());
+    }
+
+    public List<GamePlayResponseDto> getGamePlayHistory() {
+        return gameDao.selectAll();
     }
 }

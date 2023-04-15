@@ -2,11 +2,12 @@ package racingcar.controller;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.controller.dto.RequestDto;
 import racingcar.controller.dto.GamePlayResponseDto;
+import racingcar.controller.dto.RequestDto;
 import racingcar.model.Cars;
 import racingcar.service.GameService;
 import racingcar.util.NameFormatConverter;
@@ -32,5 +33,10 @@ public class WebController {
 
         return ResponseEntity.ok()
                 .body(gamePlayResponseDto);
+    }
+
+    @GetMapping("/plays")
+    public List<GamePlayResponseDto> getHistory() {
+        return gameService.getGamePlayHistory();
     }
 }
