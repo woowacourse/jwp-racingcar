@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.controller;
 
 public class RequestDto {
     private final String names;

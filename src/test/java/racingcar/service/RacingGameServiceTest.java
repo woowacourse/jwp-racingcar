@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.MockNumberGenerator;
 import racingcar.domain.Car;
-import racingcar.dto.ResponseDto;
+import racingcar.controller.ResponseDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RacingGameServiceTest {

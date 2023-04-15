@@ -10,7 +10,7 @@ import racingcar.domain.Car;
 import racingcar.domain.CarGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.domain.Winner;
-import racingcar.dto.ResponseDto;
+import racingcar.controller.ResponseDto;
 import racingcar.utils.NumberGenerator;
 
 @Service

@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.RequestDto;
-import racingcar.dto.ResponseDto;
 import racingcar.service.RacingGameService;
 import racingcar.utils.RandomNumberGenerator;
 
