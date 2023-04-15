@@ -3,7 +3,7 @@ package racingcar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.GameDao;
-import racingcar.dao.ParticipatesDao;
+import racingcar.dao.ParticipantDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.*;
 import racingcar.dto.NamesAndCountRequest;
@@ -21,13 +21,13 @@ public class RacingCarService {
 
     private final GameDao gameDao;
     private final PlayerDao playerDao;
-    private final ParticipatesDao participatesDao;
+    private final ParticipantDao participantDao;
 
     @Autowired
-    public RacingCarService(final GameDao gameDao, final PlayerDao playerDao, final ParticipatesDao participatesDao) {
+    public RacingCarService(final GameDao gameDao, final PlayerDao playerDao, final ParticipantDao participantDao) {
         this.gameDao = gameDao;
         this.playerDao = playerDao;
-        this.participatesDao = participatesDao;
+        this.participantDao = participantDao;
     }
 
     public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
@@ -54,7 +54,7 @@ public class RacingCarService {
             int carPosition = car.getPosition();
             Long playerId = findOrSavePlayer(carName);
             ParticipateDto participateDto = new ParticipateDto(gameId, playerId, carPosition, isWinner(winnerCars, car));
-            participatesDao.save(participateDto);
+            participantDao.save(participateDto);
         }
     }
 
