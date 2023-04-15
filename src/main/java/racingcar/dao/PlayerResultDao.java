@@ -1,7 +1,9 @@
 package racingcar.dao;
 
 import java.util.List;
+
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -9,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+
 import racingcar.service.PlayerResult;
 
 @Repository
@@ -30,9 +33,9 @@ public class PlayerResultDao {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public List<PlayerResult> selectPlayerResultByPlayResultId(final int playResultId) {
+    public List<PlayerResult> selectPlayerResultByRacingResultId(final int ragingResultId) {
         String sql = "select play_result_id, name, position from player_result where PLAY_RESULT_ID = :play_result_id";
-        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("play_result_id", playResultId);
+        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("play_result_id", ragingResultId);
         return namedParameterJdbcTemplate.query(sql, sqlParameterSource, actorRowMapper);
     }
 

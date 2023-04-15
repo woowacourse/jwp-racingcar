@@ -11,15 +11,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import racingcar.service.PlayResult;
 import racingcar.service.PlayerResult;
+import racingcar.service.RacingResult;
 
 @SpringBootTest
 @Transactional
 class PlayerResultDaoTest {
 
     @Autowired
-    PlayResultDao playResultDao;
+    RacingResultDao racingResultDao;
 
     @Autowired
     PlayerResultDao playerResultDao;
@@ -27,19 +27,19 @@ class PlayerResultDaoTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    private PlayResult playResult;
+    private RacingResult racingResult;
 
     @BeforeEach
     void initialize(){
-        playResult = playResultDao.insertPlayResult(new PlayResult("name1,name2", 3));
+        racingResult = racingResultDao.insertPlayResult(new RacingResult("name1,name2", 3));
     }
 
     @Test
     void insertPlayer(){
-        PlayerResult playerResult = new PlayerResult(playResult.getId(), "name", 10);
+        PlayerResult playerResult = new PlayerResult(racingResult.getId(), "name", 10);
         playerResultDao.insertPlayer(playerResult);
 
-        List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByPlayResultId(2);
+        List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByRacingResultId(2);
         PlayerResult findedPlayerResult = playerResults.get(0);
 
         assertThat(findedPlayerResult.getName()).isEqualTo(playerResult.getName());
@@ -47,12 +47,12 @@ class PlayerResultDaoTest {
 
     @Test
     void selectPlayerResultByPlayResultIdTest(){
-        PlayerResult playerResult = new PlayerResult(playResult.getId(), "name1", 10);
-        PlayerResult playerResult2 = new PlayerResult(playResult.getId(), "name2", 10);
+        PlayerResult playerResult = new PlayerResult(racingResult.getId(), "name1", 10);
+        PlayerResult playerResult2 = new PlayerResult(racingResult.getId(), "name2", 10);
         playerResultDao.insertPlayer(playerResult);
         playerResultDao.insertPlayer(playerResult2);
 
-        List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByPlayResultId(playResult.getId());
+        List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByRacingResultId(racingResult.getId());
 
         assertThat(playerResults.size()).isEqualTo(2);
     }

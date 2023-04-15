@@ -7,19 +7,19 @@ import java.time.LocalDateTime;
  * @version 1.0.0
  * @since by 우가 on 2023/04/11
  */
-public class PlayResult {
+public class RacingResult {
     private int id;
-    private String winners;
-    private int trialCount;
+    private final String winners;
+    private final int trialCount;
     private LocalDateTime playedTime;
 
-    public PlayResult(final String winners, final int trialCount) {
+    public RacingResult(final String winners, final int trialCount) {
         this.winners = winners;
         this.trialCount = trialCount;
         this.playedTime = LocalDateTime.now();
     }
 
-    public PlayResult(final int id, final String winners, final int trialCount) {
+    public RacingResult(final int id, final String winners, final int trialCount) {
         this.id = id;
         this.winners = winners;
         this.trialCount = trialCount;

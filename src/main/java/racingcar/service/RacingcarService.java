@@ -3,9 +3,11 @@ package racingcar.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
-import racingcar.dao.PlayResultDao;
+
 import racingcar.dao.PlayerResultDao;
+import racingcar.dao.RacingResultDao;
 import racingcar.model.Car;
 
 @Service
@@ -13,11 +15,11 @@ public class RacingcarService {
 
     private static final int MINIMUM_PARTICIPANT = 2;
 
-    private final PlayResultDao playResultDao;
+    private final RacingResultDao racingResultDao;
     private final PlayerResultDao playerResultDao;
 
-    public RacingcarService(final PlayResultDao playResultDao, final PlayerResultDao playerResultDao) {
-        this.playResultDao = playResultDao;
+    public RacingcarService(final RacingResultDao racingResultDao, final PlayerResultDao playerResultDao) {
+        this.racingResultDao = racingResultDao;
         this.playerResultDao = playerResultDao;
     }
 
@@ -30,10 +32,10 @@ public class RacingcarService {
 
         String winners = findWinners(cars);
 
-        PlayResult playResult = playResultDao.insertPlayResult(new PlayResult(winners, count));
+        RacingResult racingResult = racingResultDao.insertPlayResult(new RacingResult(winners, count));
 
         List<PlayerResult> playerResults = cars.stream()
-                .map(car -> new PlayerResult(playResult.getId(), car.getName(), car.getPosition()))
+                .map(car -> new PlayerResult(racingResult.getId(), car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
 
         playerResults.forEach(playerResultDao::insertPlayer);
@@ -54,7 +56,7 @@ public class RacingcarService {
     }
 
     private String findWinners(final List<Car> cars) {
-        int winnerPosition = findPosition(cars);
+        int winnerPosition = maxPosition(cars);
 
         List<Car> winnersCars = cars.stream()
                 .filter(car -> car.isPosition(winnerPosition))
@@ -65,7 +67,7 @@ public class RacingcarService {
                 .collect(Collectors.joining(", "));
     }
 
-    private int findPosition(final List<Car> cars) {
+    private int maxPosition(final List<Car> cars) {
         int maxPosition = 0;
 
         for (Car car : cars) {
@@ -76,16 +78,16 @@ public class RacingcarService {
     }
 
     public List<RacingResponse> allResults() {
-        List<PlayResult> playResults = playResultDao.selectAllResults();
+        List<RacingResult> racingResults = racingResultDao.selectAllResults();
         List<List<PlayerResult>> playerResults = new ArrayList<>();
-        for (PlayResult playResult : playResults) {
-            int playResultId = playResult.getId();
-            playerResults.add(playerResultDao.selectPlayerResultByPlayResultId(playResultId));
+        for (RacingResult racingResult : racingResults) {
+            int playResultId = racingResult.getId();
+            playerResults.add(playerResultDao.selectPlayerResultByRacingResultId(playResultId));
         }
 
         List<RacingResponse> racingResponses = new ArrayList<>();
         for (int i = 0; i < playerResults.size(); i++) {
-            racingResponses.add(new RacingResponse(playResults.get(i).getWinners(), playerResults.get(i)));
+            racingResponses.add(new RacingResponse(racingResults.get(i).getWinners(), playerResults.get(i)));
         }
         return racingResponses;
     }
