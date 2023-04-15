@@ -19,10 +19,10 @@ public class Cars {
         this.cars = new ArrayList<>(cars);
     }
 
-    public static Cars of(List<String> carNames) {
+    public static Cars of(List<String> carNames, Long gameId) {
         List<Car> cars = new ArrayList<>();
         for (String carName : carNames) {
-            cars.add(new Car(carName));
+            cars.add(new Car(carName, gameId));
         }
 
         return new Cars(cars);
@@ -38,7 +38,7 @@ public class Cars {
         }
     }
 
-    public List<Car> getAll() {
+    public List<Car> getCars() {
         return Collections.unmodifiableList(cars);
     }
 

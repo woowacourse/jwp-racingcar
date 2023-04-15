@@ -55,7 +55,7 @@ class CarsTest {
 
             cars.moveAll(randomNumberGenerator);
 
-            List<Car> moved = cars.getAll();
+            List<Car> moved = cars.getCars();
             assertThat(moved.get(index).getPosition()).isEqualTo(expectedPosition);
         }
 
@@ -68,7 +68,7 @@ class CarsTest {
 
             cars.moveAll(randomNumberGenerator);
 
-            List<Car> moved = cars.getAll();
+            List<Car> moved = cars.getCars();
             assertThat(moved.get(index).getPosition()).isEqualTo(expectedPosition);
         }
     }

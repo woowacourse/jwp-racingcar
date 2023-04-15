@@ -17,7 +17,7 @@ public class OutputView {
     private static final String DIVISION_CHAR = ",";
 
     public void printStatus(Cars cars) {
-        for (Car car : cars.getAll()) {
+        for (Car car : cars.getCars()) {
             printStatus(car);
         }
     }
@@ -46,7 +46,7 @@ public class OutputView {
     }
 
     public void printWinners(Cars winners) {
-        System.out.println(winnerFormat(winners.getAll()) + END_MESSAGE);
+        System.out.println(winnerFormat(winners.getCars()) + END_MESSAGE);
     }
 
     private String winnerFormat(List<Car> winners) {

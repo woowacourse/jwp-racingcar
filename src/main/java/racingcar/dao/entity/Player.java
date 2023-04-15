@@ -1,7 +1,5 @@
 package racingcar.dao.entity;
 
-import java.util.Optional;
-
 public class Player {
 
     private final Long playerId;
@@ -16,8 +14,15 @@ public class Player {
         this.gameId = gameId;
     }
 
-    public Optional<Long> getPlayerId() {
-        return Optional.ofNullable(playerId);
+    public Player(Long playerId, String name, int position, Long gameId) {
+        this.playerId = playerId;
+        this.name = name;
+        this.position = position;
+        this.gameId = gameId;
+    }
+
+    public Long getPlayerId() {
+        return playerId;
     }
 
     public String getName() {

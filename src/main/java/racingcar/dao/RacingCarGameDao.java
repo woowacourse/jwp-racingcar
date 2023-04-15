@@ -1,20 +1,34 @@
 package racingcar.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Component;
 import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Optional;
 
+@Component
 public class RacingCarGameDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public RacingCarGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    RowMapper<Player> playerRowMapper = (rs, rowNum) -> {
+        Long playerId = rs.getLong("player_id");
+        String playerName = rs.getString("name");
+        int position = rs.getInt("position");
+        Long gameId = rs.getLong("game_id");
+
+        return new Player(playerId, playerName, position, gameId);
+    };
 
     public Long insertGameWithKeyHolder(Game game) {
         String sql = "INSERT INTO game(play_count, winners) VALUES(?, ?)";
@@ -31,9 +45,32 @@ public class RacingCarGameDao {
 
     }
 
-    public void insertPlayers(Player player) {
+    public void insertPlayer(Player player) {
         String sql = "INSERT INTO player(name, position, game_id) VALUES(?, ?, ?)";
 
         jdbcTemplate.update(sql, player.getName(), player.getPosition(), player.getGameId());
+    }
+
+    public void updatePlayer(Player player) {
+        String sql = "UPDATE player SET name = ?, position = ? WHERE player_id = ?";
+
+        jdbcTemplate.update(sql, player.getName(), player.getPosition(), player.getPlayerId());
+    }
+
+    public Optional<Player> findPlayerByGameIdAndName(Long gameId, String name) {
+        String sql = "SELECT * FROM player WHERE game_id = ? AND name = ?";
+
+        try {
+            Player player = jdbcTemplate.queryForObject(sql, playerRowMapper, gameId, name);
+            return Optional.ofNullable(player);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    public void updateGame(Game game) {
+        String sql = "UPDATE game SET play_count = ?, winners = ? WHERE game_id = ?";
+
+        jdbcTemplate.update(sql, game.getPlayCount(), game.getWinners(), game.getGameId());
     }
 }

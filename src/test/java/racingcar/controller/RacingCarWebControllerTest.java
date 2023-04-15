@@ -5,10 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.dto.RacingGameRequestDto;
+
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 
@@ -26,7 +28,7 @@ class RacingCarWebControllerTest {
     @DisplayName("이름과 시도 횟수를 보내면 결과로 우승자와 참가자(이름,포지션)을 반환한다")
     @Test
     void return_result_given_names_and_trial_count() {
-        RacingGameRequestDto racingGameRequestDto = new RacingGameRequestDto("마코,아코", 10);
+        RacingGameRequestDto racingGameRequestDto = new RacingGameRequestDto(List.of("마코,아코"), 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
