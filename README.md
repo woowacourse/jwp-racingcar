@@ -1,7 +1,5 @@
 ## 🚀 기능 구현에 필요한 사항
 
-**`충분한 test를 통해, 구현이 완료된 사항만 체크한다.`**
-
 ### 1. 사용자의 입력
 
 - [X] 자동차 이름 입력
@@ -13,8 +11,6 @@
 
 ### 2. 결과 출력
 
-- [X] 단계 별로 이동 결과 출력
-    * 이동 결과는 `-`로 구분한다.
 - [X] 우승자 출력
     * 시도(이동) 횟수가 완료되었을 때, 가장 멀리 간 자동차가 우승자가 된다
     * 우승자는 한 명 이상일 수 있다.
@@ -65,8 +61,56 @@ Content-Type: application/json
 }
 ```
 
-### 5. DB 연동
+- [ ] 게임플레이 이력 조회 API 구현
+    - db에 저장된 플레이 이력을 요청하면 응답한다.
+        - request
 
+      ```GET /plays HTTP/1.1```
+        - response
+   ```
+  HTTP/1.1 200 
+    Content-Type: application/json
+    
+    [
+    {
+    "winners": "브리",
+    "racingCars": [
+    {
+    "name": "브리",
+    "position": 6
+    },
+    {
+    "name": "토미",
+    "position": 4
+    },
+    {
+    "name": "브라운",
+    "position": 3
+    },
+    ]
+    },
+    {
+    "winners": "브리,토미,브라운",
+    "racingCars": [
+    {
+    "name": "브리",
+    "position": 6
+    },
+    {
+    "name": "토미",
+    "position": 6
+    },
+    {
+    "name": "브라운",
+    "position": 6
+    },
+    ]
+    }
+    ]
+
+  ```
+
+### 5. DB 연동
 - [X] 자동차 경주 게임의 플레이 이력을 DB에 저장한다.
     - DB 저장 목록
         - 플레이 횟수(trialCount)
