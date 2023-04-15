@@ -59,7 +59,10 @@
           const resultPosition = document.createElement("div");
           for (let index in data.racingCars) {
             const span = document.createElement("span");
-            span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
+            span.innerHTML = `Name: ${data.racingCars[index].identifier === 0
+                ? data.racingCars[index].name : data.racingCars[index].name
+                + data.racingCars[index].identifier},Position: ${data.racingCars[index].position}<br>`;
+            resultPosition.appendChild(span);
             resultPosition.appendChild(span);
           }
           document.getElementById("resultWinner").innerHTML = data.winners
