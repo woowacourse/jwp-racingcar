@@ -1,6 +1,8 @@
 package racingcar.dao;
 
+import racingcar.dao.entity.RacingGameEntity;
+
 public interface RacingGameDao {
 
-    Long save(int trialCount);
+    Long save(RacingGameEntity racingGameEntity);
 }

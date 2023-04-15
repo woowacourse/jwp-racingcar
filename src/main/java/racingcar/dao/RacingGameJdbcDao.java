@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import racingcar.dao.entity.RacingGameEntity;
 
 @Component
 public class RacingGameJdbcDao implements RacingGameDao {
@@ -16,13 +17,13 @@ public class RacingGameJdbcDao implements RacingGameDao {
     }
 
     @Override
-    public Long save(int trialCount) {
+    public Long save(RacingGameEntity racingGameEntity) {
         String sql = "INSERT into RACING_GAME (trial_count) values (?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
-            preparedStatement.setInt(1, trialCount);
+            preparedStatement.setInt(1, racingGameEntity.getTrialCount());
             return preparedStatement;
         }, keyHolder);
 

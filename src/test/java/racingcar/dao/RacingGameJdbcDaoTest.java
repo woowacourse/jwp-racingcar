@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.entity.RacingGameEntity;
 
 @JdbcTest
 class RacingGameJdbcDaoTest {
@@ -24,12 +25,12 @@ class RacingGameJdbcDaoTest {
     @Test
     @DisplayName("racing game을 저장한다")
     void insert() {
-        int trialCount = 5;
-        Long gameId = racingGameDao.save(trialCount);
+        RacingGameEntity racingGameEntity = new RacingGameEntity(5);
+        Long gameId = racingGameDao.save(racingGameEntity);
 
         String sql = "SELECT trial_count FROM racing_game WHERE id = " + gameId;
         Integer savedTrialCount = jdbcTemplate.queryForObject(sql, Integer.class);
 
-        assertThat(trialCount).isEqualTo(savedTrialCount);
+        assertThat(savedTrialCount).isEqualTo(5);
     }
 }

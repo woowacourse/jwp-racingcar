@@ -1,9 +1,9 @@
 package racingcar.dao;
 
 import java.util.List;
-import racingcar.dto.CarDto;
+import racingcar.dao.entity.CarEntity;
 
 public interface CarDao {
 
-    void saveAll(Long gameId, List<CarDto> racingCars);
+    void saveAll(List<CarEntity> racingCars);
 }

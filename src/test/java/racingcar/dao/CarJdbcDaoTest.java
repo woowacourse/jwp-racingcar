@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.CarDto;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.RacingGameEntity;
 
 @JdbcTest
 class CarJdbcDaoTest {
@@ -23,24 +24,25 @@ class CarJdbcDaoTest {
     void setUp() {
         carDao = new CarJdbcDao(jdbcTemplate);
         RacingGameDao racingGameDao = new RacingGameJdbcDao(jdbcTemplate);
-        gameId = racingGameDao.save(10);
+        gameId = racingGameDao.save(new RacingGameEntity(10));
 
-        CarDto carDto1 = new CarDto("boxster", 10, true);
-        CarDto carDto2 = new CarDto("encho", 7, false);
+        CarEntity boxster = new CarEntity("boxster", 10, true, gameId);
+        CarEntity encho = new CarEntity("encho", 7, false, gameId);
 
         jdbcTemplate.update("INSERT INTO CAR (name, position, is_win, racing_game_id) VALUES (?, ?, ?, ?)",
-                carDto1.getName(), carDto1.getPosition(), carDto1.isWin(), gameId);
+                boxster.getName(), boxster.getPosition(), boxster.isWin(), boxster.getGameId());
         jdbcTemplate.update("INSERT INTO CAR (name, position, is_win, racing_game_id) VALUES (?, ?, ?, ?)",
-                carDto2.getName(), carDto2.getPosition(), carDto2.isWin(), gameId);
+                encho.getName(), encho.getPosition(), encho.isWin(), encho.getGameId());
 
     }
 
     @Test
     @DisplayName("car를 여러 개 저장한다")
     void insert() {
-        List<CarDto> carDtos = List.of(new CarDto("gumak", 9, false), new CarDto("benz", 10, true));
+        List<CarEntity> carDtos = List.of(new CarEntity("gumak", 9, false, gameId),
+                new CarEntity("benz", 10, true, gameId));
 
-        carDao.saveAll(gameId, carDtos);
+        carDao.saveAll(carDtos);
 
         Integer count = jdbcTemplate.queryForObject("SELECT count(*) FROM CAR", Integer.class);
 
