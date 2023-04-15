@@ -1,15 +1,15 @@
 package racingcar.controller;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarRequest;
 import racingcar.dto.RacingResultResponse;
 import racingcar.service.RacingCarService;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class WebRacingCarController {
@@ -22,7 +22,7 @@ public class WebRacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingResultResponse> play(@RequestBody RacingCarRequest request) {
+    public ResponseEntity<RacingResultResponse> play(@Valid @RequestBody RacingCarRequest request) {
         List<String> carNames = getCarNames(request.getNames());
         int gameId = racingCarService.playRacingGame(carNames, request.getCount());
         RacingResultResponse racingResultResponse = racingCarService.obtainRacingResult(gameId);
