@@ -14,14 +14,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.repository.RacingCarRepository;
+import racingcar.repository.MySqlRacingCarRepository;
 import racingcar.utils.NumberGenerator;
 
 @ExtendWith(MockitoExtension.class)
 class RacingCarServiceTest {
 
     @Mock
-    RacingCarRepository racingCarRepository;
+    MySqlRacingCarRepository mySqlRacingCarRepository;
 
     @Mock
     NumberGenerator numberGenerator;
@@ -39,7 +39,7 @@ class RacingCarServiceTest {
         given(numberGenerator.generateNumber())
                 .willReturn(1);
 
-        given(racingCarRepository.saveGame(anyInt()))
+        given(mySqlRacingCarRepository.saveGame(anyInt()))
                 .willReturn(1);
 
         // when

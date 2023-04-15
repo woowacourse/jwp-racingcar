@@ -13,7 +13,7 @@ import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
 
 @JdbcTest
-class RacingCarRepositoryTest {
+class MySqlRacingCarRepositoryTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -22,7 +22,7 @@ class RacingCarRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        racingCarRepository = new RacingCarRepository(jdbcTemplate);
+        racingCarRepository = new MySqlRacingCarRepository(jdbcTemplate);
     }
 
     @Test

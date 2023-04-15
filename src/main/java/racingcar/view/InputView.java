@@ -9,6 +9,9 @@ public class InputView {
 	private static final String SPLIT_DELIMITER = ",";
 	private static final Scanner scanner = new Scanner(System.in);
 
+	private InputView() {
+	}
+
 	public static List<String> readCarNames() {
 		String carNames = scanner.nextLine();
 		validateCarNames(carNames);
