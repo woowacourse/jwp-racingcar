@@ -14,6 +14,7 @@ import racingcar.view.util.TextParser;
 @RestController
 public class RacingCarController {
 
+    private static final String CAR_NAMES_DELIMITER = ",";
     private final RacingCarService racingCarService;
 
     public RacingCarController(final RacingCarService racingCarService) {
@@ -23,7 +24,7 @@ public class RacingCarController {
     @PostMapping("/plays")
     public ResponseEntity<PlayResponseDto> play(@RequestBody PlayRequestDto playRequestDto) {
         final int count = playRequestDto.getCount();
-        final List<String> carNames = TextParser.parseByDelimiter(playRequestDto.getNames(), ",");
+        final List<String> carNames = TextParser.parseByDelimiter(playRequestDto.getNames(), CAR_NAMES_DELIMITER);
         PlayResponseDto playResult = racingCarService.playGame(count, carNames);
         return ResponseEntity.ok(playResult);
     }
