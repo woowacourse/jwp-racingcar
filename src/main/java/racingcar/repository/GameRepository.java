@@ -39,6 +39,13 @@ public class GameRepository {
         return games;
     }
 
+    public void save(Game game) {
+        int gameId = gameStatesDao.insert(game.getInitialTrialCount(), game.getRemainingTrialCount());
+        for (Car car : game.getCars()) {
+            carsDao.insert(gameId, car.getName(), car.getPosition());
+        }
+    }
+
     private List<Car> createCarsWith(List<CarDto> carDtos) {
         return carDtos.stream()
                 .map(it -> new Car(it.getName(), it.getPosition()))

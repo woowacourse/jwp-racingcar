@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import racingcar.dao.CarsDao;
-import racingcar.dao.GameStatesDao;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.domain.MoveChance;
@@ -19,14 +17,10 @@ import racingcar.service.dto.ResultDto;
 @Service
 public class GameService {
 
-    private final GameStatesDao gameStatesDao;
-    private final CarsDao carsDao;
     private final GameRepository gameRepository;
     private final MoveChance moveChance;
 
-    public GameService(GameStatesDao gameStatesDao, CarsDao carsDao, GameRepository gameRepository) {
-        this.gameStatesDao = gameStatesDao;
-        this.carsDao = carsDao;
+    public GameService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
         this.moveChance = RandomMoveChance.getInstance();
     }
@@ -37,7 +31,7 @@ public class GameService {
             game.playOnceWith(moveChance);
         }
 
-        insertResultOf(game);
+        gameRepository.save(game);
         return new ResultDto(getNamesOf(game.findWinners()), createDtosOf(game.getCars()));
     }
 
@@ -71,12 +65,5 @@ public class GameService {
         return cars.stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
-    }
-
-    private void insertResultOf(final Game game) {
-        int gameId = gameStatesDao.insert(game.getInitialTrialCount(), game.getRemainingTrialCount());
-        for (Car car : game.getCars()) {
-            carsDao.insert(gameId, car.getName(), car.getPosition());
-        }
     }
 }
