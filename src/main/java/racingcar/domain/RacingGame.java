@@ -20,7 +20,7 @@ public class RacingGame {
     }
 
     private List<String> trimNames(final String names) {
-        return Arrays.stream(names.split(CAR_NAME_DELIMITER, -1))
+        return Arrays.stream(names.split(CAR_NAME_DELIMITER))
                 .map(String::trim)
                 .collect(toList());
     }
