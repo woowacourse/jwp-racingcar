@@ -16,11 +16,3 @@ CREATE TABLE cars
     PRIMARY KEY (id),
     FOREIGN KEY (game_id) REFERENCES gamestates (id)
 );
-
-CREATE TABLE winners
-(
-    game_id INT NOT NULL,
-    car_id  INT NOT NULL,
-    FOREIGN KEY (game_id) REFERENCES gamestates (id),
-    FOREIGN KEY (car_id) REFERENCES cars (id)
-);

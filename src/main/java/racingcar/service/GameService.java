@@ -1,16 +1,13 @@
 package racingcar.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import racingcar.dao.CarsDao;
 import racingcar.dao.GameStatesDao;
-import racingcar.dao.WinnersDao;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.domain.MoveChance;
@@ -24,14 +21,12 @@ public class GameService {
 
     private final GameStatesDao gameStatesDao;
     private final CarsDao carsDao;
-    private final WinnersDao winnersDao;
     private final GameRepository gameRepository;
     private final MoveChance moveChance;
 
-    public GameService(GameStatesDao gameStatesDao, CarsDao carsDao, WinnersDao winnersDao, GameRepository gameRepository) {
+    public GameService(GameStatesDao gameStatesDao, CarsDao carsDao, GameRepository gameRepository) {
         this.gameStatesDao = gameStatesDao;
         this.carsDao = carsDao;
-        this.winnersDao = winnersDao;
         this.gameRepository = gameRepository;
         this.moveChance = RandomMoveChance.getInstance();
     }
@@ -80,19 +75,8 @@ public class GameService {
 
     private void insertResultOf(final Game game) {
         int gameId = gameStatesDao.insert(game.getInitialTrialCount(), game.getRemainingTrialCount());
-        Map<Car, Integer> carIds = new HashMap<>();
         for (Car car : game.getCars()) {
-            int carId = carsDao.insert(gameId, car.getName(), car.getPosition());
-            carIds.put(car, carId);
+            carsDao.insert(gameId, car.getName(), car.getPosition());
         }
-        List<Integer> winnerIds = findIdsOf(game.findWinners(), carIds);
-        winnersDao.insert(gameId, winnerIds);
-    }
-
-    private List<Integer> findIdsOf(List<Car> cars, Map<Car, Integer> carIds) {
-        return carIds.entrySet().stream()
-                .filter(entry -> cars.contains(entry.getKey()))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
     }
 }
