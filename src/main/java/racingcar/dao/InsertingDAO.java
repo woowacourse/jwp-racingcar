@@ -20,8 +20,9 @@ public class InsertingDAO {
         String sql = "INSERT INTO racing (trialCount) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
-            con -> {
-                PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
+            connection -> {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                    new String[]{"id"});
                 preparedStatement.setInt(1, trial.getValue());
                 return preparedStatement;
             },
@@ -33,10 +34,13 @@ public class InsertingDAO {
 
     public void insert(CarInfoDto carInfoDto) {
         String sql = "INSERT INTO car_info (racing_id, name, position, is_winner) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-            carInfoDto.getRacingId(),
-            carInfoDto.getName(),
-            carInfoDto.getPosition(),
-            carInfoDto.isWinner());
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, carInfoDto.getRacingId());
+            preparedStatement.setString(1, carInfoDto.getName());
+            preparedStatement.setInt(1, carInfoDto.getPosition());
+            preparedStatement.setBoolean(1, carInfoDto.isWinner());
+            return preparedStatement;
+        });
     }
 }
