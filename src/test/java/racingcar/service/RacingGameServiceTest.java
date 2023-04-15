@@ -1,8 +1,10 @@
 package racingcar.service;
 
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import racingcar.dto.CarDto;
 import racingcar.dto.response.GameResponseDto;
 
@@ -11,11 +13,12 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@Import({TestConfig.class})
+@WebMvcTest
 class RacingGameServiceTest {
 
     @Autowired
-    RacingGameService racingGameService;
+    private RacingGameService racingGameService;
 
     @RepeatedTest(value = 5)
     void play() {
