@@ -18,14 +18,13 @@ public class Cars {
 
     public void moveCars(final NumberGenerator numberGenerator) {
         int moveNumber = numberGenerator.generate();
-        cars.forEach(car -> car.move(moveNumber));
+        for (Car car : cars) {
+            car.move(moveNumber);
+        }
     }
 
     public List<String> calculateWinners() {
-        Position maxPosition = cars.stream()
-                .map(Car::getCurrentPosition)
-                .max(Comparator.comparingInt(Position::getPosition))
-                .orElseGet(Position::new);
+        Position maxPosition = getMaxPosition();
 
         List<String> winners = cars.stream()
                 .filter(car -> car.getCurrentPosition().equals(maxPosition))
@@ -33,6 +32,14 @@ public class Cars {
                 .collect(Collectors.toList());
 
         return winners;
+    }
+
+    private Position getMaxPosition() {
+        Position maxPosition = cars.stream()
+                .map(Car::getCurrentPosition)
+                .max(Comparator.comparingInt(Position::getPosition))
+                .orElseGet(Position::new);
+        return maxPosition;
     }
 
     private void validateDuplicatedNames(final List<Car> cars) {
