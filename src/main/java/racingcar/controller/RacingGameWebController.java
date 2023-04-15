@@ -27,12 +27,12 @@ public class RacingGameWebController {
         this.racingCarService = racingCarService;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<GameHistoriesResponseDto>> findGameHistories() {
         return new ResponseEntity<>(racingCarService.findAllGameHistories(), HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<GameResultResponseDto> startGame(@RequestBody final StartGameRequestDto request) {
         Cars cars = makeCars(request.getNames());
         TryCount tryCount = makeTryCount(request.getCount());

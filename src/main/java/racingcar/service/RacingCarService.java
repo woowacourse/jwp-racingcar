@@ -41,13 +41,13 @@ public class RacingCarService {
                     .map(CarStatusResponseDto::toDto)
                     .collect(Collectors.toList());
 
-            allGameHistories.add(GameHistoriesResponseDto.toDto(findWinners(playerHistories), carStatuses));
+            allGameHistories.add(GameHistoriesResponseDto.toDto(findWinnerNames(playerHistories), carStatuses));
         }
 
         return allGameHistories;
     }
 
-    private String findWinners(final List<PlayerHistoryDto> playerHistories) {
+    private String findWinnerNames(final List<PlayerHistoryDto> playerHistories) {
         return playerHistories.stream()
                 .filter(PlayerHistoryDto::isWinner)
                 .map(PlayerHistoryDto::getName)

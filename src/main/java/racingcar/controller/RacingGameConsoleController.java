@@ -2,34 +2,46 @@ package racingcar.controller;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.stream.Collectors;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.dto.CarStatusResponseDto;
+import racingcar.dto.GameHistoriesResponseDto;
 import racingcar.utils.RandomPowerGenerator;
-import racingcar.utils.RandomPowerMaker;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingGameConsoleController {
 
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
-    private final RandomPowerGenerator randomPowerGenerator = new RandomPowerMaker();
+    private static final String CAR_NAME_DELIMITER = ",";
+
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final RandomPowerGenerator randomPowerGenerator;
+
+    public RacingGameConsoleController(final InputView inputView,
+                                       final OutputView outputView,
+                                       final RandomPowerGenerator randomPowerGenerator) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.randomPowerGenerator = randomPowerGenerator;
+    }
 
     public void startGame() {
-
         final Cars cars = getCars();
         final TryCount tryCount = getTryCount();
 
         startRace(cars, tryCount);
 
-        outputView.printWinners(cars);
+        GameHistoriesResponseDto gameHistoryDto = GameHistoriesResponseDto.toDto(findWinnerNames(cars), findCarStatuses(cars));
+
+        outputView.printWinners(gameHistoryDto);
+        outputView.printCurrentRacingStatus(gameHistoryDto);
     }
 
     private Cars getCars() {
-        outputView.requestOfCarNames();
-
         try {
-            final List<String> carNames = inputView.inputCarNames();
+            List<String> carNames = inputView.inputCarNames();
             return Cars.from(carNames);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
@@ -38,11 +50,9 @@ public class RacingGameConsoleController {
     }
 
     private TryCount getTryCount() {
-        outputView.requestOfTryCount();
-
         try {
-            int input = inputView.inputTryCount();
-            return new TryCount(input);
+            int tryCount = inputView.inputTryCount();
+            return new TryCount(tryCount);
         } catch (IllegalArgumentException | InputMismatchException exception) {
             System.out.println(exception.getMessage());
             return getTryCount();
@@ -54,7 +64,16 @@ public class RacingGameConsoleController {
 
         for (int i = 0; i < tryCount.getTryCount(); i++) {
             cars.moveAll(randomPowerGenerator);
-            outputView.printCurrentRacingStatus(cars);
         }
+    }
+
+    private String findWinnerNames(final Cars cars) {
+        return String.join(CAR_NAME_DELIMITER, cars.getWinnerNames());
+    }
+
+    private List<CarStatusResponseDto> findCarStatuses(final Cars cars) {
+        return cars.getCars().stream()
+                .map(CarStatusResponseDto::toDto)
+                .collect(Collectors.toList());
     }
 }
