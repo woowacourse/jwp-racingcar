@@ -1,10 +1,10 @@
 package racingcar;
 
-import racingcar.controller.RacingGameManager;
+import racingcar.controller.ConsoleRacingGameManager;
 
 public class ConsoleApplication {
     public static void main(String[] args) {
-        RacingGameManager manager = new RacingGameManager();
+        ConsoleRacingGameManager manager = new ConsoleRacingGameManager();
 
         manager.run();
     }

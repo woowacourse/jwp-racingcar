@@ -9,7 +9,7 @@ import racingcar.view.OutputView;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RacingGameManager {
+public class ConsoleRacingGameManager {
     private RacingGame racingGame;
 
     public void run() {
