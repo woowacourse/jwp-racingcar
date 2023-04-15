@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarResultDto;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.WinnerDto;
 import racingcar.dto.TryCountRequest;
 import racingcar.service.RacingCarService;
 import racingcar.view.RacingCarView;
@@ -33,7 +33,7 @@ class RacingCarControllerTest {
         }
 
         @Override
-        public void printWinners(RacingCarWinnerResponse response) {
+        public void printWinners(WinnerDto response) {
 
         }
 

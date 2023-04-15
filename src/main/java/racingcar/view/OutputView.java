@@ -1,7 +1,7 @@
 package racingcar.view;
 
 import racingcar.dto.RacingCarResultDto;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.WinnerDto;
 
 public class OutputView {
 
@@ -9,7 +9,7 @@ public class OutputView {
         System.out.println("실행 결과");
     }
 
-    public static void printWinners(RacingCarWinnerResponse response) {
+    public static void printWinners(WinnerDto response) {
         System.out.println(response + "가 최종 우승했습니다.");
     }
 

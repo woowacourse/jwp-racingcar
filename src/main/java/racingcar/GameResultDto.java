@@ -2,7 +2,7 @@ package racingcar;
 
 import java.util.List;
 import racingcar.dto.RacingCarResultDto;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.WinnerDto;
 
 public class GameResultDto {
     private final String winners;
@@ -13,7 +13,7 @@ public class GameResultDto {
         this.racingCars = racingCars;
     }
 
-    public static GameResultDto of(RacingCarWinnerResponse winners, List<RacingCarResultDto> racingCars) {
+    public static GameResultDto of(WinnerDto winners, List<RacingCarResultDto> racingCars) {
         return new GameResultDto(winners.getWinners(), racingCars);
     }
 

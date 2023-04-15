@@ -10,7 +10,7 @@ import racingcar.domain.Cars;
 import racingcar.domain.Position;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarResultDto;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.WinnerDto;
 
 public class RacingCarService {
     private Cars cars;
@@ -50,13 +50,13 @@ public class RacingCarService {
                 .collect(toList());
     }
 
-    public RacingCarWinnerResponse findWinners() {
+    public WinnerDto findWinners() {
         Position maxPosition = getMaxPosition();
         List<Car> winners = cars.getCars()
                 .stream()
                 .filter(car -> car.isSamePosition(maxPosition))
                 .collect(toList());
-        return RacingCarWinnerResponse.of(winners);
+        return WinnerDto.of(winners);
     }
 
     private Position getMaxPosition() {

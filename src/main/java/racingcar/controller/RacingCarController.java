@@ -3,7 +3,7 @@ package racingcar.controller;
 import java.util.List;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarResultDto;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.WinnerDto;
 import racingcar.dto.TryCountRequest;
 import racingcar.service.RacingCarService;
 import racingcar.service.RandomMoveStrategy;
@@ -67,8 +67,8 @@ public class RacingCarController {
 
     private void findWinners() {
         try {
-            RacingCarWinnerResponse racingCarWinnerResponse = racingCarService.findWinners();
-            racingCarView.printWinners(racingCarWinnerResponse);
+            WinnerDto winnerDto = racingCarService.findWinners();
+            racingCarView.printWinners(winnerDto);
         } catch (RuntimeException e) {
             racingCarView.printExceptionMessage(e);
         }

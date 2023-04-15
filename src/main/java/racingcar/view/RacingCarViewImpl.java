@@ -3,7 +3,7 @@ package racingcar.view;
 import java.util.List;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarResultDto;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.WinnerDto;
 import racingcar.dto.TryCountRequest;
 
 public class RacingCarViewImpl implements RacingCarView {
@@ -27,7 +27,7 @@ public class RacingCarViewImpl implements RacingCarView {
     }
 
     @Override
-    public void printWinners(RacingCarWinnerResponse response) {
+    public void printWinners(WinnerDto response) {
         OutputView.printWinners(response);
     }
 

@@ -12,7 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import racingcar.dto.RacingCarNamesRequest;
 import racingcar.dto.RacingCarResultDto;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.WinnerDto;
 
 class RacingCarServiceTest {
     private static final CustomMoveStrategy MOVE_STRATEGY = new CustomMoveStrategy(5);
@@ -76,7 +76,7 @@ class RacingCarServiceTest {
         service.moveCars(MOVE_STRATEGY);
 
         // then
-        RacingCarWinnerResponse winners = service.findWinners();
+        WinnerDto winners = service.findWinners();
         assertThat(winners.getWinners().size())
                 .isEqualTo(2);
         assertThat(winners.getWinners().get(0))
