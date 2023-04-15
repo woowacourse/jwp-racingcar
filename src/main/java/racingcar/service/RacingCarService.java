@@ -31,7 +31,7 @@ public class RacingCarService {
         final RacingGame racingGame = createGame(playRequest.getNames());
         final int count = playRequest.getCount();
 
-        race(count, racingGame);
+        racingGame.race(count);
         final List<Car> cars = racingGame.getCars();
         final List<String> winnerNames = racingGame.getWinnerNames();
 
@@ -42,12 +42,6 @@ public class RacingCarService {
     private RacingGame createGame(final String rawCarNames) {
         final List<String> carNames = TextParser.parseByDelimiter(rawCarNames, ",");
         return RacingGame.of(carNames);
-    }
-
-    private void race(final int count, final RacingGame racingGame) {
-        for (int i = 0; i < count; i++) {
-            racingGame.race();
-        }
     }
 
     private void saveGame(int count, List<CarDto> cars) {

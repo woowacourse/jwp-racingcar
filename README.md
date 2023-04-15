@@ -5,11 +5,13 @@
 - [x] 게임 플레이 이력 조회 API 구현
     - [x] 게임 별 모든 자동차 정보(name, position, is_winner) 조회 (최신 내림차순)
     - [x] 응답 객체 생성
-- [ ] 콘솔 어플리케이션 기존 기능 수정
-    - [ ] 플레이의 중간 과정 출력 로직 삭제
-    - [ ] 우승자와 player 별 최종 이동거리를 출력하도록 수정
+- [x] 콘솔 어플리케이션 기존 기능 수정
+    - [x] 플레이의 중간 과정 출력 로직 삭제
+    - [x] 우승자, 자동차 별 최종 이동거리를 출력하도록 수정
 - [ ] 리팩터링 - 중복 코드 제거
-    - [ ] 자동차 레이스 로직 도메인으로 이동
+    - [x] 자동차 경주 로직 도메인으로 이동
+    - [ ] 콘솔 어플리케이션 컨트롤러 서비스 계층 도입
+    - [ ] 레이싱게임 실행 로직 중복 제거
 
 ## 웹 자동차 경주 게임 API
 
@@ -118,7 +120,7 @@ Content-Type: application/json
         - @RequestBody 사용법 학습
     - [ ] [컨트롤러의 책임 분리](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
         - [x] 서비스 계층 도입
-        - [ ] 자동차 레이스 로직 도메인으로 이동 (콘솔 어플리케이션 기능 수정 후)
+        - [x] 자동차 레이스 로직 도메인으로 이동 (콘솔 어플리케이션 기능 수정 후)
         - [ ] 서비스 계층 트랜잭션 관련 고민
     - [ ] [@Transactional 사용 이유, 방법, 동작 방식](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165351296)
     - [x] [@Component 와 @Repository 의 차이](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)
