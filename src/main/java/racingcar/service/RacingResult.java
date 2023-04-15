@@ -1,12 +1,8 @@
 package racingcar.service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-/**
- * @author 우가
- * @version 1.0.0
- * @since by 우가 on 2023/04/11
- */
 public class RacingResult {
     private int id;
     private final String winners;
@@ -43,5 +39,30 @@ public class RacingResult {
 
     public LocalDateTime getPlayedTime() {
         return playedTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        RacingResult that = (RacingResult)o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "RacingResult{" +
+            "id=" + id +
+            ", winners='" + winners + '\'' +
+            ", trialCount=" + trialCount +
+            ", playedTime=" + playedTime +
+            '}';
     }
 }

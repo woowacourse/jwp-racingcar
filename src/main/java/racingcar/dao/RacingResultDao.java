@@ -31,7 +31,7 @@ public class RacingResultDao {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public RacingResult insertPlayResult(final RacingResult racingResult) {
+    public RacingResult insertRacingResult(final RacingResult racingResult) {
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(racingResult);
 
         Number newId = insertActor.executeAndReturnKey(parameterSource);

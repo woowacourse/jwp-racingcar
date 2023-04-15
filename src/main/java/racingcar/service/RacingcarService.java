@@ -25,27 +25,10 @@ public class RacingcarService {
 
     public RacingResponse move(final List<String> carNames, final int count) {
         List<Car> cars = getCars(carNames);
-
-        for (int i = 1; i <= count; i++) {
-            moveAllCars(cars);
-        }
-
+        moveAllCars(cars, count);
         String winners = findWinners(cars);
-
-        RacingResult racingResult = racingResultDao.insertPlayResult(new RacingResult(winners, count));
-
-        List<PlayerResult> playerResults = cars.stream()
-                .map(car -> new PlayerResult(racingResult.getId(), car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
-
-        playerResults.forEach(playerResultDao::insertPlayer);
+        List<PlayerResult> playerResults = insertResult(count, cars, winners);
         return new RacingResponse(winners, playerResults);
-    }
-
-    private void moveAllCars(final List<Car> cars) {
-        for (Car car : cars) {
-            car.move(RandomMaker.random());
-        }
     }
 
     private static List<Car> getCars(final List<String> carNames) {
@@ -55,39 +38,52 @@ public class RacingcarService {
         return CarFactory.makeCars(carNames);
     }
 
+    private void moveAllCars(final List<Car> cars, int count) {
+        for (int i = 1; i <= count; i++) {
+            cars.forEach(car -> car.move(RandomMaker.random()));
+        }
+    }
+
     private String findWinners(final List<Car> cars) {
         int winnerPosition = maxPosition(cars);
+        return cars.stream()
+            .filter(car -> car.isPosition(winnerPosition))
+            .map(Car::getName)
+            .collect(Collectors.joining(", "));
+    }
 
-        List<Car> winnersCars = cars.stream()
-                .filter(car -> car.isPosition(winnerPosition))
-                .collect(Collectors.toUnmodifiableList());
+    private List<PlayerResult> insertResult(int count, List<Car> cars, String winners) {
+        RacingResult racingResult = racingResultDao.insertRacingResult(new RacingResult(winners, count));
+        List<PlayerResult> playerResults = getPlayerResults(cars, racingResult);
+        playerResults.forEach(playerResultDao::insertPlayer);
+        return playerResults;
+    }
 
-        return winnersCars.stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(", "));
+    private static List<PlayerResult> getPlayerResults(List<Car> cars, RacingResult racingResult) {
+        return cars.stream()
+            .map(car -> new PlayerResult(racingResult.getId(), car.getName(), car.getPosition()))
+            .collect(Collectors.toList());
     }
 
     private int maxPosition(final List<Car> cars) {
         int maxPosition = 0;
-
         for (Car car : cars) {
             maxPosition = car.findGreaterPosition(maxPosition);
         }
-
         return maxPosition;
     }
 
     public List<RacingResponse> allResults() {
         List<RacingResult> racingResults = racingResultDao.selectAllResults();
-        List<List<PlayerResult>> playerResults = new ArrayList<>();
+        return getRacingResponses(racingResults);
+    }
+
+    private List<RacingResponse> getRacingResponses(List<RacingResult> racingResults) {
+        List<RacingResponse> racingResponses = new ArrayList<>();
         for (RacingResult racingResult : racingResults) {
             int playResultId = racingResult.getId();
-            playerResults.add(playerResultDao.selectPlayerResultByRacingResultId(playResultId));
-        }
-
-        List<RacingResponse> racingResponses = new ArrayList<>();
-        for (int i = 0; i < playerResults.size(); i++) {
-            racingResponses.add(new RacingResponse(racingResults.get(i).getWinners(), playerResults.get(i)));
+            List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByRacingResultId(playResultId);
+            racingResponses.add(new RacingResponse(racingResult.getWinners(), playerResults));
         }
         return racingResponses;
     }

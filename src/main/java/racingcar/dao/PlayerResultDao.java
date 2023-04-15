@@ -21,20 +21,21 @@ public class PlayerResultDao {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final RowMapper<PlayerResult> actorRowMapper = (resultSet, rowNum) -> new PlayerResult(
-            resultSet.getInt("play_result_id"),
-            resultSet.getString("name"),
-            resultSet.getInt("position")
+        resultSet.getInt("id"),
+        resultSet.getInt("play_result_id"),
+        resultSet.getString("name"),
+        resultSet.getInt("position")
     );
 
     public PlayerResultDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertActor = new SimpleJdbcInsert(dataSource)
-                .withTableName("PLAYER_RESULT")
-                .usingGeneratedKeyColumns("id");
+            .withTableName("PLAYER_RESULT")
+            .usingGeneratedKeyColumns("id");
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public List<PlayerResult> selectPlayerResultByRacingResultId(final int ragingResultId) {
-        String sql = "select play_result_id, name, position from player_result where PLAY_RESULT_ID = :play_result_id";
+        String sql = "select id, play_result_id, name, position from player_result where PLAY_RESULT_ID = :play_result_id";
         MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("play_result_id", ragingResultId);
         return namedParameterJdbcTemplate.query(sql, sqlParameterSource, actorRowMapper);
     }
