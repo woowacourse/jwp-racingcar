@@ -3,7 +3,7 @@ package racingcar.controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dao.UpdatingDAO;
+import racingcar.dao.InsertingDAO;
 import racingcar.domain.Cars;
 import racingcar.dto.*;
 import racingcar.utils.Converter;
@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 public class WebController {
 
-    final private UpdatingDAO updatingDAO;
+    final private InsertingDAO insertingDAO;
 
-    public WebController(UpdatingDAO updatingDAO) {
-        this.updatingDAO = updatingDAO;
+    public WebController(InsertingDAO insertingDAO) {
+        this.insertingDAO = insertingDAO;
     }
 
     @PostMapping("/plays")
@@ -26,13 +26,13 @@ public class WebController {
         Cars cars = Cars.initialize(dto.getNames(), RandomNumberGenerator.makeInstance());
         Trial trial = getTrial(dto.getCount());
         Cars updatedCars = playGame(cars, trial);
-        final int racingId = updatingDAO.insert(trial);
+        final int racingId = insertingDAO.insert(trial);
         List<CarDto> carDtos = cars.getCarDtos();
         List<String> winnerNames = cars.getWinnerNames();
 
         for (CarDto car : carDtos) {
             String name = car.getName();
-            updatingDAO.insert(
+            insertingDAO.insert(
                 new CarInfoDto(racingId, name, car.getPosition(), winnerNames.contains(name)));
         }
         return new FinalResultDto(updatedCars.getWinnerNames(), updatedCars.getCarDtos());

@@ -3,18 +3,16 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
 import racingcar.dto.CarInfoDto;
-import racingcar.vo.Trial;
+import racingcar.domain.vo.Trial;
 
 import java.sql.PreparedStatement;
 
-@Repository
-public class UpdatingDAO {
+public class InsertingDAO {
 
     private JdbcTemplate jdbcTemplate;
 
-    public UpdatingDAO(JdbcTemplate jdbcTemplate) {
+    public InsertingDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
