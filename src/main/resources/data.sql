@@ -11,5 +11,6 @@ CREATE TABLE CAR (
      name        VARCHAR(50) NOT NULL,
      position    INT         NOT NULL,
      is_win      BOOLEAN     NOT NULL,
-     PRIMARY KEY (id)
+     PRIMARY KEY (id),
+     FOREIGN KEY (game_id) REFERENCES RACING_GAME(id)
 );

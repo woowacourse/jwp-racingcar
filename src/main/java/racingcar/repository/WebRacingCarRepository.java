@@ -1,11 +1,13 @@
 package racingcar.repository;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
-import racingcar.dto.CarEntity;
-import racingcar.dto.RacingGameEntity;
+import racingcar.domain.entity.CarEntity;
+import racingcar.domain.entity.RacingGameEntity;
 
 @Repository
 public class WebRacingCarRepository implements RacingCarRepository {
@@ -19,13 +21,24 @@ public class WebRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public void save(RacingGameEntity racingGameResultDto) {
-        int gameId = racingGameDao.save(racingGameResultDto.getRound());
-        carDao.save(gameId, racingGameResultDto.getCarResultEntities());
+    public void save(RacingGameEntity racingGameEntity) {
+        int gameId = racingGameDao.save(racingGameEntity.getCount());
+        carDao.save(gameId, racingGameEntity.getCarEntities());
     }
 
     @Override
-    public List<CarEntity> findAll() {
-        return carDao.findAll();
+    public List<RacingGameEntity> findAll() {
+        final List<RacingGameEntity> racingGameEntities = racingGameDao.findAll();
+        final List<CarEntity> carEntities = carDao.findAll();
+
+        for (RacingGameEntity racingGameEntity : racingGameEntities) {
+            final List<CarEntity> carEntitiesByGameId = carEntities.stream()
+                    .filter(carEntity -> carEntity.getGameId() == racingGameEntity.getId())
+                    .collect(toList());
+            racingGameEntity.setCarEntities(carEntitiesByGameId);
+        }
+
+        return racingGameEntities;
     }
+
 }

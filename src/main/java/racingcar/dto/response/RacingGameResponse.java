@@ -6,7 +6,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.Car;
-import racingcar.dto.CarEntity;
+import racingcar.domain.entity.CarEntity;
 
 public class RacingGameResponse {
 
@@ -15,7 +15,7 @@ public class RacingGameResponse {
     private final List<CarResponse> carResponses;
     private final String winners;
 
-    public RacingGameResponse(final List<CarResponse> carResponses, final String winners) {
+    private RacingGameResponse(final List<CarResponse> carResponses, final String winners) {
         this.carResponses = carResponses;
         this.winners = winners;
     }
@@ -32,12 +32,12 @@ public class RacingGameResponse {
         return new RacingGameResponse(carResponses, winners);
     }
 
-    public static RacingGameResponse createByEntity(List<CarEntity> carResultEntities) {
-        List<CarResponse> carResponses = carResultEntities.stream()
+    public static RacingGameResponse createByEntity(List<CarEntity> carEntities) {
+        List<CarResponse> carResponses = carEntities.stream()
                 .map(CarResponse::new)
                 .collect(toList());
 
-        final String winners = carResultEntities.stream()
+        final String winners = carEntities.stream()
                 .filter(CarEntity::isWin)
                 .map(CarEntity::getName)
                 .collect(Collectors.joining(DELIMITER));

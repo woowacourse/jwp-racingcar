@@ -16,7 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import racingcar.dto.response.CarResponse;
+import racingcar.domain.entity.CarEntity;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.service.RacingCarService;
 
@@ -34,11 +34,10 @@ class WebRacingCarControllerTest {
     void test1() throws Exception {
         final String content = "{\"names\":\"포비,네오,브리\", \"count\":10}";
 
-        final RacingGameResponse then = new RacingGameResponse(
-                List.of(new CarResponse("포비", 6),
-                        new CarResponse("네오", 10),
-                        new CarResponse("브리", 10)),
-                "네오,브리");
+        final RacingGameResponse then = RacingGameResponse.createByEntity(
+                List.of(new CarEntity("포비", 6, false),
+                        new CarEntity("네오", 10, true),
+                        new CarEntity("브리", 10, true)));
 
         given(racingCarService.play(any()))
                 .willReturn(then);
@@ -49,7 +48,7 @@ class WebRacingCarControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(winnersPath, Matchers.is("네오,브리")))
+                .andExpect(jsonPath(winnersPath, Matchers.is("네오, 브리")))
                 .andExpect(jsonPath("carResponses", Matchers.hasSize(3)))
                 .andDo(print());
     }

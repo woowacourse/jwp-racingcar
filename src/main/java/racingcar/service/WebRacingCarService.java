@@ -1,16 +1,14 @@
 package racingcar.service;
 
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
-import java.util.Map;
 import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
-import racingcar.dto.CarEntity;
-import racingcar.dto.RacingGameEntity;
+import racingcar.domain.entity.CarEntity;
+import racingcar.domain.entity.RacingGameEntity;
 import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
@@ -47,12 +45,10 @@ public class WebRacingCarService implements RacingCarService {
 
     @Override
     public List<RacingGameResponse> findGameResults() {
-        final List<CarEntity> carEntities = racingCarRepository.findAll();
+        final List<RacingGameEntity> racingGameEntities = racingCarRepository.findAll();
 
-        final Map<Integer, List<CarEntity>> carEntitiesByGameId = carEntities.stream()
-                .collect(groupingBy(CarEntity::getGameId));
-
-        return carEntitiesByGameId.values().stream()
+        return racingGameEntities.stream()
+                .map(RacingGameEntity::getCarEntities)
                 .map(RacingGameResponse::createByEntity)
                 .collect(toList());
     }

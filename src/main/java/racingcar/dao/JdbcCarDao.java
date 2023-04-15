@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import racingcar.dto.CarEntity;
+import racingcar.domain.entity.CarEntity;
 
 @Component
 public class JdbcCarDao implements CarDao {
@@ -45,18 +45,25 @@ public class JdbcCarDao implements CarDao {
 
     @Override
     public List<CarEntity> findAll() {
-        String sql = "SELECT game_id, name, position, is_win FROM CAR";
+        final String sql = "SELECT * FROM CAR";
+        return jdbcTemplate.query(sql, carEntityRowMapper());
+    }
+
+    @Override
+    public List<CarEntity> findByGameId(final int id) {
+        final String sql = "SELECT * FROM CAR WHERE game_id = ?";
         return jdbcTemplate.query(sql, carEntityRowMapper());
     }
 
     private RowMapper<CarEntity> carEntityRowMapper() {
         return (rs, rowNum) -> {
+            final int id = rs.getInt("id");
             final int gameId = rs.getInt("game_id");
             final String name = rs.getString("name");
             final int position = rs.getInt("position");
             final boolean isWin = rs.getBoolean("is_win");
 
-            return new CarEntity(gameId, name, position, isWin);
+            return new CarEntity(id, gameId, name, position, isWin);
         };
     }
 
