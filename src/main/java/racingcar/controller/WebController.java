@@ -11,14 +11,17 @@ import racingcar.controller.dto.RequestDto;
 import racingcar.model.Cars;
 import racingcar.service.GameService;
 import racingcar.util.NameFormatConverter;
+import racingcar.view.OutputView;
 
 @RestController
 public class WebController {
 
     private final GameService gameService;
+    private final OutputView outputView;
 
     public WebController(GameService gameService) {
         this.gameService = gameService;
+        this.outputView = new OutputView();
     }
 
     @PostMapping("/plays")
@@ -31,6 +34,7 @@ public class WebController {
         final String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
         final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(winners, cars.getCars());
 
+        outputView.printResult(gamePlayResponseDto);
         return ResponseEntity.ok()
                 .body(gamePlayResponseDto);
     }
