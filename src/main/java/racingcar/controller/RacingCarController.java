@@ -25,7 +25,9 @@ public class RacingCarController {
     public ResponseEntity<PlayResponseDto> play(@RequestBody PlayRequestDto playRequestDto) {
         final int count = playRequestDto.getCount();
         final List<String> carNames = TextParser.parseByDelimiter(playRequestDto.getNames(), CAR_NAMES_DELIMITER);
-        PlayResponseDto playResult = racingCarService.playGame(count, carNames);
+
+        final PlayResponseDto playResult = racingCarService.playGame(count, carNames);
+
         return ResponseEntity.ok(playResult);
     }
 

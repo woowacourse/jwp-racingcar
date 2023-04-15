@@ -17,7 +17,7 @@ public class RacingCarConsoleController {
         final List<String> carNames = inputView.askCarNames();
         final int trialCount = inputView.askRacingCount();
 
-        List<CarDto> racedCars = racingGame.play(trialCount, carNames);
+        final List<CarDto> racedCars = racingGame.play(trialCount, carNames);
 
         outputView.printPlayResult(PlayResponseDtoConverter.of(racedCars));
     }
