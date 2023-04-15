@@ -24,3 +24,34 @@ Dto
 - [ ] 사용자가 입력한 값에 대한 Validation 구현
 - [ ] 잘못된 값에 대한 예외처리
 - [ ] 이름 중복 검사 구현
+
+## 2단계 요구사항
+- [ ] 게임 플레이 이력 조회 API 구현
+  - [ ] Request: GET /plays HTTP/1.1
+  - [ ] Response:
+    {
+      "winners": "브리",
+      "racingCars": [
+        {
+          "name": "브리",
+          "position": 6
+        },
+        {
+          "name": "토미",
+          "position": 4
+        },
+        {
+          "name": "브라운",
+          "position": 3
+        }
+      ]
+    }
+  - [ ] 응답용 DTO 필요 -> List<ResponseDto>
+  - [ ] ResponseDto 클래스명 변경 필요해보임
+  - [ ] SELECT 쿼리 작성
+- [ ] 기존 기능 수정 - 출력 방식 수정
+  - [ ] console application에서 플레이의 중간 과정을 출력하는 로직을 제거
+  - [ ] console application에서 web application과 동일하게 우승자와 player 별 최종 이동거리를 출력하도록 수정
+- [ ] 리팩터링 - 중복 코드 제거
+  - [ ] 두 application은 입출력과 데이터 저장 방식을 제외하고는 내부 비즈니스 로직은 동일하다.
+  - [ ] 두 application의 비즈니스 로직은 새로운 객체를 도출 하여 중복 제거를 할 수 있다.
