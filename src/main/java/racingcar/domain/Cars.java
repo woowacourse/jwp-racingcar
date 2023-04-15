@@ -1,25 +1,37 @@
 package racingcar.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Cars {
 
-    private static final int CARS_MIN_SIZE = 1;
-    private static final String CARS_SIZE_ERROR = "[ERROR] 자동차 대수는 1이상이어야 합니다.";
+    private static final int CARS_MIN_SIZE = 2;
+    private static final String CARS_SIZE_ERROR = "자동차 대수는 2 이상이어야 합니다.";
 
     private List<Car> cars;
 
     public Cars(List<Car> cars) {
-        validateCarsSize(cars);
+        validate(cars);
         this.cars = new ArrayList<>(cars);
     }
 
-    private void validateCarsSize(List<Car> cars) {
+    private void validate(List<Car> cars) {
         if (cars.size() < CARS_MIN_SIZE) {
             throw new IllegalArgumentException(CARS_SIZE_ERROR);
         }
+
+        if (hasDuplicateName(cars)) {
+            throw new IllegalArgumentException("중복된 자동차 이름이 존재합니다.");
+        }
+    }
+
+    private boolean hasDuplicateName(final List<Car> cars) {
+        final List<String> carNames = cars.stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+        return carNames.size() != new HashSet<>(carNames).size();
     }
 
     public void move(NumberGenerator numberGenerator) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.request.RacingGameRequest;
+import racingcar.dto.response.ExceptionResponse;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.service.RacingCarService;
 
@@ -35,16 +36,17 @@ public class WebRacingCarController {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception) {
-        return ResponseEntity.badRequest().body(exception.getMessage());
+    public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
+        return ResponseEntity.badRequest().body(new ExceptionResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<String>> methodArgumentValidException(MethodArgumentNotValidException exception) {
-        final List<String> exceptionMessages = exception.getBindingResult().getAllErrors().stream()
+    public ResponseEntity<ExceptionResponse> methodArgumentValidException(MethodArgumentNotValidException exception) {
+        final String exceptionMessage = exception.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+                .collect(Collectors.joining("\n"));
 
-        return ResponseEntity.badRequest().body(exceptionMessages);
+
+        return ResponseEntity.badRequest().body(new ExceptionResponse(exceptionMessage));
     }
 }

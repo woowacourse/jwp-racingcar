@@ -3,20 +3,30 @@ package racingcar.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 class CarsTest {
 
+
+
     @Test
-    @DisplayName("자동차 이름이 없어서 빈 리스트가 넘어오면 오류가 발생한다.")
-    void carsGenerateTest() {
+    @DisplayName("자동차가 2대 미만이면 예외가 발생한다.")
+    void create_fail_by_size() {
         //when && then
         assertThatThrownBy(() -> new Cars(List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 자동차 대수는 1이상이어야 합니다.");
+                .hasMessage("자동차 대수는 2 이상이어야 합니다.");
+    }
+
+    @Test
+    @DisplayName("중복된 자동차 이름이 존재한다면 예외가 발생한다.")
+    void create_fail_duplicate_name() {
+        //when && then
+        assertThatThrownBy(() -> new Cars(List.of(new Car("car"), new Car("car"))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("중복된 자동차 이름이 존재합니다.");
     }
 
     @Test

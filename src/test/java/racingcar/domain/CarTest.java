@@ -1,7 +1,7 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +17,7 @@ public class CarTest {
         //when && then
         assertThatThrownBy(() -> new Car(name))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 자동차 이름은 1자 이상 5자 이하여야 합니다.");
+                .hasMessage("자동차 이름은 1자 이상 5자 이하여야 합니다.");
     }
 
     @ParameterizedTest
