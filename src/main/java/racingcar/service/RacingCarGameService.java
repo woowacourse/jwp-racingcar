@@ -1,4 +1,14 @@
 package racingcar.service;
 
+import racingcar.dto.CarDto;
+
+import java.util.List;
+
 public interface RacingCarGameService {
+
+    int play(String names, int count);
+
+    List<CarDto> getCars(int gameId);
+
+    List<String> getWinners(int gameId);
 }

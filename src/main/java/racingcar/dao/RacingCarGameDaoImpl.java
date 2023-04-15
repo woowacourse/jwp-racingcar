@@ -3,77 +3,78 @@ package racingcar.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.dto.CarDto;
-import racingcar.dto.ResultDto;
-import racingcar.dto.WinnerAndGameIdDto;
+import racingcar.domain.car.Car;
+import racingcar.domain.game.RacingCarGame;
 
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
 public class RacingCarGameDaoImpl implements RacingCarGameDao {
 
+    private static final String CAR_NAME_DELIMITER = ",";
+
+    private final SimpleJdbcInsert simpleJdbcInsertCars;
+    private final SimpleJdbcInsert simpleJdbcInsertGames;
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public RacingCarGameDaoImpl(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
-    private final RowMapper<WinnerAndGameIdDto> gameRowMapper = (resultSet, rowNum) -> new WinnerAndGameIdDto(
-            resultSet.getInt("game_id"),
-            resultSet.getString("winner")
-    );
-
-    private final RowMapper<CarDto> carRowMapper = (resultSet, rowNum) -> new CarDto(
+    private final RowMapper<Car> carRowMapper = (resultSet, rowNum) -> Car.createCar(
             resultSet.getString("name"),
             resultSet.getInt("position")
     );
 
-    public void insertCar(Cars cars, int count) {
-        String sqlGame = "INSERT INTO games(count, winner, timestamp) VALUES (?,?,?)";
-        String sqlCars = "INSERT INTO cars(name, position, game_id) VALUES(?,?,?)";
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sqlGame, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, count);
-            ps.setString(2, cars.winners());
-            ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-            return ps;
-        }, keyHolder);
-        for (Car car : cars.getCars()) {
-            jdbcTemplate.update(sqlCars, car.getName(), car.getPosition(), keyHolder.getKey()
-                                                                                    .intValue());
-        }
+    @Autowired
+    public RacingCarGameDaoImpl(DataSource dataSource) {
+        this.simpleJdbcInsertCars = new SimpleJdbcInsert(dataSource).withTableName("cars");
+        this.simpleJdbcInsertGames = new SimpleJdbcInsert(dataSource).withTableName("games")
+                                                                     .usingGeneratedKeyColumns("id");
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<ResultDto> find() {
-        List<ResultDto> resultDtos = new ArrayList<>();
+    @Override
+    public int save(final RacingCarGame racingCarGame, final int count) {
+        final String winners = toString(racingCarGame.getWinners());
 
-        String sqlGames = "SELECT winner, game_id FROM GAMES";
-        List<WinnerAndGameIdDto> winnerAndGameIdDtos = jdbcTemplate.query(sqlGames, gameRowMapper);
-        for (WinnerAndGameIdDto winnerAndGameIdDto : winnerAndGameIdDtos) {
-            ResultDto resultDto = new ResultDto();
-            String winner = winnerAndGameIdDto.getWinner();
-            resultDto.setWinners(winner);
+        final Map<String, Object> gameParameters = Map.of("count", count, "winners", winners, "play_time", new Timestamp(System.currentTimeMillis()));
+        final Number key = simpleJdbcInsertGames.executeAndReturnKey(gameParameters);
 
-            String sqlCars = "SELECT name, position FROM cars WHERE game_id = ?";// ? <= gameId
-            int gameId = winnerAndGameIdDto.getGameId();
-            List<CarDto> carDtos = jdbcTemplate.query(sqlCars, carRowMapper, gameId);
-
-            resultDto.setRacingCars(carDtos);
-            resultDtos.add(resultDto);
+        final int gameId = key.intValue();
+        final List<Car> carList = racingCarGame.getCars();
+        for (Car car : carList) {
+            final Map<String, Object> carParameters = Map.of("name", car.getName(), "position", car.getPosition(), "game_id", gameId);
+            simpleJdbcInsertCars.execute(carParameters);
         }
-        return resultDtos;
+
+        return gameId;
+    }
+
+    @Override
+    public List<Car> findCarsByGameId(final int gameId) {
+        String carsSql = "SELECT name, position FROM cars WHERE game_id = ?";
+        return jdbcTemplate.query(carsSql, carRowMapper, gameId);
+    }
+
+    @Override
+    public List<String> findWinners(final int gameId) {
+        String gamesSql = "SELECT winners FROM games WHERE id = ?";
+        final String winners = jdbcTemplate.queryForObject(gamesSql, String.class, gameId);
+        return toList(Objects.requireNonNull(winners, "존재하지 않는 게임아이디입니다"));
+    }
+
+    private String toString(final List<Car> winners) {
+        return winners.stream()
+                      .map(Car::getName)
+                      .collect(Collectors.joining(CAR_NAME_DELIMITER));
+    }
+
+    private List<String> toList(final String winnersString) {
+        return new ArrayList<>(List.of(winnersString.split(CAR_NAME_DELIMITER)));
     }
 }
