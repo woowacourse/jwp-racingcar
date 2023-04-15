@@ -22,7 +22,7 @@ public class RacingCarController {
     }
 
     @GetMapping("/plays")
-    public void showGameHistory() {
-        racingCarWebService.gameHistory();
+    public GameResultsDto showGameHistory() {
+        return racingCarWebService.gameHistory();
     }
 }

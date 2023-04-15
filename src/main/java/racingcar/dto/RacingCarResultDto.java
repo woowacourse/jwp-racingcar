@@ -13,6 +13,10 @@ public class RacingCarResultDto {
         this.position = position.getValue();
     }
 
+    public RacingCarResultDto(String name, int position) {
+        this(new Name(name), new Position(position));
+    }
+
     public static RacingCarResultDto of(Car car) {
         return new RacingCarResultDto(car.getName(), car.getMovedLength());
     }

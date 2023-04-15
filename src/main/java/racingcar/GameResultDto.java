@@ -8,7 +8,7 @@ public class GameResultDto {
     private final String winners;
     private final List<RacingCarResultDto> racingCars;
 
-    private GameResultDto(List<String> winners, List<RacingCarResultDto> racingCars) {
+    public GameResultDto(List<String> winners, List<RacingCarResultDto> racingCars) {
         this.winners = String.join(",", winners);
         this.racingCars = racingCars;
     }

@@ -13,8 +13,8 @@ public class GameSelectDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<String> gameIds() {
-        final String sql = "SELECT (game_id) from GAME";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getString("game_id"));
+    public List<Integer> gameIds() {
+        final String sql = "SELECT (id) from GAME";
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getInt("id"));
     }
 }
