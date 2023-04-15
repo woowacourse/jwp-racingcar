@@ -4,13 +4,17 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.RaceDao;
 import racingcar.dao.WinnerDao;
+import racingcar.domain.Car;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameInputDto;
-import racingcar.dto.RaceResultDto;
-import racingcar.dto.RacingResultDto;
+import racingcar.dto.RacingResultRequestDto;
+import racingcar.dto.RacingResultResponseDto;
 import racingcar.game.Game;
 import racingcar.util.NumberGenerator;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class RacingGameService {
@@ -25,15 +29,43 @@ public class RacingGameService {
         this.winnerDao = winnerDao;
     }
 
-    public RacingResultDto playGameWithoutPrint(GameInputDto gameInputDto, NumberGenerator numberGenerator) {
+    public RacingResultResponseDto playGameWithoutPrint(GameInputDto gameInputDto, NumberGenerator numberGenerator) {
         Game game = new Game(gameInputDto.getNames(), gameInputDto.getCount());
         game.playGameWithoutPrint(numberGenerator);
-        RaceResultDto raceResultDto = new RaceResultDto(game);
-
-        int raceId = raceDao.insert(gameInputDto);
-        playerDao.insertAll(raceResultDto, raceId);
-        List<Integer> winnerCarIds = playerDao.getWinnerCarIds(raceId, raceResultDto);
+        RacingResultRequestDto racingResultRequestDto = new RacingResultRequestDto(game);
+        
+        long raceId = raceDao.insert(gameInputDto);
+        playerDao.insertAll(racingResultRequestDto, raceId);
+        List<Integer> winnerCarIds = playerDao.findWinnerCarIds(raceId, racingResultRequestDto);
         winnerDao.insertAll(raceId, winnerCarIds);
-        return new RacingResultDto(game.getWinners(), game.getCars());
+        return new RacingResultResponseDto(game.getWinners(), game.getCars());
+    }
+    
+    public List<RacingResultResponseDto> findAllGameResult() {
+        List<Long> ids = raceDao.findAllIds();
+        List<List<Car>> winners = ids.stream()
+                .map(winnerDao::findWinnerIdsByRaceId)
+                .map(playerDao::findByIds)
+                .map(this::parseCarDtos)
+                .collect(Collectors.toUnmodifiableList());
+        
+        List<List<Car>> cars = ids.stream()
+                .map(playerDao::findByRaceIds)
+                .map(this::parseCarDtos)
+                .collect(Collectors.toUnmodifiableList());
+        
+        return IntStream.range(0, winners.size())
+                .mapToObj(count -> new RacingResultResponseDto(winners.get(count), cars.get(count)))
+                .collect(Collectors.toUnmodifiableList());
+    }
+    
+    private List<Car> parseCarDtos(List<CarDto> carDtos) {
+        return carDtos.stream()
+                .map(carDto -> {
+                    Car car = new Car(carDto.getName(), carDto.getIdentifier());
+                    car.drive(carDto.getPosition());
+                    return car;
+                })
+                .collect(Collectors.toUnmodifiableList());
     }
 }
