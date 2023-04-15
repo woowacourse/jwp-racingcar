@@ -3,6 +3,7 @@ package racingcar.vo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import racingcar.domain.vo.Trial;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

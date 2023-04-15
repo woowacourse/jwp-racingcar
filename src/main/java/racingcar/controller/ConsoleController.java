@@ -5,7 +5,7 @@ import racingcar.utils.Converter;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-import racingcar.vo.Trial;
+import racingcar.domain.vo.Trial;
 
 
 public class ConsoleController {

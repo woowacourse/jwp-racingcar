@@ -1,4 +1,4 @@
-package racingcar.vo;
+package racingcar.domain.vo;
 
 import java.util.ArrayList;
 import java.util.List;

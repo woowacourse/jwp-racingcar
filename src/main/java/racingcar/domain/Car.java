@@ -1,7 +1,7 @@
 package racingcar.domain;
 
-import racingcar.vo.CarName;
-import racingcar.vo.Position;
+import racingcar.domain.vo.CarName;
+import racingcar.domain.vo.Position;
 
 public class Car {
 

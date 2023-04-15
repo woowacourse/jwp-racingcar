@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
-import racingcar.vo.CarName;
 
 import java.util.Iterator;
 import java.util.List;

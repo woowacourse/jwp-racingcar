@@ -1,16 +1,14 @@
 package racingcar.controller;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dao.UpdatingDAO;
 import racingcar.domain.Cars;
 import racingcar.dto.*;
 import racingcar.utils.Converter;
 import racingcar.utils.RandomNumberGenerator;
-import racingcar.vo.Trial;
+import racingcar.domain.vo.Trial;
 
 import java.util.List;
 

@@ -10,8 +10,7 @@ import racingcar.utils.NumberGenerator;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.utils.RandomNumberGenerator;
-import racingcar.vo.CarName;
+import racingcar.domain.vo.CarName;
 
 public class Cars {
 
