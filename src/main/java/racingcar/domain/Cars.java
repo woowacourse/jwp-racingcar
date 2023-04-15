@@ -45,14 +45,19 @@ public class Cars {
                 .forEach(Car::move);
     }
 
-    public List<Car> getWinner() {
-        int winnerDistance = cars.stream()
+    public List<Car> winners() {
+        int maxDistance = maxDistance();
+
+        return cars.stream()
+                .filter(car -> car.isSameDistance(maxDistance))
+                .collect(toList());
+    }
+
+    private int maxDistance() {
+        return cars.stream()
                 .mapToInt(Car::getDistance)
                 .max()
                 .orElseThrow();
-        return cars.stream()
-                .filter(car2 -> car2.getDistance() == winnerDistance)
-                .collect(toList());
     }
 
     public List<Car> getCars() {

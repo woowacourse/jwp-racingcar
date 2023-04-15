@@ -21,7 +21,7 @@ class CarsTest {
         Car moveCar = carObjects.get(0);
         moveCar.move();
 
-        assertThat(cars.getWinner().get(0).getName()).isEqualTo("move");
+        assertThat(cars.getWinners().get(0).getName()).isEqualTo("move");
     }
 
     @Test
@@ -29,7 +29,7 @@ class CarsTest {
     void getWinners() {
         Cars cars = new Cars(Arrays.asList("car1", "car2"));
 
-        List<String> winnerNames = cars.getWinner()
+        List<String> winnerNames = cars.getWinners()
                 .stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
