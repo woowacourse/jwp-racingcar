@@ -7,6 +7,7 @@
     - [ ] 플레이의 중간 과정 출력 로직 삭제
     - [ ] 우승자와 player 별 최종 이동거리를 출력하도록 수정
 - [ ] 리팩터링 - 중복 코드 제거
+    - [ ] 자동차 레이스 로직 도메인으로 이동
 
 ## 웹 자동차 경주 게임 API
 
@@ -110,10 +111,15 @@ Content-Type: application/json
 ### 1단계 피드백
 
 - [ ] 아래 피드백 학습 후 반영하기
+    - [x] [빈 public 생성자 선언하지 않고도 PlayRequestDto의 필드를 json mapping 할 수 있게 만드는 방법은?](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165362349)
+        - [x] 기존 불필요한 디폴트 생성자 선언 코드 삭제
+        - @RequestBody 사용법 학습
+    - [ ] [컨트롤러의 책임 분리](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
+        - [ ] 서비스 계층 도입
+        - [ ] 자동차 레이스 로직 도메인으로 이동 (콘솔 어플리케이션 기능 수정 후)
     - [ ] [@Transactional 사용 이유, 방법, 동작 방식](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165351296)
     - [ ] [@Component 와 @Repository 의 차이](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)
     - [ ] [@Repository, @Component, @Service 어노테이션의 차이점](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)
     - [ ] [새 id값을 반환하는 insert와 그렇지 않은 insert 메서드에 대해서 어떻게 일관성을 부여할까?](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165358853)
-    - [ ] [빈 public 생성자 선언하지 않고도 PlayRequestDto의 필드를 json mapping 할 수 있게 만드는 방법은?](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165362349)
-    - [ ] [관계형 데이터베이스에서 발생하는 테스트 격리 문제](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165381209)
-    - [ ] [컨트롤러의 책임 분리](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
+    - [ ] [관계형 데이터베이스에서 발생하는 테스트 독립성 문제](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165381209)
+    - [ ] [DB 테스트 격리 보장](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
