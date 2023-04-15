@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.domain.Car;
+import racingcar.dto.CarDto;
 
 @SpringBootTest
 class CarDaoTest {
@@ -18,11 +18,11 @@ class CarDaoTest {
 
     @Test
     void insert() {
-        long id = playResultDao.insertAndReturnId(5, "브리");
-        List<Car> cars = List.of(
-                new Car("도이", 1),
-                new Car("연어", 3),
-                new Car("브리", 4)
+        long id = playResultDao.insertAndReturnId(5);
+        List<CarDto> cars = List.of(
+                CarDto.of("도이", 1, false),
+                CarDto.of("연어", 3, false),
+                CarDto.of("브리", 4, true)
         );
 
         carDao.insert(id, cars);

@@ -1,19 +1,18 @@
 package racingcar.dto;
 
 import java.util.List;
-import racingcar.domain.Car;
 
-public class PlayResultDto {
+public class PlayResponseDto {
 
-    private final List<Car> racingCars;
+    private final List<CarResponseDto> racingCars;
     private final String winners;
 
-    public PlayResultDto(final List<Car> racingCars, final String winners) {
+    public PlayResponseDto(final List<CarResponseDto> racingCars, final String winners) {
         this.racingCars = racingCars;
         this.winners = winners;
     }
 
-    public List<Car> getRacingCars() {
+    public List<CarResponseDto> getRacingCars() {
         return racingCars;
     }
 

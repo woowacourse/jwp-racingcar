@@ -16,15 +16,11 @@ public class PlayResultDao {
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("PLAY_RESULT")
                 .usingGeneratedKeyColumns("id")
-                .usingColumns("trial_count", "winners");
+                .usingColumns("trial_count");
     }
 
-    public long insertAndReturnId(final int count, String winners) {
-        Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count, "winners", winners));
+    public long insertAndReturnId(final int count) {
+        final Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count));
         return savedId.longValue();
-    }
-
-    public String findWinners(final long id) {
-        return jdbcTemplate.queryForObject("SELECT winners FROM play_result WHERE id = ?", String.class, id);
     }
 }

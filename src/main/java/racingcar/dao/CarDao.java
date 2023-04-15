@@ -7,15 +7,16 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
+import racingcar.dto.CarDto;
 
 @Repository
 public class CarDao {
 
-    private final RowMapper<Car> actorRowMapper = (resultSet, rowNum) -> {
-        Car car = new Car(
+    private final RowMapper<CarDto> actorRowMapper = (resultSet, rowNum) -> {
+        CarDto car = CarDto.of(
                 resultSet.getString("name"),
-                resultSet.getInt("position")
+                resultSet.getInt("position"),
+                resultSet.getBoolean("is_winner")
         );
         return car;
     };
@@ -26,14 +27,15 @@ public class CarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(final long id, final List<Car> cars) {
-        jdbcTemplate.batchUpdate("INSERT INTO car (play_result_id, name, position) VALUES (?, ?, ?)",
+    public void insert(final long id, final List<CarDto> cars) {
+        jdbcTemplate.batchUpdate("INSERT INTO car (play_result_id, name, position, is_winner) VALUES (?, ?, ?, ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(final PreparedStatement ps, final int i) throws SQLException {
                         ps.setLong(1, id);
                         ps.setString(2, cars.get(i).getName());
                         ps.setInt(3, cars.get(i).getPosition());
+                        ps.setBoolean(4, cars.get(i).isWinner());
                     }
 
                     @Override
@@ -43,7 +45,10 @@ public class CarDao {
                 });
     }
 
-    public List<Car> find(final long id) {
-        return jdbcTemplate.query("SELECT name, position FROM car WHERE play_result_id = ?", actorRowMapper, id);
+    public List<CarDto> find(final long id) {
+        return jdbcTemplate.query(
+                "SELECT name, position, is_winner FROM car WHERE play_result_id = ?",
+                actorRowMapper, id
+        );
     }
 }

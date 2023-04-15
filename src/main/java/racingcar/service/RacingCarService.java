@@ -7,8 +7,9 @@ import racingcar.dao.CarDao;
 import racingcar.dao.PlayResultDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
+import racingcar.dto.CarDto;
 import racingcar.dto.PlayRequestDto;
-import racingcar.dto.PlayResultDto;
+import racingcar.dto.PlayResponseDto;
 import racingcar.view.util.TextParser;
 
 @Service
@@ -23,16 +24,16 @@ public class RacingCarService {
     }
 
     @Transactional
-    public PlayResultDto playGame(PlayRequestDto playRequest) {
+    public PlayResponseDto playGame(PlayRequestDto playRequest) {
         final RacingGame racingGame = createGame(playRequest.getNames());
         final int count = playRequest.getCount();
 
         race(count, racingGame);
         final List<Car> cars = racingGame.getCars();
-        final String winners = String.join(", ", racingGame.getWinnerNames());
+        final List<String> winnerNames = racingGame.getWinnerNames();
 
-        saveGame(count, winners, cars);
-        return new PlayResultDto(cars, winners);
+        saveGame(count, CarDtoBuilder.dtos(cars, winnerNames));
+        return new PlayResponseDto(CarDtoBuilder.responseDtos(cars), String.join(", ", winnerNames));
     }
 
     private RacingGame createGame(final String rawCarNames) {
@@ -46,8 +47,9 @@ public class RacingCarService {
         }
     }
 
-    private void saveGame(int count, String winners, List<Car> cars) {
-        long savedId = playResultDao.insertAndReturnId(count, winners);
+    private void saveGame(int count, List<CarDto> cars) {
+        long savedId = playResultDao.insertAndReturnId(count);
         carDao.insert(savedId, cars);
     }
+
 }
