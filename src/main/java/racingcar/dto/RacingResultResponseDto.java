@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.Car;
 
-public class RacingResultDto {
+public class RacingResultResponseDto {
 
     private final String winners;
     private final List<Car> racingCars;
 
-    public RacingResultDto(List<Car> winners, List<Car> cars) {
+    public RacingResultResponseDto(List<Car> winners, List<Car> cars) {
         this.winners = initWinners(winners);
         this.racingCars = cars;
     }

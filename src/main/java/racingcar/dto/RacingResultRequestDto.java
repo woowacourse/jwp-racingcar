@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.game.Game;
 
-public class RaceResultDto {
+public class RacingResultRequestDto {
 
-    private final List<CarDto> carDtos;
     private final List<CarDto> winners;
+    private final List<CarDto> carDtos;
 
-    public RaceResultDto(Game game) {
-        this.carDtos = carsInit(game);
+    public RacingResultRequestDto(Game game) {
         this.winners = winnersInit(game);
+        this.carDtos = carsInit(game);
     }
 
     private List<CarDto> carsInit(Game game) {
@@ -26,11 +26,11 @@ public class RaceResultDto {
             .collect(Collectors.toUnmodifiableList());
     }
 
-    public List<CarDto> getCarDtos() {
-        return carDtos;
-    }
-
     public List<CarDto> getWinners() {
         return winners;
+    }
+    
+    public List<CarDto> getCarDtos() {
+        return carDtos;
     }
 }
