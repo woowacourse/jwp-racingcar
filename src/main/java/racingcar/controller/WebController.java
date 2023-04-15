@@ -50,10 +50,4 @@ public class WebController {
         }
         return cars;
     }
-
-    @ResponseBody
-    @ExceptionHandler
-    public ExceptionMessageDTO handle(IllegalArgumentException ex) {
-        return new ExceptionMessageDTO(ex.getMessage());
-    }
 }
