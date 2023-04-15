@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 
 @Repository
 public class UpdatingDAO {
+
     private JdbcTemplate jdbcTemplate;
 
     public UpdatingDAO(JdbcTemplate jdbcTemplate) {
@@ -21,12 +22,12 @@ public class UpdatingDAO {
         String sql = "INSERT INTO racing (trialCount) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
-                con -> {
-                    PreparedStatement preparedStatement = con.prepareStatement(sql, new String[] {"id"});
-                    preparedStatement.setInt(1, trial.getValue());
-                    return preparedStatement;
-                },
-                keyHolder
+            con -> {
+                PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
+                preparedStatement.setInt(1, trial.getValue());
+                return preparedStatement;
+            },
+            keyHolder
         );
 
         return keyHolder.getKey().intValue();
@@ -35,9 +36,9 @@ public class UpdatingDAO {
     public void insert(CarInfoDto carInfoDto) {
         String sql = "INSERT INTO car_info (racing_id, name, position, is_winner) values (?, ?, ?, ?)";
         jdbcTemplate.update(sql,
-                carInfoDto.getRacingId(),
-                carInfoDto.getName(),
-                carInfoDto.getPosition(),
-                carInfoDto.isWinner());
+            carInfoDto.getRacingId(),
+            carInfoDto.getName(),
+            carInfoDto.getPosition(),
+            carInfoDto.isWinner());
     }
 }

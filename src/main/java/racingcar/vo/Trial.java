@@ -3,6 +3,7 @@ package racingcar.vo;
 import java.util.Objects;
 
 public class Trial {
+
     public static final String NOT_POSITIVE_NUMBER_EXCEPTION_MESSAGE = "양수의 숫자만 입력할 수 있습니다.";
     private final int trial;
 
@@ -27,8 +28,12 @@ public class Trial {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Trial trial1 = (Trial) o;
         return trial == trial1.trial;
     }
@@ -41,7 +46,7 @@ public class Trial {
     @Override
     public String toString() {
         return "Trial{" +
-                "trial=" + trial +
-                '}';
+            "trial=" + trial +
+            '}';
     }
 }

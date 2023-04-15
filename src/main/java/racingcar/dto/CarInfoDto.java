@@ -1,6 +1,7 @@
 package racingcar.dto;
 
 public class CarInfoDto {
+
     private int racingId;
     private String name;
     private int position;

@@ -4,8 +4,8 @@ import racingcar.vo.CarName;
 import racingcar.vo.Position;
 
 public class Car {
-    public static final int MIN_REQUIRED_POWER = 3;
 
+    public static final int MIN_REQUIRED_POWER = 3;
     private final CarName name;
     private Position position;
 
@@ -38,9 +38,6 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car{" +
-                "name=" + name +
-                ", position=" + position +
-                '}';
+        return "Car{" + "name=" + name + ", position=" + position + '}';
     }
 }

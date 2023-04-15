@@ -8,10 +8,10 @@ public class Converter {
     }
 
     public static int convertStringToLong(String target) {
-       try {
-           return Integer.parseInt(target);
-       } catch(NumberFormatException exception) {
-           throw new IllegalArgumentException(NOT_NUMBER_EXCEPTION_MESSAGE);
-       }
+        try {
+            return Integer.parseInt(target);
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException(NOT_NUMBER_EXCEPTION_MESSAGE);
+        }
     }
 }

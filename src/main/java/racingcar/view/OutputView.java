@@ -23,7 +23,7 @@ public class OutputView {
 
     public void printResult(RacingCarsDto result) {
         result.forEach((name, position)
-                -> System.out.printf(RESULT_MESSAGE_FORMAT, name, makePositionBar(position))
+            -> System.out.printf(RESULT_MESSAGE_FORMAT, name, makePositionBar(position))
         );
         System.out.println();
     }

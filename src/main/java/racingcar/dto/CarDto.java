@@ -3,6 +3,7 @@ package racingcar.dto;
 import racingcar.domain.Car;
 
 public class CarDto {
+
     private String name;
     private int position;
 

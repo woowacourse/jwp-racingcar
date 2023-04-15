@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class RacingCarsDto {
+
     private final Map<String, Integer> result;
 
     private RacingCarsDto(Map<String, Integer> result) {

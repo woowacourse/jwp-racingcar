@@ -50,8 +50,8 @@ class CarTest {
 
             assertThat(car.getPosition())
                     .as("getPosition() 호출시 원시값을 반환한다.")
-                    .isOfAnyClassIn(Long.class)
-                    .isEqualTo(0L);
+                    .isOfAnyClassIn(Integer.class)
+                    .isEqualTo(0);
         }
     }
 
@@ -77,7 +77,7 @@ class CarTest {
         @ParameterizedTest()
         @CsvSource(value = {"4,true", "3,false"})
         @DisplayName("차가 주어진 이동 정도를 가지고 있는 지를 참 거짓 값으로 판단할 수 있다.")
-        void givenPosition_whenAskingHasPosition_thenReturnsResult(Long position, boolean expected) {
+        void givenPosition_whenAskingHasPosition_thenReturnsResult(int position, boolean expected) {
             Car car = Car.of(CarName.of("Car"));
             for (int i = 0; i < 4; i++) {
                 car.move(4);

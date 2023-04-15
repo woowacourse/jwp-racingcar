@@ -1,6 +1,7 @@
 package racingcar.dto;
 
 public class ExceptionMessageDTO {
+
     private boolean success = false;
     private String message;
 
