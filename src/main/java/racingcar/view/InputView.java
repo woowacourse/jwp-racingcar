@@ -1,7 +1,5 @@
 package racingcar.view;
 
-import racingcar.constant.ErrorConstant;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -18,7 +16,7 @@ public class InputView {
             System.out.println("시도할 횟수는 몇회인가요?");
             return sc.nextInt();
         } catch (InputMismatchException e) {
-            throw new IllegalArgumentException(ErrorConstant.ERROR_PREFIX + "숫자를 입력해주세요.");
+            throw new IllegalArgumentException("숫자를 입력해주세요.");
         }
     }
 }
