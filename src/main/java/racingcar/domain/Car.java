@@ -17,6 +17,12 @@ public class Car implements Comparable<Car> {
         this.name = name;
     }
 
+    private void validateName(String name) {
+        if (name.length() < NAME_MIN_LENGTH || name.length() > NAME_MAX_LENGTH) {
+            throw new IllegalArgumentException(NAME_LENGTH_ERROR);
+        }
+    }
+
     public void move(int number) {
         if (number >= MOVABLE_MIN_NUMBER) {
             position++;
@@ -37,13 +43,7 @@ public class Car implements Comparable<Car> {
 
     @Override
     public int compareTo(Car otherCar) {
-        return otherCar.position - this.position;
-    }
-
-    private void validateName(String name) {
-        if (name.length() < NAME_MIN_LENGTH || name.length() > NAME_MAX_LENGTH) {
-            throw new IllegalArgumentException(NAME_LENGTH_ERROR);
-        }
+        return this.position - otherCar.position;
     }
 
     @Override

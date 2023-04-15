@@ -1,23 +1,19 @@
 package racingcar.service;
 
-import static java.util.stream.Collectors.*;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
-import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.CarEntity;
 import racingcar.dto.RacingGameEntity;
 import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class WebRacingCarService implements RacingCarService {
