@@ -5,6 +5,7 @@ import racingcar.dto.CarStatus;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,11 @@ public class RacingCarController {
         try {
             String input = InputView.inputCarNames();
             List<String> carNames = splitCarNames(input);
-            return new Cars(carNames);
+            List<Car> cars = new ArrayList<>();
+            for (String carName : carNames) {
+                cars.add(new Car(carName));
+            }
+            return new Cars(cars);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return initCars();
