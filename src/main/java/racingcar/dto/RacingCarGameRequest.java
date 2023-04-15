@@ -1,6 +1,6 @@
 package racingcar.dto;
 
-public class Request {
+public class RacingCarGameRequest {
 
     private String names;
     private String count;

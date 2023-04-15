@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.strategy.MovingStrategy;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultResponse;
-import racingcar.dto.Request;
+import racingcar.dto.RacingCarGameRequest;
 import racingcar.service.RacingCarGameService;
 
 import java.util.List;
@@ -27,8 +27,8 @@ public class RacingCarGameWebController {
     }
 
     @PostMapping("/plays")
-    public GameResultResponse play(@RequestBody Request request) {
-        final int gameId = racingCarGameService.play(request.getNames(), request.getCount(), movingStrategy);
+    public GameResultResponse play(@RequestBody RacingCarGameRequest racingCarGameRequest) {
+        final int gameId = racingCarGameService.play(racingCarGameRequest.getNames(), racingCarGameRequest.getCount(), movingStrategy);
 
         List<CarDto> carDtos = racingCarGameService.getCars(gameId);
         final String winners = getWinners(gameId);
