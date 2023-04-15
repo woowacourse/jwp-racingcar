@@ -45,6 +45,16 @@ class CarTest {
         );
     }
 
+    @Test
+    @DisplayName("같은 거리인지 반환한다")
+    void 같은_거리인지_판단한다() {
+        Car car = new Car("도기");
+        assertThat(car.isSameDistance(0)).isTrue();
+
+        car.move();
+        assertThat(car.isSameDistance(1)).isTrue();
+    }
+
      private static class MovableCar extends Car {
 
          public MovableCar(final String name) {
