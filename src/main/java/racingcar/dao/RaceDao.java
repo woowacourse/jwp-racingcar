@@ -21,7 +21,7 @@ public class RaceDao {
         final String sql = "INSERT INTO RACE(play_count) values (:playCount)";
         final KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         final MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("playCount", gameInputDto.getCount());
+            .addValue("playCount", gameInputDto.getCount());
         namedParameterJdbcTemplate.update(sql, params, generatedKeyHolder, new String[]{"id"});
 
         return Objects.requireNonNull(generatedKeyHolder.getKey()).intValue();

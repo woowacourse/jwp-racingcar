@@ -10,7 +10,7 @@ public class Participants {
 
     private final List<Car> cars;
     private final Map<String, Integer> nameCount;
-    
+
     public Participants(List<String> names) {
         cars = new ArrayList<>();
         nameCount = new HashMap<>();

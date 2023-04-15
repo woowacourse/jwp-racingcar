@@ -13,13 +13,13 @@ public class RacingResultDto {
         this.winners = initWinners(winners);
         this.racingCars = cars;
     }
-    
+
     private String initWinners(List<Car> winners) {
         return winners.stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(","));
+            .map(Car::getName)
+            .collect(Collectors.joining(","));
     }
-    
+
     public String getWinners() {
         return winners;
     }
