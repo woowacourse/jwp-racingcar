@@ -25,7 +25,7 @@ public class OutputView {
     private String addDuplicateIdentifier(Car car) {
         final String DELIMITER = "-";
         final int UNIQUE = 0;
-        String name = car.getName();
+        String name = car.getName().trim();
         int duplicateIdentifier = car.getIdentifier();
         if (duplicateIdentifier != UNIQUE) {
             return name + DELIMITER + duplicateIdentifier;
