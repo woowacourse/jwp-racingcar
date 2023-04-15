@@ -27,12 +27,10 @@ public class RacingController {
         outputView.resultHeader();
         IntStream.range(0, inputView.getTryCount())
                 .forEach(this::repeat);
-        outputView.result(cars);
         outputView.winner(cars.getWinner());
     }
 
     private void repeat(int count) {
         cars.moveAll();
-        outputView.result(cars);
     }
 }
