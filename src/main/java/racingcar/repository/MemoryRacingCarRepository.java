@@ -5,8 +5,10 @@ import static java.util.stream.Collectors.toList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingResultResponse;
 
 public class MemoryRacingCarRepository implements RacingCarRepository {
     private int gameId = 1;
@@ -37,6 +39,13 @@ public class MemoryRacingCarRepository implements RacingCarRepository {
     public List<RacingCarDto> findRacingCars(int gameId) {
         return playerTable.get(gameId).stream()
                 .map(car -> new RacingCarDto(car.getName(), car.getPosition()))
+                .collect(toList());
+    }
+
+    @Override
+    public List<RacingResultResponse> findAllGameResults() {
+        return IntStream.rangeClosed(1, gameId)
+                .mapToObj(id -> new RacingResultResponse(findWinners(id), findRacingCars(id)))
                 .collect(toList());
     }
 }

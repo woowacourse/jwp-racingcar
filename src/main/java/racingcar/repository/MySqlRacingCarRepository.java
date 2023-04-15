@@ -1,6 +1,9 @@
 package racingcar.repository;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -8,9 +11,12 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingResultResponse;
+import racingcar.utils.RacingCarDtoMapper;
 
 @Repository
 public class MySqlRacingCarRepository implements RacingCarRepository {
+    private static final String RACING_CARS_RESULT_DELIMITER = ",";
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
@@ -70,5 +76,29 @@ public class MySqlRacingCarRepository implements RacingCarRepository {
             }
             return racingCars;
         });
+    }
+
+    @Override
+    public List<RacingResultResponse> findAllGameResults() {
+        String sql = "SELECT GROUP_CONCAT(DISTINCT CONCAT(PR.name,':',PR.position)), GROUP_CONCAT(DISTINCT WR.winner) "
+                + "FROM GAME_RESULT AS GR "
+                + "JOIN PLAYER_RESULT PR ON GR.id = PR.game_id "
+                + "JOIN WINNER_RESULT WR ON GR.id = WR.game_id "
+                + "GROUP BY GR.id";
+        return jdbcTemplate.query(sql, rs -> {
+            ArrayList<RacingResultResponse> results = new ArrayList<>();
+            while (rs.next()) {
+                String racingCarsResults = rs.getString(1);
+                String winners = rs.getString(2);
+                results.add(new RacingResultResponse(winners, mapToRacingCarDtos(racingCarsResults)));
+            }
+            return results;
+        });
+    }
+
+    private List<RacingCarDto> mapToRacingCarDtos(String racingCarsResults) {
+        return Arrays.stream(racingCarsResults.split(RACING_CARS_RESULT_DELIMITER))
+                .map(RacingCarDtoMapper::fromString)
+                .collect(toList());
     }
 }

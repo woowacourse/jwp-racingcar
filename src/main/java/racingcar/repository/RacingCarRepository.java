@@ -3,6 +3,7 @@ package racingcar.repository;
 import java.util.List;
 import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingResultResponse;
 
 public interface RacingCarRepository {
     void saveWinner(int gameId, List<String> winners);
@@ -14,4 +15,6 @@ public interface RacingCarRepository {
     String findWinners(int gameId);
 
     List<RacingCarDto> findRacingCars(int gameId);
+
+    List<RacingResultResponse> findAllGameResults();
 }

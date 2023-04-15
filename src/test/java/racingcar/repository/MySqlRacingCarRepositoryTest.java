@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingResultResponse;
 
 @JdbcTest
 class MySqlRacingCarRepositoryTest {
@@ -55,5 +56,31 @@ class MySqlRacingCarRepositoryTest {
                 .hasSize(2);
         assertThat(findCars.get(0).getName())
                 .containsAnyOf("glen", "raon");
+    }
+    
+    @Test
+    @DisplayName("모든 플레이 이력이 조회되어야 한다.")
+    void findAllGameResults_success() {
+        // given
+        int gameId1 = racingCarRepository.saveGame(1);
+        int gameId2 = racingCarRepository.saveGame(2);
+        Car car1 = new Car("glen");
+        Car car2 = new Car("raon");
+
+        racingCarRepository.saveCars(gameId1, List.of(car1, car2));
+        racingCarRepository.saveWinner(gameId1, List.of(car1.getName()));
+        racingCarRepository.saveCars(gameId2, List.of(car1, car2));
+        racingCarRepository.saveWinner(gameId2, List.of(car1.getName(), car2.getName()));
+
+        // when
+        List<RacingResultResponse> gameResults = racingCarRepository.findAllGameResults();
+
+        // then
+        assertThat(gameResults)
+                .hasSize(2);
+        assertThat(gameResults.get(0).getWinners())
+                .isEqualTo("glen");
+        assertThat(gameResults.get(1).getWinners())
+                .isEqualTo("glen,raon");
     }
 }

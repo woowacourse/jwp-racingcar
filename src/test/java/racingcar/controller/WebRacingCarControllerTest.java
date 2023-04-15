@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.anyInt;
 import static org.mockito.BDDMockito.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarRequest;
+import racingcar.dto.RacingResultResponse;
 import racingcar.service.RacingCarService;
 
 @WebMvcTest(WebRacingCarController.class)
@@ -58,5 +60,36 @@ class WebRacingCarControllerTest {
                 .andExpect(jsonPath("$.winners").value("raon"))
                 .andExpect(jsonPath("$.racingCars[*].name", containsInAnyOrder("glen", "raon")))
                 .andExpect(jsonPath("$.racingCars[*].position", containsInAnyOrder(4, 6)));
+    }
+
+    @Test
+    @DisplayName("/plays로 GET 요청 시 HTTP 200 코드와 플레이 이력이 반환되어야 한다.")
+    void racingGameGetAllGameResults() throws Exception {
+        // given
+        List<RacingResultResponse> response = List.of(
+                new RacingResultResponse("glen", List.of(
+                        new RacingCarDto("glen", 6),
+                        new RacingCarDto("raon", 5))),
+                new RacingResultResponse("raon", List.of(
+                        new RacingCarDto("glen", 3),
+                        new RacingCarDto("raon", 6))));
+
+        given(racingCarService.findAllGameResults())
+                .willReturn(response);
+
+        // expect
+        mockMvc.perform(get("/plays")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].winners").value("glen"))
+                .andExpect(jsonPath("$[0].racingCars[0].name").value("glen"))
+                .andExpect(jsonPath("$[0].racingCars[0].position").value(6))
+                .andExpect(jsonPath("$[0].racingCars[1].name").value("raon"))
+                .andExpect(jsonPath("$[0].racingCars[1].position").value(5))
+                .andExpect(jsonPath("$[1].winners").value("raon"))
+                .andExpect(jsonPath("$[1].racingCars[0].name").value("glen"))
+                .andExpect(jsonPath("$[1].racingCars[0].position").value(3))
+                .andExpect(jsonPath("$[1].racingCars[1].name").value("raon"))
+                .andExpect(jsonPath("$[1].racingCars[1].position").value(6));
     }
 }

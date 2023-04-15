@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingResultResponse;
 import racingcar.repository.RacingCarRepository;
 import racingcar.utils.NumberGenerator;
 
@@ -53,5 +54,9 @@ public class RacingCarService {
 
     public List<RacingCarDto> findRacingCars(int gameId) {
         return racingCarRepository.findRacingCars(gameId);
+    }
+
+    public List<RacingResultResponse> findAllGameResults() {
+        return racingCarRepository.findAllGameResults();
     }
 }
