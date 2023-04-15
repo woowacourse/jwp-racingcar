@@ -34,7 +34,7 @@ public class RacingCarService {
         List<Long> allGamesId = gameResultDao.findAllGamesId();
         List<GameHistoriesResponseDto> allGameHistories = new ArrayList<>();
 
-        for (final Long gameId : allGamesId) {
+        allGamesId.forEach(gameId -> {
             List<PlayerHistoryDto> playerHistories = gameResultDao.findPlayerHistoriesByGameId(gameId);
 
             List<CarStatusResponseDto> carStatuses = playerHistories.stream()
@@ -42,7 +42,7 @@ public class RacingCarService {
                     .collect(Collectors.toList());
 
             allGameHistories.add(GameHistoriesResponseDto.toDto(findWinnerNames(playerHistories), carStatuses));
-        }
+        });
 
         return allGameHistories;
     }
