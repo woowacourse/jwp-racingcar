@@ -14,7 +14,6 @@ import racingcar.dto.GameHistoriesResponseDto;
 import racingcar.dto.GameResultResponseDto;
 import racingcar.dto.StartGameRequestDto;
 import racingcar.service.RacingCarService;
-import racingcar.utils.CarsFactory;
 
 @RequestMapping("/plays")
 @RestController
@@ -43,7 +42,7 @@ public class RacingGameWebController {
 
     public Cars makeCars(final String input) {
         List<String> carNames = List.of(input.split(CAR_NAME_DELIMITER));
-        return CarsFactory.createCars(carNames);
+        return Cars.from(carNames);
     }
 
     public TryCount makeTryCount(final int input) {

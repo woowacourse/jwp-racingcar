@@ -9,11 +9,24 @@ import racingcar.utils.RandomPowerGenerator;
 
 public class Cars {
 
+    private static final int DEFAULT_DISTANCE_VALUE = 0;
+
     private final List<Car> cars;
 
-    public Cars(final List<Car> cars) {
+    private Cars(final List<Car> cars) {
         validate(cars);
         this.cars = cars;
+    }
+
+    public static Cars from(final List<String> carNames) {
+        List<Car> cars = makeCars(carNames);
+        return new Cars(cars);
+    }
+
+    private static List<Car> makeCars(final List<String> carNames) {
+        return carNames.stream()
+                .map(carName -> new Car(carName, DEFAULT_DISTANCE_VALUE))
+                .collect(Collectors.toList());
     }
 
     private void validate(List<Car> cars) {

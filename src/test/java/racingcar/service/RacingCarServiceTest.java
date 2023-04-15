@@ -20,7 +20,6 @@ import racingcar.dto.GameHistoriesResponseDto;
 import racingcar.dto.GameResultResponseDto;
 import racingcar.dto.PlayerHistoryDto;
 import racingcar.util.RandomSuccessPowerMaker;
-import racingcar.utils.CarsFactory;
 
 @ExtendWith(MockitoExtension.class)
 class RacingCarServiceTest {
@@ -67,7 +66,7 @@ class RacingCarServiceTest {
     @DisplayName("자동차 경주 게임을 시작한다.")
     void start_race() {
         // given
-        Cars cars = CarsFactory.createCars(List.of("pobi", "crong"));
+        Cars cars = Cars.from(List.of("pobi", "crong"));
         TryCount tryCount = new TryCount(3);
         GameResultResponseDto expectedResult = GameResultResponseDto.toDto(cars);
         given(gameResultDao.saveGame(cars, tryCount)).willReturn(expectedResult);

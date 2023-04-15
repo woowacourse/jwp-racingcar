@@ -4,7 +4,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.utils.CarsFactory;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.utils.RandomPowerMaker;
 import racingcar.view.InputView;
@@ -31,7 +30,7 @@ public class RacingGameConsoleController {
 
         try {
             final List<String> carNames = inputView.inputCarNames();
-            return CarsFactory.createCars(carNames);
+            return Cars.from(carNames);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             return getCars();
