@@ -4,8 +4,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.CarResultDao;
 import racingcar.dao.RacingGameResultDao;
-import racingcar.dto.CarResultDto;
-import racingcar.dto.RacingGameResultDto;
+import racingcar.dto.CarEntity;
+import racingcar.dto.RacingGameEntity;
 
 @Repository
 public class WebRacingCarRepository implements RacingCarRepository {
@@ -19,13 +19,13 @@ public class WebRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public void save(RacingGameResultDto racingGameResultDto) {
+    public void save(RacingGameEntity racingGameResultDto) {
         int gameId = racingGameResultDao.save(racingGameResultDto.getRound());
-        carResultDao.save(gameId, racingGameResultDto.getCarResultDtos());
+        carResultDao.save(gameId, racingGameResultDto.getCarResultEntities());
     }
 
     @Override
-    public List<CarResultDto> findAll() {
+    public List<CarEntity> findAll() {
         return carResultDao.findAll();
     }
 }

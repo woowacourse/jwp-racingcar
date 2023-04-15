@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.request.RacingGameRequest;
-import racingcar.dto.response.RacingGameResultResponse;
+import racingcar.dto.response.RacingGameResponse;
 import racingcar.service.RacingCarService;
 
 @RestController
@@ -22,12 +22,12 @@ public class WebRacingCarController {
 
     //TODO: count에 int default value가 들어가는 문제
     @PostMapping("/plays")
-    public ResponseEntity<RacingGameResultResponse> play(@RequestBody RacingGameRequest racingGameRequest) {
+    public ResponseEntity<RacingGameResponse> play(@RequestBody RacingGameRequest racingGameRequest) {
         return ResponseEntity.ok().body(racingCarService.play(racingGameRequest));
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<RacingGameResultResponse>> findGameResults() {
+    public ResponseEntity<List<RacingGameResponse>> findGameResults() {
         return ResponseEntity.ok().body(racingCarService.findGameResults());
     }
 }

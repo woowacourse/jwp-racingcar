@@ -3,7 +3,7 @@ package racingcar.dao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarResultDto;
+import racingcar.dto.CarEntity;
 import racingcar.utils.ConnectionProvider;
 
 import java.sql.Connection;
@@ -15,11 +15,11 @@ import java.util.List;
 public class H2CarResultDao implements CarResultDao {
 
     @Override
-    public void save(int gameId, List<CarResultDto> carResultDtos) {
+    public void save(int gameId, List<CarEntity> carResultDtos) {
         String sql = "INSERT INTO CAR(game_id, name, position, is_win) VALUES (?,?,?,?)";
 
         try (Connection connection = ConnectionProvider.getConnection()) {
-            for (CarResultDto carResultDto : carResultDtos) {
+            for (CarEntity carResultDto : carResultDtos) {
                 PreparedStatement ps = connection.prepareStatement(sql);
 
                 ps.setInt(1, gameId);
@@ -36,21 +36,21 @@ public class H2CarResultDao implements CarResultDao {
     }
 
     @Override
-    public List<CarResultDto> findAll() {
+    public List<CarEntity> findAll() {
         String sql = "SELECT * FROM CAR";
 
         try (Connection connection = ConnectionProvider.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql);
             final ResultSet resultSet = ps.executeQuery();
 
-            List<CarResultDto> carResultDtos = new ArrayList<>();
+            List<CarEntity> carResultDtos = new ArrayList<>();
 
             while (resultSet.next()) {
                 final int gameId = resultSet.getInt("game_id");
                 final String name = resultSet.getString("name");
                 final int position = resultSet.getInt("position");
                 final boolean isWin = resultSet.getBoolean("is_win");
-                carResultDtos.add(new CarResultDto(gameId, name, position, isWin));
+                carResultDtos.add(new CarEntity(gameId, name, position, isWin));
             }
 
             ps.close();

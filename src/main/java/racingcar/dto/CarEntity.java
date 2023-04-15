@@ -1,20 +1,20 @@
 package racingcar.dto;
 
-public class CarResultDto {
+public class CarEntity {
 
     private int gameId;
     private final String name;
     private final int position;
     private final boolean isWin;
 
-    public CarResultDto(final int gameId, final String name, final int position, final boolean isWin) {
+    public CarEntity(final int gameId, final String name, final int position, final boolean isWin) {
         this.gameId = gameId;
         this.name = name;
         this.position = position;
         this.isWin = isWin;
     }
 
-    public CarResultDto(String name, int position, boolean isWin) {
+    public CarEntity(String name, int position, boolean isWin) {
         this.name = name;
         this.position = position;
         this.isWin = isWin;

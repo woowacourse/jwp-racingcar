@@ -2,11 +2,11 @@ package racingcar.service;
 
 import java.util.List;
 import racingcar.dto.request.RacingGameRequest;
-import racingcar.dto.response.RacingGameResultResponse;
+import racingcar.dto.response.RacingGameResponse;
 
 public interface RacingCarService {
 
-    RacingGameResultResponse play(RacingGameRequest racingGameRequest);
+    RacingGameResponse play(RacingGameRequest racingGameRequest);
 
-    List<RacingGameResultResponse> findGameResults();
+    List<RacingGameResponse> findGameResults();
 }

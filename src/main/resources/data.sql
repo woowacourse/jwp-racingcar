@@ -1,4 +1,4 @@
-CREATE TABLE RACING_GAME_RESULT (
+CREATE TABLE RACING_GAME (
     id          INT         NOT NULL AUTO_INCREMENT,
     count       INT         NOT NULL,
     created_at  DATETIME    NOT NULL default current_timestamp,

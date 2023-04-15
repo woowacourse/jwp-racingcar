@@ -1,7 +1,7 @@
 package racingcar.dto.response;
 
 import racingcar.domain.Car;
-import racingcar.dto.CarResultDto;
+import racingcar.dto.CarEntity;
 
 public class CarResponse {
 
@@ -18,7 +18,7 @@ public class CarResponse {
         this.position = car.getPosition();
     }
 
-    public CarResponse(CarResultDto carResultDto) {
+    public CarResponse(CarEntity carResultDto) {
         this.name = carResultDto.getName();
         this.position = carResultDto.getPosition();
     }
