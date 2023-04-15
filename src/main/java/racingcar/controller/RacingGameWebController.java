@@ -14,13 +14,13 @@ import racingcar.service.RacingCarService;
 import racingcar.utils.CarsFactory;
 
 @RestController
-public class RacingGameController {
+public class RacingGameWebController {
 
     private static final String CAR_NAME_SEPARATOR = ",";
 
     private final RacingCarService racingCarService;
 
-    public RacingGameController(final RacingCarService racingCarService) {
+    public RacingGameWebController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 

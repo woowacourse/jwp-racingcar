@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import racingcar.dto.StartGameRequestDto;
 import racingcar.service.RacingCarService;
 
-@WebMvcTest(RacingGameController.class)
-public class RacingGameControllerTest {
+@WebMvcTest(RacingGameWebController.class)
+public class RacingGameWebControllerTest {
 
     @MockBean
     RacingCarService racingCarService;
