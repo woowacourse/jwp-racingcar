@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -24,6 +25,7 @@ class RacingCarControllerTest {
         RestAssured.port = port;
     }
 
+    @DisplayName("/plays POST 요청 테스트")
     @Test
     void play() throws JSONException {
         List<String> carNames = List.of("a", "b", "c");
@@ -48,6 +50,7 @@ class RacingCarControllerTest {
         return requestJSON;
     }
 
+    @DisplayName("/plays GET 요청 테스트")
     @Test
     void history() {
         RestAssured.given().log().all()

@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.entry;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ class CarDaoTest {
         playResultDao.clear();
     }
 
+    @DisplayName("DB: 게임 아이디에 따른 자동차 저장 테스트")
     @Test
     void insert() {
         long id = playResultDao.insertAndReturnId(5);
@@ -40,7 +42,7 @@ class CarDaoTest {
                 .containsExactlyInAnyOrderElementsOf(FIXTURE_CARS);
     }
 
-    // TODO 모든 테스트 displayname 작성
+    @DisplayName("DB: 모든 게임 별 자동차 정보 최신순 조회 테스트")
     @Test
     void findAllCarsById() {
         long id1 = playResultDao.insertAndReturnId(5);
