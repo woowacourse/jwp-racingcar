@@ -1,5 +1,10 @@
 package racingcar.repository;
 
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,18 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
-
+import racingcar.dto.RecordDto;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 @TestPropertySource(locations = "/application.properties")
 @JdbcTest
+@Transactional
 public class RecordDaoTest {
 
     private RecordDao recordDao;
@@ -32,11 +35,14 @@ public class RecordDaoTest {
         jdbcTemplate.execute("DROP TABLE record IF EXISTS");
         jdbcTemplate.execute("DROP TABLE game IF EXISTS");
 
-        jdbcTemplate.execute("CREATE TABLE game (\n" +
-                "id          int PRIMARY KEY AUTO_INCREMENT,\n" +
-                "trial_count int                                 NOT NULL,\n" +
-                "game_date   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n" +
-                ");");
+        createGameTable();
+        createRecordTable();
+
+        initGameTable();
+        initRecordTable();
+    }
+
+    private void createRecordTable() {
         jdbcTemplate.execute("CREATE TABLE record (\n" +
                 "game_id     int,\n" +
                 "position    int     NOT NULL,\n" +
@@ -45,12 +51,29 @@ public class RecordDaoTest {
                 "PRIMARY KEY (game_id, player_name),\n" +
                 "FOREIGN KEY (game_id) REFERENCES game (id)\n" +
                 ");");
+    }
 
+    private void createGameTable() {
+        jdbcTemplate.execute("CREATE TABLE game (\n" +
+                "id          int PRIMARY KEY AUTO_INCREMENT,\n" +
+                "trial_count int                                 NOT NULL,\n" +
+                "game_date   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n" +
+                ");");
+    }
+
+    private void initGameTable() {
         List<Object[]> trialCounts = Arrays.asList(new String[]{"10"}, new String[]{"20"});
         jdbcTemplate.batchUpdate("INSERT INTO game(trial_count) VALUES (?)", trialCounts);
+    }
 
-        List<Object[]> records = Stream.of(new Object[]{1, 5, false, "doggy"}, new Object[]{2, 7, true, "power"})
-                .collect(toList());
+    private void initRecordTable() {
+        List<Object[]> records = Stream.of(
+                new Object[]{1, 5, false, "doggy"},
+                new Object[]{1, 7, true, "power"},
+                new Object[]{2, 7, true, "power"},
+                new Object[]{2, 7, true, "doggy"},
+                new Object[]{2, 3, false, "bree"}
+        ).collect(toList());
         jdbcTemplate.batchUpdate("INSERT INTO record(game_id, position, is_winner, player_name) VALUES (?, ?, ?, ?)", records);
     }
 
@@ -80,6 +103,18 @@ public class RecordDaoTest {
         Car doggy = new Car("doggy");
 
         assertThatThrownBy(() -> recordDao.insert(1, false, doggy));
+    }
 
+    @Test
+    @DisplayName("gameId로 모든 데이터를 조회한다")
+    void gameId로_모든_데이터를_조회한다() {
+        long gameId = 1L;
+
+        List<RecordDto> result = recordDao.findAllByGameId(gameId);
+
+        assertThat(result).isEqualTo(List.of(
+                new RecordDto(1, "doggy", 5, false),
+                new RecordDto(1, "power", 7, true)
+        ));
     }
 }
