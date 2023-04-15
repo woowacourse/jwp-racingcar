@@ -8,7 +8,7 @@ import racingcar.domain.RacingGame;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class RacingGameController {
+public class RacingCarConsoleController {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
