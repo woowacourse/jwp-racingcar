@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,9 +22,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import racingcar.domain.RacingGameService;
 import racingcar.domain.car.Car;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;
+import racingcar.web.RacingGameController;
 
 @ExtendWith(MockitoExtension.class)
 class RacingGameControllerTest {
@@ -35,39 +39,70 @@ class RacingGameControllerTest {
     @InjectMocks
     RacingGameController racingGameController;
 
-    private ResultDto mockResponse;
+    @Nested
+    class SuccessTest {
+
+        private ResultDto mockResponse;
 
 
-    @BeforeEach
-    void setUp() {
-        mockResponse = new ResultDto(List.of(new Car("브리", 6),
-                new Car("로지", 5),
-                new Car("바론", 4)),
-                List.of(new Car("브리", 6)));
+        @BeforeEach
+        void setUp() {
+            mockResponse = new ResultDto(List.of(new Car("브리", 6),
+                    new Car("로지", 5),
+                    new Car("바론", 4)),
+                    List.of(new Car("브리", 6)));
 
-        given(racingGameService.start(anyInt(), anyList())).willReturn(mockResponse);
-        MockitoAnnotations.openMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
+            given(racingGameService.start(anyInt(), anyList())).willReturn(mockResponse);
+            MockitoAnnotations.openMocks(this);
+            mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
+        }
+
+        @Test
+        void testPlay() throws Exception {
+            //given
+            ObjectMapper objectMapper = new ObjectMapper();
+            RacingGameRequest racingGameRequest = new RacingGameRequest(List.of("브리", "로지", "바론"), 10);
+            String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
+            String responseAsString = objectMapper.writeValueAsString(mockResponse);
+
+            //when
+            //then
+            mockMvc.perform(post("/plays")
+                            .accept(MediaType.APPLICATION_JSON_VALUE)
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                            .content(requestAsString))
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(responseAsString))
+                    .andDo(MockMvcResultHandlers.print());
+
+
+        }
     }
 
-    @Test
-    void testPlay() throws Exception {
-        //given
-        ObjectMapper objectMapper = new ObjectMapper();
-        RacingGameRequest racingGameRequest = new RacingGameRequest(List.of("브리", "로지", "바론"), 10);
-        String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
-        String responseAsString = objectMapper.writeValueAsString(mockResponse);
+    @Nested
+    class FailTest {
+        @BeforeEach
+        void setUp() {
+            mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
+        }
+        @DisplayName("시도 횟수가 음수일 경우 예외가 발생한다.")
+        @Test
+        void test404ResponseWithMessage() throws Exception {
 
-        //when
-        //then
-        mockMvc.perform(post("/plays")
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(requestAsString))
-                .andExpect(status().isOk())
-                .andExpect(content().json(responseAsString))
-                .andDo(MockMvcResultHandlers.print());
+            //given
+            ObjectMapper objectMapper = new ObjectMapper();
+            RacingGameRequest racingGameRequest = new RacingGameRequest(List.of("브리", "로지", "바론"), -1);
+            String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
 
+            //when
+            //then
+            mockMvc.perform(post("/plays")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestAsString))
+                    .andExpect(status().isBadRequest())
+                    .andDo(MockMvcResultHandlers.print());
+        }
 
     }
 }

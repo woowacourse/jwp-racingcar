@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
+import racingcar.domain.RacingGameService;
 import racingcar.dto.ResultDto;
 
 @ExtendWith(MockitoExtension.class)
