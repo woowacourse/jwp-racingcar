@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarRequest;
+import racingcar.dto.RacingResultResponse;
 import racingcar.service.RacingCarService;
 
 @WebMvcTest(WebRacingCarController.class)
@@ -38,19 +39,17 @@ class WebRacingCarControllerTest {
     void racingGamePlay_success() throws Exception {
         // given
         RacingCarRequest request = new RacingCarRequest("glen,raon", 10);
+        List<String> winners = List.of("raon");
+        List<RacingCarDto> racingCars = List.of(new RacingCarDto("glen", 4), new RacingCarDto("raon", 6));
 
         // when
         doReturn(1)
                 .when(racingCarService)
                 .playRacingGame(anyList(), anyInt());
 
-        doReturn(List.of("raon"))
+        doReturn(new RacingResultResponse(winners, racingCars))
                 .when(racingCarService)
-                .findWinners(anyInt());
-
-        doReturn(List.of(new RacingCarDto("glen", 4), new RacingCarDto("raon", 6)))
-                .when(racingCarService)
-                .findRacingCars(anyInt());
+                .obtainRacingResult(anyInt());
 
         // then
         mockMvc.perform(post("/plays")
