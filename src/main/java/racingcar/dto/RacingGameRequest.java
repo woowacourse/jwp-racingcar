@@ -1,10 +1,12 @@
 package racingcar.dto;
 
+import java.util.List;
+
 public class RacingGameRequest {
-    private String names;
+    private List<String> names;
     private int count;
 
-    public RacingGameRequest(String names, int count) {
+    public RacingGameRequest(List<String> names, int count) {
         this.names = names;
         this.count = count;
     }
@@ -12,7 +14,7 @@ public class RacingGameRequest {
     public RacingGameRequest() {
     }
 
-    public String getNames() {
+    public List<String> getNames() {
         return names;
     }
 

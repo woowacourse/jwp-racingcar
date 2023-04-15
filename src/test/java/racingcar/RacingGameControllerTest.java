@@ -54,7 +54,7 @@ class RacingGameControllerTest {
     void testPlay() throws Exception {
         //given
         ObjectMapper objectMapper = new ObjectMapper();
-        RacingGameRequest racingGameRequest = new RacingGameRequest("브리,로지,바론", 10);
+        RacingGameRequest racingGameRequest = new RacingGameRequest(List.of("브리", "로지", "바론"), 10);
         String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
         String responseAsString = objectMapper.writeValueAsString(mockResponse);
 
