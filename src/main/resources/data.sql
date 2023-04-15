@@ -13,4 +13,5 @@ CREATE TABLE IF NOT EXISTS CAR
     position       INT         NOT NULL,
     is_winner      BOOLEAN     NOT NULL,
     FOREIGN KEY (play_result_id) REFERENCES PLAY_RESULT (id)
+        ON DELETE CASCADE
 );

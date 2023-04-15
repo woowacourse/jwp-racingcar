@@ -2,7 +2,10 @@ package racingcar.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -50,5 +53,22 @@ public class CarDao {
                 "SELECT name, position, is_winner FROM car WHERE play_result_id = ?",
                 actorRowMapper, id
         );
+    }
+
+    public Map<Long, List<CarDto>> findAllCarsById() {
+        return jdbcTemplate.query(
+                "SELECT play_result_id, name, position, is_winner FROM car, play_result "
+                        + "WHERE car.play_result_id = play_result.id "
+                        + "ORDER BY play_result.created_at DESC",
+                resultSet -> {
+                    Map<Long, List<CarDto>> result = new LinkedHashMap<>();
+                    while (resultSet.next()) {
+                        long id = resultSet.getLong("play_result_id");
+                        List<CarDto> found = result.getOrDefault(id, new ArrayList<>());
+                        found.add(actorRowMapper.mapRow(resultSet, resultSet.getRow()));
+                        result.put(id, found);
+                    }
+                    return result;
+                });
     }
 }
