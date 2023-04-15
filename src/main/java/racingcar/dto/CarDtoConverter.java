@@ -1,12 +1,10 @@
-package racingcar.service;
+package racingcar.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.Car;
-import racingcar.dto.CarDto;
-import racingcar.dto.CarResponseDto;
 
-public class CarDtoBuilder {
+public class CarDtoConverter {
 
     public static List<CarDto> dtos(List<Car> cars, List<String> winnerNames) {
         return cars.stream()

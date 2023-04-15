@@ -44,12 +44,12 @@ class RacingCarsTest {
     }
 
     @Test
-    void 우승자_이름_산출_테스트() {
+    void 우승자_산출_테스트() {
         final RacingCars racingCars = new RacingCars(List.of("a", "b", "c"));
 
         racingCars.process(new TestNumberGenerator(new LinkedList<>(List.of(0, 4, 9))));
 
-        assertThat(racingCars.findHeadCarNames()).containsOnly("b", "c");
+        assertThat(racingCars.findWinningCars()).containsOnly(new Car("b", 1), new Car("c", 1));
     }
 
     private static class TestNumberGenerator implements NumberGenerator {

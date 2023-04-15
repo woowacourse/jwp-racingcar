@@ -46,9 +46,8 @@ public class Car implements Comparable<Car> {
         return power >= MOVABLE_POWER_MIN;
     }
 
-    @Override
-    public int compareTo(Car other) {
-        return this.position - other.position;
+    public boolean hasSamePosition(Car other) {
+        return this.position == other.position;
     }
 
     public String getName() {
@@ -57,6 +56,11 @@ public class Car implements Comparable<Car> {
 
     public int getPosition() {
         return position;
+    }
+
+    @Override
+    public int compareTo(Car other) {
+        return this.position - other.position;
     }
 
     @Override

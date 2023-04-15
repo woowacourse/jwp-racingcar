@@ -8,15 +8,14 @@ import java.util.stream.Collectors;
 
 public class RacingCars {
 
-    private final List<Car> racingCars = new ArrayList<>();
+    private static final int SORTED_CARS_HEAD_INDEX = 0;
+    private final List<Car> racingCars;
 
     public RacingCars(List<String> carNames) {
-        addCars(carNames);
-    }
-
-    private void addCars(final List<String> carNames) {
         validateCarNames(carNames);
-        carNames.forEach(name -> racingCars.add(new Car(name)));
+        racingCars = carNames.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
     }
 
     private void validateCarNames(final List<String> carNames) {
@@ -32,12 +31,12 @@ public class RacingCars {
         racingCars.forEach(car -> car.moveOrStayByPower(powerValueGenerator.generate()));
     }
 
-    public List<String> findHeadCarNames() {
+    public List<Car> findWinningCars() {
         final List<Car> sortedCars = new ArrayList<>(racingCars);
         sortedCars.sort(Collections.reverseOrder());
+
         return racingCars.stream()
-                .filter(car -> car.compareTo(sortedCars.get(0)) == 0)
-                .map(Car::getName)
+                .filter(racingCar -> racingCar.hasSamePosition(sortedCars.get(SORTED_CARS_HEAD_INDEX)))
                 .collect(Collectors.toList());
     }
 
