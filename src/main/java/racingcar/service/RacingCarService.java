@@ -25,6 +25,7 @@ public class RacingCarService {
         this.racingGame = racingGame;
     }
 
+    // TODO Transactional 사용법, 적용 범위 등 학습
     @Transactional
     public PlayResponseDto playGame(int count, List<String> carNames) {
         List<CarDto> racedCars = racingGame.play(count, carNames);

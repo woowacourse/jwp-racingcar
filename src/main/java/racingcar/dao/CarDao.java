@@ -55,6 +55,7 @@ public class CarDao {
         );
     }
 
+    // TODO 다른 테이블과 조인하는 쿼리를 해당 Dao에서 쓰는 게 맞을까?
     public Map<Long, List<CarDto>> findAllCarsById() {
         return jdbcTemplate.query(
                 "SELECT play_result_id, name, position, is_winner FROM car, play_result "
