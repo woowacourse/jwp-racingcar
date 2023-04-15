@@ -1,6 +1,7 @@
 package racingcar.repository;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.util.List;
 @TestPropertySource(locations = "/application.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class GameDaoTest {
+
     @Autowired
     private GameDao gameDao;
     @Autowired
@@ -30,7 +32,10 @@ class GameDaoTest {
                 "    game_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n" +
                 ");");
 
-        List<Object[]> trial_count = Arrays.asList(new String[]{"10"}, new String[]{"20"});
+        List<Object[]> trial_count = Arrays.asList(
+                new String[]{"10"},
+                new String[]{"20"}
+        );
         jdbcTemplate.batchUpdate("INSERT INTO game(trial_count) VALUES (?)", trial_count);
     }
 
@@ -38,6 +43,14 @@ class GameDaoTest {
     @DisplayName("값을 넣었을때 자동으로 증가되는 id 값을 반환하는 테스트")
     void insert() {
         long id = gameDao.insert(10);
-        Assertions.assertThat(id).isEqualTo(3);
+        assertThat(id).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("테이블의 모든 행의 수를 반환한다")
+    void 테이블의_모든_행의_수를_반환한다() {
+        int result = gameDao.countAll();
+
+        assertThat(result).isEqualTo(2);
     }
 }

@@ -1,5 +1,6 @@
 package racingcar.repository;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -12,9 +13,11 @@ public class GameDao {
     public static final String TABLE_NAME = "game";
     public static final String KEY_COLUMN_NAME = "id";
 
+    private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
-    public GameDao(final DataSource dataSource) {
+    public GameDao(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+        this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(dataSource)
                 .withTableName(TABLE_NAME)
                 .usingGeneratedKeyColumns(KEY_COLUMN_NAME)
@@ -26,5 +29,11 @@ public class GameDao {
                 .addValue("trial_count", trial_count);
 
         return insertActor.executeAndReturnKey(params).longValue();
+    }
+
+    public int countAll() {
+        String sql = "select count(*) from game";
+
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }
