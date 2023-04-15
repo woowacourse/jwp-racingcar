@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.entity.GameEntity;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -31,7 +32,7 @@ public class JdbcGameDaoTest {
         final int trialCount = 5;
 
         // when
-        final long id = gameDao.insert(trialCount);
+        final long id = gameDao.insert(GameEntity.create(trialCount));
 
         // then
         assertThat(id).isNotNull();

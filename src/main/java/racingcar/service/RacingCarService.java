@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.GameEntity;
 import racingcar.domain.car.Car;
 import racingcar.domain.carfactory.CarFactory;
 import racingcar.domain.cars.Cars;
@@ -29,7 +31,7 @@ public class RacingCarService {
 
     public RacingGameResponseDTO play(final List<String> names, final int count) {
         final GameSystem gameSystem = createGameSystem(count);
-        final Long gameId = gameDao.insert(count);
+        final Long gameId = gameDao.insert(GameEntity.create(count));
 
         final Cars cars = makeCars(names);
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
@@ -49,7 +51,9 @@ public class RacingCarService {
 
     private void insertCar(final Cars cars, final Long id, final GameSystem gameSystem) {
         for (Car car : cars.getCars()) {
-            carDao.insert(car.getName(), car.getPosition(), id, isWin(car, gameSystem));
+            carDao.insert(
+                    CarEntity.create(car.getName(), car.getPosition(), id, isWin(car, gameSystem))
+            );
         }
     }
 

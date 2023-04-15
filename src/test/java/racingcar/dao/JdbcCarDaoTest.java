@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.GameEntity;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -31,11 +33,11 @@ public class JdbcCarDaoTest {
     @Test
     void 게임_id와_함께_차량_정보를_저장한다() {
         // given
-        final long gameId = gameDao.insert(5);
+        final long gameId = gameDao.insert(GameEntity.create(5));
 
         // expect
         Assertions.assertDoesNotThrow(
-                () -> carDao.insert("jayon", 3, gameId, true)
+                () -> carDao.insert(CarEntity.create("jayon", 3, gameId, true))
         );
     }
 }
