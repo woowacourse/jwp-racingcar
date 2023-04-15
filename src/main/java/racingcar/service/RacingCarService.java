@@ -18,17 +18,15 @@ public class RacingCarService {
 
     private final PlayRecordsDao gameDao;
     private final CarsDao carsDao;
-    private final RacingGame racingGame;
 
-    public RacingCarService(final PlayRecordsDao gameDao, final CarsDao carsDao, final RacingGame racingGame) {
+    public RacingCarService(final PlayRecordsDao gameDao, final CarsDao carsDao) {
         this.gameDao = gameDao;
         this.carsDao = carsDao;
-        this.racingGame = racingGame;
     }
 
     @Transactional
     public PlayResponseDto playGame(final int count, final List<String> carNames) {
-        final List<JudgedCarDto> judgedCars = racingGame.play(count, carNames);
+        final List<JudgedCarDto> judgedCars = new RacingGame().play(count, carNames);
         saveGame(count, judgedCars);
         return PlayResponseDtoConverter.from(judgedCars);
     }

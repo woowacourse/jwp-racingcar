@@ -2,10 +2,8 @@ package racingcar.domain;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
 import racingcar.dto.JudgedCarDto;
 
-@Component
 public class RacingGame {
 
     private static final int POWER_VALUE_MIN = 0;
