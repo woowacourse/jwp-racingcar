@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.dto.CarDto;
 
 @SpringBootTest
-class CarDaoTest {
+class CarsDaoTest {
 
     private static final List<CarDto> FIXTURE_CARS = List.of(
             CarDto.of("도이", 1, false),
@@ -22,35 +22,35 @@ class CarDaoTest {
     );
 
     @Autowired
-    private CarDao carDao;
+    private CarsDao carsDao;
     @Autowired
-    private PlayResultDao playResultDao;
+    private PlayRecordsDao gameDao;
 
     @BeforeEach
     void setUp() {
-        playResultDao.clear();
+        gameDao.clear();
     }
 
     @DisplayName("DB: 게임 아이디에 따른 자동차 저장 테스트")
     @Test
     void insert() {
-        long id = playResultDao.insertAndReturnId(5);
+        long id = gameDao.insertAndReturnId(5);
 
-        carDao.insert(id, FIXTURE_CARS);
+        carsDao.insert(id, FIXTURE_CARS);
 
-        assertThat(carDao.find(id))
+        assertThat(carsDao.find(id))
                 .containsExactlyInAnyOrderElementsOf(FIXTURE_CARS);
     }
 
     @DisplayName("DB: 모든 게임 별 자동차 정보 최신순 조회 테스트")
     @Test
     void findAllCarsById() {
-        long id1 = playResultDao.insertAndReturnId(5);
-        carDao.insert(id1, FIXTURE_CARS);
-        long id2 = playResultDao.insertAndReturnId(5);
-        carDao.insert(id2, FIXTURE_CARS);
+        long id1 = gameDao.insertAndReturnId(5);
+        carsDao.insert(id1, FIXTURE_CARS);
+        long id2 = gameDao.insertAndReturnId(5);
+        carsDao.insert(id2, FIXTURE_CARS);
 
-        Map<Long, List<CarDto>> allCars = carDao.findAllCarsById();
+        Map<Long, List<CarDto>> allCars = carsDao.findAllCarsById();
 
         assertThat(allCars).containsExactly(entry(id2, FIXTURE_CARS), entry(id1, FIXTURE_CARS));
     }

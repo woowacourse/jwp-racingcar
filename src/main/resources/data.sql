@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS PLAY_RESULT
+CREATE TABLE IF NOT EXISTS PLAY_RECORDS
 (
     id          BIGINT   NOT NULL AUTO_INCREMENT,
     trial_count INT      NOT NULL,
@@ -6,12 +6,12 @@ CREATE TABLE IF NOT EXISTS PLAY_RESULT
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS CAR
+CREATE TABLE IF NOT EXISTS CARS
 (
-    play_result_id BIGINT      NOT NULL,
-    name           VARCHAR(10) NOT NULL,
-    position       INT         NOT NULL,
-    is_winner      BOOLEAN     NOT NULL,
-    FOREIGN KEY (play_result_id) REFERENCES PLAY_RESULT (id)
+    play_id   BIGINT      NOT NULL,
+    name      VARCHAR(10) NOT NULL,
+    position  INT         NOT NULL,
+    is_winner BOOLEAN     NOT NULL,
+    FOREIGN KEY (play_id) REFERENCES play_records (id)
         ON DELETE CASCADE
 );

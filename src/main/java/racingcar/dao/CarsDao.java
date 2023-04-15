@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.CarDto;
 
 @Repository
-public class CarDao {
+public class CarsDao {
 
     private final RowMapper<CarDto> actorRowMapper = (resultSet, rowNum) -> {
         CarDto car = CarDto.of(
@@ -26,12 +26,12 @@ public class CarDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public CarDao(final JdbcTemplate jdbcTemplate) {
+    public CarsDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public void insert(final long id, final List<CarDto> cars) {
-        jdbcTemplate.batchUpdate("INSERT INTO car (play_result_id, name, position, is_winner) VALUES (?, ?, ?, ?)",
+        jdbcTemplate.batchUpdate("INSERT INTO cars (play_id, name, position, is_winner) VALUES (?, ?, ?, ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(final PreparedStatement ps, final int i) throws SQLException {
@@ -50,7 +50,7 @@ public class CarDao {
 
     public List<CarDto> find(final long id) {
         return jdbcTemplate.query(
-                "SELECT name, position, is_winner FROM car WHERE play_result_id = ?",
+                "SELECT name, position, is_winner FROM cars WHERE play_id = ?",
                 actorRowMapper, id
         );
     }
@@ -58,13 +58,13 @@ public class CarDao {
     // TODO 다른 테이블과 조인하는 쿼리를 해당 Dao에서 쓰는 게 맞을까?
     public Map<Long, List<CarDto>> findAllCarsById() {
         return jdbcTemplate.query(
-                "SELECT play_result_id, name, position, is_winner FROM car, play_result "
-                        + "WHERE car.play_result_id = play_result.id "
-                        + "ORDER BY play_result.created_at DESC",
+                "SELECT play_id, name, position, is_winner FROM cars, play_records "
+                        + "WHERE cars.play_id = play_records.id "
+                        + "ORDER BY play_records.created_at DESC",
                 resultSet -> {
                     Map<Long, List<CarDto>> result = new LinkedHashMap<>();
                     while (resultSet.next()) {
-                        long id = resultSet.getLong("play_result_id");
+                        long id = resultSet.getLong("play_id");
                         List<CarDto> found = result.getOrDefault(id, new ArrayList<>());
                         found.add(actorRowMapper.mapRow(resultSet, resultSet.getRow()));
                         result.put(id, found);

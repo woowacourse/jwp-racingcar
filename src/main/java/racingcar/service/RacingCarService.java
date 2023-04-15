@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.CarDao;
-import racingcar.dao.PlayResultDao;
+import racingcar.dao.CarsDao;
+import racingcar.dao.PlayRecordsDao;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.PlayResponseDto;
@@ -15,13 +15,13 @@ import racingcar.dto.PlayResponseDtoConverter;
 @Service
 public class RacingCarService {
 
-    private final PlayResultDao playResultDao;
-    private final CarDao carDao;
+    private final PlayRecordsDao gameDao;
+    private final CarsDao carsDao;
     private final RacingGame racingGame;
 
-    public RacingCarService(final PlayResultDao playResultDao, final CarDao carDao, final RacingGame racingGame) {
-        this.playResultDao = playResultDao;
-        this.carDao = carDao;
+    public RacingCarService(final PlayRecordsDao gameDao, final CarsDao carsDao, final RacingGame racingGame) {
+        this.gameDao = gameDao;
+        this.carsDao = carsDao;
         this.racingGame = racingGame;
     }
 
@@ -34,12 +34,12 @@ public class RacingCarService {
     }
 
     private void saveGame(int count, List<CarDto> cars) {
-        long savedId = playResultDao.insertAndReturnId(count);
-        carDao.insert(savedId, cars);
+        long savedId = gameDao.insertAndReturnId(count);
+        carsDao.insert(savedId, cars);
     }
 
     public List<PlayResponseDto> findAllGames() {
-        Map<Long, List<CarDto>> allCars = carDao.findAllCarsById();
+        Map<Long, List<CarDto>> allCars = carsDao.findAllCarsById();
         return allCars.values()
                 .stream()
                 .map(PlayResponseDtoConverter::of)

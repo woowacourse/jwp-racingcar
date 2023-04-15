@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PlayResultDaoTest {
+class PlayRecordsDaoTest {
 
     @Autowired
-    private PlayResultDao playResultDao;
+    private PlayRecordsDao gameDao;
 
     @DisplayName("DB: 게임 이력 저장 테스트")
     @Test
     void insert() {
-        Assertions.assertDoesNotThrow(() -> playResultDao.insertAndReturnId(5));
+        Assertions.assertDoesNotThrow(() -> gameDao.insertAndReturnId(5));
     }
 }

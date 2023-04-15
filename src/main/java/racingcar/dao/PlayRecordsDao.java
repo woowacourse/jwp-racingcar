@@ -6,15 +6,15 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PlayResultDao {
+public class PlayRecordsDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
-    public PlayResultDao(final JdbcTemplate jdbcTemplate) {
+    public PlayRecordsDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("PLAY_RESULT")
+                .withTableName("play_records")
                 .usingGeneratedKeyColumns("id")
                 .usingColumns("trial_count");
     }
@@ -25,6 +25,6 @@ public class PlayResultDao {
     }
 
     public void clear() {
-        jdbcTemplate.update("DELETE FROM play_result");
+        jdbcTemplate.update("DELETE FROM play_records");
     }
 }
