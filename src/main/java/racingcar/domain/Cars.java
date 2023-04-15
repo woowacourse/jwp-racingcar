@@ -53,6 +53,14 @@ public class Cars {
                 .collect(toList());
     }
 
+    public List<String> winnerNames() {
+        List<Car> winners = winners();
+
+        return winners.stream()
+                .map(Car::getName)
+                .collect(toList());
+    }
+
     private int maxDistance() {
         return cars.stream()
                 .mapToInt(Car::getDistance)

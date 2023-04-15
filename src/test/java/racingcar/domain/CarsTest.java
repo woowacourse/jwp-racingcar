@@ -21,7 +21,7 @@ class CarsTest {
         Car moveCar = carObjects.get(0);
         moveCar.move();
 
-        assertThat(cars.getWinners().get(0).getName()).isEqualTo("move");
+        assertThat(cars.winners().get(0).getName()).isEqualTo("move");
     }
 
     @Test
@@ -29,7 +29,7 @@ class CarsTest {
     void getWinners() {
         Cars cars = new Cars(Arrays.asList("car1", "car2"));
 
-        List<String> winnerNames = cars.getWinners()
+        List<String> winnerNames = cars.winners()
                 .stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
@@ -67,5 +67,15 @@ class CarsTest {
         assertThatNoException().isThrownBy(
                 () ->  new Cars(List.of("car1", "car2"))
         );
+    }
+
+    @Test
+    @DisplayName("우승자의 이름을 반환한다")
+    void 우승자의_이름을_반환한다() {
+        Cars cars = new Cars(List.of("파워", "도기"));
+
+        List<String> winnerNames = cars.winnerNames();
+
+        assertThat(winnerNames).isEqualTo(List.of("파워", "도기"));
     }
 }
