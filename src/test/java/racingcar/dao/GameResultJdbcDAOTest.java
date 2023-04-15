@@ -1,6 +1,5 @@
 package racingcar.dao;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,18 +11,20 @@ import racingcar.dto.GameResultDto;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class JdbcTemplateDAOTest {
+class GameResultJdbcDAOTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
-    private JdbcTemplateDAO jdbcTemplateDAO;
+    private GameResultJdbcDAO gameResultJdbcDAO;
 
     @BeforeEach
     void setUp() {
         jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
         jdbcTemplate.execute("TRUNCATE TABLE GAME_RESULT");
-        jdbcTemplate.execute("TRUNCATE TABLE PLAYER_RESULT");
+        jdbcTemplate.execute("TRUNCATE TABLE RESULT_CAR");
         jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
     }
 
@@ -34,9 +35,9 @@ class JdbcTemplateDAOTest {
                 List.of(new CarDto("dochi", 4))
         );
 
-        int id = jdbcTemplateDAO.saveResult(gameResultDto);
+        int id = gameResultJdbcDAO.save(gameResultDto);
 
-        Assertions.assertThat(id)
+        assertThat(id)
                 .isEqualTo(1);
     }
 }
