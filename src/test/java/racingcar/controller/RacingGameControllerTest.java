@@ -26,26 +26,26 @@ public class RacingGameControllerTest {
     private static Stream<Arguments> provideNormalInputs() {
         return Stream.of(
                 Arguments.of("리사", 1),
-                Arguments.of("리사,토미", 2),
-                Arguments.of("리사,토미,포비", 99),
-                Arguments.of("리사,토미,포비,네오", 100)
+                Arguments.of("리사, 토미", 2),
+                Arguments.of("리사, 토미, 포비", 99),
+                Arguments.of("리사, 토미, 포비,네오", 100)
         );
     }
 
     private static Stream<Arguments> provideDuplicateNameInputs() {
         return Stream.of(
-                Arguments.of("리사,리사", 1),
-                Arguments.of("리사,토미,리사", 2),
-                Arguments.of("리사,토미,리사,포비", 99),
-                Arguments.of("리사,토미,포비,리사,네오", 100)
+                Arguments.of("리사, 리사", 1),
+                Arguments.of("리사, 토미, 리사", 2),
+                Arguments.of("리사, 토미, 리사, 포비", 99),
+                Arguments.of("리사, 토미, 포비, 리사,네오", 100)
         );
     }
 
     private static Stream<Arguments> provideEmptyNameInputs() {
         return Stream.of(
                 Arguments.of("", 1),
-                Arguments.of(",", 2),
-                Arguments.of(",,", 99),
+                Arguments.of(", ", 2),
+                Arguments.of(" ,,", 99),
                 Arguments.of("  ", 100)
         );
     }
@@ -53,18 +53,18 @@ public class RacingGameControllerTest {
     private static Stream<Arguments> provideLowerThenOnePlayCountInputs() {
         return Stream.of(
                 Arguments.of("리사", -1),
-                Arguments.of("리사,토미", -2),
-                Arguments.of("리사,토미,포비", -99),
-                Arguments.of("리사,토미,포비,네오", -100)
+                Arguments.of("리사, 토미", -2),
+                Arguments.of("리사, 토미, 포비", -99),
+                Arguments.of("리사, 토미, 포비, 네오", -100)
         );
     }
 
     private static Stream<Arguments> provideLargerThenHundredPlayCountInputs() {
         return Stream.of(
                 Arguments.of("리사", 101),
-                Arguments.of("리사,토미", 102),
-                Arguments.of("리사,토미,포비", 999),
-                Arguments.of("리사,토미,포비,네오", 1000)
+                Arguments.of("리사,  토미", 102),
+                Arguments.of("리사,  토미, 포비", 999),
+                Arguments.of("리사,  토미, 포비, 네오", 1000)
         );
     }
 
