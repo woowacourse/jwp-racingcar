@@ -1,6 +1,8 @@
 package racingcar.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
@@ -8,6 +10,7 @@ import racingcar.dao.PlayResultDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
+import racingcar.dto.CarResponseDto;
 import racingcar.dto.PlayRequestDto;
 import racingcar.dto.PlayResponseDto;
 import racingcar.view.util.TextParser;
@@ -52,4 +55,24 @@ public class RacingCarService {
         carDao.insert(savedId, cars);
     }
 
+    public List<PlayResponseDto> findAllGames() {
+        Map<Long, List<CarDto>> allCars = carDao.findAllCarsById();
+        return allCars.values()
+                .stream()
+                .map(this::convertDto)
+                .collect(Collectors.toList());
+    }
+
+    private PlayResponseDto convertDto(List<CarDto> cars) {
+        List<CarResponseDto> carResponseDtos = CarDtoBuilder.from(cars);
+        String winners = extractWinnerNames(cars);
+        return new PlayResponseDto(carResponseDtos, winners);
+    }
+
+    private String extractWinnerNames(final List<CarDto> cars) {
+        return cars.stream()
+                .filter(CarDto::isWinner)
+                .map(CarDto::getName)
+                .collect(Collectors.joining(", "));
+    }
 }

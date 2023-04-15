@@ -47,4 +47,12 @@ class RacingCarControllerTest {
 
         return requestJSON;
     }
+
+    @Test
+    void history() {
+        RestAssured.given().log().all()
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
 }

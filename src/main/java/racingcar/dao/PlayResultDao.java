@@ -23,4 +23,8 @@ public class PlayResultDao {
         final Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count));
         return savedId.longValue();
     }
+
+    public void clear() {
+        jdbcTemplate.update("DELETE FROM play_result");
+    }
 }

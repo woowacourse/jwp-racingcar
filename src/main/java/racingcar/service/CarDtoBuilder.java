@@ -19,4 +19,10 @@ public class CarDtoBuilder {
                 .map(car -> new CarResponseDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
+
+    public static List<CarResponseDto> from(List<CarDto> carDtos) {
+        return carDtos.stream()
+                .map(car -> new CarResponseDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+    }
 }

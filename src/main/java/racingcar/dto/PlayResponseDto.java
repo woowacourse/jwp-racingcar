@@ -2,6 +2,7 @@ package racingcar.dto;
 
 import java.util.List;
 
+// TODO DTO 네이밍 고민
 public class PlayResponseDto {
 
     private final List<CarResponseDto> racingCars;
