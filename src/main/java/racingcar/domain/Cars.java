@@ -1,0 +1,59 @@
+package racingcar.domain;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Cars {
+
+    private static final String DUPLICATE_MESSAGE = "중복된 값을 입력할 수 없습니다.";
+    private static final String NO_RESOURCE_MESSAGE = "%s(이)가 존재하지 않습니다.";
+
+    private final List<Car> cars;
+    private final NumberGenerator numberGenerator;
+
+    public Cars(final List<Car> cars, final NumberGenerator numberGenerator) {
+        this.cars = cars;
+        this.numberGenerator = numberGenerator;
+        validateDuplicateCarName();
+    }
+
+    public Cars race() {
+        final List<Car> movedCars = cars.stream()
+            .map(car -> {
+                final int power = numberGenerator.generate();
+                return car.move(power);
+            })
+            .collect(Collectors.toUnmodifiableList());
+        return new Cars(movedCars, numberGenerator);
+    }
+
+    public List<String> getWinnerCarNames() {
+        final Car maxPositionCar = judgeMaxPositionCar();
+        return cars.stream()
+            .filter(maxPositionCar::isSamePosition)
+            .map(car -> car.getCarName().getName())
+            .collect(Collectors.toUnmodifiableList());
+    }
+
+    private Car judgeMaxPositionCar() {
+        return cars.stream()
+            .max(Car::compareTo)
+            .orElseThrow(
+                () -> new IllegalArgumentException(String.format(NO_RESOURCE_MESSAGE, "차량 리스트")));
+    }
+
+    private void validateDuplicateCarName() {
+        final int uniqueCarCount = cars.stream()
+            .map(Car::getName)
+            .collect(Collectors.toUnmodifiableSet())
+            .size();
+        if (cars.size() != uniqueCarCount) {
+            throw new IllegalArgumentException(DUPLICATE_MESSAGE);
+        }
+    }
+
+    public List<Car> getCars() {
+        return Collections.unmodifiableList(cars);
+    }
+}
