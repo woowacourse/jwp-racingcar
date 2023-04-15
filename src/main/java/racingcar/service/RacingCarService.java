@@ -7,8 +7,8 @@ import racingcar.dao.CarDao;
 import racingcar.dao.PlayResultDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayRequestDto;
+import racingcar.dto.PlayResultDto;
 import racingcar.view.util.TextParser;
 
 @Service
@@ -23,7 +23,7 @@ public class RacingCarService {
     }
 
     @Transactional
-    public GameResultDto playGame(PlayRequestDto playRequest) {
+    public PlayResultDto playGame(PlayRequestDto playRequest) {
         final RacingGame racingGame = createGame(playRequest.getNames());
         final int count = playRequest.getCount();
 
@@ -32,7 +32,7 @@ public class RacingCarService {
         final String winners = String.join(", ", racingGame.getWinnerNames());
 
         saveGame(count, winners, cars);
-        return new GameResultDto(cars, winners);
+        return new PlayResultDto(cars, winners);
     }
 
     private RacingGame createGame(final String rawCarNames) {
