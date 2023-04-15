@@ -20,7 +20,7 @@ import racingcar.utils.CarsFactory;
 @RestController
 public class RacingGameWebController {
 
-    private static final String CAR_NAME_SEPARATOR = ",";
+    private static final String CAR_NAME_DELIMITER = ",";
 
     private final RacingCarService racingCarService;
 
@@ -30,7 +30,7 @@ public class RacingGameWebController {
 
     @GetMapping()
     public ResponseEntity<List<GameHistoriesResponseDto>> findGameHistories() {
-        return new ResponseEntity<>(racingCarService.findGameHistories(), HttpStatus.OK);
+        return new ResponseEntity<>(racingCarService.findAllGameHistories(), HttpStatus.OK);
     }
 
     @PostMapping()
@@ -42,7 +42,7 @@ public class RacingGameWebController {
     }
 
     public Cars makeCars(final String input) {
-        List<String> carNames = List.of(input.split(CAR_NAME_SEPARATOR));
+        List<String> carNames = List.of(input.split(CAR_NAME_DELIMITER));
         return CarsFactory.createCars(carNames);
     }
 
