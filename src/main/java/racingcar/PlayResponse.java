@@ -5,11 +5,11 @@ import racingcar.dto.RacingCarStatusResponse;
 import racingcar.dto.RacingCarWinnerResponse;
 
 public class PlayResponse {
-    private final List<String> winners;
+    private final String winners;
     private final List<RacingCarStatusResponse> racingCars;
 
     private PlayResponse(List<String> winners, List<RacingCarStatusResponse> racingCars) {
-        this.winners = winners;
+        this.winners = String.join(",", winners);
         this.racingCars = racingCars;
     }
 
@@ -17,7 +17,7 @@ public class PlayResponse {
         return new PlayResponse(winners.getWinners(), racingCars);
     }
 
-    public List<String> getWinners() {
+    public String getWinners() {
         return winners;
     }
 
