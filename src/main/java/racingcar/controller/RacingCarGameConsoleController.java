@@ -1,59 +1,67 @@
 package racingcar.controller;
 
+import racingcar.domain.car.Car;
 import racingcar.domain.car.Cars;
-import racingcar.domain.strategy.NumberGenerator;
+import racingcar.domain.strategy.MovingStrategy;
 import racingcar.domain.strategy.NumberMovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class RacingCarGameConsoleController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final NumberGenerator numberGenerator;
-    private Cars cars;
+    private final MovingStrategy movingStrategy;
 
-    public RacingCarGameConsoleController(InputView inputView, OutputView outputView, NumberGenerator numberGenerator) {
+    public RacingCarGameConsoleController(InputView inputView, OutputView outputView, NumberMovingStrategy movingStrategy) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.numberGenerator = numberGenerator;
+        this.movingStrategy = movingStrategy;
     }
 
     public void run() {
-        intiateCars();
-        race();
-        identifyWinners();
+        final Cars cars = createCars();
+        race(cars);
+        printResult(cars);
     }
 
-    private void intiateCars() {
-        final String carNames = repeater(this::readCarNames);
-        cars = Cars.createCars(carNames);
+    private Cars createCars() {
+        final String carNames = repeatUntilNoIAE(inputView::readCarNames);
+        return Cars.createCars(carNames);
     }
 
-    private String readCarNames() {
-        return inputView.readCarNames();
-    }
-
-    private void race() {
-        int count = repeater(inputView::readTryCount);
-        outputView.printResultOpening();
+    private void race(final Cars cars) {
+        int count = repeatUntilNoIAE(inputView::readTryCount);
 
         while (count-- > 0) {
-            cars.moveCars(new NumberMovingStrategy(numberGenerator));
+            cars.moveCars(movingStrategy);
         }
     }
 
-    private void identifyWinners() {
-        outputView.printWinners(cars.getWinningCars());
+    private void printResult(final Cars cars) {
+        final Map<String, Integer> raceResult = cars.getCars()
+                                                    .stream()
+                                                    .collect(Collectors.toUnmodifiableMap(Car::getName, Car::getPosition));
+        final List<String> winners = cars.getWinningCars()
+                                         .stream()
+                                         .map(Car::getName)
+                                         .collect(Collectors.toUnmodifiableList());
+
+        outputView.printResultOpeningMessage();
+        outputView.printRaceResult(raceResult);
+        outputView.printWinners(winners);
     }
 
-    private <T> T repeater(Supplier<T> supplier) {
+    private <T> T repeatUntilNoIAE(Supplier<T> supplier) {
         try {
             return supplier.get();
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
-            return repeater(supplier);
+            return repeatUntilNoIAE(supplier);
         }
     }
 }

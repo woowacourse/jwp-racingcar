@@ -13,7 +13,7 @@ public class OutputView {
     private static final String WINNERS_SUFFIX = "가 최종 우승했습니다.";
     private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
 
-    public void printResultOpening() {
+    public void printResultOpeningMessage() {
         System.out.println(System.lineSeparator() + RESULT_OPENING_MESSAGE);
     }
 
