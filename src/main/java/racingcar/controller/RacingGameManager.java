@@ -7,20 +7,40 @@ import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class RacingGameManager {
     private RacingGame racingGame;
 
     public void run() {
-        List<Name> carNames = readCarNames();
-        TryCount tryCount = readTryCount();
-        racingGame = new RacingGame(carNames);
+        racingGame = retryOnInvalidUserInput(() -> new RacingGame(readCarNames()));
+        TryCount tryCount = retryOnInvalidUserInput(this::readTryCount);
 
         startRace(tryCount);
 
         OutputView.printAllCars(racingGame.getCars());
         OutputView.printWinners(racingGame.decideWinners());
+    }
+
+    private <T> T retryOnInvalidUserInput(Supplier<T> request) {
+        try {
+            return request.get();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return retryOnInvalidUserInput(request);
+        }
+    }
+
+    private List<Name> readCarNames() {
+        return InputView.readCarNames()
+                .stream()
+                .map(Name::new)
+                .collect(Collectors.toList());
+    }
+
+    private TryCount readTryCount() {
+        return new TryCount(InputView.readCount());
     }
 
     private void startRace(TryCount tryCount) {
@@ -29,27 +49,6 @@ public class RacingGameManager {
         for (int i = 0; i < tryCount.getCount(); i++) {
             racingGame.moveCars(new TryCount(1));
             OutputView.printAllCars(racingGame.getCars());
-        }
-    }
-
-    private TryCount readTryCount() {
-        try {
-            return new TryCount(InputView.readCount());
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            System.out.println(e.getMessage());
-            return readTryCount();
-        }
-    }
-
-    private List<Name> readCarNames() {
-        try {
-            return InputView.readCarNames()
-                    .stream()
-                    .map(Name::new)
-                    .collect(Collectors.toList());
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            System.out.println(e.getMessage());
-            return readCarNames();
         }
     }
 }

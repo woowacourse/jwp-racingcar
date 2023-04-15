@@ -14,11 +14,9 @@ public class InputView {
 
     public static List<String> readCarNames() {
         printMessage(Message.ASK_CAR_NAMES);
-        List<String> input = Arrays.stream(readLine().split(DELIMITER))
-                .collect(Collectors.toList());
-        validateNames(input);
 
-        return input;
+        return Arrays.stream(readLine().split(DELIMITER))
+                .collect(Collectors.toList());
     }
 
     public static int readCount() {
@@ -27,12 +25,6 @@ public class InputView {
         validateCount(input);
 
         return Integer.parseInt(input);
-    }
-
-    private static void validateNames(List<String> input) {
-        if (input.size() != input.stream().distinct().count()) {
-            throw new IllegalArgumentException(ErrorMessage.DUPLICATED_NAMES.getValue());
-        }
     }
 
     private static void validateCount(String input) {
