@@ -1,8 +1,16 @@
 package racingcar.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
+@Getter
+@ToString
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 public class PlayRequest {
 
     @NotBlank(message = "자동차 이름을 입력해주세요.")
@@ -10,17 +18,4 @@ public class PlayRequest {
 
     @Min(value = 1, message = "시도 횟수는 1 이상이어야 합니다")
     private final int count;
-
-    public PlayRequest(final String names, final int count) {
-        this.names = names;
-        this.count = count;
-    }
-
-    public String getNames() {
-        return names;
-    }
-
-    public int getCount() {
-        return count;
-    }
 }

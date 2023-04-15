@@ -1,8 +1,12 @@
 package racingcar.response;
 
+import lombok.Getter;
+import lombok.ToString;
 import racingcar.dto.CarDto;
 import java.util.List;
 
+@Getter
+@ToString
 public class PlayResponse {
 
     private final String winners;
@@ -15,13 +19,5 @@ public class PlayResponse {
 
     private String convertToString(final List<String> winners) {
         return String.join(",", winners);
-    }
-
-    public String getWinners() {
-        return winners;
-    }
-
-    public List<CarDto> getRacingCars() {
-        return racingCars;
     }
 }
