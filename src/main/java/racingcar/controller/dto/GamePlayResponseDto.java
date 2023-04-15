@@ -21,7 +21,7 @@ public class GamePlayResponseDto {
     private List<CarDto> convert(List<Car> cars){
         List<CarDto> carDtos = new ArrayList<>();
         for(Car car : cars){
-            carDtos.add(new CarDto(car.getName(),car.getLocation()));
+            carDtos.add(new CarDto(car.getName(),car.getPosition()));
         }
         return carDtos;
     }

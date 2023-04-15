@@ -22,7 +22,7 @@ public class InMemoryCarDao implements CarDao {
         String sql = "insert into CAR_RESULT (play_result_id, car_name, car_position) values (?, ?, ?)";
 
         for (Car car : cars) {
-            jdbcTemplate.update(sql, gameId, car.getName(), car.getLocation());
+            jdbcTemplate.update(sql, gameId, car.getName(), car.getPosition());
         }
     }
 }

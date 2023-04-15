@@ -26,7 +26,7 @@ public class Cars {
     }
 
     public List<String> getWinners() {
-        return cars.stream().filter(car -> car.checkLocationEqual(getMaxLocation()))
+        return cars.stream().filter(car -> car.checkPositionEqual(getMaxLocation()))
                 .map(Car::getName)
                 .collect(Collectors.toList());
     }
