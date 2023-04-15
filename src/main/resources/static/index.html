@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <title>자동차 경주 게임</title>
@@ -48,11 +48,11 @@
       },
       body: JSON.stringify(data)
     })
-        .then(response => {
+        .then(async response => {
           if (response.ok) {
             return response.json();
           } else {
-            throw new Error("Network response was not ok.");
+            throw new Error(await response.text());
           }
         })
         .then(data => {
@@ -67,7 +67,8 @@
           document.getElementById("resultPosition").appendChild(resultPosition);
         })
         .catch(error => {
-          console.error("Error:", error);
+          console.error(error);
+          alert(error);
         });
   }
 
