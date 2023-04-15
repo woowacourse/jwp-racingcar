@@ -39,7 +39,7 @@ public class Game {
 
     private void driveOrNot(Car car, NumberGenerator numberGenerator) {
         int number = numberGenerator.generate();
-        if (!isEnoughToMove(number)) {
+        if (isEnoughToMove(number)) {
             car.drive(MOVE_DISTANCE);
         }
     }
