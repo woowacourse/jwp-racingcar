@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,11 @@ public class GameResultDAO {
     public GameResultDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    private final RowMapper<GameResultDto> rowMapper = (resultSet, rowNum) -> new GameResultDto(
+            resultSet.getInt("trial_count"),
+            resultSet.getString("winners")
+    );
 
     public int save(GameResultDto resultDto) {
         String sql = "insert into GAME_RESULT (winners, trial_count) values (?, ?)";
@@ -36,14 +42,6 @@ public class GameResultDAO {
     public List<GameResultDto> findAll() {
         String sql = "select * from GAME_RESULT";
 
-        List<GameResultDto> results = jdbcTemplate.query(
-                sql,
-                (resultSet, rowNum) -> new GameResultDto(
-                        resultSet.getInt("trial_count"),
-                        resultSet.getString("winners")
-                )
-        );
-
-        return results;
+        return jdbcTemplate.query(sql, rowMapper);
     }
 }
