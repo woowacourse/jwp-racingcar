@@ -2,8 +2,10 @@ package racingcar.domain;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 import racingcar.dto.CarDto;
 
+@Component
 public class RacingGame {
 
     private static final int POWER_VALUE_MIN = 0;
@@ -31,5 +33,4 @@ public class RacingGame {
                 .map(car -> CarDto.of(car.getName(), car.getPosition(), winningCars.contains(car)))
                 .collect(Collectors.toList());
     }
-
 }

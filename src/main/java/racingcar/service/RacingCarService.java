@@ -17,11 +17,12 @@ public class RacingCarService {
 
     private final PlayResultDao playResultDao;
     private final CarDao carDao;
-    private final RacingGame racingGame = new RacingGame();
+    private final RacingGame racingGame;
 
-    public RacingCarService(final PlayResultDao playResultDao, final CarDao carDao) {
+    public RacingCarService(final PlayResultDao playResultDao, final CarDao carDao, final RacingGame racingGame) {
         this.playResultDao = playResultDao;
         this.carDao = carDao;
+        this.racingGame = racingGame;
     }
 
     @Transactional
