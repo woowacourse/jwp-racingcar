@@ -3,14 +3,13 @@ package racingcar.controller.dto;
 import java.util.ArrayList;
 import java.util.List;
 import racingcar.model.Car;
-import racingcar.util.NameFormatConverter;
 
 public class GamePlayResponseDto {
     private final String winners;
     private final List<CarDto> racingCars;
 
-    public GamePlayResponseDto(List<String> winners, List<Car> racingCars) {
-        this.winners = NameFormatConverter.joinNameWithDelimiter(winners);
+    public GamePlayResponseDto(String winners, List<Car> racingCars) {
+        this.winners = winners;
         this.racingCars = convert(racingCars);
     }
 

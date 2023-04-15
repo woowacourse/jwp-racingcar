@@ -27,7 +27,8 @@ public class WebController {
 
         gameService.executeRacingGame(cars, requestDto.getCount());
 
-        final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(cars.getWinners(), cars.getCars());
+        final String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
+        final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(winners, cars.getCars());
 
         return ResponseEntity.ok()
                 .body(gamePlayResponseDto);
