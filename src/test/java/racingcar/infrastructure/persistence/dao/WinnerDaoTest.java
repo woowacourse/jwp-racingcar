@@ -6,10 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.*;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.GameTime;
+import racingcar.domain.RacingGame;
+import racingcar.domain.Winner;
 import racingcar.infrastructure.persistence.entity.RacingGameEntity;
 import racingcar.infrastructure.persistence.entity.WinnerEntity;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,5 +52,18 @@ class WinnerDaoTest {
 
         // then
         assertThat(dao.findByGameId(gameId).size()).isEqualTo(1);
+    }
+
+    @Test
+    void findAll() {
+
+        final var dao = new WinnerDao(template);
+        dao.save(new WinnerEntity("a", 1L));
+        dao.save(new WinnerEntity("b", 1L));
+        dao.save(new WinnerEntity("c", 1L));
+
+        List<WinnerEntity> allWinners = dao.findAll();
+
+        assertThat(allWinners).hasSize(3);
     }
 }

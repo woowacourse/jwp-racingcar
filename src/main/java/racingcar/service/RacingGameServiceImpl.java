@@ -2,11 +2,21 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.*;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.GameTime;
+import racingcar.domain.RacingGame;
+import racingcar.domain.RacingGameRepository;
+import racingcar.domain.Winner;
+import racingcar.domain.Winners;
 import racingcar.domain.numbergenerator.NumberGenerator;
 import racingcar.dto.GameResultDto;
+import racingcar.infrastructure.persistence.entity.CarEntity;
+import racingcar.infrastructure.persistence.entity.WinnerEntity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -31,5 +41,29 @@ public class RacingGameServiceImpl implements RacingGameService {
         racingGameRepository.save(racingGame);
         final Winners result = racingGame.winners();
         return new GameResultDto(racingGame.getCars(), result);
+    }
+
+    public List<GameResultDto> findAllResult() {
+        Map<Long, List<CarEntity>> allCars = racingGameRepository.findAllCars();
+        Map<Long, List<WinnerEntity>> allWinners = racingGameRepository.findAllWinners();
+
+        List<GameResultDto> gameResultDtos = new ArrayList<>();
+        for (Map.Entry<Long, List<CarEntity>> entry : allCars.entrySet()) {
+            Long key = entry.getKey();
+            List<CarEntity> carEntities = allCars.get(key);
+            List<WinnerEntity> winnerEntities = allWinners.get(key);
+
+            List<Car> cars = carEntities.stream()
+                    .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition()))
+                    .collect(Collectors.toList());
+
+            List<Winner> winners = winnerEntities.stream()
+                    .map(winnerEntity -> new Winner(winnerEntity.getName()))
+                    .collect(Collectors.toList());
+
+            gameResultDtos.add(new GameResultDto(cars, new Winners(winners)));
+        }
+
+        return gameResultDtos;
     }
 }

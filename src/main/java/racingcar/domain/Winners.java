@@ -14,14 +14,18 @@ public class Winners {
         this.winners = calculateWinners(cars);
     }
 
+    public Winners(final List<Winner> winners) {
+        this.winners = winners;
+    }
+
     private List<Winner> calculateWinners(Cars cars) {
         int winnerPosition = getWinnerPosition(cars);
 
         return cars.getCars().stream()
-                    .filter(isSamePosition(winnerPosition))
-                    .map(Car::getCarName)
-                    .map(Winner::new)
-                    .collect(Collectors.toUnmodifiableList());
+                .filter(isSamePosition(winnerPosition))
+                .map(Car::getCarName)
+                .map(Winner::new)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private int getWinnerPosition(Cars cars) {

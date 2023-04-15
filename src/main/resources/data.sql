@@ -17,8 +17,7 @@ CREATE TABLE CAR
     name     VARCHAR(50) NOT NULL,
     position INT         NOT NULL,
     game_id  INT         NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES `GAME` (id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE WINNER
@@ -26,6 +25,5 @@ CREATE TABLE WINNER
     id   BIGINT         NOT NULL AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     game_id  INT         NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES `GAME` (id)
+    PRIMARY KEY (id)
 )

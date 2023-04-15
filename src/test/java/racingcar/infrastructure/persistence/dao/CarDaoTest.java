@@ -62,4 +62,17 @@ class CarDaoTest {
                 () -> assertThat(carById.get(0).getPosition()).isEqualTo(3)
         );
     }
+
+    @Test
+    void findAll() {
+
+        final var dao = new CarDao(template);
+        dao.save(new CarEntity("a", 3, 1L));
+        dao.save(new CarEntity("b", 4, 1L));
+        dao.save(new CarEntity("c", 5, 1L));
+
+        List<CarEntity> allCars = dao.findAll();
+
+        assertThat(allCars).hasSize(3);
+    }
 }

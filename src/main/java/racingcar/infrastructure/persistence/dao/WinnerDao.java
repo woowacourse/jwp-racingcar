@@ -1,6 +1,7 @@
 package racingcar.infrastructure.persistence.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -14,6 +15,10 @@ public class WinnerDao {
 
     private final JdbcTemplate template;
     private final SimpleJdbcInsert simpleJdbcInsert;
+    private final RowMapper<WinnerEntity> mapper = (rs, rowNum) -> new WinnerEntity(
+            rs.getString("name"),
+            rs.getLong("game_id")
+    );
 
     public WinnerDao(final JdbcTemplate template) {
         this.template = template;
@@ -28,10 +33,10 @@ public class WinnerDao {
     }
 
     public List<WinnerEntity> findByGameId(final Long gameId) {
-        return template.query("SELECT * FROM WINNER WHERE game_id = ?",
-                (rs, rowNum) -> new WinnerEntity(
-                        rs.getString("name"),
-                        rs.getLong("game_id")
-                ), gameId);
+        return template.query("SELECT * FROM WINNER WHERE game_id = ?", mapper, gameId);
+    }
+
+    public List<WinnerEntity> findAll() {
+        return template.query("SELECT * FROM WINNER", mapper);
     }
 }

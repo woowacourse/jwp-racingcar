@@ -1,7 +1,11 @@
 package racingcar.infrastructure.persistence.repository;
 
 import org.springframework.stereotype.Repository;
-import racingcar.domain.*;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.GameTime;
+import racingcar.domain.RacingGame;
+import racingcar.domain.RacingGameRepository;
 import racingcar.infrastructure.persistence.dao.CarDao;
 import racingcar.infrastructure.persistence.dao.RacingGameDao;
 import racingcar.infrastructure.persistence.dao.WinnerDao;
@@ -10,8 +14,11 @@ import racingcar.infrastructure.persistence.entity.RacingGameEntity;
 import racingcar.infrastructure.persistence.entity.WinnerEntity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Repository
 public class JdbcRacingGameRepository implements RacingGameRepository {
@@ -65,5 +72,21 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
         return new RacingGame(
                 new Cars(cars),
                 new GameTime(racingGameEntity.getTrialCount()));
+    }
+
+    @Override
+    public Map<Long, List<CarEntity>> findAllCars() {
+        List<CarEntity> carEntities = carDao.findAll();
+
+        return carEntities.stream()
+                .collect(groupingBy(CarEntity::getGameId));
+    }
+
+    @Override
+    public Map<Long, List<WinnerEntity>> findAllWinners() {
+        List<WinnerEntity> winnerEntities = winnerDao.findAll();
+
+        return winnerEntities.stream()
+                .collect(groupingBy(WinnerEntity::getGameId));
     }
 }

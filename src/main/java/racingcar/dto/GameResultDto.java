@@ -14,7 +14,7 @@ public final class GameResultDto {
 
     public GameResultDto(final List<Car> cars, final Winners winners) {
         this.racingCars = cars.stream()
-                .map(CarDto::new)
+                .map(CarDto::from)
                 .collect(Collectors.toList());
         this.winners = winners.getWinners().stream()
                 .map(Winner::getName)
