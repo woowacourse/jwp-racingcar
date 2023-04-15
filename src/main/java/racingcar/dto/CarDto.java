@@ -7,9 +7,9 @@ public class CarDto {
     private String name;
     private int position;
 
-    public CarDto(Car car) {
-        this.name = car.getName();
-        this.position = car.getPosition();
+    public CarDto(String name, int position) {
+        this.name = name;
+        this.position = position;
     }
 
     public String getName() {

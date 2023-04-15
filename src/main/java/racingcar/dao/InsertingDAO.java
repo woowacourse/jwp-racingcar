@@ -3,11 +3,13 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import racingcar.dto.CarInfoDto;
 import racingcar.domain.vo.Trial;
 
 import java.sql.PreparedStatement;
 
+@Repository
 public class InsertingDAO {
 
     private JdbcTemplate jdbcTemplate;
@@ -17,7 +19,7 @@ public class InsertingDAO {
     }
 
     public int insert(Trial trial) {
-        String sql = "INSERT INTO racing (trialCount) values (?)";
+        String sql = "INSERT INTO racing (trial_count) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
             connection -> {
@@ -37,9 +39,9 @@ public class InsertingDAO {
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, carInfoDto.getRacingId());
-            preparedStatement.setString(1, carInfoDto.getName());
-            preparedStatement.setInt(1, carInfoDto.getPosition());
-            preparedStatement.setBoolean(1, carInfoDto.isWinner());
+            preparedStatement.setString(2, carInfoDto.getName());
+            preparedStatement.setInt(3, carInfoDto.getPosition());
+            preparedStatement.setBoolean(4, carInfoDto.isWinner());
             return preparedStatement;
         });
     }

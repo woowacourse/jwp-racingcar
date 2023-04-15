@@ -58,6 +58,6 @@ public class ConsoleController {
     }
 
     private void printResult(Cars cars) {
-        outputView.printResult(cars.getRacingCars());
+        outputView.printResult(cars);
     }
 }

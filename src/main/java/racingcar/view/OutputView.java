@@ -1,29 +1,23 @@
 package racingcar.view;
 
-import racingcar.dto.RacingCarsDto;
+import racingcar.domain.Cars;
+import racingcar.dto.CarDto;
 
 import java.util.List;
 
 public class OutputView {
 
-    public static final String ERROR = "[ERROR]";
-    public static final String MOVING_RESULT_MESSAGE = System.lineSeparator() + "실행 결과";
-    public static final String RESULT_MESSAGE_FORMAT = "%s : %s";
-    public static final String WINNER_MESSAGE_FORMAT = "%s가 최종 우승했습니다.";
-    public static final String DELIMITER = ", ";
-    public static final String POSITION_BAR = "-";
-
     public void printErrorMessage(String message) {
-        System.out.println(ERROR + message);
+        System.out.println("[ERROR]" + message);
     }
 
     public void printResultMessage() {
-        System.out.println(MOVING_RESULT_MESSAGE);
+        System.out.println(System.lineSeparator() + "실행 결과");
     }
 
-    public void printResult(RacingCarsDto result) {
-        result.forEach((name, position)
-            -> System.out.printf(RESULT_MESSAGE_FORMAT, name, makePositionBar(position))
+    public void printResult(Cars cars) {
+        cars.getCars().forEach((car)
+            -> System.out.printf("%s : %s", car.getName(), makePositionBar(car.getPosition()))
         );
         System.out.println();
     }
@@ -31,16 +25,16 @@ public class OutputView {
     private static StringBuilder makePositionBar(int position) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int count = 0; count < position; count++) {
-            stringBuilder.append(POSITION_BAR);
+            stringBuilder.append("-");
         }
         return stringBuilder;
     }
 
     public void printWinners(List<String> winnerNames) {
-        System.out.printf(WINNER_MESSAGE_FORMAT, combineNamesWithDelimiter(winnerNames));
+        System.out.printf("%s가 최종 우승했습니다.", combineNamesWithDelimiter(winnerNames));
     }
 
     private static String combineNamesWithDelimiter(List<String> names) {
-        return String.join(DELIMITER, names);
+        return String.join(", ", names);
     }
 }

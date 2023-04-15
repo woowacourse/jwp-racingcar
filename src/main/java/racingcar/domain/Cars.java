@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import racingcar.dto.CarDto;
-import racingcar.dto.RacingCarsDto;
 import racingcar.utils.NumberGenerator;
 
 import java.util.Collections;
@@ -67,8 +66,12 @@ public class Cars {
     }
 
     public List<CarDto> getCarDtos() {
-        return cars.stream().map(CarDto::new)
+        return cars.stream().map((car) -> new CarDto(car.getName(), car.getPosition()))
             .collect(Collectors.toList());
+    }
+
+    public List<Car> getCars() {
+        return cars;
     }
 
     public void move() {
@@ -83,8 +86,9 @@ public class Cars {
             .collect(Collectors.toUnmodifiableList());
     }
 
-    public RacingCarsDto getRacingCars() {
-        return RacingCarsDto.of(cars);
+    public List<CarDto> getCarsDto() {
+        return cars.stream().map((car) -> new CarDto(car.getName(), car.getPosition()))
+            .collect(Collectors.toList());
     }
 
     private static boolean hasHighestPosition(int highestPosition, Car car) {

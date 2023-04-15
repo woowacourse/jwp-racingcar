@@ -22,7 +22,7 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public FinalResultDto run(@RequestBody RequestBodyDTO dto) {
+    public FinalResultDto run(@RequestBody RacingDTO dto) {
         Cars cars = Cars.initialize(dto.getNames(), RandomNumberGenerator.makeInstance());
         Trial trial = getTrial(dto.getCount());
         Cars updatedCars = playGame(cars, trial);
