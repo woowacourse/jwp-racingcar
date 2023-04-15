@@ -1,5 +1,7 @@
 package racingcar.domain;
 
+import java.util.Objects;
+
 public class Car {
     private static final int MINIMUM_NUMBER_TO_MOVE = 4;
 
@@ -31,5 +33,18 @@ public class Car {
 
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(carName.getName(), car.carName.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(carName.getName());
     }
 }
