@@ -28,9 +28,5 @@
 - ID (id)
 - 이름 (name)
 - 최종 위치 (position)
-
-### Winners
-
-- ID (id)
 - Game ID (game_id)
-- Player ID (player_id)
+- 우승 여부 (is_winner)

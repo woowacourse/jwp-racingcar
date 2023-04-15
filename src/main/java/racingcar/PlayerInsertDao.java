@@ -1,12 +1,9 @@
 package racingcar;
 
 import java.util.List;
-import java.util.Objects;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.RacingCarStatusResponse;
 
@@ -14,25 +11,23 @@ import racingcar.dto.RacingCarStatusResponse;
 public class PlayerInsertDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final WinnerInsertDao winnerInsertDao;
 
-    public PlayerInsertDao(final NamedParameterJdbcTemplate jdbcTemplate, final WinnerInsertDao winnerInsertDao) {
+    public PlayerInsertDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.winnerInsertDao = winnerInsertDao;
     }
 
     public void insertPlayer(List<RacingCarStatusResponse> responses, List<String> winnerNames, int gameId) {
-        KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO player(name, position) VALUES(:name, :position)";
+        String sql = "INSERT INTO player(name, position, game_id, is_winner) VALUES(:name, :position, :game_id, :is_winner)";
 
+        System.out.println(gameId);
         for (RacingCarStatusResponse response : responses) {
-            SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(response);
-            jdbcTemplate.update(sql, parameterSource, generatedKeyHolder);
+            SqlParameterSource namedParameters = new MapSqlParameterSource()
+                    .addValue("name", response.getName())
+                    .addValue("position", response.getPosition())
+                    .addValue("game_id", gameId)
+                    .addValue("is_winner", winnerNames.contains(response.getName()));
 
-            if (winnerNames.contains(response.getName())) {
-                int playerId = Objects.requireNonNull(generatedKeyHolder.getKey()).intValue();
-                winnerInsertDao.insertWinner(gameId, playerId);
-            }
+            jdbcTemplate.update(sql, namedParameters);
         }
     }
 }
