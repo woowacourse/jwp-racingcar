@@ -17,7 +17,7 @@ class PlayResultDaoTest {
         int count = 5;
         String winners = "브리, 토미, 브라운";
 
-        long id = playResultDao.insert(count, winners);
+        long id = playResultDao.insertAndReturnId(count, winners);
 
         assertThat(playResultDao.findWinners(id))
                 .isEqualTo(winners);

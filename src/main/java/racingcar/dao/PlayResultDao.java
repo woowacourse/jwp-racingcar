@@ -19,7 +19,7 @@ public class PlayResultDao {
                 .usingColumns("trial_count", "winners");
     }
 
-    public long insert(final int count, String winners) {
+    public long insertAndReturnId(final int count, String winners) {
         Number savedId = insertActor.executeAndReturnKey(Map.of("trial_count", count, "winners", winners));
         return savedId.longValue();
     }

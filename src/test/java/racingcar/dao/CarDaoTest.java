@@ -18,7 +18,7 @@ class CarDaoTest {
 
     @Test
     void insert() {
-        long id = playResultDao.insert(5, "브리");
+        long id = playResultDao.insertAndReturnId(5, "브리");
         List<Car> cars = List.of(
                 new Car("도이", 1),
                 new Car("연어", 3),

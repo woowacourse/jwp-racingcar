@@ -47,7 +47,7 @@ public class RacingCarService {
     }
 
     private void saveGame(int count, String winners, List<Car> cars) {
-        long savedId = playResultDao.insert(count, winners);
+        long savedId = playResultDao.insertAndReturnId(count, winners);
         carDao.insert(savedId, cars);
     }
 }
