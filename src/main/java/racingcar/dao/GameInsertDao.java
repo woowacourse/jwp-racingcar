@@ -16,7 +16,7 @@ public class GameInsertDao {
     public GameInsertDao(DataSource dataSource) {
         this.insertGameActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("GAME")
-                .usingGeneratedKeyColumns("game_id")
+                .usingGeneratedKeyColumns("id")
                 .usingColumns("winners", "trial_count");}
 
     public int insertGame(String winners, Integer count) {

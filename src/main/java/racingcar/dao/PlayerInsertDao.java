@@ -17,7 +17,7 @@ public class PlayerInsertDao {
     public PlayerInsertDao(DataSource dataSource) {
         this.insertPlayerActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("PLAYER")
-                .usingGeneratedKeyColumns("player_id");
+                .usingGeneratedKeyColumns("id");
     }
 
     public void insertPlayers(int gameId, List<Car> cars) {
