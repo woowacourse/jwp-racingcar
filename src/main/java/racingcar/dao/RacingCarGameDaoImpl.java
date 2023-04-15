@@ -57,15 +57,21 @@ public class RacingCarGameDaoImpl implements RacingCarGameDao {
 
     @Override
     public List<Car> findCarsByGameId(final int gameId) {
-        String carsSql = "SELECT name, position FROM cars WHERE game_id = ?";
-        return jdbcTemplate.query(carsSql, carRowMapper, gameId);
+        String carsQuery = "SELECT name, position FROM cars WHERE game_id = ?";
+        return jdbcTemplate.query(carsQuery, carRowMapper, gameId);
     }
 
     @Override
     public List<String> findWinners(final int gameId) {
-        String gamesSql = "SELECT winners FROM games WHERE id = ?";
-        final String winners = jdbcTemplate.queryForObject(gamesSql, String.class, gameId);
+        String gameWinnerQuery = "SELECT winners FROM games WHERE id = ?";
+        final String winners = jdbcTemplate.queryForObject(gameWinnerQuery, String.class, gameId);
         return toList(Objects.requireNonNull(winners, "존재하지 않는 게임아이디입니다"));
+    }
+
+    @Override
+    public List<Integer> findAllGameIds() {
+        String gameIdsQuery = "SELECT id FROM games";
+        return jdbcTemplate.query(gameIdsQuery, (resultSet, rowNum) -> resultSet.getInt("id"));
     }
 
     private String toString(final List<Car> winners) {

@@ -37,4 +37,9 @@ public class RacingCarGameServiceImpl implements RacingCarGameService {
     public List<String> getWinners(final int gameId) {
         return racingCarGameDao.findWinners(gameId);
     }
+
+    @Override
+    public List<Integer> getAllGameIds() {
+        return racingCarGameDao.findAllGameIds();
+    }
 }

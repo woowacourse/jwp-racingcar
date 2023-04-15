@@ -11,4 +11,6 @@ public interface RacingCarGameService {
     List<CarDto> getCars(int gameId);
 
     List<String> getWinners(int gameId);
+
+    List<Integer> getAllGameIds();
 }

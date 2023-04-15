@@ -13,4 +13,6 @@ public interface RacingCarGameDao {
     List<Car> findCarsByGameId(int gameId);
 
     List<String> findWinners(int gameId);
+
+    List<Integer> findAllGameIds();
 }
