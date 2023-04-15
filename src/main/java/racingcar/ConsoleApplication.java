@@ -7,16 +7,7 @@ import racingcar.view.OutputView;
 public class ConsoleApplication {
 
     public static void main(String[] args) {
-        try {
-            final RacingController racingGame = new RacingController(
-                    new InputView(),
-                    new OutputView()
-            );
-
-            racingGame.race();
-
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-        }
+        RacingController racingController = new RacingController(new InputView(), new OutputView());
+        racingController.run();
     }
 }

@@ -1,32 +1,41 @@
 package racingcar.controller;
 
 import racingcar.domain.Cars;
+import racingcar.domain.TrialCount;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class RacingController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private Cars cars;
 
-    public RacingController(InputView inputView, OutputView outputView) {
+    public RacingController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        initializeCars();
     }
 
-    private void initializeCars() {
+    public void run() {
+        Cars cars = createCars();
+        int inputValue = inputView.getTryCount();
+        TrialCount trialCount = new TrialCount(inputValue);
+
+        race(cars, trialCount);
+
+        outputView.printResult(cars.getCars(), cars.getWinner());
+    }
+
+    private Cars createCars() {
         List<String> carNames = inputView.getCarNames();
-        this.cars = new Cars(carNames);
+        return new Cars(carNames);
     }
 
-    public void race() {
-        outputView.resultHeader();
-        IntStream.range(0, inputView.getTryCount())
-                .forEach(i -> cars.moveAll());
-        outputView.winner(cars.getCars(), cars.getWinner());
+    private void race(final Cars cars, final TrialCount trialCount) {
+        int value = trialCount.getValue();
+
+        for (int count = 0; count < value; count++) {
+            cars.moveAll();
+        }
     }
 }
