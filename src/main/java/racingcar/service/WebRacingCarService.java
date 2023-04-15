@@ -23,11 +23,11 @@ import java.util.List;
 public class WebRacingCarService implements RacingCarService {
 
     private final RacingCarRepository racingCarRepository;
-    //TODO: Spring bean으로 관리
-    private final NumberGenerator numberGenerator = new RandomNumberGenerator();
+    private final NumberGenerator numberGenerator;
 
-    public WebRacingCarService(RacingCarRepository racingCarRepository) {
+    public WebRacingCarService(final RacingCarRepository racingCarRepository, final NumberGenerator numberGenerator) {
         this.racingCarRepository = racingCarRepository;
+        this.numberGenerator = numberGenerator;
     }
 
     @Override
