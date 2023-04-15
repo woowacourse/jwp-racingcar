@@ -32,15 +32,14 @@ public class GameService {
         }
 
         gameRepository.save(game);
-        return new ResultDto(getNamesOf(game.findWinners()), createDtosOf(game.getCars()));
+        return createDtoOf(game);
     }
 
     public List<ResultDto> getAllResults() {
         List<ResultDto> results = new ArrayList<>();
         List<Game> games = gameRepository.findAll();
         for (Game game : games) {
-            ResultDto result = new ResultDto(getNamesOf(game.findWinners()), createDtosOf(game.getCars()));
-            results.add(result);
+            results.add(createDtoOf(game));
         }
         return results;
     }
@@ -49,21 +48,28 @@ public class GameService {
         return new Game(makeCarsWith(names), trialCount);
     }
 
-    private List<CarDto> createDtosOf(List<Car> cars) {
-        return cars.stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
-    }
-
     private List<Car> makeCarsWith(List<String> carNames) {
         return carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
     }
 
+    private ResultDto createDtoOf(Game game) {
+        return new ResultDto(
+                getNamesOf(game.findWinners()),
+                createDtosOf(game.getCars())
+        );
+    }
+
     private List<String> getNamesOf(List<Car> cars) {
         return cars.stream()
                 .map(Car::getName)
+                .collect(Collectors.toList());
+    }
+
+    private List<CarDto> createDtosOf(List<Car> cars) {
+        return cars.stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
 }
