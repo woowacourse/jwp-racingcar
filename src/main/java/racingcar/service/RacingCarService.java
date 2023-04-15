@@ -9,7 +9,7 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Position;
 import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarResultDto;
 import racingcar.dto.RacingCarWinnerResponse;
 
 public class RacingCarService {
@@ -42,11 +42,11 @@ public class RacingCarService {
         }
     }
 
-    public List<RacingCarStatusResponse> getCarStatuses() {
+    public List<RacingCarResultDto> getCarStatuses() {
         validateEmptyCars();
         return cars.getCars()
                 .stream()
-                .map(RacingCarStatusResponse::of)
+                .map(RacingCarResultDto::of)
                 .collect(toList());
     }
 

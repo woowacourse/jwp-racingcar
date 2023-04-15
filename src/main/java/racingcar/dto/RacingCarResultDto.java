@@ -4,17 +4,17 @@ import racingcar.domain.Car;
 import racingcar.domain.Name;
 import racingcar.domain.Position;
 
-public class RacingCarStatusResponse {
+public class RacingCarResultDto {
     private final String name;
     private final int position;
 
-    public RacingCarStatusResponse(Name name, Position position) {
+    public RacingCarResultDto(Name name, Position position) {
         this.name = name.getName();
         this.position = position.getValue();
     }
 
-    public static RacingCarStatusResponse of(Car car) {
-        return new RacingCarStatusResponse(car.getName(), car.getMovedLength());
+    public static RacingCarResultDto of(Car car) {
+        return new RacingCarResultDto(car.getName(), car.getMovedLength());
     }
 
     public String getName() {

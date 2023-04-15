@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarResultDto;
 
 @Repository
 public class PlayerInsertDao {
@@ -16,11 +16,11 @@ public class PlayerInsertDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertPlayer(List<RacingCarStatusResponse> responses, List<String> winnerNames, int gameId) {
+    public void insertPlayer(List<RacingCarResultDto> responses, List<String> winnerNames, int gameId) {
         String sql = "INSERT INTO player(name, position, game_id, is_winner) VALUES(:name, :position, :game_id, :is_winner)";
 
         System.out.println(gameId);
-        for (RacingCarStatusResponse response : responses) {
+        for (RacingCarResultDto response : responses) {
             SqlParameterSource namedParameters = new MapSqlParameterSource()
                     .addValue("name", response.getName())
                     .addValue("position", response.getPosition())

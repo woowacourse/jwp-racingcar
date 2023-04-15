@@ -2,7 +2,7 @@ package racingcar.view;
 
 import java.util.List;
 import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarResultDto;
 import racingcar.dto.RacingCarWinnerResponse;
 import racingcar.dto.TryCountRequest;
 
@@ -19,8 +19,8 @@ public class RacingCarViewImpl implements RacingCarView {
     }
 
     @Override
-    public void printRacingProgress(List<RacingCarStatusResponse> responses) {
-        for (RacingCarStatusResponse response : responses) {
+    public void printRacingProgress(List<RacingCarResultDto> responses) {
+        for (RacingCarResultDto response : responses) {
             OutputView.printRacingProgress(response);
         }
         System.out.println();

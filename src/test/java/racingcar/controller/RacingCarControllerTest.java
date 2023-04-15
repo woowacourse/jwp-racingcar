@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarResultDto;
 import racingcar.dto.RacingCarWinnerResponse;
 import racingcar.dto.TryCountRequest;
 import racingcar.service.RacingCarService;
@@ -28,7 +28,7 @@ class RacingCarControllerTest {
         }
 
         @Override
-        public void printRacingProgress(List<RacingCarStatusResponse> responses) {
+        public void printRacingProgress(List<RacingCarResultDto> responses) {
 
         }
 
