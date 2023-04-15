@@ -28,8 +28,8 @@ public class RacingGameConsoleController {
     }
 
     public void startGame() {
-        final Cars cars = getCars();
-        final TryCount tryCount = getTryCount();
+        final Cars cars = makeCars();
+        final TryCount tryCount = makeTryCount();
 
         startRace(cars, tryCount);
 
@@ -39,27 +39,27 @@ public class RacingGameConsoleController {
         outputView.printCurrentRacingStatus(gameHistoryDto);
     }
 
-    private Cars getCars() {
+    private Cars makeCars() {
         try {
             List<String> carNames = inputView.inputCarNames();
             return Cars.from(carNames);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
-            return getCars();
+            return makeCars();
         }
     }
 
-    private TryCount getTryCount() {
+    private TryCount makeTryCount() {
         try {
             int tryCount = inputView.inputTryCount();
             return new TryCount(tryCount);
         } catch (IllegalArgumentException | InputMismatchException exception) {
             System.out.println(exception.getMessage());
-            return getTryCount();
+            return makeTryCount();
         }
     }
 
-    private void startRace(Cars cars, TryCount tryCount) {
+    private void startRace(final Cars cars, final TryCount tryCount) {
         outputView.printResultMessage();
 
         for (int i = 0; i < tryCount.getTryCount(); i++) {
