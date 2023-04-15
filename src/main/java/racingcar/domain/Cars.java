@@ -10,8 +10,15 @@ public class Cars {
     private final List<Car> cars;
 
     public Cars(List<Car> cars) {
+        validateCarsSize(cars);
         validateDuplicateName(cars);
         this.cars = cars;
+    }
+
+    private void validateCarsSize(List<Car> cars) {
+        if (cars.isEmpty()) {
+            throw new IllegalArgumentException("최소 하나의 자동차가 있어야 합니다.");
+        }
     }
 
     private void validateDuplicateName(List<Car> cars) {
