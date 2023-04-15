@@ -35,6 +35,10 @@ public class Cars {
         }
     }
 
+    public boolean isWinner(final String name) {
+        return getWinnerNames().contains(name);
+    }
+
     public List<String> getWinnerNames() {
         List<String> winnerNames = new ArrayList<>();
         final int maxCountOfDistance = findMaxCountOfDistance();
@@ -61,6 +65,7 @@ public class Cars {
             winnerNames.add(car.getCarName());
         }
     }
+
 
     public List<Car> getCars() {
         return cars;
