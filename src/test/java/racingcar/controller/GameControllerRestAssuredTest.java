@@ -50,10 +50,8 @@ class GameControllerRestAssuredTest {
                 .given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new PlayRequest("aa,aa", 1))
-
                 .when()
                 .post("/plays")
-
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
