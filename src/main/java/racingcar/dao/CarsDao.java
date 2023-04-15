@@ -62,10 +62,10 @@ public class CarsDao {
                         + "WHERE cars.play_id = play_records.id "
                         + "ORDER BY play_records.created_at DESC",
                 resultSet -> {
-                    Map<Long, List<JudgedCarDto>> result = new LinkedHashMap<>();
+                    final Map<Long, List<JudgedCarDto>> result = new LinkedHashMap<>();
                     while (resultSet.next()) {
-                        long id = resultSet.getLong("play_id");
-                        List<JudgedCarDto> found = result.getOrDefault(id, new ArrayList<>());
+                        final long id = resultSet.getLong("play_id");
+                        final List<JudgedCarDto> found = result.getOrDefault(id, new ArrayList<>());
                         found.add(actorRowMapper.mapRow(resultSet, resultSet.getRow()));
                         result.put(id, found);
                     }

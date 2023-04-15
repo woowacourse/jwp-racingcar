@@ -27,19 +27,19 @@ public class RacingCarService {
     }
 
     @Transactional
-    public PlayResponseDto playGame(int count, List<String> carNames) {
-        List<JudgedCarDto> judgedCars = racingGame.play(count, carNames);
+    public PlayResponseDto playGame(final int count, final List<String> carNames) {
+        final List<JudgedCarDto> judgedCars = racingGame.play(count, carNames);
         saveGame(count, judgedCars);
         return PlayResponseDtoConverter.from(judgedCars);
     }
 
-    private void saveGame(int count, List<JudgedCarDto> judgedCars) {
-        long savedId = gameDao.insertAndReturnId(count);
+    private void saveGame(final int count, final List<JudgedCarDto> judgedCars) {
+        final long savedId = gameDao.insertAndReturnId(count);
         carsDao.insert(savedId, judgedCars);
     }
 
-    public List<PlayResponseDto> findAllGames() {
-        Map<Long, List<JudgedCarDto>> judgedCarsByPlayId = carsDao.findAllCarsByPlayId();
+    public List<PlayResponseDto> findAllPlayRecords() {
+        final Map<Long, List<JudgedCarDto>> judgedCarsByPlayId = carsDao.findAllCarsByPlayId();
         return judgedCarsByPlayId.values()
                 .stream()
                 .map(PlayResponseDtoConverter::from)

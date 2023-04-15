@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 public class PlayResponseDtoConverter {
 
-    public static PlayResponseDto from(List<JudgedCarDto> judgedCars) {
-        List<CarDto> racingCars = CarDto.convert(judgedCars);
-        String winners = extractWinnerNames(judgedCars);
+    public static PlayResponseDto from(final List<JudgedCarDto> judgedCars) {
+        final List<CarDto> racingCars = CarDto.convert(judgedCars);
+        final String winners = extractWinnerNames(judgedCars);
         return new PlayResponseDto(racingCars, winners);
     }
 

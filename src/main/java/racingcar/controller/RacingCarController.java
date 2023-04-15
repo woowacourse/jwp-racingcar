@@ -32,8 +32,8 @@ public class RacingCarController {
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<PlayResponseDto>> history() {
-        List<PlayResponseDto> history = racingCarService.findAllGames();
-        return ResponseEntity.ok(history);
+    public ResponseEntity<List<PlayResponseDto>> records() {
+        final List<PlayResponseDto> records = racingCarService.findAllPlayRecords();
+        return ResponseEntity.ok(records);
     }
 }
