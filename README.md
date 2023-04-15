@@ -48,12 +48,12 @@
         - [x] 최종 위치 (position) : INT
         - [x] race_id (fk) : INT
 
-- [ ] 게임 플레이 이력 조회 API 구현
+- [x] 게임 플레이 이력 조회 API 구현
   - [x] 모든 Race_id를 찾기
   - [x] player_id들로 Car를 찾기
   - [x] race_id로 Car를 찾기
   - [x] race_id로 player_id 찾기
   - [x] 모든 게임 결과 정보를 가져오기
-  - [ ] 모든 게임 결과 정보를 Json으로 반환하기
+  - [x] 모든 게임 결과 정보를 Json으로 반환하기
 - [ ] 기존 기능 수정 - 출력 방식 수정
 - [ ] 리팩터링 - 중복 코드 제거
