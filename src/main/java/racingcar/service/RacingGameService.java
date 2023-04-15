@@ -39,9 +39,8 @@ public class RacingGameService {
     }
 
     private List<CarEntity> toCarEntities(RacingGame game, Long racingGameId) {
-        Cars cars = game.getCars();
-        List<Car> winners = cars.findWinners();
-        return cars.getCars().stream()
+        List<Car> winners = game.findWinners();
+        return game.getCars().stream()
                 .map(car -> new CarEntity(car.getName(), car.getPosition(), winners.contains(car), racingGameId))
                 .collect(Collectors.toList());
     }

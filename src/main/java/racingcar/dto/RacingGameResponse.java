@@ -3,7 +3,6 @@ package racingcar.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.Car;
-import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 
 public class RacingGameResponse {
@@ -17,12 +16,11 @@ public class RacingGameResponse {
     }
 
     public static RacingGameResponse of(RacingGame racingGame) {
-        Cars cars = racingGame.getCars();
-        List<Car> winners = cars.findWinners();
-        List<CarDto> racingCars = cars.getCars().stream()
+        List<Car> winners = racingGame.findWinners();
+        List<CarDto> carDtos = racingGame.getCars().stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition(), winners.contains(car)))
                 .collect(Collectors.toList());
-        return new RacingGameResponse(getWinnerNames(winners), racingCars);
+        return new RacingGameResponse(getWinnerNames(winners), carDtos);
     }
 
     private static List<String> getWinnerNames(List<Car> winners) {

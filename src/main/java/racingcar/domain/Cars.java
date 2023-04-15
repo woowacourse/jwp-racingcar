@@ -36,7 +36,7 @@ public class Cars {
 
         return cars.stream()
                 .filter(car -> car.isDraw(maxPositionCar))
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private Car findMaxPositionCar() {

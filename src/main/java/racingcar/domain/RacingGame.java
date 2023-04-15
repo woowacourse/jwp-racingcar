@@ -1,5 +1,7 @@
 package racingcar.domain;
 
+import java.util.List;
+
 public class RacingGame {
     public static final int MAX_TRY_COUNT_BOUND = 100;
 
@@ -39,7 +41,12 @@ public class RacingGame {
         return tryCount != 0;
     }
 
-    public Cars getCars() {
-        return cars;
+    public List<Car> findWinners() {
+        return cars.findWinners();
     }
+
+    public List<Car> getCars() {
+        return cars.getCars();
+    }
+
 }
