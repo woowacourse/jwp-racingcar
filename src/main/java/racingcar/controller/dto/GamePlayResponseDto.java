@@ -13,6 +13,11 @@ public class GamePlayResponseDto {
         this.racingCars = convert(racingCars);
     }
 
+    public GamePlayResponseDto(String winners) {
+        this.winners = winners;
+        this.racingCars = new ArrayList<>();
+    }
+
     private List<CarDto> convert(List<Car> cars){
         List<CarDto> carDtos = new ArrayList<>();
         for(Car car : cars){
