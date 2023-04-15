@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
+import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.RecordDto;
 import racingcar.repository.RecordDao;
@@ -14,16 +15,15 @@ import racingcar.domain.Cars;
 import racingcar.domain.TrialCount;
 import racingcar.repository.GameDao;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 public class GameService {
 
-    private static final String CAR_NAME_DELIMITER = ",";
     private static final int MIN_GAME_ID = 1;
 
+    private final RacingGame racingGame = new RacingGame();
     private final GameDao gameDao;
     private final RecordDao recordDao;
 
@@ -35,43 +35,23 @@ public class GameService {
 
     @Transactional
     public PlayResponse playRacing(final String names, final int count) {
-        TrialCount trialCount = new TrialCount(count);
-        Cars cars = createCars(names);
+        Cars cars = racingGame.createCars(names);
+        TrialCount trialCount = racingGame.createTrialCount(count);
 
-        play(trialCount, cars);
+        racingGame.playRacing(cars, trialCount);
 
         long savedGameId = gameDao.insert(trialCount.getValue());
         saveResults(savedGameId, cars);
 
-        return new PlayResponse(winnerNames(cars), toCarDto(cars));
-    }
-
-    private Cars createCars(final String names) {
-        List<String> carNames = Arrays.stream(names.split(CAR_NAME_DELIMITER, -1))
-                .map(String::trim)
-                .collect(toList());
-
-        return new Cars(carNames);
-    }
-
-    private void play(final TrialCount trialCount, final Cars cars) {
-        for (int i = 0; i < trialCount.getValue(); i++) {
-            cars.moveAll();
-        }
+        return new PlayResponse(cars.winnerNames(), toCarDto(cars));
     }
 
     public void saveResults(final long gameId, final Cars cars) {
-        List<String> winnerNames = winnerNames(cars);
+        List<String> winnerNames = cars.winnerNames();
 
         for (final Car car : cars.getCars()) {
             recordDao.insert(gameId, winnerNames.contains(car.getName()), car);
         }
-    }
-
-    private List<String> winnerNames(final Cars cars) {
-        return cars.getWinner().stream()
-                .map(Car::getName)
-                .collect(toList());
     }
 
     private List<CarDto> toCarDto(final Cars cars) {

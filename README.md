@@ -12,8 +12,8 @@
 - [x] 기존 기능 수정 - 출력 방식 수정
   - [x] Console Application에서 '플레이의 중간 과정을 출력하는 로직'을 제거한다.
   - [x] Console Application에서 Web Application과 동일하게 '우승자와 player 별 최종 이동거리'를 출력하도록 수정한다.
-- [ ] 리팩터링 - 중복 코드 수정
-  - [ ] Console Application과 Web application의 중복 코드를 제거한다.
+- [x] 리팩터링 - 중복 코드 수정
+  - [x] Console Application과 Web application의 중복 코드를 제거한다.
     - 힌트: 두 application은 입출력과 데이터 저장 방식을 제외하고는 내부 비즈니스 로직은 동일해졌습니다.
     - 힌트: 두 application의 비즈니스 로직은 새로운 객체를 도출 하여 중복 제거를 할 수 있습니다.
 
