@@ -11,6 +11,7 @@ import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingResultResponse;
 
 public class MemoryRacingCarRepository implements RacingCarRepository {
+    private static final String WINNER_DELIMITER = ",";
     private int gameId = 1;
     private final Map<Integer, List<Car>> playerTable = new HashMap<>();
     private final Map<Integer, List<String>> winnerTable = new HashMap<>();
@@ -32,7 +33,7 @@ public class MemoryRacingCarRepository implements RacingCarRepository {
 
     @Override
     public String findWinners(int gameId) {
-        return String.join(",", winnerTable.get(gameId));
+        return String.join(WINNER_DELIMITER, winnerTable.get(gameId));
     }
 
     @Override
