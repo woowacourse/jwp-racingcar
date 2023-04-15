@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +25,14 @@ public class RacingGameWebControllerTest {
     MockMvc mockMvc;
 
     ObjectMapper objectMapper = new ObjectMapper();
+
+    @Test
+    @DisplayName("게임 이력 조회를 한다.")
+    void returns_game_histories() throws Exception {
+        // when & then
+        mockMvc.perform(get("/plays"))
+                .andExpect(status().isOk());
+     }
 
     @Test
     @DisplayName("게임 시작 요청을 처리하면 상태코드 200을 반환한다.")
