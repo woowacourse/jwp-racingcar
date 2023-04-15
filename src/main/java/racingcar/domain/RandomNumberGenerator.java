@@ -3,6 +3,7 @@ package racingcar.domain;
 import java.util.Random;
 import org.springframework.stereotype.Component;
 
+//TODO: 패키지 변경 고민
 @Component
 public class RandomNumberGenerator implements NumberGenerator {
 

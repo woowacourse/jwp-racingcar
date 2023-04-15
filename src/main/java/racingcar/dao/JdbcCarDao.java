@@ -1,7 +1,10 @@
 package racingcar.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -16,18 +19,28 @@ public class JdbcCarDao implements CarDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    //TODO: https://stackoverflow.com/questions/3165730/inserting-multiple-rows-using-jdbctemplate 참고하여 변경
     @Override
     public void save(int gameId, List<CarEntity> carEntities) {
-        String sql = "INSERT INTO CAR(game_id, name, position, is_win) VALUES (?,?,?,?)";
+        final String sql = "INSERT INTO CAR(game_id, name, position, is_win) VALUES (?,?,?,?)";
+        final BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
 
-        for (CarEntity carResultDto : carEntities) {
-            jdbcTemplate.update(sql,
-                    gameId,
-                    carResultDto.getName(),
-                    carResultDto.getPosition(),
-                    carResultDto.isWin());
-        }
+            @Override
+            public void setValues(final PreparedStatement ps, final int i) throws SQLException {
+                final CarEntity carEntity = carEntities.get(i);
+                ps.setInt(1, gameId);
+                ps.setString(2, carEntity.getName());
+                ps.setInt(3, carEntity.getPosition());
+                ps.setBoolean(4, carEntity.isWin());
+
+            }
+
+            @Override
+            public int getBatchSize() {
+                return carEntities.size();
+            }
+        };
+
+        jdbcTemplate.batchUpdate(sql, batchPreparedStatementSetter);
     }
 
     @Override
