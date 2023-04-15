@@ -19,9 +19,9 @@ public class ConnectionTest {
     @DisplayName("연결테스트")
     @Test
     void test_() {
-        jdbcTemplate.execute("INSERT INTO games(trial_count) VALUES (2)");
+        jdbcTemplate.execute("INSERT INTO gamestates(initial_trial_count, remaining_trial_count) VALUES (2, 2)");
 
-        Map<String, Object> stringObjectMap = jdbcTemplate.queryForMap("SELECT * FROM games WHERE id = 1");
-        assertThat(stringObjectMap).hasSize(3);
+        Map<String, Object> stringObjectMap = jdbcTemplate.queryForMap("SELECT * FROM gamestates WHERE id = 1");
+        assertThat(stringObjectMap).hasSize(4);
     }
 }

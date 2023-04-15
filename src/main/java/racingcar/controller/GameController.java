@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,12 @@ public class GameController {
 
         ResultDto resultDto = gameService.playWith(trim(names), playCount);
         return ResponseEntity.ok(resultDto);
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<ResultDto>> showGames() {
+        List<ResultDto> results = gameService.getAllResults();
+        return ResponseEntity.ok(results);
     }
 
     private List<String> trim(List<String> carNames) {

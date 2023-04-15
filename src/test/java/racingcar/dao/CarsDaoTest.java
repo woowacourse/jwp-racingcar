@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CarsDaoTest {
 
     @Autowired
-    private GamesDao gamesDao;
+    private GameStatesDao gameStatesDao;
     @Autowired
     private CarsDao carsDao;
     @Autowired
@@ -27,7 +27,7 @@ class CarsDaoTest {
 
     @BeforeEach
     void setUp() {
-        this.gameId = gamesDao.insert(5);
+        this.gameId = gameStatesDao.insert(5, 0);
     }
 
     @Test

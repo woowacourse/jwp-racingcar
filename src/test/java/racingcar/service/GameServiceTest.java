@@ -37,10 +37,10 @@ class GameServiceTest {
         final List<String> names = List.of("땡칠", "필립", "다니", "코일");
 
         gameService.playWith(names, 5);
-        final String sql = "select trial_count from games where id = ?";
+        final String sql = "select remaining_trial_count from gamestates where id = ?";
         final Integer trialCount = jdbcTemplate.queryForObject(sql, Integer.class, getGreatestGameId());
 
-        assertThat(trialCount).isEqualTo(5);
+        assertThat(trialCount).isEqualTo(0);
     }
 
     @Test
@@ -68,7 +68,7 @@ class GameServiceTest {
     }
 
     private Integer getGreatestGameId() {
-        final String sql = "select max(id) as id from games";
+        final String sql = "select max(id) as id from gamestates";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }
