@@ -1,6 +1,7 @@
 package racingcar;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,5 +19,10 @@ public class RacingCarController {
         final RacingCarGameDto racingCarGameDto = new RacingCarGameDto(playRequest);
         PlayResponse response = racingCarWebService.play(racingCarGameDto);
         return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/plays")
+    public void showGameHistory() {
+        racingCarWebService.gameHistory();
     }
 }

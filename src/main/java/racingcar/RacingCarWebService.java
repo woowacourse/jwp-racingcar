@@ -13,12 +13,15 @@ public class RacingCarWebService {
     private final RacingCarService racingCarService;
     private final GameInsertDao gameInsertDao;
     private final PlayerInsertDao playerInsertDao;
+    private final GameSelectDao gameSelectDao;
 
     public RacingCarWebService(final GameInsertDao gameInsertDao,
-                               final PlayerInsertDao playerInsertDao) {
+                               final PlayerInsertDao playerInsertDao,
+                               final GameSelectDao gameSelectDao) {
         this.racingCarService = new RacingCarService();
         this.gameInsertDao = gameInsertDao;
         this.playerInsertDao = playerInsertDao;
+        this.gameSelectDao = gameSelectDao;
     }
 
     public PlayResponse play(RacingCarGameDto racingCarGameDto) {
@@ -52,5 +55,11 @@ public class RacingCarWebService {
 
     private RacingCarWinnerResponse findWinners() {
         return racingCarService.findWinners();
+    }
+
+    public void gameHistory() {
+        final List<String> gameIds = gameSelectDao.gameIds();
+
+
     }
 }
