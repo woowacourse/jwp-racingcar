@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.RequestDto;
-import racingcar.controller.dto.ResponseDto;
+import racingcar.controller.dto.GamePlayResponseDto;
 import racingcar.model.Cars;
 import racingcar.service.GameService;
 import racingcar.util.NameFormatConverter;
@@ -21,15 +21,15 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResponseDto> playGame(@RequestBody RequestDto requestDto) {
+    public ResponseEntity<GamePlayResponseDto> playGame(@RequestBody RequestDto requestDto) {
         List<String> carNames = NameFormatConverter.splitNameByDelimiter(requestDto.getNames());
         Cars cars = new Cars(carNames);
 
         gameService.executeRacingGame(cars, requestDto.getCount());
 
-        final ResponseDto responseDto = new ResponseDto(cars.getWinners(), cars.getCars());
+        final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(cars.getWinners(), cars.getCars());
 
         return ResponseEntity.ok()
-                .body(responseDto);
+                .body(gamePlayResponseDto);
     }
 }
