@@ -5,22 +5,21 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 
 import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
-public class JdbcTemplateDAO {
+public class GameResultDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcTemplateDAO(JdbcTemplate jdbcTemplate) {
+    public GameResultDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int saveResult(GameResultDto resultDto) {
+    public int save(GameResultDto resultDto) {
         String sql = "insert into GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -31,20 +30,20 @@ public class JdbcTemplateDAO {
             return preparedStatement;
         }, keyHolder);
 
-        int id = keyHolder.getKey().intValue();
-
-        savePlayerResult(id, resultDto.getRacingCars());
-        return id;
+        return keyHolder.getKey().intValue();
     }
 
-    private void savePlayerResult(int gameId, List<CarDto> carDtoList) {
-        String sql = "insert into PLAYER_RESULT (name, position, game_id) values (?, ?, ?)";
+    public List<GameResultDto> findAll() {
+        String sql = "select * from GAME_RESULT";
 
-        jdbcTemplate.batchUpdate(sql, carDtoList, carDtoList.size(),
-                (PreparedStatement preparedStatement, CarDto carDto) -> {
-                    preparedStatement.setString(1, carDto.getName());
-                    preparedStatement.setInt(2, carDto.getPosition());
-                    preparedStatement.setInt(3, gameId);
-                });
+        List<GameResultDto> results = jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) -> new GameResultDto(
+                        resultSet.getInt("trial_count"),
+                        resultSet.getString("winners")
+                )
+        );
+
+        return results;
     }
 }

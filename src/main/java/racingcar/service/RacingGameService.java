@@ -2,13 +2,14 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dao.JdbcTemplateDAO;
+import racingcar.dao.GameResultDAO;
+import racingcar.dao.PlayerResultDAO;
 import racingcar.domain.Car;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
-import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
+import racingcar.dto.PlayerResultDto;
 import racingcar.dto.response.GameResponseDto;
 
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ import java.util.stream.Collectors;
 public class RacingGameService {
     private static final String DELIMITER = ",";
 
-    private final JdbcTemplateDAO jdbcTemplateDAO;
+    private final GameResultDAO gameResultDAO;
+    private final PlayerResultDAO playerResultDAO;
 
     @Autowired
-    public RacingGameService(JdbcTemplateDAO jdbcTemplateDAO) {
-        this.jdbcTemplateDAO = jdbcTemplateDAO;
+    public RacingGameService(GameResultDAO gameResultDAO, PlayerResultDAO playerResultDAO) {
+        this.gameResultDAO = gameResultDAO;
+        this.playerResultDAO = playerResultDAO;
     }
 
     public GameResponseDto play(List<String> names, int tryCount) {
@@ -32,11 +35,12 @@ public class RacingGameService {
         racingGame.moveCars(new TryCount(tryCount));
 
         String winners = decideWinners(racingGame);
-        List<CarDto> resultCars = getResultCars(racingGame);
+        List<PlayerResultDto> playerResults = getPlayerResults(racingGame);
 
-        jdbcTemplateDAO.saveResult(new GameResultDto(tryCount, winners, resultCars));
+        int savedId = gameResultDAO.save(new GameResultDto(tryCount, winners));
+        playerResultDAO.save(savedId, playerResults);
 
-        return new GameResponseDto(winners, resultCars);
+        return new GameResponseDto(winners, playerResults);
     }
 
     private List<Name> convertToNames(List<String> names) {
@@ -51,13 +55,13 @@ public class RacingGameService {
                 .collect(Collectors.joining(DELIMITER));
     }
 
-    private List<CarDto> getResultCars(RacingGame racingGame) {
-        List<CarDto> carDtoList = new ArrayList<>();
+    private List<PlayerResultDto> getPlayerResults(RacingGame racingGame) {
+        List<PlayerResultDto> playerResults = new ArrayList<>();
 
         for (Car car : racingGame.getCars()) {
-            carDtoList.add(new CarDto(car.getName(), car.getPosition()));
+            playerResults.add(new PlayerResultDto(car.getName(), car.getPosition()));
         }
 
-        return carDtoList;
+        return playerResults;
     }
 }

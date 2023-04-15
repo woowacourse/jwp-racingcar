@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import racingcar.dto.CarDto;
+import racingcar.dto.PlayerResultDto;
 import racingcar.dto.request.GameRequestDto;
 import racingcar.dto.response.GameResponseDto;
 import racingcar.service.RacingGameService;
@@ -39,7 +39,7 @@ public class WebRacingGameControllerTest {
         //given
         GameRequestDto request = new GameRequestDto("브리,브라운", 10);
         GameResponseDto response = new GameResponseDto("브라운",
-                List.of(new CarDto("브리", 7), new CarDto("브라운", 8)));
+                List.of(new PlayerResultDto("브리", 7), new PlayerResultDto("브라운", 8)));
 
         //when
         List<String> names = List.of(request.getNames().split(","));
