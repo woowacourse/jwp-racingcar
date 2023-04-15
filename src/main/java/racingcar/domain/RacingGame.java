@@ -15,7 +15,7 @@ public class RacingGame {
     public List<JudgedCarDto> play(final int racingCount, final List<String> carNames) {
         racingCars = new RacingCars(carNames);
         race(racingCount);
-        return getRacedCars();
+        return getJudgedCars();
     }
 
     private void race(final int count) {
@@ -24,7 +24,7 @@ public class RacingGame {
         }
     }
 
-    private List<JudgedCarDto> getRacedCars() {
+    private List<JudgedCarDto> getJudgedCars() {
         final List<Car> winningCars = racingCars.findWinningCars();
         return racingCars.racingCars()
                 .stream()
