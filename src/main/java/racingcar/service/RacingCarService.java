@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarsDao;
 import racingcar.dao.PlayRecordsDao;
 import racingcar.domain.RacingGame;
-import racingcar.dto.CarDto;
+import racingcar.dto.JudgedCarDto;
 import racingcar.dto.PlayResponseDto;
 import racingcar.dto.PlayResponseDtoConverter;
 
@@ -28,21 +28,21 @@ public class RacingCarService {
     // TODO Transactional 사용법, 적용 범위 등 학습
     @Transactional
     public PlayResponseDto playGame(int count, List<String> carNames) {
-        List<CarDto> racedCars = racingGame.play(count, carNames);
-        saveGame(count, racedCars);
-        return PlayResponseDtoConverter.of(racedCars);
+        List<JudgedCarDto> judgedCars = racingGame.play(count, carNames);
+        saveGame(count, judgedCars);
+        return PlayResponseDtoConverter.from(judgedCars);
     }
 
-    private void saveGame(int count, List<CarDto> cars) {
+    private void saveGame(int count, List<JudgedCarDto> judgedCars) {
         long savedId = gameDao.insertAndReturnId(count);
-        carsDao.insert(savedId, cars);
+        carsDao.insert(savedId, judgedCars);
     }
 
     public List<PlayResponseDto> findAllGames() {
-        Map<Long, List<CarDto>> allCars = carsDao.findAllCarsById();
-        return allCars.values()
+        Map<Long, List<JudgedCarDto>> judgedCarsByPlayId = carsDao.findAllCarsByPlayId();
+        return judgedCarsByPlayId.values()
                 .stream()
-                .map(PlayResponseDtoConverter::of)
+                .map(PlayResponseDtoConverter::from)
                 .collect(Collectors.toList());
     }
 

@@ -10,15 +10,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.dto.CarDto;
+import racingcar.dto.JudgedCarDto;
 
 @SpringBootTest
 class CarsDaoTest {
 
-    private static final List<CarDto> FIXTURE_CARS = List.of(
-            CarDto.of("도이", 1, false),
-            CarDto.of("연어", 3, false),
-            CarDto.of("브리", 4, true)
+    private static final List<JudgedCarDto> FIXTURE_CARS = List.of(
+            JudgedCarDto.of("도이", 1, false),
+            JudgedCarDto.of("연어", 3, false),
+            JudgedCarDto.of("브리", 4, true)
     );
 
     @Autowired
@@ -50,7 +50,7 @@ class CarsDaoTest {
         long id2 = gameDao.insertAndReturnId(5);
         carsDao.insert(id2, FIXTURE_CARS);
 
-        Map<Long, List<CarDto>> allCars = carsDao.findAllCarsById();
+        Map<Long, List<JudgedCarDto>> allCars = carsDao.findAllCarsByPlayId();
 
         assertThat(allCars).containsExactly(entry(id2, FIXTURE_CARS), entry(id1, FIXTURE_CARS));
     }

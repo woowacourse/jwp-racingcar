@@ -3,7 +3,7 @@ package racingcar.domain;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import racingcar.dto.CarDto;
+import racingcar.dto.JudgedCarDto;
 
 @Component
 public class RacingGame {
@@ -14,9 +14,9 @@ public class RacingGame {
     private final NumberGenerator powerValueGenerator = new RandomNumberGenerator(POWER_VALUE_MIN, POWER_VALUE_MAX);
     private RacingCars racingCars;
 
-    public List<CarDto> play(int trialCount, List<String> carNames) {
+    public List<JudgedCarDto> play(int racingCount, List<String> carNames) {
         racingCars = new RacingCars(carNames);
-        race(trialCount);
+        race(racingCount);
         return getRacedCars();
     }
 
@@ -26,11 +26,11 @@ public class RacingGame {
         }
     }
 
-    private List<CarDto> getRacedCars() {
+    private List<JudgedCarDto> getRacedCars() {
         List<Car> winningCars = racingCars.findWinningCars();
         return racingCars.racingCars()
                 .stream()
-                .map(car -> CarDto.of(car.getName(), car.getPosition(), winningCars.contains(car)))
+                .map(car -> JudgedCarDto.of(car.getName(), car.getPosition(), winningCars.contains(car)))
                 .collect(Collectors.toList());
     }
 }

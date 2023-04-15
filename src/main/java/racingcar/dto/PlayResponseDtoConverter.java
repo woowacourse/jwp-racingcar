@@ -5,16 +5,16 @@ import java.util.stream.Collectors;
 
 public class PlayResponseDtoConverter {
 
-    public static PlayResponseDto of(List<CarDto> racedCars) {
-        List<CarResponseDto> carResponseDtos = CarDtoConverter.from(racedCars);
-        String winners = extractWinnerNames(racedCars);
-        return new PlayResponseDto(carResponseDtos, winners);
+    public static PlayResponseDto from(List<JudgedCarDto> judgedCars) {
+        List<CarDto> racingCars = CarDto.convert(judgedCars);
+        String winners = extractWinnerNames(judgedCars);
+        return new PlayResponseDto(racingCars, winners);
     }
 
-    private static String extractWinnerNames(final List<CarDto> racedCars) {
-        return racedCars.stream()
-                .filter(CarDto::isWinner)
-                .map(CarDto::getName)
+    private static String extractWinnerNames(final List<JudgedCarDto> judgedCars) {
+        return judgedCars.stream()
+                .filter(JudgedCarDto::isWinner)
+                .map(JudgedCarDto::getName)
                 .collect(Collectors.joining(", "));
     }
 }

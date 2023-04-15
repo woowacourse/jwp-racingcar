@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import racingcar.dto.CarResponseDto;
+import racingcar.dto.CarDto;
 import racingcar.dto.PlayResponseDto;
 
 public class OutputView {
@@ -10,7 +10,7 @@ public class OutputView {
 
     public void printPlayResult(final PlayResponseDto playResult) {
         System.out.printf(WINNERS_MESSAGE_FORMAT, playResult.getWinners());
-        for (CarResponseDto car : playResult.getRacingCars()) {
+        for (CarDto car : playResult.getRacingCars()) {
             System.out.printf(CAR_STATUS_MESSAGE_FORMAT, car.getName(), car.getPosition());
         }
     }
