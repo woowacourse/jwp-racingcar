@@ -2,6 +2,7 @@ package racingcar.util;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.utils.SplitCarNames;
@@ -15,10 +16,10 @@ public class SplitNamesTest {
         String carNames = "pobi,crong,jay";
 
         // when
-        String[] splitCarNames = SplitCarNames.splitCarNames(carNames);
+        List<String> splitCarNames = SplitCarNames.splitCarNames(carNames);
 
         // then
-        assertThat(splitCarNames.length).isEqualTo(3);
-        assertThat(splitCarNames).containsExactly(new String[]{"pobi", "crong", "jay"});
+        assertThat(splitCarNames.size()).isEqualTo(3);
+        assertThat(splitCarNames).isExactlyInstanceOf(List.of("pobi", "crong", "jay").getClass());
     }
 }
