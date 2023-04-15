@@ -29,7 +29,11 @@ public class WebController {
         List<String> carNames = NameFormatConverter.splitNameByDelimiter(requestDto.getNames());
         Cars cars = new Cars(carNames);
 
-        gameService.executeRacingGame(cars, requestDto.getCount());
+        final int trialCount = requestDto.getCount();
+        if (trialCount < 1) {
+            throw new IllegalArgumentException("게임 시도 횟수는 0보다 커야 합니다.");
+        }
+        gameService.executeRacingGame(cars, trialCount);
 
         final String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
         final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(winners, cars.getCars());

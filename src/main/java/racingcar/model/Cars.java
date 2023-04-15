@@ -1,5 +1,7 @@
 package racingcar.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import racingcar.util.NumberGenerator;
 
 import java.util.ArrayList;
@@ -10,8 +12,19 @@ public class Cars {
     private final List<Car> cars = new ArrayList<>();
 
     public Cars(List<String> carsName) {
+        validateNameDuplication(carsName);
         for (String name : carsName) {
             cars.add(new Car(name));
+        }
+    }
+
+    private void validateNameDuplication(final List<String> carsName) {
+        Map<String, Integer> countByName = new HashMap<>();
+        for (String carName : carsName) {
+            countByName.put(carName, countByName.getOrDefault(carName, 0) + 1);
+        }
+        if (countByName.size() != carsName.size()) {
+            throw new IllegalArgumentException("중복되는 이름이 존재합니다.");
         }
     }
 
@@ -26,12 +39,12 @@ public class Cars {
     }
 
     public List<String> getWinners() {
-        return cars.stream().filter(car -> car.checkPositionEqual(getMaxLocation()))
+        return cars.stream().filter(car -> car.checkPositionEqual(getMaxPosition()))
                 .map(Car::getName)
                 .collect(Collectors.toList());
     }
 
-    private Car getMaxLocation() {
+    private Car getMaxPosition() {
         return cars.stream()
                 .max(Car::compareTo)
                 .get();
