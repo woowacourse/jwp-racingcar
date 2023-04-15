@@ -3,9 +3,11 @@ package racingcar.dto;
 import racingcar.domain.Car;
 
 public class CarDto {
-    private final String name;
-    private final int identifier;
-    private final int position;
+    private String name;
+    private int identifier;
+    private int position;
+    
+    public CarDto() { }
     
     public CarDto(Car car) {
         this.name = car.getName();
@@ -23,5 +25,17 @@ public class CarDto {
     
     public int getPosition() {
         return position;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setIdentifier(int identifier) {
+        this.identifier = identifier;
+    }
+    
+    public void setPosition(int position) {
+        this.position = position;
     }
 }
