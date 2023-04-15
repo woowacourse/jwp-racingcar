@@ -31,7 +31,6 @@ public class RacingGameController {
     private PlayerInsertDao playerInsertDao;
 
     @PostMapping(value = "/plays", consumes = "application/json")
-    @ResponseBody
     public ResponseDto play(@RequestBody RequestDto requestDto) {
         String names = requestDto.getNames();
         Integer count = requestDto.getCount();
