@@ -33,11 +33,10 @@ class MySqlRacingCarRepositoryTest {
 
         // expect
         racingCarRepository.saveWinner(gameId, List.of("glen", "raon"));
-        List<String> winners = racingCarRepository.findWinners(gameId);
+        String winners = racingCarRepository.findWinners(gameId);
 
         assertThat(winners)
-                .hasSize(2)
-                .contains("glen", "raon");
+                .isEqualTo("glen,raon");
     }
 
     @Test

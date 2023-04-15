@@ -43,7 +43,7 @@ class WebRacingCarControllerTest {
                 .willReturn(1);
 
         given(racingCarService.findWinners(1))
-                .willReturn(List.of("raon"));
+                .willReturn("raon");
 
         given(racingCarService.findRacingCars(1))
                 .willReturn(List.of(
@@ -55,7 +55,7 @@ class WebRacingCarControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.winners[0]").value("raon"))
+                .andExpect(jsonPath("$.winners").value("raon"))
                 .andExpect(jsonPath("$.racingCars[*].name", containsInAnyOrder("glen", "raon")))
                 .andExpect(jsonPath("$.racingCars[*].position", containsInAnyOrder(4, 6)));
     }

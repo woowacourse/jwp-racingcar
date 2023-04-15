@@ -11,7 +11,7 @@ public interface RacingCarRepository {
 
     int saveGame(int count);
 
-    List<String> findWinners(int gameId);
+    String findWinners(int gameId);
 
     List<RacingCarDto> findRacingCars(int gameId);
 }

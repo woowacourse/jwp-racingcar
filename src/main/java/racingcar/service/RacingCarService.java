@@ -47,7 +47,7 @@ public class RacingCarService {
         }
     }
 
-    public List<String> findWinners(int gameId) {
+    public String findWinners(int gameId) {
         return racingCarRepository.findWinners(gameId);
     }
 

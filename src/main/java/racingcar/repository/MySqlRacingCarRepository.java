@@ -50,15 +50,11 @@ public class MySqlRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public List<String> findWinners(int gameId) {
-        String sql = "SELECT winner FROM WINNER_RESULT WHERE game_id = ?";
+    public String findWinners(int gameId) {
+        String sql = "SELECT GROUP_CONCAT(winner) FROM WINNER_RESULT WHERE game_id = ?";
         return jdbcTemplate.query(sql, ps -> ps.setInt(1, gameId), rs -> {
-            ArrayList<String> winners = new ArrayList<>();
-            while (rs.next()) {
-                String winner = rs.getString(1);
-                winners.add(winner);
-            }
-            return winners;
+            rs.next();
+            return rs.getString(1);
         });
     }
 

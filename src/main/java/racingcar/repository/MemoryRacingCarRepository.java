@@ -29,8 +29,8 @@ public class MemoryRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public List<String> findWinners(int gameId) {
-        return winnerTable.get(gameId);
+    public String findWinners(int gameId) {
+        return String.join(",", winnerTable.get(gameId));
     }
 
     @Override
