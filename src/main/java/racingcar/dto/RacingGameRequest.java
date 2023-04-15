@@ -17,13 +17,14 @@ public class RacingGameRequest {
 
     }
 
-    public String getNames() {
-        return names;
+    public List<String> toNameList() {
+        return Arrays.stream(names.split(","))
+                .map(String::strip)
+                .collect(Collectors.toList());
     }
 
-    public List<String> getNamesList() {
-        return Arrays.stream(names.split(","))
-                .collect(Collectors.toList());
+    public String getNames() {
+        return names;
     }
 
     public int getCount() {

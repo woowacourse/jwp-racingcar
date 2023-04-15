@@ -50,7 +50,7 @@ public class RacingGameControllerTest {
                         .content(requestString))
 
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.winners", is(List.of("현구막"))))
+                .andExpect(jsonPath("$.winners", is("현구막")))
                 .andExpect(jsonPath("$.racingCars", hasSize(2)));
     }
 }

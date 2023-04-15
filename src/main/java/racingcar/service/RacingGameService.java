@@ -26,9 +26,7 @@ public class RacingGameService {
     public RacingGameResponse play(RacingGameRequest racingGameRequest) {
         Cars cars = toCars(racingGameRequest);
         RacingGame racingGame = new RacingGame(racingGameRequest.getCount(), cars);
-        while (!racingGame.isEnd()) {
-            racingGame.playOneRound();
-        }
+        racingGame.run();
         Long racingGameId = racingGameDao.save(new RacingGameEntity(racingGameRequest.getCount()));
         carDao.saveAll(toCarEntities(racingGame, racingGameId));
         return RacingGameResponse.of(racingGame);
