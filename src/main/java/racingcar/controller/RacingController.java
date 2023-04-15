@@ -26,11 +26,7 @@ public class RacingController {
     public void race() {
         outputView.resultHeader();
         IntStream.range(0, inputView.getTryCount())
-                .forEach(this::repeat);
-        outputView.winner(cars.getWinner());
-    }
-
-    private void repeat(int count) {
-        cars.moveAll();
+                .forEach(i -> cars.moveAll());
+        outputView.winner(cars.getCars(), cars.getWinner());
     }
 }

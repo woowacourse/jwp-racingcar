@@ -15,7 +15,11 @@ public class OutputView {
         System.out.println(RESULT_HEADER);
     }
 
-    public void winner(List<Car> winners) {
+    public void winner(final List<Car> cars, final List<Car> winners) {
+        for (final Car car : cars) {
+            System.out.println(car.getName() + " : " + car.getDistance());
+        }
+
         System.out.printf(WIN_MENTION, convertwinnersToString(winners));
     }
 

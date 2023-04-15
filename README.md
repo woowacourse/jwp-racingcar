@@ -9,9 +9,9 @@
   - [x] 사용자가 자동차 경주 게임 플레이 이력을 조회할 수 있다.
 - [x] DB 연동하기
   - [x] '플레이 횟수, 플레이어별 최종 이동 거리, 우승자, 플레이한 날짜/시간'을 저장한다.
-- [ ] 기존 기능 수정 - 출력 방식 수정
+- [x] 기존 기능 수정 - 출력 방식 수정
   - [x] Console Application에서 '플레이의 중간 과정을 출력하는 로직'을 제거한다.
-  - [ ] Console Application에서 Web Application과 동일하게 '우승자와 player 별 최종 이동거리'를 출력하도록 수정한다.
+  - [x] Console Application에서 Web Application과 동일하게 '우승자와 player 별 최종 이동거리'를 출력하도록 수정한다.
 - [ ] 리팩터링 - 중복 코드 수정
   - [ ] Console Application과 Web application의 중복 코드를 제거한다.
     - 힌트: 두 application은 입출력과 데이터 저장 방식을 제외하고는 내부 비즈니스 로직은 동일해졌습니다.
