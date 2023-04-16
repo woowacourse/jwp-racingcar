@@ -17,8 +17,8 @@ public class PlayResultMapper {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public PlayResultMapper(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PlayResultMapper(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("play_result")
                 .usingColumns("trial_count", "winners")

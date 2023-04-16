@@ -3,22 +3,24 @@ package racingcar.mapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.entity.PlayResultEntity;
 
+import javax.sql.DataSource;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@JdbcTest
 class PlayResultMapperTest {
 
     private final PlayResultMapper mapper;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    PlayResultMapperTest(PlayResultMapper mapper, JdbcTemplate jdbcTemplate) {
-        this.mapper = mapper;
-        this.jdbcTemplate = jdbcTemplate;
+    PlayResultMapperTest(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.mapper = new PlayResultMapper(dataSource);
     }
 
     @BeforeEach
