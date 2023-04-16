@@ -3,7 +3,6 @@ package racingcar.controller;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TrialCount;
-import racingcar.dto.CarDtos;
 import racingcar.response.PlayResponse;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -20,6 +19,6 @@ public class RacingController {
 
         racingGame.playRacing(cars, trialCount);
 
-        outputView.printResult(new PlayResponse(cars.winnerNames(), CarDtos.from(cars)));
+        outputView.printResult(PlayResponse.from(cars));
     }
 }

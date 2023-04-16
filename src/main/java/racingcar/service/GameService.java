@@ -1,5 +1,7 @@
 package racingcar.service;
 
+import static java.util.Collections.unmodifiableList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,14 +9,11 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TrialCount;
-import racingcar.dto.CarDto;
-import racingcar.dto.CarDtos;
 import racingcar.dto.RecordDto;
 import racingcar.repository.GameDao;
 import racingcar.repository.RecordDao;
 import racingcar.response.PlayResponse;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -42,7 +41,7 @@ public class GameService {
         long savedGameId = gameDao.insert(trialCount.getValue());
         saveResults(savedGameId, cars);
 
-        return new PlayResponse(cars.winnerNames(), CarDtos.from(cars));
+        return PlayResponse.from(cars);
     }
 
     public void saveResults(final long gameId, final Cars cars) {
@@ -58,29 +57,10 @@ public class GameService {
 
         int count = gameDao.countAll().orElse(0);
         for (int gameId = MIN_GAME_ID; gameId <= count; gameId++) {
-            List<RecordDto> foundGame = recordDao.findAllByGameId(gameId);
-
-            playResponses.add(createPlayResponse(foundGame));
+            List<RecordDto> foundRecordDtos = recordDao.findAllByGameId(gameId);
+            playResponses.add(PlayResponse.from(foundRecordDtos));
         }
 
-        return Collections.unmodifiableList(playResponses);
-    }
-
-    private PlayResponse createPlayResponse(final List<RecordDto> foundGame) {
-        List<String> winners = new ArrayList<>();
-        List<CarDto> carDtos = new ArrayList<>();
-
-        for (final RecordDto recordDto : foundGame) {
-            decideWinner(winners, recordDto);
-            carDtos.add(new CarDto(recordDto.getPlayerName(), recordDto.getPosition()));
-        }
-
-        return new PlayResponse(winners, carDtos);
-    }
-
-    private void decideWinner(final List<String> winners, final RecordDto recordDto) {
-        if (recordDto.isWinner()) {
-            winners.add(recordDto.getPlayerName());
-        }
+        return unmodifiableList(playResponses);
     }
 }
