@@ -1,11 +1,16 @@
 package racingcar;
 
-import racingcar.controller.ConsoleRacingGameManager;
+import racingcar.domain.RacingGame;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 public class ConsoleApplication {
     public static void main(String[] args) {
-        ConsoleRacingGameManager manager = new ConsoleRacingGameManager();
+        RacingGame racingGame = new RacingGame(InputView.readCarNames());
+        racingGame.moveCars(InputView.readCount());
 
-        manager.run();
+        OutputView.printResultMessage();
+        OutputView.printAllCars(racingGame.getCars());
+        OutputView.printWinners(racingGame.decideWinners());
     }
 }

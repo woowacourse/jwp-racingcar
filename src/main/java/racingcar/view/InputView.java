@@ -1,19 +1,14 @@
 package racingcar.view;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class InputView {
-    private static final String DELIMITER = ",";
     private static final String NUMERIC_FORMAT = "^[0-9]*$";
     private static final Scanner sc = new Scanner(System.in);
 
-    public static List<String> readCarNames() {
+    public static String readCarNames() {
         printMessage(Message.ASK_CAR_NAMES);
-        return Arrays.stream(readLine().split(DELIMITER))
-                .collect(Collectors.toList());
+        return readLine();
     }
 
     public static int readCount() {

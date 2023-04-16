@@ -1,10 +1,10 @@
 package racingcar.domain;
 
 import racingcar.domain.engine.Engine;
+import racingcar.dto.CarDto;
 import racingcar.exception.BusinessArgumentException;
 import racingcar.exception.ErrorCode;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,17 +27,20 @@ public class Cars {
         }
     }
 
-    public Cars getWinners() {
+    public String getWinners() {
         int maxPosition = getMaxPosition();
-        List<Car> result = cars.stream()
+        List<String> winnerNames = cars.stream()
                 .filter(car -> car.getPosition() == maxPosition)
+                .map(Car::getName)
                 .collect(Collectors.toList());
 
-        return new Cars(result);
+        return String.join(",", winnerNames);
     }
 
-    public List<Car> getCars() {
-        return Collections.unmodifiableList(cars);
+    public List<CarDto> getCars() {
+        return cars.stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private int getMaxPosition() {
