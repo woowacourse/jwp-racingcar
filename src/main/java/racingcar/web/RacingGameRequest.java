@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.web;
 
 import java.util.List;
 import javax.validation.constraints.PositiveOrZero;

@@ -1,10 +1,9 @@
-package racingcar.domain;
+package racingcar.domain.game;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.springframework.stereotype.Component;
-import racingcar.domain.race.NumberGenerator;
 
 @Component
 public class RandomNumberGenerator implements NumberGenerator {

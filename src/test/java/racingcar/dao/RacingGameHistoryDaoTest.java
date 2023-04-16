@@ -13,15 +13,15 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @JdbcTest
-class RacingHistoryDaoTest {
-    private RacingHistoryDao racingHistoryDao;
+class RacingGameHistoryDaoTest {
+    private RacingGameHistoryDao racingGameHistoryDao;
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        racingHistoryDao = new RacingHistoryDao(jdbcTemplate);
+        racingGameHistoryDao = new RacingGameHistoryDao(jdbcTemplate);
     }
 
     @DisplayName("게임 실행기록을 저장할 수 있다.")
@@ -32,17 +32,17 @@ class RacingHistoryDaoTest {
         LocalDateTime now = LocalDateTime.now();
 
         //when
-        Long insertedHistoryId = racingHistoryDao.insert(trialCount, now);
+        Long insertedHistoryId = racingGameHistoryDao.insert(trialCount, now);
         //then
-        RacingHistory racingHistory = jdbcTemplate.queryForObject(
+        RacingGameHistory racingGameHistory = jdbcTemplate.queryForObject(
                 "SELECT trial_count, play_time FROM racing_history WHERE id = :id",
                 new MapSqlParameterSource("id", insertedHistoryId),
-                (rs, rowNum) -> new RacingHistory(rs.getInt("trial_count"),
+                (rs, rowNum) -> new RacingGameHistory(rs.getInt("trial_count"),
                         rs.getTimestamp("play_time").toLocalDateTime()));
 
         assertAll(
-                () -> assertThat(racingHistory.getPlayTime()).isEqualTo(now),
-                () -> assertThat(racingHistory.getTrialCount()).isEqualTo(trialCount)
+                () -> assertThat(racingGameHistory.getPlayTime()).isEqualTo(now),
+                () -> assertThat(racingGameHistory.getTrialCount()).isEqualTo(trialCount)
         );
 
     }

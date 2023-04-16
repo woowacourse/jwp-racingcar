@@ -6,24 +6,24 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.car.Car;
+import racingcar.domain.cars.RacingCar;
 
 @Repository
-public class CarRecordDao {
+public class RacingCarRecordDao {
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public CarRecordDao(NamedParameterJdbcTemplate jdbcTemplate) {
+    public RacingCarRecordDao(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public long insert(long racingHistoryId, Car car, boolean isWinner) {
+    public long insert(long racingHistoryId, RacingCar racingCar, boolean isWinner) {
         String sql = "INSERT INTO car_record (history_id, name, position, is_winner) VALUES (:historyId, :name, :position, :isWinner)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, new MapSqlParameterSource(
                         Map.of("historyId", racingHistoryId,
-                                "name", car.getName(),
-                                "position", car.getPosition(),
+                                "name", racingCar.getName(),
+                                "position", racingCar.getPosition(),
                                 "isWinner", isWinner)),
                 keyHolder);
         return keyHolder.getKey().longValue();

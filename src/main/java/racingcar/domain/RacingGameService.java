@@ -3,40 +3,40 @@ package racingcar.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import racingcar.dao.CarRecordDao;
-import racingcar.dao.RacingHistoryDao;
-import racingcar.domain.car.Car;
-import racingcar.domain.race.NumberGenerator;
-import racingcar.domain.race.RacingGame;
-import racingcar.dto.RacingGameDto;
+import racingcar.dao.RacingCarRecordDao;
+import racingcar.dao.RacingGameHistoryDao;
+import racingcar.domain.cars.RacingCar;
+import racingcar.domain.game.NumberGenerator;
+import racingcar.domain.game.RacingGame;
+import racingcar.domain.game.RacingGameDto;
 
 @Service
 public class RacingGameService {
 
-    private final RacingHistoryDao racingHistoryDao;
-    private final CarRecordDao carRecordDao;
+    private final RacingGameHistoryDao racingGameHistoryDao;
+    private final RacingCarRecordDao racingCarRecordDao;
     private final NumberGenerator numberGenerator;
 
-    public RacingGameService(RacingHistoryDao racingHistoryDao, CarRecordDao carRecordDao,
+    public RacingGameService(RacingGameHistoryDao racingGameHistoryDao, RacingCarRecordDao racingCarRecordDao,
                              NumberGenerator numberGenerator) {
-        this.racingHistoryDao = racingHistoryDao;
-        this.carRecordDao = carRecordDao;
+        this.racingGameHistoryDao = racingGameHistoryDao;
+        this.racingCarRecordDao = racingCarRecordDao;
         this.numberGenerator = numberGenerator;
     }
 
-    public RacingGameDto start(int trialCount, List<String> names) {
+    public RacingGameDto play(int trialCount, List<String> names) {
         RacingGame game = RacingGame.from(names);
-        game.move(trialCount, numberGenerator);
+        game.play(trialCount, numberGenerator);
 
-        Long historyId = racingHistoryDao.insert(trialCount, LocalDateTime.now());
+        Long historyId = racingGameHistoryDao.insert(trialCount, LocalDateTime.now());
         insertCars(game, historyId);
 
         return RacingGameDto.from(game);
     }
 
     private void insertCars(RacingGame game, long historyId) {
-        for (Car car : game.getRacingCars()) {
-            carRecordDao.insert(historyId, car, game.isWinner(car));
+        for (RacingCar racingCar : game.getRacingCars()) {
+            racingCarRecordDao.insert(historyId, racingCar, game.isWinner(racingCar));
         }
     }
 

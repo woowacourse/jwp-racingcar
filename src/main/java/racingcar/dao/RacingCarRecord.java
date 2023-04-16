@@ -1,12 +1,12 @@
 package racingcar.dao;
 
-public class CarRecord {
+public class RacingCarRecord {
     private final String name;
     private final int position;
     private final boolean isWinner;
     private final long historyId;
 
-    public CarRecord(String name, int position, boolean isWinner, long historyId) {
+    public RacingCarRecord(String name, int position, boolean isWinner, long historyId) {
         this.name = name;
         this.position = position;
         this.isWinner = isWinner;

@@ -1,6 +1,6 @@
-package racingcar.domain.car;
+package racingcar.domain.cars;
 
-public class Car {
+public class RacingCar {
     private static final int LEAST_CONDITION = 4;
     private static final int MAX_NAME_LENGTH = 5;
     private static final int ONE_STEP = 1;
@@ -9,13 +9,13 @@ public class Car {
     private final Position position;
 
 
-    public Car(String name) {
+    public RacingCar(String name) {
         validate(name);
         this.name = name;
         this.position = new Position();
     }
 
-    public Car(String name, int position) {
+    public RacingCar(String name, int position) {
         this.name = name;
         this.position = new Position(position);
     }

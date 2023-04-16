@@ -7,9 +7,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.car.Car;
-import racingcar.domain.race.NumberGenerator;
-import racingcar.domain.race.RacingGame;
+import racingcar.domain.cars.RacingCar;
+import racingcar.domain.game.RacingGame;
+import racingcar.domain.game.RandomNumberGenerator;
 
 class RacingGameTest {
     @Nested
@@ -35,10 +35,10 @@ class RacingGameTest {
         void shouldContainWinners() {
             // given
             race = RacingGame.from(List.of("로지", "홍실"));
-            race.move(1, (size) -> List.of(10, 1));
+            race.play(1, (size) -> List.of(10, 1));
             //when
             //then
-            assertThat(race.isWinner(new Car("로지"))).isTrue();
+            assertThat(race.isWinner(new RacingCar("로지"))).isTrue();
         }
 
         @Test
@@ -46,10 +46,10 @@ class RacingGameTest {
         void shouldNotContainNonWinners() {
             // given
             race = RacingGame.from(List.of("rosie", "hong"));
-            race.move(1, (size)-> List.of(10, 1));
+            race.play(1, (size)-> List.of(10, 1));
             // when
             //then
-            assertThat(race.isWinner(new Car("hong"))).isFalse();
+            assertThat(race.isWinner(new RacingCar("hong"))).isFalse();
         }
     }
 
@@ -60,7 +60,7 @@ class RacingGameTest {
         int trialCount = 10;
         RacingGame race = RacingGame.from(List.of("바론", "론이", "로니", "로지"));
         //when
-        race.move(trialCount, new RandomNumberGenerator());
+        race.play(trialCount, new RandomNumberGenerator());
         //then
         boolean isAllInTrialCount = race.getRacingCars().stream()
                 .allMatch(car -> 0 <= car.getPosition() && car.getPosition() <= trialCount);

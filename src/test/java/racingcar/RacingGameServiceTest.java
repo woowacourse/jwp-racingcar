@@ -15,26 +15,26 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.dao.CarRecordDao;
-import racingcar.dao.RacingHistoryDao;
+import racingcar.dao.RacingCarRecordDao;
+import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.RacingGameService;
-import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.RacingGameDto;
+import racingcar.domain.game.RandomNumberGenerator;
+import racingcar.domain.game.RacingGameDto;
 
 @ExtendWith(MockitoExtension.class)
 class RacingGameServiceTest {
 
     @Mock
-    private CarRecordDao carRecordDao;
+    private RacingCarRecordDao racingCarRecordDao;
 
     @Mock
-    private RacingHistoryDao racingHistoryDao;
+    private RacingGameHistoryDao racingGameHistoryDao;
 
     private RacingGameService racingGameService;
 
     @BeforeEach
     void setUp() {
-        racingGameService = new RacingGameService(racingHistoryDao, carRecordDao, new RandomNumberGenerator());
+        racingGameService = new RacingGameService(racingGameHistoryDao, racingCarRecordDao, new RandomNumberGenerator());
     }
 
     @DisplayName("게임 결과를 저장한다.")
@@ -42,10 +42,10 @@ class RacingGameServiceTest {
     void insertRacingGameResult() {
         //given
         List<String> carNames = List.of("로지", "바론");
-        given(racingHistoryDao.insert(anyInt(), any())).willReturn(1L);
-        given(carRecordDao.insert(anyLong(), any(), anyBoolean())).willReturn(1L);
+        given(racingGameHistoryDao.insert(anyInt(), any())).willReturn(1L);
+        given(racingCarRecordDao.insert(anyLong(), any(), anyBoolean())).willReturn(1L);
         //when
-        RacingGameDto result = racingGameService.start(10, carNames);
+        RacingGameDto result = racingGameService.play(10, carNames);
         //then
         assertAll(
                 () -> assertThat(result.getRacingCars()).hasSize(2),

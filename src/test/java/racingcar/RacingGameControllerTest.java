@@ -23,9 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import racingcar.domain.RacingGameService;
-import racingcar.domain.race.RacingGame;
-import racingcar.dto.RacingGameDto;
-import racingcar.dto.RacingGameRequest;
+import racingcar.domain.game.RacingGame;
+import racingcar.domain.game.RacingGameDto;
+import racingcar.web.RacingGameRequest;
 import racingcar.web.RacingGameController;
 import racingcar.web.RacingGameResponse;
 
@@ -48,7 +48,7 @@ class RacingGameControllerTest {
         void setUp() {
             RacingGame mockRacingGame = RacingGame.from(List.of("브리", "로지", "바론"));
             RacingGameDto racingGameDto = RacingGameDto.from(mockRacingGame);
-            given(racingGameService.start(anyInt(), anyList())).willReturn(racingGameDto);
+            given(racingGameService.play(anyInt(), anyList())).willReturn(racingGameDto);
 
             mockResponse = RacingGameResponse.from(racingGameDto);
             MockitoAnnotations.openMocks(this);

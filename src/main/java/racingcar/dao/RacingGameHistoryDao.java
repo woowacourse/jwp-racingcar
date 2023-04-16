@@ -9,11 +9,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RacingHistoryDao {
+public class RacingGameHistoryDao {
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public RacingHistoryDao(NamedParameterJdbcTemplate jdbcTemplate) {
+    public RacingGameHistoryDao(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import racingcar.domain.car.Car;
+import racingcar.domain.cars.RacingCar;
 
 @JdbcTest
-class CarRecordDaoTest {
+class RacingRacingRacingCarRecordDaoTest {
 
-    private CarRecordDao carRecordDao;
+    private RacingCarRecordDao racingCarRecordDao;
     private long racingHistoryId;
 
     @Autowired
@@ -24,9 +24,9 @@ class CarRecordDaoTest {
 
     @BeforeEach
     void setUp() {
-        carRecordDao = new CarRecordDao(jdbcTemplate);
-        RacingHistoryDao racingHistoryDao = new RacingHistoryDao(jdbcTemplate);
-        racingHistoryId = racingHistoryDao.insert(10, LocalDateTime.now());
+        racingCarRecordDao = new RacingCarRecordDao(jdbcTemplate);
+        RacingGameHistoryDao racingGameHistoryDao = new RacingGameHistoryDao(jdbcTemplate);
+        racingHistoryId = racingGameHistoryDao.insert(10, LocalDateTime.now());
     }
 
     @DisplayName("자동차 이동 기록을 저장한다.")
@@ -34,16 +34,16 @@ class CarRecordDaoTest {
     void insertCar() {
         //given
         String carName = "Rosie";
-        Car car = new Car(carName);
+        RacingCar racingCar = new RacingCar(carName);
         boolean isWinner = true;
         long historyId = 1L;
         //when
-        long insertedRecordId = carRecordDao.insert(racingHistoryId, car, isWinner);
+        long insertedRecordId = racingCarRecordDao.insert(racingHistoryId, racingCar, isWinner);
         //then
-        CarRecord foundCar = jdbcTemplate.queryForObject(
+        RacingCarRecord foundCar = jdbcTemplate.queryForObject(
                 "SELECT * FROM car_record WHERE id = :id",
                 new MapSqlParameterSource("id", insertedRecordId),
-                (rs, rowNum) -> new CarRecord(
+                (rs, rowNum) -> new RacingCarRecord(
                         rs.getString("name"),
                         rs.getInt("position"),
                         rs.getBoolean("is_winner"),
