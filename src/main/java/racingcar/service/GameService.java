@@ -9,7 +9,7 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.request.GamePlayDto;
+import racingcar.dto.request.GameRequestDto;
 import racingcar.dto.request.GameSaveDto;
 import racingcar.dto.request.PlayerResultSaveDto;
 import racingcar.dto.response.GameResponseDto;
@@ -33,15 +33,29 @@ public class GameService {
         this.playerResultDao = playerResultDao;
     }
 
+//    @Transactional
+//    public GameResponseDto playGame(GamePlayDto gamePlayDto) {
+//        Cars cars = makeCars(gamePlayDto.getNames());
+//        RacingGame racingGame = new RacingGame(cars, gamePlayDto.getCount());
+//        racingGame.race(new RandomNumberGenerator());
+//
+//        List<String> winners = cars.calculateWinners();
+//
+//        final Long gameId = createGame(String.join(",", winners), gamePlayDto.getCount());
+//        final List<PlayerResultDto> playerResults = createPlayerResults(cars, gameId);
+//        return GameResponseDto.of(winners, playerResults);
+//    }
+
     @Transactional
-    public GameResponseDto playGame(GamePlayDto gamePlayDto) {
-        Cars cars = makeCars(gamePlayDto.getNames());
-        RacingGame racingGame = new RacingGame(cars, gamePlayDto.getCount());
+    public GameResponseDto playGame(GameRequestDto gameRequestDto) {
+        List<String> carNames = List.of(gameRequestDto.getNames().split(",", -1));
+        Cars cars = makeCars(carNames);
+        RacingGame racingGame = new RacingGame(cars, gameRequestDto.getCount());
         racingGame.race(new RandomNumberGenerator());
 
         List<String> winners = cars.calculateWinners();
 
-        final Long gameId = createGame(String.join(",", winners), gamePlayDto.getCount());
+        final Long gameId = createGame(String.join(",", winners), gameRequestDto.getCount());
         final List<PlayerResultDto> playerResults = createPlayerResults(cars, gameId);
         return GameResponseDto.of(winners, playerResults);
     }
