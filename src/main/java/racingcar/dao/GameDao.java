@@ -9,8 +9,10 @@ import racingcar.dto.GameDto;
 
 @Repository
 public class GameDao {
-    private final SimpleJdbcInsert insertActor;
+
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert insertActor;
+
     public GameDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
@@ -22,5 +24,4 @@ public class GameDao {
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(gameDto);
         return insertActor.executeAndReturnKey(sqlParameterSource).intValue();
     }
-
 }
