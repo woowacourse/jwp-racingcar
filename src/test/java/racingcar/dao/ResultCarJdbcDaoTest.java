@@ -31,7 +31,7 @@ class ResultCarJdbcDaoTest {
     void save_result_car__fail_when_game_referenceKey_not_exist() {
         assertThatThrownBy(() -> resultCarDao.save(50, List.of(new CarDto("aaa", 5))))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("존재하지 않는 게임입니다.");
+                .hasMessage("[ERROR]: 존재하지 않는 게임입니다.");
     }
 
     @Test

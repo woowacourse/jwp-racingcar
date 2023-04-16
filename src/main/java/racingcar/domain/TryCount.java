@@ -1,5 +1,6 @@
 package racingcar.domain;
 
+import racingcar.exception.BusinessArgumentException;
 import racingcar.exception.ErrorCode;
 
 public class TryCount {
@@ -18,9 +19,7 @@ public class TryCount {
 
     private void validate(int count) {
         if (count < MIN_COUNT) {
-            throw new IllegalArgumentException(
-                    String.format(ErrorCode.INVALID_COUNT.getMessage(), MIN_COUNT)
-            );
+            throw new BusinessArgumentException(ErrorCode.INVALID_COUNT);
         }
     }
 }

@@ -4,6 +4,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import racingcar.dto.CarDto;
+import racingcar.exception.BusinessArgumentException;
+import racingcar.exception.ErrorCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,7 @@ public class ResultCarJdbcDao implements ResultCarDao {
         try {
             jdbcTemplate.batchUpdate(sql, resultCars);
         } catch (DataAccessException e) {
-            throw new IllegalArgumentException("존재하지 않는 게임입니다.");
+            throw new BusinessArgumentException(ErrorCode.GAME_NOT_EXIST);
         }
     }
 

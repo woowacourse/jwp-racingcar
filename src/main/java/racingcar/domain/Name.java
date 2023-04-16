@@ -1,5 +1,6 @@
 package racingcar.domain;
 
+import racingcar.exception.BusinessArgumentException;
 import racingcar.exception.ErrorCode;
 
 import java.util.Objects;
@@ -16,9 +17,7 @@ public class Name {
 
     private void validate(String name) {
         if (name.isBlank() || name.length() > MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException(
-                    String.format(ErrorCode.INVALID_NAME_LENGTH.getMessage(), MAX_NAME_LENGTH)
-            );
+            throw new BusinessArgumentException(ErrorCode.INVALID_NAME_LENGTH);
         }
     }
 

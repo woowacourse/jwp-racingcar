@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import racingcar.dto.request.GameRequestDto;
 import racingcar.dto.response.BadResponseDto;
 import racingcar.dto.response.GameResponseDto;
+import racingcar.exception.BusinessArgumentException;
 import racingcar.service.RacingGameService;
 
 import java.util.List;
@@ -33,8 +34,8 @@ public class WebRacingGameController {
         return ResponseEntity.ok(response);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<BadResponseDto> handleException(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(new BadResponseDto(e.getMessage()));
+    @ExceptionHandler(BusinessArgumentException.class)
+    public ResponseEntity<BadResponseDto> handleException(BusinessArgumentException e) {
+        return ResponseEntity.badRequest().body(new BadResponseDto(e.getErrorCodeStatus(), e.getMessage()));
     }
 }

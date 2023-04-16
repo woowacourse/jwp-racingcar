@@ -48,7 +48,7 @@ public class Cars {
 
     private void validateNameDuplication(List<Name> carNames) {
         if (carNames.stream().distinct().count() != carNames.size()) {
-            throw new IllegalArgumentException(ErrorCode.DUPLICATED_NAME.getMessage());
+            throw new IllegalArgumentException(ErrorCode.INVALID_NAME_DUPLICATE.getMessage());
         }
     }
 }
