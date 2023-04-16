@@ -9,12 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class GameInsertDaoTest {
 
     @Autowired
-    private GameInsertDao gameInsertDao;
+    private GameInsertDao jdbcGameInsertDao;
 
     @Test
     void insertGame() {
-        int gameId1 = gameInsertDao.insertGame("jena", 3);
-        int gameId2 = gameInsertDao.insertGame("jena", 3);
+        int gameId1 = jdbcGameInsertDao.insertGame("jena", 3);
+        int gameId2 = jdbcGameInsertDao.insertGame("jena", 3);
         Assertions.assertThat(gameId2 - gameId1).isEqualTo(1);
     }
 }
