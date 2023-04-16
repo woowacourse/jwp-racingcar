@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.db;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

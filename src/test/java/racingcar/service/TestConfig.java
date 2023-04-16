@@ -3,7 +3,7 @@ package racingcar.service;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import racingcar.dao.RacingGameRepository;
+import racingcar.db.RacingGameRepository;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.response.GameResponseDto;
 

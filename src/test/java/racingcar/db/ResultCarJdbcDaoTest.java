@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.db;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.db;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

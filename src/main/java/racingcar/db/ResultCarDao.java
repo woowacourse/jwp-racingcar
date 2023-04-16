@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.db;
 
 import racingcar.dto.CarDto;
 

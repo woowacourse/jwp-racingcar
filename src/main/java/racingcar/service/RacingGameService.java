@@ -2,7 +2,7 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.RacingGameRepository;
+import racingcar.db.RacingGameRepository;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
