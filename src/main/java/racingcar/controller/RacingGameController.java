@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.domain.*;
-import racingcar.dto.CarStatus;
+import racingcar.domain.Car.*;
+import racingcar.dto.CarDto;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -11,16 +11,14 @@ import java.util.stream.Collectors;
 public class RacingGameController {
 
     private static final int RACE_START_POINT = 0;
-    private static final int MINIMUM_RANDOM_NUMBER = 0;
-    private static final int MAXIMUM_RANDOM_NUMBER = 9;
 
     public void run() {
-        RacingCars cars = createCars();
+        RacingCars racingCars = createCars();
         TryCount tries = getTries();
 
         OutputView.printResultMessage();
-        raceCars(cars, tries.getTries());
-        showFinalResult(cars);
+        raceCars(racingCars, tries.getTries());
+        showFinalResult(racingCars);
     }
 
     private RacingCars createCars() {
@@ -46,31 +44,31 @@ public class RacingGameController {
         }
     }
 
-    private void raceCars(RacingCars cars, int tries) {
-        NumberGenerator numberGenerator = new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER);
+    private void raceCars(RacingCars racingCars, int tries) {
+        NumberGenerator numberGenerator = new RandomNumberGenerator();
 
         for (int i = 0; i < tries; i++) {
-            cars.moveCars(numberGenerator);
-            List<CarStatus> raceResult = showRaceResult(cars);
+            racingCars.moveCars(numberGenerator);
+            List<CarDto> raceResult = showRaceResult(racingCars);
             OutputView.printRaceResult(raceResult);
         }
     }
 
-    private List<CarStatus> showRaceResult(RacingCars racingCars) {
+    private List<CarDto> showRaceResult(RacingCars racingCars) {
         return racingCars.getCars().stream()
-                .map(car -> new CarStatus(car.getName(), car.getCurrentPosition()))
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private void showFinalResult(RacingCars cars) {
-        List<CarStatus> raceResult = showRaceResult(cars);
+    private void showFinalResult(RacingCars racingCars) {
+        List<CarDto> raceResult = showRaceResult(racingCars);
         OutputView.printRaceResult(raceResult);
 
-        showWinners(cars);
+        showWinners(racingCars);
     }
 
-    private void showWinners(RacingCars cars) {
-        List<String> winnersName = cars.pickWinnerCarNames();
+    private void showWinners(RacingCars racingCars) {
+        List<String> winnersName = racingCars.pickWinnerCarNames();
         OutputView.printFinalResult(winnersName);
     }
 }
