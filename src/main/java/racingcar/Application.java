@@ -1,22 +1,17 @@
 package racingcar;
 
-import racingcar.controller.RacingController;
+import racingcar.controller.ConsoleController;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class Application {
 
     public static void main(String[] args) {
-        try {
-            final RacingController racingGame = new RacingController(
-                    new InputView(),
-                    new OutputView()
-            );
-
-            racingGame.race();
-
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-        }
+        final ConsoleController racingGame = new ConsoleController(
+                new InputView(),
+                new OutputView(),
+                new RacingGameService());
+        racingGame.play();
     }
 }
