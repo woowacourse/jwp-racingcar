@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 public class Race {
 
-    private final static int MIN_COUNT = 1;
-    private final static int MAX_COUNT = 999_999_999;
-    
+    private static final int MIN_COUNT = 1;
+    private static final int MAX_COUNT = 999_999_999;
+
     private final int totalCount;
     private int currentCount = 0;
     private final Participants participants;
@@ -18,8 +18,8 @@ public class Race {
         validateRange(totalCount);
         this.totalCount = totalCount;
         List<Car> cars = carNames.stream()
-            .map(carName -> generateCar(carName, numberGenerator))
-            .collect(Collectors.toList());
+                .map(carName -> generateCar(carName, numberGenerator))
+                .collect(Collectors.toList());
         this.participants = new Participants(cars, numberGenerator);
     }
 

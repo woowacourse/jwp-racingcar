@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 
 public class InputView {
 
-    private final static String ENTER_CAR_NAMES = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
-    private final static String ENTER_COUNT = "시도할 회수는 몇회인가요?";
-    private final static String ERROR_HEADER = "[ERROR] ";
-    private final static String EMPTY_INPUT = "입력값이 없습니다.";
-    private final static String NOT_PROPER_COUNT = "시도횟수는 양의 정수여야합니다.";
+    private static final String ENTER_CAR_NAMES = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
+    private static final String ENTER_COUNT = "시도할 회수는 몇회인가요?";
+    private static final String ERROR_HEADER = "[ERROR] ";
+    private static final String EMPTY_INPUT = "입력값이 없습니다.";
+    private static final String NOT_PROPER_COUNT = "시도횟수는 양의 정수여야합니다.";
 
     private final Scanner scanner;
 
@@ -46,7 +46,7 @@ public class InputView {
 
     private List<String> splitWordsBy(String input, String delimiter) {
         return Arrays.stream(input.split(delimiter, -1)).map(String::strip)
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     private void throwError(String errorMessage) {
