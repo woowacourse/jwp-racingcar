@@ -70,7 +70,8 @@ class RacingCarServiceTest {
 
         // expect
         assertThatThrownBy(() -> racingCarService.playRacingGame(carNames, 1))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR]: 중복된 차 이름이 있습니다.");
     }
 
     @Test
@@ -81,6 +82,20 @@ class RacingCarServiceTest {
 
         // expect
         assertThatThrownBy(() -> racingCarService.playRacingGame(carNames, 1))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR]: 자동차 이름은 5자 이하여야 합니다.");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"글렌.", "ㄱㄹ", "글:렌", "글렌,"})
+    @DisplayName("이름이 영문이나 한글이 아니면 예외가 발생해야 한다.")
+    void playRacingGame_invalidName(String input) {
+        // given
+        List<String> carNames = List.of(input);
+
+        // expect
+        assertThatThrownBy(() -> racingCarService.playRacingGame(carNames, 1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR]: 자동차 이름은 한글 혹은 영문만 가능합니다.");
     }
 }
