@@ -1,20 +1,24 @@
 package racingcar.dto;
 
-import java.util.List;
-
 import racingcar.domain.Car;
+import racingcar.domain.Winner;
+
+import java.util.List;
+import java.util.Locale;
 
 public class PlayResultResponseDto {
-    private final String winners;
+    private static final String DELIMITER = ",";
+
+    private final Winner winner;
     private final List<Car> racingCars;
 
-    public PlayResultResponseDto(String winners, List<Car> racingCars) {
-        this.winners = winners;
+    public PlayResultResponseDto(Winner winner, List<Car> racingCars) {
+        this.winner = winner;
         this.racingCars = racingCars;
     }
 
     public String getWinners() {
-        return winners;
+        return new WinnerFormatter().print(winner, Locale.getDefault());
     }
 
     public List<Car> getRacingCars() {

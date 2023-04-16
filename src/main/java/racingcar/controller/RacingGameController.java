@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,11 +13,13 @@ import racingcar.domain.RacingGame;
 import racingcar.domain.Winner;
 import racingcar.dto.PlayRequestDto;
 import racingcar.dto.PlayResultResponseDto;
+import racingcar.dto.WinnerFormatter;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 public class RacingGameController {
@@ -25,6 +28,8 @@ public class RacingGameController {
     private static final CarGenerator carGenerator = new CarGenerator();
     private static final String DELIMETER = ",";
 
+    @Autowired
+    ConversionService conversionService;
     @Autowired
     private GameInsertDao gameInsertDao;
     @Autowired
@@ -42,16 +47,10 @@ public class RacingGameController {
         List<Car> cars = carGenerator.generateCars(names.split(DELIMETER));
         RacingGame racingGame = new RacingGame(cars, count, numberGenerator);
         racingGame.run();
-        String winners = getWinners(racingGame);
-        int gameId = gameInsertDao.insertGame(winners, count);
+        Winner winner = racingGame.getWinner();
+        int gameId = gameInsertDao.insertGame(new WinnerFormatter().print(winner, Locale.getDefault()), count);
         playerInsertDao.insertPlayers(gameId, cars);
 
-        return new PlayResultResponseDto(winners, cars);
-    }
-
-    private String getWinners(RacingGame racingGame) {
-        Winner winner = racingGame.getWinner();
-        List<String> winnerNames = winner.getWinnerNames();
-        return String.join(DELIMETER, winnerNames);
+        return new PlayResultResponseDto(winner, cars);
     }
 }
