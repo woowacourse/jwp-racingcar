@@ -13,6 +13,12 @@ public class ExceptionController {
                 .body(new ExceptionMessage(e));
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handle() {
+        return ResponseEntity.internalServerError()
+                .body("요청을 처리할 수 없습니다.");
+    }
+
     private static class ExceptionMessage {
         private final String message;
 
