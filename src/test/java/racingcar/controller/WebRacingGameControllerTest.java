@@ -44,7 +44,7 @@ public class WebRacingGameControllerTest {
         //when
         doReturn(response)
                 .when(racingGameService)
-                .saveGame(request.getNames(), request.getCount());
+                .saveGamePlay(request.getNames(), request.getCount());
 
         //then
         mockMvc.perform(post("/plays")

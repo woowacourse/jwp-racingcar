@@ -26,7 +26,7 @@ public class RacingGameService {
         this.racingGameRepository = racingGameRepository;
     }
 
-    public GameResponseDto saveGame(String names, int tryCount) {
+    public GameResponseDto saveGamePlay(String names, int tryCount) {
         RacingGame racingGame = new RacingGame(convertToNames(names));
 
         racingGame.moveCars(new TryCount(tryCount));

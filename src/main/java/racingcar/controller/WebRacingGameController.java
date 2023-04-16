@@ -29,7 +29,7 @@ public class WebRacingGameController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponseDto> gameSave(@RequestBody GameRequestDto request) {
-        GameResponseDto response = racingGameService.saveGame(request.getNames(), request.getCount());
+        GameResponseDto response = racingGameService.saveGamePlay(request.getNames(), request.getCount());
 
         return ResponseEntity.ok(response);
     }

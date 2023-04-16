@@ -1,7 +1,6 @@
 package racingcar.service;
 
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -22,7 +21,7 @@ class RacingGameServiceTest {
 
     @RepeatedTest(value = 5)
     void saveGame() {
-        GameResponseDto result = racingGameService.saveGame("도치,쥬니", 2);
+        GameResponseDto result = racingGameService.saveGamePlay("도치,쥬니", 2);
         List<Integer> resultPositions = result.getRacingCars().stream()
                 .map(CarDto::getPosition)
                 .collect(Collectors.toList());
