@@ -8,6 +8,7 @@ import racingcar.entity.PlayResultEntity;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -42,5 +43,10 @@ public class PlayResultMapper {
     public PlayResultEntity findById(long id) {
         String sql = "SELECT * FROM play_result WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
+    }
+
+    public List<PlayResultEntity> findAll() {
+        String sql = "SELECT * FROM play_result";
+        return jdbcTemplate.query(sql, entityRowMapper);
     }
 }

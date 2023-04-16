@@ -67,4 +67,19 @@ public class RacingGameService {
             game.play();
         }
     }
+
+    public List<CarGameResponse> findAllGame() {
+        List<PlayResultEntity> entities = playResultMapper.findAll();
+
+        return entities.stream()
+                .map(playResultEntity -> CarGameResponse.of(playResultEntity.getWinners(), getAllByPlayResultId(playResultEntity.getId())))
+                .collect(Collectors.toList());
+    }
+
+    private List<CarResponse> getAllByPlayResultId(Long id) {
+        List<CarResultEntity> carEntities = carResultMapper.findAllByPlayResultId(id);
+        return carEntities.stream()
+                .map(CarResponse::new)
+                .collect(Collectors.toList());
+    }
 }

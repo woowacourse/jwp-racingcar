@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import racingcar.entity.CarResultEntity;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class CarResultMapper {
@@ -41,5 +42,10 @@ public class CarResultMapper {
     public CarResultEntity findById(long id) {
         String sql = "SELECT * FROM car_result WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
+    }
+
+    public List<CarResultEntity> findAllByPlayResultId(long id) {
+        String sql = "SELECT * FROM car_result WHERE play_result_id = ?";
+        return jdbcTemplate.query(sql, entityRowMapper, id);
     }
 }
