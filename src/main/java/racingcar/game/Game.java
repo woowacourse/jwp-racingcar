@@ -33,7 +33,7 @@ public class Game {
 
     private void raceOneRoundWithoutPrint(NumberGenerator numberGenerator) {
         final List<Car> cars = participants.getCars();
-        cars.forEach((car) -> driveOrNot(car, numberGenerator));
+        cars.forEach(car -> driveOrNot(car, numberGenerator));
         race.addCount();
     }
 
