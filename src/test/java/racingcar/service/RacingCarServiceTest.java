@@ -96,6 +96,6 @@ class RacingCarServiceTest {
         // expect
         assertThatThrownBy(() -> racingCarService.playRacingGame(carNames, 1))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR]: 자동차 이름은 한글 혹은 영문만 가능합니다.");
+                .hasMessage("[ERROR]: 자동차 이름은 영문 혹은 한글만 가능합니다.");
     }
 }
