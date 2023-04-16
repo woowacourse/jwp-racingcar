@@ -3,8 +3,11 @@ package racingcar.service;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import racingcar.dao.GameResultDao;
-import racingcar.dao.ResultCarDao;
+import racingcar.dao.RacingGameRepository;
+import racingcar.dto.GameResultDto;
+import racingcar.dto.response.GameResponseDto;
+
+import java.util.List;
 
 @TestConfiguration
 class TestConfig {
@@ -12,19 +15,23 @@ class TestConfig {
     @Primary
     @Bean
     public RacingGameService RacingGameService() {
-        return new RacingGameService(GameResultDto(), ResultCarDao());
+        return new RacingGameService(RacingGameRepository());
     }
 
     @Primary
     @Bean
-    public GameResultDao GameResultDto() {
-        return new StubGameResultDao();
+    public RacingGameRepository RacingGameRepository() {
+        return new StubRepository();
     }
 
-    @Primary
-    @Bean
-    public ResultCarDao ResultCarDao() {
-        return new StubResultCarDao();
-    }
+    private static class StubRepository implements RacingGameRepository {
+        @Override
+        public void saveGame(GameResultDto resultDto) {
+        }
 
+        @Override
+        public List<GameResponseDto> findAllGame() {
+            return null;
+        }
+    }
 }
