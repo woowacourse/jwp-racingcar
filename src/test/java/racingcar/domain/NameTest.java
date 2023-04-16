@@ -1,12 +1,12 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import racingcar.exception.NameIsOutOfBoundException;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class NameTest {
 
@@ -22,7 +22,7 @@ public class NameTest {
 
     @ParameterizedTest
     @DisplayName("이름의 길이가 1이상 5이하 이면 정상동작한다.")
-    @ValueSource(strings = {"abcde", "abcd", "abc","ab", "a"})
+    @ValueSource(strings = {"abcde", "abcd", "abc", "ab", "a"})
     void nameLengthOneToFive(final String name) {
         //when
         //then

@@ -1,10 +1,11 @@
 package racingcar.domain;
 
-import static java.util.stream.Collectors.toList;
+import racingcar.exception.CannotFindMaxPositionException;
 
 import java.util.ArrayList;
 import java.util.List;
-import racingcar.exception.CannotFindMaxPositionException;
+
+import static java.util.stream.Collectors.toList;
 
 public class RacingCars {
 

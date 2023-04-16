@@ -1,10 +1,5 @@
 package racingcar.service;
 
-import static java.util.Collections.addAll;
-import static java.util.stream.Collectors.toList;
-
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import racingcar.dao.PlayerSaveDto;
 import racingcar.dao.RacingGameDao;
@@ -14,6 +9,12 @@ import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
 import racingcar.exception.CommaNotFoundException;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Collections.addAll;
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class RacingGameService {
 
@@ -21,17 +22,6 @@ public class RacingGameService {
 
     public RacingGameService(final RacingGameDao racingGameDao) {
         this.racingGameDao = racingGameDao;
-    }
-
-    public RacingCars run(final String inputNames, final int inputCount) {
-        final List<Name> names = sliceNames(inputNames);
-        final RacingCars racingCars = new RacingCars(createRacingCar(names));
-        final TryCount tryCount = new TryCount(inputCount);
-
-        moveCars(racingCars, tryCount);
-
-        saveRacingCars(inputCount, racingCars);
-        return racingCars;
     }
 
     private static List<Name> sliceNames(final String inputNames) {
@@ -59,6 +49,21 @@ public class RacingGameService {
         }
     }
 
+    private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
+        return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
+    }
+
+    public RacingCars run(final String inputNames, final int inputCount) {
+        final List<Name> names = sliceNames(inputNames);
+        final RacingCars racingCars = new RacingCars(createRacingCar(names));
+        final TryCount tryCount = new TryCount(inputCount);
+
+        moveCars(racingCars, tryCount);
+
+        saveRacingCars(inputCount, racingCars);
+        return racingCars;
+    }
+
     private List<RacingCar> createRacingCar(final List<Name> names) {
         return names.stream()
                 .map(RacingCar::createRandomMoveRacingCar)
@@ -82,9 +87,5 @@ public class RacingGameService {
                 .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
                 .collect(toList());
         racingGameDao.save(tryCount, playerSaveDtos);
-    }
-
-    private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
-        return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 }

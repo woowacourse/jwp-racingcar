@@ -1,10 +1,11 @@
 package racingcar.domain;
 
-import static java.util.Collections.addAll;
+import racingcar.exception.CommaNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
-import racingcar.exception.CommaNotFoundException;
+
+import static java.util.Collections.addAll;
 
 public class Names {
 

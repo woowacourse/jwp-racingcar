@@ -1,15 +1,16 @@
 package racingcar.domain;
 
+import racingcar.exception.CannotCreateRandomException;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
-import racingcar.exception.CannotCreateRandomException;
 
 public class RandomPicker implements Pickable {
 
     private static final int RANDOM_NUMBER_UPPER_BOUND = 10;
 
-    private static Random random;
+    private static final Random random;
 
     static {
         try {

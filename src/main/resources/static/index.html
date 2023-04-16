@@ -1,83 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>자동차 경주 게임</title>
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <meta charset="utf-8">
+    <title>자동차 경주 게임</title>
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="gnb">
-  <h1>Racing Car</h1>
-  <div>
-    <button onclick="handlePlayButtonClick()">게임하기</button>
-    <button onclick="handleListButtonClick()">이력조회</button>
-  </div>
+    <h1>Racing Car</h1>
+    <div>
+        <button onclick="handlePlayButtonClick()">게임하기</button>
+        <button onclick="handleListButtonClick()">이력조회</button>
+    </div>
 </div>
 <h1>자동차 경주 게임</h1>
 <form onsubmit="submitForm(); return false;">
-  <div class="input-area">
-    <label for="names">자동차 이름:</label>
-    <input type="text" id="names" name="names">
+    <div class="input-area">
+        <label for="names">자동차 이름:</label>
+        <input id="names" name="names" type="text">
 
-    <label for="count">시도할 횟수:</label>
-    <input type="text" id="count" name="count">
-  </div>
+        <label for="count">시도할 횟수:</label>
+        <input id="count" name="count" type="text">
+    </div>
 
-  <button type="submit">Submit</button>
+    <button type="submit">Submit</button>
 
-  <div class="output-area">
-    우승자: <span id="resultWinner"></span>
-    <br>
-    결과:
-    <div id="resultPosition"></div>
-  </div>
+    <div class="output-area">
+        우승자: <span id="resultWinner"></span>
+        <br>
+        결과:
+        <div id="resultPosition"></div>
+    </div>
 </form>
 
 <script>
-  function submitForm() {
-    const names = document.getElementById("names").value;
-    const count = document.getElementById("count").value;
-    const data = {
-      names: names,
-      count: count
-    };
-    fetch("/plays", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8"
-      },
-      body: JSON.stringify(data)
-    })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Network response was not ok.");
-          }
+    function submitForm() {
+        const names = document.getElementById("names").value;
+        const count = document.getElementById("count").value;
+        const data = {
+            names: names,
+            count: count
+        };
+        fetch("/plays", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            body: JSON.stringify(data)
         })
-        .then(data => {
-          const resultPosition = document.createElement("div");
-          for (let index in data.racingCars) {
-            const span = document.createElement("span");
-            span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
-            resultPosition.appendChild(span);
-          }
-          document.getElementById("resultWinner").innerHTML = data.winners
-          document.getElementById("resultPosition").innerHTML = '';
-          document.getElementById("resultPosition").appendChild(resultPosition);
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
-  }
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Network response was not ok.");
+                }
+            })
+            .then(data => {
+                const resultPosition = document.createElement("div");
+                for (let index in data.racingCars) {
+                    const span = document.createElement("span");
+                    span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
+                    resultPosition.appendChild(span);
+                }
+                document.getElementById("resultWinner").innerHTML = data.winners
+                document.getElementById("resultPosition").innerHTML = '';
+                document.getElementById("resultPosition").appendChild(resultPosition);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
 
-  function handlePlayButtonClick() {
-    window.location.href = "/";
-  }
+    function handlePlayButtonClick() {
+        window.location.href = "/";
+    }
 
-  function handleListButtonClick() {
-    window.location.href = "/list.html";
-  }
+    function handleListButtonClick() {
+        window.location.href = "/list.html";
+    }
 </script>
 </body>
 </html>

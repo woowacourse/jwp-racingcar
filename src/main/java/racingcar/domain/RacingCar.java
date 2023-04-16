@@ -5,8 +5,8 @@ public class RacingCar {
     private static final int MOVE_THRESHOLD = 4;
 
     private final Name name;
+    private final Pickable picker;
     private int position;
-    private Pickable picker;
 
     public RacingCar(final String carName, final Pickable picker) {
         this.name = new Name(carName);

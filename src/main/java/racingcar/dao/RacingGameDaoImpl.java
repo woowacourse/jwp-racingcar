@@ -1,8 +1,5 @@
 package racingcar.dao;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,6 +9,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.exception.DatabaseAccessException;
 
+import java.util.List;
+
 @Repository
 public class RacingGameDaoImpl implements RacingGameDao {
 
@@ -19,6 +18,14 @@ public class RacingGameDaoImpl implements RacingGameDao {
 
     public RacingGameDaoImpl(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private static MapSqlParameterSource createParams(final Long id, final PlayerSaveDto dto) {
+        return new MapSqlParameterSource()
+                .addValue("gameId", id)
+                .addValue("name", dto.getName())
+                .addValue("position", dto.getPosition())
+                .addValue("isWinner", dto.getIsWinner());
     }
 
     @Override
@@ -52,13 +59,5 @@ public class RacingGameDaoImpl implements RacingGameDao {
         } catch (DatabaseAccessException exception) {
             throw new DatabaseAccessException();
         }
-    }
-
-    private static MapSqlParameterSource createParams(final Long id, final PlayerSaveDto dto) {
-        return new MapSqlParameterSource()
-                .addValue("gameId", id)
-                .addValue("name", dto.getName())
-                .addValue("position", dto.getPosition())
-                .addValue("isWinner", dto.getIsWinner());
     }
 }

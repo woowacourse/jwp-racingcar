@@ -1,14 +1,15 @@
 package racingcar.controller;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import racingcar.domain.RacingCars;
 import racingcar.service.RacingGameService;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Controller
 public class RacingGameController {

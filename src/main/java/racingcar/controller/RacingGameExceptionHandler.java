@@ -1,12 +1,12 @@
 package racingcar.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import racingcar.exception.RuntimeExceptionImpl;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class RacingGameExceptionHandler {

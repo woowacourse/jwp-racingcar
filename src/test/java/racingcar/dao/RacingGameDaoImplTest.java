@@ -1,14 +1,15 @@
 package racingcar.dao;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 @JdbcTest
 class RacingGameDaoImplTest {
@@ -31,7 +32,7 @@ class RacingGameDaoImplTest {
         final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
 
         // when, then
-        assertThatCode(() ->  racingGameDao.save(10, List.of(kongHana, ethan)))
+        assertThatCode(() -> racingGameDao.save(10, List.of(kongHana, ethan)))
                 .doesNotThrowAnyException();
     }
 }
