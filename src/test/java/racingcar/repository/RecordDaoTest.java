@@ -1,11 +1,13 @@
 package racingcar.repository;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
-import racingcar.model.Vehicle;
+import racingcar.model.Car;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +60,7 @@ public class RecordDaoTest {
     @Test
     @DisplayName("단일 Record 삽입 테스트")
     void 단일_Record_삽입_테스트() {
-        Vehicle doggy = new Vehicle("doggy", 8);
+        Car doggy = new Car("doggy");
 
         assertThatNoException().isThrownBy(
                 () -> recordDao.insert(2, true, doggy)
@@ -68,7 +70,7 @@ public class RecordDaoTest {
     @Test
     @DisplayName("존재하지 않는 gameId가 들어온 경우 예외가 발생한다")
     void 존재하지_않는_gameId가_들어온_경우_예외가_발생한다() {
-        Vehicle doggy = new Vehicle("doggy", 8);
+        Car doggy = new Car("doggy");
 
         assertThatThrownBy(
                 () -> recordDao.insert(3, false, doggy)
@@ -78,9 +80,17 @@ public class RecordDaoTest {
     @Test
     @DisplayName("이미 존재하는 game_id와 player_name이 동시에 들어온 경우 예외가 발생한다")
     void 이미_존재하는_game_id와_player_name이_동시에_들어온_경우_예외가_발생한다() {
-        Vehicle doggy = new Vehicle("doggy", 8);
+        Car doggy = new Car("doggy");
 
         assertThatThrownBy(() -> recordDao.insert(1, false, doggy));
 
+    }
+
+    @Test
+    @DisplayName("모든 결과 값을 반환")
+    void 모든_결과_값을_반환() {
+        assertThatNoException().isThrownBy(
+                () -> recordDao.findAll()
+        );
     }
 }
