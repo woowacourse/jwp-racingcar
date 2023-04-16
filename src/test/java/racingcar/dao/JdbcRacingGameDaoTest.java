@@ -15,9 +15,9 @@ import racingcar.domain.entity.RacingGameEntity;
 class JdbcRacingGameDaoTest {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
-    JdbcRacingGameDao jdbcRacingGameDao;
+    private JdbcRacingGameDao jdbcRacingGameDao;
 
     @BeforeEach
     void setUp() {

@@ -15,11 +15,11 @@ import racingcar.domain.entity.CarEntity;
 class JdbcCarDaoTest {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
-    JdbcRacingGameDao jdbcRacingGameDao;
+    private JdbcRacingGameDao jdbcRacingGameDao;
 
-    JdbcCarDao jdbcCarDao;
+    private JdbcCarDao jdbcCarDao;
 
     @BeforeEach
     void setUp() {

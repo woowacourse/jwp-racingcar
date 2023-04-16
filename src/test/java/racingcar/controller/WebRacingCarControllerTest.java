@@ -28,7 +28,7 @@ import racingcar.domain.entity.RacingGameEntity;
 import racingcar.dto.request.RacingGameRequest;
 import racingcar.repository.RacingCarRepository;
 
-@SpringBootTest
+@SpringBootTest()
 @AutoConfigureMockMvc
 class WebRacingCarControllerTest {
 
