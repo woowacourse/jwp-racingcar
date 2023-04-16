@@ -1,10 +1,10 @@
 package racingcar.dto;
 
-public class CarDto {
+public class PlayerDto {
     private final String name;
     private final int position;
 
-    public CarDto(final String name, final int position) {
+    public PlayerDto(final String name, final int position) {
         this.name = name;
         this.position = position;
     }

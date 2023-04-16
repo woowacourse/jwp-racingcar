@@ -1,12 +1,12 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.CarDao;
+import racingcar.Entity.Game;
+import racingcar.Entity.Player;
 import racingcar.dao.GameDao;
-import racingcar.domain.Car;
+import racingcar.dao.PlayerDao;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
-import racingcar.dto.CarDto;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
 
@@ -20,24 +20,27 @@ public class RacingGameService {
 
     private final NumberGenerator numberGenerator;
     private final GameDao gameDao;
-    private final CarDao carDao;
+    private final PlayerDao playerDao;
 
-    public RacingGameService(final NumberGenerator numberGenerator, final GameDao gameDao, final CarDao carDao) {
+    public RacingGameService(final NumberGenerator numberGenerator, final GameDao gameDao, final PlayerDao playerDao) {
         this.numberGenerator = numberGenerator;
         this.gameDao = gameDao;
-        this.carDao = carDao;
+        this.playerDao = playerDao;
     }
 
     public GameResponse play(final GameRequest gameRequest) {
         final RacingGame racingGame = playRacingGame(gameRequest);
 
-        final String winners = String.join(DELIMITER, racingGame.findWinners());
-        final int gameId = gameDao.save(gameRequest.getCount(), winners);
+        final Game game = Game.of(racingGame.findWinners(), gameRequest.getCount());
+        final int gameId = gameDao.save(game);
 
-        final List<Car> cars = racingGame.findCurrentCarPositions();
-        carDao.saveAll(gameId, cars);
+        final List<Player> cars = racingGame.findCurrentCarPositions().stream()
+                .map(car -> Player.of(car, gameId))
+                .collect(Collectors.toList());
 
-        return toGameResponse(winners, cars);
+        playerDao.saveAll(cars);
+
+        return GameResponse.of(game.getWinners(), cars);
     }
 
     private RacingGame playRacingGame(final GameRequest gameRequest) {
@@ -48,12 +51,5 @@ public class RacingGameService {
             racingGame.play();
         }
         return racingGame;
-    }
-
-    private GameResponse toGameResponse(final String winners, final List<Car> cars) {
-        final List<CarDto> carDtos = cars.stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
-        return new GameResponse(winners, carDtos);
     }
 }

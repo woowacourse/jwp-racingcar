@@ -30,4 +30,8 @@ public class RacingGame {
     public List<String> findWinners() {
         return cars.findWinners();
     }
+
+    public int getCount() {
+        return count.getValue();
+    }
 }

@@ -8,12 +8,12 @@ CREATE TABLE GAME
     PRIMARY KEY (id)
 );
 
-CREATE TABLE CAR
+CREATE TABLE PLAYER
 (
     id       INT         NOT NULL AUTO_INCREMENT,
     name     VARCHAR(50) NOT NULL,
     position INT         NOT NULL,
     game_id  INT         NOT NULL,
-    FOREIGN KEY (game_id) REFERENCES GAME(id),
+    FOREIGN KEY (game_id) REFERENCES GAME (id),
     PRIMARY KEY (id)
 )

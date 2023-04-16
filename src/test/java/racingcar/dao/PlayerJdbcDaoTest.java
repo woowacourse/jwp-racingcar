@@ -8,30 +8,33 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.Entity.Game;
+import racingcar.Entity.Player;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.utils.TestNumberGenerator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-public class CarJdbcDaoTest {
+public class PlayerJdbcDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private CarDao carDao;
+    private PlayerDao playerDao;
     private GameDao gameDao;
 
     @BeforeEach
     void setUp() {
         final String sql = "insert into game (trial, winners) values (?,?)";
         jdbcTemplate.update(sql, 1, "car1");
-        carDao = new CarJdbcDao(jdbcTemplate);
+        playerDao = new PlayerJdbcDao(jdbcTemplate);
         gameDao = new GameJdbcDao(jdbcTemplate);
     }
 
@@ -41,10 +44,15 @@ public class CarJdbcDaoTest {
         final Cars cars = new Cars(List.of("car1", "car2"));
         NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3));
         cars.race(numberGenerator);
-        final int gameId = gameDao.save(3, "car1");
 
+        Game game = Game.of(cars.findWinners(), 3);
+        final int gameId = gameDao.save(game);
+
+        List<Player> players = cars.getCars().stream()
+                .map(car -> Player.of(car, gameId))
+                .collect(Collectors.toList());
         // when
-        carDao.saveAll(gameId, cars.getCars());
+        playerDao.saveAll(players);
 
         // then
         final String sql = "select count(*) from game";

@@ -11,9 +11,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import racingcar.dto.CarDto;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
+import racingcar.dto.PlayerDto;
 import racingcar.service.RacingGameService;
 
 import java.util.List;
@@ -45,8 +45,8 @@ class WebRacingGameControllerTest {
     void 게임_진행() throws Exception {
         // given
         GameResponse gameResponse = new GameResponse("허브", List.of(
-                new CarDto("비버", 3),
-                new CarDto("허브", 4))
+                new PlayerDto("비버", 3),
+                new PlayerDto("허브", 4))
         );
         given(racingGameService.play(any(GameRequest.class)))
                 .willReturn(gameResponse);
