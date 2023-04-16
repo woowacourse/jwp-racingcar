@@ -55,13 +55,13 @@ class RacingGameControllerTest {
             mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
         }
 
-        @Test
-        void testPlay() throws Exception {
-            //given
-            ObjectMapper objectMapper = new ObjectMapper();
-            RacingGameRequest racingGameRequest = new RacingGameRequest(List.of("브리", "로지", "바론"), 10);
-            String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
-            String responseAsString = objectMapper.writeValueAsString(mockResponse);
+    @Test
+    void testPlay() throws Exception {
+        //given
+        ObjectMapper objectMapper = new ObjectMapper();
+        RacingGameRequest racingGameRequest = new RacingGameRequest("브리,로지,바론", 10);
+        String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
+        String responseAsString = objectMapper.writeValueAsString(mockResponse);
 
             //when
             //then
@@ -90,7 +90,7 @@ class RacingGameControllerTest {
 
             //given
             ObjectMapper objectMapper = new ObjectMapper();
-            RacingGameRequest racingGameRequest = new RacingGameRequest(List.of("브리", "로지", "바론"), -1);
+            RacingGameRequest racingGameRequest = new RacingGameRequest("브리,로지,바론", -1);
             String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
 
             //when
