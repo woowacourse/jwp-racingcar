@@ -7,13 +7,12 @@ import org.springframework.stereotype.Component;
 
 import racingcar.service.GameService;
 import racingcar.service.dto.ResultDto;
+import racingcar.view.Command;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 @Component
 public class ConsoleGameController {
-
-    private static final String EXCEPTION_PREFIX = "[ERROR]";
 
     private static final InputView INPUT_VIEW = new InputView();
     private static final OutputView OUTPUT_VIEW = new OutputView();
@@ -25,6 +24,18 @@ public class ConsoleGameController {
     }
 
     public void run() {
+        while (selectOperation() != Command.EXIT);
+    }
+
+    private Command selectOperation() {
+        Command command = handleExceptionByRepeating(INPUT_VIEW::askCommand);
+        if (command == Command.NEW) {
+            play();
+        }
+        return command;
+    }
+
+    private void play() {
         ResultDto result = handleExceptionByRepeating(() -> {
             List<String> carNames = INPUT_VIEW.inputCarNames();
             int trialCount = INPUT_VIEW.inputTrialCount();
@@ -40,7 +51,7 @@ public class ConsoleGameController {
         try {
             return supplier.get();
         } catch (Exception exception) {
-            System.out.println(EXCEPTION_PREFIX + exception.getMessage());
+            OUTPUT_VIEW.printError(exception.getMessage());
             return handleExceptionByRepeating(supplier);
         }
     }

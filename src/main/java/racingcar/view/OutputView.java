@@ -6,6 +6,7 @@ import racingcar.service.dto.CarDto;
 
 public class OutputView {
 
+    private static final String EXCEPTION_PREFIX = "[ERROR]";
     private static final String RESULT_START_MESSAGE = "실행 결과";
     private static final String WINNERS_POSTFIX = "가 최종 우승했습니다.";
     private static final String CAR_INFIX = " : ";
@@ -31,6 +32,10 @@ public class OutputView {
 
     public void printWinners(List<String> winnerNames) {
         System.out.println(join(winnerNames) + WINNERS_POSTFIX);
+    }
+
+    public void printError(String message) {
+        System.out.println(EXCEPTION_PREFIX + message);
     }
 
     private String join(List<String> carNames) {
