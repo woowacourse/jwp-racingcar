@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.RaceDao;
 import racingcar.dao.WinnerDao;
@@ -17,8 +18,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
+@Transactional
 public class RacingGameService {
-
     private final RaceDao raceDao;
     private final PlayerDao playerDao;
     private final WinnerDao winnerDao;
@@ -43,19 +44,26 @@ public class RacingGameService {
     
     public List<RacingResultResponseDto> findAllGameResult() {
         List<Long> ids = raceDao.findAllIds();
-        List<List<Car>> winners = ids.stream()
+        List<List<Car>> winners = getWinners(ids);
+        List<List<Car>> cars = getCars(ids);
+        
+        return IntStream.range(0, winners.size())
+                .mapToObj(count -> new RacingResultResponseDto(winners.get(count), cars.get(count)))
+                .collect(Collectors.toUnmodifiableList());
+    }
+    
+    private List<List<Car>> getWinners(List<Long> ids) {
+        return ids.stream()
                 .map(winnerDao::findWinnerIdsByRaceId)
                 .map(playerDao::findByIds)
                 .map(this::parseCarDtos)
                 .collect(Collectors.toUnmodifiableList());
-        
-        List<List<Car>> cars = ids.stream()
+    }
+    
+    private List<List<Car>> getCars(List<Long> ids) {
+        return ids.stream()
                 .map(playerDao::findByRaceIds)
                 .map(this::parseCarDtos)
-                .collect(Collectors.toUnmodifiableList());
-        
-        return IntStream.range(0, winners.size())
-                .mapToObj(count -> new RacingResultResponseDto(winners.get(count), cars.get(count)))
                 .collect(Collectors.toUnmodifiableList());
     }
     
