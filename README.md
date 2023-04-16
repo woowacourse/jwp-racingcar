@@ -88,3 +88,23 @@
 - [ ] 이너클래스로 `CarDTO`를 둘지, 외부 객체로 뺼지
 - [ ] 어느 기준으로 DTO를 생성해야 할지
     - [ ] Controller - Service, Service - Dao 사이마다 DTO를 새로 정의해야 하는지(필드가 새롭게 추가되는 경우)
+
+---
+
+# 1단계 리팩토링 기록
+
+- [x] 컨트롤러 `RestController`로 변경
+- [x] 클라이언트에게 `ResponseEntity`로 응답하도록 변경
+    - [x] 보다 상세한 응답 코드, 헤더 등을 전달할 수 있음
+- [x] DTO 클래스명이 `DTO`라는 키워드를 내포하지 않도록 변경
+    - [x] 명확하게 비즈니스적인 표현이 가능해짐
+- [x] 빈 객체의 테스트에서 생성 책임을 컨테이너에게 위임
+    - [x] 생성 책임을 위임함에 따라 주입할 더미 객체를 만들 필요가 사라짐
+- [x] `@JDBCTest`를 사용해 table을 삭제, 생성하는 과정을 명시하지 않도록 변경
+    - [x] `@JDBCTest`는 내부적으로 `Transactional`함
+    - [x] 기본적으로 테스트 메소드마다 `Rollback`을 수행함
+        - [x] 따라서 `CREATE TABLE`, `DROP TABLE` 과정을 수동으로 할 필요가 없음
+- [x] `RestControllerAdvice`, `ExceptionHandler`를 이용한 전역 예외처리
+    - [x] `RestController`의 경우 `RestControllerAdvice`를 사용해야 함
+        - [x] 두 어노테이션의 차이는 `RestController`와 `Controller`의 차이와 같음
+    - [x] `ExceptionResponse` DTO 사용을 통한 예외 메세지 구조화
