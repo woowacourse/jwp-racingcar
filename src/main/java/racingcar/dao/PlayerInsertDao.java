@@ -1,13 +1,15 @@
 package racingcar.dao;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
+import racingcar.domain.Car;
+
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
 
 @Repository
 public class PlayerInsertDao {
@@ -21,14 +23,16 @@ public class PlayerInsertDao {
     }
 
     public void insertPlayers(int gameId, List<Car> cars) {
-        cars.forEach(car -> insertPlayer(gameId, car));
-    }
+        SqlParameterSource[] batchParams = new SqlParameterSource[cars.size()];
+        for (int index = 0; index < cars.size(); index++) {
+            Car car = cars.get(index);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("game_id", gameId);
+            parameters.put("name", car.getName());
+            parameters.put("position", car.getDistance());
+            batchParams[index] = new MapSqlParameterSource(parameters);
+        }
 
-    private void insertPlayer(int gameId, Car car) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("game_id", gameId);
-        parameters.put("name", car.getName());
-        parameters.put("position", car.getDistance());
-        insertPlayerActor.execute(parameters);
+        insertPlayerActor.executeBatch(batchParams);
     }
 }
