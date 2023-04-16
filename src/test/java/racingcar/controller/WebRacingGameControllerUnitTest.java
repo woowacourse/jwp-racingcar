@@ -25,8 +25,8 @@ import static org.mockito.BDDMockito.given;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@WebMvcTest(RacingGameController.class)
-class RacingGameControllerUnitTest {
+@WebMvcTest(WebRacingGameController.class)
+class WebRacingGameControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean

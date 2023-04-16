@@ -5,7 +5,7 @@ import racingcar.util.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class ConsoleController {
+public class ConsoleRacingGameController {
 
     public void execute(final InputView inputView, final OutputView outputView) {
         Game game = makeGame(inputView);

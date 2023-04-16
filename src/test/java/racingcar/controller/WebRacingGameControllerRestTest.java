@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @Sql("/init.sql")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingGameControllerRestTest {
+class WebRacingGameControllerRestTest {
     @LocalServerPort
     private int port;
     @Autowired
