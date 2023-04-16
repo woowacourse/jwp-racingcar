@@ -3,7 +3,6 @@ package racingcar.dao;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,12 +14,12 @@ public class JdbcCarDao implements CarDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcCarDao(final DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public JdbcCarDao(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public void save(int gameId, List<CarEntity> carEntities) {
+    public void saveAll(int gameId, List<CarEntity> carEntities) {
         final String sql = "INSERT INTO CAR(game_id, name, position, is_win) VALUES (?,?,?,?)";
         final BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
 
@@ -46,12 +45,6 @@ public class JdbcCarDao implements CarDao {
     @Override
     public List<CarEntity> findAll() {
         final String sql = "SELECT * FROM CAR";
-        return jdbcTemplate.query(sql, carEntityRowMapper());
-    }
-
-    @Override
-    public List<CarEntity> findByGameId(final int id) {
-        final String sql = "SELECT * FROM CAR WHERE game_id = ?";
         return jdbcTemplate.query(sql, carEntityRowMapper());
     }
 

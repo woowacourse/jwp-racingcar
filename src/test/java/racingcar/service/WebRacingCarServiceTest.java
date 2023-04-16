@@ -20,7 +20,6 @@ class WebRacingCarServiceTest {
     void play_and_return() {
         //given
         racingCarService = new WebRacingCarService(new TestRacingCarRepository(null));
-
         final RacingGameRequest given = new RacingGameRequest("포비,현서,참치", 1);
         //when
         final RacingGameResponse racingGameResponse = racingCarService.play(given);

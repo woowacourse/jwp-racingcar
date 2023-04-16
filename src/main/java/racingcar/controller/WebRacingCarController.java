@@ -46,7 +46,6 @@ public class WebRacingCarController {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining("\n"));
 
-
         return ResponseEntity.badRequest().body(new ExceptionResponse(exceptionMessage));
     }
 }

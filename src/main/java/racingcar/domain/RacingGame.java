@@ -4,7 +4,7 @@ import java.util.List;
 
 public class RacingGame {
 
-    private static final String ROUND_NUMBER_ERROR = "[ERROR] 시도 횟수는 1이상이어야 합니다.";
+    private static final String ROUND_NUMBER_ERROR = "시도 횟수는 1이상이어야 합니다.";
     private static final int ROUND_MIN_NUM = 1;
 
     private final Cars cars;

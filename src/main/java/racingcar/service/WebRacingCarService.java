@@ -12,6 +12,7 @@ import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
 
+//TODO: Transactional 어노테이션 고민
 @Service
 public class WebRacingCarService implements RacingCarService {
 
@@ -37,7 +38,7 @@ public class WebRacingCarService implements RacingCarService {
                 .map(car -> new CarEntity(car.getName(), car.getPosition(), winnerCars.contains(car)))
                 .collect(toList());
 
-        return new RacingGameEntity(carEntities,racingGame.getTotalRound());
+        return new RacingGameEntity(carEntities, racingGame.getTotalRound());
     }
 
     @Override

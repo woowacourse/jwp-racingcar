@@ -17,7 +17,7 @@ class RacingGameTest {
     void validateRound(int wrongValue) {
         assertThatThrownBy(() -> new RacingGame(null, wrongValue))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 시도 횟수는 1이상이어야 합니다.");
+                .hasMessage("시도 횟수는 1이상이어야 합니다.");
     }
 
     @Test

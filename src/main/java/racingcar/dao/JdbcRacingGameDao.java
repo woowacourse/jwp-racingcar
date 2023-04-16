@@ -3,7 +3,6 @@ package racingcar.dao;
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -16,8 +15,8 @@ public class JdbcRacingGameDao implements RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcRacingGameDao(final DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public JdbcRacingGameDao(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
