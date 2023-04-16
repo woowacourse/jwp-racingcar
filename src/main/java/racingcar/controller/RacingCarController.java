@@ -29,10 +29,11 @@ public class RacingCarController {
         List<String> carNames = Arrays.asList(requestDto.getNames().split(","));
         Cars cars = new Cars(CarFactory.buildCars(carNames));
         NumberGenerator numberGenerator = new RandomNumberGenerator();
-        play(cars, requestDto.getCount(),   numberGenerator);
-        ResponseDto responseDto = new ResponseDto(cars.findWinners(), cars.getCars());
-        racingCarService.saveResult(requestDto.getCount(), cars);
-        return ResponseEntity.ok().body(responseDto);
+        int count = gameInfoRequestDto.getCount();
+        play(cars, count, numberGenerator);
+        GameResultResponseDto gameResultResponseDto = GameResultResponseDto.createGameResultResponseDto(cars.findWinners(), cars.getCars());
+        racingCarService.saveResult(count, cars);
+        return ResponseEntity.ok().body(gameResultResponseDto);
     }
 
     public void play(Cars cars, int count, NumberGenerator numberGenerator) {
