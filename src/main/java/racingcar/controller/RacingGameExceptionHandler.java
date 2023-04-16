@@ -15,13 +15,6 @@ public class RacingGameExceptionHandler {
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeExceptionImpl exception) {
         final Map<String, String> exceptionResponse = new HashMap<>();
         exceptionResponse.put("exception", exception.getMessage());
-        return ResponseEntity.badRequest().body(exceptionResponse);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<Map<String, String>> handleDataAccessException(DataAccessException exception) {
-        final Map<String, String> exceptionResponse = new HashMap<>();
-        exceptionResponse.put("exception", exception.getMessage());
-        return ResponseEntity.internalServerError().body(exceptionResponse);
+        return ResponseEntity.status(exception.getHttpStatusValue()).body(exceptionResponse);
     }
 }
