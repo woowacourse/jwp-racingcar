@@ -2,10 +2,7 @@ package racingcar.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import racingcar.dto.ExceptionDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
@@ -31,6 +28,12 @@ public class RacingGameWebController {
         int count = racingGameRequestDto.getCount();
         RacingGameResponseDto racingGameResponseDto = racingGameService.run(names, count);
         return ResponseEntity.status(HttpStatus.OK).body(racingGameResponseDto);
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<RacingGameResponseDto>> getAllResults() {
+        List<RacingGameResponseDto> results = racingGameService.findAllResults();
+        return ResponseEntity.status(HttpStatus.OK).body(results);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
