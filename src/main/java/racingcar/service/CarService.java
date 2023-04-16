@@ -79,7 +79,7 @@ public class CarService {
     private List<Car> mapToCars(String[] carsName) {
         return Arrays.stream(carsName)
                 .map(Car::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private void checkDuplication(String[] carsName) {
