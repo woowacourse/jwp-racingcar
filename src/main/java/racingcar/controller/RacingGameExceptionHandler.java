@@ -11,10 +11,17 @@ import racingcar.exception.RuntimeExceptionImpl;
 @ControllerAdvice
 public class RacingGameExceptionHandler {
 
-    @ExceptionHandler(value = {RuntimeExceptionImpl.class, DataAccessException.class})
-    public ResponseEntity<Map<String, String>> handle(Exception exception) {
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeExceptionImpl exception) {
         final Map<String, String> exceptionResponse = new HashMap<>();
         exceptionResponse.put("exception", exception.getMessage());
         return ResponseEntity.badRequest().body(exceptionResponse);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleDataAccessException(DataAccessException exception) {
+        final Map<String, String> exceptionResponse = new HashMap<>();
+        exceptionResponse.put("exception", exception.getMessage());
+        return ResponseEntity.internalServerError().body(exceptionResponse);
     }
 }
