@@ -2,6 +2,7 @@ package racingcar.repository;
 
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -45,5 +46,10 @@ public class RacingGameRepository {
     public Optional<RacingGameDto> findById(final int id) {
         final String sql = "SELECT * FROM RACING_GAME WHERE id = ?";
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, racingGameRowMapper, id));
+    }
+
+    public List<RacingGameDto> findAll() {
+        final String sql = "SELECT * FROM RACING_GAME";
+        return jdbcTemplate.query(sql, racingGameRowMapper);
     }
 }

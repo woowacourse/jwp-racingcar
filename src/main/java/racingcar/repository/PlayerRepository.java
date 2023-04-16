@@ -2,12 +2,15 @@ package racingcar.repository;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import racingcar.domain.CarGroup;
+import racingcar.repository.mapper.PlayerDto;
 
 @Repository
 public class PlayerRepository {
@@ -17,7 +20,13 @@ public class PlayerRepository {
     public PlayerRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    
+
+    private final RowMapper<PlayerDto> playerRowMapper = (resultSet, rowNum) -> new PlayerDto(
+            resultSet.getInt("id"),
+            resultSet.getString("name"),
+            resultSet.getInt("position")
+    );
+
     public boolean save(final CarGroup carGroup, final int racingGameId) {
         final String sql = "INSERT INTO PLAYER(name, position, racing_game_id) VALUES(?, ?, ?)";
         final int[] updatedCounts = jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -36,5 +45,10 @@ public class PlayerRepository {
         });
 
         return updatedCounts.length == carGroup.getCars().size();
+    }
+
+    public List<PlayerDto> findAll() {
+        final String sql = "SELECT * FROM PLAYER";
+        return jdbcTemplate.query(sql, playerRowMapper);
     }
 }
