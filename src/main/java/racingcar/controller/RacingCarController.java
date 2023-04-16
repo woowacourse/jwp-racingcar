@@ -1,14 +1,15 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.CarFactory;
 import racingcar.domain.Cars;
-import racingcar.dto.RequestDto;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.GameInfoRequestDto;
+import racingcar.dto.GameResultResponseDto;
+import racingcar.exception.PlayerNumberException;
 import racingcar.genertor.NumberGenerator;
 import racingcar.genertor.RandomNumberGenerator;
 import racingcar.service.RacingCarService;
@@ -25,8 +26,8 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResponseDto> play(@RequestBody RequestDto requestDto) {
-        List<String> carNames = Arrays.asList(requestDto.getNames().split(","));
+    public ResponseEntity<GameResultResponseDto> play(@RequestBody GameInfoRequestDto gameInfoRequestDto) {
+        List<String> carNames = Arrays.asList(gameInfoRequestDto.getNames().split(","));
         Cars cars = new Cars(CarFactory.buildCars(carNames));
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoRequestDto.getCount();
@@ -40,5 +41,10 @@ public class RacingCarController {
         while (count-- > 0) {
             cars.moveCars(numberGenerator);
         }
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handlePlayerNumber(PlayerNumberException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
