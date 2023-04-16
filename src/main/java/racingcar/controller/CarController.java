@@ -12,12 +12,12 @@ public class CarController {
 
     private final CarService carService;
 
-    public CarController(CarService carService) {
+    public CarController(final CarService carService) {
         this.carService = carService;
     }
 
     @PostMapping("/plays")
-    public WinnerCarDto playGame(@RequestBody GameInfo gameInfo) {
+    public WinnerCarDto playGame(@RequestBody final GameInfo gameInfo) {
         return carService.playGame(gameInfo);
     }
 
