@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.request.PlayerResultSaveDto;
 import racingcar.dto.response.PlayerResultDto;
-import racingcar.entity.PlayerResult;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -31,10 +30,10 @@ public class PlayerResultDao {
         return playerResultDto;
     };
 
-    public PlayerResult savePlayerResult(final PlayerResultSaveDto playerResultSaveDto) {
+    public PlayerResultDto savePlayerResult(final PlayerResultSaveDto playerResultSaveDto) {
         final SqlParameterSource params = new BeanPropertySqlParameterSource(playerResultSaveDto);
         final long id = insertPlayerResult.executeAndReturnKey(params).longValue();
-        return new PlayerResult(id, playerResultSaveDto);
+        return new PlayerResultDto(playerResultSaveDto.getName(), playerResultSaveDto.getFinalPosition());
     }
 
     public List<PlayerResultDto> findPlayerResultsByGameId(Long gameId) {

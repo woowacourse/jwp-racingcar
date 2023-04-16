@@ -16,8 +16,6 @@ import racingcar.dto.response.GameResponseDto;
 import racingcar.dto.response.GameResultDto;
 import racingcar.dto.response.GameWinnerDto;
 import racingcar.dto.response.PlayerResultDto;
-import racingcar.entity.Game;
-import racingcar.entity.PlayerResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +41,9 @@ public class GameService {
 
         List<String> winners = cars.calculateWinners();
 
-        final Game game = createGame(String.join(",", winners), gamePlayDto.getCount());
-        final List<PlayerResult> playerResults = createPlayerResults(cars, game);
-        return GameResponseDto.of(game, playerResults);
+        final Long gameId = createGame(String.join(",", winners), gamePlayDto.getCount());
+        final List<PlayerResultDto> playerResults = createPlayerResults(cars, gameId);
+        return GameResponseDto.of(winners, playerResults);
     }
 
     public List<GameResultDto> findAllGames() {
@@ -68,18 +66,18 @@ public class GameService {
         return new Cars(baseCars);
     }
 
-    private Game createGame(final String winners, final int trialCount) {
+    private Long createGame(final String winners, final int trialCount) {
         GameSaveDto gameSaveDto = new GameSaveDto(winners, trialCount);
-        Game game = gameDao.createGame(gameSaveDto);
-        return game;
+        Long gameId = gameDao.createGame(gameSaveDto);
+        return gameId;
     }
 
-    private List<PlayerResult> createPlayerResults(final Cars cars, final Game game) {
-        final List<PlayerResult> playerResults = new ArrayList<>();
+    private List<PlayerResultDto> createPlayerResults(final Cars cars, final Long gameId) {
+        final List<PlayerResultDto> playerResults = new ArrayList<>();
         for (Car car : cars.getLatestResult()) {
-            final PlayerResultSaveDto playerResultSaveDto = new PlayerResultSaveDto(game.getId(), car);
-            final PlayerResult playerResult = playerResultDao.savePlayerResult(playerResultSaveDto);
-            playerResults.add(playerResult);
+            final PlayerResultSaveDto playerResultSaveDto = new PlayerResultSaveDto(gameId, car);
+            final PlayerResultDto playerResultDto = playerResultDao.savePlayerResult(playerResultSaveDto);
+            playerResults.add(playerResultDto);
         }
         return playerResults;
     }

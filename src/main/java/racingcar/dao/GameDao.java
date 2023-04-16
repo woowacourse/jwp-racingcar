@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.request.GameSaveDto;
 import racingcar.dto.response.GameWinnerDto;
-import racingcar.entity.Game;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -32,10 +31,10 @@ public class GameDao {
     };
 
 
-    public Game createGame(final GameSaveDto gameSaveDto) {
+    public Long createGame(final GameSaveDto gameSaveDto) {
         final SqlParameterSource params = new BeanPropertySqlParameterSource(gameSaveDto);
         final long id = insertGame.executeAndReturnKey(params).longValue();
-        return new Game(id, gameSaveDto);
+        return id;
     }
 
     public List<GameWinnerDto> findAllGames() {
