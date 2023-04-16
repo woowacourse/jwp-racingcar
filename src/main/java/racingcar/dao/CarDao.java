@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarDto;
 
 @Repository
 public class CarDao {
@@ -21,8 +20,8 @@ public class CarDao {
                 .usingGeneratedKeyColumns("car_id");
     }
 
-    public int save(CarDto carDto) {
-        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(carDto);
+    public int save(CarEntity carEntity) {
+        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(carEntity);
         return insertActor.executeAndReturnKey(sqlParameterSource).intValue();
     }
 }

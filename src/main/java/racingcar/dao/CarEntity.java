@@ -1,14 +1,20 @@
-package racingcar.dto;
+package racingcar.dao;
 
-public class CarDto {
+public class CarEntity {
+
+    private int carId;
     private final String name;
     private final int position;
     private final int gameId;
 
-    public CarDto(final String name, final int position, final int gameId) {
+    public CarEntity(final String name, final int position, final int gameId) {
         this.name = name;
         this.position = position;
         this.gameId = gameId;
+    }
+
+    public int getCarId() {
+        return carId;
     }
 
     public String getName() {

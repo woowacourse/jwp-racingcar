@@ -1,16 +1,22 @@
-package racingcar.dto;
+package racingcar.dao;
 
 import java.time.LocalTime;
 
-public class GameDto {
+public class GameEntity {
+
+    private int gameId;
     private final String winners;
     private final int tryCount;
-    private LocalTime createdAt;
+    private final LocalTime createdAt;
 
-    public GameDto(final String winners, final int tryCount, final LocalTime createdAt) {
+    public GameEntity(final String winners, final int tryCount, final LocalTime createdAt) {
         this.winners = winners;
         this.tryCount = tryCount;
         this.createdAt = createdAt;
+    }
+
+    public int getGameId() {
+        return gameId;
     }
 
     public String getWinners() {
