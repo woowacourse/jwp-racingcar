@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GameDto;
+import racingcar.dto.GameResponse;
 import racingcar.dto.WinnerCarDto;
 import racingcar.service.CarService;
 
@@ -17,8 +18,9 @@ public class CarController {
     }
 
     @PostMapping("/plays")
-    public WinnerCarDto playGame(@RequestBody final GameDto gameDto) {
-        return carService.playGame(gameDto);
+    public GameResponse playGame(@RequestBody final GameDto gameDto) {
+        final WinnerCarDto winnerCarDto = carService.playGame(gameDto);
+        return new GameResponse(winnerCarDto.joinWinnerNames(), winnerCarDto.getRacingCars());
     }
 
 }

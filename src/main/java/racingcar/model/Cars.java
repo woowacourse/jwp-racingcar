@@ -1,7 +1,6 @@
 package racingcar.model;
 
 import racingcar.dto.CarDto;
-import racingcar.dto.WinnerCarDto;
 import racingcar.strategy.RacingNumberGenerator;
 
 import java.util.List;
@@ -19,22 +18,22 @@ public class Cars {
         cars.forEach(car -> car.race(generator));
     }
 
-    public WinnerCarDto getWinner() {
+    public Car getWinner() {
         Car winner = cars.stream()
                 .max(Car::compareTo)
                 .orElse(null);
 
-        return new WinnerCarDto(findWinnerNames(winner), findPlayers());
+        return winner;
     }
 
-    private List<String> findWinnerNames(Car winner) {
+    public List<CarDto> findWinnerNames(Car winner) {
         return cars.stream()
                 .filter(car -> car.isSamePosition(winner))
-                .map(Car::getName)
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
 
-    private List<CarDto> findPlayers() {
+    public List<CarDto> findPlayers() {
         return cars.stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());

@@ -30,9 +30,10 @@ public class CarService {
 
     public WinnerCarDto playGame(GameDto gameDto) {
         final Cars cars = initGame(gameDto);
-        final WinnerCarDto winner = cars.getWinner();
-        save(gameDto, winner);
-        return winner;
+        final Car winner = cars.getWinner();
+        final WinnerCarDto winnerCarDto = new WinnerCarDto(cars.findWinnerNames(winner), cars.findPlayers());
+        save(gameDto, winnerCarDto);
+        return winnerCarDto;
     }
 
     private void save(final GameDto gameDto, final WinnerCarDto winner) {
@@ -54,9 +55,13 @@ public class CarService {
     }
 
     private long insertPlayResult(final GameDto gameDto, final WinnerCarDto winner) {
-        final String winners = String.join(",", winner.getWinners());
+        final String winners = joinWinnerNames(winner);
         final int trialCount = Integer.parseInt(gameDto.getCount());
         return playResultDao.insert(winners, trialCount);
+    }
+
+    private String joinWinnerNames(final WinnerCarDto winner) {
+        return winner.joinWinnerNames();
     }
 
     private void race(final Cars cars, final Round round) {
