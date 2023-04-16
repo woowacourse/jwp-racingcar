@@ -26,7 +26,7 @@ class CarRecordDaoTest {
     void setUp() {
         carRecordDao = new CarRecordDao(jdbcTemplate);
         RacingHistoryDao racingHistoryDao = new RacingHistoryDao(jdbcTemplate);
-        racingHistoryId = racingHistoryDao.save(10, LocalDateTime.now());
+        racingHistoryId = racingHistoryDao.insert(10, LocalDateTime.now());
     }
 
     @DisplayName("자동차 이동 기록을 저장한다.")
@@ -38,11 +38,11 @@ class CarRecordDaoTest {
         boolean isWinner = true;
         long historyId = 1L;
         //when
-        long savedId = carRecordDao.save(racingHistoryId, car, isWinner);
+        long insertedRecordId = carRecordDao.insert(racingHistoryId, car, isWinner);
         //then
         CarRecord foundCar = jdbcTemplate.queryForObject(
                 "SELECT * FROM car_record WHERE id = :id",
-                new MapSqlParameterSource("id", savedId),
+                new MapSqlParameterSource("id", insertedRecordId),
                 (rs, rowNum) -> new CarRecord(
                         rs.getString("name"),
                         rs.getInt("position"),

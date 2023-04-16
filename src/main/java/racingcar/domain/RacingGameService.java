@@ -23,15 +23,15 @@ public class RacingGameService {
 
     public ResultDto start(int trialCount, List<String> names) {
         RacingGame game = new RacingGame(names, new WinnerJudgeImpl());
-        Long historyId = racingHistoryDao.save(trialCount, LocalDateTime.now());
+        Long historyId = racingHistoryDao.insert(trialCount, LocalDateTime.now());
         game.progress(trialCount);
-        saveCars(game, historyId);
+        insertCars(game, historyId);
         return ResultDto.from(game);
     }
 
-    private void saveCars(RacingGame game, long historyId) {
+    private void insertCars(RacingGame game, long historyId) {
         for (Car car : game.getRacingCars()) {
-            carRecordDao.save(historyId, car, game.isWinner(car));
+            carRecordDao.insert(historyId, car, game.isWinner(car));
         }
     }
 

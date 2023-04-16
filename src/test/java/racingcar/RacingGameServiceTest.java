@@ -34,11 +34,11 @@ class RacingGameServiceTest {
 
     @DisplayName("게임 결과를 저장한다.")
     @Test
-    void saveRacingGameResult() {
+    void insertRacingGameResult() {
         //given
         List<String> carNames = List.of("로지", "바론");
-        given(racingHistoryDao.save(anyInt(), any())).willReturn(1L);
-        given(carRecordDao.save(anyLong(), any(), anyBoolean())).willReturn(1L);
+        given(racingHistoryDao.insert(anyInt(), any())).willReturn(1L);
+        given(carRecordDao.insert(anyLong(), any(), anyBoolean())).willReturn(1L);
         //when
         ResultDto result = racingGameService.start(10, carNames);
         //then

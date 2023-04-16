@@ -32,11 +32,11 @@ class RacingHistoryDaoTest {
         LocalDateTime now = LocalDateTime.now();
 
         //when
-        Long savedId = racingHistoryDao.save(trialCount, now);
+        Long insertedHistoryId = racingHistoryDao.insert(trialCount, now);
         //then
         RacingHistory racingHistory = jdbcTemplate.queryForObject(
                 "SELECT trial_count, play_time FROM racing_history WHERE id = :id",
-                new MapSqlParameterSource("id", savedId),
+                new MapSqlParameterSource("id", insertedHistoryId),
                 (rs, rowNum) -> new RacingHistory(rs.getInt("trial_count"),
                         rs.getTimestamp("play_time").toLocalDateTime()));
 
