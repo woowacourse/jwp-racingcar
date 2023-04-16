@@ -1,13 +1,12 @@
 package racingcar.domain;
 
-public class RandomNumberGenerator implements NumberGenerator {
-    private final int MINIMUM_NUMBER_OF_ENGINE;
-    private final int MAXIMUM_NUMBER_OF_ENGINE;
+import org.springframework.stereotype.Component;
 
-    public RandomNumberGenerator(int MINIMUM_NUMBER_OF_ENGINE, int MAXIMUM_NUMBER_OF_ENGINE) {
-        this.MINIMUM_NUMBER_OF_ENGINE = MINIMUM_NUMBER_OF_ENGINE;
-        this.MAXIMUM_NUMBER_OF_ENGINE = MAXIMUM_NUMBER_OF_ENGINE;
-    }
+@Component
+public class RandomNumberGenerator implements NumberGenerator {
+
+    private static final int MINIMUM_NUMBER_OF_ENGINE = 0;
+    private static final int MAXIMUM_NUMBER_OF_ENGINE = 9;
 
     @Override
     public int generate() {
