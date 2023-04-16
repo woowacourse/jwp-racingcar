@@ -1,6 +1,6 @@
-package racingcar.dao;
+package racingcar.repository;
 
-import racingcar.entity.Race;
+import racingcar.domain.entity.Race;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

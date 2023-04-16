@@ -1,6 +1,6 @@
-package racingcar.entity;
+package racingcar.domain.entity;
 
-import racingcar.vo.Trial;
+import racingcar.domain.Trial;
 
 import java.sql.Timestamp;
 

@@ -1,6 +1,6 @@
-package racingcar.dao;
+package racingcar.repository;
 
-import racingcar.entity.CarInfo;
+import racingcar.domain.entity.CarInfo;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package racingcar.dto;
 
 import racingcar.domain.Car;
-import racingcar.entity.CarInfo;
+import racingcar.domain.entity.CarInfo;
 
 public class CarDto {
     private final String name;

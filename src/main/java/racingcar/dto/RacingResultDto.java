@@ -1,6 +1,6 @@
 package racingcar.dto;
 
-import racingcar.vo.Trial;
+import racingcar.domain.Trial;
 
 import java.util.List;
 

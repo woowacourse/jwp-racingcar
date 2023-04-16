@@ -2,18 +2,18 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.CarInfoRepository;
-import racingcar.dao.RaceRepository;
+import racingcar.repository.CarInfoRepository;
+import racingcar.repository.RaceRepository;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingResultDto;
-import racingcar.entity.CarInfo;
-import racingcar.entity.Race;
+import racingcar.domain.entity.CarInfo;
+import racingcar.domain.entity.Race;
 import racingcar.utils.NumberGenerator;
-import racingcar.vo.Name;
-import racingcar.vo.Names;
-import racingcar.vo.Trial;
+import racingcar.domain.Name;
+import racingcar.domain.Names;
+import racingcar.domain.Trial;
 
 import java.util.ArrayList;
 import java.util.Arrays;

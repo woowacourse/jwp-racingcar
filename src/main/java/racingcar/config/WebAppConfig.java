@@ -3,10 +3,10 @@ package racingcar.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import racingcar.dao.CarInfoH2Repository;
-import racingcar.dao.CarInfoRepository;
-import racingcar.dao.RaceRepository;
-import racingcar.dao.RacingH2Repository;
+import racingcar.repository.CarInfoH2Repository;
+import racingcar.repository.CarInfoRepository;
+import racingcar.repository.RaceRepository;
+import racingcar.repository.RacingH2Repository;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
 
