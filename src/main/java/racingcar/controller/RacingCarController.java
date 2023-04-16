@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayRequestDto;
 import racingcar.view.util.TextParser;
@@ -17,6 +18,7 @@ import racingcar.view.util.TextParser;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class RacingCarController {
@@ -40,7 +42,8 @@ public class RacingCarController {
         final long resultId = saveWinners(count, winners);
         saveCars(resultId, cars);
 
-        return ResponseEntity.ok(new GameResultDto(cars, winners));
+        final List<CarDto> carsDto = cars.stream().map(CarDto::new).collect(Collectors.toList());
+        return ResponseEntity.ok(new GameResultDto(carsDto, winners));
     }
 
     private static RacingGame createGame(final String rawCarNames) {
