@@ -61,7 +61,7 @@ public class GameService {
                 .collect(toList());
     }
 
-    public List<PlayResponse> allGameHistory() {
+    public List<PlayResponse> getAllSavedGames() {
         List<PlayResponse> playResponses = new ArrayList<>();
 
         int count = gameDao.countAll().orElse(0);

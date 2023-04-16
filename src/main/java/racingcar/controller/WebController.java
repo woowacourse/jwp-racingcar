@@ -31,7 +31,7 @@ public class WebController {
 
     @GetMapping(value = "/plays", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PlayResponse>> plays() {
-        List<PlayResponse> allGameHistory = gameService.allGameHistory();
+        List<PlayResponse> allGameHistory = gameService.getAllSavedGames();
         return ResponseEntity.ok().body(allGameHistory);
     }
 }
