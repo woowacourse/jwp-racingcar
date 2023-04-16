@@ -7,6 +7,7 @@ import racingcar.dao.PlayersInfoDAO;
 import racingcar.domain.Cars;
 
 @Service
+@Transactional
 public class RacingCarService {
 
     private final PlayerResultDAO playerResultDAO;
