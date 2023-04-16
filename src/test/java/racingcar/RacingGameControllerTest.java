@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import racingcar.domain.RacingGameService;
 import racingcar.domain.car.Car;
+import racingcar.domain.race.RacingGame;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;
 import racingcar.web.RacingGameController;
@@ -41,16 +42,13 @@ class RacingGameControllerTest {
 
     @Nested
     class SuccessTest {
-
         private ResultDto mockResponse;
 
 
         @BeforeEach
         void setUp() {
-            mockResponse = new ResultDto(List.of(new Car("브리", 6),
-                    new Car("로지", 5),
-                    new Car("바론", 4)),
-                    List.of(new Car("브리", 6)));
+            RacingGame mockRacingGame = new RacingGame(List.of("브리", "로지", "바론"), (list) -> List.of(new Car("브리")));
+            mockResponse = ResultDto.from(mockRacingGame);
 
             given(racingGameService.start(anyInt(), anyList())).willReturn(mockResponse);
             MockitoAnnotations.openMocks(this);
@@ -85,6 +83,7 @@ class RacingGameControllerTest {
         void setUp() {
             mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
         }
+
         @DisplayName("시도 횟수가 음수일 경우 예외가 발생한다.")
         @Test
         void test404ResponseWithMessage() throws Exception {

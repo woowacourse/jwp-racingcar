@@ -3,15 +3,19 @@ package racingcar.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.car.Car;
+import racingcar.domain.race.RacingGame;
 
 public class ResultDto {
-
     private String winners;
     private List<CarDto> racingCars;
 
-    public ResultDto(List<Car> racingCars, List<Car> winners) {
+    private ResultDto(List<Car> racingCars, List<Car> winners) {
         this.winners = convertToString(winners);
         this.racingCars = convertToCarDto(racingCars);
+    }
+
+    public static ResultDto from(RacingGame game) {
+        return new ResultDto(game.getRacingCars(), game.getWinners());
     }
 
     private String convertToString(List<Car> winners) {

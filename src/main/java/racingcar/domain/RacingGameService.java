@@ -26,7 +26,7 @@ public class RacingGameService {
         Long historyId = racingHistoryDao.save(trialCount, LocalDateTime.now());
         game.progress(trialCount);
         saveCars(game, historyId);
-        return new ResultDto(game.getRacingCars(), game.getWinners());
+        return ResultDto.from(game);
     }
 
     private void saveCars(RacingGame game, long historyId) {
