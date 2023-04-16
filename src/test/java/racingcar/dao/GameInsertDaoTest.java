@@ -13,8 +13,8 @@ public class GameInsertDaoTest {
 
     @Test
     void insertGame() {
-        int gameId1 = gameInsertDao.insertGame("jena", 3);
-        int gameId2 = gameInsertDao.insertGame("jena", 3);
+        int gameId1 = gameInsertDao.insertGame(3);
+        int gameId2 = gameInsertDao.insertGame(3);
         Assertions.assertThat(gameId2 - gameId1).isEqualTo(1);
     }
 }

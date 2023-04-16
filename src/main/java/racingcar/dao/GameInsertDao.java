@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import javax.sql.DataSource;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,11 +16,11 @@ public class GameInsertDao {
         this.insertGameActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("GAME")
                 .usingGeneratedKeyColumns("id")
-                .usingColumns("winners", "trial_count");}
+                .usingColumns("trial_count");
+    }
 
-    public int insertGame(String winners, Integer count) {
+    public int insertGame(Integer count) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("winners", winners);
         parameters.put("trial_count", count);
         return insertGameActor.executeAndReturnKey(parameters).intValue();
     }

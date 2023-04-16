@@ -20,15 +20,23 @@ public class PlayerInsertDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public void insertPlayers(int gameId, List<Car> cars) {
-        cars.forEach(car -> insertPlayer(gameId, car));
+    public void insertPlayers(int gameId, List<Car> cars, List<String> winnerNames) {
+        cars.forEach(car -> insertPlayer(gameId, car, isWinner(winnerNames, car.getName())));
     }
 
-    private void insertPlayer(int gameId, Car car) {
+    private int isWinner(List<String> winnerNames, String name) {
+        if (winnerNames.contains(name)) {
+            return 1;
+        }
+        return 0;
+    }
+
+    private void insertPlayer(int gameId, Car car, int isWinner) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("game_id", gameId);
         parameters.put("name", car.getName());
         parameters.put("position", car.getDistance());
+        parameters.put("isWinner", isWinner);
         insertPlayerActor.execute(parameters);
     }
 }

@@ -9,14 +9,12 @@ import racingcar.dao.PlayerInsertDao;
 import racingcar.domain.Car;
 import racingcar.domain.CarGenerator;
 import racingcar.domain.RacingGame;
-import racingcar.domain.Winner;
-import racingcar.controller.ResponseDto;
 import racingcar.utils.NumberGenerator;
 
 @Service
 public class RacingGameService {
 
-    private static final String DELIMETER = ",";
+    private static final String DELIMITER = ",";
 
     private final GameInsertDao gameInsertDao;
     private final PlayerInsertDao playerInsertDao;
@@ -27,27 +25,20 @@ public class RacingGameService {
         this.playerInsertDao = playerInsertDao;
     }
 
-    public void save(final String winners, final Integer count, final List<Car> cars) {
-        int gameId = gameInsertDao.insertGame(winners, count);
-        playerInsertDao.insertPlayers(gameId, cars);
+    public void save(final RacingGame racingGame) {
+        int gameId = gameInsertDao.insertGame(racingGame.getTryCount());
+        playerInsertDao.insertPlayers(gameId, racingGame.getCars(), racingGame.getWinner().getWinnerNames());
     }
 
-    public ResponseDto play(final String names, final Integer count, final NumberGenerator numberGenerator) {
+    public RacingGame play(final String names, final Integer count, final NumberGenerator numberGenerator) {
         List<Car> cars = generateCars(names);
         RacingGame racingGame = new RacingGame(cars, count, numberGenerator);
         racingGame.run();
-        String winners = getWinners(racingGame);
-        return new ResponseDto(winners, cars);
+        return racingGame;
     }
 
     private List<Car> generateCars(String names) {
         CarGenerator carGenerator = new CarGenerator();
-        return carGenerator.generateCars(names.split(DELIMETER));
-    }
-
-    private String getWinners(RacingGame racingGame) {
-        Winner winner = racingGame.getWinner();
-        List<String> winnerNames = winner.getWinnerNames();
-        return String.join(DELIMETER, winnerNames);
+        return carGenerator.generateCars(names.split(DELIMITER));
     }
 }

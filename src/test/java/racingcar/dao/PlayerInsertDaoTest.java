@@ -1,8 +1,9 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,9 +19,11 @@ public class PlayerInsertDaoTest {
 
     @Test
     void insertPlayers() {
-        int gameId = gameInsertDao.insertGame("jena", 3);
-        Assertions.assertThatNoException()
-                .isThrownBy(() ->
-                        playerInsertDao.insertPlayers(gameId, List.of(new Car("jena", 1), new Car("odo", 2))));
+        int gameId = gameInsertDao.insertGame(3);
+        assertThatCode(() -> playerInsertDao.insertPlayers(
+                gameId,
+                List.of(new Car("jena", 1), new Car("odo", 2)),
+                List.of("odo")
+        )).doesNotThrowAnyException();
     }
 }
