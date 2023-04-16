@@ -15,6 +15,7 @@ import racingcar.dto.PlayResultResponseDto;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class RacingGameController {
     private PlayerInsertDao playerInsertDao;
 
     @PostMapping(value = "/plays", consumes = "application/json")
-    public PlayResultResponseDto play(@RequestBody PlayRequestDto playRequestDto) {
+    public PlayResultResponseDto play(@Valid @RequestBody PlayRequestDto playRequestDto) {
         String names = playRequestDto.getNames();
         Integer count = playRequestDto.getCount();
 
