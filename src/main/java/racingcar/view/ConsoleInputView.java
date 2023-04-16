@@ -5,10 +5,9 @@ import racingcar.dto.RacingInfoRequestDto;
 import java.util.Scanner;
 
 public class ConsoleInputView {
-    private static final Scanner scanner = new Scanner(System.in);
-
     public static final String ASKING_CAR_NAMES_MESSAGE = "경주할 자동차 이름을 입력하세요.(이름은 쉼표(,)를 기준으로 구분).";
     public static final String ASKING_TRIAL_MESSAGE = "시도할 횟수는 몇회인가요?";
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static RacingInfoRequestDto getRacingInfoRequest() {
         System.out.println(ASKING_CAR_NAMES_MESSAGE);
