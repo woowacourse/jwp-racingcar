@@ -33,5 +33,10 @@ class TestConfig {
         public List<GameResponseDto> findAllGame() {
             return null;
         }
+
+        @Override
+        public void deleteAll() {
+
+        }
     }
 }

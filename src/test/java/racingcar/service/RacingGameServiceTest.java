@@ -21,8 +21,8 @@ class RacingGameServiceTest {
     private RacingGameService racingGameService;
 
     @RepeatedTest(value = 5)
-    void play() {
-        GameResponseDto result = racingGameService.play("도치,쥬니", 2);
+    void saveGame() {
+        GameResponseDto result = racingGameService.saveGame("도치,쥬니", 2);
         List<Integer> resultPositions = result.getRacingCars().stream()
                 .map(CarDto::getPosition)
                 .collect(Collectors.toList());

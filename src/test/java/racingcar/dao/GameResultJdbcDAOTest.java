@@ -8,10 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
+import racingcar.dto.GameWinnerDto;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class GameResultJdbcDAOTest {
@@ -39,5 +40,21 @@ class GameResultJdbcDAOTest {
 
         assertThat(id)
                 .isEqualTo(1);
+    }
+
+    @Test
+    void findGame_when_not_exist() {
+        List<GameWinnerDto> gameWinners = gameResultJdbcDAO.selectAllGame();
+        assertThat(gameWinners).isEmpty();
+    }
+
+    @Test
+    void findGame_success() {
+        gameResultJdbcDAO.save(new GameResultDto(5, "dochi",
+                List.of(new CarDto("dochi", 4))
+        ));
+
+        List<GameWinnerDto> gameWinners = gameResultJdbcDAO.selectAllGame();
+        assertThat(gameWinners.get(0).getWinners()).isEqualTo("dochi");
     }
 }
