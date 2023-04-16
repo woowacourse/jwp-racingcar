@@ -1,18 +1,19 @@
 package racingcar.database;
 
+import java.sql.PreparedStatement;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-
+@Repository
 public class RacingGameDao {
-
+    
     private final JdbcTemplate jdbcTemplate;
-
+    
     public RacingGameDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
+    
     public int insert(final int trialCount, final String winners) {
         final String sql = "INSERT INTO racing_game(trial_count,winners) VALUES (?,?)";
         final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
