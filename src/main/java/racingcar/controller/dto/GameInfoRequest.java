@@ -8,6 +8,11 @@ public class GameInfoRequest {
     private GameInfoRequest() {
     }
 
+    public GameInfoRequest(String names, int count) {
+        this.names = names;
+        this.count = count;
+    }
+
     public String getNames() {
         return names;
     }
