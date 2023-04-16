@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.GamePlayResponseDto;
 import racingcar.controller.dto.RequestDto;
 import racingcar.model.Cars;
+import racingcar.model.Names;
 import racingcar.service.GameService;
 import racingcar.util.NameFormatConverter;
 import racingcar.view.OutputView;
@@ -26,7 +27,7 @@ public class WebController {
 
     @PostMapping("/plays")
     public ResponseEntity<GamePlayResponseDto> playGame(@RequestBody RequestDto requestDto) {
-        List<String> carNames = NameFormatConverter.splitNameByDelimiter(requestDto.getNames());
+        final Names carNames = new Names(requestDto.getNames());
         Cars cars = new Cars(carNames);
 
         final int trialCount = requestDto.getCount();

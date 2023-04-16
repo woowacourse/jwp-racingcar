@@ -1,35 +1,17 @@
 package racingcar.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import racingcar.util.NumberGenerator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.util.NumberGenerator;
 
 public class Cars {
     private final List<Car> cars = new ArrayList<>();
 
-    public Cars(List<String> carsName) {
-        validateNameDuplication(carsName);
-        for (String name : carsName) {
+    public Cars(Names carsName) {
+        for (String name : carsName.getNames()) {
             cars.add(new Car(name));
         }
-    }
-
-    private void validateNameDuplication(final List<String> carsName) {
-        Map<String, Integer> countByName = new HashMap<>();
-        for (String carName : carsName) {
-            countByName.put(carName, countByName.getOrDefault(carName, 0) + 1);
-        }
-        if (countByName.size() != carsName.size()) {
-            throw new IllegalArgumentException("중복되는 이름이 존재합니다.");
-        }
-    }
-
-    public List<Car> getCars() {
-        return List.copyOf(cars);
     }
 
     public void moveResult(NumberGenerator numberGenerator) {
@@ -48,5 +30,9 @@ public class Cars {
         return cars.stream()
                 .max(Car::compareTo)
                 .get();
+    }
+
+    public List<Car> getCars() {
+        return List.copyOf(cars);
     }
 }
