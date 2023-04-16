@@ -12,5 +12,4 @@ public class RacingGameRequestDto {
     public int getCount() {
         return count;
     }
-
 }
