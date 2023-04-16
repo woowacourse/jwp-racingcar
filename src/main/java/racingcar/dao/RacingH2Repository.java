@@ -3,14 +3,12 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
 import racingcar.entity.Race;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-@Component
 public class RacingH2Repository implements RaceRepository {
     private final JdbcTemplate jdbcTemplate;
 

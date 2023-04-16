@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@Profile("web")
 public class RacingController {
     private final RacingService racingService;
 
