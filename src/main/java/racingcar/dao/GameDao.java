@@ -6,8 +6,13 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalTime;
+import java.util.List;
+
 @Repository
 public class GameDao {
+
+    private final static String WINNER_DELIMITER = ",";
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
@@ -19,8 +24,10 @@ public class GameDao {
                 .usingGeneratedKeyColumns("game_id");
     }
 
-    public int save(GameEntity gameEntity) {
-        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(gameEntity);
+    public int save(List<String> winners, int tryCount, LocalTime playTime) {
+        String winnersWithJoining = String.join(WINNER_DELIMITER, winners);
+        GameEntity game = new GameEntity(winnersWithJoining, tryCount, playTime);
+        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(game);
         return insertActor.executeAndReturnKey(sqlParameterSource).intValue();
     }
 }
