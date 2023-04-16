@@ -36,4 +36,15 @@ public class CarJdbcDao implements CarDao {
             }
         });
     }
+
+    @Override
+    public List<CarEntity> findByRacingGameId(Long racingGameId) {
+        return jdbcTemplate.query("SELECT * FROM car WHERE racing_game_id = " + racingGameId,
+                (resultSet, rowNum) -> new CarEntity(
+                        resultSet.getString("name"),
+                        resultSet.getInt("position"),
+                        resultSet.getBoolean("is_win"),
+                        racingGameId
+                ));
+    }
 }

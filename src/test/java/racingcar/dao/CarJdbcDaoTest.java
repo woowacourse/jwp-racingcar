@@ -48,4 +48,12 @@ class CarJdbcDaoTest {
 
         assertThat(count).isEqualTo(4);
     }
+
+    @Test
+    @DisplayName("레이싱 게임 id로 car를 조회한다")
+    void findByGameId() {
+        List<CarEntity> carEntities = carDao.findByRacingGameId(gameId);
+
+        assertThat(carEntities).hasSize(2);
+    }
 }
