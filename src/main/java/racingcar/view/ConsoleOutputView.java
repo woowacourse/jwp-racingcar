@@ -12,7 +12,7 @@ public class ConsoleOutputView {
     public static final String DELIMITER = ", ";
     public static final String POSITION_BAR = "-";
 
-    public void printResult(RacingResultResponseDto result) {
+    public static void printResult(RacingResultResponseDto result) {
         System.out.println("실행 결과");
         for (CarDto car : result.getRacingCars()) {
             System.out.printf(RESULT_MESSAGE_FORMAT, car.getName(), makePositionBar(car.getPosition()));
@@ -26,7 +26,7 @@ public class ConsoleOutputView {
         return stringBuilder;
     }
 
-    public void printWinners(List<String> winnerNames) {
+    public static void printWinners(List<String> winnerNames) {
         System.out.printf(WINNER_MESSAGE_FORMAT, combineNamesWithDelimiter(winnerNames));
     }
 

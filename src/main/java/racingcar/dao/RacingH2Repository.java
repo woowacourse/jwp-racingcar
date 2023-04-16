@@ -4,27 +4,27 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.vo.Trial;
+import racingcar.entity.Race;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 
 @Component
-public class RacingH2Dao implements RacingDao {
+public class RacingH2Repository implements RaceRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public RacingH2Dao(DataSource dataSource) {
+    public RacingH2Repository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public int saveRacing(Trial trial) {
+    public int saveRace(Race race) {
         String sql = "INSERT INTO racing (trial_Count) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 con -> {
                     PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
-                    preparedStatement.setInt(1, trial.getValue());
+                    preparedStatement.setInt(1, race.getTrialCount());
                     return preparedStatement;
                 },
                 keyHolder

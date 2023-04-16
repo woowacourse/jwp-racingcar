@@ -31,7 +31,7 @@ class CarsTest {
     @DisplayName("차 추가 테스트")
     void givenCar_whenSavingCar_thenSavesCar() {
         ArrayList<Car> carHolder = new ArrayList<>();
-        cars = new Cars(carHolder, RandomNumberGenerator.makeInstance());
+        cars = new Cars(carHolder, new RandomNumberGenerator());
 
         cars.saveCar(car);
 

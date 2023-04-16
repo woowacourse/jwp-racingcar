@@ -4,20 +4,22 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import racingcar.dto.CarSavingDto;
+import racingcar.entity.CarInfo;
 
 import javax.sql.DataSource;
 
 @Component
-public class CarInfoH2Dao implements CarInfoDao {
+public class CarInfoH2Repository implements CarInfoRepository {
     private final SimpleJdbcInsert carInfoSimpleJdbcInsert;
-    public CarInfoH2Dao(DataSource dataSource) {
+    public CarInfoH2Repository(DataSource dataSource) {
         this.carInfoSimpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("car_info")
                 .usingGeneratedKeyColumns("id");
     }
-    public int saveCar(CarSavingDto carSavingDto) {
-        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(carSavingDto);
+
+    @Override
+    public int saveCar(CarInfo carInfo) {
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(carInfo);
         return carInfoSimpleJdbcInsert
                 .executeAndReturnKey(parameterSource)
                 .intValue();

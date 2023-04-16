@@ -2,14 +2,14 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.CarInfoDao;
-import racingcar.dao.CarInfoH2Dao;
-import racingcar.dao.RacingDao;
+import racingcar.dao.CarInfoRepository;
+import racingcar.dao.RaceRepository;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.dto.CarDto;
-import racingcar.dto.CarSavingDto;
 import racingcar.dto.RacingResultDto;
+import racingcar.entity.CarInfo;
+import racingcar.entity.Race;
 import racingcar.utils.NumberGenerator;
 import racingcar.vo.Name;
 import racingcar.vo.Names;
@@ -24,13 +24,13 @@ import java.util.List;
 public class RacingService {
 
     private final NumberGenerator numberGenerator;
-    private final RacingDao racingDao;
-    private final CarInfoDao carInfoDao;
+    private final RaceRepository raceRepository;
+    private final CarInfoRepository carInfoRepository;
 
-    public RacingService(NumberGenerator numberGenerator, RacingDao racingDao, CarInfoDao carInfoDao) {
+    public RacingService(NumberGenerator numberGenerator, RaceRepository raceRepository, CarInfoRepository carInfoRepository) {
         this.numberGenerator = numberGenerator;
-        this.racingDao = racingDao;
-        this.carInfoDao = carInfoDao;
+        this.raceRepository = raceRepository;
+        this.carInfoRepository = carInfoRepository;
     }
 
     public RacingResultDto race(String names, int count) {
@@ -65,10 +65,11 @@ public class RacingService {
     }
 
     public void saveResult(RacingResultDto racingResultDto) {
-        final int racingId = racingDao.saveRacing(racingResultDto.getTrial());
+        final int raceId = raceRepository.saveRace(new Race(racingResultDto.getTrial()));
         for (CarDto car : racingResultDto.getRacingCars()) {
             String name = car.getName();
-            carInfoDao.saveCar(new CarSavingDto(racingId, name, car.getPosition(), racingResultDto.isWinnerContaining(name)));
+            CarInfo carInfo = new CarInfo(raceId, name, car.getPosition(), racingResultDto.isWinnerContaining(name));
+            carInfoRepository.saveCar(carInfo);
         }
     }
 }
