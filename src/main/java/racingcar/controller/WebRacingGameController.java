@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import racingcar.dto.request.GameRequestDto;
-import racingcar.dto.response.BadResponseDto;
-import racingcar.dto.response.GameResponseDto;
+import racingcar.dto.request.GameRequest;
+import racingcar.dto.response.BadResponse;
+import racingcar.dto.response.GameResponse;
 import racingcar.exception.BusinessArgumentException;
 import racingcar.service.RacingGameService;
 
@@ -22,20 +22,19 @@ public class WebRacingGameController {
     }
 
     @GetMapping(path = "/plays", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<GameResponseDto>> gameList() {
-        List<GameResponseDto> allGames = racingGameService.findAllGame();
+    public ResponseEntity<List<GameResponse>> gameList() {
+        List<GameResponse> allGames = racingGameService.findAllGame();
         return ResponseEntity.ok(allGames);
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResponseDto> gameSave(@RequestBody GameRequestDto request) {
-        GameResponseDto response = racingGameService.saveGamePlay(request.getNames(), request.getCount());
-
+    public ResponseEntity<GameResponse> gamePlaySave(@RequestBody GameRequest request) {
+        GameResponse response = racingGameService.saveGamePlay(request.getNames(), request.getCount());
         return ResponseEntity.ok(response);
     }
 
     @ExceptionHandler(BusinessArgumentException.class)
-    public ResponseEntity<BadResponseDto> handleException(BusinessArgumentException e) {
-        return ResponseEntity.badRequest().body(new BadResponseDto(e.getErrorCodeStatus(), e.getMessage()));
+    public ResponseEntity<BadResponse> handleException(BusinessArgumentException e) {
+        return ResponseEntity.badRequest().body(new BadResponse(e.getErrorCodeStatus(), e.getMessage()));
     }
 }

@@ -1,13 +1,13 @@
 package racingcar.db;
 
 import racingcar.dto.GameResultDto;
-import racingcar.dto.response.GameResponseDto;
+import racingcar.dto.response.GameResponse;
 
 import java.util.List;
 
 public interface RacingGameRepository {
     void saveGame(GameResultDto resultDto);
-    List<GameResponseDto> findAllGame();
+    List<GameResponse> findAllGame();
 
     void deleteAll();
 }

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.response.GameResponseDto;
+import racingcar.dto.response.GameResponse;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ class RacingGameJdbcRepositoryTest {
         );
 
         racingGameRepository.saveGame(gameResultDto);
-        List<GameResponseDto> games = racingGameRepository.findAllGame();
+        List<GameResponse> games = racingGameRepository.findAllGame();
 
         assertThat(games.get(0).getWinners()).isEqualTo("qwer");
     }

@@ -6,7 +6,7 @@ import racingcar.db.RacingGameRepository;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.response.GameResponseDto;
+import racingcar.dto.response.GameResponse;
 
 import java.util.List;
 
@@ -19,17 +19,17 @@ public class RacingGameService {
         this.racingGameRepository = racingGameRepository;
     }
 
-    public GameResponseDto saveGamePlay(String names, int tryCount) {
+    public GameResponse saveGamePlay(String names, int tryCount) {
         RacingGame racingGame = new RacingGame(names);
         racingGame.moveCars(tryCount);
         String winners = racingGame.decideWinners();
         List<CarDto> resultCars = racingGame.getCars();
 
         racingGameRepository.saveGame(new GameResultDto(tryCount, winners, resultCars));
-        return new GameResponseDto(winners, resultCars);
+        return new GameResponse(winners, resultCars);
     }
 
-    public List<GameResponseDto> findAllGame() {
+    public List<GameResponse> findAllGame() {
         return racingGameRepository.findAllGame();
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import racingcar.db.RacingGameRepository;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.response.GameResponseDto;
+import racingcar.dto.response.GameResponse;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ class TestConfig {
         }
 
         @Override
-        public List<GameResponseDto> findAllGame() {
+        public List<GameResponse> findAllGame() {
             return null;
         }
 
