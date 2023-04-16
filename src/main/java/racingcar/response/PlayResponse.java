@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.ToString;
 import racingcar.domain.Cars;
 import racingcar.dto.CarDto;
-import racingcar.dto.CarDtos;
 import racingcar.dto.RecordDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class PlayResponse {
     }
 
     public static PlayResponse from(final Cars cars) {
-        return new PlayResponse(cars.winnerNames(), CarDtos.from(cars));
+        return new PlayResponse(cars.winnerNames(), CarDto.toListFrom(cars));
     }
 
     public static PlayResponse from(final List<RecordDto> recordDtos) {
