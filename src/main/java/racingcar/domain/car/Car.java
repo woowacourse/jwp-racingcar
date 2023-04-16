@@ -10,19 +10,20 @@ public class Car {
 
     private final String name;
     private final Position position;
-
-    private NumberPicker numberPicker = new RandomNumberPicker();
+    private NumberPicker numberPicker;
 
 
     public Car(String name) {
         validate(name);
         this.name = name;
         this.position = new Position();
+        this.numberPicker = new RandomNumberPicker();
     }
 
     public Car(String name, int position) {
         this.name = name;
         this.position = new Position(position);
+        this.numberPicker = new RandomNumberPicker();
     }
 
     public Car(String name, NumberPicker numberPicker) {
