@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.domain.Car;
 
 import org.springframework.stereotype.Component;
 
