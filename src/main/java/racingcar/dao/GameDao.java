@@ -30,4 +30,15 @@ public class GameDao {
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(game);
         return insertActor.executeAndReturnKey(sqlParameterSource).intValue();
     }
+
+    public List<GameEntity> findAll() {
+        String sql = "select game_id, winners from game";
+        List<GameEntity> games = jdbcTemplate.query(sql, (rs, rowNum) -> {
+            GameEntity game = new GameEntity();
+            game.setGameId(rs.getInt("game_id"));
+            game.setWinners(rs.getString("winners"));
+            return game;
+        });
+        return games;
+    }
 }
