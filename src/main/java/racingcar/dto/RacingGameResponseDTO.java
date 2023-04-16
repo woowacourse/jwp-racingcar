@@ -4,22 +4,22 @@ import java.util.List;
 
 public class RacingGameResponseDTO {
 
-    private List<String> winners;
+    private String winners;
     private List<CarDTO> racingCars;
 
     public RacingGameResponseDTO() {
     }
 
-    public RacingGameResponseDTO(final List<String> winners, final List<CarDTO> racingCars) {
+    public RacingGameResponseDTO(final String winners, final List<CarDTO> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public List<String> getWinners() {
+    public String getWinners() {
         return winners;
     }
 
-    public List<CarDTO> getRacingCars() {
+    public List<CarDTO> getRacingCarDTOs() {
         return racingCars;
     }
 }

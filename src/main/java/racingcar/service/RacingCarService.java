@@ -16,7 +16,7 @@ import racingcar.domain.record.GameRecorder;
 import racingcar.domain.result.GameResultOfCar;
 import racingcar.domain.system.GameSystem;
 import racingcar.dto.CarDTO;
-import racingcar.dto.RacingGameResponseDTO;
+import racingcar.dto.ResultDTO;
 
 @Service
 public class RacingCarService {
@@ -29,7 +29,7 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
-    public RacingGameResponseDTO play(final List<String> names, final int count) {
+    public ResultDTO play(final List<String> names, final int count) {
         final GameSystem gameSystem = createGameSystem(count);
         final Long gameId = gameDao.insert(GameEntity.create(count));
 
@@ -37,7 +37,7 @@ public class RacingCarService {
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
         insertCar(cars, gameId, gameSystem);
 
-        return createRacingGameResponseDTO(count, gameSystem);
+        return createGameDTO(count, gameSystem);
     }
 
     private GameSystem createGameSystem(final int gameRound) {
@@ -69,10 +69,10 @@ public class RacingCarService {
                 .collect(Collectors.toList());
     }
 
-    private RacingGameResponseDTO createRacingGameResponseDTO(final int count, final GameSystem gameSystem) {
+    private ResultDTO createGameDTO(final int count, final GameSystem gameSystem) {
         final List<String> winners = getWinners(gameSystem);
         final List<CarDTO> carDTOs = getCarDTOs(count, gameSystem);
-        return new RacingGameResponseDTO(winners, carDTOs);
+        return new ResultDTO(winners, carDTOs);
     }
 
     private List<CarDTO> getCarDTOs(final int count, final GameSystem gameSystem) {
@@ -82,4 +82,19 @@ public class RacingCarService {
                 .map(gameResultOfCar -> new CarDTO(gameResultOfCar.getCarName(), gameResultOfCar.getPosition()))
                 .collect(Collectors.toList());
     }
+
+    public List<ResultDTO> getSavedGames() {
+        List<ResultDTO> playingCars = new ArrayList<>();
+
+        final int games = gameDao.countGames().orElse(0);
+        for (int gameId = 1; gameId <= games; gameId++) {
+            final List<CarDTO> carDTO = carDao.selectAll(gameId);
+            final List<String> winnerNames = carDao.selectWinners(gameId);
+
+            playingCars.add(new ResultDTO(winnerNames, carDTO));
+        }
+
+        return new ArrayList<>(playingCars);
+    }
+
 }
