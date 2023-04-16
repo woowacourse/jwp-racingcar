@@ -1,19 +1,18 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.TestDatabaseConfig;
 
-import java.util.Map;
+import racingcar.DatabaseTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@TestDatabaseConfig
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@DatabaseTest
 class CarsDaoTest {
 
     @Autowired
