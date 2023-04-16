@@ -61,7 +61,7 @@ Content-Type: application/json
 }
 ```
 
-- [ ] 게임플레이 이력 조회 API 구현
+- [x] 게임플레이 이력 조회 API 구현
     - db에 저장된 플레이 이력을 요청하면 응답한다.
         - request
 
