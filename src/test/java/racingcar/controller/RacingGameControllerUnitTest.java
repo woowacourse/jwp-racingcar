@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
 import racingcar.dto.GameInputDto;
 import racingcar.dto.RacingResultResponseDto;
-import racingcar.service.RacingGameService;
+import racingcar.service.RacingGameServiceImpl;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ class RacingGameControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private RacingGameService racingGameService;
+    private RacingGameServiceImpl racingGameServiceImpl;
     private GameInputDto gameInputDto;
     
     @BeforeEach
@@ -45,7 +45,7 @@ class RacingGameControllerUnitTest {
         List<Car> cars = List.of(new Car("아벨", 0), new Car("스플릿", 0), new Car("포비", 0));
         RacingResultResponseDto racingResultResponseDto = new RacingResultResponseDto(winners, cars);
         
-        given(racingGameService.playGameWithoutPrint(any(), any())).willReturn(racingResultResponseDto);
+        given(racingGameServiceImpl.playGameWithoutPrint(any(), any())).willReturn(racingResultResponseDto);
         
         RestAssuredMockMvc.given().log().all()
                 .contentType(ContentType.JSON)
@@ -68,7 +68,7 @@ class RacingGameControllerUnitTest {
         RacingResultResponseDto secondResult = new RacingResultResponseDto(secondWinners, secondCars);
         List<RacingResultResponseDto> racingResultResponseDtos = List.of(firstResult, secondResult);
         
-        given(racingGameService.findAllGameResult()).willReturn(racingResultResponseDtos);
+        given(racingGameServiceImpl.findAllGameResult()).willReturn(racingResultResponseDtos);
         
         RestAssuredMockMvc.given().log().all()
                 .when().get("/plays")

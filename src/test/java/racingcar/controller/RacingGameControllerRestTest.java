@@ -12,7 +12,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import racingcar.dto.GameInputDto;
-import racingcar.service.RacingGameService;
+import racingcar.service.RacingGameServiceImpl;
 
 import static org.hamcrest.Matchers.*;
 
@@ -24,7 +24,7 @@ class RacingGameControllerRestTest {
     @LocalServerPort
     private int port;
     @Autowired
-    private RacingGameService racingGameService;
+    private RacingGameServiceImpl racingGameServiceImpl;
     
     @BeforeEach
     void setUp() {
@@ -47,8 +47,8 @@ class RacingGameControllerRestTest {
     
     @Test
     void 진행했던_모든_게임의_결과를_반환한다() {
-        racingGameService.playGameWithoutPrint(new GameInputDto("아벨,스플릿,포비", "12"), () -> 5);
-        racingGameService.playGameWithoutPrint(new GameInputDto("aa,bb,cc", "12"), () -> 5);
+        racingGameServiceImpl.playGameWithoutPrint(new GameInputDto("아벨,스플릿,포비", "12"), () -> 5);
+        racingGameServiceImpl.playGameWithoutPrint(new GameInputDto("aa,bb,cc", "12"), () -> 5);
         
         RestAssured.given().log().all()
                 .when().get("/plays")

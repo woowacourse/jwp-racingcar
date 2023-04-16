@@ -27,7 +27,7 @@ import static org.mockito.BDDMockito.given;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @ExtendWith(MockitoExtension.class)
-class RacingGameServiceTest {
+class RacingGameServiceImplTest {
     @Mock
     private RaceDao raceDao;
     @Mock
@@ -38,7 +38,7 @@ class RacingGameServiceTest {
     
     @BeforeEach
     void setUp() {
-        racingGameService = new RacingGameService(raceDao, playerDao, winnerDao);
+        racingGameService = new RacingGameServiceImpl(raceDao, playerDao, winnerDao);
     }
     
     @Test
