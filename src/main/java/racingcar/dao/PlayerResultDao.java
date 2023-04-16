@@ -32,7 +32,7 @@ public class PlayerResultDao {
 
     public PlayerResultDto savePlayerResult(final PlayerResultSaveDto playerResultSaveDto) {
         final SqlParameterSource params = new BeanPropertySqlParameterSource(playerResultSaveDto);
-        final long id = insertPlayerResult.executeAndReturnKey(params).longValue();
+        insertPlayerResult.execute(params);
         return new PlayerResultDto(playerResultSaveDto.getName(), playerResultSaveDto.getFinalPosition());
     }
 
