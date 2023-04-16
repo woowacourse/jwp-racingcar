@@ -1,6 +1,5 @@
--- TODO: 기능 구현에 필요한 내용을 추가하거나 수정하세요.
-DROP TABLE racing_game if exists;
 DROP TABLE racing_car if exists;
+DROP TABLE racing_game if exists;
 
 CREATE TABLE racing_game (
     id          INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
