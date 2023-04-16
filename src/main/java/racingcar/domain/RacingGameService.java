@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.car.Car;
+import racingcar.domain.race.NumberGenerator;
 import racingcar.domain.race.RacingGame;
 import racingcar.domain.race.WinnerJudgeImpl;
 import racingcar.dto.ResultDto;
@@ -15,17 +16,21 @@ public class RacingGameService {
 
     private final RacingHistoryDao racingHistoryDao;
     private final CarRecordDao carRecordDao;
+    private final NumberGenerator numberGenerator;
 
-    public RacingGameService(RacingHistoryDao racingHistoryDao, CarRecordDao carRecordDao) {
+    public RacingGameService(RacingHistoryDao racingHistoryDao, CarRecordDao carRecordDao, NumberGenerator numberGenerator) {
         this.racingHistoryDao = racingHistoryDao;
         this.carRecordDao = carRecordDao;
+        this.numberGenerator = numberGenerator;
     }
 
     public ResultDto start(int trialCount, List<String> names) {
         RacingGame game = new RacingGame(names, new WinnerJudgeImpl());
+        game.move(trialCount, numberGenerator);
+
         Long historyId = racingHistoryDao.insert(trialCount, LocalDateTime.now());
-        game.progress(trialCount);
         insertCars(game, historyId);
+
         return ResultDto.from(game);
     }
 

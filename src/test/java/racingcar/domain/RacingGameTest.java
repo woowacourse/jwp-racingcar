@@ -67,7 +67,7 @@ class RacingGameTest {
         int trialCount = 10;
         RacingGame race = new RacingGame(List.of("바론", "론이", "로니", "로지"), new WinnerJudgeImpl());
         //when
-        race.progress(trialCount);
+        race.move(trialCount, new RandomNumberGenerator());
         //then
         boolean isAllInTrialCount = race.getRacingCars().stream()
                 .allMatch(car -> 0 <= car.getPosition() && car.getPosition() <= trialCount);

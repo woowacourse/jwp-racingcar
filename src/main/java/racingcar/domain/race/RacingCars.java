@@ -32,9 +32,9 @@ public class RacingCars {
         return Collections.unmodifiableList(cars);
     }
 
-    public void moveCars() {
-        for (Car car : cars) {
-            car.moveDependingOn();
+    public void moveCars(List<Integer> numbers) {
+        for (int index = 0; index < cars.size(); index++) {
+            cars.get(index).moveDependingOn(numbers.get(index));
         }
     }
 }

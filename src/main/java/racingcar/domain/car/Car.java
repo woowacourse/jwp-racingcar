@@ -1,8 +1,5 @@
 package racingcar.domain.car;
 
-import racingcar.domain.RandomNumberPicker;
-import racingcar.domain.race.NumberPicker;
-
 public class Car {
     private static final int LEAST_CONDITION = 4;
     private static final int MAX_NAME_LENGTH = 5;
@@ -10,26 +7,17 @@ public class Car {
 
     private final String name;
     private final Position position;
-    private NumberPicker numberPicker;
 
 
     public Car(String name) {
         validate(name);
         this.name = name;
         this.position = new Position();
-        this.numberPicker = new RandomNumberPicker();
     }
 
     public Car(String name, int position) {
         this.name = name;
         this.position = new Position(position);
-        this.numberPicker = new RandomNumberPicker();
-    }
-
-    public Car(String name, NumberPicker numberPicker) {
-        this.name = name;
-        this.position = new Position();
-        this.numberPicker = numberPicker;
     }
 
     public String getName() {
@@ -49,8 +37,7 @@ public class Car {
         }
     }
 
-    public void moveDependingOn() {
-        int pickedNumber = numberPicker.pickNumber();
+    public void moveDependingOn(int pickedNumber) {
         if (pickedNumber >= LEAST_CONDITION) {
             position.add(ONE_STEP);
         }

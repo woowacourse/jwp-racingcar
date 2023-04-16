@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.given;
 
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.RacingGameService;
+import racingcar.domain.RandomNumberGenerator;
+import racingcar.domain.race.NumberGenerator;
 import racingcar.dto.ResultDto;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,8 +32,12 @@ class RacingGameServiceTest {
     @Mock
     private RacingHistoryDao racingHistoryDao;
 
-    @InjectMocks
     private RacingGameService racingGameService;
+
+    @BeforeEach
+    void setUp() {
+        racingGameService = new RacingGameService(racingHistoryDao, carRecordDao, new RandomNumberGenerator());
+    }
 
     @DisplayName("게임 결과를 저장한다.")
     @Test

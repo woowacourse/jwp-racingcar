@@ -1,8 +1,5 @@
 package racingcar.domain;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Queue;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -11,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import racingcar.domain.car.Car;
-import racingcar.domain.race.NumberPicker;
 
 public class CarTest {
     @Nested
@@ -38,23 +34,10 @@ public class CarTest {
         @DisplayName("1회 이동했을 때, 위치가 정상적으로 증가하는지 테스트")
         @CsvSource(value = {"1:0", "2:0", "3:0", "4:1", "5:1"}, delimiter = ':')
         void moveOneStep(int pickedNumber, int expectedPosition) {
-            Car car = new Car("hong", new TestNumberPicker(pickedNumber));
-            car.moveDependingOn();
+            Car car = new Car("hong");
+            car.moveDependingOn(pickedNumber);
             Assertions.assertThat(car).extracting("position")
                     .isEqualTo(expectedPosition);
         }
-    }
-}
-
-class TestNumberPicker implements NumberPicker {
-    final Queue<Integer> numbers;
-
-    public TestNumberPicker(Integer... numbers) {
-        this.numbers = new ArrayDeque<>(List.of(numbers));
-    }
-
-    @Override
-    public int pickNumber() {
-        return numbers.remove();
     }
 }

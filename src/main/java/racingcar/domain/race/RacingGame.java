@@ -12,9 +12,10 @@ public class RacingGame {
         this.winnerJudge = winnerJudge;
     }
 
-    public void progress(int trialCount) {
+    public void move(int trialCount, NumberGenerator numberGenerator) {
         for (int count = 0; count < trialCount; count++) {
-            racingCars.moveCars();
+            List<Integer> numbers = numberGenerator.generateNumbers(getRacingCars().size());
+            racingCars.moveCars(numbers);
         }
     }
 
