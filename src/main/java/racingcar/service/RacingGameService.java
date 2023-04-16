@@ -4,11 +4,13 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.CarEntity;
 import racingcar.dao.GameDao;
+import racingcar.dao.GameEntity;
 import racingcar.domain.Car.*;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameResponseDto;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,10 +60,23 @@ public class RacingGameService {
     }
 
     private RacingGameResponseDto createResult(final RacingCars racingCars) {
-        List<String> winnerCars = racingCars.pickWinnerCarNames();
+        String winners = String.join(",", racingCars.pickWinnerCarNames());
         List<CarDto> cars = racingCars.getCars().stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
-        return new RacingGameResponseDto(winnerCars, cars);
+        return new RacingGameResponseDto(winners, cars);
+    }
+
+    public List<RacingGameResponseDto> findAllResults() {
+        List<RacingGameResponseDto> results = new ArrayList<>();
+        List<GameEntity> games = gameDao.findAll();
+        for (GameEntity game : games) {
+            List<CarEntity> carEntities = carDao.findByGameId(game.getGameId());
+            List<CarDto> cars = carEntities.stream()
+                    .map(carEntity -> new CarDto(carEntity.getName(), carEntity.getPosition()))
+                    .collect(Collectors.toList());
+            results.add(new RacingGameResponseDto(game.getWinners(), cars));
+        }
+        return results;
     }
 }
