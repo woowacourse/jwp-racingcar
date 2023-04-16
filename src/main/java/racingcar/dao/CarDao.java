@@ -15,7 +15,7 @@ public class CarDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
-    public CarDao(final JdbcTemplate jdbcTemplate) {
+    public CarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("car")

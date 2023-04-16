@@ -17,7 +17,7 @@ public class GameDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
-    public GameDao(final JdbcTemplate jdbcTemplate) {
+    public GameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("game")

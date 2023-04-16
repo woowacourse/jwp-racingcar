@@ -12,7 +12,7 @@ public class GameEntity {
     public GameEntity() {
     }
 
-    public GameEntity(final String winners, final int tryCount, final LocalTime createdAt) {
+    public GameEntity(String winners, int tryCount, LocalTime createdAt) {
         this.winners = winners;
         this.tryCount = tryCount;
         this.createdAt = createdAt;

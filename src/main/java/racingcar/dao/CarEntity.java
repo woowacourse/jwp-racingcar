@@ -10,7 +10,7 @@ public class CarEntity {
     public CarEntity() {
     }
 
-    public CarEntity(final String name, final int position, final int gameId) {
+    public CarEntity(String name, int position, int gameId) {
         this.name = name;
         this.position = position;
         this.gameId = gameId;

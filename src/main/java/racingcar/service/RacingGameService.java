@@ -59,7 +59,7 @@ public class RacingGameService {
         return gameDao.save(winners, tryCount, playTime);
     }
 
-    private RacingGameResponseDto createResult(final RacingCars racingCars) {
+    private RacingGameResponseDto createResult(RacingCars racingCars) {
         String winners = String.join(",", racingCars.pickWinnerCarNames());
         List<CarDto> cars = racingCars.getCars().stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
