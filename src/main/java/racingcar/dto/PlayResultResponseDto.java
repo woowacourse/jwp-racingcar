@@ -4,11 +4,11 @@ import java.util.List;
 
 import racingcar.domain.Car;
 
-public class ResponseDto {
+public class PlayResultResponseDto {
     private final String winners;
     private final List<Car> racingCars;
 
-    public ResponseDto(String winners, List<Car> racingCars) {
+    public PlayResultResponseDto(String winners, List<Car> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
