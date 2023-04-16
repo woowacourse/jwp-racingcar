@@ -37,4 +37,8 @@ public class RacingCars {
             cars.get(index).moveDependingOn(numbers.get(index));
         }
     }
+
+    public int calculateWinnerPosition() {
+        return cars.stream().mapToInt(Car::getPosition).max().orElse(0);
+    }
 }
