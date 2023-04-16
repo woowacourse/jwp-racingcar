@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
+import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
+import racingcar.domain.TrialCount;
 import racingcar.dto.CarDto;
 import racingcar.dto.RecordDto;
+import racingcar.repository.GameDao;
 import racingcar.repository.RecordDao;
 import racingcar.response.PlayResponse;
-import racingcar.domain.Cars;
-import racingcar.domain.TrialCount;
-import racingcar.repository.GameDao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,7 +64,7 @@ public class GameService {
     public List<PlayResponse> allGameHistory() {
         List<PlayResponse> playResponses = new ArrayList<>();
 
-        int count = gameDao.countAll();
+        int count = gameDao.countAll().orElse(0);
         for (int gameId = MIN_GAME_ID; gameId <= count; gameId++) {
             List<RecordDto> foundGame = recordDao.findAllByGameId(gameId);
 
