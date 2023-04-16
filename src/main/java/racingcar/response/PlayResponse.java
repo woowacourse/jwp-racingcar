@@ -1,7 +1,6 @@
 package racingcar.response;
 
 import lombok.Getter;
-import lombok.ToString;
 import racingcar.domain.Cars;
 import racingcar.dto.CarDto;
 import racingcar.dto.RecordDto;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@ToString
 public class PlayResponse {
 
     private final String winners;
