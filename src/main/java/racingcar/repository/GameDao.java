@@ -1,5 +1,6 @@
 package racingcar.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -10,12 +11,14 @@ import javax.sql.DataSource;
 
 @Repository
 public class GameDao {
+
     public static final String TABLE_NAME = "game";
     public static final String KEY_COLUMN_NAME = "id";
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
+    @Autowired
     public GameDao(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(dataSource)
