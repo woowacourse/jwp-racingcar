@@ -13,5 +13,5 @@ create TABLE IF NOT EXISTS RESULT_CAR(
     position INT NOT NULL,
     game_id INT NOT NULL,
     PRIMARY KEY (car_id),
-    FOREIGN KEY (game_id) REFERENCES RESULT_CAR(car_id) ON update CASCADE
+    FOREIGN KEY (game_id) REFERENCES GAME_RESULT(game_id) ON update CASCADE
 );
