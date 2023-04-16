@@ -1,32 +1,48 @@
 package racingcar.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Cars {
-    private final List<Vehicle> cars;
 
-    public Cars(List<Vehicle> cars) {
+    private static final String EXISTS_DUPLICATE_CAR_NAME_ERROR = "자동차명은 중복되어선 안됩니다.";
+
+    private final List<Car> cars;
+
+    public Cars(List<Car> cars) {
+        validateDuplicateCar(cars);
         this.cars = cars;
+    }
+
+    private void validateDuplicateCar(List<Car> cars) {
+        Set<Car> duplicateChecker = new HashSet<>(cars);
+
+        if (duplicateChecker.size() != cars.size()) {
+            throw new IllegalArgumentException(EXISTS_DUPLICATE_CAR_NAME_ERROR);
+        }
     }
 
     public void moveAll() {
         cars.stream()
-                .filter(MovableStrategy::isMove)
-                .forEach(Vehicle::updateDistance);
+                .filter(Car::isMove)
+                .forEach(Car::move);
     }
 
-    public List<Vehicle> getWinner() {
+    public String getWinner() {
         int winnerDistance = cars.stream()
-                .mapToInt(Vehicle::getDistance)
+                .mapToInt(Car::getDistance)
                 .max()
-                .orElseThrow();
+                .getAsInt();
+
         return cars.stream()
-                .filter(car2 -> car2.getDistance() == winnerDistance)
-                .collect(Collectors.toList());
+                .filter(car -> car.getDistance() == winnerDistance)
+                .map(Car::getName)
+                .collect(Collectors.joining(","));
     }
 
-    public List<Vehicle> getCars() {
+    public List<Car> getCars() {
         return cars;
     }
 }
