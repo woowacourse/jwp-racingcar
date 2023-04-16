@@ -1,7 +1,9 @@
 package racingcar.controller;
 
-import racingcar.domain.Car.*;
+import racingcar.domain.Car.TryCount;
 import racingcar.dto.CarDto;
+import racingcar.dto.RacingGameResponseDto;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -10,65 +12,53 @@ import java.util.stream.Collectors;
 
 public class RacingGameController {
 
-    private static final int RACE_START_POINT = 0;
+    private final RacingGameService racingGameService;
+
+    public RacingGameController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
 
     public void run() {
-        RacingCars racingCars = createCars();
-        TryCount tries = getTries();
-
+        RacingGameResponseDto result = play();
         OutputView.printResultMessage();
-        raceCars(racingCars, tries.getTries());
-        showFinalResult(racingCars);
+        showFinalResult(result);
     }
 
-    private RacingCars createCars() {
+    private RacingGameResponseDto play() {
         try {
-            List<String> carNames = InputView.inputCarNames();
-            List<Car> cars = CarFactory.generate(carNames, RACE_START_POINT);
-            return new RacingCars(cars);
-
+            List<String> names = readCars();
+            TryCount tries = readTries();
+            RacingGameResponseDto result = racingGameService.runWithoutDb(names, tries.getTries());
+            return result;
         } catch (IllegalArgumentException e) {
             OutputView.printError(e.getMessage());
-            return createCars();
+            return play();
         }
     }
 
-    private TryCount getTries() {
-        try {
-            int tries = InputView.inputTries();
-            return new TryCount(tries);
-
-        } catch (IllegalArgumentException e) {
-            OutputView.printError(e.getMessage());
-            return getTries();
-        }
+    private List<String> readCars() {
+        List<String> names = InputView.inputCarNames();
+        return names;
     }
 
-    private void raceCars(RacingCars racingCars, int tries) {
-        NumberGenerator numberGenerator = new RandomNumberGenerator();
-
-        for (int i = 0; i < tries; i++) {
-            racingCars.moveCars(numberGenerator);
-            List<CarDto> raceResult = showRaceResult(racingCars);
-            OutputView.printRaceResult(raceResult);
-        }
+    private TryCount readTries() {
+        int tries = InputView.inputTries();
+        return new TryCount(tries);
     }
 
-    private List<CarDto> showRaceResult(RacingCars racingCars) {
-        return racingCars.getCars().stream()
+    private void showFinalResult(RacingGameResponseDto result) {
+        showRaceResult(result.getRacingCars());
+        showWinners(result.getWinners());
+    }
+
+    private void showRaceResult(List<CarDto> racingCars) {
+        List<CarDto> cars = racingCars.stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
+        OutputView.printRaceResult(cars);
     }
 
-    private void showFinalResult(RacingCars racingCars) {
-        List<CarDto> raceResult = showRaceResult(racingCars);
-        OutputView.printRaceResult(raceResult);
-
-        showWinners(racingCars);
-    }
-
-    private void showWinners(RacingCars racingCars) {
-        List<String> winnersName = racingCars.pickWinnerCarNames();
-        OutputView.printFinalResult(winnersName);
+    private void showWinners(String winners) {
+        OutputView.printFinalResult(winners);
     }
 }
