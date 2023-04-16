@@ -2,7 +2,6 @@ package racingcar.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,6 @@ public class RacingGameController {
 
     private final RacingCarDao racingCarDao;
 
-    @Autowired
     public RacingGameController(final RacingCarDao racingCarDao) {
         this.racingCarDao = racingCarDao;
     }
@@ -76,7 +74,7 @@ public class RacingGameController {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handle(final Exception e) {
+    public ResponseEntity<String> handle(final IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
