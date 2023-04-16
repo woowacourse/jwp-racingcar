@@ -6,14 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import java.util.List;
 
 @Getter
 @EqualsAndHashCode
-@ToString
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class CarDto {

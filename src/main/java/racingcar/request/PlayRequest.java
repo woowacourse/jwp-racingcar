@@ -3,12 +3,10 @@ package racingcar.request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@ToString
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class PlayRequest {
