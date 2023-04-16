@@ -1,10 +1,12 @@
 package racingcar.domain;
 
-import java.util.Random;
-
 import static racingcar.option.Option.MIN_MOVABLE_NUMBER;
 
+import java.util.Random;
+
 public class RandomMoveChance implements MoveChance {
+
+    private static Random random = new Random();
 
     @Override
     public boolean isMovable() {
@@ -12,7 +14,7 @@ public class RandomMoveChance implements MoveChance {
     }
 
     private int makeRandomNumber() {
-        Random random = new Random();
+
         return random.nextInt(10);
     }
 }
