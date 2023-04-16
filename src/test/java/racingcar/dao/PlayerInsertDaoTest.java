@@ -1,26 +1,37 @@
 package racingcar.dao;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 
 import java.util.List;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@JdbcTest
 public class PlayerInsertDaoTest {
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private PlayerInsertDao jdbcPlayerInsertDao;
     private GameInsertDao jdbcGameInsertDao;
-    @Autowired
-    private PlayerInsertDao playerInsertDao;
+
+    @BeforeEach
+    public void setUp() {
+        jdbcPlayerInsertDao = new JdbcPlayerInsertDao(jdbcTemplate.getDataSource());
+        jdbcGameInsertDao = new JdbcGameInsertDao(jdbcTemplate.getDataSource());
+    }
 
     @Test
-    void insertPlayers() {
+    void insertPlayersTest() {
+        // given
         int gameId = jdbcGameInsertDao.insertGame("jena", 3);
-        Assertions.assertThatNoException()
-                .isThrownBy(() ->
-                        playerInsertDao.insertPlayers(gameId, List.of(new Car("jena", 1), new Car("odo", 2))));
+        List<Car> cars = List.of(new Car("jena", 0), new Car("odo", 2), new Car("pobi", 4));
+
+        // when, then
+        Assertions.assertThatNoException().isThrownBy(() -> jdbcPlayerInsertDao.insertPlayers(gameId, cars));
     }
 }
