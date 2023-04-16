@@ -11,8 +11,14 @@ import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
 import racingcar.service.RacingGameService;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @RestController
 public class RacingGameWebController {
+
+    private final static String NAME_DELIMITER = ",";
 
     private final RacingGameService racingGameService;
 
@@ -22,7 +28,9 @@ public class RacingGameWebController {
 
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponseDto> run(@RequestBody RacingGameRequestDto racingGameRequestDto) {
-        RacingGameResponseDto racingGameResponseDto = racingGameService.run(racingGameRequestDto);
+        List<String> names = Arrays.asList(racingGameRequestDto.getNames().split(NAME_DELIMITER));
+        int count = racingGameRequestDto.getCount();
+        RacingGameResponseDto racingGameResponseDto = racingGameService.run(names, count);
         return ResponseEntity.status(HttpStatus.OK).body(racingGameResponseDto);
     }
 
