@@ -3,7 +3,7 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayerDao;
-import racingcar.dto.GameInfo;
+import racingcar.dto.GameDto;
 import racingcar.dto.WinnerCarDto;
 import racingcar.exception.DuplicateCarNameException;
 import racingcar.model.Car;
@@ -28,21 +28,21 @@ public class CarService {
         this.playResultDao = playResultDao;
     }
 
-    public WinnerCarDto playGame(GameInfo gameInfo) {
-        final Cars cars = initGame(gameInfo);
+    public WinnerCarDto playGame(GameDto gameDto) {
+        final Cars cars = initGame(gameDto);
         final WinnerCarDto winner = cars.getWinner();
-        save(gameInfo, winner);
+        save(gameDto, winner);
         return winner;
     }
 
-    private void save(final GameInfo gameInfo, final WinnerCarDto winner) {
-        final long id = insertPlayResult(gameInfo, winner);
+    private void save(final GameDto gameDto, final WinnerCarDto winner) {
+        final long id = insertPlayResult(gameDto, winner);
         insertPlayers(winner, id);
     }
 
-    private Cars initGame(final GameInfo gameInfo) {
-        final Cars cars = generateCars(gameInfo.getNames());
-        Round round = new Round(gameInfo.getCount());
+    private Cars initGame(final GameDto gameDto) {
+        final Cars cars = generateCars(gameDto.getNames());
+        Round round = new Round(gameDto.getCount());
 
         race(cars, round);
         return cars;
@@ -53,9 +53,9 @@ public class CarService {
                 .forEach((carDto -> playerDao.insert(carDto.getName(), carDto.getPosition(), id)));
     }
 
-    private long insertPlayResult(final GameInfo gameInfo, final WinnerCarDto winner) {
+    private long insertPlayResult(final GameDto gameDto, final WinnerCarDto winner) {
         final String winners = String.join(",", winner.getWinners());
-        final int trialCount = Integer.parseInt(gameInfo.getCount());
+        final int trialCount = Integer.parseInt(gameDto.getCount());
         return playResultDao.insert(winners, trialCount);
     }
 
