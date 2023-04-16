@@ -20,4 +20,8 @@ public class CarDto {
     public static CarDto from(final Car car) {
         return new CarDto(car.getName(), car.getDistance());
     }
+
+    public static CarDto from(final RecordDto recordDto) {
+        return new CarDto(recordDto.getPlayerName(), recordDto.getPosition());
+    }
 }
