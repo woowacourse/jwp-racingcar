@@ -17,7 +17,7 @@ public class PlayersInfoDAO {
     }
 
     public void insert(int parentId, List<Car> cars) {
-        String sql = "insert into players_info (name, position, parent_id) values (?, ?, ?)";
+        String sql = "insert into players_info (name, position, play_result_id) values (?, ?, ?)";
         for (Car car : cars) {
             jdbcTemplate.update(sql, car.getName(), car.getPosition(), parentId);
         }
