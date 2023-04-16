@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +18,6 @@ public class WebController {
     private final RacingGameService racingGameService;
     private final WebRacingGameService webRacingGameService;
 
-    @Autowired
     public WebController(final RacingGameService racingGameService, final WebRacingGameService webRacingGameService) {
         this.racingGameService = racingGameService;
         this.webRacingGameService = webRacingGameService;
