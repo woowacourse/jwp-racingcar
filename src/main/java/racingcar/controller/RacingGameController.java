@@ -3,6 +3,7 @@ package racingcar.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,11 @@ public class RacingGameController {
     @Autowired
     public RacingGameController(final RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
+    }
+
+    @GetMapping("/plays")
+    public List<GameResponseDto> play() {
+        return racingGameService.getGameResponseDtos();
     }
 
     @PostMapping(value = "/plays", consumes = "application/json")
