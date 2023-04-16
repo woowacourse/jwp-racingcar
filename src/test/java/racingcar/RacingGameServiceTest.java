@@ -13,14 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.RacingGameService;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.domain.race.NumberGenerator;
 import racingcar.dto.ResultDto;
 
 @ExtendWith(MockitoExtension.class)
