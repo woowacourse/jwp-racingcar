@@ -27,6 +27,8 @@ public class ConsoleRacingCarApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        consoleRacingCarController.run();
+        while (true) {
+            consoleRacingCarController.run();
+        }
     }
 }
