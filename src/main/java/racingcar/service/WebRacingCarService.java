@@ -12,7 +12,6 @@ import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
 
-//TODO: Transactional 어노테이션 고민
 @Service
 public class WebRacingCarService implements RacingCarService {
 
