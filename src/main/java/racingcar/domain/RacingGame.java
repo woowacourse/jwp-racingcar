@@ -19,8 +19,10 @@ public class RacingGame {
     }
 
     public void play() {
-        cars.race(numberGenerator);
-        count.decrease();
+        while (isPlayable()) {
+            cars.race(numberGenerator);
+            count.decrease();
+        }
     }
 
     public List<Car> findCurrentCarPositions() {

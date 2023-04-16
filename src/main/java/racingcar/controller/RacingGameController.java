@@ -1,12 +1,12 @@
 package racingcar.controller;
 
-import java.util.List;
-import java.util.function.Supplier;
-import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 public class RacingGameController {
 
@@ -31,6 +31,7 @@ public class RacingGameController {
         RacingGame racingGame = initialize();
         play(racingGame);
         findWinners(racingGame);
+        printResult(racingGame);
     }
 
     private RacingGame initialize() {
@@ -41,15 +42,15 @@ public class RacingGameController {
 
     private void play(final RacingGame racingGame) {
         outputView.printResultMessage();
-        while (racingGame.isPlayable()) {
-            racingGame.play();
-            List<Car> cars = racingGame.findCurrentCarPositions();
-            outputView.printCurrentCarPositions(cars);
-        }
+        racingGame.play();
     }
 
     private void findWinners(final RacingGame racingGame) {
         List<String> winners = racingGame.findWinners();
         outputView.printWinnersMessage(winners);
+    }
+
+    private void printResult(final RacingGame racingGame) {
+        outputView.printCurrentCarPositions(racingGame.findCurrentCarPositions());
     }
 }
