@@ -15,26 +15,21 @@ public class CarControllerAdvice {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResult> handleBlankName(BlankNameException exception) {
-        return getResultResponseEntity(exception.getMessage());
-    }
-
-    private ResponseEntity<ErrorResult> getResultResponseEntity(final String exception) {
-        final ErrorResult errorResult = new ErrorResult(String.valueOf(HttpStatus.BAD_REQUEST.value()), exception);
-        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+        return ErrorResult.toResponseEntity(String.valueOf(HttpStatus.BAD_REQUEST.value()), exception.getMessage());
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResult> handleDuplicateCarName(DuplicateCarNameException exception) {
-        return getResultResponseEntity(exception.getMessage());
+        return ErrorResult.toResponseEntity(String.valueOf(HttpStatus.BAD_REQUEST.value()), exception.getMessage());
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResult> handleWrongNameLength(WrongNameLengthException exception) {
-        return getResultResponseEntity(exception.getMessage());
+        return ErrorResult.toResponseEntity(String.valueOf(HttpStatus.BAD_REQUEST.value()), exception.getMessage());
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResult> handleWrongRound(WrongRoundException exception) {
-        return getResultResponseEntity(exception.getMessage());
+        return ErrorResult.toResponseEntity(String.valueOf(HttpStatus.BAD_REQUEST.value()), exception.getMessage());
     }
 }
