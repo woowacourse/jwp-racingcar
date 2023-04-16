@@ -59,6 +59,7 @@ class GameServiceTest {
         return results.stream()
                 .flatMap(resultDto -> resultDto.getRacingCars().stream())
                 .map(CarDto::getName)
+                .distinct()
                 .collect(toList());
     }
 
