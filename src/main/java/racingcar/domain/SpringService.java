@@ -24,7 +24,7 @@ public class SpringService {
     public SpringService(GameDAO gameDAO, GameLogDAO gameLogDAO, WinnersDAO winnersDAO) {
         this.gameDAO = gameDAO;
         this.gameLogDAO = gameLogDAO;
-        this.winnersDAO =winnersDAO;
+        this.winnersDAO = winnersDAO;
         this.moveChance = new RandomMoveChance();
     }
 
@@ -72,8 +72,8 @@ public class SpringService {
     }
 
     private void validateNotNegativeInteger(int trialCount) {
-        if (trialCount < MIN_TRIAL_COUNT) {
-            throw new IllegalArgumentException("[ERROR] 시도횟수는 음수이면 안됩니다.");
+        if (trialCount <= MIN_TRIAL_COUNT) {
+            throw new IllegalArgumentException("[ERROR] 시도 횟수를 다시 입력해 주세요.");
         }
     }
 
