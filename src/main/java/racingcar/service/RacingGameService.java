@@ -41,6 +41,14 @@ public class RacingGameService {
         return createResult(racingCars);
     }
 
+    public RacingGameResponseDto runWithoutDb(List<String> names, int count) {
+        RacingCars racingCars = new RacingCars(CarFactory.generate(names, RACE_START_POINT));
+        int tryCount = new TryCount(count).getTries();
+
+        raceCars(racingCars, tryCount);
+        return createResult(racingCars);
+    }
+
     private void raceCars(RacingCars racingCars, int tryCount) {
         for (int i = 0; i < tryCount; i++) {
             racingCars.moveCars(numberGenerator);
