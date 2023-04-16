@@ -21,4 +21,12 @@ public class GameResponseDto {
     public List<CarDto> getRacingCars() {
         return racingCars;
     }
+
+    @Override
+    public String toString() {
+        return "GameResponseDto{" +
+                "winners='" + winners + '\'' +
+                ", racingCars=" + racingCars +
+                '}';
+    }
 }
