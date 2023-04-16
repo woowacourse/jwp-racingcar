@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import racingcar.DatabaseTest;
+import racingcar.service.dto.CarDto;
 import racingcar.service.dto.ResultDto;
 
 @DatabaseTest
@@ -47,10 +49,17 @@ class GameServiceTest {
         final List<String> names = List.of("땡칠", "필립", "다니", "코일");
 
         gameService.playWith(names, 5);
-        final String sql = "select name from cars where game_id = ?";
-        final List<String> actualNames = jdbcTemplate.queryForList(sql, String.class, getGreatestGameId());
 
-        assertThat(actualNames).containsExactlyInAnyOrderElementsOf(names);
+        List<ResultDto> results = gameService.getAllResults();
+        assertThat(collectCarNamesOf(results))
+                .containsExactlyInAnyOrderElementsOf(names);
+    }
+
+    private List<String> collectCarNamesOf(List<ResultDto> results) {
+        return results.stream()
+                .flatMap(resultDto -> resultDto.getRacingCars().stream())
+                .map(CarDto::getName)
+                .collect(toList());
     }
 
     private Integer getGreatestGameId() {
