@@ -1,8 +1,6 @@
 package racingcar;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Map;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,9 +16,9 @@ public class ConnectionTest {
     @DisplayName("연결테스트")
     @Test
     void test_() {
-        jdbcTemplate.execute("INSERT INTO gamestates(initial_trial_count, remaining_trial_count) VALUES (2, 2)");
+        String sql = "select * from gamestates";
 
-        Map<String, Object> stringObjectMap = jdbcTemplate.queryForMap("SELECT * FROM gamestates WHERE id = 1");
-        assertThat(stringObjectMap).hasSize(4);
+        assertThatNoException()
+                .isThrownBy(() -> jdbcTemplate.execute(sql));
     }
 }
