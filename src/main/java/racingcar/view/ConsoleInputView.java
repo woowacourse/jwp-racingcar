@@ -23,4 +23,14 @@ public class ConsoleInputView {
         System.out.println("어떤 애플리케이션으로 실행할까요? (콘솔 : C, 웹 : W)");
         return ApplicationCommand.getByCommand(scanner.nextLine());
     }
+
+    public static FindingCommand getFindingCommand() {
+        System.out.println("모든 결과를 조회해 보시겠습니까? (예 : Y, 아니오 : N)");
+        return FindingCommand.getByCommand(scanner.nextLine());
+    }
+
+    public static ReplayCommand getReplayCommand() {
+        System.out.println("게임을 또 플레이하시겠습니까? (예 : Y, 아니오 : N)");
+        return ReplayCommand.getByCommand(scanner.nextLine());
+    }
 }

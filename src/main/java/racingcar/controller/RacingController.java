@@ -28,7 +28,7 @@ public class RacingController {
     }
 
     @GetMapping("/plays")
-    public List<RacingResultResponseDto> findAllRaces() {
+    public List<RacingResultResponseDto> findAllRaceResults() {
         List<RacingResultDto> results = racingService.findAllResults();
         return results.stream()
                 .map(RacingResultResponseDto::new)

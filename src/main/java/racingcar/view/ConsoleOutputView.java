@@ -8,9 +8,17 @@ import java.util.List;
 public class ConsoleOutputView {
 
     public static final String RESULT_MESSAGE_FORMAT = "%s : %s%n";
-    public static final String WINNER_MESSAGE_FORMAT = "%s가 최종 우승했습니다.";
+    public static final String WINNER_MESSAGE_FORMAT = "%s가 최종 우승했습니다.%n";
     public static final String DELIMITER = ", ";
     public static final String POSITION_BAR = "-";
+
+    public static void printResults(List<RacingResultResponseDto> results) {
+        for (RacingResultResponseDto result : results) {
+            System.out.println("- - - - -");
+            printResult(result);
+            System.out.println("- - - - -");
+        }
+    }
 
     public static void printResult(RacingResultResponseDto result) {
         System.out.println("실행 결과");
@@ -26,7 +34,7 @@ public class ConsoleOutputView {
         return stringBuilder;
     }
 
-    public static void printWinners(List<String> winnerNames) {
+    private static void printWinners(List<String> winnerNames) {
         System.out.printf(WINNER_MESSAGE_FORMAT, combineNamesWithDelimiter(winnerNames));
     }
 
