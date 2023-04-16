@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import racingcar.domain.engine.Engine;
+import racingcar.exception.BusinessArgumentException;
 import racingcar.exception.ErrorCode;
 
 import java.util.Collections;
@@ -43,7 +44,7 @@ public class Cars {
         return cars.stream()
                 .map(Car::getPosition)
                 .max(Integer::compareTo)
-                .get();
+                .orElseThrow(() -> new BusinessArgumentException(ErrorCode.CAR_NOT_EXIST));
     }
 
     private void validateNameDuplication(List<Name> carNames) {
