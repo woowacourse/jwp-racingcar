@@ -14,14 +14,14 @@ import racingcar.service.mapper.RaceResultMapper;
 @Service
 public class RaceService {
 
-    private final RaceResultDao raceResultDao;
     private final CarService carService;
+    private final RaceResultService raceResultService;
     private final RaceResultMapper raceResultMapper;
 
-    public RaceService(final RaceResultDao raceResultDao, final CarService carService,
-                       final RaceResultMapper raceResultMapper) {
-        this.raceResultDao = raceResultDao;
+    public RaceService(final CarService carService,
+                       RaceResultService raceResultService, final RaceResultMapper raceResultMapper) {
         this.carService = carService;
+        this.raceResultService = raceResultService;
         this.raceResultMapper = raceResultMapper;
     }
 
@@ -29,13 +29,13 @@ public class RaceService {
         RacingCars carsAfterMove = carService.race(gameInfoRequest);
         RaceResultRegisterRequest raceResultRegisterRequest
                 = raceResultMapper.mapToRaceResult(gameInfoRequest.getCount(), carsAfterMove);
-        int savedPlayResultId = raceResultDao.save(raceResultRegisterRequest);
+        int savedPlayResultId = raceResultService.generate(raceResultRegisterRequest);
         carService.registerCars(carsAfterMove, savedPlayResultId);
         return savedPlayResultId;
     }
 
     public RaceResultResponse createRaceResult(final int playResultId) {
-        String winners = raceResultDao.findWinnersByPlayResultId(playResultId);
+        String winners = raceResultService.searchWinners(playResultId);
         List<Car> findCars = carService.getAllCars(playResultId);
         return new RaceResultResponse(winners, raceResultMapper.mapToCarStatus(findCars));
     }
