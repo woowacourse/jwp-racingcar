@@ -2,18 +2,10 @@ package racingcar;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
-import org.springframework.context.annotation.FilterType;
+import racingcar.annotation.ConsoleSpringBootApplication;
 import racingcar.controller.ConsoleRacingCarController;
-import racingcar.controller.WebRacingCarController;
 
-@SpringBootApplication
-@ComponentScan(excludeFilters = @Filter(
-        type = FilterType.ASSIGNABLE_TYPE,
-        classes = {WebRacingCarController.class, WebRacingCarApplication.class}
-))
+//@ConsoleSpringBootApplication
 public class ConsoleRacingCarApplication implements CommandLineRunner {
     private final ConsoleRacingCarController consoleRacingCarController;
 
