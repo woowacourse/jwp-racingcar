@@ -20,7 +20,6 @@ import java.util.List;
 public class RacingCarController {
     private final RacingCarService racingCarService;
 
-    @Autowired
     public RacingCarController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
