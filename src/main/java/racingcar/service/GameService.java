@@ -52,7 +52,6 @@ public class GameService {
 
         for (GameWinnerDto game : allGames) {
             List<PlayerResultDto> playerResultsDto = playerResultDao.findPlayerResultsByGameId(game.getGameId());
-            System.out.println(playerResultsDto.size());
             gameResultDtos.add(new GameResultDto(game.getWinners(), playerResultsDto));
         }
 
