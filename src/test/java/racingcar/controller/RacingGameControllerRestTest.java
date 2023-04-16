@@ -14,8 +14,6 @@ import org.springframework.test.context.jdbc.Sql;
 import racingcar.dto.GameInputDto;
 import racingcar.service.RacingGameService;
 
-import java.util.List;
-
 import static org.hamcrest.Matchers.*;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -44,7 +42,7 @@ class RacingGameControllerRestTest {
                 .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
                 .body("winners", notNullValue())
-                .body("racingCars", hasSize(3));
+                .body("racingCars.name", contains("아벨", "스플릿", "포비"));
     }
     
     @Test
@@ -57,7 +55,10 @@ class RacingGameControllerRestTest {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
-                .body("winners", is(List.of("아벨,스플릿,포비", "aa,bb,cc")))
-                .body("racingCars", hasSize(2));
+                .body("size()", is(2))
+                .body("[0].winners", is("아벨,스플릿,포비"))
+                .body("[1].winners", is("aa,bb,cc"))
+                .body("[0].racingCars.name", contains("아벨", "스플릿", "포비"))
+                .body("[1].racingCars.name", contains("aa", "bb", "cc"));
     }
 }

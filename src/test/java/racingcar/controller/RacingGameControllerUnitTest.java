@@ -18,8 +18,9 @@ import racingcar.service.RacingGameService;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -54,16 +55,17 @@ class RacingGameControllerUnitTest {
                 .status(HttpStatus.OK)
                 .contentType(ContentType.JSON)
                 .body("winners", is("아벨"))
-                .body("racingCars", hasSize(3));
+                .body("racingCars.name", contains("아벨", "스플릿", "포비"));
     }
     
     @Test
     void 진행했던_모든_게임의_결과를_반환한다() {
         List<Car> firstWinners = List.of(new Car("아벨", 0));
         List<Car> secondWinners = List.of(new Car("스플릿", 0));
-        List<Car> cars = List.of(new Car("아벨", 0), new Car("스플릿", 0), new Car("포비", 0));
-        RacingResultResponseDto firstResult = new RacingResultResponseDto(firstWinners, cars);
-        RacingResultResponseDto secondResult = new RacingResultResponseDto(secondWinners, cars);
+        List<Car> firstCars = List.of(new Car("아벨", 0), new Car("스플릿", 0), new Car("포비", 0));
+        List<Car> secondCars = List.of(new Car("아벨", 0), new Car("스플릿", 0));
+        RacingResultResponseDto firstResult = new RacingResultResponseDto(firstWinners, firstCars);
+        RacingResultResponseDto secondResult = new RacingResultResponseDto(secondWinners, secondCars);
         List<RacingResultResponseDto> racingResultResponseDtos = List.of(firstResult, secondResult);
         
         given(racingGameService.findAllGameResult()).willReturn(racingResultResponseDtos);
@@ -73,7 +75,10 @@ class RacingGameControllerUnitTest {
                 .then().log().all()
                 .status(HttpStatus.OK)
                 .contentType(ContentType.JSON)
-                .body("winners", is(List.of("아벨", "스플릿")))
-                .body("racingCars", hasSize(2));
+                .body("size()", is(2))
+                .body("[0].winners", is("아벨"))
+                .body("[1].winners", is("스플릿"))
+                .body("[0].racingCars.name", contains("아벨", "스플릿", "포비"))
+                .body("[1].racingCars.name", contains("아벨", "스플릿"));
     }
 }
