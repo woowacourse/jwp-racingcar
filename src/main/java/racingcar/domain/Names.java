@@ -51,7 +51,7 @@ public class Names {
     private static List<String> getSplitName(final String names) {
         List<String> splitNames = new ArrayList<>();
 
-        addAll(splitNames, names.split(COMMA));
+        addAll(splitNames, names.replace(" ", "").split(COMMA));
 
         return splitNames;
     }
