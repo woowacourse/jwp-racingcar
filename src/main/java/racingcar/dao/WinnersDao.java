@@ -12,7 +12,7 @@ public class WinnersDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(final int gameNumber,final String winner) {
+    public void insert(final long gameNumber,final String winner) {
         String sql = "insert into winners(game_number, winner) values(?,?)";
         jdbcTemplate.update(sql, gameNumber, winner);
     }

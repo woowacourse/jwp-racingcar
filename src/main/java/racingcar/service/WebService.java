@@ -1,9 +1,12 @@
-package racingcar.domain;
+package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import racingcar.dao.GameDao;
 import racingcar.dao.GameLogDao;
 import racingcar.dao.WinnersDao;
+import racingcar.domain.Car;
+import racingcar.domain.MoveChance;
+import racingcar.domain.RandomMoveChance;
 
 import java.util.Collections;
 import java.util.List;
@@ -60,7 +63,7 @@ public class WebService {
 
     public void play(int trialCount) {
         validateNotNegativeInteger(trialCount);
-        int gameNumber = gameDAO.saveGame(trialCount);
+        long gameNumber = gameDAO.saveGame(trialCount);
         playMultipleTimes(trialCount);
         for (Car car : cars) {
             gameLogDAO.insert(gameNumber, car.getName(), car.getPosition());

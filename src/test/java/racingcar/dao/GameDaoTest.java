@@ -20,14 +20,15 @@ public class GameDaoTest {
 
     @BeforeEach
     void setUp() {
-
+        jdbcTemplate.execute("DROP TABLE game_log IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE winners IF EXISTS");
         jdbcTemplate.execute("DROP TABLE game IF EXISTS");
         jdbcTemplate.execute("create table game\n" +
                 "(\n" +
-                "    game_number Integer auto_increment primary key,\n" +
+                "    game_number Integer auto_increment,\n" +
                 "    created_at  DATETIME default current_timestamp,\n" +
                 "    trial_count Integer\n" +
-                ");");
+                ") ;");
     }
 
     @Test
