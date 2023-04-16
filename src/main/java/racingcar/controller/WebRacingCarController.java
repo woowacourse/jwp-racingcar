@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.ExceptionResponse;
 import racingcar.dto.response.RacingGameResponse;
-import racingcar.service.RacingCarService;
+import racingcar.service.WebRacingCarService;
 
 @RestController
 public class WebRacingCarController {
 
-    private final RacingCarService racingCarService;
+    private final WebRacingCarService racingCarService;
 
-    public WebRacingCarController(RacingCarService racingCarService) {
+    public WebRacingCarController(final WebRacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 

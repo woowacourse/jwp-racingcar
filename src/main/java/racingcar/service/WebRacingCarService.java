@@ -13,7 +13,7 @@ import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
 
 @Service
-public class WebRacingCarService implements RacingCarService {
+public class WebRacingCarService {
 
     private final RacingCarRepository racingCarRepository;
 
@@ -21,7 +21,6 @@ public class WebRacingCarService implements RacingCarService {
         this.racingCarRepository = racingCarRepository;
     }
 
-    @Override
     public RacingGameResponse play(RacingGameRequest racingGameRequest) {
         final RacingGame racingGame = racingGameRequest.toEntity();
         racingGame.play();
@@ -40,7 +39,6 @@ public class WebRacingCarService implements RacingCarService {
         return new RacingGameEntity(carEntities, racingGame.getTotalRound());
     }
 
-    @Override
     public List<RacingGameResponse> findGameResults() {
         final List<RacingGameEntity> racingGameEntities = racingCarRepository.findAll();
 
