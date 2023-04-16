@@ -36,7 +36,7 @@ public class RacingCarController {
         return ResponseEntity.ok().body(gameResultResponseDto);
     }
 
-    public void play(Cars cars, int count, NumberGenerator numberGenerator) {
+    private void play(Cars cars, int count, NumberGenerator numberGenerator) {
         while (count-- > 0) {
             cars.moveCars(numberGenerator);
         }
