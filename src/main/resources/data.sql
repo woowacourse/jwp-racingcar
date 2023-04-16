@@ -1,7 +1,17 @@
--- TODO: 기능 구현에 필요한 내용을 추가하거나 수정하세요.
-CREATE TABLE PLAY_RESULT (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    winners     VARCHAR(50) NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
+
+CREATE TABLE GAME_RESULT(
+    id  INT NOT NULL AUTO_INCREMENT,
+    winners VARCHAR(255) NOT NULL,
+    trial_count INT NOT NULL,
+    created_at DATETIME NOT NULL default current_timestamp,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE PLAYER_RESULT(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    position INT NOT NULL,
+    game_id INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (game_id) REFERENCES GAME_RESULT(id) ON UPDATE CASCADE
 );
