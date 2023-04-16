@@ -6,8 +6,8 @@ import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
 
 public class RacingGameDto {
-    private List<String> winnerNames;
-    private List<CarDto> racingCars;
+    private final List<String> winnerNames;
+    private final List<CarDto> racingCars;
 
     private RacingGameDto(List<Car> racingCars, List<Car> winnerNames) {
         this.winnerNames = convertToString(winnerNames);
@@ -15,7 +15,7 @@ public class RacingGameDto {
     }
 
     public static RacingGameDto from(RacingGame game) {
-        return new RacingGameDto(game.getRacingCars(), game.getWinners());
+        return new RacingGameDto(game.getRacingCars(), game.calculateWinners());
     }
 
     private List<String> convertToString(List<Car> winners) {

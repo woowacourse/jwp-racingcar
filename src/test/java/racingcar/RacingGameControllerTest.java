@@ -23,10 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import racingcar.domain.RacingGameService;
-import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
-import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameDto;
+import racingcar.dto.RacingGameRequest;
 import racingcar.web.RacingGameController;
 import racingcar.web.RacingGameResponse;
 
@@ -45,10 +44,9 @@ class RacingGameControllerTest {
     class SuccessTest {
         private RacingGameResponse mockResponse;
 
-
         @BeforeEach
         void setUp() {
-            RacingGame mockRacingGame = new RacingGame(List.of("브리", "로지", "바론"), (list) -> List.of(new Car("브리")));
+            RacingGame mockRacingGame = RacingGame.from(List.of("브리", "로지", "바론"));
             RacingGameDto racingGameDto = RacingGameDto.from(mockRacingGame);
             given(racingGameService.start(anyInt(), anyList())).willReturn(racingGameDto);
 

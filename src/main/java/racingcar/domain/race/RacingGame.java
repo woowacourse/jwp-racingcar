@@ -1,15 +1,19 @@
 package racingcar.domain.race;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import racingcar.domain.car.Car;
 
 public class RacingGame {
     private final RacingCars racingCars;
-    private WinnerJudge winnerJudge;
 
-    public RacingGame(List<String> carNames, WinnerJudge winnerJudge) {
-        this.racingCars = new RacingCars(carNames);
-        this.winnerJudge = winnerJudge;
+    public RacingGame(List<Car> cars) {
+        this.racingCars = new RacingCars(cars);
+    }
+
+    public static RacingGame from(List<String> carNames) {
+        List<Car> cars = carNames.stream().map(Car::new).collect(Collectors.toList());
+        return new RacingGame(cars);
     }
 
     public void move(int trialCount, NumberGenerator numberGenerator) {
@@ -19,13 +23,14 @@ public class RacingGame {
         }
     }
 
-    public boolean isWinner(Car car) {
-        List<Car> winners = winnerJudge.getWinner(racingCars.getCars()); // TODO: 2023/04/13 winner 여부를 한 번만 연산하도록 변경
-        return winners.stream().anyMatch(winner -> winner.getName().equals(car.getName()));
+    public List<Car> calculateWinners() {
+        return racingCars.filter(car -> car.getPosition() == racingCars.calculateMaxPosition());
     }
 
-    public List<Car> getWinners() {
-        return winnerJudge.getWinner(racingCars.getCars());
+    public boolean isWinner(Car car) {
+        return calculateWinners().stream()
+                .map(Car::getName)
+                .anyMatch(name -> name.equals(car.getName()));
     }
 
     public List<Car> getRacingCars() {

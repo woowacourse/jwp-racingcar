@@ -8,9 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import racingcar.domain.car.Car;
+import racingcar.domain.race.NumberGenerator;
 import racingcar.domain.race.RacingGame;
-import racingcar.domain.race.WinnerJudge;
-import racingcar.domain.race.WinnerJudgeImpl;
 
 class RacingGameTest {
     @Nested
@@ -20,7 +19,7 @@ class RacingGameTest {
         @DisplayName("이름이 중복으로 입력되었을 때 예외 발생")
         void throwExceptionWhenDuplicateNameExists() {
             Assertions.assertThatThrownBy(
-                            () -> new RacingGame(List.of("rosie", "hong", "rosie"), new WinnerJudgeImpl()))
+                            () -> RacingGame.from(List.of("rosie", "hong", "rosie")))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -29,31 +28,25 @@ class RacingGameTest {
     @DisplayName("우승자를 판별 기능은")
     class GetWinnersTest {
         private RacingGame race;
-        private WinnerJudge mockWinnerJudge;
 
 
         @Test
         @DisplayName("우승자이면 true를 반환한다.")
         void shouldContainWinners() {
             // given
-            Car winner = new Car("rosie");
-            mockWinnerJudge = cars -> List.of(winner);
-            race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge);
-
-            // when
-
+            race = RacingGame.from(List.of("로지", "홍실"));
+            race.move(1, (size) -> List.of(10, 1));
+            //when
             //then
-            assertThat(race.isWinner(winner)).isTrue();
+            assertThat(race.isWinner(new Car("로지"))).isTrue();
         }
 
         @Test
         @DisplayName("우승자가 아니면 false를 반환한다.")
         void shouldNotContainNonWinners() {
             // given
-            Car winner = new Car("rosie");
-            mockWinnerJudge = cars -> List.of(winner);
-            race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge);
-
+            race = RacingGame.from(List.of("rosie", "hong"));
+            race.move(1, (size)-> List.of(10, 1));
             // when
             //then
             assertThat(race.isWinner(new Car("hong"))).isFalse();
@@ -65,7 +58,7 @@ class RacingGameTest {
     void testGameProgress() {
         //given
         int trialCount = 10;
-        RacingGame race = new RacingGame(List.of("바론", "론이", "로니", "로지"), new WinnerJudgeImpl());
+        RacingGame race = RacingGame.from(List.of("바론", "론이", "로니", "로지"));
         //when
         race.move(trialCount, new RandomNumberGenerator());
         //then

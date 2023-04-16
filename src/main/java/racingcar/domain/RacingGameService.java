@@ -8,7 +8,6 @@ import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.car.Car;
 import racingcar.domain.race.NumberGenerator;
 import racingcar.domain.race.RacingGame;
-import racingcar.domain.race.WinnerJudgeImpl;
 import racingcar.dto.RacingGameDto;
 
 @Service
@@ -18,14 +17,15 @@ public class RacingGameService {
     private final CarRecordDao carRecordDao;
     private final NumberGenerator numberGenerator;
 
-    public RacingGameService(RacingHistoryDao racingHistoryDao, CarRecordDao carRecordDao, NumberGenerator numberGenerator) {
+    public RacingGameService(RacingHistoryDao racingHistoryDao, CarRecordDao carRecordDao,
+                             NumberGenerator numberGenerator) {
         this.racingHistoryDao = racingHistoryDao;
         this.carRecordDao = carRecordDao;
         this.numberGenerator = numberGenerator;
     }
 
     public RacingGameDto start(int trialCount, List<String> names) {
-        RacingGame game = new RacingGame(names, new WinnerJudgeImpl());
+        RacingGame game = RacingGame.from(names);
         game.move(trialCount, numberGenerator);
 
         Long historyId = racingHistoryDao.insert(trialCount, LocalDateTime.now());
