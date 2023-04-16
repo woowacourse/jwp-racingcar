@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 class CarsTest {
 
 
-
     @Test
     @DisplayName("자동차가 2대 미만이면 예외가 발생한다.")
     void create_fail_by_size() {

@@ -11,7 +11,7 @@ public class RacingGame {
     private final int totalRound;
     private final NumberGenerator numberGenerator = new RandomNumberGenerator();
 
-    public RacingGame(final Cars cars, int totalRound){
+    public RacingGame(final Cars cars, int totalRound) {
         validateRound(totalRound);
         this.cars = cars;
         this.totalRound = totalRound;
@@ -29,7 +29,7 @@ public class RacingGame {
         }
     }
 
-    public List<Car> findWinnerCars(){
+    public List<Car> findWinnerCars() {
         return cars.findAllWinner();
     }
 

@@ -20,7 +20,7 @@ public class JdbcCarDao implements CarDao {
 
     @Override
     public void saveAll(int gameId, List<CarEntity> carEntities) {
-        final String sql = "INSERT INTO CAR(game_id, name, position, is_win) VALUES (?,?,?,?)";
+        final String sql = "INSERT INTO CAR(racing_game_id, name, position, is_win) VALUES (?,?,?,?)";
         final BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
 
             @Override
@@ -30,7 +30,6 @@ public class JdbcCarDao implements CarDao {
                 ps.setString(2, carEntity.getName());
                 ps.setInt(3, carEntity.getPosition());
                 ps.setBoolean(4, carEntity.isWin());
-
             }
 
             @Override
@@ -51,7 +50,7 @@ public class JdbcCarDao implements CarDao {
     private RowMapper<CarEntity> carEntityRowMapper() {
         return (rs, rowNum) -> {
             final int id = rs.getInt("id");
-            final int gameId = rs.getInt("game_id");
+            final int gameId = rs.getInt("racing_game_id");
             final String name = rs.getString("name");
             final int position = rs.getInt("position");
             final boolean isWin = rs.getBoolean("is_win");
@@ -59,5 +58,4 @@ public class JdbcCarDao implements CarDao {
             return new CarEntity(id, gameId, name, position, isWin);
         };
     }
-
 }
