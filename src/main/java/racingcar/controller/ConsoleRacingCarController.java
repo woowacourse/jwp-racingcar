@@ -1,15 +1,17 @@
 package racingcar.controller;
 
 import java.util.List;
+import org.springframework.stereotype.Component;
 import racingcar.dto.RacingCarDto;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class RacingCarController {
+@Component
+public class ConsoleRacingCarController {
     private final RacingCarService racingCarService;
 
-    public RacingCarController(RacingCarService racingCarService) {
+    public ConsoleRacingCarController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 
