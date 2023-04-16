@@ -16,5 +16,6 @@ CREATE TABLE CAR_RESULT
     play_result_id INT         NOT NULL,
     name           VARCHAR(50) NOT NULL,
     position       INT         NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    foreign key (play_result_id) references PLAY_RESULT (id)
 );
