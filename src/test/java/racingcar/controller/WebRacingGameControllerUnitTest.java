@@ -1,25 +1,28 @@
 package racingcar.controller;
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
+import racingcar.domain.Name;
 import racingcar.dto.GameInputDto;
 import racingcar.dto.RacingResultResponseDto;
 import racingcar.service.RacingGameServiceImpl;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -31,16 +34,15 @@ class WebRacingGameControllerUnitTest {
     private MockMvc mockMvc;
     @MockBean
     private RacingGameServiceImpl racingGameServiceImpl;
-    private GameInputDto gameInputDto;
     
     @BeforeEach
     void setUp() {
         RestAssuredMockMvc.mockMvc(mockMvc);
-        gameInputDto = new GameInputDto("아벨,스플릿,포비", "12");
     }
     
     @Test
     void 이름과_시도횟수를_전달하면_게임_결과를_반환한다() {
+        GameInputDto gameInputDto = new GameInputDto("아벨,스플릿,포비", "12");
         List<Car> winners = List.of(new Car("아벨", 0));
         List<Car> cars = List.of(new Car("아벨", 0), new Car("스플릿", 0), new Car("포비", 0));
         RacingResultResponseDto racingResultResponseDto = new RacingResultResponseDto(winners, cars);
@@ -80,5 +82,46 @@ class WebRacingGameControllerUnitTest {
                 .body("[1].winners", is("스플릿"))
                 .body("[0].racingCars.name", contains("아벨", "스플릿", "포비"))
                 .body("[1].racingCars.name", contains("아벨", "스플릿"));
+    }
+    
+    @ParameterizedTest(name = "{displayName} : name = {0}")
+    @NullAndEmptySource
+    void names_null_또는_empty_입력_시_예외_발생(String names) {
+        RestAssuredMockMvc.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new GameInputDto(names, "12"))
+                .when().post("/plays")
+                .then().log().all()
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(ContentType.JSON)
+                .body("message", is("이름을 입력해주세요"));
+    }
+    
+    @ParameterizedTest(name = "{displayName} : name = {0}")
+    @NullAndEmptySource
+    void count_null_또는_empty_입력_시_예외_발생(String count) {
+        RestAssuredMockMvc.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new GameInputDto("abel", count))
+                .when().post("/plays")
+                .then().log().all()
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(ContentType.JSON)
+                .body("message", is("시도 횟수를 입력해주세요"));
+    }
+    
+    @ParameterizedTest(name = "{displayName} : name = {0}")
+    @NullAndEmptySource
+    void names_and_count_null_또는_empty_입력_시_예외_발생(String param) {
+        RestAssuredMockMvc.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new GameInputDto(param, param))
+                .when().post("/plays")
+                .then().log().all()
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(ContentType.JSON)
+                .body("message", containsString("이름을 입력해주세요"))
+                .body("message", containsString(System.lineSeparator()))
+                .body("message", containsString("시도 횟수를 입력해주세요"));
     }
 }

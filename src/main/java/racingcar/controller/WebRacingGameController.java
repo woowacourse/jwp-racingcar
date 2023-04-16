@@ -1,17 +1,19 @@
 package racingcar.controller;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+import racingcar.dto.ExceptionResponseDto;
 import racingcar.dto.GameInputDto;
 import racingcar.dto.RacingResultResponseDto;
 import racingcar.service.RacingGameService;
 import racingcar.util.RandomNumberGenerator;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class WebRacingGameController {
@@ -23,7 +25,7 @@ public class WebRacingGameController {
     }
 
     @PostMapping(path = "/plays", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RacingResultResponseDto> play(@RequestBody GameInputDto gameInputDto) {
+    public ResponseEntity<RacingResultResponseDto> play(@RequestBody @Valid GameInputDto gameInputDto) {
         RacingResultResponseDto racingResultResponseDto = racingGameService.playGameWithoutPrint(gameInputDto, new RandomNumberGenerator());
         return ResponseEntity.ok(racingResultResponseDto);
     }

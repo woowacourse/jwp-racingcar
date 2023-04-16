@@ -1,10 +1,12 @@
 package racingcar.dto;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class GameInputDto {
-
+    @NotBlank(message = "이름을 입력해주세요")
     private final String names;
+    @NotBlank(message = "시도 횟수를 입력해주세요")
     private final String count;
 
     public GameInputDto(String names, String count) {
