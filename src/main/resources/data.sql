@@ -12,5 +12,5 @@ CREATE TABLE PLAYER (
     position    INT         NOT NULL,
     race_id  INT     NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES RACE (id)
+    FOREIGN KEY (race_id) REFERENCES RACE (id)
 );
