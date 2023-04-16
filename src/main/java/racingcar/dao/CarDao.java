@@ -10,8 +10,9 @@ import racingcar.dto.CarDto;
 
 @Repository
 public class CarDao {
-    private final SimpleJdbcInsert insertActor;
+
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert insertActor;
 
     public CarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
