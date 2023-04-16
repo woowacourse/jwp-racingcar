@@ -3,6 +3,7 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarInfoDao;
+import racingcar.dao.CarInfoH2Dao;
 import racingcar.dao.RacingDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
