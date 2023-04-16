@@ -21,5 +21,6 @@ public class RacingCarApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         controller.run();
+        System.exit(1);
     }
 }

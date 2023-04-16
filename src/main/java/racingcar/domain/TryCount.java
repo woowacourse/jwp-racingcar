@@ -2,7 +2,7 @@ package racingcar.domain;
 
 public class TryCount {
 
-    private final int count;
+    private int count;
 
     TryCount(int count) {
         validateCount(count);
@@ -21,5 +21,9 @@ public class TryCount {
 
     public int getCount() {
         return count;
+    }
+
+    public void decreaseCount() {
+        this.count--;
     }
 }
