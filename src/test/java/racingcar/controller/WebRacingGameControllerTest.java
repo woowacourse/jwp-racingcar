@@ -1,24 +1,32 @@
 package racingcar.controller;
 
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameRequest;
+import racingcar.dto.GameResponse;
+import racingcar.service.RacingGameService;
 
-@SpringBootTest
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest
 @AutoConfigureMockMvc
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -30,11 +38,19 @@ class WebRacingGameControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private RacingGameService racingGameService;
+
     @Test
     void 게임_진행() throws Exception {
         // given
-        final GameRequest gameRequest = new GameRequest("비버,허브", 1);
-        final String request = objectMapper.writeValueAsString(gameRequest);
+        GameResponse gameResponse = new GameResponse("허브", List.of(
+                new CarDto("비버", 3),
+                new CarDto("허브", 4))
+        );
+        given(racingGameService.play(any(GameRequest.class)))
+                .willReturn(gameResponse);
+        final String request = objectMapper.writeValueAsString(gameResponse);
 
         // expect
         mockMvc.perform(post("/plays")
