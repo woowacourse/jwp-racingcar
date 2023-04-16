@@ -6,11 +6,11 @@ import racingcar.dao.GameDao;
 import racingcar.dao.ParticipantDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.*;
-import racingcar.dto.NamesAndCountRequest;
-import racingcar.dto.ParticipateDto;
-import racingcar.dto.PlayerDto;
-import racingcar.dto.ResultResponse;
+import racingcar.dto.*;
+import racingcar.entity.GameEntity;
+import racingcar.entity.ParticipantEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +28,35 @@ public class RacingCarService {
         this.gameDao = gameDao;
         this.playerDao = playerDao;
         this.participantDao = participantDao;
+    }
+
+    public List<ResultResponse> searchAllGame() {
+        List<GameEntity> allGame = gameDao.findAll();
+        List<ResultResponse> allHistories = new ArrayList<>();
+        for (GameEntity gameEntity : allGame) {
+            Long gameId = gameEntity.getId();
+            List<ParticipantEntity> participants = participantDao.findByGameId(gameId);
+            List<String> winners = new ArrayList<>();
+            List<RacingCarResponse> racingCarResponses = new ArrayList<>();
+            for (ParticipantEntity participant : participants) {
+                Long playerId = participant.getPlayerId();
+                PlayerEntity player = playerDao.findById(playerId).orElseThrow();
+                RacingCarResponse racingCarResponse = new RacingCarResponse(
+                        player.getName(),
+                        participant.getPosition()
+                );
+                racingCarResponses.add(racingCarResponse);
+                if (participant.getWinner()) {
+                    winners.add(player.getName());
+                }
+            }
+            ResultResponse resultResponse = new ResultResponse(
+                    String.join(",", winners),
+                    racingCarResponses
+            );
+            allHistories.add(resultResponse);
+        }
+        return allHistories;
     }
 
     public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
@@ -59,7 +88,7 @@ public class RacingCarService {
     }
 
     private Long findOrSavePlayer(final String carName) {
-        Optional<PlayerDto> playerDtoOptional = playerDao.findByName(carName);
+        Optional<PlayerEntity> playerDtoOptional = playerDao.findByName(carName);
         if (playerDtoOptional.isEmpty()) {
             return playerDao.save(carName);
         }
