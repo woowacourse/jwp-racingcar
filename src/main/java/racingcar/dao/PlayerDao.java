@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.PlayerDto;
+import racingcar.dto.PlayerEntity;
 
 import java.sql.PreparedStatement;
 import java.util.Objects;
@@ -23,7 +23,7 @@ public class PlayerDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<PlayerDto> actorRowMapper = (resultSet, rowNum) -> new PlayerDto(
+    private final RowMapper<PlayerEntity> actorRowMapper = (resultSet, rowNum) -> new PlayerEntity(
             resultSet.getLong("id"),
             resultSet.getString("name")
     );
@@ -39,11 +39,21 @@ public class PlayerDao {
         return Objects.requireNonNull(generatedKeyHolder.getKey()).longValue();
     }
 
-    public Optional<PlayerDto> findByName(final String name) {
+    public Optional<PlayerEntity> findByName(final String name) {
         final String sql = "SELECT * FROM PLAYER WHERE name = ? ";
         try {
-            PlayerDto playerDto = jdbcTemplate.queryForObject(sql, actorRowMapper, name);
-            return Optional.ofNullable(playerDto);
+            PlayerEntity playerEntity = jdbcTemplate.queryForObject(sql, actorRowMapper, name);
+            return Optional.ofNullable(playerEntity);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<PlayerEntity> findById(final Long id) {
+        final String sql = "SELECT * FROM PLAYER WHERE id = ? ";
+        try {
+            PlayerEntity playerEntity = jdbcTemplate.queryForObject(sql, actorRowMapper, id);
+            return Optional.ofNullable(playerEntity);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
