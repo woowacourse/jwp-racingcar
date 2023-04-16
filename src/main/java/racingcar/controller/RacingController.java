@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,6 +8,9 @@ import racingcar.dto.RacingResultResponseDto;
 import racingcar.dto.RacingInfoRequestDto;
 import racingcar.dto.RacingResultDto;
 import racingcar.service.RacingService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class RacingController {
@@ -21,5 +25,13 @@ public class RacingController {
         RacingResultDto racingResultDto = racingService.race(dto.getNames(), dto.getCount());
         racingService.saveResult(racingResultDto);
         return new RacingResultResponseDto(racingResultDto);
+    }
+
+    @GetMapping("/plays")
+    public List<RacingResultResponseDto> findAllRaces() {
+        List<RacingResultDto> results = racingService.findAllResults();
+        return results.stream()
+                .map(RacingResultResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

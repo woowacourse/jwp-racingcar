@@ -21,6 +21,10 @@ public class Race {
         this.createdAt = null;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public int getTrialCount() {
         return trialCount;
     }

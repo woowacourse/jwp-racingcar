@@ -4,6 +4,7 @@ import racingcar.entity.CarInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CarInfoCollectionRepository implements CarInfoRepository {
     private final List<CarInfo> cars = new ArrayList<>();
@@ -20,5 +21,12 @@ public class CarInfoCollectionRepository implements CarInfoRepository {
                         carInfo.getIsWinner())
         );
         return id;
+    }
+
+    @Override
+    public List<CarInfo> findAllByRaceId(int raceId) {
+        return cars.stream()
+                .filter(carInfo -> carInfo.getRacingId() == raceId)
+                .collect(Collectors.toList());
     }
 }

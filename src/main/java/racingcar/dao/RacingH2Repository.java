@@ -8,6 +8,7 @@ import racingcar.entity.Race;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Component
 public class RacingH2Repository implements RaceRepository {
@@ -36,5 +37,11 @@ public class RacingH2Repository implements RaceRepository {
         }
 
         throw new IllegalStateException("레이싱 정보를 저장하고 키를 가져오지 못했습니다.");
+    }
+
+    @Override
+    public List<Integer> findAllId() {
+        String sql = "SELECT id FROM racing";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getInt("id"));
     }
 }

@@ -18,6 +18,7 @@ import racingcar.vo.Trial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -71,5 +72,27 @@ public class RacingService {
             CarInfo carInfo = new CarInfo(raceId, name, car.getPosition(), racingResultDto.isWinnerContaining(name));
             carInfoRepository.saveCar(carInfo);
         }
+    }
+
+    public List<RacingResultDto> findAllResults() {
+        ArrayList<RacingResultDto> racingResults = new ArrayList<>();
+
+        List<Integer> raceIds = raceRepository.findAllId();
+        for (Integer raceId : raceIds) {
+            List<CarInfo> carInfos = carInfoRepository.findAllByRaceId(raceId);
+
+            List<String> winnerNames = carInfos.stream()
+                    .filter(CarInfo::getIsWinner)
+                    .map(CarInfo::getName)
+                    .collect(Collectors.toList());
+
+            List<CarDto> carDtos = carInfos.stream()
+                    .map(CarDto::new)
+                    .collect(Collectors.toList());
+
+            racingResults.add(new RacingResultDto(null, winnerNames, carDtos));
+        }
+
+        return racingResults;
     }
 }
