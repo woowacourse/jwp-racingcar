@@ -24,6 +24,7 @@ public class TryCount {
     }
 
     public void decreaseCount() {
+        validateCount(count);
         this.count--;
     }
 }
