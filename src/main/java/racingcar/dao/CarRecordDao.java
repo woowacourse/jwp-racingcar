@@ -17,7 +17,7 @@ public class CarRecordDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long save(long racingHistoryId, Car car, boolean isWinner) {
+    public long save(long racingHistoryId, Car car, boolean isWinner) {
         String sql = "INSERT INTO car_record (history_id, name, position, is_winner) VALUES (:historyId, :name, :position, :isWinner)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, new MapSqlParameterSource(
@@ -26,7 +26,7 @@ public class CarRecordDao {
                                 "position", car.getPosition(),
                                 "isWinner", isWinner)),
                 keyHolder);
-        return keyHolder.getKeyAs(Long.class);
+        return keyHolder.getKey().longValue();
     }
 
 }

@@ -36,8 +36,9 @@ class CarRecordDaoTest {
         String carName = "Rosie";
         Car car = new Car(carName);
         boolean isWinner = true;
+        long historyId = 1L;
         //when
-        Long savedId = carRecordDao.save(racingHistoryId, car, isWinner);
+        long savedId = carRecordDao.save(racingHistoryId, car, isWinner);
         //then
         CarRecord foundCar = jdbcTemplate.queryForObject(
                 "SELECT * FROM car_record WHERE id = :id",
@@ -45,14 +46,16 @@ class CarRecordDaoTest {
                 (rs, rowNum) -> new CarRecord(
                         rs.getString("name"),
                         rs.getInt("position"),
-                        rs.getBoolean("is_winner")
+                        rs.getBoolean("is_winner"),
+                        historyId
                 )
         );
 
         assertAll(
                 () -> assertThat(foundCar.getName()).isEqualTo(carName),
                 () -> assertThat(foundCar.getPosition()).isZero(),
-                () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner)
+                () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner),
+                () -> assertThat(foundCar.getHistoryId()).isEqualTo(historyId)
         );
 
     }
