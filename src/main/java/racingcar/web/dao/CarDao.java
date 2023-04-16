@@ -10,13 +10,14 @@ import java.sql.PreparedStatement;
 
 @Component
 public class CarDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     public CarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long save(final CarEntity carEntity){
+    public Long insert(final CarEntity carEntity){
         String sql = "insert into car (player_name, final_position, is_winner, game_result_id) values (?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {

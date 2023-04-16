@@ -1,34 +1,31 @@
 package racingcar.web.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.web.dao.CarDao;
-import racingcar.web.dao.GameResultDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.web.dao.CarDao;
+import racingcar.web.dao.GameResultDao;
 import racingcar.web.entity.CarEntity;
 import racingcar.web.entity.GameResultEntity;
 
 @Repository
 public class RacingGameRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final GameResultDao gameResultDao;
+    private final CarDao carDao;
 
-    @Autowired
-    private GameResultDao gameResultDao;
-
-    @Autowired
-    private CarDao carDao;
+    public RacingGameRepository(GameResultDao gameResultDao, CarDao carDao) {
+        this.gameResultDao = gameResultDao;
+        this.carDao = carDao;
+    }
 
     public void saveCars(Long gameResultId, Cars finalResult, Cars winnersResult) {
 
         finalResult.getCars()
                 .stream()
                 .map(car -> new CarEntity(car.getName().getName(), car.getPosition().getPosition(), checkWinner(car, winnersResult), gameResultId))
-                .forEach(carEntity -> carDao.save(carEntity));
+                .forEach(carEntity -> carDao.insert(carEntity));
     }
 
     public Long saveGameResult(TryCount tryCount) {

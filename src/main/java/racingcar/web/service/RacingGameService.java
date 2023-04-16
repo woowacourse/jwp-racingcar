@@ -6,10 +6,10 @@ import racingcar.domain.Cars;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
+import racingcar.utils.DefaultMovingStrategy;
 import racingcar.web.dto.ResultDto;
 import racingcar.web.dto.UserInputDto;
 import racingcar.web.repository.RacingGameRepository;
-import racingcar.utils.DefaultMovingStrategy;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class RacingGameService {
 
-    final RacingGameRepository repository;
+    private final RacingGameRepository repository;
 
     public RacingGameService(RacingGameRepository repository) {
         this.repository = repository;
@@ -29,13 +29,18 @@ public class RacingGameService {
 
         Long gameResultId = repository.saveGameResult(new TryCount(inputDto.getCount()));
 
-        List<Cars> result = racingGame.start(new DefaultMovingStrategy());
-        Cars finalResult = result.get(result.size() - 1);
+        List<Cars> results = getResults(racingGame);
+        Cars finalResult = results.get(results.size() - 1);
         Cars winnersResult = racingGame.decideWinners();
 
         repository.saveCars(gameResultId, finalResult, winnersResult);
 
         return new ResultDto(winnersResult, finalResult);
+    }
+
+    private List<Cars> getResults(RacingGame racingGame) {
+        List<Cars> results = racingGame.start(new DefaultMovingStrategy());
+        return results;
     }
 
     private RacingGame getRacingGame(UserInputDto inputDto) {
