@@ -1,7 +1,5 @@
 package racingcar.service;
 
-import static java.util.stream.Collectors.toList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +8,7 @@ import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TrialCount;
 import racingcar.dto.CarDto;
+import racingcar.dto.CarDtos;
 import racingcar.dto.RecordDto;
 import racingcar.repository.GameDao;
 import racingcar.repository.RecordDao;
@@ -43,7 +42,7 @@ public class GameService {
         long savedGameId = gameDao.insert(trialCount.getValue());
         saveResults(savedGameId, cars);
 
-        return new PlayResponse(cars.winnerNames(), toCarDto(cars));
+        return new PlayResponse(cars.winnerNames(), CarDtos.from(cars));
     }
 
     public void saveResults(final long gameId, final Cars cars) {
@@ -52,13 +51,6 @@ public class GameService {
         for (final Car car : cars.getCars()) {
             recordDao.insert(gameId, winnerNames.contains(car.getName()), car);
         }
-    }
-
-    private List<CarDto> toCarDto(final Cars cars) {
-        return cars.getCars()
-                .stream()
-                .map(car -> new CarDto(car.getName(), car.getDistance()))
-                .collect(toList());
     }
 
     public List<PlayResponse> getAllSavedGames() {
