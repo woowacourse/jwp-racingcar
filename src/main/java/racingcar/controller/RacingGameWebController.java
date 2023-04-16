@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.dto.ExceptionDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
 import racingcar.service.RacingGameService;
@@ -20,12 +21,14 @@ public class RacingGameWebController {
     }
 
     @PostMapping("/plays")
-    public RacingGameResponseDto run(@RequestBody RacingGameRequestDto racingGameRequestDto) {
-        return racingGameService.run(racingGameRequestDto);
+    public ResponseEntity<RacingGameResponseDto> run(@RequestBody RacingGameRequestDto racingGameRequestDto) {
+        RacingGameResponseDto racingGameResponseDto = racingGameService.run(racingGameRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(racingGameResponseDto);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handle(RuntimeException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    public ResponseEntity<ExceptionDto> handle(IllegalArgumentException e) {
+        ExceptionDto exceptionDto = new ExceptionDto(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDto);
     }
 }
