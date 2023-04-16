@@ -5,11 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,45 +21,22 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @TestPropertySource(locations = "/application.properties")
-@JdbcTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Transactional
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RecordDaoTest {
 
+    @Autowired
     private RecordDao recordDao;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    void beforeAll() {
         recordDao = new RecordDao(jdbcTemplate);
-
-        jdbcTemplate.execute("DROP TABLE record IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE game IF EXISTS");
-
-        createGameTable();
-        createRecordTable();
 
         initGameTable();
         initRecordTable();
-    }
-
-    private void createRecordTable() {
-        jdbcTemplate.execute("CREATE TABLE record (\n" +
-                "game_id     int,\n" +
-                "position    int     NOT NULL,\n" +
-                "is_winner   boolean NOT NULL,\n" +
-                "player_name varchar(30),\n" +
-                "PRIMARY KEY (game_id, player_name),\n" +
-                "FOREIGN KEY (game_id) REFERENCES game (id)\n" +
-                ");");
-    }
-
-    private void createGameTable() {
-        jdbcTemplate.execute("CREATE TABLE game (\n" +
-                "id          int PRIMARY KEY AUTO_INCREMENT,\n" +
-                "trial_count int                                 NOT NULL,\n" +
-                "game_date   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n" +
-                ");");
     }
 
     private void initGameTable() {
@@ -78,9 +56,9 @@ public class RecordDaoTest {
     }
 
     @Test
-    @DisplayName("단일 Record 삽입 테스트")
-    void 단일_Record_삽입_테스트() {
-        Car doggy = new Car("doggy");
+    @DisplayName("단일 행 정상 insert 테스트")
+    void 단일_행_정상_insert_테스트() {
+        Car doggy = new Car("5th");
 
         assertThatNoException().isThrownBy(
                 () -> recordDao.insert(2, true, doggy)
