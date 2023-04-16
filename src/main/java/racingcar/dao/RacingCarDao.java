@@ -3,10 +3,10 @@ package racingcar.dao;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
@@ -17,7 +17,6 @@ public class RacingCarDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
-    @Autowired
     public RacingCarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
@@ -25,6 +24,7 @@ public class RacingCarDao {
                 .usingGeneratedKeyColumns("id");
     }
 
+    @Transactional
     public void insertGame(final RacingCars racingCars, final TryCount tryCount) {
         final HashMap<String, String> parameter = new HashMap<>();
 
