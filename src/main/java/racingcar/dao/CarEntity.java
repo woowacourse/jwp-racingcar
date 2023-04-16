@@ -3,9 +3,12 @@ package racingcar.dao;
 public class CarEntity {
 
     private int carId;
-    private final String name;
-    private final int position;
-    private final int gameId;
+    private String name;
+    private int position;
+    private int gameId;
+
+    public CarEntity() {
+    }
 
     public CarEntity(final String name, final int position, final int gameId) {
         this.name = name;
@@ -27,5 +30,21 @@ public class CarEntity {
 
     public int getGameId() {
         return gameId;
+    }
+
+    public void setCarId(int carId) {
+        this.carId = carId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 }

@@ -5,9 +5,12 @@ import java.time.LocalTime;
 public class GameEntity {
 
     private int gameId;
-    private final String winners;
-    private final int tryCount;
-    private final LocalTime createdAt;
+    private String winners;
+    private int tryCount;
+    private LocalTime createdAt;
+
+    public GameEntity() {
+    }
 
     public GameEntity(final String winners, final int tryCount, final LocalTime createdAt) {
         this.winners = winners;
@@ -29,5 +32,21 @@ public class GameEntity {
 
     public LocalTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
+
+    public void setWinners(String winners) {
+        this.winners = winners;
+    }
+
+    public void setTryCount(int tryCount) {
+        this.tryCount = tryCount;
+    }
+
+    public void setCreatedAt(LocalTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
