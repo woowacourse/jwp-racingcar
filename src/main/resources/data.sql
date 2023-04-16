@@ -5,7 +5,7 @@ CREATE TABLE RACING_GAME
 (
     id          INT         NOT NULL AUTO_INCREMENT,
     trial_count INT         NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
+    created_at  DATETIME    NOT NULL,
     PRIMARY KEY (id)
 );
 
