@@ -28,23 +28,10 @@ public class GameService {
     private final PlayerResultDao playerResultDao;
 
     @Autowired
-    public GameService(final GameDao gameDao, final PlayerResultDao playerResultDao) {
+    public GameService(GameDao gameDao, PlayerResultDao playerResultDao) {
         this.gameDao = gameDao;
         this.playerResultDao = playerResultDao;
     }
-
-//    @Transactional
-//    public GameResponseDto playGame(GamePlayDto gamePlayDto) {
-//        Cars cars = makeCars(gamePlayDto.getNames());
-//        RacingGame racingGame = new RacingGame(cars, gamePlayDto.getCount());
-//        racingGame.race(new RandomNumberGenerator());
-//
-//        List<String> winners = cars.calculateWinners();
-//
-//        final Long gameId = createGame(String.join(",", winners), gamePlayDto.getCount());
-//        final List<PlayerResultDto> playerResults = createPlayerResults(cars, gameId);
-//        return GameResponseDto.of(winners, playerResults);
-//    }
 
     @Transactional
     public GameResponseDto playGame(GameRequestDto gameRequestDto) {
@@ -55,9 +42,9 @@ public class GameService {
 
         List<String> winners = cars.calculateWinners();
 
-        final Long gameId = createGame(String.join(",", winners), gameRequestDto.getCount());
-        final List<PlayerResultDto> playerResults = createPlayerResults(cars, gameId);
-        return GameResponseDto.of(winners, playerResults);
+        Long gameId = createGame(String.join(",", winners), gameRequestDto.getCount());
+        List<PlayerResultDto> playerResultDtos = createPlayerResults(cars, gameId);
+        return GameResponseDto.of(winners, playerResultDtos);
     }
 
     public List<GameResultDto> findAllGames() {
@@ -79,17 +66,17 @@ public class GameService {
         return new Cars(baseCars);
     }
 
-    private Long createGame(final String winners, final int trialCount) {
+    private Long createGame(String winners, int trialCount) {
         GameSaveDto gameSaveDto = new GameSaveDto(winners, trialCount);
         Long gameId = gameDao.createGame(gameSaveDto);
         return gameId;
     }
 
-    private List<PlayerResultDto> createPlayerResults(final Cars cars, final Long gameId) {
-        final List<PlayerResultDto> playerResults = new ArrayList<>();
+    private List<PlayerResultDto> createPlayerResults(Cars cars, Long gameId) {
+        List<PlayerResultDto> playerResults = new ArrayList<>();
         for (Car car : cars.getLatestResult()) {
-            final PlayerResultSaveDto playerResultSaveDto = new PlayerResultSaveDto(gameId, car);
-            final PlayerResultDto playerResultDto = playerResultDao.savePlayerResult(playerResultSaveDto);
+            PlayerResultSaveDto playerResultSaveDto = new PlayerResultSaveDto(gameId, car);
+            PlayerResultDto playerResultDto = playerResultDao.savePlayerResult(playerResultSaveDto);
             playerResults.add(playerResultDto);
         }
         return playerResults;

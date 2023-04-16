@@ -26,25 +26,15 @@ public class ApiController {
         this.gameService = gameService;
     }
 
-//    @PostMapping(value = "/plays", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<GameResponseDto> playGame(@RequestBody GameRequestDto gameRequestDto) {
-//        List<String> carNames = List.of(gameRequestDto.getNames().split(","));
-//        GamePlayDto gamePlayDto = new GamePlayDto(carNames, gameRequestDto.getCount());
-//        final GameResponseDto gameResponseDto = gameService.playGame(gamePlayDto);
-//
-//        return ResponseEntity.created(URI.create("/plays")).body(gameResponseDto);
-//    }
-
     @PostMapping(value = "/plays", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameResponseDto> playGame(@Valid @RequestBody GameRequestDto gameRequestDto) {
         final GameResponseDto gameResponseDto = gameService.playGame(gameRequestDto);
-
         return ResponseEntity.created(URI.create("/plays")).body(gameResponseDto);
     }
 
     @GetMapping("/plays")
     public List<GameResultDto> retrieveGameResults() {
-        List<GameResultDto> gameResultsDto = gameService.findAllGames();
-        return gameResultsDto;
+        List<GameResultDto> gameResultDtos = gameService.findAllGames();
+        return gameResultDtos;
     }
 }
