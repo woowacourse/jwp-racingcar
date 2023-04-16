@@ -1,5 +1,6 @@
 package racingcar.dto;
 
+import java.util.List;
 import javax.validation.constraints.PositiveOrZero;
 
 public class RacingGameRequest {
@@ -14,6 +15,11 @@ public class RacingGameRequest {
     }
 
     public RacingGameRequest() {
+    }
+
+    public List<String> readSplitNames() {
+        String regex = ",";
+        return List.of(names.split(regex));
     }
 
     public String getNames() {

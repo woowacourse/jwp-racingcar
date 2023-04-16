@@ -5,23 +5,23 @@ import java.util.stream.Collectors;
 import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
 
-public class ResultDto {
-    private String winners;
+public class RacingGameDto {
+    private List<String> winnerNames;
     private List<CarDto> racingCars;
 
-    private ResultDto(List<Car> racingCars, List<Car> winners) {
-        this.winners = convertToString(winners);
+    private RacingGameDto(List<Car> racingCars, List<Car> winnerNames) {
+        this.winnerNames = convertToString(winnerNames);
         this.racingCars = convertToCarDto(racingCars);
     }
 
-    public static ResultDto from(RacingGame game) {
-        return new ResultDto(game.getRacingCars(), game.getWinners());
+    public static RacingGameDto from(RacingGame game) {
+        return new RacingGameDto(game.getRacingCars(), game.getWinners());
     }
 
-    private String convertToString(List<Car> winners) {
+    private List<String> convertToString(List<Car> winners) {
         return winners.stream()
                 .map(Car::getName)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
     }
 
     private List<CarDto> convertToCarDto(List<Car> racingCars) {
@@ -30,8 +30,8 @@ public class ResultDto {
                 .collect(Collectors.toList());
     }
 
-    public String getWinners() {
-        return winners;
+    public List<String> getWinnerNames() {
+        return winnerNames;
     }
 
     public List<CarDto> getRacingCars() {

@@ -9,7 +9,7 @@ import racingcar.domain.car.Car;
 import racingcar.domain.race.NumberGenerator;
 import racingcar.domain.race.RacingGame;
 import racingcar.domain.race.WinnerJudgeImpl;
-import racingcar.dto.ResultDto;
+import racingcar.dto.RacingGameDto;
 
 @Service
 public class RacingGameService {
@@ -24,14 +24,14 @@ public class RacingGameService {
         this.numberGenerator = numberGenerator;
     }
 
-    public ResultDto start(int trialCount, List<String> names) {
+    public RacingGameDto start(int trialCount, List<String> names) {
         RacingGame game = new RacingGame(names, new WinnerJudgeImpl());
         game.move(trialCount, numberGenerator);
 
         Long historyId = racingHistoryDao.insert(trialCount, LocalDateTime.now());
         insertCars(game, historyId);
 
-        return ResultDto.from(game);
+        return RacingGameDto.from(game);
     }
 
     private void insertCars(RacingGame game, long historyId) {

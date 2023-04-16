@@ -26,8 +26,9 @@ import racingcar.domain.RacingGameService;
 import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
 import racingcar.dto.RacingGameRequest;
-import racingcar.dto.ResultDto;
+import racingcar.dto.RacingGameDto;
 import racingcar.web.RacingGameController;
+import racingcar.web.RacingGameResponse;
 
 @ExtendWith(MockitoExtension.class)
 class RacingGameControllerTest {
@@ -42,26 +43,27 @@ class RacingGameControllerTest {
 
     @Nested
     class SuccessTest {
-        private ResultDto mockResponse;
+        private RacingGameResponse mockResponse;
 
 
         @BeforeEach
         void setUp() {
             RacingGame mockRacingGame = new RacingGame(List.of("브리", "로지", "바론"), (list) -> List.of(new Car("브리")));
-            mockResponse = ResultDto.from(mockRacingGame);
+            RacingGameDto racingGameDto = RacingGameDto.from(mockRacingGame);
+            given(racingGameService.start(anyInt(), anyList())).willReturn(racingGameDto);
 
-            given(racingGameService.start(anyInt(), anyList())).willReturn(mockResponse);
+            mockResponse = RacingGameResponse.from(racingGameDto);
             MockitoAnnotations.openMocks(this);
             mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
         }
 
-    @Test
-    void testPlay() throws Exception {
-        //given
-        ObjectMapper objectMapper = new ObjectMapper();
-        RacingGameRequest racingGameRequest = new RacingGameRequest("브리,로지,바론", 10);
-        String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
-        String responseAsString = objectMapper.writeValueAsString(mockResponse);
+        @Test
+        void testPlay() throws Exception {
+            //given
+            ObjectMapper objectMapper = new ObjectMapper();
+            RacingGameRequest racingGameRequest = new RacingGameRequest("브리,로지,바론", 10);
+            String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
+            String responseAsString = objectMapper.writeValueAsString(mockResponse);
 
             //when
             //then

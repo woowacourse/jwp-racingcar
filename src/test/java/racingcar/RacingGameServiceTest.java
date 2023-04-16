@@ -19,7 +19,7 @@ import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.RacingGameService;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.ResultDto;
+import racingcar.dto.RacingGameDto;
 
 @ExtendWith(MockitoExtension.class)
 class RacingGameServiceTest {
@@ -45,11 +45,11 @@ class RacingGameServiceTest {
         given(racingHistoryDao.insert(anyInt(), any())).willReturn(1L);
         given(carRecordDao.insert(anyLong(), any(), anyBoolean())).willReturn(1L);
         //when
-        ResultDto result = racingGameService.start(10, carNames);
+        RacingGameDto result = racingGameService.start(10, carNames);
         //then
         assertAll(
                 () -> assertThat(result.getRacingCars()).hasSize(2),
-                () -> assertThat(result.getWinners()).isNotEmpty()
+                () -> assertThat(result.getWinnerNames()).isNotEmpty()
         );
     }
 

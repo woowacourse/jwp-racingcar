@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.RacingGameService;
 import racingcar.dto.RacingGameRequest;
-import racingcar.dto.ResultDto;
+import racingcar.dto.RacingGameDto;
 
 @RestController
 public class RacingGameController {
@@ -21,15 +21,11 @@ public class RacingGameController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResultDto> play(@Validated @RequestBody RacingGameRequest request) {
-        ResultDto result = racingGameService.start(request.getCount(), splitNames(request.getNames()));
-        return ResponseEntity.ok(result);
+    public ResponseEntity<RacingGameResponse> play(@Validated @RequestBody RacingGameRequest request) {
+        RacingGameDto racingGameResult = racingGameService.start(request.getCount(), request.readSplitNames());
+        return ResponseEntity.ok(RacingGameResponse.from(racingGameResult));
     }
 
-    private List<String> splitNames(String names) {
-        String regex = ",";
-        return List.of(names.split(regex));
-    }
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity handleTryTimeException(IllegalArgumentException exception) {
         return ResponseEntity.badRequest().body(exception.getMessage());
