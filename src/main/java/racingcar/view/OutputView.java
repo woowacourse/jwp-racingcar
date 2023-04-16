@@ -1,6 +1,8 @@
 package racingcar.view;
 
 import racingcar.domain.Car;
+import racingcar.dto.response.CarGameResponse;
+import racingcar.dto.response.CarResponse;
 
 import java.util.List;
 
@@ -8,6 +10,15 @@ public class OutputView {
 
     public static void printBeforeRacing() {
         System.out.println("실행 결과");
+    }
+
+    public static void printResult(final CarGameResponse response) {
+        System.out.println("우승자 : " + response.getWinners());
+        System.out.println("결과 : ");
+        for (CarResponse racingCar : response.getRacingCars()) {
+            System.out.print("이름 : " + racingCar.getName());
+            System.out.println(", 위치 : " + racingCar.getPosition());
+        }
     }
 
     public static void printRacing(final List<Car> result) {

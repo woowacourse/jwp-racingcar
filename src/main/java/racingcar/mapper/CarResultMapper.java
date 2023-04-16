@@ -17,8 +17,8 @@ public class CarResultMapper {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public CarResultMapper(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        this.jdbcTemplate = jdbcTemplate;
+    public CarResultMapper(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("car_result")
                 .usingGeneratedKeyColumns("id");
