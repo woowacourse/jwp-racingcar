@@ -20,6 +20,10 @@ public class WinnerDao {
 
     public List<WinnerEntity> saveAll(final List<CarEntity> winners, final int gameId) {
         insertWinnerDao.insertAll(winners, gameId);
+        return findAllByGameId(gameId);
+    }
+
+    public List<WinnerEntity> findAllByGameId(final int gameId) {
         return selectWinnerDao.findAllByGameId(gameId);
     }
 }
