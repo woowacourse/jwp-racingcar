@@ -26,7 +26,7 @@ public class RacingCarController {
         this.racingCarService = racingCarService;
     }
 
-    @PostMapping(path = "/plays")
+    @PostMapping("/plays")
     @ResponseBody
     public RacingCarGameResultDto run(@RequestBody GameInitializeDto gameInitializeDto) {
         Cars cars = makeCars(gameInitializeDto);
