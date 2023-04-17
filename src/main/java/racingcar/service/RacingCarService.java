@@ -32,23 +32,26 @@ public class RacingCarService {
     }
 
     public List<GameResponseDto> findAll() {
-        List<GameEntity> racingGameEntities = racingCarDao.findAll(); // List<RacingGameEntity>
+        List<GameEntity> racingGameEntities = racingCarDao.findAllGame();
         return racingGameEntities.stream()
-                .map(RacingCarService::generateRacingGameResponseDto)
+                .map(gameEntity -> generateRacingGameResponseDto(gameEntity, findCarEntitiesByGameId(gameEntity.getId())))
                 .collect(Collectors.toList());
     }
 
-    private static GameResponseDto generateRacingGameResponseDto(GameEntity gameEntity) {
+    private GameResponseDto generateRacingGameResponseDto(GameEntity gameEntity, List<CarEntity> carEntities) {
         return new GameResponseDto(
                 gameEntity.getId(),
                 gameEntity.getWinners(),
-                generateRacingCarResponseDtos(gameEntity)
+                generateRacingCarResponseDtos(carEntities)
         );
     }
 
-    private static List<CarResponseDto> generateRacingCarResponseDtos(GameEntity gameEntity) {
-        return gameEntity.getRacingCars()
-                .stream()
+    private List<CarEntity> findCarEntitiesByGameId(int gameId) {
+        return racingCarDao.findCarsByGameId(gameId);
+    }
+
+    private static List<CarResponseDto> generateRacingCarResponseDtos(List<CarEntity> carEntities) {
+        return carEntities.stream()
                 .map(RacingCarService::generateRacingCarResponseDto)
                 .collect(Collectors.toList());
     }
@@ -62,9 +65,11 @@ public class RacingCarService {
         GameCount gameCount = new GameCount(gameRequestDtoForPlays.getCount());
         progress(cars, gameCount);
         String winners = winnersToString(cars);
-        GameEntity gameEntity = generateRacingGameEntity(gameRequestDtoForPlays, cars, winners);
+        GameEntity gameEntity = generateRacingGameEntity(gameRequestDtoForPlays, winners);
         gameEntity = racingCarDao.saveGame(gameEntity);
-        return generateRacingGameResponseDto(gameEntity);
+        List<CarEntity> carEntities = generateRacingCarEntities(gameEntity.getId(), cars);
+        carEntities.forEach(racingCarDao::saveCar);
+        return generateRacingGameResponseDto(gameEntity, carEntities);
     }
 
     private static Cars generateCars(GameRequestDtoForPlays gameRequestDtoForPlays) {
@@ -93,25 +98,25 @@ public class RacingCarService {
                 .collect(joining(","));
     }
 
-    private static GameEntity generateRacingGameEntity(GameRequestDtoForPlays gameRequestDtoForPlays, Cars cars, String winners) {
+    private static GameEntity generateRacingGameEntity(GameRequestDtoForPlays gameRequestDtoForPlays, String winners) {
         return new GameEntity.Builder()
                 .count(Integer.parseInt(gameRequestDtoForPlays.getCount()))
                 .winners(winners)
-                .racingCars(generateRacingCarEntities(cars))
                 .build();
     }
 
-    private static List<CarEntity> generateRacingCarEntities(Cars cars) {
+    private static List<CarEntity> generateRacingCarEntities(int gameId, Cars cars) {
         return cars.getCars()
                 .stream()
-                .map(RacingCarService::generateRacingCarEntity)
+                .map(car -> generateRacingCarEntity(gameId, car))
                 .collect(Collectors.toList());
     }
 
-    private static CarEntity generateRacingCarEntity(Car car) {
+    private static CarEntity generateRacingCarEntity(int gameId, Car car) {
         return new CarEntity.Builder()
                 .name(car.getName())
                 .position(car.getPosition())
+                .gameId(gameId)
                 .build();
     }
 

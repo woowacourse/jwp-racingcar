@@ -11,6 +11,7 @@ import racingcar.entity.GameEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @JdbcTest
 class RacingCarDaoTest {
@@ -34,32 +35,39 @@ class RacingCarDaoTest {
     @Test
     void findAll() {
         for (int i = 0; i < 2; i++) {
-            racingCarDao.saveGame(generateGameEntity());
+            GameEntity gameEntity = racingCarDao.saveGame(generateGameEntity());
+            generateCarEntity(gameEntity.getId()).forEach(racingCarDao::saveCar);
         }
 
-        List<GameEntity> result = racingCarDao.findAll();
+        List<GameEntity> resultGame = racingCarDao.findAllGame();
+        List<List<CarEntity>> resultCar = resultGame.stream()
+                .map(gameEntity -> racingCarDao.findCarsByGameId(gameEntity.getId()))
+                .collect(Collectors.toList());
 
-        Assertions.assertEquals(result.size(), 2);
-        Assertions.assertEquals(result.get(0).getRacingCars().size(), 2);
-        Assertions.assertEquals(result.get(1).getRacingCars().size(), 2);
+        Assertions.assertEquals(resultGame.size(), 2);
+        Assertions.assertEquals(resultCar.get(0).size(), 2);
+        Assertions.assertEquals(resultCar.get(1).size(), 2);
     }
 
     public static GameEntity generateGameEntity() {
         return new GameEntity.Builder()
                 .count(10)
                 .winners("메리")
-                .racingCars(new ArrayList<>(List.of(
-                                new CarEntity.Builder()
-                                        .name("메리")
-                                        .position(5)
-                                        .build(),
-                                new CarEntity.Builder()
-                                        .name("매튜")
-                                        .position(4)
-                                        .build())
-                        )
-                )
                 .build();
+    }
+
+    public static List<CarEntity> generateCarEntity(int gameId) {
+        return List.of(
+                new CarEntity.Builder()
+                        .name("메리")
+                        .position(5)
+                        .gameId(gameId)
+                        .build(),
+                new CarEntity.Builder()
+                        .name("매튜")
+                        .position(4)
+                        .gameId(gameId)
+                        .build());
     }
 
 }

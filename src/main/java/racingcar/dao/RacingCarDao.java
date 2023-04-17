@@ -24,25 +24,24 @@ public class RacingCarDao {
     }
 
     public GameEntity saveGame(GameEntity gameEntity) {
-        String sqlForGameEntity = "INSERT INTO RACING_GAME(count, winners, created_at) VALUES(?, ?, ?)";
+        String sqlForGameEntity = "INSERT INTO GAME(count, winners, created_at) VALUES(?, ?, ?)";
         gameEntity.setId(getIdAfterInsert(
                 sqlForGameEntity,
                 Integer.toString(gameEntity.getCount()),
                 gameEntity.getWinners(),
                 gameEntity.getCreatedAt().toString())
         );
-        gameEntity.getRacingCars()
-                .forEach(carEntity -> saveCar(gameEntity.getId(), carEntity));
+
         return gameEntity;
     }
 
-    private void saveCar(int gameId, CarEntity carEntity) {
-        String sqlForCarEntity = "INSERT INTO RACING_CAR(position, name, racing_game_id) VALUES(?, ?, ?)";
+    public void saveCar(CarEntity carEntity) {
+        String sqlForCarEntity = "INSERT INTO CAR(position, name, game_id) VALUES(?, ?, ?)";
         carEntity.setId(getIdAfterInsert(
                 sqlForCarEntity,
                 Integer.toString(carEntity.getPosition()),
                 carEntity.getName(),
-                Integer.toString(gameId))
+                Integer.toString(carEntity.getGameId()))
         );
     }
 
@@ -62,9 +61,14 @@ public class RacingCarDao {
         }
     }
 
-    public List<GameEntity> findAll() {
-        String sqlForGameEntities = "SELECT * FROM RACING_GAME";
-        return jdbcTemplate.query(sqlForGameEntities, ObjectMapper.getGameEntityMapper(jdbcTemplate));
+    public List<GameEntity> findAllGame() {
+        String sqlForGameEntities = "SELECT * FROM GAME";
+        return jdbcTemplate.query(sqlForGameEntities, ObjectMapper.getGameEntityMapper());
+    }
+
+    public List<CarEntity> findCarsByGameId(int gameId) {
+        String sqlForCarEntities = "SELECT * FROM CAR WHERE game_id = ?";
+        return jdbcTemplate.query(sqlForCarEntities, ObjectMapper.getCarEntityMapper(), gameId);
     }
 
 }
