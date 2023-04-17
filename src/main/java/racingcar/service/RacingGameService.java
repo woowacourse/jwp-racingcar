@@ -32,7 +32,7 @@ public class RacingGameService {
     public GameResponseDto play(List<String> names, int tryCount) {
         RacingGame racingGame = new RacingGame(convertToNames(names));
 
-        racingGame.moveCars(new TryCount(tryCount));
+        racingGame.moveCars(TryCount.from(tryCount));
 
         String winners = decideWinners(racingGame);
         List<PlayerResultDto> playerResults = getPlayerResults(racingGame);
@@ -45,7 +45,7 @@ public class RacingGameService {
 
     private List<Name> convertToNames(List<String> names) {
         return names.stream()
-                .map(Name::new)
+                .map(Name::from)
                 .collect(Collectors.toList());
     }
 

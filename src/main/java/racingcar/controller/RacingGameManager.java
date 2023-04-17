@@ -35,19 +35,20 @@ public class RacingGameManager {
     private List<Name> readCarNames() {
         return InputView.readCarNames()
                 .stream()
-                .map(Name::new)
+                .map(Name::from)
                 .collect(Collectors.toList());
     }
 
     private TryCount readTryCount() {
-        return new TryCount(InputView.readCount());
+        return TryCount.from(InputView.readCount());
     }
 
+    // TODO: 2023-04-17 로직 수정
     private void startRace(TryCount tryCount) {
         OutputView.printResultMessage();
 
         for (int i = 0; i < tryCount.getCount(); i++) {
-            racingGame.moveCars(new TryCount(1));
+            racingGame.moveCars(TryCount.from(i));
             OutputView.printAllCars(racingGame.getCars());
         }
     }
