@@ -3,7 +3,6 @@ package racingcar.domain;
 import java.util.List;
 
 public class RacingGame {
-
     private final NumberGenerator numberGenerator;
     private final Cars cars;
     private final Count count;

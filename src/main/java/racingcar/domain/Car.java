@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 public class Car implements Comparable<Car> {
-
     private static final int MOVE_LOWER_BOUND = 4;
 
     private final Name name;

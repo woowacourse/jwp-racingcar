@@ -9,10 +9,6 @@ import java.util.List;
 import java.util.Set;
 
 public class Cars {
-
-    private static final String INVALID_WINNER_MESSAGE = "우승자가 존재하지 않습니다.";
-    private static final String DUPLICATED_NAMES_MESSAGE = "중복된 차 이름이 없어야 합니다.";
-
     private final List<Car> cars;
 
     public Cars(final List<String> names) {
@@ -23,7 +19,7 @@ public class Cars {
     private void validate(final List<String> names) {
         Set<String> nonDuplicateNames = new HashSet<>(names);
         if (names.size() != nonDuplicateNames.size()) {
-            throw new IllegalArgumentException(DUPLICATED_NAMES_MESSAGE);
+            throw new IllegalArgumentException("중복된 차 이름이 없어야 합니다.");
         }
     }
 
@@ -47,7 +43,7 @@ public class Cars {
     private Car findWinner() {
         return cars.stream()
                 .max(Car::compareTo)
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_WINNER_MESSAGE));
+                .orElseThrow(() -> new IllegalArgumentException("우승자가 존재하지 않습니다."));
     }
 
     private List<String> findWinners(final Car winner) {
