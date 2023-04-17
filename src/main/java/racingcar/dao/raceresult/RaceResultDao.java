@@ -1,13 +1,16 @@
 package racingcar.dao.raceresult;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
-
-import java.time.LocalDateTime;
+import racingcar.dao.raceresult.entity.RaceResultEntity;
 
 @Repository
 public class RaceResultDao {
@@ -36,5 +39,17 @@ public class RaceResultDao {
         String sql = "SELECT winners FROM race_result WHERE id=?";
 
         return jdbcTemplate.queryForObject(sql, String.class, playResultId);
+    }
+
+    public List<RaceResultEntity> findAllWinners() {
+        String sql = "SELECT * FROM race_result";
+
+        return jdbcTemplate.query(sql, raceResultEntityRowMapper());
+    }
+
+    private RowMapper<RaceResultEntity> raceResultEntityRowMapper() {
+        return ((rs, rowNum) -> new RaceResultEntity.Builder()
+                .winners(rs.getString("winners"))
+                .build());
     }
 }
