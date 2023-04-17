@@ -10,7 +10,7 @@ import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.RacingGameRequestDto;
+import racingcar.dto.RacingGameRequest;
 
 @Service
 public final class RacingGameService {
@@ -22,19 +22,19 @@ public final class RacingGameService {
         this.racingGameDao = racingGameDao;
     }
 
-    public GameResultDto playRacingGame(final RacingGameRequestDto racingGameRequestDto) {
-        RacingGame racingGame = createRacingGame(racingGameRequestDto);
+    public GameResultDto playRacingGame(final RacingGameRequest racingGameRequest) {
+        RacingGame racingGame = createRacingGame(racingGameRequest);
         play(racingGame);
         GameResultDto gameResultDto = new GameResultDto(
                 mapWinnerNamesTextFrom(racingGame),
                 mapCarDtosFrom(racingGame)
         );
-        save(gameResultDto, racingGameRequestDto.getCount());
+        save(gameResultDto, racingGameRequest.getCount());
         return gameResultDto;
     }
 
-    private RacingGame createRacingGame(final RacingGameRequestDto racingGameRequestDto) {
-        return RacingGame.from(racingGameRequestDto);
+    private RacingGame createRacingGame(final RacingGameRequest racingGameRequest) {
+        return RacingGame.from(racingGameRequest);
     }
 
     private void play(final RacingGame racingGame) {

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.RacingGameRequestDto;
+import racingcar.dto.RacingGameRequest;
 import racingcar.service.RacingGameService;
 
 @RestController
@@ -21,7 +21,7 @@ public final class RacingController {
 
     @PostMapping(path = "/plays")
     public GameResultDto playRacingGame(
-            @Valid @RequestBody final RacingGameRequestDto racingGameRequestDto) {
-        return this.racingGameService.playRacingGame(racingGameRequestDto);
+            @Valid @RequestBody final RacingGameRequest racingGameRequest) {
+        return this.racingGameService.playRacingGame(racingGameRequest);
     }
 }
