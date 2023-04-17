@@ -8,7 +8,7 @@ public class OutputView {
     private static final String RESULT_MESSAGE = "결과";
     private static final String CAR_STATUS = "Name: %s, Position: %d";
 
-    public void printRaceResponse(final RaceResponse raceResponse) {
+    public Void printRaceResponse(final RaceResponse raceResponse) {
         System.out.println(WINNER_MESSAGE);
         System.out.println(raceResponse.getWinners());
         System.out.println();
@@ -18,5 +18,6 @@ public class OutputView {
                 System.out.printf(CAR_STATUS, racingCar.getName(), racingCar.getPosition());
                 System.out.println();
             });
+        return null;
     }
 }

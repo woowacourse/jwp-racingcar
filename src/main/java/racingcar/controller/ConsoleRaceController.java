@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import racingcar.common.ExecuteContext;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 import racingcar.service.RaceService;
@@ -20,8 +21,11 @@ public class ConsoleRaceController {
     }
 
     public void play() {
-        final RaceRequest raceRequest = inputView.getRaceRequest();
-        final RaceResponse raceResponse = raceService.play(raceRequest);
-        outputView.printRaceResponse(raceResponse);
+        ExecuteContext.repeatableExecute(() -> {
+            final RaceRequest raceRequest = inputView.getRaceRequest();
+            final RaceResponse raceResponse = raceService.play(raceRequest);
+            outputView.printRaceResponse(raceResponse);
+            return null;
+        });
     }
 }
