@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
@@ -43,10 +44,18 @@ public class RacingGameService {
     }
 
     public List<String> findWinnersById(long id) {
-        return carDao.findWinnersById(id);
+        List<String> winners = carDao.findWinnersById(id);
+        if (winners.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return winners;
     }
 
     public List<RacingCarDto> findCarsById(long id) {
-        return carDao.findCarsById(id);
+        List<RacingCarDto> cars = carDao.findCarsById(id);
+        if (cars.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return cars;
     }
 }
