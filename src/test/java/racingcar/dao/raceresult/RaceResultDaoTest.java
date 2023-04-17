@@ -58,8 +58,8 @@ class RaceResultDaoTest {
     }
 
     @Test
-    @DisplayName("모든 결과의 우승자를 조회한다.")
-    void findAllWinners() {
+    @DisplayName("모든 결과의 ID를 조회한다.")
+    void findAllPlayResultId() {
         // given
         String names1 = "성하,이오,코코닥";
         RacingCars racingCars1 = RacingCars.makeCars(names1);
@@ -74,11 +74,11 @@ class RaceResultDaoTest {
         // when
         raceResultDao.save(raceResultRegisterRequest1);
         raceResultDao.save(raceResultRegisterRequest2);
-        List<RaceResultEntity> allWinners = raceResultDao.findAllWinners();
+        List<Integer> playResultIds = raceResultDao.findAllPlayResultId();
 
         // then
-        assertThat(allWinners.size()).isEqualTo(2);
-        assertThat(allWinners.get(0).getWinners()).isNotNull();
-        assertThat(allWinners.get(1).getWinners()).isNotNull();
+        assertThat(playResultIds.size()).isEqualTo(2);
+        assertThat(playResultIds.get(0)).isNotNull();
+        assertThat(playResultIds.get(1)).isNotNull();
     }
 }
