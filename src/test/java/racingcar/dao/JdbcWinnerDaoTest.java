@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import racingcar.dao.game.JdbcGameDao;
+import racingcar.dao.winner.JdbcWinnerDao;
+
 @JdbcTest
 class JdbcWinnerDaoTest {
     @Autowired

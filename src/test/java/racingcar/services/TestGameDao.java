@@ -2,7 +2,7 @@ package racingcar.services;
 
 import java.util.List;
 
-import racingcar.dao.GameDao;
+import racingcar.dao.game.GameDao;
 
 public class TestGameDao implements GameDao {
     @Override

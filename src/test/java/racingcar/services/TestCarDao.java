@@ -2,7 +2,7 @@ package racingcar.services;
 
 import java.util.List;
 
-import racingcar.dao.CarDao;
+import racingcar.dao.car.CarDao;
 import racingcar.dto.CarDto;
 
 public class TestCarDao implements CarDao {

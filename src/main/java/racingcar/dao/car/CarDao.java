@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.car;
 
 import java.util.List;
 

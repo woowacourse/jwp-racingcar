@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import racingcar.dao.CarDao;
-import racingcar.dao.GameDao;
-import racingcar.dao.WinnerDao;
+import racingcar.dao.car.CarDao;
+import racingcar.dao.game.GameDao;
+import racingcar.dao.winner.WinnerDao;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameInfoDto;
 import racingcar.dto.ResultDto;

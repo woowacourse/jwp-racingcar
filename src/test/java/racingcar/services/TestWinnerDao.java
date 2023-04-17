@@ -2,7 +2,7 @@ package racingcar.services;
 
 import java.util.List;
 
-import racingcar.dao.WinnerDao;
+import racingcar.dao.winner.WinnerDao;
 
 public class TestWinnerDao implements WinnerDao {
     @Override

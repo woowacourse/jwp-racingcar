@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.winner;
 
 import java.util.List;
 
