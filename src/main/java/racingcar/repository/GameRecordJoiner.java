@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.repository;
 
 import racingcar.dto.CarData;
 import racingcar.dto.GameResultResponse;

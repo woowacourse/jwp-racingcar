@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.repository;
 
 import org.springframework.stereotype.Repository;
 import racingcar.dto.GameResultResponse;

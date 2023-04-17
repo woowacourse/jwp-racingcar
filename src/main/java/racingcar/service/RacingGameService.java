@@ -1,13 +1,13 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.RacingGameRepository;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.CarData;
 import racingcar.dto.GameResultResponse;
 import racingcar.dto.RacingGameRequest;
+import racingcar.repository.RacingGameRepository;
 
 import java.util.Comparator;
 import java.util.List;
