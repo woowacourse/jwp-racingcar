@@ -1,6 +1,8 @@
 package racingcar;
 
+import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,11 @@ public class RacingCarController {
 
     public RacingCarController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<HistoryResponse>> getGameHistory() {
+        return ResponseEntity.ok().body(racingCarService.getHistory());
     }
 
     @PostMapping("/plays")

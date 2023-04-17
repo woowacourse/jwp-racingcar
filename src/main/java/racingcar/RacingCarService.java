@@ -1,10 +1,14 @@
 package racingcar;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dto.RacingCarNamesDto;
 import racingcar.dto.RacingCarStatusDto;
 import racingcar.dto.RacingCarWinnerDto;
+import racingcar.entity.Player;
 import racingcar.repository.GameRepository;
 import racingcar.repository.PlayerRepository;
 import racingcar.service.RacingCarGame;
@@ -54,5 +58,33 @@ public class RacingCarService {
 
     private RacingCarWinnerDto findWinners(final RacingCarGame racingCarGame) {
         return racingCarGame.findWinners();
+    }
+
+    public List<HistoryResponse> getHistory() {
+        List<Player> allPlayers = playerRepository.findAll();
+        Map<Long, List<Player>> playersGroupingByGameId = allPlayers.stream()
+                .collect(Collectors.groupingBy(Player::getGameId));
+
+        return playersGroupingByGameId.values().stream()
+                .map(makeHistoryResponse())
+                .collect(Collectors.toList());
+    }
+
+    private Function<List<Player>, HistoryResponse> makeHistoryResponse() {
+        return players -> {
+            String winners = filterWinner(players).stream()
+                    .map(Player::getName)
+                    .collect(Collectors.joining(","));
+            List<RacingCarStatusDto> racingCarStatusDtos = players.stream()
+                    .map(RacingCarStatusDto::from)
+                    .collect(Collectors.toList());
+            return new HistoryResponse(winners, racingCarStatusDtos);
+        };
+    }
+
+    private List<Player> filterWinner(List<Player> players) {
+        return players.stream()
+                .filter(Player::isWinner)
+                .collect(Collectors.toList());
     }
 }
