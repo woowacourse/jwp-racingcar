@@ -1,11 +1,11 @@
 package racingcar.view;
 
+import racingcar.domain.Car;
+import racingcar.domain.Winner;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import racingcar.domain.Car;
-import racingcar.domain.Winner;
 
 public class Output {
     private static final String SEPERATOR = ", ";

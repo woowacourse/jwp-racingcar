@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class PlayResultResponseDto {
-    private static final String DELIMITER = ",";
-
     private final Winner winner;
     private final List<Car> racingCars;
 

@@ -1,8 +1,8 @@
 package racingcar.domain;
 
-import java.util.List;
-
 import racingcar.utils.NumberGenerator;
+
+import java.util.List;
 
 public class RacingGame {
     private final NumberGenerator randomNumberGenerator;
