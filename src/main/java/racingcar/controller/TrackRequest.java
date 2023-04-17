@@ -8,10 +8,10 @@ public class TrackRequest {
     private String names;
     private String count;
 
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    @JsonCreator
     public TrackRequest(
-            @JsonProperty final String names,
-            @JsonProperty final String count) {
+            @JsonProperty(value = "names") final String names,
+            @JsonProperty(value = "count") final String count) {
         this.names = names;
         this.count = count;
     }
