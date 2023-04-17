@@ -6,10 +6,11 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import racingcar.domain.TrialCount;
 
 @Repository
 public class GameDao {
-    private SimpleJdbcInsert simpleJdbcInsert;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public GameDao(DataSource dataSource) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
@@ -17,9 +18,9 @@ public class GameDao {
                 .usingGeneratedKeyColumns("game_number", "created_at");
     }
 
-    public int saveGame(int trialCount) {
+    public int saveGame(TrialCount trialCount) {
         Map<String, Integer> parameters = new HashMap<>();
-        parameters.put("trial_count", trialCount);
+        parameters.put("trial_count", trialCount.getTrialCount());
         return (int) simpleJdbcInsert.executeAndReturnKeyHolder(parameters).getKeys().get("game_number");
     }
 }

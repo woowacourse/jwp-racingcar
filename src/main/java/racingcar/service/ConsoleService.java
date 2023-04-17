@@ -1,9 +1,11 @@
-package racingcar.domain;
+package racingcar.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.Car;
+import racingcar.domain.MoveChance;
 
 public class ConsoleService {
 

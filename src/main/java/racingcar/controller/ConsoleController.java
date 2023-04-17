@@ -1,7 +1,8 @@
 package racingcar.controller;
 
 import racingcar.domain.Car;
-import racingcar.domain.ConsoleService;
+import racingcar.domain.Name;
+import racingcar.service.ConsoleService;
 import racingcar.domain.RandomMoveChance;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -38,7 +39,7 @@ public class ConsoleController {
 
     private List<Car> makeCarsWith(List<String> carNames) {
         return carNames.stream()
-                .map(Car::new)
+                .map(name -> new Car(new Name(name)))
                 .collect(Collectors.toList());
     }
 

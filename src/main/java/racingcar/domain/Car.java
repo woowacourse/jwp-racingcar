@@ -4,15 +4,14 @@ import static racingcar.option.Option.*;
 
 public class Car {
 
-    private final String name;
+    private final Name name;
     private int position;
 
-    public Car(String name) {
+    public Car(Name name) {
         this(name, INITIAL_POSITION);
     }
 
-    public Car(String name, int position) {
-        validateNameLength(name);
+    public Car(Name name, int position) {
         validatePositionOverInitialPosition(position);
         this.name = name;
         this.position = position;
@@ -32,15 +31,6 @@ public class Car {
         }
     }
 
-    private void validateNameLength(String name) {
-        if (name.length() > MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException("[ERROR] 이름이 너무 깁니다.");
-        }
-        if (name.length() < MIN_NAME_LENGTH) {
-            throw new IllegalArgumentException("[ERROR] 이름이 너무 짧습니다.");
-        }
-    }
-
     private void validatePositionOverInitialPosition(int position) {
         if (position < INITIAL_POSITION) {
             throw new IllegalArgumentException("[ERROR] 위치는 시작점보다 작으면 안됩니다.");
@@ -48,11 +38,10 @@ public class Car {
     }
 
     public String getName() {
-        return name;
+        return name.getName();
     }
 
     public int getPosition() {
         return position;
     }
-
 }

@@ -4,9 +4,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.SpringService;
+import racingcar.domain.Cars;
 import racingcar.dto.RequestDto;
 import racingcar.dto.ResponseDto;
+import racingcar.service.SpringService;
 
 @RestController
 public class SpringController {
@@ -19,9 +20,8 @@ public class SpringController {
 
     @PostMapping("/plays")
     public ResponseEntity<ResponseDto> postInput(@RequestBody RequestDto requestDto) {
-        springService.setUpGame(requestDto.getNames());
-        springService.play(requestDto.getCount());
-        ResponseDto responseDto = new ResponseDto(springService.findWinners(), springService.getCars());
+        Cars cars = Cars.of(requestDto.getNames());
+        ResponseDto responseDto = springService.play(cars, requestDto.getCount());
         return ResponseEntity.ok()
                 .body(responseDto);
     }
