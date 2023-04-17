@@ -24,6 +24,17 @@ public class RacingGameService {
         this.racingGameDao = racingGameDao;
     }
 
+    public RacingCars run(final String inputNames, final int inputCount) {
+        final List<Name> names = sliceNames(inputNames);
+        final RacingCars racingCars = new RacingCars(createRacingCar(names));
+        final TryCount tryCount = new TryCount(inputCount);
+
+        moveCars(racingCars, tryCount);
+
+        saveRacingCars(inputCount, racingCars);
+        return racingCars;
+    }
+
     private static List<Name> sliceNames(final String inputNames) {
         return sliceNameByComma(inputNames).stream()
                 .map(Name::new)
@@ -51,17 +62,6 @@ public class RacingGameService {
 
     private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
         return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
-    }
-
-    public RacingCars run(final String inputNames, final int inputCount) {
-        final List<Name> names = sliceNames(inputNames);
-        final RacingCars racingCars = new RacingCars(createRacingCar(names));
-        final TryCount tryCount = new TryCount(inputCount);
-
-        moveCars(racingCars, tryCount);
-
-        saveRacingCars(inputCount, racingCars);
-        return racingCars;
     }
 
     private List<RacingCar> createRacingCar(final List<Name> names) {
