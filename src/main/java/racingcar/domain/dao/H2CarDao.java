@@ -1,5 +1,6 @@
 package racingcar.domain.dao;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +19,13 @@ public class H2CarDao implements CarDao {
 
     @Override
     public void saveAll(final Long raceResultId, final List<Car> cars) {
-        cars.forEach(car -> save(raceResultId, car));
+        final String query = "INSERT INTO car (name, position, race_result_id) VALUES (?, ?, ?)";
+        jdbcTemplate.batchUpdate(query, cars, cars.size(),
+            (PreparedStatement ps, Car car) -> {
+                ps.setString(1, car.getName());
+                ps.setLong(2, car.getPosition());
+                ps.setLong(3, raceResultId);
+            });
     }
 
     @Override
@@ -27,10 +34,5 @@ public class H2CarDao implements CarDao {
         return jdbcTemplate.query(query, (result, count) ->
             new CarEntity(result.getLong("car_id"), result.getString("name"),
                 result.getInt("position")), resultId);
-    }
-
-    private void save(final Long raceResultId, final Car car) {
-        final String query = "INSERT INTO car (name, position, race_result_id) VALUES (?, ?, ?)";
-        jdbcTemplate.update(query, car.getName(), car.getPosition(), raceResultId);
     }
 }
