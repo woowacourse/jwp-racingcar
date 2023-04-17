@@ -24,7 +24,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @Import(value = AlwaysMoveStrategy.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class RacingGameControllerTest {
+class WebRacingGameControllerTest {
 
     @LocalServerPort
     int port;
