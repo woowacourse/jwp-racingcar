@@ -8,7 +8,7 @@ import racingcar.dto.GameDto;
 import racingcar.dto.RecordDto;
 import racingcar.model.Cars;
 import racingcar.service.RacingGameService;
-import racingcar.service.WebRacingGameService;
+import racingcar.service.GameRecordService;
 
 import java.util.List;
 
@@ -16,24 +16,24 @@ import java.util.List;
 public class WebController {
 
     private final RacingGameService racingGameService;
-    private final WebRacingGameService webRacingGameService;
+    private final GameRecordService gameRecordService;
 
-    public WebController(final RacingGameService racingGameService, final WebRacingGameService webRacingGameService) {
+    public WebController(final RacingGameService racingGameService, final GameRecordService gameRecordService) {
         this.racingGameService = racingGameService;
-        this.webRacingGameService = webRacingGameService;
+        this.gameRecordService = gameRecordService;
     }
 
     @PostMapping("/plays")
     public RecordDto plays(@RequestBody final GameDto gameDto) {
         Cars cars = racingGameService.play(gameDto);
 
-        webRacingGameService.plays(gameDto.getCount(), cars);
+        gameRecordService.plays(gameDto.getCount(), cars);
 
         return new RecordDto(cars.getWinner(), racingGameService.carsToDto(cars));
     }
 
     @GetMapping("/plays")
     public List<RecordDto> record() {
-        return webRacingGameService.findRecords();
+        return gameRecordService.findRecords();
     }
 }

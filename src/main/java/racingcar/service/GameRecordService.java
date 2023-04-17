@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class WebRacingGameService {
+public class GameRecordService {
     private final GameService gameService;
     private final RecordService recordService;
 
-    public WebRacingGameService(final GameService gameService, final RecordService recordService) {
+    public GameRecordService(final GameService gameService, final RecordService recordService) {
         this.gameService = gameService;
         this.recordService = recordService;
     }
