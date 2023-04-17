@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import racingcar.dto.CarDto;
 import racingcar.dto.RequestDto;
 import racingcar.dto.ResponseDto;
 
@@ -26,7 +27,7 @@ public class MainRacingCarService {
     public List<ResponseDto> findAllRecords() {
         final List<RacingCarResult> racingCarResults = findRecordService.findAllRecords();
         return racingCarResults.stream()
-            .map(racingCarResult -> new ResponseDto(racingCarResult.getWinners(), racingCarResult.getCars()))
+            .map(racingCarResult -> new ResponseDto(racingCarResult.getWinners(), CarDto.from(racingCarResult.getCars())))
             .collect(Collectors.toList());
     }
 
@@ -37,6 +38,6 @@ public class MainRacingCarService {
         final RacingCarResult racingCarResult = playRacingCarService.playRacingCar(names, count);
         saveRacingCarResultService.saveRacingCarResult(racingCarResult);
 
-        return new ResponseDto(racingCarResult.getWinners(), racingCarResult.getCars());
+        return new ResponseDto(racingCarResult.getWinners(), CarDto.from(racingCarResult.getCars()));
     }
 }
