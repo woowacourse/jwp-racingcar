@@ -12,7 +12,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @JdbcTest
-class RacingGameDaoImplTest {
+class JdbcRacingGameDaoTest {
 
     private RacingGameDao racingGameDao;
 
@@ -21,7 +21,7 @@ class RacingGameDaoImplTest {
 
     @BeforeEach
     void setUp() {
-        racingGameDao = new RacingGameDaoImpl(jdbcTemplate);
+        racingGameDao = new JdbcRacingGameDao(jdbcTemplate);
     }
 
     @Test

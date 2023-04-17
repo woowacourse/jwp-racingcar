@@ -12,11 +12,11 @@ import racingcar.exception.DatabaseAccessException;
 import java.util.List;
 
 @Repository
-public class RacingGameDaoImpl implements RacingGameDao {
+public class JdbcRacingGameDao implements RacingGameDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public RacingGameDaoImpl(final NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcRacingGameDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
