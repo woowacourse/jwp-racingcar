@@ -5,8 +5,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.entity.GameResultEntity;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class GameResultDao {
@@ -28,5 +30,16 @@ public class GameResultDao {
             return preparedStatement;
         }, keyHolder);
         return keyHolder.getKey();
+    }
+
+    public List<GameResultEntity> selectAll() {
+        final String sql = "SELECT * FROM GAME_RESULT";
+
+        return jdbcTemplate.query(sql, (resultSet, count) -> new GameResultEntity(
+                resultSet.getInt("id"),
+                resultSet.getInt("trial_count"),
+                resultSet.getString("winners"),
+                resultSet.getTimestamp("created_at").toLocalDateTime()
+        ));
     }
 }

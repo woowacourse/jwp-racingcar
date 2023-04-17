@@ -34,16 +34,6 @@ class RacingControllerTest {
     class PlaysPost {
 
         @Test
-        @DisplayName("GET 응답의 상태코드는 405이다")
-        void shouldResponse405WhenGetRequest() {
-            RestAssured.given().log().all()
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .when().get("/plays")
-                    .then().log().all()
-                    .statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
-        }
-
-        @Test
         @DisplayName("필요한 정보를 모두 담아 요청했을 때의 상태 코드는 200이다")
         void shouldResponseWhenPostRequest() {
             Model model = new ConcurrentModel();
@@ -135,6 +125,47 @@ class RacingControllerTest {
                     .body("racingCars[1].position", notNullValue())
                     .body("racingCars[2].name", notNullValue())
                     .body("racingCars[2].position", notNullValue());
+        }
+    }
+
+    @Nested
+    @DisplayName("/plays :GET")
+    class PlaysGet {
+
+        @Test
+        @DisplayName("요청을 보낼 수 있다")
+        void shouldBeAbleWhenRequest() {
+            RestAssured.given().log().all()
+                    .when().get("/plays")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value());
+        }
+
+        @Test
+        @DisplayName("요청 시, 모든 우승자와 자동차 정보를 규격에 맞게 반환한다")
+        void shouldReturnWinnersAndRacingCarsWhenRequest() {
+            // 자동차 경주 게임을 두 번 진행한다
+            Model model = new ConcurrentModel();
+            model.addAttribute("names", "브리,토미,브라운");
+            model.addAttribute("count", "3");
+            RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(model)
+                    .when().post("/plays");
+
+            RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(model)
+                    .when().post("/plays");
+
+            // 게임 플레이 이력을 가져온다
+            RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .when().get("/plays")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .body("winners.size()", is(2))
+                    .body("racingCars.size()", is(2));
         }
     }
 

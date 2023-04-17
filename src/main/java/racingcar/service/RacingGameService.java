@@ -60,4 +60,8 @@ public final class RacingGameService {
                 .map(Car::getCarName)
                 .collect(Collectors.joining(","));
     }
+
+    public List<GameResultResponse> makeGameRecords() {
+        return racingGameRepository.makeGameRecords();
+    }
 }
