@@ -36,5 +36,18 @@ class WebControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", is(2));
     }
+
+    @Test
+    @DisplayName("getGameRecord - Get")
+    void getGameRecord() {
+        playGame();
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("size()", is(1));
+    }
 }
 

@@ -4,6 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import racingcar.dao.entity.GameEntity;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,5 +24,16 @@ class InMemoryGameDaoTest {
         int gameId = gameDao.save(trialCount, winner);
 
         assertThat(gameId).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("game 값을 모두 불러온다.")
+    void findAll() {
+        gameDao.save(5, "ocean");
+        gameDao.save(5, "mint");
+
+        List<GameEntity> games = gameDao.findAll();
+
+        assertThat(games.size()).isEqualTo(2);
     }
 }
