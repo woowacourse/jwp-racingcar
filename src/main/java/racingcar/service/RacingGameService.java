@@ -24,7 +24,7 @@ public class RacingGameService {
         this.racingGameDao = racingGameDao;
     }
 
-    public RacingCars run(final String inputNames, final int inputCount) {
+    public RacingCars run(final List<String> inputNames, final int inputCount) {
         final List<Name> names = sliceNames(inputNames);
         final RacingCars racingCars = new RacingCars(createRacingCar(names));
         final TryCount tryCount = new TryCount(inputCount);
@@ -35,33 +35,10 @@ public class RacingGameService {
         return racingCars;
     }
 
-    private static List<Name> sliceNames(final String inputNames) {
-        return sliceNameByComma(inputNames).stream()
+    private List<Name> sliceNames(final List<String> inputNames) {
+        return inputNames.stream()
                 .map(Name::new)
                 .collect(toList());
-    }
-
-    private static List<String> sliceNameByComma(final String names) {
-        validateComma(names);
-
-        return getSplitName(names);
-    }
-
-    private static List<String> getSplitName(final String names) {
-        List<String> splitNames = new ArrayList<>();
-        addAll(splitNames, names.split(","));
-
-        return splitNames;
-    }
-
-    private static void validateComma(final String names) {
-        if (!names.contains(",")) {
-            throw new CommaNotFoundException();
-        }
-    }
-
-    private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
-        return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 
     private List<RacingCar> createRacingCar(final List<Name> names) {
@@ -87,5 +64,9 @@ public class RacingGameService {
                 .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
                 .collect(toList());
         racingGameDao.save(tryCount, playerSaveDtos);
+    }
+
+    private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
+        return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 }
