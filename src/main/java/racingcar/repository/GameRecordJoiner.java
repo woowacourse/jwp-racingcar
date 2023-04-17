@@ -5,8 +5,8 @@ import racingcar.dto.GameResultResponse;
 import racingcar.entity.GameResultEntity;
 import racingcar.entity.PlayerResultEntity;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameRecordJoiner {
 
@@ -14,26 +14,20 @@ public class GameRecordJoiner {
             final List<GameResultEntity> gameResults,
             final List<PlayerResultEntity> playerResults
     ) {
-        List<GameResultResponse> gameResultResponses = new ArrayList<>();
-        for (var gameResult : gameResults) {
-            String winner = gameResult.getWinners();
-            int gameResultId = gameResult.getId();
-            List<CarData> carData = collectCarData(playerResults, gameResultId);
-            gameResultResponses.add(new GameResultResponse(winner, carData));
-        }
-        return gameResultResponses;
+        return gameResults.stream()
+                .map(gameResult -> new GameResultResponse(
+                        gameResult.getWinners(),
+                        collectCarData(playerResults, gameResult.getId())
+                )).collect(Collectors.toList());
     }
 
-    private static List<CarData> collectCarData(
+    private List<CarData> collectCarData(
             final List<PlayerResultEntity> playerResults,
             final int gameResultId
     ) {
-        List<CarData> carData = new ArrayList<>();
-        for (var playerResult : playerResults) {
-            if (playerResult.getGameResultId() == gameResultId) {
-                carData.add(new CarData(playerResult.getName(), playerResult.getPosition()));
-            }
-        }
-        return carData;
+        return playerResults.stream()
+                .filter(playerResultEntity -> playerResultEntity.getGameResultId() == gameResultId)
+                .map(playerResult -> new CarData(playerResult.getName(), playerResult.getPosition()))
+                .collect(Collectors.toList());
     }
 }
