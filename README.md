@@ -25,5 +25,5 @@
 - [x] count의 예외처리 추가하기
   - [x] 음수에 대한 예외처리
 - [x] 테스트 코드를 보다 구체적으로 구성하기
-- [ ] service 계층에서 도메인 분리하기 
+- [x] service 계층에서 도메인 분리하기 
 - [ ] console application의 출력 방식을 web application과 동일하게 하기

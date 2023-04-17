@@ -1,52 +1,64 @@
 package racingcar.service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Count;
+import racingcar.domain.RacingCarGame;
 import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingGameDto;
+import racingcar.dto.RacingGameRequestDto;
+import racingcar.dto.ResultResponseDto;
 import racingcar.repository.RacingCarRepository;
 import racingcar.util.NumberGenerator;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+@Service
 public class RacingCarService {
 
-    private final Cars cars;
     private final NumberGenerator numberGenerator;
     private final RacingCarRepository racingCarRepository;
 
-    public RacingCarService(Cars cars, NumberGenerator numberGenerator, RacingCarRepository racingCarRepository) {
-        this.cars = cars;
+    public RacingCarService(NumberGenerator numberGenerator, RacingCarRepository racingCarRepository) {
         this.numberGenerator = numberGenerator;
         this.racingCarRepository = racingCarRepository;
     }
 
-    public void play(Count count) {
-        move(count);
-        racingCarRepository.save(new RacingGameDto(getWinners(), count.getCount()), carsToPlayerDtos());
+    public ResultResponseDto play(RacingGameRequestDto racingGameRequestDto) {
+        Cars cars = Cars.of(spiteNameWithComma(racingGameRequestDto));
+        Count count = Count.of(racingGameRequestDto.getCount());
+        RacingCarGame racingCarGame = new RacingCarGame(cars, count);
+
+        racingCarGame.play(numberGenerator);
+        racingCarRepository.save(
+            new RacingGameDto(getWinners(racingCarGame), racingCarGame.getCount()),
+            carsToPlayerDtos(racingCarGame)
+        );
+
+        return new ResultResponseDto(getWinners(racingCarGame), getCars(racingCarGame));
     }
 
-    private void move(Count count) {
-        for (int i = 0; i < count.getCount(); i++) {
-            cars.moveAll(numberGenerator);
-        }
+    private List<String> spiteNameWithComma(RacingGameRequestDto racingGameRequestDto) {
+        return Arrays.stream(racingGameRequestDto.getNames().split(","))
+            .map(String::trim)
+            .collect(Collectors.toList());
     }
 
-    public String getWinners() {
-        return cars.pickWinners().getAll().stream()
+    public String getWinners(RacingCarGame racingCarGame) {
+        return racingCarGame.findWinners().getAll().stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(","));
     }
 
-    private List<PlayerDto> carsToPlayerDtos() {
-        return getCars().stream()
+    private List<PlayerDto> carsToPlayerDtos(RacingCarGame racingCarGame) {
+        return racingCarGame.getCars().getAll().stream()
                 .map(car -> new PlayerDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
 
-    public List<Car> getCars() {
-        return cars.getAll();
+    public List<Car> getCars(RacingCarGame racingCarGame) {
+        return racingCarGame.getCars().getAll();
     }
 }

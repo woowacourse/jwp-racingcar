@@ -1,16 +1,17 @@
 package racingcar.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Component;
 import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Player;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-
+@Component
 public class RacingCarGameDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public RacingCarGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
