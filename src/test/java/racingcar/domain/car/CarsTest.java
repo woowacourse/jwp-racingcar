@@ -1,4 +1,4 @@
-package racingcar.model.car;
+package racingcar.domain.car;
 
 import static java.util.List.of;
 import static java.util.stream.Collectors.toList;
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import racingcar.model.manager.ThresholdCarMoveManager;
+import racingcar.domain.manager.ThresholdCarMoveManager;
 
 class CarsTest {
 

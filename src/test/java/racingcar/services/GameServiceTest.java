@@ -14,9 +14,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import racingcar.dto.CarDto;
 import racingcar.dto.ResultDto;
-import racingcar.model.car.Car;
-import racingcar.model.car.Cars;
-import racingcar.model.car.Name;
+import racingcar.domain.car.Car;
+import racingcar.domain.car.Cars;
+import racingcar.domain.car.Name;
 
 class GameServiceTest {
 

@@ -1,4 +1,4 @@
-package racingcar.model.manager;
+package racingcar.domain.manager;
 
 public interface CarMoveManager {
     boolean isMove(int number);

@@ -1,9 +1,9 @@
-package racingcar.model.car;
+package racingcar.domain.car;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import racingcar.model.manager.CarMoveManager;
+import racingcar.domain.manager.CarMoveManager;
 import racingcar.util.RandomNumberGenerator;
 
 public class Cars {

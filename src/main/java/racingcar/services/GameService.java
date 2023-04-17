@@ -17,8 +17,8 @@ import racingcar.dao.winner.WinnerDao;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameInfoDto;
 import racingcar.dto.ResultDto;
-import racingcar.model.car.Cars;
-import racingcar.model.manager.CarMoveManager;
+import racingcar.domain.car.Cars;
+import racingcar.domain.manager.CarMoveManager;
 import racingcar.util.ValueEditor;
 
 @Service

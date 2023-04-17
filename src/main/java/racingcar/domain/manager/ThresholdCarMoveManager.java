@@ -1,4 +1,4 @@
-package racingcar.model.manager;
+package racingcar.domain.manager;
 
 import org.springframework.stereotype.Component;
 

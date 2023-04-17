@@ -3,7 +3,7 @@ package racingcar.services;
 import java.util.Iterator;
 import java.util.List;
 
-import racingcar.model.manager.CarMoveManager;
+import racingcar.domain.manager.CarMoveManager;
 
 public class TestMoveManager implements CarMoveManager {
     private final Iterator<Boolean> booleans;
