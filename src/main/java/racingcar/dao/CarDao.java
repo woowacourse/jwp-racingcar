@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
@@ -18,7 +19,15 @@ public class CarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertCar(GameResultDto gameResultDto, long gameId) {
+    private final RowMapper<CarDto> carDtoRowMapper = (resultSet, rowNum) -> {
+        CarDto carDto = new CarDto(
+                resultSet.getString("name"),
+                resultSet.getInt("position")
+        );
+        return carDto;
+    };
+
+    public void insert(GameResultDto gameResultDto, long gameId) {
         String sql = "INSERT INTO car(game_id, name, position) VALUES (?,?,?)";
         List<CarDto> racingCars = gameResultDto.getRacingCars();
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -34,5 +43,10 @@ public class CarDao {
                 return racingCars.size();
             }
         });
+    }
+
+    public List<CarDto> selectByGameId(long gameId){
+        String sql = "SELECT * FROM car WHERE game_id = ?";
+        return jdbcTemplate.query(sql, carDtoRowMapper, gameId);
     }
 }

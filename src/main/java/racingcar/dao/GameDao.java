@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -30,5 +31,10 @@ public class GameDao {
             return pst;
         }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
+    }
+
+    public List<Long> selectAllGameIds() {
+        String sql = "SELECT id FROM game";
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getLong("id"));
     }
 }

@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,11 @@ public class WebController {
         List<String> names = ValueEditor.splitByComma(requestDto.getNames());
         String count = requestDto.getCount();
         return gameService.play(new GameInformationDto(names, count));
+    }
+
+    @GetMapping("/plays")
+    public List<GameResultDto> queryHistory() {
+        return gameService.queryHistory();
     }
 
 }

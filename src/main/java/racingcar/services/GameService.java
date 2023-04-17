@@ -29,7 +29,7 @@ public class GameService {
         racingGame.play();
 
         GameResultDto gameResultDto = new GameResultDto(racingGame.getWinners(), createCarDto(racingGame));
-        racingGameRepository.saveGameResult(moveCount, gameResultDto);
+        racingGameRepository.saveGame(moveCount, gameResultDto);
         return gameResultDto;
     }
 
@@ -38,5 +38,9 @@ public class GameService {
                 .stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<GameResultDto> queryHistory(){
+        return racingGameRepository.selectAllGames();
     }
 }
