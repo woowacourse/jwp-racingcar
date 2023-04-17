@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayerDto;
-import racingcar.dto.WinnerDto;
 import racingcar.utils.PowerGenerator;
 import racingcar.utils.RandomPowerGenerator;
 
@@ -52,21 +51,20 @@ public class RacingGame {
     }
 
     public GameResultDto getResult() {
-        final List<WinnerDto> winnerNames = extractWinners().stream()
-                .map(car -> new WinnerDto(car.getName()))
-                .collect(Collectors.toList());
+        updateWinner();
         final List<PlayerDto> players = cars.stream()
                 .map(Car::getPlayer)
                 .collect(Collectors.toList());
-        return new GameResultDto(playCount, winnerNames, players);
+        return new GameResultDto(playCount, players);
     }
 
-    private List<Car> extractWinners() {
+    private void updateWinner() {
         final int maxPosition = findMaxPosition();
         final Predicate<Car> maxPredicate = car -> car.getPosition() == maxPosition;
-        return cars.stream()
+        cars.forEach(car -> car.setWinner(false));
+        cars.stream()
                 .filter(maxPredicate)
-                .collect(Collectors.toList());
+                .forEach(car -> car.setWinner(true));
     }
 
     private List<Car> generateCars(final List<String> names) {

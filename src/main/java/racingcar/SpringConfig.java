@@ -8,7 +8,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import racingcar.controller.RacingGameController;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
-import racingcar.dao.WinnerDao;
 import racingcar.repository.GameRepository;
 import racingcar.repository.JdbcTemplateGameRepository;
 import racingcar.service.GameService;
@@ -28,7 +27,7 @@ public class SpringConfig {
 
     @Bean
     public GameRepository gameRepository() {
-        return new JdbcTemplateGameRepository(gameDao(), playerDao(), winnerDao());
+        return new JdbcTemplateGameRepository(gameDao(), playerDao());
     }
 
     @Bean
@@ -45,10 +44,5 @@ public class SpringConfig {
     @Bean
     public PlayerDao playerDao() {
         return new PlayerDao(jdbcTemplate());
-    }
-
-    @Bean
-    public WinnerDao winnerDao() {
-        return new WinnerDao(jdbcTemplate());
     }
 }

@@ -12,11 +12,13 @@ public class Car {
 
     private final String name;
     private int position;
+    private boolean isWinner;
 
     public Car(final String name) {
         validateName(name);
         this.name = name;
         this.position = DEFAULT_POSITION;
+        isWinner = false;
     }
 
     private void validateName(final String name) {
@@ -32,7 +34,7 @@ public class Car {
     }
 
     public PlayerDto getPlayer() {
-        return new PlayerDto(name, position);
+        return new PlayerDto(name, position, isWinner);
     }
 
     public int getPosition() {
@@ -41,5 +43,9 @@ public class Car {
 
     public String getName() {
         return name;
+    }
+
+    public void setWinner(final boolean winner) {
+        isWinner = winner;
     }
 }

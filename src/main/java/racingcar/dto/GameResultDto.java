@@ -10,19 +10,19 @@ public class GameResultDto {
 
     private final String winners;
     private final int playCount;
-
     @JsonProperty(value = "racingCars")
     private final List<PlayerDto> players;
 
-    public GameResultDto(final int playCount, final List<WinnerDto> winners, final List<PlayerDto> players) {
-        this.winners = serializeWinners(winners);
+    public GameResultDto(final int playCount, final List<PlayerDto> players) {
+        this.winners = serializeWinners(players);
         this.playCount = playCount;
         this.players = players;
     }
 
-    private String serializeWinners(final List<WinnerDto> winners) {
-        return winners.stream()
-                .map(WinnerDto::getName)
+    private String serializeWinners(final List<PlayerDto> players) {
+        return players.stream()
+                .filter(PlayerDto::isWinner)
+                .map(PlayerDto::getName)
                 .collect(Collectors.joining(SERIALIZE_DELIMITER));
     }
 

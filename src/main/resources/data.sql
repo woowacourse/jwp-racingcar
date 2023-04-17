@@ -1,7 +1,4 @@
--- TODO: 기능 구현에 필요한 내용을 추가하거나 수정하세요.
 DROP TABLE IF EXISTS PLAYER;
-
-DROP TABLE IF EXISTS WINNER;
 
 DROP TABLE IF EXISTS GAME;
 
@@ -15,19 +12,11 @@ CREATE TABLE GAME
 
 CREATE TABLE PLAYER
 (
-    id       INT         NOT NULL AUTO_INCREMENT,
-    game_id  INT         NOT NULL,
-    name     VARCHAR(10) NOT NULL,
-    position INT         NOT NULL,
+    id        INT         NOT NULL AUTO_INCREMENT,
+    game_id   INT         NOT NULL,
+    name      VARCHAR(10) NOT NULL,
+    position  INT         NOT NULL,
+    is_winner BOOLEAN     NOT NULL default false,
     PRIMARY KEY (id),
     FOREIGN KEY (game_id) REFERENCES GAME (id)
 );
-
-CREATE TABLE WINNER
-(
-    id      INT         NOT NULL AUTO_INCREMENT,
-    game_id INT         NOT NULL,
-    name    VARCHAR(10) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES GAME (id)
-)

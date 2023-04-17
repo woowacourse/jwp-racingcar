@@ -26,16 +26,21 @@ public class PlayerDao {
             params.put("game_id", gameId);
             params.put("name", player.getName());
             params.put("position", player.getPosition());
+            params.put("is_winner", player.isWinner());
             insertActor.execute(params);
         }
     }
 
     public List<PlayerDto> findAllByGameId(final long gameId) {
-        final String sql = "SELECT name, position FROM PLAYER WHERE game_id = ?";
+        final String sql = "SELECT name, position, is_winner FROM PLAYER WHERE game_id = ?";
         return jdbcTemplate.query(sql, playerDtoRowMapper(), gameId);
     }
 
     private RowMapper<PlayerDto> playerDtoRowMapper() {
-        return (rs, rowNum) -> new PlayerDto(rs.getString("name"), rs.getInt("position"));
+        return (rs, rowNum) -> new PlayerDto(
+                rs.getString("name"),
+                rs.getInt("position"),
+                rs.getBoolean("is_winner")
+        );
     }
 }
