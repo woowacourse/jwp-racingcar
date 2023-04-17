@@ -21,7 +21,7 @@ public class GameService {
         final List<String> playerNames = Arrays.stream(inputDto.getNames().split(","))
                 .map(String::strip)
                 .collect(Collectors.toList());
-        final RacingGame racingGame = new RacingGame(playerNames, inputDto.getPlayCount());
+        final RacingGame racingGame = new RacingGame(playerNames, inputDto.getCount());
         final GameResultDto gameResultDto = racingGame.play();
         gameRepository.save(gameResultDto);
         OutputView.printResult(gameResultDto);

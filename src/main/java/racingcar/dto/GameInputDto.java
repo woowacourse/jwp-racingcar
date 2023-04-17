@@ -1,24 +1,21 @@
 package racingcar.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class GameInputDto {
 
     private final String names;
-    @JsonProperty(value = "count")
-    private final int playCount;
+    private final int count;
 
-    public GameInputDto(final String names, final int playCount) {
+    public GameInputDto(final String names, final int count) {
         this.names = names;
-        this.playCount = playCount;
+        this.count = count;
     }
 
     public String getNames() {
         return names;
     }
 
-    public int getPlayCount() {
-        return playCount;
+    public int getCount() {
+        return count;
     }
 
 }

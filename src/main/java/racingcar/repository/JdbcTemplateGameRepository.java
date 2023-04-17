@@ -23,7 +23,7 @@ public class JdbcTemplateGameRepository implements GameRepository {
     public void save(final GameResultDto gameResultDto) {
         final GameDto gameDto = new GameDto(gameResultDto.getPlayCount());
         final long gameId = gameDao.insertGame(gameDto);
-        playerDao.insertPlayers(gameResultDto.getPlayers(), gameId);
+        playerDao.insertPlayers(gameResultDto.getRacingCars(), gameId);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package racingcar.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,17 +9,16 @@ public class GameResultDto {
 
     private final String winners;
     private final int playCount;
-    @JsonProperty(value = "racingCars")
-    private final List<PlayerDto> players;
+    private final List<PlayerDto> racingCars;
 
-    public GameResultDto(final int playCount, final List<PlayerDto> players) {
-        this.winners = serializeWinners(players);
+    public GameResultDto(final int playCount, final List<PlayerDto> racingCars) {
+        this.winners = serializeWinners(racingCars);
         this.playCount = playCount;
-        this.players = players;
+        this.racingCars = racingCars;
     }
 
-    private String serializeWinners(final List<PlayerDto> players) {
-        return players.stream()
+    private String serializeWinners(final List<PlayerDto> racingCars) {
+        return racingCars.stream()
                 .filter(PlayerDto::isWinner)
                 .map(PlayerDto::getName)
                 .collect(Collectors.joining(SERIALIZE_DELIMITER));
@@ -30,8 +28,8 @@ public class GameResultDto {
         return winners;
     }
 
-    public List<PlayerDto> getPlayers() {
-        return players;
+    public List<PlayerDto> getRacingCars() {
+        return racingCars;
     }
 
     public int getPlayCount() {
