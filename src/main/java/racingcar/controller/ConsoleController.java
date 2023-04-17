@@ -10,13 +10,13 @@ import racingcar.view.OutputView;
 
 import java.util.List;
 
-public final class RacingGameController {
+public final class ConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
 
 
-    public RacingGameController(final InputView inputView, final OutputView outputView) {
+    public ConsoleController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }

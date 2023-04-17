@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +8,8 @@ import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
 import racingcar.domain.movingstrategy.DefaultMovingStrategy;
 import racingcar.domain.movingstrategy.MovingStrategy;
+import racingcar.dto.GameResultResponseDto;
+import racingcar.dto.UserRequestDto;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameResultEntity;
 import racingcar.repository.CarRepository;
