@@ -22,7 +22,7 @@ public class RacingGameService {
 
     public void playGame(Long gameId, Cars cars) {
         int gameTrialCount = racingGameDao.findGameTrialById(gameId);
-        cars.moveCars(gameTrialCount);
+        cars.moveCarsByCount(gameTrialCount);
         List<String> winners = cars.getWinners();
 
         List<CarEntity> carEntities = cars.getCars().stream()

@@ -1,10 +1,12 @@
 package racing.domain;
 
-import java.util.ArrayList;
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Cars {
+
+    private static final SecureRandom random = new SecureRandom();
 
     private final List<Car> cars;
 
@@ -12,12 +14,13 @@ public class Cars {
         this.cars = cars;
     }
 
-    // 테스트를 위한 메서드
-    public Car getCar(int n) {
-        return cars.get(n);
+    public void moveCarsByCount(int count) {
+        for (int i = 0; i < count; i++) {
+            moveCars();
+        }
     }
 
-    public void calculator(Random random) {
+    private void moveCars() {
         cars.stream()
                 .filter(car -> 4 <= random.nextInt(10))
                 .forEach(Car::moveForward);
@@ -36,19 +39,10 @@ public class Cars {
     }
 
     private List<String> findWinners(int winnerStep) {
-        List<String> winners = new ArrayList<>();
-        for (Car car : cars) {
-            if (car.getStep() == winnerStep) {
-                winners.add(car.getName());
-            }
-        }
-        return winners;
-    }
-
-    public void moveCars(int count) {
-        while (count-- > 0) {
-            this.calculator(new Random());
-        }
+        return cars.stream()
+                .filter(car -> car.getStep() == winnerStep)
+                .map(Car::getName)
+                .collect(Collectors.toList());
     }
 
     public List<Car> getCars() {

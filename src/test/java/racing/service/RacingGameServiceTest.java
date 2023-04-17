@@ -48,7 +48,7 @@ class RacingGameServiceTest {
 
         racingGameService.playGame(1L, testCars);
 
-        verify(testCars, atMostOnce()).moveCars(5);
+        verify(testCars, atMostOnce()).moveCarsByCount(5);
     }
 
     @DisplayName("가장 많이 전진한 자동차의 이름을 확인 할 수 있다.")

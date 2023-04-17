@@ -14,9 +14,9 @@ class CarsTest {
     @BeforeEach
     void init() {
         List<Car> carList = List.of(
-                new Car(new CarName("bebe0")),
-                new Car(new CarName("bebe1")),
-                new Car(new CarName("bebe2"))
+                new Car(new CarName("bebe0"), 1),
+                new Car(new CarName("bebe1"), 2),
+                new Car(new CarName("bebe2"), 2)
         );
         cars = new Cars(carList);
     }
@@ -24,11 +24,14 @@ class CarsTest {
     @DisplayName("경기 승자를 반환해야 한다.")
     @Test
     void getWinners() {
-        cars.getCar(0).moveForward();
-        cars.getCar(1).moveForward();
-        cars.getCar(1).moveForward();
-        cars.getCar(2).moveForward();
-        cars.getCar(2).moveForward();
-        assertEquals(cars.getWinners(), List.of("bebe1", "bebe2"));
+        Cars cars = new Cars(List.of(
+                new Car(new CarName("bebe0"), 1),
+                new Car(new CarName("bebe1"), 2),
+                new Car(new CarName("bebe2"), 2)
+        ));
+
+        List<String> winnerCars = cars.getWinners();
+
+        assertEquals(winnerCars, List.of("bebe1", "bebe2"));
     }
 }
