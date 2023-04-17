@@ -58,7 +58,6 @@ public class RacingCarController {
         racingCarView.printStartMessage();
         while (tryCount.isAvailable()) {
             racingCarGame.moveCars(randomMoveStrategy);
-            printCarStatuses();
             tryCount.moveUntilZero();
         }
         printCarStatuses();
