@@ -27,7 +27,7 @@ class JdbcCarDaoTest {
 
     @BeforeEach
     void setUp() {
-        jdbcGameDao = new JdbcGameDao(dataSource);
+        jdbcGameDao = new JdbcGameDao(dataSource, jdbcTemplate);
         jdbcCarDao = new JdbcCarDao(jdbcTemplate);
     }
 

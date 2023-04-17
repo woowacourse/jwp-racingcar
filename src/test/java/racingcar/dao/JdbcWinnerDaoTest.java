@@ -22,7 +22,7 @@ class JdbcWinnerDaoTest {
 
     @BeforeEach
     void setUp() {
-        jdbcGameDao = new JdbcGameDao(dataSource);
+        jdbcGameDao = new JdbcGameDao(dataSource, jdbcTemplate);
         jdbcWinnerDao = new JdbcWinnerDao(jdbcTemplate);
     }
 
