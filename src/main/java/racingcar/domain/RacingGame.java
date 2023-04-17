@@ -2,6 +2,7 @@ package racingcar.domain;
 
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameResultDto;
+import racingcar.utils.Validator;
 import racingcar.utils.powerGenerator.PowerGenerator;
 import racingcar.utils.powerGenerator.RandomPowerGenerator;
 
@@ -15,6 +16,7 @@ public class RacingGame {
     private final int playCount;
 
     public RacingGame(final String[] carNames, final int tryCount) {
+        Validator.checkRange(tryCount);
         this.powerGenerator = new RandomPowerGenerator();
         this.cars = generateCars(carNames);
         this.playCount = tryCount;

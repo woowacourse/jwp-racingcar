@@ -2,10 +2,7 @@ package racingcar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import racingcar.dao.PlayersHistoryDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.RacingGame;
@@ -37,9 +34,14 @@ public class RacingGameController {
         return ResponseEntity.ok(racingGameResultDto);
     }
 
-    @GetMapping(path = "/plays")
+    @GetMapping(path = "/plays", produces = "application/json")
     public ResponseEntity<List<RacingGameResultDto>> inquireResult() {
         List<RacingGameResultDto> racingGameResultDtos = racingHistoryDao.getResult();
         return ResponseEntity.ok(racingGameResultDtos);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handle(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
