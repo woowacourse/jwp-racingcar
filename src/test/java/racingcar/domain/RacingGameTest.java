@@ -10,12 +10,6 @@ import racingcar.utils.TestNumberGenerator;
 
 class RacingGameTest {
 
-    private RacingGame generateRacingGame(final int count) {
-        NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3));
-        List<String> names = List.of("car1", "car2");
-        return new RacingGame(numberGenerator, names, count);
-    }
-
     @Test
     @DisplayName("play 메서드는 자동차 경주 게임을 진행한다.")
     void should_playGame_when_play() {
@@ -26,14 +20,10 @@ class RacingGameTest {
         assertThat(racingGame.findWinners()).containsExactly("car1");
     }
 
-    @Test
-    @DisplayName("play 메서드 호출 시 진행 가능 횟수가 1 줄어든다.")
-    void should_decreaseCount_when_play() {
-        RacingGame racingGame = generateRacingGame(1);
-
-        racingGame.play();
-
-        assertThat(racingGame.isPlayable()).isFalse();
+    private RacingGame generateRacingGame(final int count) {
+        NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3));
+        List<String> names = List.of("car1", "car2");
+        return new RacingGame(numberGenerator, names, count);
     }
 
     @Test

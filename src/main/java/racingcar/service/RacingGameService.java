@@ -52,9 +52,7 @@ public class RacingGameService {
         final List<String> names = Arrays.stream(gameRequest.getNames().split(DELIMITER))
                 .collect(toList());
         final RacingGame racingGame = new RacingGame(numberGenerator, names, gameRequest.getCount());
-        while (racingGame.isPlayable()) {
-            racingGame.play();
-        }
+        racingGame.play();
         return racingGame;
     }
 

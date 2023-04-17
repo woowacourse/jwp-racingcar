@@ -14,13 +14,11 @@ public class RacingGame {
         this.count = new Count(count);
     }
 
-    public boolean isPlayable() {
-        return count.isPlayable();
-    }
-
     public void play() {
-        cars.race(numberGenerator);
-        count.decrease();
+        while (count.isPlayable()) {
+            cars.race(numberGenerator);
+            count.decrease();
+        }
     }
 
     public List<Car> findCurrentCarPositions() {

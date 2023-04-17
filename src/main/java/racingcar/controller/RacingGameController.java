@@ -41,11 +41,9 @@ public class RacingGameController {
 
     private void play(final RacingGame racingGame) {
         outputView.printResultMessage();
-        while (racingGame.isPlayable()) {
-            racingGame.play();
-            List<Car> cars = racingGame.findCurrentCarPositions();
-            outputView.printCurrentCarPositions(cars);
-        }
+        racingGame.play();
+        List<Car> cars = racingGame.findCurrentCarPositions();
+        outputView.printCurrentCarPositions(cars);
     }
 
     private void findWinners(final RacingGame racingGame) {
