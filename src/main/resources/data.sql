@@ -15,7 +15,7 @@ CREATE TABLE PLAYER
     game_id   BIGINT      NOT NULL,
     name      VARCHAR(10) NOT NULL,
     position  INT         NOT NULL,
-    is_winner BOOL     NOT NULL,
+    is_winner BOOL        NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (game_id) references GAME (id) on update cascade
 );
