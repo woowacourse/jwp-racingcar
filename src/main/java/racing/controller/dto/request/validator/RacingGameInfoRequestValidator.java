@@ -1,9 +1,14 @@
 package racing.controller.dto.request.validator;
 
+import static racing.controller.common.exception.BusinessExceptionType.CAR_NAME_BLANK;
+import static racing.controller.common.exception.BusinessExceptionType.CAR_NAME_DUPLICATION;
+import static racing.controller.common.exception.BusinessExceptionType.CAR_NAME_INVALID_RANGE;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import racing.controller.common.exception.BusinessException;
 import racing.controller.dto.request.RacingGameInfoRequest;
 
 public class RacingGameInfoRequestValidator implements RequestValidator<RacingGameInfoRequest> {
@@ -32,19 +37,19 @@ public class RacingGameInfoRequestValidator implements RequestValidator<RacingGa
         int distinctSize = new HashSet<>(names).size();
 
         if (names.size() != distinctSize) {
-            throw new IllegalArgumentException();
+            throw new BusinessException(CAR_NAME_DUPLICATION);
         }
     }
 
     private void validateNotBlank(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException();
+            throw new BusinessException(CAR_NAME_BLANK);
         }
     }
 
     private void validateLengthInRange(String name) {
         if (name.length() < 1 || 5 < name.length()) {
-            throw new IllegalArgumentException();
+            throw new BusinessException(CAR_NAME_INVALID_RANGE);
         }
     }
 }

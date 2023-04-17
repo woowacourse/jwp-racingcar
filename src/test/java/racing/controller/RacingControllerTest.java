@@ -5,6 +5,9 @@ import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +19,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import racing.controller.dto.request.RacingGameInfoRequest;
 import racing.repository.RacingGameDao;
 import racing.service.RacingGameService;
@@ -42,10 +43,10 @@ class RacingControllerTest {
         doNothing().when(racingGameService).playGame(anyLong(), any());
         RacingGameInfoRequest request = new RacingGameInfoRequest("bebe,royce", 6);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/plays")
+        mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsBytes(request)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk());
     }
 
     @DisplayName("잘못된 요청에 대해선 BAD REQUEST 상태를 응답한다.")
@@ -55,9 +56,11 @@ class RacingControllerTest {
         doNothing().when(racingGameService).playGame(anyLong(), any());
         RacingGameInfoRequest request = new RacingGameInfoRequest("bebe,12312312royce", 6);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/plays")
+        mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsBytes(request)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorMessage").value("자동차 이름은 1 ~ 5자 사이 이어야 합니다."));
+
     }
 }
