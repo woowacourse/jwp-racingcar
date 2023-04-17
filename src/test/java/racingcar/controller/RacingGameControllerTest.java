@@ -31,13 +31,13 @@ class RacingGameControllerTest {
     @Test
     void doGame_givenCarNamesAndCount_thenReturnResult() {
 
-        final Map<String, Object> parameters = new HashMap<>();
-        parameters.put("names", "브리,토미,브라운");
-        parameters.put("count", 10);
+        String names = "브리,토미,브라운";
+        int count = 10;
+        GameRequest gameRequest = new GameRequest(names, count);
 
         final ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(parameters)
+                .body(gameRequest)
                 .when().post("/plays")
                 .then().log().all()
                 .extract();
