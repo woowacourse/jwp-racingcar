@@ -1,8 +1,8 @@
 package racingcar.controller;
 
 import java.util.List;
+import racingcar.domain.RacingGame;
 import racingcar.service.CarFactory;
-import racingcar.service.RacingGame;
 import racingcar.strategy.MovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
