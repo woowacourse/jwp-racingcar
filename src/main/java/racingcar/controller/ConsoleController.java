@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import racingcar.model.MoveCount;
 import racingcar.model.RacingGame;
+import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.manager.CarMoveManager;
 import racingcar.view.InputView;
@@ -26,9 +27,27 @@ public class ConsoleController {
     }
 
     private RacingGame createRacingGame() {
-        Cars cars = Cars.from(inputView.readCarNames());
-        MoveCount moveCount = new MoveCount(inputView.readMoveCount());
+        Cars cars = createCars();
+        MoveCount moveCount = createMoveCount();
         return new RacingGame(carMoveManager, cars, moveCount);
+    }
+
+    private MoveCount createMoveCount() {
+        try{
+            return MoveCount.from(inputView.readMoveCount());
+        }catch(IllegalArgumentException exception){
+            outputView.printExceptionMessage(exception.getMessage());
+            return createMoveCount();
+        }
+    }
+
+    private Cars createCars(){
+        try{
+            return Cars.from(inputView.readCarNames());
+        }catch(IllegalArgumentException exception){
+            outputView.printExceptionMessage(exception.getMessage());
+            return createCars();
+        }
     }
 
     private void showGameResult(RacingGame racingGame) {
