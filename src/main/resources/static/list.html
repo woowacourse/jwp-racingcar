@@ -1,72 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>자동차 경주 게임 이력 조회</title>
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <meta charset="utf-8">
+    <title>자동차 경주 게임 이력 조회</title>
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="gnb">
-  <h1>Racing Car</h1>
-  <div>
-    <button onclick="handlePlayButtonClick()">게임하기</button>
-    <button onclick="handleListButtonClick()">이력조회</button>
-  </div>
+    <h1>Racing Car</h1>
+    <div>
+        <button onclick="handlePlayButtonClick()">게임하기</button>
+        <button onclick="handleListButtonClick()">이력조회</button>
+    </div>
 </div>
 <h1>자동차 경주 게임 이력 조회</h1>
 <table>
-  <thead>
-  <tr>
-    <th>이동 횟수</th>
-    <th>우승자</th>
-  </tr>
-  </thead>
-  <tbody id="gameHistory"></tbody>
+    <thead>
+    <tr>
+        <th>이동 횟수</th>
+        <th>우승자</th>
+    </tr>
+    </thead>
+    <tbody id="gameHistory"></tbody>
 </table>
 
 <script>
-  const tbody = document.getElementById("gameHistory");
+    const tbody = document.getElementById("gameHistory");
 
-  fetch('/plays')
-      .then(response => response.json())
-      .then(results => {
-        results.forEach(result => {
-          const row = createTableRow(result);
-          tbody.appendChild(row);
+    fetch('/plays')
+        .then(response => response.json())
+        .then(results => {
+            results.forEach(result => {
+                const row = createTableRow(result);
+                tbody.appendChild(row);
+            });
         });
-      });
 
-  function createTableRow(result) {
-    const row = document.createElement("tr");
-    row.appendChild(createMovesTableCell(result.racingCars));
-    row.appendChild(createTableCell(result.winners));
-    return row;
-  }
-
-  function createTableCell(content) {
-    const cell = document.createElement("td");
-    cell.textContent = content;
-    return cell;
-  }
-
-  function createMovesTableCell(racingCars) {
-    const cell = document.createElement("td");
-    let movesText = "";
-    for (let key in racingCars) {
-      movesText += `${racingCars[key].name}: ${racingCars[key].position}<br>`;
+    function createTableRow(result) {
+        const row = document.createElement("tr");
+        row.appendChild(createMovesTableCell(result.racingCars));
+        row.appendChild(createTableCell(result.winners));
+        return row;
     }
-    ;
-    cell.innerHTML = movesText;
-    return cell;
-  }
 
-  function handlePlayButtonClick() {
-    window.location.href = "/";
-  }
+    function createTableCell(content) {
+        const cell = document.createElement("td");
+        cell.textContent = content;
+        return cell;
+    }
 
-  function handleListButtonClick() {
-    window.location.href = "/list.html";
-  }
+    function createMovesTableCell(racingCars) {
+        const cell = document.createElement("td");
+        let movesText = "";
+        for (let key in racingCars) {
+            movesText += `${racingCars[key].name}: ${racingCars[key].distance}<br>`;
+        }
+        ;
+        cell.innerHTML = movesText;
+        return cell;
+    }
+
+    function handlePlayButtonClick() {
+        window.location.href = "/";
+    }
+
+    function handleListButtonClick() {
+        window.location.href = "/list.html";
+    }
 </script>
 </body>
 </html>
