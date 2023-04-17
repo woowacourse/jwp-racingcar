@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @JdbcTest
-public class GameInsertDaoTest {
+class GameInsertDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

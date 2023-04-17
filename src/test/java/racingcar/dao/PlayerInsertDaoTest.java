@@ -11,7 +11,7 @@ import racingcar.domain.Car;
 import java.util.List;
 
 @JdbcTest
-public class PlayerInsertDaoTest {
+class PlayerInsertDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

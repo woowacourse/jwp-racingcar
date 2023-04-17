@@ -15,7 +15,6 @@ public class RacingGameController {
     @Autowired
     RacingGameService racingGameService;
 
-
     @PostMapping(value = "/plays", consumes = "application/json")
     public PlayResultResponseDto play(@Valid @RequestBody PlayRequestDto playRequestDto) {
         String names = playRequestDto.getNames();
