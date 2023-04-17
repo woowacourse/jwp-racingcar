@@ -28,7 +28,7 @@ public class GameResultDao {
 	}
 
 	public int saveGameHistory (final TryCount tryCount) {
-		String sql = "INSERT INTO game (trial_count, date_time) VALUES (?, ?)";
+		String sql = "INSERT INTO game_result (trial_count, date_time) VALUES (?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(connection -> {

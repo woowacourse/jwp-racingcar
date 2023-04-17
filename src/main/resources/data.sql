@@ -1,4 +1,4 @@
-CREATE TABLE game
+CREATE TABLE game_result
 (
     id         INT AUTO_INCREMENT,
     trial_count INT      NOT NULL,
@@ -15,5 +15,5 @@ CREATE TABLE player_result
     is_winner TINYINT     NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_player_game_id
-        FOREIGN KEY (game_id) REFERENCES game (id)
+        FOREIGN KEY (game_id) REFERENCES game_result (id)
 );
