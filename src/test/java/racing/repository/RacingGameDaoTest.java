@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import racing.domain.Car;
+import racing.domain.CarName;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)
@@ -73,8 +74,8 @@ class RacingGameDaoTest {
     @DisplayName("자동차를 저장할 수 있다.")
     @Test
     void saveCarTest() {
-        Car carA = new Car("CarA", 5);
-        Car carB = new Car("CarB", 3);
+        Car carA = new Car(new CarName("CarA"), 5);
+        Car carB = new Car(new CarName("CarB"), 3);
         Long gameId = 1L;
         List<CarEntity> carEntities = List.of(
                 CarEntity.of(gameId, carA, true),

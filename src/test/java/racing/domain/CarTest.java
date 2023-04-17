@@ -1,12 +1,11 @@
 package racing.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 class CarTest {
 
@@ -14,7 +13,7 @@ class CarTest {
 
     @BeforeEach
     void init() {
-        car = new Car("bebe");
+        car = new Car(new CarName("bebe"));
     }
 
     @DisplayName("우승자 step이랑 step이 같다면 우승자 리스트에 추가한다.")

@@ -1,14 +1,13 @@
 package racing.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racing.ui.output.OutputView;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CarsTest {
 
@@ -17,9 +16,9 @@ class CarsTest {
     @BeforeEach
     void init() {
         List<Car> carList = List.of(
-                new Car("bebe0"),
-                new Car("bebe1"),
-                new Car("bebe2")
+                new Car(new CarName("bebe0")),
+                new Car(new CarName("bebe1")),
+                new Car(new CarName("bebe2"))
         );
         cars = new Cars(carList);
     }

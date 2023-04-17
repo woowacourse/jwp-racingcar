@@ -7,25 +7,17 @@ import racing.ui.output.OutputView;
 
 public class Car {
 
-    private final String name;
+    private final CarName carName;
     private int step;
 
-    public Car(String name) {
-        this.name = name;
+    public Car(CarName carName) {
+        this.carName = carName;
         this.step = 0;
     }
 
-    public Car(String name, int step) {
-        this.name = name;
+    public Car(CarName carName, int step) {
+        this.carName = carName;
         this.step = step;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getStep() {
-        return step;
     }
 
     public void move() {
@@ -35,18 +27,26 @@ public class Car {
 
     public List<String> ifMeetAddWinners(List<String> winners, int winnerStep) {
         if (step == winnerStep) {
-            winners.add(name);
+            winners.add(carName.getValue());
             return winners;
         }
         return winners;
     }
 
     public String getCarStepForm() {
-        return name + OutputView.COLON + HYPHEN.repeat(step);
+        return carName.getValue() + OutputView.COLON + HYPHEN.repeat(step);
     }
 
     public int getCarStep(int winnerStep) {
         return Math.max(winnerStep, step);
+    }
+
+    public String getName() {
+        return carName.getValue();
+    }
+
+    public int getStep() {
+        return step;
     }
 
 }
