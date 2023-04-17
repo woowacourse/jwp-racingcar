@@ -1,6 +1,7 @@
 package racingcar.dao.entity;
 
 import java.util.Optional;
+import racingcar.domain.Car;
 
 public class Player {
 
@@ -14,6 +15,13 @@ public class Player {
         this.name = name;
         this.position = position;
         this.gameId = gameId;
+    }
+
+    public Player(Car car) {
+        this.playerId = null;
+        this.name = car.getName();
+        this.position = car.getPosition();
+        this.gameId = null;
     }
 
     public Optional<Long> getPlayerId() {
