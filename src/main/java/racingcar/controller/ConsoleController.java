@@ -8,8 +8,6 @@ import racingcar.domain.movingstrategy.MovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.List;
-
 public final class ConsoleController {
 
     private final InputView inputView;
@@ -25,8 +23,8 @@ public final class ConsoleController {
         final Names carNames = new Names(inputView.readCarNames());
         final TryCount tryCount = new TryCount(inputView.readTryCount());
         final RacingGame racingGame = new RacingGame(carNames, tryCount);
-        final List<Cars> movingStatus = racingGame.run(movingStrategy);
-        outputView.printTotalMovingStatus(movingStatus);
+        final Cars finalStatus = racingGame.run(movingStrategy);
+        outputView.printTotalMovingStatus(finalStatus);
         outputView.printWinners(racingGame.getWinners());
     }
 }

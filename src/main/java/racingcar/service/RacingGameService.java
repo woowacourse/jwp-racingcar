@@ -48,8 +48,7 @@ public class RacingGameService {
     }
 
     private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId, final MovingStrategy movingStrategy) {
-        final List<Cars> result = racingGame.run(movingStrategy);
-        final Cars finalResult = result.get(result.size() - 1);
+        final Cars finalResult = racingGame.run(movingStrategy);
 
         return finalResult.getCars()
                 .stream()

@@ -4,27 +4,18 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Position;
 
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public final class OutputView {
 
-    public void printTotalMovingStatus(final List<Cars> cars) {
+    public void printTotalMovingStatus(final Cars cars) {
         print("\n실행 결과");
-        for (Cars movingStatus : cars) {
-            printMovingStatus(movingStatus);
-        }
-        printMovingStatus(cars.get(cars.size() - 1));
-    }
-
-    private void printMovingStatus(final Cars cars) {
         for (Car car : cars.getCars()) {
             print(String.format(
                     "%s : %s",
                     car.getName(), drawMovingLength(car.getPosition()))
             );
         }
-        System.out.print(System.lineSeparator());
     }
 
     private String drawMovingLength(final Position position) {
@@ -33,17 +24,24 @@ public final class OutputView {
 
 
     public void printWinners(final Cars cars) {
-        final StringJoiner stringJoiner = new StringJoiner(", ", "", "");
-        for (Car car : cars.getCars()) {
-            stringJoiner.add(car.getName().toString());
-        }
-        print(String.format("%s가 최종 우승했습니다.", stringJoiner));
+        final String result = cars.getCars()
+                .stream()
+                .map(Car::getNameValue)
+                .collect(Collectors.joining(", "));
+
+        printLineSeparator();
+        print(String.format("%s가 최종 우승했습니다.", result));
     }
+
 
     private void print(String... messages) {
         for (String message : messages) {
-            System.out.println(message);
+            System.out.print(message + System.lineSeparator());
         }
+    }
+
+    private void printLineSeparator() {
+        System.out.print(System.lineSeparator());
     }
 
     private static final class ErrorMessage {
