@@ -14,6 +14,7 @@ import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Winner;
 import racingcar.dao.game.GameDao;
 import racingcar.dao.winner.WinnerDao;
+import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameInfoDto;
 import racingcar.dto.ResultDto;
@@ -23,8 +24,6 @@ import racingcar.util.ValueEditor;
 
 @Service
 public class GameService {
-    public static final String MOVE_COUNT_EXCEPTION_MESSAGE = "1회 이상 이동해야 합니다.";
-    public static final int MIN_MOVE_COUNT = 1;
     private final GameDao gameDao;
     private final CarDao carDao;
     private final WinnerDao winnerDao;
@@ -38,35 +37,12 @@ public class GameService {
     }
 
     public ResultDto play(GameInfoDto gameInfoDto) {
-        Cars cars = initialize();
-        createCars(cars, gameInfoDto.getNames());
-        moveCars(cars, gameInfoDto.getCount());
-        ResultDto resultDto = new ResultDto(getWinner(cars), getResult(cars));
+        RacingGame racingGame = RacingGame.initialize(new Cars(new ArrayList<>()));
+        racingGame.createCars(gameInfoDto.getNames());
+        racingGame.moveCars(carMoveManager, gameInfoDto.getCount());
+        ResultDto resultDto = new ResultDto(racingGame.getWinner(), racingGame.getCarMoveResults());
         saveResult(gameInfoDto.getCount(), resultDto);
         return resultDto;
-    }
-
-    Cars initialize() {
-        return new Cars(new ArrayList<>());
-    }
-
-    void createCars(Cars cars, String inputs) {
-        List<String> names = ValueEditor.splitByComma(inputs);
-        cars.createCars(names);
-    }
-
-    void moveCars(Cars cars, String countInput) {
-        int count = ValueEditor.parseStringToInt(countInput);
-        validateCount(count);
-        for (int i = 0; i < count; i++) {
-            cars.moveAllCarsOnce(carMoveManager);
-        }
-    }
-
-    private void validateCount(int count) {
-        if (count < MIN_MOVE_COUNT) {
-            throw new IllegalArgumentException(MOVE_COUNT_EXCEPTION_MESSAGE);
-        }
     }
 
     void saveResult(String countInput, ResultDto resultDto) {
@@ -84,17 +60,6 @@ public class GameService {
         winnerDao.insertWinner(winners);
     }
 
-    List<CarDto> getResult(Cars cars) {
-        return cars.getCurrentResult()
-                .stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    String getWinner(Cars cars) {
-        return ValueEditor.joinWithComma(cars.getWinners());
-    }
-
     public List<ResultDto> getAllResults() {
         List<ResultDto> resultDtos = new ArrayList<>();
         List<Long> gameIds = gameDao.getGameIds();
@@ -106,7 +71,8 @@ public class GameService {
                 .collect(Collectors.groupingBy(Winner::getGameId));
         for (Long gameId : gameIds) {
             List<Winner> winners = winnersGroupByGameId.get(gameId);
-            String winnersName = ValueEditor.joinWithComma(winners.stream().map(Winner::getWinner).collect(Collectors.toList()));
+            String winnersName = ValueEditor.joinWithComma(
+                    winners.stream().map(Winner::getWinner).collect(Collectors.toList()));
             List<Car> cars = carsGroupByGameId.get(gameId);
             List<CarDto> carDtos = cars.stream()
                     .map(car -> new CarDto(car.getName(), car.getPosition()))
