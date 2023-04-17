@@ -1,18 +1,20 @@
 package racingcar.utils;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import racingcar.domain.NumberGenerator;
 
 public class TestNumberGenerator implements NumberGenerator {
 
-    private final List<Integer> numbers;
+    private final Deque<Integer> numbers;
 
     public TestNumberGenerator(final List<Integer> numbers) {
-        this.numbers = numbers;
+        this.numbers = new ArrayDeque<>(numbers);
     }
 
     @Override
     public int generate() {
-        return numbers.remove(0);
+        return numbers.removeFirst();
     }
 }
