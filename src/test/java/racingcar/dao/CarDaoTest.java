@@ -56,7 +56,7 @@ class CarDaoTest {
         carDao.saveAll(cars);
 
         //when
-        List<String> winners = carDao.findWinnersByGameId(1);
+        List<String> winners = carDao.findWinnerNamesByGameId(1);
 
         //then
         assertThat(winners).containsExactly("포이");

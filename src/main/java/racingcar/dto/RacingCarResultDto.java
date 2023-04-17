@@ -8,7 +8,7 @@ public class RacingCarResultDto {
     private final int isWin;
     private final long gameId;
 
-    private RacingCarResultDto(String name, int position, int isWin, long gameId) {
+    public RacingCarResultDto(String name, int position, int isWin, long gameId) {
         this.name = name;
         this.position = position;
         this.isWin = isWin;
