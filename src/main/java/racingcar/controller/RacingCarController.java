@@ -14,6 +14,7 @@ import racingcar.domain.RacingGame;
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.ResultDto;
 import racingcar.jdbc.RacingCarDao;
+import view.OutputView;
 
 @RestController
 public class RacingCarController {
@@ -26,6 +27,7 @@ public class RacingCarController {
 
 	@PostMapping("/plays")
 	public ResultDto createData(@RequestBody RacingGameDto racingGameDto) {
+		ResultDto resultDto = new ResultDto();
 		String carNames = racingGameDto.getNames();
 		int count = Integer.parseInt(racingGameDto.getCount());
 
@@ -34,6 +36,7 @@ public class RacingCarController {
 
 		Cars cars = racingGame.getCars();
 		racingCarDao.insertCar(cars, count);
+		OutputView.printResult(resultDto.getWinners(), resultDto.getRacingCars());
 		return toResultDto(cars);
 	}
 
