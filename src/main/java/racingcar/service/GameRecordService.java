@@ -39,7 +39,7 @@ public class GameRecordService {
                 .collect(Collectors.toList());
     }
 
-    public RecordDto findRecord(Map.Entry<Integer, List<RecordEntity>> records) {
+    private RecordDto findRecord(Map.Entry<Integer, List<RecordEntity>> records) {
         return new RecordDto(recordsToWinner(records), recordsToDto(records));
     }
 
