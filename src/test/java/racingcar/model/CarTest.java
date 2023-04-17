@@ -52,10 +52,7 @@ class CarTest {
 
         @Override
         public boolean isMove() {
-            if (randomNumbers.poll().intValue() >= 4) {
-                return true;
-            }
-            return false;
+            return randomNumbers.poll().intValue() >= 4;
         }
     }
 }
