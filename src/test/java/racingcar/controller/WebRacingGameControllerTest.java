@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingControllerTest {
+class WebRacingGameControllerTest {
 
     @LocalServerPort
     private int port;

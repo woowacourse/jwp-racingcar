@@ -14,12 +14,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public final class RacingController {
+public final class WebRacingGameController {
 
     private final RacingGameService racingGameService;
 
     @Autowired
-    public RacingController(final RacingGameService racingGameService) {
+    public WebRacingGameController(final RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }
 
