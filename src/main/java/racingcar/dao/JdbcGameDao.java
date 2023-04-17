@@ -39,8 +39,8 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<Integer> countGames() {
+    public int countGames() {
         final String sql = "SELECT COUNT(*) FROM GAME";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, Integer.class));
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }

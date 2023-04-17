@@ -7,5 +7,5 @@ public interface GameDao {
 
     Long insert(final GameEntity gameEntity);
 
-    Optional<Integer> countGames();
+    int countGames();
 }

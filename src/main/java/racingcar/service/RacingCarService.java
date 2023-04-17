@@ -84,7 +84,7 @@ public class RacingCarService {
     public List<ResultDTO> getSavedGames() {
         List<ResultDTO> playingCars = new ArrayList<>();
 
-        final int games = gameDao.countGames().orElse(0);
+        final int games = gameDao.countGames();
         for (int gameId = INITIAL_GAME_ID; gameId <= games; gameId++) {
             final List<CarDTO> carDTO = carDao.selectAll(gameId);
             final List<String> winnerNames = carDao.selectWinners(gameId);
