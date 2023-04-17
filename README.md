@@ -114,7 +114,7 @@ Content-Type: application/json
 
 ### 피드백 체크리스트
 
-- 아래 1단계 피드백 학습 후 반영하기
+- 1단계 피드백
     - [x] [빈 public 생성자 선언하지 않고도 PlayRequestDto의 필드를 json mapping 할 수 있게 만드는 방법은?](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165362349)
         - [x] 기존 불필요한 디폴트 생성자 선언 코드 삭제
         - [x] @RequestBody 사용법 학습
@@ -126,7 +126,7 @@ Content-Type: application/json
         - [x] 성능 이점이 있는 readOnly 적용 (추가로 깊은 학습 필요)
     - [x] [@Component 와 @Repository 의 차이](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)
     - [x] [@Repository, @Component, @Service 어노테이션의 차이점](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)
-        - [ ] Spring PSA 학습
+        - [x] Spring PSA 학습
     - [x] [새 id값을 반환하는 insert와 그렇지 않은 insert 메서드에 대해서 어떻게 일관성을 부여할까?](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165358853)
         - [x] 메서드 네이밍을 구체적으로 수정
         - [x] 한 가지 메서드가 두 가지 기능을 하고 있는 것 아닐까? => id 조회 메서드 분리
@@ -135,9 +135,15 @@ Content-Type: application/json
     - [ ] [DB 테스트 격리 보장](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
 
 - 2단계 피드백
-    - [ ] 
+    - [ ] [Dao 클래스 분리 기준 정하기](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167774162)
+    - [ ] [Dto 사용방식 검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167789126)
+    - [ ] [도메인 관점에서 테이블 설계 재검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167795949)
+
+### 리팩터링 목록
 
 - Spring 제공 기능 적용하기
     - [ ] 예외 처리 : ExceptionHandler 사용, 예외 발생 정보를 응답 객체에 담아 전달하기
     - [ ] 필요 시 Dto에 Validation 추가
     - [ ] Lombok 라이브러리 사용해 생성자, getter 메서드 코드 단순화
+- [ ] 서비스에서 Dao 구현체가 아닌 인터페이스에 의존하도록 변경 (DB 교체 용이하게)
+    - [ ] 여러 개의 Dao를 사용하여 
