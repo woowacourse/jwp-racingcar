@@ -20,7 +20,7 @@ public class CarName {
     }
 
     private void validateCarNameIsNotEmpty(String carName) {
-        if (carName.isBlank()) {
+        if (carName == null || carName.isBlank()) {
             throw new CarNameBlankException();
         }
     }
