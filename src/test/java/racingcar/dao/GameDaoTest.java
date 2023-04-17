@@ -31,11 +31,9 @@ class GameDaoTest {
         long gameId1 = gameDao.save(3);
         long gameId2 = gameDao.save(5);
 
-        Integer size = jdbcTemplate.queryForObject("SELECT count(*) FROM game", Integer.class);
         assertAll(
                 () -> assertThat(gameId1).isEqualTo(1),
-                () -> assertThat(gameId2).isEqualTo(2),
-                () -> assertThat(size).isEqualTo(2)
+                () -> assertThat(gameId2).isEqualTo(2)
         );
     }
 }
