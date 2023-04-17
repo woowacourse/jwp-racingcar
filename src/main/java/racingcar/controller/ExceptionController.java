@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public final class ExceptionController {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<?> handleException() {
+    public ResponseEntity<Void> handleIllegalArgumentException() {
         return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Void> handleException() {
+        return ResponseEntity.internalServerError().build();
     }
 }
