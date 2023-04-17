@@ -10,35 +10,35 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.repository.entity.GameUsersPositionEntity;
+import racingcar.repository.entity.PositionEntity;
 
 @Repository
-public class JdbcGameUsersPositionDao implements GameUsersPositionDao {
+public class JdbcPositionDao implements PositionDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<GameUsersPositionEntity> actorRowMapper = (resultSet, rowNum) -> new GameUsersPositionEntity(
+    private final RowMapper<PositionEntity> actorRowMapper = (resultSet, rowNum) -> new PositionEntity(
             resultSet.getLong("id"),
             resultSet.getLong("game_id"),
-            resultSet.getLong("users_id"),
+            resultSet.getLong("user_id"),
             resultSet.getInt("position")
     );
 
     @Autowired
-    public JdbcGameUsersPositionDao(final DataSource dataSource) {
+    public JdbcPositionDao(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public long save(final GameUsersPositionEntity gameUsersPositionEntity) {
-        final String sql = "INSERT INTO game_users_position (game_id, users_id, position) VALUES (?, ?, ?)";
+    public long save(final PositionEntity positionEntity) {
+        final String sql = "INSERT INTO position (game_id, user_id, position) VALUES (?, ?, ?)";
         final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             final PreparedStatement preparedStatement = connection.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setLong(1, gameUsersPositionEntity.getGameId());
-            preparedStatement.setLong(2, gameUsersPositionEntity.getUsersId());
-            preparedStatement.setInt(3, gameUsersPositionEntity.getPosition());
+            preparedStatement.setLong(1, positionEntity.getGameId());
+            preparedStatement.setLong(2, positionEntity.getUserId());
+            preparedStatement.setInt(3, positionEntity.getPosition());
             return preparedStatement;
         }, keyHolder);
 
@@ -46,9 +46,9 @@ public class JdbcGameUsersPositionDao implements GameUsersPositionDao {
     }
 
     @Override
-    public List<GameUsersPositionEntity> findByGameId(final long gameId) {
-        final String sql = "SELECT id, game_id, users_id, position "
-                + "FROM game_users_position "
+    public List<PositionEntity> findByGameId(final long gameId) {
+        final String sql = "SELECT id, game_id, user_id, position "
+                + "FROM position "
                 + "WHERE game_id = ?";
         return jdbcTemplate.query(sql, actorRowMapper, gameId);
     }

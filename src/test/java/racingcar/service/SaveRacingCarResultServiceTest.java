@@ -16,13 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.repository.dao.GameDao;
-import racingcar.repository.dao.GameUsersPositionDao;
-import racingcar.repository.dao.GameWinUsersDao;
-import racingcar.repository.dao.UsersDao;
+import racingcar.repository.dao.PositionDao;
+import racingcar.repository.dao.UserDao;
+import racingcar.repository.dao.WinnerDao;
 import racingcar.repository.entity.GameEntity;
-import racingcar.repository.entity.GameUsersPositionEntity;
-import racingcar.repository.entity.GameWinUsersEntity;
-import racingcar.repository.entity.UsersEntity;
+import racingcar.repository.entity.PositionEntity;
+import racingcar.repository.entity.UserEntity;
+import racingcar.repository.entity.WinnerEntity;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -32,10 +32,10 @@ class SaveRacingCarResultServiceTest {
     private static final int FIRST_GAME_ID = 1;
 
     private final SaveRacingCarResultService saveRacingCarResultService;
-    private final UsersDao usersDao;
+    private final UserDao userDao;
     private final GameDao gameDao;
-    private final GameUsersPositionDao gameUsersPositionDao;
-    private final GameWinUsersDao gameWinUsersDao;
+    private final PositionDao positionDao;
+    private final WinnerDao winnerDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -62,15 +62,15 @@ class SaveRacingCarResultServiceTest {
 
     @Autowired
     public SaveRacingCarResultServiceTest(final SaveRacingCarResultService saveRacingCarResultService,
-                                          final UsersDao usersDao,
+                                          final UserDao userDao,
                                           final GameDao gameDao,
-                                          final GameUsersPositionDao gameUsersPositionDao,
-                                          final GameWinUsersDao gameWinUsersDao) {
+                                          final PositionDao positionDao,
+                                          final WinnerDao winnerDao) {
         this.saveRacingCarResultService = saveRacingCarResultService;
-        this.usersDao = usersDao;
+        this.userDao = userDao;
         this.gameDao = gameDao;
-        this.gameUsersPositionDao = gameUsersPositionDao;
-        this.gameWinUsersDao = gameWinUsersDao;
+        this.positionDao = positionDao;
+        this.winnerDao = winnerDao;
     }
 
     @Test
@@ -90,15 +90,15 @@ class SaveRacingCarResultServiceTest {
 
         saveRacingCarResultService.saveRacingCarResult(racingCarResult);
 
-        assertUsers(modi, kokodak);
+        assertUser(modi, kokodak);
         assertGame(trialCount);
-        assertGameUsersPosition(modiPosition, kokodakPosition);
-        assertGameWinUsers(modi);
+        assertPosition(modiPosition, kokodakPosition);
+        assertWinner(modi);
     }
 
-    private void assertUsers(final String modi, final String kokodak) {
-        final UsersEntity modiEntity = usersDao.findByName(modi);
-        final UsersEntity kokodakEntity = usersDao.findByName(kokodak);
+    private void assertUser(final String modi, final String kokodak) {
+        final UserEntity modiEntity = userDao.findByName(modi);
+        final UserEntity kokodakEntity = userDao.findByName(kokodak);
 
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(modiEntity.getName()).isEqualTo(modi);
@@ -113,11 +113,11 @@ class SaveRacingCarResultServiceTest {
         assertThat(gameEntity.getTrialCount()).isEqualTo(trialCount);
     }
 
-    private void assertGameUsersPosition(final int modiPosition, final int kokodakPosition) {
-        final List<GameUsersPositionEntity> gameUsersPositionEntities = gameUsersPositionDao.findByGameId(FIRST_GAME_ID);
+    private void assertPosition(final int modiPosition, final int kokodakPosition) {
+        final List<PositionEntity> positionEntities = positionDao.findByGameId(FIRST_GAME_ID);
 
-        final Set<Integer> positions = gameUsersPositionEntities.stream()
-                .map(GameUsersPositionEntity::getPosition)
+        final Set<Integer> positions = positionEntities.stream()
+                .map(PositionEntity::getPosition)
                 .collect(Collectors.toSet());
 
         final SoftAssertions softAssertions = new SoftAssertions();
@@ -126,12 +126,12 @@ class SaveRacingCarResultServiceTest {
         softAssertions.assertAll();
     }
 
-    private void assertGameWinUsers(final String modi) {
-        final List<GameWinUsersEntity> gameWinUsersEntities = gameWinUsersDao.findByGameId(FIRST_GAME_ID);
-        final GameWinUsersEntity winnerEntity = gameWinUsersEntities.get(0);
+    private void assertWinner(final String modi) {
+        final List<WinnerEntity> winnerEntities = winnerDao.findByGameId(FIRST_GAME_ID);
+        final WinnerEntity winnerEntity = winnerEntities.get(0);
 
-        final long modiUserId = winnerEntity.getUsersId();
-        final UsersEntity modiEntity = usersDao.findById(modiUserId);
+        final long modiUserId = winnerEntity.getUserId();
+        final UserEntity modiEntity = userDao.findById(modiUserId);
 
         assertThat(modiEntity.getName()).isEqualTo(modi);
     }
