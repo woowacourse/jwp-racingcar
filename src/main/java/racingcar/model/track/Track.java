@@ -10,8 +10,6 @@ public class Track {
     private static final Pattern NUMBER_PATTERN = Pattern.compile("(\\d)+");
     private static final int TRIAL_MAX_TIMES = 100;
     private static final int TRIAL_MIN_TIMES = 1;
-    private static final int ONE_GAME = 1;
-    private static final int CAN_GAME = 0;
     private final Cars cars;
     private int trialTimes;
 
@@ -48,11 +46,11 @@ public class Track {
     }
 
     private void removeTrialTimes() {
-        trialTimes -= ONE_GAME;
+        trialTimes -= 1;
     }
 
     public boolean runnable() {
-        return trialTimes >= CAN_GAME;
+        return trialTimes >= 0;
     }
 
     public Cars getCars() {
