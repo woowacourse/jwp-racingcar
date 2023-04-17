@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import racingcar.domain.CarResult;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class CarResultDao {
@@ -16,8 +17,8 @@ public class CarResultDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> CarResult.of(
-            resultSet.getLong("id"),
-            resultSet.getLong("play_result_id"),
+            resultSet.getInt("id"),
+            resultSet.getInt("play_result_id"),
             resultSet.getString("name"),
             resultSet.getInt("position")
     );
@@ -29,13 +30,18 @@ public class CarResultDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public long save(CarResult carResult) {
+    public int save(CarResult carResult) {
         SqlParameterSource source = new BeanPropertySqlParameterSource(carResult);
-        return simpleJdbcInsert.executeAndReturnKey(source).longValue();
+        return simpleJdbcInsert.executeAndReturnKey(source).intValue();
     }
 
-    public CarResult findById(long id) {
+    public CarResult findById(int id) {
         String sql = "SELECT * FROM car_result WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
+    }
+
+    public List<CarResult> findAllByPlayResultId(int playResultId) {
+        String sql = "SELECT * FROM car_result WHERE play_result_id = ?";
+        return jdbcTemplate.query(sql, entityRowMapper, playResultId);
     }
 }

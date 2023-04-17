@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import racingcar.domain.PlayResult;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class PlayResultDao {
@@ -31,15 +32,20 @@ public class PlayResultDao {
                     resultSet.getTimestamp("created_at")
             );
 
-    public long save(PlayResult playResult) {
+    public int save(PlayResult playResult) {
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(playResult);
         return simpleJdbcInsert
                 .executeAndReturnKey(sqlParameterSource)
-                .longValue();
+                .intValue();
     }
 
     public PlayResult findById(long id) {
         String sql = "SELECT * FROM play_result WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
+    }
+
+    public List<Integer> findAllId() {
+        String sql = "SELECT id FROM play_result";
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getInt("id"));
     }
 }
