@@ -6,6 +6,7 @@ import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.CarResponseDto;
 import racingcar.controller.dto.GameResponseDto;
 import racingcar.dao.RacingCarDao;
+import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.GameCount;
@@ -24,15 +25,17 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class RacingCarService {
 
+    private final RacingGameDao racingGameDao;
     private final RacingCarDao racingCarDao;
 
     @Autowired
-    public RacingCarService(RacingCarDao racingCarDao) {
+    public RacingCarService(RacingGameDao racingGameDao, RacingCarDao racingCarDao) {
+        this.racingGameDao = racingGameDao;
         this.racingCarDao = racingCarDao;
     }
 
     public List<GameResponseDto> findAll() {
-        List<GameEntity> racingGameEntities = racingCarDao.findAllGame();
+        List<GameEntity> racingGameEntities = racingGameDao.findAll();
         return racingGameEntities.stream()
                 .map(gameEntity -> generateRacingGameResponseDto(gameEntity, findCarEntitiesByGameId(gameEntity.getId())))
                 .collect(Collectors.toList());
@@ -46,7 +49,7 @@ public class RacingCarService {
     }
 
     private List<CarEntity> findCarEntitiesByGameId(int gameId) {
-        return racingCarDao.findCarsByGameId(gameId);
+        return racingCarDao.findByGameId(gameId);
     }
 
     private static List<CarResponseDto> generateRacingCarResponseDtos(List<CarEntity> carEntities) {
@@ -65,9 +68,9 @@ public class RacingCarService {
         progress(cars, gameCount);
         String winners = winnersToString(cars);
         GameEntity gameEntity = generateRacingGameEntity(gameRequestDtoForPlays, winners);
-        int id = racingCarDao.saveGame(gameEntity);
+        int id = racingGameDao.save(gameEntity);
         List<CarEntity> carEntities = generateRacingCarEntities(id, cars);
-        carEntities.forEach(racingCarDao::saveCar);
+        carEntities.forEach(racingCarDao::save);
         return generateRacingGameResponseDto(gameEntity, carEntities);
     }
 
