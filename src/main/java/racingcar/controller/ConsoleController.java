@@ -14,14 +14,14 @@ import racingcar.dto.RacingGameResponseDTO;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class GameController {
+public class ConsoleController {
 
     private static final String DELIMITER = ",";
 
     private final InputView inputView;
     private final OutputView outputView;
 
-    public GameController(final InputView inputView, final OutputView outputView) {
+    public ConsoleController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
