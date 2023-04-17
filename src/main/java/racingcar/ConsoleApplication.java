@@ -8,7 +8,7 @@ import racingcar.view.outputview.KoreanOutputView;
 
 import java.util.Scanner;
 
-public class Application {
+public class ConsoleApplication {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         KoreanInputView koreanInputView = new KoreanInputView(scanner);
