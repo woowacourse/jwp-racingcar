@@ -52,9 +52,9 @@ public class GameService {
         return gameEntities.stream().map(gameEntity -> {
             List<CarEntity> carEntities = carDao.findAllById(gameEntity.getId());
             int max = carEntities.stream()
-                    .max(Comparator.comparing(b->b.getPosition())).get().getPosition();
+                    .max(Comparator.comparing(CarEntity::getPosition)).orElseThrow().getPosition();
 
-            List<CarEntity> result = carEntities.stream().filter(a -> a.getPosition() == max).collect(Collectors.toList());
+            List<CarEntity> result = carEntities.stream().filter(car -> car.getPosition() == max).collect(Collectors.toList());
 
             return new GameRecordResponseDto(result, carEntities);
         }).collect(Collectors.toUnmodifiableList());
