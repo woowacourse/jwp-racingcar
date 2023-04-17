@@ -33,7 +33,7 @@ class RacingCarRepositoryTest {
 
         // expect
         racingCarRepository.saveWinners(gameId, List.of("glen", "raon"));
-        List<String> winners = racingCarRepository.findWinners(gameId);
+        List<String> winners = racingCarRepository.findWinnersByGameId(gameId);
 
         assertThat(winners)
                 .hasSize(2)
@@ -50,7 +50,7 @@ class RacingCarRepositoryTest {
 
         // expect
         racingCarRepository.saveCars(gameId, List.of(car1, car2));
-        List<RacingCarDto> findCars = racingCarRepository.findRacingCars(gameId);
+        List<RacingCarDto> findCars = racingCarRepository.findRacingCarsByGameId(gameId);
 
         assertThat(findCars)
                 .hasSize(2);

@@ -3,7 +3,10 @@ package racingcar.service;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
@@ -39,8 +42,16 @@ public class RacingCarService {
 
     @Transactional(readOnly = true)
     public RacingResultResponse obtainRacingResult(int gameId) {
-        List<String> winners = racingCarRepository.findWinners(gameId);
-        List<RacingCarDto> racingCars = racingCarRepository.findRacingCars(gameId);
+        List<String> winners = racingCarRepository.findWinnersByGameId(gameId);
+        List<RacingCarDto> racingCars = racingCarRepository.findRacingCarsByGameId(gameId);
         return new RacingResultResponse(winners, racingCars);
+    }
+
+    public List<RacingResultResponse> searchGameHistory() {
+        Map<Integer, List<RacingCarDto>> playerHistory = racingCarRepository.findRacingCars();
+        Map<Integer, List<String>> winners = racingCarRepository.findWinners();
+        List<RacingResultResponse> racingResultResponses = new ArrayList<>();
+        playerHistory.keySet().forEach(gameId -> racingResultResponses.add(new RacingResultResponse(winners.get(gameId),playerHistory.get(gameId))));
+        return racingResultResponses;
     }
 }

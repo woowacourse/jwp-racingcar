@@ -3,6 +3,7 @@ package racingcar.repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,7 +53,7 @@ public class RacingCarRepository {
         return (int) keys.get("ID");
     }
 
-    public List<String> findWinners(int gameId) {
+    public List<String> findWinnersByGameId(int gameId) {
         String sql = "SELECT winner FROM winner_result WHERE game_id = ?";
         return jdbcTemplate.query(sql, ps -> ps.setInt(1, gameId), rs -> {
             ArrayList<String> winners = new ArrayList<>();
@@ -64,7 +65,7 @@ public class RacingCarRepository {
         });
     }
 
-    public List<RacingCarDto> findRacingCars(int gameId) {
+    public List<RacingCarDto> findRacingCarsByGameId(int gameId) {
         String sql = "SELECT name, position FROM player_result WHERE game_id = ?";
         return jdbcTemplate.query(sql, ps -> ps.setInt(1, gameId), rs -> {
             ArrayList<RacingCarDto> racingCars = new ArrayList<>();
@@ -74,6 +75,35 @@ public class RacingCarRepository {
                 racingCars.add(new RacingCarDto(name, position));
             }
             return racingCars;
+        });
+    }
+
+
+    public Map<Integer, List<String>> findWinners() {
+        String sql = "SELECT winner_result.* FROM game_result JOIN winner_result ON game_result.id = winner_result.game_id";
+        Map<Integer, List<String>> winners = new HashMap<>();
+        return jdbcTemplate.query(sql, rs -> {
+            while (rs.next()) {
+                int gameId = rs.getInt("game_id");
+                List<String> winnersByGameId = winners.getOrDefault(gameId, new ArrayList<>());
+                winnersByGameId.add(rs.getString("winner"));
+                winners.put(gameId, winnersByGameId);
+            }
+            return winners;
+        });
+    }
+
+    public Map<Integer, List<RacingCarDto>> findRacingCars() {
+        String sql = "SELECT player_result.* FROM game_result JOIN player_result ON game_result.id = player_result.game_id";
+        Map<Integer, List<RacingCarDto>> playerHistory = new HashMap<>();
+        return jdbcTemplate.query(sql, rs -> {
+            while (rs.next()) {
+                int gameId = rs.getInt("game_id");
+                List<RacingCarDto> racingCars = playerHistory.getOrDefault(gameId, new ArrayList<>());
+                racingCars.add(new RacingCarDto(rs.getString("name"), rs.getInt("position")));
+                playerHistory.put(gameId, racingCars);
+            }
+            return playerHistory;
         });
     }
 }

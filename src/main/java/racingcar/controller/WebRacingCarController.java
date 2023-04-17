@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,5 +32,10 @@ public class WebRacingCarController {
 
     private List<String> getCarNames(String names) {
         return List.of(names.split(SPLIT_DELIMITER));
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<RacingResultResponse>> searchGameHistory() {
+        return ResponseEntity.ok().body(racingCarService.searchGameHistory());
     }
 }
