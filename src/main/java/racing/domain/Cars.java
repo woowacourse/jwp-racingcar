@@ -23,14 +23,6 @@ public class Cars {
                 .forEach(Car::move);
     }
 
-    public List<String> getPrintForm() {
-        List<String> forms = new ArrayList<>();
-        for (Car car : cars) {
-            forms.add(car.getCarStepForm());
-        }
-        return forms;
-    }
-
     public List<String> getWinners() {
         int winnerStep = getWinnerStep();
         return findWinners(winnerStep);

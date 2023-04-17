@@ -3,11 +3,9 @@ package racing.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racing.ui.output.OutputView;
 
 class CarsTest {
 
@@ -21,19 +19,6 @@ class CarsTest {
                 new Car(new CarName("bebe2"))
         );
         cars = new Cars(carList);
-    }
-
-    @DisplayName("출력 형식이 반환되어야 한다.")
-    @Test
-    void getPrintForm() {
-        cars.getCar(0).move();
-        List<String> printForms = this.cars.getPrintForm();
-
-        Assertions.assertAll(
-                () -> assertEquals(printForms.get(0), "bebe0" + OutputView.COLON + OutputView.HYPHEN.repeat(1)),
-                () -> assertEquals(printForms.get(1), "bebe1" + OutputView.COLON + OutputView.HYPHEN.repeat(0)),
-                () -> assertEquals(printForms.get(2), "bebe2" + OutputView.COLON + OutputView.HYPHEN.repeat(0))
-        );
     }
 
     @DisplayName("경기 승자를 반환해야 한다.")

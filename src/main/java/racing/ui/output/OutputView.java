@@ -1,8 +1,8 @@
 package racing.ui.output;
 
-import racing.domain.Cars;
-
 import java.util.List;
+import racing.domain.Car;
+import racing.domain.Cars;
 
 public class OutputView {
 
@@ -22,8 +22,11 @@ public class OutputView {
     }
 
     public static void printProcessing(Cars cars) {
-        cars.getPrintForm()
-                .forEach(System.out::println);
+        for (Car car : cars.getCars()) {
+            String printFormat = car.getName() + COLON + HYPHEN.repeat(car.getStep());
+            System.out.println(printFormat);
+        }
+
         System.out.println();
     }
 

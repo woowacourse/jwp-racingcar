@@ -1,10 +1,5 @@
 package racing.domain;
 
-import static racing.ui.output.OutputView.HYPHEN;
-
-import java.util.List;
-import racing.ui.output.OutputView;
-
 public class Car {
 
     private final CarName carName;
@@ -22,19 +17,6 @@ public class Car {
 
     public void move() {
         this.step++;
-    }
-
-
-    public List<String> ifMeetAddWinners(List<String> winners, int winnerStep) {
-        if (step == winnerStep) {
-            winners.add(carName.getValue());
-            return winners;
-        }
-        return winners;
-    }
-
-    public String getCarStepForm() {
-        return carName.getValue() + OutputView.COLON + HYPHEN.repeat(step);
     }
 
     public int getCarStep(int winnerStep) {
