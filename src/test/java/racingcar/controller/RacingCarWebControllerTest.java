@@ -14,7 +14,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.RequestDto;
+import racingcar.dto.gameInitializationRequest;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -56,11 +56,11 @@ class RacingCarWebControllerTest {
     void 이름과_시도_횟수를_요청했을_때_() {
         final String names = "브리,토미,브라운";
         final int count = 10;
-        final RequestDto requestDto = new RequestDto(names, count);
+        final gameInitializationRequest gameInitializationRequest = new gameInitializationRequest(names, count);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(requestDto)
+                .body(gameInitializationRequest)
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
