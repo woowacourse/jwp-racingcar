@@ -66,7 +66,7 @@ class RacingCarControllerTest {
     }
 
     @Nested
-    class findTotalHistoryTest {
+    class FindTotalHistoryTest {
 
         @Autowired
         private WebRacingGameService webRacingGameService;
