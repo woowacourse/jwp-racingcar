@@ -16,6 +16,8 @@
 - 컨트롤러
     - 참가자 이름과 시도 횟수를 받는다(JSON)
         - 게임 결과로 응답한다.(JSON)
+    - 게임 플레이 이력을 조회한다
+        - 게임 플레이 이력을 db에서 조회하여 응답한다
 - 서비스
     - 게임실행 결과를 db에 저장한다
         - 플레이 횟수(trialCount)
@@ -23,6 +25,7 @@
         - 우승자(winners)
         - 플레이한 날짜/시간
 
+게임 실행 api
 ```http request
 POST /plays HTTP/1.1
 content-type: application/json; charset=UTF-8
@@ -57,4 +60,51 @@ Content-Type: application/json
     ]
 }
 
+```
+
+결과 조회 api
+```http request
+GET /plays HTTP/1.1
+```
+
+```http request
+HTTP/1.1 200 
+Content-Type: application/json
+
+[
+    {
+        "winners": "브리",
+        "racingCars": [
+            {
+                "name": "브리",
+                "position": 6
+            },
+            {
+                "name": "토미",
+                "position": 4
+            },
+            {
+                "name": "브라운",
+                "position": 3
+            },
+        ]
+    },
+    {
+        "winners": "브리,토미,브라운",
+        "racingCars": [
+            {
+                "name": "브리",
+                "position": 6
+            },
+            {
+                "name": "토미",
+                "position": 6
+            },
+            {
+                "name": "브라운",
+                "position": 6
+            },
+        ]
+    }
+]
 ```
