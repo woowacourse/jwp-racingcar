@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TrackRequest {
 
@@ -8,7 +9,9 @@ public class TrackRequest {
     private String count;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public TrackRequest(final String names, final String count) {
+    public TrackRequest(
+            @JsonProperty final String names,
+            @JsonProperty final String count) {
         this.names = names;
         this.count = count;
     }
