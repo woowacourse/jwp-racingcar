@@ -11,7 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.jdbc.Sql;
-import racingcar.model.Car;
+import racingcar.car.model.Car;
+import racingcar.car.repository.RacingCarDao;
 
 @JdbcTest
 @Sql(scripts = {"classpath:data.sql"})

@@ -1,4 +1,4 @@
-package racingcar.database;
+package racingcar.game.repository;
 
 import java.sql.PreparedStatement;
 import org.springframework.jdbc.core.JdbcTemplate;

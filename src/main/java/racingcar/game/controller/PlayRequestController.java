@@ -1,4 +1,4 @@
-package racingcar.controller;
+package racingcar.game.controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,13 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.database.RacingCarDao;
-import racingcar.database.RacingGameDao;
-import racingcar.model.Car;
-import racingcar.model.CarRandomNumberGenerator;
-import racingcar.model.PlayRequest;
-import racingcar.model.PlayResponse;
-import racingcar.model.RacingCars;
+import racingcar.car.model.Car;
+import racingcar.car.model.CarRandomNumberGenerator;
+import racingcar.car.repository.RacingCarDao;
+import racingcar.game.model.PlayRequest;
+import racingcar.game.model.PlayResponse;
+import racingcar.game.model.RacingCars;
+import racingcar.game.repository.RacingGameDao;
 
 @RestController
 public class PlayRequestController {

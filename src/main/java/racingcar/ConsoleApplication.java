@@ -1,6 +1,6 @@
 package racingcar;
 
-import racingcar.controller.RacingCarController;
+import racingcar.car.controller.RacingCarController;
 
 public class ConsoleApplication {
     
