@@ -11,6 +11,10 @@ public class Winner {
         this.winnerNames = new ArrayList<>();
     }
 
+    public Winner(List<String> winnerNames) {
+        this.winnerNames = winnerNames;
+    }
+
     private int findMaxDistance(List<Car> cars) {
         return cars.stream().mapToInt(car -> car.getDistance())
                 .max().orElse(0);
