@@ -49,16 +49,4 @@ class CarDaoTest {
         //then
         assertThat(queriedCars).hasSize(2);
     }
-
-    @Test
-    void 우승자_탐색_테스트() {
-        //given
-        carDao.saveAll(cars);
-
-        //when
-        List<String> winners = carDao.findWinnersById(1);
-
-        //then
-        assertThat(winners).containsExactly("포이");
-    }
 }

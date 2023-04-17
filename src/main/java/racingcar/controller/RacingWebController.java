@@ -1,12 +1,15 @@
 package racingcar.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.domain.GameResult;
 import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingCarResultDto;
 import racingcar.service.RacingGameService;
 import racingcar.utils.Parser;
 import racingcar.validator.Validator;
@@ -24,10 +27,17 @@ public class RacingWebController {
         List<String> carNames = getValidCarNames(gameRequestDto.getNames());
         int count = getValidTryCount(gameRequestDto.getCount());
 
-        long id = racingGameService.run(carNames, count);
+        List<RacingCarResultDto> results = racingGameService.run(carNames, count);
 
-        List<String> winners = racingGameService.findWinnersById(id);
-        List<RacingCarDto> racingCarDtos = racingGameService.findCarsById(id);
+        List<String> winners = results.stream()
+                .filter(result -> result.isWin() == GameResult.WIN.getValue())
+                .map(RacingCarResultDto::getName)
+                .collect(Collectors.toList());
+
+        List<RacingCarDto> racingCarDtos = results.stream()
+                .map(it -> RacingCarDto.of(it.getName(), it.getPosition()))
+                .collect(Collectors.toList());
+
         return new GameResponseDto(winners, racingCarDtos);
     }
 

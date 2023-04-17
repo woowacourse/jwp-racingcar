@@ -22,7 +22,7 @@ public class RacingGameService {
         this.carDao = carDao;
     }
 
-    public long run(List<String> carNames, int count) {
+    public List<RacingCarResultDto> run(List<String> carNames, int count) {
         RacingGame racingGame = initializeGame(carNames);
 
         for (int i = 0; i < count; i++) {
@@ -35,27 +35,12 @@ public class RacingGameService {
                 .map((e) -> RacingCarResultDto.of(e.getKey(), e.getValue().getValue(), gameId))
                 .collect(Collectors.toUnmodifiableList());
         carDao.saveAll(results);
-        return gameId;
+
+        return results;
     }
 
     private RacingGame initializeGame(List<String> carNames) {
         List<RacingCar> racingCars = carNames.stream().map(RacingCar::new).collect(Collectors.toUnmodifiableList());
         return new RacingGame(racingCars, new RandomNumberGenerator());
-    }
-
-    public List<String> findWinnersById(long id) {
-        List<String> winners = carDao.findWinnersById(id);
-        if (winners.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        return winners;
-    }
-
-    public List<RacingCarDto> findCarsById(long id) {
-        List<RacingCarDto> cars = carDao.findCarsById(id);
-        if (cars.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        return cars;
     }
 }
