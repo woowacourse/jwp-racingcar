@@ -1,10 +1,7 @@
 package racingcar.services;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.CarDao;
-import racingcar.dao.GameDao;
-import racingcar.dao.WinnerDao;
+import racingcar.dao.RacingGameRepository;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameInformationDto;
 import racingcar.dto.GameResultDto;
@@ -19,17 +16,12 @@ import java.util.stream.Collectors;
 @Service
 public class GameService {
 
-    private final GameDao gameDao;
-    private final WinnerDao winnerDao;
-    private final CarDao carDao;
+    private final RacingGameRepository racingGameRepository;
 
-    public GameService(GameDao gameDao, WinnerDao winnerDao, CarDao carDao) {
-        this.gameDao = gameDao;
-        this.winnerDao = winnerDao;
-        this.carDao = carDao;
+    public GameService(RacingGameRepository racingGameRepository) {
+        this.racingGameRepository = racingGameRepository;
     }
 
-    @Transactional
     public GameResultDto play(GameInformationDto gameInformationDto){
         Cars cars = Cars.from(gameInformationDto.getNames());
         MoveCount moveCount = MoveCount.from(gameInformationDto.getCount());
@@ -37,14 +29,8 @@ public class GameService {
         racingGame.play();
 
         GameResultDto gameResultDto = new GameResultDto(racingGame.getWinners(), createCarDto(racingGame));
-        saveResult(moveCount, gameResultDto);
+        racingGameRepository.saveGameResult(moveCount, gameResultDto);
         return gameResultDto;
-    }
-
-    private void saveResult(MoveCount moveCount, GameResultDto gameResultDto) {
-        long gameId = gameDao.insertGame(moveCount);
-        carDao.insertCar(gameResultDto, gameId);
-        winnerDao.insertWinner(gameResultDto, gameId);
     }
 
     private List<CarDto> createCarDto(RacingGame racingGame){
