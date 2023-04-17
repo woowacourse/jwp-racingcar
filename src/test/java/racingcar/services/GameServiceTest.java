@@ -27,7 +27,7 @@ class GameServiceTest {
         gameService = new GameService(
                 new TestGameDao(),
                 new TestCarDao(),
-                (resultDto, gameId) -> {},
+                new TestWinnerDao(),
                 new TestMoveManager(List.of(true, false, false))
         );
         cars = gameService.initialize();

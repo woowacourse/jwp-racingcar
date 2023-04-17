@@ -2,6 +2,8 @@ package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,9 +34,8 @@ class JdbcWinnerDaoTest {
         long gameId = jdbcGameDao.saveGame(1);
         jdbcWinnerDao.insertWinner("폴로, 이리내", gameId);
 
-        String sql = "SELECT count(*) FROM winner WHERE g_id = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, gameId);
+        List<String> result = jdbcWinnerDao.findWinnersByGameId(gameId);
 
-        assertThat(count).isEqualTo(2);
+        assertThat(result).hasSize(2);
     }
 }

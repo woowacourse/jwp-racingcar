@@ -32,4 +32,10 @@ public class JdbcWinnerDao implements WinnerDao {
                 })
                 .collect(Collectors.toUnmodifiableList());
     }
+
+    @Override
+    public List<String> findWinnersByGameId(Long gameId) {
+        String sql = "SELECT winner FROM winner WHERE g_id = ?";
+        return jdbcTemplate.queryForList(sql, String.class, gameId);
+    }
 }
