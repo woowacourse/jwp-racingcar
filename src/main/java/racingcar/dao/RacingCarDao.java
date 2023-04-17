@@ -8,11 +8,10 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
-import racingcar.domain.TryCount;
+import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingCarsDto;
+import racingcar.dto.TryCountDto;
 
 @Component
 public class RacingCarDao {
@@ -27,24 +26,29 @@ public class RacingCarDao {
             .usingGeneratedKeyColumns("id");
     }
 
-    public void insertGame(final RacingCars racingCars, final TryCount tryCount) {
-        final HashMap<String, String> parameter = new HashMap<>();
-
-        parameter.put("winners", concat(racingCars.getWinnerNames()));
-        parameter.put("trial_count", String.valueOf(tryCount.getCount()));
-        parameter.put("created_at", LocalDateTime.now().toString());
+    public void insertGame(final RacingCarsDto racingCarsDto, final TryCountDto tryCountDto) {
+        final HashMap<String, String> parameter = insertGameInfo(racingCarsDto, tryCountDto);
 
         final int gameId = insertActor.executeAndReturnKey(parameter).intValue();
 
-        insertGameLog(racingCars, gameId);
+        insertMoveLog(racingCarsDto, gameId);
     }
 
-    private void insertGameLog(final RacingCars racingCars, final int gameId) {
+    private HashMap<String, String> insertGameInfo(final RacingCarsDto racingCarsDto, final TryCountDto tryCountDto) {
+        final HashMap<String, String> parameter = new HashMap<>();
+
+        parameter.put("winners", concat(racingCarsDto.getWinnerNames()));
+        parameter.put("trial_count", String.valueOf(tryCountDto.getTryCount()));
+        parameter.put("created_at", LocalDateTime.now().toString());
+        return parameter;
+    }
+
+    private void insertMoveLog(final RacingCarsDto racingCarsDto, final int gameId) {
         final String sql = "INSERT INTO MOVE_LOG (game_id, name, move) values (?,?,?)";
 
         List<Object[]> batchArgs = new ArrayList<>();
-        for (RacingCar racingCar : racingCars.getRacingCars()) {
-            batchArgs.add(new Object[] {gameId, racingCar.getName(), racingCar.getPosition()});
+        for (RacingCarDto racingCarDto : racingCarsDto.getRacingCarDtos()) {
+            batchArgs.add(new Object[] {gameId, racingCarDto.getName(), racingCarDto.getPosition()});
         }
 
         jdbcTemplate.batchUpdate(sql, batchArgs);

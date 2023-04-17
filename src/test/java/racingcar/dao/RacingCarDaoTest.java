@@ -13,6 +13,8 @@ import racingcar.domain.Name;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
+import racingcar.dto.RacingCarsDto;
+import racingcar.dto.TryCountDto;
 
 @SpringBootTest
 class RacingCarDaoTest {
@@ -55,7 +57,7 @@ class RacingCarDaoTest {
         final String sql = "SELECT COUNT(*) FROM MOVE_LOG";
 
         //when
-        racingCarDao.insertGame(racingCars, tryCount);
+        racingCarDao.insertGame(new RacingCarsDto(racingCars), new TryCountDto(tryCount));
         final int count = jdbcTemplate.queryForObject(sql, Integer.class);
 
         //then
