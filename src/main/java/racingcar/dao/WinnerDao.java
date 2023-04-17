@@ -1,11 +1,11 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.repository.entity.CarEntity;
-import racingcar.repository.entity.WinnerEntity;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.WinnerEntity;
 
 @Repository
 public class WinnerDao {

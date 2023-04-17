@@ -1,13 +1,16 @@
-package racingcar.repository;
+package racingcar.repositoryimpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
+import racingcar.dao.CarDao;
+import racingcar.dao.GamesDao;
+import racingcar.dao.WinnerDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.repository.entity.CarEntity;
-import racingcar.repository.entity.GameEntity;
-import racingcar.service.RacingGameRepository;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.GameEntity;
+import racingcar.repository.RacingGameRepository;
 
 @Repository
 public class RacingGameRepositoryImpl implements RacingGameRepository {

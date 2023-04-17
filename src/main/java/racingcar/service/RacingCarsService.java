@@ -9,7 +9,8 @@ import racingcar.domain.Car;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarPositionDto;
-import racingcar.repository.entity.GameEntity;
+import racingcar.repository.RacingGameRepository;
+import racingcar.dao.entity.GameEntity;
 
 @Service
 public class RacingCarsService {
