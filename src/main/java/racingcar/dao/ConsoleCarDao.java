@@ -7,4 +7,9 @@ public class ConsoleCarDao implements CarDao {
     @Override
     public void saveAll(final List<CarEntity> players) {
     }
+
+    @Override
+    public List<CarEntity> findAll() {
+        return List.of();
+    }
 }
