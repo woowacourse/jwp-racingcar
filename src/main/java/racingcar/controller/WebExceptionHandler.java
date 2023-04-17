@@ -10,7 +10,7 @@ import racingcar.dto.response.BadResponseDto;
 public class WebExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<BadResponseDto> handleException(Exception e) {
+    public ResponseEntity<BadResponseDto> handleException(IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(new BadResponseDto(e.getMessage()));
     }
 
