@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,8 @@ import racingcar.dao.GameDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameRequest;
+import racingcar.dto.GameDto;
+import racingcar.dto.GameResponse;
 import racingcar.strategy.MovingStrategy;
 
 @Service
@@ -26,20 +28,16 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
-    public int play(final GameRequest gameRequest) {
-        List<String> carNames = splitNames(gameRequest);
-        RacingGame game = createGame(carNames, gameRequest.getCount());
+    public GameResponse play(final GameDto gameDto) {
+        RacingGame game = createGame(gameDto.getNames(), gameDto.getCount());
+        int gameId = game.getId();
 
-        race(game, gameRequest.getCount());
+        race(game, gameDto.getCount());
         updateWinners(game);
+        String winners = findWinners(gameId);
+        List<CarDto> cars = findCars(gameId);
 
-        return game.getId();
-    }
-
-    private List<String> splitNames(final GameRequest gameRequest) {
-        String names = gameRequest.getNames();
-
-        return List.of(names.split(DELIMITER));
+        return GameResponse.of(winners, new ArrayList<>(cars));
     }
 
     private RacingGame createGame(final List<String> carNames, final int tryTimes) {
@@ -60,22 +58,25 @@ public class RacingCarService {
         convertDto(cars).forEach(car -> carDao.updatePosition(car, racingGame.getId()));
     }
 
-    private List<CarDto> convertDto(final List<Car> cars) {
-        return cars.stream()
-                .map(CarDto::from)
-                .collect(Collectors.toList());
-    }
-
     private void updateWinners(final RacingGame racingGame) {
         List<String> winners = racingGame.getWinners();
         winners.forEach(name -> carDao.updateWinner(name, racingGame.getId()));
     }
 
-    public List<CarDto> findWinners(final int gameId) {
-        return carDao.findWinners(gameId);
+    private String findWinners(final int gameId) {
+        List<CarDto> winners = carDao.findWinners(gameId);
+        return winners.stream()
+                .map(CarDto::getName)
+                .collect(Collectors.joining(DELIMITER));
     }
 
-    public List<CarDto> findCars(final int gameId) {
+    private List<CarDto> findCars(final int gameId) {
         return carDao.findCars(gameId);
+    }
+
+    private List<CarDto> convertDto(final List<Car> cars) {
+        return cars.stream()
+                .map(car -> CarDto.of(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
     }
 }
