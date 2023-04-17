@@ -1,6 +1,6 @@
 package racingcar;
 
-import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarStatusDto;
 
 public class PlayerDto {
 
@@ -16,7 +16,7 @@ public class PlayerDto {
         this.isWinner = isWinner;
     }
 
-    public static PlayerDto of(RacingCarStatusResponse response, long gameId, boolean isWinner) {
+    public static PlayerDto of(RacingCarStatusDto response, long gameId, boolean isWinner) {
         return new PlayerDto(gameId, response.getName(), response.getPosition(), isWinner);
     }
 

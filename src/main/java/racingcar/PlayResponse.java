@@ -1,20 +1,20 @@
 package racingcar;
 
 import java.util.List;
-import racingcar.dto.RacingCarStatusResponse;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.RacingCarStatusDto;
+import racingcar.dto.RacingCarWinnerDto;
 
 public class PlayResponse {
 
     private final List<String> winners;
-    private final List<RacingCarStatusResponse> racingCars;
+    private final List<RacingCarStatusDto> racingCars;
 
-    private PlayResponse(final List<String> winners, final List<RacingCarStatusResponse> racingCars) {
+    private PlayResponse(final List<String> winners, final List<RacingCarStatusDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public static PlayResponse of(final RacingCarWinnerResponse winners, final List<RacingCarStatusResponse> racingCars) {
+    public static PlayResponse of(final RacingCarWinnerDto winners, final List<RacingCarStatusDto> racingCars) {
         return new PlayResponse(winners.getWinners(), racingCars);
     }
 
@@ -22,7 +22,7 @@ public class PlayResponse {
         return winners;
     }
 
-    public List<RacingCarStatusResponse> getRacingCars() {
+    public List<RacingCarStatusDto> getRacingCars() {
         return racingCars;
     }
 }

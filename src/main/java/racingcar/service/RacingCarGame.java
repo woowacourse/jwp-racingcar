@@ -8,14 +8,14 @@ import java.util.List;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Position;
-import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarStatusResponse;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.RacingCarNamesDto;
+import racingcar.dto.RacingCarStatusDto;
+import racingcar.dto.RacingCarWinnerDto;
 
 public class RacingCarGame {
     private Cars cars;
 
-    public void createCars(RacingCarNamesRequest request) {
+    public void createCars(RacingCarNamesDto request) {
         this.cars = new Cars(request.getNames());
     }
 
@@ -38,21 +38,21 @@ public class RacingCarGame {
         }
     }
 
-    public List<RacingCarStatusResponse> getCarStatuses() {
+    public List<RacingCarStatusDto> getCarStatuses() {
         validateEmptyCars();
         return cars.getCars()
                 .stream()
-                .map(RacingCarStatusResponse::of)
+                .map(RacingCarStatusDto::of)
                 .collect(toList());
     }
 
-    public RacingCarWinnerResponse findWinners() {
+    public RacingCarWinnerDto findWinners() {
         Position maxPosition = getMaxPosition();
         List<Car> winners = cars.getCars()
                 .stream()
                 .filter(car -> car.isSamePosition(maxPosition))
                 .collect(toList());
-        return RacingCarWinnerResponse.of(winners);
+        return RacingCarWinnerDto.of(winners);
     }
 
     private Position getMaxPosition() {

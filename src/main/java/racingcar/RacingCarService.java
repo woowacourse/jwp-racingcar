@@ -2,9 +2,9 @@ package racingcar;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarStatusResponse;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.RacingCarNamesDto;
+import racingcar.dto.RacingCarStatusDto;
+import racingcar.dto.RacingCarWinnerDto;
 import racingcar.repository.GameRepository;
 import racingcar.repository.PlayerRepository;
 import racingcar.service.RacingCarGame;
@@ -32,8 +32,8 @@ public class RacingCarService {
     }
 
     private void createCars(final PlayRequest playRequest, final RacingCarGame racingCarGame) {
-        RacingCarNamesRequest racingCarNamesRequest = RacingCarNamesRequest.of(playRequest.getNames());
-        racingCarGame.createCars(racingCarNamesRequest);
+        RacingCarNamesDto racingCarNamesDto = RacingCarNamesDto.of(playRequest.getNames());
+        racingCarGame.createCars(racingCarNamesDto);
     }
 
     private void playGame(final TryCount tryCount, final RacingCarGame racingCarGame) {
@@ -45,14 +45,14 @@ public class RacingCarService {
     }
 
     private PlayResponse save(final int trialCount, final RacingCarGame racingCarGame) {
-        RacingCarWinnerResponse winners = findWinners(racingCarGame);
-        List<RacingCarStatusResponse> racingCars = racingCarGame.getCarStatuses();
+        RacingCarWinnerDto winners = findWinners(racingCarGame);
+        List<RacingCarStatusDto> racingCars = racingCarGame.getCarStatuses();
         long gameId = gameRepository.save(trialCount);
         playerRepository.saveAll(racingCars, winners.getWinners(), gameId);
         return PlayResponse.of(winners, racingCars);
     }
 
-    private RacingCarWinnerResponse findWinners(final RacingCarGame racingCarGame) {
+    private RacingCarWinnerDto findWinners(final RacingCarGame racingCarGame) {
         return racingCarGame.findWinners();
     }
 }

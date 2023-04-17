@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import racingcar.domain.Car;
-import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarStatusDto;
 
 @JdbcTest
 class PlayerRepositoryTest {
@@ -33,8 +33,8 @@ class PlayerRepositoryTest {
     void insertPlayer() {
         // given
         long gameId = gameRepository.save(10);
-        RacingCarStatusResponse veroStatusResponse = RacingCarStatusResponse.of(new Car("vero", 10));
-        RacingCarStatusResponse poiStatusResponse = RacingCarStatusResponse.of(new Car("poi", 7));
+        RacingCarStatusDto veroStatusResponse = RacingCarStatusDto.of(new Car("vero", 10));
+        RacingCarStatusDto poiStatusResponse = RacingCarStatusDto.of(new Car("poi", 7));
         List<String> winners = List.of("vero");
 
         // when

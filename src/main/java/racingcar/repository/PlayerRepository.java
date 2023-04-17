@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Repository;
 import racingcar.PlayerDto;
-import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarStatusDto;
 
 @Repository
 public class PlayerRepository {
@@ -17,7 +17,7 @@ public class PlayerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveAll(final List<RacingCarStatusResponse> responses, final List<String> winnerNames, final long gameId) {
+    public void saveAll(final List<RacingCarStatusDto> responses, final List<String> winnerNames, final long gameId) {
         String sql = "INSERT INTO player(game_id, name, position, is_winner) VALUES(:gameId, :name, :position, :isWinner)";
 
         List<PlayerDto> playerDtos = responses.stream()

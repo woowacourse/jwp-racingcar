@@ -10,9 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarStatusResponse;
-import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.RacingCarNamesDto;
+import racingcar.dto.RacingCarStatusDto;
+import racingcar.dto.RacingCarWinnerDto;
 
 class RacingCarGameTest {
     private static final CustomMoveStrategy MOVE_STRATEGY = new CustomMoveStrategy(5);
@@ -30,11 +30,11 @@ class RacingCarGameTest {
     void move_shouldNotMoveWhenNumberIsUnderThree(int input, int expected) {
         // given
         CustomMoveStrategy moveStrategy = new CustomMoveStrategy(input);
-        service.createCars(RacingCarNamesRequest.of("car1"));
+        service.createCars(RacingCarNamesDto.of("car1"));
         service.moveCars(moveStrategy);
 
         // when
-        List<RacingCarStatusResponse> carStatuses = service.getCarStatuses();
+        List<RacingCarStatusDto> carStatuses = service.getCarStatuses();
 
         // then
         assertThat(carStatuses.get(0).getPosition()).isEqualTo(expected);
@@ -45,10 +45,10 @@ class RacingCarGameTest {
     @DisplayName("자동차가 생성되어야 한다.")
     void car_create(String input, int expected) {
         // given
-        service.createCars(RacingCarNamesRequest.of(input));
+        service.createCars(RacingCarNamesDto.of(input));
 
         // when
-        List<RacingCarStatusResponse> carStatuses = service.getCarStatuses();
+        List<RacingCarStatusDto> carStatuses = service.getCarStatuses();
 
         // then
         assertThat(carStatuses.size()).isEqualTo(expected);
@@ -58,10 +58,10 @@ class RacingCarGameTest {
     @DisplayName("자동차의 정보가 정상적으로 반환되어야 한다.")
     void car_getStatues() {
         // given
-        service.createCars(RacingCarNamesRequest.of("car1"));
+        service.createCars(RacingCarNamesDto.of("car1"));
 
         // when
-        List<RacingCarStatusResponse> carStatuses = service.getCarStatuses();
+        List<RacingCarStatusDto> carStatuses = service.getCarStatuses();
 
         // then
         assertThat(carStatuses.get(0).getPosition()).isEqualTo(0);
@@ -72,11 +72,11 @@ class RacingCarGameTest {
     @DisplayName("우승자의 이름이 정상적으로 반환되어야 한다.")
     void findWinners() {
         // given
-        service.createCars(RacingCarNamesRequest.of("car1,car2"));
+        service.createCars(RacingCarNamesDto.of("car1,car2"));
         service.moveCars(MOVE_STRATEGY);
 
         // then
-        RacingCarWinnerResponse winners = service.findWinners();
+        RacingCarWinnerDto winners = service.findWinners();
         assertThat(winners.getWinners().size())
                 .isEqualTo(2);
         assertThat(winners.getWinners().get(0))
