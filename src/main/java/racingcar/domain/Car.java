@@ -11,7 +11,7 @@ public class Car {
     }
 
     public void move() {
-        position.moveForward();
+        this.position.moveForward();
     }
 
     public int comparePosition(Car otherCar) {
@@ -23,11 +23,11 @@ public class Car {
     }
 
     public int getPosition() {
-        return position.getPosition();
+        return this.position.getPosition();
     }
 
     public String getCarName() {
-        return carName.getCarName();
+        return this.carName.getCarName();
     }
 }
 

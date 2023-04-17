@@ -22,10 +22,10 @@ public class Position {
     }
 
     public void moveForward() {
-        position++;
+        this.position++;
     }
 
     public int getPosition() {
-        return position;
+        return this.position;
     }
 }

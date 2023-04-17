@@ -16,10 +16,10 @@ public final class RacingGameRequestDto {
     }
 
     public String getNames() {
-        return names;
+        return this.names;
     }
 
     public int getCount() {
-        return count;
+        return this.count;
     }
 }

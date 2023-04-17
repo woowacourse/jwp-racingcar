@@ -10,11 +10,11 @@ public class Coin {
 
     public void use() {
         if (isLeft()) {
-            remaining--;
+            this.remaining--;
         }
     }
 
     public boolean isLeft() {
-        return remaining > 0;
+        return this.remaining > 0;
     }
 }

@@ -1,10 +1,9 @@
 package racingcar.domain;
 
-import racingcar.exception.NoCarsExistException;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.exception.NoCarsExistException;
 
 public class RacingGame {
 
@@ -16,18 +15,18 @@ public class RacingGame {
     private final Coin gameCoin;
 
     public RacingGame(List<String> splitCarNames, int gameTry, NumberGenerator numberGenerator) {
-        cars = splitCarNames.stream()
+        this.cars = splitCarNames.stream()
                 .map(carName -> new Car(carName, DEFAULT_START_LINE))
                 .collect(Collectors.toList());
-        gameCoin = new Coin(gameTry);
+        this.gameCoin = new Coin(gameTry);
         this.numberGenerator = numberGenerator;
     }
 
     public void start() {
-        for (Car car : cars) {
+        for (Car car : this.cars) {
             moveCar(car);
         }
-        gameCoin.use();
+        this.gameCoin.use();
     }
 
     private void moveCar(Car car) {
@@ -42,19 +41,19 @@ public class RacingGame {
     }
 
     public List<Car> getCars() {
-        return Collections.unmodifiableList(cars);
+        return Collections.unmodifiableList(this.cars);
     }
 
     public List<Car> getWinners() {
         Car furthestCar = getFurthestCar();
 
-        return cars.stream()
+        return this.cars.stream()
                 .filter(car -> car.hasSamePositionWith(furthestCar))
                 .collect(Collectors.toList());
     }
 
     private Car getFurthestCar() {
-        return cars.stream()
+        return this.cars.stream()
                 .max(Car::comparePosition)
                 .orElseThrow(NoCarsExistException::new);
     }

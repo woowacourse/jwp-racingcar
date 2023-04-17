@@ -13,10 +13,10 @@ public final class GameResultDto {
     }
 
     public String getWinners() {
-        return winners;
+        return this.winners;
     }
 
     public List<CarDto> getRacingCars() {
-        return racingCars;
+        return this.racingCars;
     }
 }

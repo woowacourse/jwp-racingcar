@@ -1,5 +1,8 @@
 package racingcar.service;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.RacingGameDao;
@@ -9,10 +12,6 @@ import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.RacingGameRequestDto;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public final class RacingGameService {
@@ -64,7 +63,7 @@ public final class RacingGameService {
     }
 
     private void save(final GameResultDto gameResultDto, final int trialCount) {
-        Number gameResultKey = racingGameDao.saveGameResult(gameResultDto.getWinners(), trialCount);
-        racingGameDao.savePlayerResults(gameResultDto.getRacingCars(), gameResultKey);
+        Number gameResultKey = this.racingGameDao.saveGameResult(gameResultDto.getWinners(), trialCount);
+        this.racingGameDao.savePlayerResults(gameResultDto.getRacingCars(), gameResultKey);
     }
 }

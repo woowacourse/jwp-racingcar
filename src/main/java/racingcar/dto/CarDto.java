@@ -11,10 +11,10 @@ public final class CarDto {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public int getPosition() {
-        return position;
+        return this.position;
     }
 }

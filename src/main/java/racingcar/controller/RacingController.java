@@ -22,6 +22,6 @@ public final class RacingController {
     @PostMapping(path = "/plays")
     public GameResultDto playRacingGame(
             @Valid @RequestBody final RacingGameRequestDto racingGameRequestDto) {
-        return racingGameService.playRacingGame(racingGameRequestDto);
+        return this.racingGameService.playRacingGame(racingGameRequestDto);
     }
 }
