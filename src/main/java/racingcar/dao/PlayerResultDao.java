@@ -1,9 +1,10 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.service.PlayerResult;
@@ -11,32 +12,25 @@ import racingcar.service.PlayerResult;
 @Repository
 public class PlayerResultDao {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public PlayerResultDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PlayerResultDao(final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public int insertPlayerResult(final PlayerResult playerResult) {
-        String sql = "INSERT INTO PLAYER_RESULT (play_result_id, name, position) VALUES(?,?,?)";
+        String sql = "INSERT INTO PLAYER_RESULT(play_result_id, name, position) VALUES(:playResultId, :name, :position)";
 
-        return jdbcTemplate.update(con -> {
-            PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setInt(1, playerResult.getPlayResultId());
-            preparedStatement.setString(2, playerResult.getName());
-            preparedStatement.setInt(3, playerResult.getPosition());
-            return preparedStatement;
-        }, new GeneratedKeyHolder());
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(playerResult);
+
+        return namedParameterJdbcTemplate.update(sql, parameterSource, new GeneratedKeyHolder());
     }
 
     public List<PlayerResult> selectPlayerResult(final int playResultId) {
-        String sql = "select * from player_result where PLAY_RESULT_ID = ?";
+        String sql = "select * from player_result where PLAY_RESULT_ID = :playResultId";
+        SqlParameterSource parameterSource = new MapSqlParameterSource("playResultId", playResultId);
 
-        return jdbcTemplate.query(con -> {
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setInt(1, playResultId);
-            return preparedStatement;
-        }, (rs, rowNum) -> {
+        return namedParameterJdbcTemplate.query(sql, parameterSource, (rs, rowNum) -> {
             int findPlayResultId = rs.getInt("play_result_id");
             String name = rs.getString("name");
             int position = rs.getInt("position");
@@ -44,16 +38,4 @@ public class PlayerResultDao {
         });
     }
 
-//    public PlayerResultDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-//        this.insertActor = new SimpleJdbcInsert(dataSource)
-//                .withTableName("PLAYER_RESULT")
-//                .usingGeneratedKeyColumns("id");
-//        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-//    }
-//
-//    public List<PlayerResult> selectPlayerResultByPlayResultId(final int playResultId) {
-//        String sql = "select play_result_id, name, position from player_result where PLAY_RESULT_ID = :play_result_id";
-//        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("play_result_id", playResultId);
-//        return namedParameterJdbcTemplate.query(sql, sqlParameterSource, actorRowMapper);
-//    }
 }

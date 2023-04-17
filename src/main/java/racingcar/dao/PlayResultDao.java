@@ -1,8 +1,9 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
 import java.util.List;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.service.PlayResult;
@@ -10,31 +11,28 @@ import racingcar.service.PlayResult;
 @Repository
 public class PlayResultDao {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public PlayResultDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PlayResultDao(final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public int insertPlayResult(final PlayResult playResult) {
-        String sql = "INSERT INTO PLAY_RESULT (winners, trial_count) VALUES(?,?)";
+        String sql = "INSERT INTO PLAY_RESULT (winners, trial_count) VALUES(:winners, :trialCount)";
 
-        return jdbcTemplate.update(con -> {
-            PreparedStatement preparedStatement = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, playResult.getWinners());
-            preparedStatement.setInt(2, playResult.getTrialCount());
-            return preparedStatement;
-        }, new GeneratedKeyHolder());
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(playResult);
+        return namedParameterJdbcTemplate.update(sql, parameterSource, new GeneratedKeyHolder());
     }
 
     public List<PlayResult> selectAllResults() {
         String sql = "select id, winners, trial_count from play_result order by id desc";
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return namedParameterJdbcTemplate.query(sql, (rs, rowNum) -> {
             int id = rs.getInt("id");
             String winners = rs.getString("winners");
             int trialCount = rs.getInt("trial_count");
             return new PlayResult(id, winners, trialCount);
         });
     }
+
 }
