@@ -32,21 +32,21 @@ public class ConsoleController {
         return new RacingGame(carMoveManager, cars, moveCount);
     }
 
-    private MoveCount createMoveCount() {
-        try{
-            return MoveCount.from(inputView.readMoveCount());
-        }catch(IllegalArgumentException exception){
-            outputView.printExceptionMessage(exception.getMessage());
-            return createMoveCount();
-        }
-    }
-
     private Cars createCars(){
         try{
             return Cars.from(inputView.readCarNames());
         }catch(IllegalArgumentException exception){
             outputView.printExceptionMessage(exception.getMessage());
             return createCars();
+        }
+    }
+
+    private MoveCount createMoveCount() {
+        try{
+            return MoveCount.from(inputView.readMoveCount());
+        }catch(IllegalArgumentException exception){
+            outputView.printExceptionMessage(exception.getMessage());
+            return createMoveCount();
         }
     }
 

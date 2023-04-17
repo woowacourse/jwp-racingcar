@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,15 +23,17 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public GameResultDto play(@RequestBody RequestDto requestDto) {
+    public ResponseEntity<GameResultDto> play(@RequestBody RequestDto requestDto) {
         List<String> names = ValueEditor.splitByComma(requestDto.getNames());
         String count = requestDto.getCount();
-        return gameService.play(new GameInformationDto(names, count));
+        GameResultDto gameResultDto = gameService.play(new GameInformationDto(names, count));
+        return ResponseEntity.ok().body(gameResultDto);
     }
 
     @GetMapping("/plays")
-    public List<GameResultDto> queryHistory() {
-        return gameService.queryHistory();
+    public ResponseEntity<List<GameResultDto>> queryHistory() {
+        List<GameResultDto> gameResultDto = gameService.queryHistory();
+        return ResponseEntity.ok().body(gameResultDto);
     }
 
 }
