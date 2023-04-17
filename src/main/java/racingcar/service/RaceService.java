@@ -33,23 +33,19 @@ public class RaceService {
     public RaceResponse play(final RaceRequest raceRequest) {
         final Race race = new Race(raceRequest.getCount());
         final Cars cars = makeCars(raceRequest);
-        final RaceResponse raceResponse = getRaceResult(race, cars);
+        final RaceResponse raceResponse = makeRaceResponse(race.run(cars));
         final Long raceResultId = raceResultDao.save(raceRequest.getCount(),
             raceRequest.getNames());
         carDao.saveAll(raceResultId, cars.getCars());
         return raceResponse;
     }
 
-    private Cars makeCars(RaceRequest raceRequest) {
+    private Cars makeCars(final RaceRequest raceRequest) {
         final List<Car> cars = raceRequest.getCarNames()
             .stream()
             .map(Car::create)
             .collect(Collectors.toUnmodifiableList());
         return new Cars(cars, numberGenerator);
-    }
-
-    private RaceResponse getRaceResult(final Race race, final Cars cars) {
-        return makeRaceResponse(race.run(cars));
     }
 
     private RaceResponse makeRaceResponse(final Cars cars) {

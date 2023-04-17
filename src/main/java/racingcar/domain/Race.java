@@ -22,7 +22,7 @@ public class Race {
         int tryCount = 0;
         Cars result = cars;
         while (isRunning(tryCount++)) {
-            result = cars.race();
+            result = result.race();
         }
         return result;
     }
