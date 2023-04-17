@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -15,9 +17,11 @@ import org.springframework.stereotype.Repository;
 public class RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public RacingGameDao(JdbcTemplate jdbcTemplate) {
+    public RacingGameDao(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public Long saveGame(int count) {
@@ -64,11 +68,11 @@ public class RacingGameDao {
         return jdbcTemplate.query(findAllGamesOrderByRecentQuery, (rs, rowNum) -> rs.getLong("game_id"));
     }
 
-    public List<CarEntity> findAllCars() {
-        String findGameById = "SELECT * FROM cars";
+    public List<CarEntity> findCarsInGame(List<Long> gameIds) {
+        String findCarsInGame = "SELECT * FROM cars WHERE game_id IN (:gameIds)";
+        MapSqlParameterSource parameters = new MapSqlParameterSource("gameIds", gameIds);
 
-        return jdbcTemplate.query(findGameById, (rs, rowNum) -> {
-
+        return namedParameterJdbcTemplate.query(findCarsInGame, parameters, (rs, rowNum) -> {
             String carName = rs.getString("car_name");
             int step = rs.getInt("step");
             boolean winner = rs.getBoolean("winner");
@@ -76,6 +80,5 @@ public class RacingGameDao {
 
             return CarEntity.of(gameId, carName, step, winner);
         });
-
     }
 }

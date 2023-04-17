@@ -115,7 +115,7 @@ class RacingGameDaoTest {
         );
         racingGameDao.saveCar(carEntities);
 
-        List<CarEntity> findAllCars = racingGameDao.findAllCars();
+        List<CarEntity> findAllCars = racingGameDao.findCarsInGame(List.of(gameId));
         assertThat(findAllCars).hasSize(2);
         assertThat(findAllCars).extracting("carName")
                 .contains("CarA", "CarB");
