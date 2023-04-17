@@ -44,7 +44,7 @@ public class Car {
     }
 
     private void validateHasBlank(final String carName) {
-        if (carName.isBlank()) {
+        if (carName.isBlank() || carName.isEmpty()) {
             throw new HasBlankCarNameException();
         }
     }
