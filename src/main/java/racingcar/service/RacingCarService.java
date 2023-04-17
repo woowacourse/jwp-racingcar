@@ -27,12 +27,7 @@ public class RacingCarService {
 	public GameResultResponseDto startRace (final List<String> carNames, final TryCount tryCount) {
 		Cars cars = Cars.createByNames(carNames);
 		moveCars(cars, tryCount);
-		List<PlayerResult> playerResults = cars.getCars().stream()
-				.map((car -> {
-					return new PlayerResult(car.getCarName(), car.getDistance(),
-							cars.isWinner(car));
-				}))
-				.collect(Collectors.toList());
+		List<PlayerResult> playerResults = toPlayerResults(cars);
 		gameResultDao.saveGame(playerResults, tryCount);
 		return GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
 	}
@@ -41,5 +36,14 @@ public class RacingCarService {
 		for (int i = 0; i < tryCount.getTryCount(); i++) {
 			cars.moveAll(randomPowerGenerator);
 		}
+	}
+
+	private List<PlayerResult> toPlayerResults (Cars cars) {
+		return cars.getCars().stream()
+				.map((car -> {
+					return new PlayerResult(car.getCarName(), car.getDistance(),
+							cars.isWinner(car));
+				}))
+				.collect(Collectors.toList());
 	}
 }
