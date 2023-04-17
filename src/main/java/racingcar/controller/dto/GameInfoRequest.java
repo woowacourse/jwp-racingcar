@@ -1,5 +1,8 @@
 package racingcar.controller.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 public class GameInfoRequest {
 
     private String names;
@@ -13,10 +16,12 @@ public class GameInfoRequest {
         this.count = count;
     }
 
+    @NotBlank
     public String getNames() {
         return names;
     }
 
+    @Min(1)
     public int getCount() {
         return count;
     }
