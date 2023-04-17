@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
-import racingcar.dao.raceresult.entity.RaceResultEntity;
 
 @Repository
 public class RaceResultDao {
@@ -41,15 +40,13 @@ public class RaceResultDao {
         return jdbcTemplate.queryForObject(sql, String.class, playResultId);
     }
 
-    public List<RaceResultEntity> findAllWinners() {
-        String sql = "SELECT * FROM race_result";
+    public List<Integer> findAllPlayResultId() {
+        String sql = "SELECT id FROM race_result";
 
-        return jdbcTemplate.query(sql, raceResultEntityRowMapper());
+        return jdbcTemplate.query(sql, playResultIdsRowMapper());
     }
 
-    private RowMapper<RaceResultEntity> raceResultEntityRowMapper() {
-        return ((rs, rowNum) -> new RaceResultEntity.Builder()
-                .winners(rs.getString("winners"))
-                .build());
+    private RowMapper<Integer> playResultIdsRowMapper() {
+        return (rs, rowNum) -> rs.getInt("id");
     }
 }
