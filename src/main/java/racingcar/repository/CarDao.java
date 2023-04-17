@@ -17,7 +17,7 @@ public class CarDao {
         selectCarDao = new SelectCarDao(jdbcTemplate);
     }
 
-    public List<CarEntity> saveAll(final List<CarEntity> carEntities, final int gameId) {
+    public List<CarEntity> insertAll(final List<CarEntity> carEntities, final int gameId) {
         insertCarDao.saveAll(carEntities, gameId);
         return selectCarDao.findAllByGameId(gameId);
     }

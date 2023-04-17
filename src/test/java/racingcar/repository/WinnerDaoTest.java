@@ -23,21 +23,23 @@ class WinnerDaoTest {
 
     private WinnerDao winnerDao;
     private int gameId;
+    private int carId;
 
     @Autowired
     void setUp(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
         final GameEntity gameEntity = new GameEntity(null, new RacingGame(List.of("브리"), 5));
 
         gameId = RepositoryFactory.gamesDao(dataSource).save(gameEntity).getGameId();
-        RepositoryFactory.insertCarDao(dataSource)
-                .saveAll(List.of(new CarEntity("브리", 9)), gameId);
-
+        carId = RepositoryFactory.carDao(dataSource, jdbcTemplate)
+                .insertAll(List.of(new CarEntity("브리", 9)), gameId)
+                .get(0)
+                .getId();
         winnerDao = RepositoryFactory.winnerDao(dataSource, jdbcTemplate);
     }
 
     @Test
     void 우승자_저장() {
-        final List<WinnerEntity> result = winnerDao.saveAll(List.of(new CarEntity(1, "브리", 9)),
+        final List<WinnerEntity> result = winnerDao.saveAll(List.of(new CarEntity(carId, "브리", 9)),
                 gameId);
 
         assertAll(

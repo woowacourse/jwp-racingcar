@@ -26,7 +26,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     public GameEntity save(final RacingGame racingGame) {
         final GameEntity gameEntity = gamesDao.save(GameEntity.fromDomain(racingGame));
         final List<CarEntity> carEntities = fromCarsToEntity(racingGame.findResult());
-        final List<CarEntity> savedCarEntities = carDao.saveAll(carEntities, gameEntity.getGameId());
+        final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities, gameEntity.getGameId());
         final List<CarEntity> something = findWinnerCarEntities(savedCarEntities, racingGame.findWinner());
 
         winnerDao.saveAll(something, gameEntity.getGameId());
