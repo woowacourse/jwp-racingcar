@@ -23,7 +23,6 @@ public class RacingGameController {
 
     private final RacingCarDao racingCarDao;
 
-    @Autowired
     public RacingGameController(final RacingCarDao racingCarDao) {
         this.racingCarDao = racingCarDao;
     }
