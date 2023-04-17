@@ -1,7 +1,7 @@
 package racingcar;
 
 import racingcar.consolecontroller.ConsoleController;
-import racingcar.domain.ConsoleRacingGameRepository;
+import racingcar.domain.MemoryRacingGameRepository;
 import racingcar.domain.numbergenerator.RandomNumberGenerator;
 import racingcar.service.RacingGameServiceImpl;
 import racingcar.view.InputView;
@@ -13,7 +13,7 @@ public final class ConsoleApplication {
         final var controller = new ConsoleController(
                 new RacingGameServiceImpl(
                         new RandomNumberGenerator(),
-                        new ConsoleRacingGameRepository()
+                        new MemoryRacingGameRepository()
                 ),
                 new InputView(),
                 new OutputView()
