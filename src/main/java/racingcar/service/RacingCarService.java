@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.dao.entity.CarEntity;
@@ -33,8 +34,8 @@ public class RacingCarService {
     public ResultDTO play(final List<String> names, final int count) {
         final GameSystem gameSystem = new GameSystem(count, new GameRecorder(new ArrayList<>()));
         final Long gameId = gameDao.insert(GameEntity.create(count));
-
         final Cars cars = makeCars(names);
+
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
         insertCar(cars, gameId, gameSystem);
 

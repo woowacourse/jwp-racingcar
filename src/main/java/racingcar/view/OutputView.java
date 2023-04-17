@@ -1,12 +1,8 @@
 package racingcar.view;
 
-import racingcar.domain.game.GameResultOfCar;
 import racingcar.dto.CarDTO;
-import racingcar.dto.RacingGameResponseDTO;
+import racingcar.response.RacingGameResponse;
 import racingcar.view.message.Message;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class OutputView {
 
@@ -21,10 +17,10 @@ public class OutputView {
         System.out.println(Message.GAME_ROUND_INPUT_GUIDE.getMessage());
     }
 
-    public void printResult(final RacingGameResponseDTO racingGameResponseDTO) {
-        System.out.println(Message.WINNER.getMessage() + racingGameResponseDTO.getWinners() + ENTER_LINE);
+    public void printResult(final RacingGameResponse racingGameResponse) {
+        System.out.println(Message.WINNER.getMessage() + racingGameResponse.getWinners() + ENTER_LINE);
         System.out.println(Message.GAME_RESULT_GUIDE.getMessage());
-        for (CarDTO carDTO : racingGameResponseDTO.getRacingCarDTOs()) {
+        for (CarDTO carDTO : racingGameResponse.getRacingCarDTOs()) {
             System.out.println("이름: " + carDTO.getName());
             System.out.println("최종 결과: " + carDTO.getPosition());
         }
