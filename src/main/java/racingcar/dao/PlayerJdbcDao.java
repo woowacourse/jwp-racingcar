@@ -6,31 +6,32 @@ import java.util.List;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import racingcar.domain.Car;
+import racingcar.entity.Player;
 
 @Component
-public class CarJdbcDao implements CarDao {
+public class PlayerJdbcDao implements PlayerDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public CarJdbcDao(final JdbcTemplate jdbcTemplate) {
+    public PlayerJdbcDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-    public void saveAll(final int gameId, final List<Car> cars) {
-        final String sql = "INSERT INTO car(name, position, game_id) VALUES (?, ?, ?)";
+    
+    public void saveAll(final List<Player> players) {
+        final String sql = "INSERT INTO player(name, position, winner, game_id) VALUES (?, ?, ?, ?)";
         final BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
 
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                final Car car = cars.get(i);
-                ps.setString(1, car.getName());
-                ps.setInt(2, car.getPosition());
-                ps.setInt(3, gameId);
+                final Player player = players.get(i);
+                ps.setString(1, player.getName());
+                ps.setInt(2, player.getPosition());
+                ps.setBoolean(3, player.isWinner());
+                ps.setInt(4, player.getGameId());
             }
 
             @Override
             public int getBatchSize() {
-                return cars.size();
+                return players.size();
             }
         };
         jdbcTemplate.batchUpdate(sql, batchPreparedStatementSetter);

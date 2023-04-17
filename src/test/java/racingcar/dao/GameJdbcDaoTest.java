@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.entity.Game;
 
 @JdbcTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -28,11 +29,10 @@ public class GameJdbcDaoTest {
     @Test
     void 게임을_저장한다() {
         // given
-        final int trialCount = 5;
-        final String winners = "비버";
+        final Game game = new Game(5);
 
         // when
-        final int id = gameDao.save(trialCount, winners);
+        final int id = gameDao.saveAndGetId(game);
 
         // then
         assertThat(id).isPositive();

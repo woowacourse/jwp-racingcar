@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.PlayerDao;
 import racingcar.domain.NumberGenerator;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
@@ -23,7 +23,7 @@ class RacingGameServiceTest {
     void 자동차_경주를_진행한다() {
         // given
         final GameDao gameDao = Mockito.mock(GameDao.class);
-        final CarDao carDao = Mockito.mock(CarDao.class);
+        final PlayerDao carDao = Mockito.mock(PlayerDao.class);
         final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 3));
         final RacingGameService racingGameService = new RacingGameService(numberGenerator, gameDao, carDao);
         final GameRequest gameRequest = new GameRequest("브리,비버,허브", 1);
