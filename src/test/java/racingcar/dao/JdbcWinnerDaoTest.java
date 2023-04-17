@@ -37,7 +37,10 @@ class JdbcWinnerDaoTest {
     @DisplayName("승자를 저장한다")
     void insertWinner() {
         long gameId = jdbcGameDao.saveGame(new Game(1));
-        jdbcWinnerDao.insertWinner("폴로, 이리내", gameId);
+        jdbcWinnerDao.insertWinner(List.of(
+                new Winner(gameId, "폴로"),
+                new Winner(gameId, "이리내")
+        ));
 
         List<Winner> result = jdbcWinnerDao.findAllWinner();
 

@@ -1,6 +1,7 @@
 package racingcar.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -76,7 +77,11 @@ public class GameService {
                 .map(carDto -> new Car(gameId, carDto.getName(), carDto.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
         carDao.insertCar(cars);
-        winnerDao.insertWinner(resultDto.getWinners(), gameId);
+        String winnerNames = resultDto.getWinners();
+        List<Winner> winners = Arrays.stream(winnerNames.split(", "))
+                .map(winner -> new Winner(gameId, winner))
+                .collect(Collectors.toUnmodifiableList());
+        winnerDao.insertWinner(winners);
     }
 
     List<CarDto> getResult(Cars cars) {

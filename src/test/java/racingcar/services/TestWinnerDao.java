@@ -7,7 +7,7 @@ import racingcar.dao.winner.WinnerDao;
 
 public class TestWinnerDao implements WinnerDao {
     @Override
-    public void insertWinner(String winners, long gameId) {
+    public void insertWinner(List<Winner> winners) {
 
     }
 

@@ -1,6 +1,5 @@
 package racingcar.dao.winner;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,18 +23,17 @@ public class JdbcWinnerDao implements WinnerDao {
     }
 
     @Override
-    public void insertWinner(String winners, long gameId) {
+    public void insertWinner(List<Winner> winners) {
         String sql = "INSERT INTO winner (g_id,winner) VALUES (?,?)";
-        String[] winnerNames = winners.split(", ");
-        jdbcTemplate.batchUpdate(sql, getWinnerNames(gameId, winnerNames));
+        jdbcTemplate.batchUpdate(sql, getWinnerNames(winners));
     }
 
-    private List<Object[]> getWinnerNames(long gameId, String[] winners) {
-        return Arrays.stream(winners)
+    private List<Object[]> getWinnerNames(List<Winner> winners) {
+        return winners.stream()
                 .map(winner -> {
                     Object[] winnerName = new Object[2];
-                    winnerName[0] = gameId;
-                    winnerName[1] = winner;
+                    winnerName[0] = winner.getGameId();
+                    winnerName[1] = winner.getWinner();
                     return winnerName;
                 })
                 .collect(Collectors.toUnmodifiableList());
