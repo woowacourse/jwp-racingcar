@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.NumberGenerator;
@@ -28,6 +29,7 @@ public class RacingGameService {
         this.playerDao = playerDao;
     }
 
+    @Transactional
     public GameResponse play(final GameRequest gameRequest) {
         final RacingGame racingGame = playRacingGame(gameRequest);
 
