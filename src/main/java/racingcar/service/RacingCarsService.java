@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.entity.GameEntity;
 import racingcar.domain.Car;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.RacingGame;
@@ -28,10 +27,9 @@ public class RacingCarsService {
         final RacingGame racingGame = new RacingGame(carsName, count);
         racingGame.race(numberPicker);
 
-        final GameEntity gameEntity = racingGameRepository.save(racingGame);
-        final RacingGame saved = gameEntity.getRacingGame();
+        final int gameId = racingGameRepository.save(racingGame);
 
-        return new RaceDto(gameEntity.getGameId(), toDto(saved.findResult()), toDto(saved.findWinner()));
+        return new RaceDto(gameId, toDto(racingGame.findResult()), toDto(racingGame.findWinner()));
     }
 
     private List<CarPositionDto> toDto(final List<Car> cars) {

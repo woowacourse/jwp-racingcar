@@ -1,13 +1,18 @@
 package racingcar.service;
 
-import racingcar.dao.entity.GameEntity;
+import java.util.HashMap;
+import java.util.Map;
 import racingcar.domain.RacingGame;
 import racingcar.repository.RacingGameRepository;
 
 public class StubRacingGameRepository implements RacingGameRepository {
 
+    private final Map<Integer, RacingGame> gameIdToRacingGame = new HashMap<>();
+    private int currentId = 0;
+
     @Override
-    public GameEntity save(final RacingGame racingGame) {
-        return new GameEntity(1, racingGame);
+    public int save(final RacingGame racingGame) {
+        gameIdToRacingGame.put(++currentId, racingGame);
+        return currentId;
     }
 }
