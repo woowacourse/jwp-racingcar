@@ -70,19 +70,19 @@ public class WebRacingCarService implements RacingCarService {
     }
 
     private RacingResultResponse createRacingResultResponse(RacingGame racingGame) {
-        List<RacingCarResponse> racingCars = getRacingCarResponses(racingGame);
+        List<RacingCarResponse> racingCarResponses = getRacingCarResponses(racingGame);
         String winners = getWinners(racingGame);
 
-        return new RacingResultResponse(racingCars, winners);
+        return new RacingResultResponse(racingCarResponses, winners);
     }
 
     private List<RacingCarResponse> getRacingCarResponses(RacingGame racingGame) {
-        List<RacingCarResponse> racingCars = new ArrayList<>();
+        List<RacingCarResponse> racingCarResponses = new ArrayList<>();
 
         for (Car car : racingGame.getCars()) {
-            racingCars.add(new RacingCarResponse(car.getName(), car.getPosition()));
+            racingCarResponses.add(RacingCarResponse.from(car));
         }
-        return racingCars;
+        return racingCarResponses;
     }
 
     private String getWinners(RacingGame racingGame) {
