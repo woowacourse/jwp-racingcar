@@ -8,7 +8,8 @@ public class PositionInvalidException extends RuntimeException {
         super(MESSAGE);
     }
 
-    public String getKoreanMessage() {
+    @Override
+    public String getMessage() {
         return MESSAGE;
     }
 }
