@@ -1,7 +1,6 @@
 package racingcar.service;
 
 import java.util.List;
-import racingcar.dao.entity.InsertGameEntity;
 import racingcar.domain.Car;
 import racingcar.domain.Count;
 import racingcar.domain.RacingGameResult;
@@ -10,8 +9,8 @@ import racingcar.repository.RacingGameRepository;
 public class StubRacingGameRepository implements RacingGameRepository {
 
     @Override
-    public InsertGameEntity save(final RacingGameResult racingGameResult) {
-        return new InsertGameEntity(1, racingGameResult);
+    public RacingGameResult save(final RacingGameResult racingGameResult) {
+        return racingGameResult;
     }
 
     @Override

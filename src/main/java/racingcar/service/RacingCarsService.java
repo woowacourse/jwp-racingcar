@@ -11,7 +11,6 @@ import racingcar.domain.RacingGame;
 import racingcar.domain.RacingGameResult;
 import racingcar.dto.CarPositionDto;
 import racingcar.repository.RacingGameRepository;
-import racingcar.dao.entity.InsertGameEntity;
 
 @Service
 public class RacingCarsService {
@@ -32,10 +31,9 @@ public class RacingCarsService {
 
         final RacingGameResult racingGameResult = racingGame.findResult();
 
-        final InsertGameEntity insertGameEntity = racingGameRepository.save(racingGameResult);
-        final RacingGameResult saved = insertGameEntity.getRacingGameResult();
+        final RacingGameResult savedRacingGameResult = racingGameRepository.save(racingGameResult);
 
-        return new RaceDto(insertGameEntity.getGameId(), toDto(saved.getTotalCars()), toDto(saved.getWinners()));
+        return new RaceDto(toDto(savedRacingGameResult.getTotalCars()), toDto(savedRacingGameResult.getWinners()));
     }
 
     private List<CarPositionDto> toDto(final List<Car> cars) {

@@ -30,7 +30,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     }
 
     @Override
-    public InsertGameEntity save(final RacingGameResult racingGameResult) {
+    public RacingGameResult save(final RacingGameResult racingGameResult) {
         final InsertGameEntity insertGameEntity = gamesDao.insert(InsertGameEntity.fromDomain(racingGameResult));
         final List<CarEntity> carEntities = fromCarsToEntity(racingGameResult.getTotalCars());
         final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities, insertGameEntity.getGameId());
@@ -38,7 +38,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
                 racingGameResult.getWinners());
 
         winnerDao.saveAll(winnerCarEntities, insertGameEntity.getGameId());
-        return insertGameEntity;
+        return insertGameEntity.getRacingGameResult();
     }
 
     private List<CarEntity> fromCarsToEntity(final List<Car> cars) {
