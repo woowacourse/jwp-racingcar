@@ -8,7 +8,7 @@ import racingcar.dao.GameResultDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
-import racingcar.entity.GameResult;
+import racingcar.entity.PlayerResult;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.utils.RandomPowerMaker;
 
@@ -27,13 +27,13 @@ public class RacingCarService {
 	public GameResultResponseDto startRace (final List<String> carNames, final TryCount tryCount) {
 		Cars cars = Cars.createByNames(carNames);
 		moveCars(cars, tryCount);
-		List<GameResult> gameResults = cars.getCars().stream()
+		List<PlayerResult> playerResults = cars.getCars().stream()
 				.map((car -> {
-					return new GameResult(car.getCarName(), car.getDistance(),
+					return new PlayerResult(car.getCarName(), car.getDistance(),
 							cars.isWinner(car));
 				}))
 				.collect(Collectors.toList());
-		gameResultDao.saveGame(gameResults, tryCount);
+		gameResultDao.saveGame(playerResults, tryCount);
 		return GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
 	}
 

@@ -6,7 +6,7 @@ CREATE TABLE game
     PRIMARY KEY (id)
 );
 
-CREATE TABLE player
+CREATE TABLE player_result
 (
     id       INT         NOT NULL AUTO_INCREMENT,
     game_id  INT         NOT NULL,

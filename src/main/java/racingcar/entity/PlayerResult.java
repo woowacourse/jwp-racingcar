@@ -1,13 +1,13 @@
 package racingcar.entity;
 
 
-public final class GameResult {
+public final class PlayerResult {
 
 	private String name;
 	private int position;
 	private boolean isWinner;
 
-	public GameResult (final String name, final int position, final boolean isWinner) {
+	public PlayerResult (final String name, final int position, final boolean isWinner) {
 		this.name = name;
 		this.position = position;
 		this.isWinner = isWinner;

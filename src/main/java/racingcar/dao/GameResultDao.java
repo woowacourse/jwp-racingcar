@@ -11,7 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.TryCount;
-import racingcar.entity.GameResult;
+import racingcar.entity.PlayerResult;
 
 @Repository
 public class GameResultDao {
@@ -22,9 +22,9 @@ public class GameResultDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public void saveGame (final List<GameResult> gameResults, final TryCount tryCount) {
+	public void saveGame (final List<PlayerResult> playerResults, final TryCount tryCount) {
 		int gameId = saveGameHistory(tryCount);
-		savePlayersStatus(gameResults, gameId);
+		savePlayersStatus(playerResults, gameId);
 	}
 
 	public int saveGameHistory (final TryCount tryCount) {
@@ -41,10 +41,10 @@ public class GameResultDao {
 		return Objects.requireNonNull(keyHolder.getKey()).intValue();
 	}
 
-	private void savePlayersStatus (final List<GameResult> gameResults, final int gameId) {
-		String sql = "INSERT INTO player (game_id, name, position, is_winner) VALUES (?, ?, ?, ?)";
+	private void savePlayersStatus (final List<PlayerResult> playerResults, final int gameId) {
+		String sql = "INSERT INTO player_result (game_id, name, position, is_winner) VALUES (?, ?, ?, ?)";
 
-		gameResults.forEach(racingCar -> {
+		playerResults.forEach(racingCar -> {
 					jdbcTemplate.update(sql,
 							gameId,
 							racingCar.getName(),
