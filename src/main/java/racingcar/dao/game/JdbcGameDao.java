@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import racingcar.dao.entity.Game;
+
 @Repository
 public class JdbcGameDao implements GameDao {
     private final SimpleJdbcInsert insertActor;
@@ -24,9 +26,9 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public long saveGame(int trialCount) {
+    public long saveGame(Game game) {
         Map<String, Object> map = new HashMap<>();
-        map.put("trialCount", trialCount);
+        map.put("trialCount", game.getTrialCount());
         return insertActor.executeAndReturnKey(map).longValue();
     }
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import racingcar.dao.entity.Game;
 import racingcar.dao.game.JdbcGameDao;
 
 @JdbcTest
@@ -29,7 +30,7 @@ class JdbcGameDaoTest {
     @Test
     @DisplayName("game table에 trialCount를 저장한다.")
     void saveGame() {
-        long gameId = jdbcGameDao.saveGame(10);
+        long gameId = jdbcGameDao.saveGame(new Game(10));
         String sql = "SELECT trialCount FROM game WHERE id = ?";
 
         Integer trialCount = jdbcTemplate.queryForObject(sql, Integer.class, gameId);

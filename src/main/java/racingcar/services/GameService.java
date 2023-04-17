@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import racingcar.dao.car.CarDao;
 import racingcar.dao.entity.Car;
+import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Winner;
 import racingcar.dao.game.GameDao;
 import racingcar.dao.winner.WinnerDao;
@@ -69,7 +70,7 @@ public class GameService {
 
     void saveResult(String countInput, ResultDto resultDto) {
         int moveCount = Integer.parseInt(countInput);
-        long gameId = gameDao.saveGame(moveCount);
+        long gameId = gameDao.saveGame(new Game(moveCount));
         carDao.insertCar(resultDto.getRacingCars(), gameId);
         winnerDao.insertWinner(resultDto.getWinners(), gameId);
     }

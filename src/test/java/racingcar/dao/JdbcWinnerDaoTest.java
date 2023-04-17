@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Winner;
 import racingcar.dao.game.JdbcGameDao;
 import racingcar.dao.winner.JdbcWinnerDao;
@@ -35,7 +36,7 @@ class JdbcWinnerDaoTest {
     @Test
     @DisplayName("승자를 저장한다")
     void insertWinner() {
-        long gameId = jdbcGameDao.saveGame(1);
+        long gameId = jdbcGameDao.saveGame(new Game(1));
         jdbcWinnerDao.insertWinner("폴로, 이리내", gameId);
 
         List<Winner> result = jdbcWinnerDao.findAllWinner();

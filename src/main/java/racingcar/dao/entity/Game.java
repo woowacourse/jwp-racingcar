@@ -7,6 +7,12 @@ public class Game {
     private final int trialCount;
     private final LocalDateTime date;
 
+    public Game(Long id, int trialCount) {
+        this.id = id;
+        this.trialCount = trialCount;
+        this.date = null;
+    }
+
     public Game(int trialCount) {
         this.id = null;
         this.trialCount = trialCount;

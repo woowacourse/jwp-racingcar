@@ -2,11 +2,12 @@ package racingcar.services;
 
 import java.util.List;
 
+import racingcar.dao.entity.Game;
 import racingcar.dao.game.GameDao;
 
 public class TestGameDao implements GameDao {
     @Override
-    public long saveGame(int trialCount) {
+    public long saveGame(Game game) {
         return 1;
     }
 

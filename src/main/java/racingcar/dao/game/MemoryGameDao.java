@@ -1,23 +1,27 @@
 package racingcar.dao.game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
+
+import racingcar.dao.entity.Game;
 
 public class MemoryGameDao implements GameDao {
     private long serial = 0L;
-    private final Map<Long, Integer> gameTable = new HashMap<>();
+    private final List<Game> gameTable = new ArrayList<>();
 
     @Override
-    public long saveGame(int trialCount) {
+    public long saveGame(Game game) {
         serial += 1;
-        gameTable.put(serial, trialCount);
+        Game newGame = new Game(serial, game.getTrialCount());
+        gameTable.add(newGame);
         return serial;
     }
 
     @Override
     public List<Long> getGameIds() {
-        return new ArrayList<>(gameTable.keySet());
+        return gameTable.stream()
+                .map(Game::getId)
+                .collect(Collectors.toUnmodifiableList());
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import racingcar.dao.car.JdbcCarDao;
 import racingcar.dao.entity.Car;
+import racingcar.dao.entity.Game;
 import racingcar.dao.game.JdbcGameDao;
 import racingcar.dto.CarDto;
 
@@ -41,7 +42,7 @@ class JdbcCarDaoTest {
                 new CarDto("폴로", 1),
                 new CarDto("이리내", 2)
         );
-        long gameId = jdbcGameDao.saveGame(1);
+        long gameId = jdbcGameDao.saveGame(new Game(1));
         jdbcCarDao.insertCar(carDtos, gameId);
 
         List<Car> carsInfoByGameId = jdbcCarDao.findAllCars();
