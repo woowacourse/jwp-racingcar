@@ -2,34 +2,38 @@ package racingcar.domain;
 
 import java.util.Objects;
 
-public class Position {
-
+public final class Position {
+    public static final Position ZERO = new Position(0);
     private static final int MOVEMENT = 1;
 
-    private final int position;
+    private final int value;
 
-    public Position(int position) {
-        this.position = position;
+    public Position(final int value) {
+        this.value = value;
     }
 
-    public Position increase() {
-        return new Position(this.position + MOVEMENT);
+    public Position move() {
+        return new Position(this.value + MOVEMENT);
     }
 
-    public int getPosition() {
-        return position;
+    public int getValue() {
+        return value;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Position position1 = (Position) o;
-        return getPosition() == position1.getPosition();
+        return getValue() == position1.getValue();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPosition());
+        return Objects.hash(getValue());
     }
 }
