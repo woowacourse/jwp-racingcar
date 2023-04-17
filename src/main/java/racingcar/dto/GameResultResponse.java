@@ -14,14 +14,14 @@ public class GameResultResponse {
         this.racingCars = racingCars;
     }
 
-    public static GameResultResponseDto createGameResultResponseDto(List<Car> winners, List<Car> racingCars) {
+    public static GameResultResponse from(List<Car> winners, List<Car> racingCars) {
         String winnersToDto = winners.stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(","));
         List<CarDto> racingCarsToDto = racingCars.stream()
-                .map(CarDto::createCarDto)
+                .map(CarDto::of)
                 .collect(Collectors.toList());
-        return new GameResultResponseDto(winnersToDto, racingCarsToDto);
+        return new GameResultResponse(winnersToDto, racingCarsToDto);
     }
 
     public String getWinners() {

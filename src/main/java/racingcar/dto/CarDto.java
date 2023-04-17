@@ -12,7 +12,7 @@ public class CarDto {
         this.position = position;
     }
 
-    public static CarDto createCarDto(Car car){
+    public static CarDto of(Car car){
         return new CarDto(car.getName(), car.getPosition());
     }
 
