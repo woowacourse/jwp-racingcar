@@ -31,6 +31,9 @@ public class WebController {
     @GetMapping("/plays")
     public ResponseEntity<List<ResultDto>> getResults() {
         List<ResultDto> allResults = gameService.getAllResults();
+        if (allResults.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok().body(allResults);
     }
 
