@@ -6,16 +6,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameInitializeDto;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 @Controller
 public class RacingCarController {
     private final RacingCarService racingCarService;
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
 
     public RacingCarController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
@@ -24,17 +29,41 @@ public class RacingCarController {
     @PostMapping(path = "/plays")
     @ResponseBody
     public RacingCarGameResultDto run(@RequestBody GameInitializeDto gameInitializeDto) {
-        Cars cars = new Cars(gameInitializeDto.getNames());
-        TryCount tryCount = new TryCount(gameInitializeDto.getCount());
+        Cars cars = makeCars(gameInitializeDto);
+        TryCount tryCount = makeTryCount(gameInitializeDto);
+        outputView.printResultMessage();
         playRound(cars, tryCount);
+        outputView.printWinners(cars.getWinner());
         racingCarService.saveGameResult(cars, tryCount);
         return new RacingCarGameResultDto(String.join(",", cars.getWinner()), makeCarDtos(cars));
     }
 
+    private Cars makeCars(GameInitializeDto gameInitializeDto) {
+        try {
+            outputView.printNameInput();
+            return new Cars(gameInitializeDto.getNames());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return makeCars(gameInitializeDto);
+        }
+    }
+
+    private TryCount makeTryCount(GameInitializeDto gameInitializeDto) {
+        try {
+            outputView.printCountInput();
+            return new TryCount(gameInitializeDto.getCount());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return makeTryCount(gameInitializeDto);
+        }
+    }
+
     private void playRound(Cars cars, TryCount tryCount) {
         for (int i = 0; i < tryCount.getValue(); i++) {
-            cars.runRound();
+            List<Car> roundResult = cars.runRound();
+            outputView.printRoundResult(roundResult);
         }
+        outputView.printRoundResult(cars.getCars());
     }
 
     private List<RacingCarDto> makeCarDtos(Cars cars) {
