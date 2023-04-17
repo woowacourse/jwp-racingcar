@@ -33,6 +33,12 @@
         - position
 - [x] 기존 기능 수정 - 출력 방식 수정
 - [x] 리팩터링 - 중복 코드 제거
+  - PlayerDao
+    - PlayerInMemoryDao
+    - PlayerJdbcDao
+  - PlayResultDao
+    - PlayResultInMemoryDao
+    - PlayResultJdbcDao
 
 ## 추가 기능
 
