@@ -42,7 +42,7 @@ public class RacingGameController {
     private void play(final RacingGame racingGame) {
         outputView.printResultMessage();
         racingGame.play();
-        List<Car> cars = racingGame.findCurrentCarPositions();
+        List<Car> cars = racingGame.getCars();
         outputView.printCurrentCarPositions(cars);
     }
 

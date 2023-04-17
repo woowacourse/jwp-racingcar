@@ -27,12 +27,12 @@ class RacingGameTest {
     }
 
     @Test
-    @DisplayName("findCurrentCarPositions 메서드는 현재 경주에 참가하는 자동차들의 이름과 위치를 반환한다.")
+    @DisplayName("getCars 메서드는 현재 경주에 참가하는 자동차들의 이름과 위치를 반환한다.")
     void should_returnCarList_when_findCurrentCarPositions() {
         RacingGame racingGame = generateRacingGame(1);
         racingGame.play();
 
-        List<Car> result = racingGame.findCurrentCarPositions();
+        List<Car> result = racingGame.getCars();
 
         assertThat(result)
                 .extracting(Car::getPosition)
