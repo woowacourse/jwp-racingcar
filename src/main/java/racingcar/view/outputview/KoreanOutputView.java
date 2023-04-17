@@ -14,14 +14,22 @@ public class KoreanOutputView extends OutputView {
     private static final String CAR_SEPARATOR = ", ";
     private static final String LINE_BREAK = "\n";
 
-    private static final String NOT_EXIST_CARS_ERROR_MESSAGE = "[ERROR] 게임에 참여한 자동차가 없습니다.";
-    private static final String DUPLICATE_CAR_NAMES_ERROR_MESSAGE = "[ERROR] 중복된 차 이름이 존재합니다.";
-    private static final String EXCEED_CAR_NAME_LENGTH_ERROR_MESSAGE = "[ERROR] 자동차 이름은 다섯 글자 이하여야 합니다.";
-    private static final String HAS_BLANK_CAR_NAME_ERROR_MESSAGE = "[ERROR] 비어있는 자동차 이름이 존재합니다.";
-    private static final String INVALID_CAR_NAME_FORMAT_ERROR_MESSAGE = "[ERROR] 자동차 이름은 문자와 숫자만 가능합니다.";
-    private static final String INVALID_RANGE_TRIAL_TIMES_ERROR_MESSAGE = "[ERROR] 시도 횟수는 1 이상 100 이하여야 합니다.";
-    private static final String INVALID_TRIAL_TIMES_FORMAT_ERROR_MESSAGE = "[ERROR] 시도 횟수는 숫자만 입력 가능합니다.";
-    private static final String MAX_ATTEMPT_INPUT_ERROR_MESSAGE = "[ERROR] 최대 입력 횟수를 초과했습니다. 프로그램을 종료합니다.";
+    private static final String NOT_EXIST_CARS_ERROR_MESSAGE
+            = "[ERROR] 게임에 참여한 자동차가 없습니다." + LINE_BREAK;
+    private static final String DUPLICATE_CAR_NAMES_ERROR_MESSAGE
+            = "[ERROR] 중복된 차 이름이 존재합니다." + LINE_BREAK;
+    private static final String EXCEED_CAR_NAME_LENGTH_ERROR_MESSAGE
+            = "[ERROR] 자동차 이름은 다섯 글자 이하여야 합니다." + LINE_BREAK;
+    private static final String HAS_BLANK_CAR_NAME_ERROR_MESSAGE
+            = "[ERROR] 비어있는 자동차 이름이 존재합니다." + LINE_BREAK;
+    private static final String INVALID_CAR_NAME_FORMAT_ERROR_MESSAGE
+            = "[ERROR] 자동차 이름은 문자와 숫자만 가능합니다." + LINE_BREAK;
+    private static final String INVALID_RANGE_TRIAL_TIMES_ERROR_MESSAGE
+            = "[ERROR] 시도 횟수는 1 이상 100 이하여야 합니다." + LINE_BREAK;
+    private static final String INVALID_TRIAL_TIMES_FORMAT_ERROR_MESSAGE
+            = "[ERROR] 시도 횟수는 숫자만 입력 가능합니다." + LINE_BREAK;
+    private static final String MAX_ATTEMPT_INPUT_ERROR_MESSAGE
+            = "[ERROR] 최대 입력 횟수를 초과했습니다. 프로그램을 종료합니다.";
 
     @Override
     void initialInputErrorMessage() {
