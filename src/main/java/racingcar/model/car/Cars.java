@@ -23,10 +23,6 @@ public class Cars {
                 .collect(Collectors.toList());
     }
 
-    public Cars(final List<Car> cars) {
-        this.cars = cars;
-    }
-
     private void validate(final String carNames) {
         String[] splitCarNames = carNames.split(SEPARATOR);
 
