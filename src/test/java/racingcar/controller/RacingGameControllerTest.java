@@ -49,7 +49,7 @@ class RacingGameControllerTest {
                 .body(racingCarRequestDto)
                 .when().post("/plays")
                 .then().log().all()
-                .body("winners", anyOf(contains("a"), contains("b"), contains("c")))
+                .body("winners", anyOf(hasItem("a"), hasItem("b"), hasItem("c")))
                 .body("racingCars", hasSize(3))
                 .statusCode(HttpStatus.OK.value());
     }
