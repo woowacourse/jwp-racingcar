@@ -69,7 +69,7 @@ class GameServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .message()
                 .containsAnyOf(
-                        "1회 이상 이동해야 합니다.", "숫자만 입력가능 합니다."
+                        "1회 이상 이동해야 합니다.", "정수만 입력가능 합니다."
                 );
     }
 

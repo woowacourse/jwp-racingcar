@@ -7,11 +7,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import racingcar.dao.entity.Car;
 import racingcar.dto.CarDto;
 
 @Repository
 public class JdbcCarDao implements CarDao {
-    private final RowMapper<CarDto> carDtoRowMapper = (resultSet, index) -> new CarDto(
+    private static final RowMapper<Car> CAR_ROW_MAPPER = (resultSet, index) -> new Car(
+            resultSet.getLong("g_id"),
             resultSet.getString("name"),
             resultSet.getInt("position")
     );
@@ -41,8 +43,8 @@ public class JdbcCarDao implements CarDao {
     }
 
     @Override
-    public List<CarDto> findCarsInfoByGameId(Long gameId) {
-        String sql = "SELECT name, position FROM car WHERE g_id = ?";
-        return jdbcTemplate.query(sql, carDtoRowMapper, gameId);
+    public List<Car> findAllCars() {
+        String sql = "SELECT g_id, name, position FROM car";
+        return jdbcTemplate.query(sql, CAR_ROW_MAPPER);
     }
 }

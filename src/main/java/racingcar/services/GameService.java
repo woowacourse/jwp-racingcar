@@ -2,11 +2,14 @@ package racingcar.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import racingcar.dao.car.CarDao;
+import racingcar.dao.entity.Car;
+import racingcar.dao.entity.Winner;
 import racingcar.dao.game.GameDao;
 import racingcar.dao.winner.WinnerDao;
 import racingcar.dto.CarDto;
@@ -85,10 +88,20 @@ public class GameService {
     public List<ResultDto> getAllResults() {
         List<ResultDto> resultDtos = new ArrayList<>();
         List<Long> gameIds = gameDao.getGameIds();
+        List<Car> allCars = carDao.findAllCars();
+        List<Winner> allWinner = winnerDao.findAllWinner();
+        Map<Long, List<Car>> carsGroupByGameId = allCars.stream()
+                .collect(Collectors.groupingBy(Car::getGameId));
+        Map<Long, List<Winner>> winnersGroupByGameId = allWinner.stream()
+                .collect(Collectors.groupingBy(Winner::getGameId));
         for (Long gameId : gameIds) {
-            List<CarDto> carDtos = carDao.findCarsInfoByGameId(gameId);
-            List<String> winners = winnerDao.findWinnersByGameId(gameId);
-            resultDtos.add(new ResultDto(ValueEditor.joinWithComma(winners), carDtos));
+            List<Winner> winners = winnersGroupByGameId.get(gameId);
+            String winnersName = ValueEditor.joinWithComma(winners.stream().map(Winner::getWinner).collect(Collectors.toList()));
+            List<Car> cars = carsGroupByGameId.get(gameId);
+            List<CarDto> carDtos = cars.stream()
+                    .map(car -> new CarDto(car.getName(), car.getPosition()))
+                    .collect(Collectors.toList());
+            resultDtos.add(new ResultDto(winnersName, carDtos));
         }
         return resultDtos;
     }

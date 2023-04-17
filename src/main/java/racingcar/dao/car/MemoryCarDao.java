@@ -1,21 +1,23 @@
 package racingcar.dao.car;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import racingcar.dao.entity.Car;
 import racingcar.dto.CarDto;
 
 public class MemoryCarDao implements CarDao{
-    private final Map<Long, List<CarDto>> carTable = new HashMap<>();
+    private final List<Car> carTable = new ArrayList<>();
 
     @Override
     public void insertCar(List<CarDto> carDtos, long gameId) {
-        carTable.put(gameId, carDtos);
+        for (CarDto carDto : carDtos) {
+            carTable.add(new Car(gameId, carDto.getName(), carDto.getPosition()));
+        }
     }
 
     @Override
-    public List<CarDto> findCarsInfoByGameId(Long gameId) {
-        return carTable.get(gameId);
+    public List<Car> findAllCars() {
+        return List.copyOf(carTable);
     }
 }

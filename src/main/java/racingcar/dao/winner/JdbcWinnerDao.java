@@ -5,10 +5,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import racingcar.dao.entity.Winner;
 
 @Repository
 public class JdbcWinnerDao implements WinnerDao {
+    private static final RowMapper<Winner> WINNER_ROW_MAPPER = (resultSet, row) -> {
+        long gameId = resultSet.getLong("g_id");
+        String winner = resultSet.getString("winner");
+        return new Winner(gameId, winner);
+    };
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcWinnerDao(JdbcTemplate jdbcTemplate) {
@@ -34,8 +42,8 @@ public class JdbcWinnerDao implements WinnerDao {
     }
 
     @Override
-    public List<String> findWinnersByGameId(Long gameId) {
-        String sql = "SELECT winner FROM winner WHERE g_id = ?";
-        return jdbcTemplate.queryForList(sql, String.class, gameId);
+    public List<Winner> findAllWinner() {
+        String sql = "SELECT g_id, winner FROM winner";
+        return jdbcTemplate.query(sql, WINNER_ROW_MAPPER);
     }
 }

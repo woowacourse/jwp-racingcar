@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import racingcar.dao.car.JdbcCarDao;
+import racingcar.dao.entity.Car;
 import racingcar.dao.game.JdbcGameDao;
 import racingcar.dto.CarDto;
 
@@ -43,7 +44,7 @@ class JdbcCarDaoTest {
         long gameId = jdbcGameDao.saveGame(1);
         jdbcCarDao.insertCar(carDtos, gameId);
 
-        List<CarDto> carsInfoByGameId = jdbcCarDao.findCarsInfoByGameId(gameId);
+        List<Car> carsInfoByGameId = jdbcCarDao.findAllCars();
 
         assertThat(carsInfoByGameId).hasSize(2);
     }

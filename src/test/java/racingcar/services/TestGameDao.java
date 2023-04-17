@@ -14,5 +14,4 @@ public class TestGameDao implements GameDao {
     public List<Long> getGameIds() {
         return List.of(1L);
     }
-
 }

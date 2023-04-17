@@ -3,6 +3,7 @@ package racingcar.services;
 import java.util.List;
 
 import racingcar.dao.car.CarDao;
+import racingcar.dao.entity.Car;
 import racingcar.dto.CarDto;
 
 public class TestCarDao implements CarDao {
@@ -12,10 +13,10 @@ public class TestCarDao implements CarDao {
     }
 
     @Override
-    public List<CarDto> findCarsInfoByGameId(Long gameId) {
+    public List<Car> findAllCars() {
         return List.of(
-                new CarDto("폴로", 4),
-                new CarDto("이리내", 6)
+                new Car(1L, "폴로", 4),
+                new Car(1L, "이리내", 6)
         );
     }
 }
