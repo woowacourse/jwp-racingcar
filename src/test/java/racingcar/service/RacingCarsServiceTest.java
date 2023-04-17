@@ -38,4 +38,13 @@ class RacingCarsServiceTest {
                 () -> assertThat(result.getCarPositionDtos().get(2).getStatus()).isEqualTo(10)
         );
     }
+
+    @Test
+    void 레이스_전체_결과_조회() {
+        racingCarsService.race(carsName, count);
+
+        final List<RaceDto> result = racingCarsService.findTotalGameHistory();
+
+        assertThat(result).hasSize(1);
+    }
 }

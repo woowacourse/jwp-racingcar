@@ -36,6 +36,16 @@ public class RacingCarsService {
         return new RaceDto(toDto(savedRacingGameResult.getTotalCars()), toDto(savedRacingGameResult.getWinners()));
     }
 
+    @Transactional(readOnly = true)
+    public List<RaceDto> findTotalGameHistory() {
+        final List<RacingGameResult> history = racingGameRepository.findAll();
+
+        return history.stream()
+                .map(racingGameResult ->
+                        new RaceDto(toDto(racingGameResult.getTotalCars()), toDto(racingGameResult.getWinners())))
+                .collect(Collectors.toList());
+    }
+
     private List<CarPositionDto> toDto(final List<Car> cars) {
         return cars.stream()
                 .map(CarPositionDto::new)
