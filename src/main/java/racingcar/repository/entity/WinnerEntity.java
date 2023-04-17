@@ -6,16 +6,14 @@ public class WinnerEntity {
     private final Long gameId;
     private final Long userId;
 
-    public WinnerEntity(final long gameId, final long userId) {
-        this.id = null;
+    public WinnerEntity(final Long id, final Long gameId, final Long userId) {
+        this.id = id;
         this.gameId = gameId;
         this.userId = userId;
     }
 
-    public WinnerEntity(final long id, final long gameId, final long userId) {
-        this.id = id;
-        this.gameId = gameId;
-        this.userId = userId;
+    public WinnerEntity(final Long gameId, final Long userId) {
+        this(null, gameId, userId);
     }
 
     public long getId() {

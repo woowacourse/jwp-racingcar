@@ -8,16 +8,14 @@ public class GameEntity {
     private final int trialCount;
     private final Timestamp lastModifiedTime;
 
-    public GameEntity(final int trialCount) {
-        this.id = null;
-        this.trialCount = trialCount;
-        this.lastModifiedTime = null;
-    }
-
-    public GameEntity(final long id, final int trialCount, final Timestamp lastModifiedTime) {
+    public GameEntity(final Long id, final int trialCount, final Timestamp lastModifiedTime) {
         this.id = id;
         this.trialCount = trialCount;
         this.lastModifiedTime = lastModifiedTime;
+    }
+
+    public GameEntity(final int trialCount) {
+        this(null, trialCount, null);
     }
 
     public long getId() {

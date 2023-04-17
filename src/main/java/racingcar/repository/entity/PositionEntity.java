@@ -4,21 +4,18 @@ public class PositionEntity {
 
     private final Long id;
     private final Long gameId;
-    private final Long usersId;
+    private final Long userId;
     private final int position;
 
-    public PositionEntity(final long gameId, final long usersId, final int position) {
-        this.id = null;
+    public PositionEntity(final Long id, final Long gameId, final Long userId, final int position) {
+        this.id = id;
         this.gameId = gameId;
-        this.usersId = usersId;
+        this.userId = userId;
         this.position = position;
     }
 
-    public PositionEntity(final long id, final long gameId, final long usersId, final int position) {
-        this.id = id;
-        this.gameId = gameId;
-        this.usersId = usersId;
-        this.position = position;
+    public PositionEntity(final Long gameId, final Long userId, final int position) {
+        this(null, gameId, userId, position);
     }
 
     public long getId() {
@@ -30,7 +27,7 @@ public class PositionEntity {
     }
 
     public long getUserId() {
-        return usersId;
+        return userId;
     }
 
     public int getPosition() {
