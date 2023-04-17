@@ -8,7 +8,6 @@ public class Car {
     private static final int MIN_MOVABLE_POWER = 4;
     private static final int MAX_CAR_NAME_LENGTH = 5;
 
-    private Long gameId;
     private final String name;
     private int position;
 
@@ -18,17 +17,9 @@ public class Car {
         position = INIT_POSITION;
     }
 
-    public Car(String name, Long gameId) {
+    public Car(String name, int position) {
         validateCarName(name);
         this.name = name;
-        this.gameId = gameId;
-        position = INIT_POSITION;
-    }
-
-    public Car(String name, Long gameId, int position) {
-        validateCarName(name);
-        this.name = name;
-        this.gameId = gameId;
         this.position = position;
     }
 
@@ -54,10 +45,6 @@ public class Car {
 
     public int compareTo(Car other) {
         return this.position - other.position;
-    }
-
-    public Long getGameId() {
-        return gameId;
     }
 
     public String getName() {

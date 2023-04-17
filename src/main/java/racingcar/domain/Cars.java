@@ -19,10 +19,10 @@ public class Cars {
         this.cars = new ArrayList<>(cars);
     }
 
-    public static Cars of(List<String> carNames, Long gameId) {
+    public static Cars of(List<String> carNames) {
         List<Car> cars = new ArrayList<>();
         for (String carName : carNames) {
-            cars.add(new Car(carName, gameId));
+            cars.add(new Car(carName));
         }
 
         return new Cars(cars);
@@ -38,8 +38,9 @@ public class Cars {
         }
     }
 
-    public List<Car> getCars() {
-        return Collections.unmodifiableList(cars);
+    public List<Car> getWinners() {
+        Car maxPositionCar = findMaxPositionCar();
+        return findSamePositionCar(maxPositionCar);
     }
 
     private List<Car> findSamePositionCar(Car car) {
@@ -54,7 +55,7 @@ public class Cars {
                 .orElseThrow();
     }
 
-    public Cars pickWinners() {
-        return new Cars(findSamePositionCar(findMaxPositionCar()));
+    public List<Car> getCars() {
+        return Collections.unmodifiableList(cars);
     }
 }

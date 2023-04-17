@@ -9,7 +9,7 @@ public class ResultResponseDto {
 
     public ResultResponseDto(String winners, List<PlayerDto> racingCars) {
         this.winners = winners;
-        this.racingCars = racingCars;
+        this.racingCars = List.copyOf(racingCars);
     }
 
     public String getWinners() {

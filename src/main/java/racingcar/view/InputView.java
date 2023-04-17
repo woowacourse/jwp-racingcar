@@ -3,7 +3,10 @@ package racingcar.view;
 import racingcar.exception.CarNameLengthException;
 import racingcar.exception.TryCountException;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class InputView {
     private static final int MIN_COUNT_SIZE = 0;
@@ -12,9 +15,10 @@ public class InputView {
     private static final int MAX_CAR_NAME_LENGTH = 5;
     private static final int MIN_CAR_NAME_LENGTH = 1;
 
+    public List<String> inputCarName() {
+        List<String> inputCars = Arrays.stream(scanner.nextLine().split(DIVISION_CHAR))
+                .collect(Collectors.toList());
 
-    public String[] inputCarName() {
-        String[] inputCars = scanner.nextLine().split(DIVISION_CHAR);
         validateInputCarNames(inputCars);
         return inputCars;
     }
@@ -25,7 +29,7 @@ public class InputView {
         return inputCount;
     }
 
-    private void validateInputCarNames(String[] inputCarNames) {
+    private void validateInputCarNames(List<String> inputCarNames) {
         for (String carName : inputCarNames) {
             validateInputCarName(carName);
         }
