@@ -47,7 +47,6 @@ public class ConsoleController {
         outputView.printResultMessage();
         for (int count = 0; count < trial.getValue(); count++) {
             cars.move();
-            printResult(cars);
         }
         return cars;
     }
