@@ -8,6 +8,7 @@ import racingcar.exception.NoCarsExistException;
 
 public class RacingGame {
 
+    private static final RandomNumberGenerator RANDOM_NUMBER_GENERATOR = new RandomNumberGenerator();
     private static final int DEFAULT_START_LINE = 0;
     private static final int MOVABLE_BOUND = 4;
 
@@ -26,7 +27,7 @@ public class RacingGame {
         List<Car> cars = carNames.stream()
                 .map(carName -> new Car(carName, DEFAULT_START_LINE))
                 .collect(Collectors.toList());
-        return new RacingGame(cars, new RandomNumberGenerator(), new Coin(racingGameRequestDto.getCount()));
+        return new RacingGame(cars, RANDOM_NUMBER_GENERATOR, new Coin(racingGameRequest.getCount()));
     }
 
     public void start() {
