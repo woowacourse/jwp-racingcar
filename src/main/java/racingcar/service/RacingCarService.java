@@ -9,7 +9,6 @@ import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
 import racingcar.entity.GameResult;
-import racingcar.utils.CarsFactory;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.utils.RandomPowerMaker;
 
@@ -26,7 +25,7 @@ public class RacingCarService {
 
 	@Transactional
 	public GameResultResponseDto startRace (final List<String> carNames, final TryCount tryCount) {
-		Cars cars = CarsFactory.createCars(carNames.toArray(new String[0]));
+		Cars cars = Cars.createByNames(carNames);
 		moveCars(cars, tryCount);
 		List<GameResult> gameResults = cars.getCars().stream()
 				.map((car -> {
