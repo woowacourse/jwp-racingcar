@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GameEntity {
 
-    private int id;
+    private final int id;
     private final int count;
     private final String winners;
     private final LocalDateTime createdAt;
@@ -15,10 +15,6 @@ public class GameEntity {
         this.count = count;
         this.winners = winners;
         this.createdAt = createdAt;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public int getCount() {
@@ -33,8 +29,8 @@ public class GameEntity {
         return createdAt;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
     public static class Builder {

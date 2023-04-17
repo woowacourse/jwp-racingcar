@@ -23,25 +23,23 @@ public class RacingCarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public GameEntity saveGame(GameEntity gameEntity) {
+    public int saveGame(GameEntity gameEntity) {
         String sqlForGameEntity = "INSERT INTO GAME(count, winners, created_at) VALUES(?, ?, ?)";
-        gameEntity.setId(getIdAfterInsert(
+        return getIdAfterInsert(
                 sqlForGameEntity,
                 Integer.toString(gameEntity.getCount()),
                 gameEntity.getWinners(),
-                gameEntity.getCreatedAt().toString())
+                gameEntity.getCreatedAt().toString()
         );
-
-        return gameEntity;
     }
 
-    public void saveCar(CarEntity carEntity) {
+    public int saveCar(CarEntity carEntity) {
         String sqlForCarEntity = "INSERT INTO CAR(position, name, game_id) VALUES(?, ?, ?)";
-        carEntity.setId(getIdAfterInsert(
+        return getIdAfterInsert(
                 sqlForCarEntity,
                 Integer.toString(carEntity.getPosition()),
                 carEntity.getName(),
-                Integer.toString(carEntity.getGameId()))
+                Integer.toString(carEntity.getGameId())
         );
     }
 

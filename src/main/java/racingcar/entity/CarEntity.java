@@ -2,7 +2,7 @@ package racingcar.entity;
 
 public class CarEntity {
 
-    private int id;
+    private final int id;
     private final String name;
     private final int position;
     private final int gameId;
@@ -12,10 +12,6 @@ public class CarEntity {
         this.name = name;
         this.position = position;
         this.gameId = gameId;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -30,8 +26,8 @@ public class CarEntity {
         return gameId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
     public static class Builder {

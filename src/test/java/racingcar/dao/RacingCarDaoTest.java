@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +34,8 @@ class RacingCarDaoTest {
     @Test
     void findAll() {
         for (int i = 0; i < 2; i++) {
-            GameEntity gameEntity = racingCarDao.saveGame(generateGameEntity());
-            generateCarEntity(gameEntity.getId()).forEach(racingCarDao::saveCar);
+            int id = racingCarDao.saveGame(generateGameEntity());
+            generateCarEntity(id).forEach(racingCarDao::saveCar);
         }
 
         List<GameEntity> resultGame = racingCarDao.findAllGame();

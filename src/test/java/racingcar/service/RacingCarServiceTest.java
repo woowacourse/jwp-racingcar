@@ -30,7 +30,6 @@ class RacingCarServiceTest {
 
         assertThat(result.getWinners()).isNotNull();
         assertThat(result.getRacingCars()).isNotNull();
-        assertThat(result.getId()).isNotEqualTo(0);
     }
 
 }

@@ -40,7 +40,6 @@ public class RacingCarService {
 
     private GameResponseDto generateRacingGameResponseDto(GameEntity gameEntity, List<CarEntity> carEntities) {
         return new GameResponseDto(
-                gameEntity.getId(),
                 gameEntity.getWinners(),
                 generateRacingCarResponseDtos(carEntities)
         );
@@ -57,7 +56,7 @@ public class RacingCarService {
     }
 
     private static CarResponseDto generateRacingCarResponseDto(CarEntity carEntity) {
-        return new CarResponseDto(carEntity.getId(), carEntity.getName(), carEntity.getPosition());
+        return new CarResponseDto(carEntity.getName(), carEntity.getPosition());
     }
 
     public GameResponseDto plays(GameRequestDtoForPlays gameRequestDtoForPlays) {
@@ -66,8 +65,8 @@ public class RacingCarService {
         progress(cars, gameCount);
         String winners = winnersToString(cars);
         GameEntity gameEntity = generateRacingGameEntity(gameRequestDtoForPlays, winners);
-        gameEntity = racingCarDao.saveGame(gameEntity);
-        List<CarEntity> carEntities = generateRacingCarEntities(gameEntity.getId(), cars);
+        int id = racingCarDao.saveGame(gameEntity);
+        List<CarEntity> carEntities = generateRacingCarEntities(id, cars);
         carEntities.forEach(racingCarDao::saveCar);
         return generateRacingGameResponseDto(gameEntity, carEntities);
     }
