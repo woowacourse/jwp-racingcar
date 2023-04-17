@@ -1,8 +1,6 @@
 package racingcar;
 
 import java.util.List;
-import racingcar.domain.race.RacingGame;
-import racingcar.domain.race.WinnerJudgeImpl;
 import racingcar.dto.ResultDto;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -10,20 +8,17 @@ import racingcar.view.OutputView;
 public class RacingGameConsoleController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final RacingGameService racingGameService;
 
-    public RacingGameConsoleController() {
+    public RacingGameConsoleController(RacingGameService racingGameService) {
         this.outputView = new OutputView();
         this.inputView = new InputView();
+        this.racingGameService = racingGameService;
     }
 
     public void run() {
-        RacingGame racingGame = startNewGame();
-        racingGame.progress(readTrialCount());
-        outputView.printResult(ResultDto.ofCars(racingGame.getRacingCars(), racingGame.getWinners()));
-    }
-
-    private RacingGame startNewGame() {
-        return new RacingGame(readCarNames(), new WinnerJudgeImpl());
+        ResultDto resultDto = racingGameService.start(readTrialCount(), readCarNames());
+        outputView.printResult(resultDto);
     }
 
     private List<String> readCarNames() {
