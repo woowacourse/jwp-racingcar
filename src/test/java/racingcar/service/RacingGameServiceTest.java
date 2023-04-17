@@ -27,7 +27,13 @@ class RacingGameServiceTest {
         final GameDao gameDao = Mockito.mock(GameDao.class);
         final CarDao carDao = Mockito.mock(CarDao.class);
         final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 3));
-        final RacingGameService racingGameService = new RacingGameService(numberGenerator, gameDao, carDao);
+        final RacingGameMapper racingGameMapper = new RacingGameMapper();
+        final RacingGameService racingGameService = new RacingGameService(
+                numberGenerator,
+                racingGameMapper,
+                gameDao,
+                carDao
+        );
         final GamePlayRequestDto gameRequest = new GamePlayRequestDto(List.of("브리", "비버", "허브"), 1);
 
         // when
