@@ -3,7 +3,6 @@ package racingcar.controller.dto;
 import java.time.LocalDateTime;
 
 public class ErrorResponse {
-
     private final String message;
     private final LocalDateTime timestamp;
     private final int statusCode;

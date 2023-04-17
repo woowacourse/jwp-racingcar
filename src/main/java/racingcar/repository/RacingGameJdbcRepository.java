@@ -1,32 +1,32 @@
 package racingcar.repository;
 
-import java.sql.PreparedStatement;
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-
 import racingcar.repository.mapper.RacingGameInfo;
+
+import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public class RacingGameJdbcRepository implements RacingGameRepository {
-
     private final JdbcTemplate jdbcTemplate;
 
     public RacingGameJdbcRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<RacingGameInfo> actorRowMapper = (resultSet, rowNum) -> new RacingGameInfo(
-            resultSet.getInt("id"),
-            resultSet.getString("winners"),
-            resultSet.getObject("created_at", LocalDateTime.class),
-            resultSet.getInt("trial")
-    );
+    private final RowMapper<RacingGameInfo> racingGameRowMapper = (resultSet, rowNum) -> {
+        return new RacingGameInfo(
+                resultSet.getInt("id"),
+                resultSet.getString("winners"),
+                resultSet.getObject("created_at", LocalDateTime.class),
+                resultSet.getInt("trial")
+        );
+    };
 
     @Override
     public int save(final String winners, final int count) {
@@ -46,6 +46,6 @@ public class RacingGameJdbcRepository implements RacingGameRepository {
     @Override
     public Optional<RacingGameInfo> findById(final int id) {
         final String sql = "SELECT * FROM RACING_GAME WHERE id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, actorRowMapper, id));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, racingGameRowMapper, id));
     }
 }

@@ -1,6 +1,6 @@
 package racingcar.controller;
 
-import racingcar.domain.CarGroup;
+import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RacingResult;
 import racingcar.domain.RandomNumberGenerator;
@@ -8,7 +8,6 @@ import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingGameConsoleController {
-
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -18,19 +17,19 @@ public class RacingGameConsoleController {
     }
 
     public void run() {
-        CarGroup carGroup = createCarGroup();
+        Cars cars = createCarGroup();
         int movingTrial = createMovingTrial();
 
-        RacingGame racingGame = new RacingGame(carGroup, new RandomNumberGenerator());
+        RacingGame racingGame = new RacingGame(cars, new RandomNumberGenerator());
 
         outputView.printNotice();
         raceWithHistory(movingTrial, racingGame);
-        outputView.printWinner(racingGame.produceRacingResult().pickWinner());
+        outputView.printWinner(racingGame.createRacingResult().pickWinner());
     }
 
-    private CarGroup createCarGroup() {
+    private Cars createCarGroup() {
         try {
-            return new CarGroup(inputView.readCarNames());
+            return new Cars(inputView.readCarNames());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return createCarGroup();
@@ -48,9 +47,9 @@ public class RacingGameConsoleController {
 
     private void raceWithHistory(int movingTrial, RacingGame racingGame) {
         for (int i = 0; i < movingTrial; i++) {
-            racingGame.race();
+//            racingGame.race();
 
-            RacingResult racingResult = racingGame.produceRacingResult();
+            RacingResult racingResult = racingGame.createRacingResult();
             outputView.printRacingResult(racingResult.getHistory());
         }
     }

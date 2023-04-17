@@ -1,11 +1,11 @@
 package racingcar.view;
 
+import racingcar.domain.Name;
+import racingcar.domain.Position;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import racingcar.domain.Name;
-import racingcar.domain.Position;
 
 public class OutputView {
     private static final String RESULT_MESSAGE = "\n실행 결과";
@@ -18,7 +18,7 @@ public class OutputView {
     public void printRacingResult(Map<Name, Position> history) {
         for (Name name : history.keySet()) {
             Position position = history.get(name);
-            System.out.println(name.getName() + " : " + "-".repeat(position.getPosition()));
+            System.out.println(name.getValue() + " : " + "-".repeat(position.getValue()));
         }
         System.out.println();
     }
@@ -30,7 +30,7 @@ public class OutputView {
 
     private static String findWinnerName(List<Name> winners) {
         return winners.stream()
-                .map(Name::getName)
+                .map(Name::getValue)
                 .collect(Collectors.toList())
                 .toString();
     }

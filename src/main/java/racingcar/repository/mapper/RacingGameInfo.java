@@ -3,11 +3,10 @@ package racingcar.repository.mapper;
 import java.time.LocalDateTime;
 
 public class RacingGameInfo {
-
-    private int id;
-    private String winners;
-    private LocalDateTime createdAt;
-    private int trial;
+    private final int id;
+    private final String winners;
+    private final LocalDateTime createdAt;
+    private final int trial;
 
     public RacingGameInfo(final int id, final String winners, final LocalDateTime createdAt, final int trial) {
         this.id = id;
