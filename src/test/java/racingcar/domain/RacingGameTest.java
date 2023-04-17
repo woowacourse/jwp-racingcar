@@ -1,16 +1,17 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
-import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import racingcar.NumberGenerator;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class RacingGameTest {
     private final AlwaysMoveNumberGenerator alwaysMoveNumberGenerator = new AlwaysMoveNumberGenerator();
@@ -40,6 +41,18 @@ class RacingGameTest {
             assertThat(names).contains("박스터", "소나타", "벤츠");
             assertThat(positions).containsOnly(1);
         });
+    }
+
+    private List<String> carsToNames(List<Car> carList) {
+        return carList.stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+    }
+
+    private List<Integer> carsToPositions(List<Car> carList) {
+        return carList.stream()
+                .map(Car::getPosition)
+                .collect(Collectors.toList());
     }
 
     @Test
@@ -76,7 +89,7 @@ class RacingGameTest {
     void tryCountEx() {
         int tryCount = 101;
 
-        assertThatThrownBy(() -> new RacingGame(tryCount, dummy))
+        assertThatThrownBy(() -> new RacingGame(alwaysMoveNumberGenerator, tryCount, dummy))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("시도 횟수는 100회 이하만 가능합니다 현재 : " + tryCount + "회");
     }
@@ -101,17 +114,5 @@ class RacingGameTest {
             return NOT_MOVE_NUMBER;
         }
 
-    }
-
-    private List<String> carsToNames(List<Car> carList) {
-        return carList.stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
-    }
-
-    private List<Integer> carsToPositions(List<Car> carList) {
-        return carList.stream()
-                .map(Car::getPosition)
-                .collect(Collectors.toList());
     }
 }
