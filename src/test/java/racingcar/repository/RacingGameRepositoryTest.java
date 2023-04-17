@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import racingcar.repository.mapper.RacingGameDto;
+import racingcar.repository.mapper.RacingGameDtoMapper;
 
 @SpringBootTest
 class RacingGameRepositoryTest {
@@ -27,14 +27,14 @@ class RacingGameRepositoryTest {
 
         // when
         final int savedId = repository.save(winners, trial);
-        final Optional<RacingGameDto> maybeRacingGameInfo = repository.findById(savedId);
+        final Optional<RacingGameDtoMapper> maybeRacingGameInfo = repository.findById(savedId);
 
         assertTrue(maybeRacingGameInfo.isPresent());
 
-        final RacingGameDto racingGameDto = maybeRacingGameInfo.get();
+        final RacingGameDtoMapper racingGameDtoMapper = maybeRacingGameInfo.get();
 
         // then
-        assertThat(racingGameDto)
+        assertThat(racingGameDtoMapper)
                 .hasFieldOrPropertyWithValue("id", savedId)
                 .hasFieldOrPropertyWithValue("winners", winners)
                 .hasFieldOrPropertyWithValue("trial", trial);

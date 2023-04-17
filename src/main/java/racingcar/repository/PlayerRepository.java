@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import racingcar.domain.CarGroup;
-import racingcar.repository.mapper.PlayerDto;
+import racingcar.repository.mapper.PlayerDtoMapper;
 
 @Repository
 public class PlayerRepository {
@@ -21,7 +21,7 @@ public class PlayerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<PlayerDto> playerRowMapper = (resultSet, rowNum) -> new PlayerDto(
+    private final RowMapper<PlayerDtoMapper> playerRowMapper = (resultSet, rowNum) -> new PlayerDtoMapper(
             resultSet.getInt("id"),
             resultSet.getString("name"),
             resultSet.getInt("position")
@@ -47,8 +47,8 @@ public class PlayerRepository {
         return updatedCounts.length == carGroup.getCars().size();
     }
 
-    public List<PlayerDto> findAll() {
-        final String sql = "SELECT * FROM PLAYER";
-        return jdbcTemplate.query(sql, playerRowMapper);
+    public List<PlayerDtoMapper> findAllById(final int id) {
+        final String sql = "SELECT * FROM PLAYER where racing_game_id = ?";
+        return jdbcTemplate.query(sql, playerRowMapper, id);
     }
 }
