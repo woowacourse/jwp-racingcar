@@ -21,25 +21,13 @@ public class RacingGameController {
 
     @PostMapping("/plays")
     public ResponseEntity<ResultDto> play(@RequestBody RacingGameRequest request) {
-        validateTryTime(request.getCount());
-        ResultDto result = racingGameService.start(request.getCount(), splitNames(request.getNames()));
+        ResultDto result = racingGameService.start(request.getCount(), request.getNames());
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<ResultDto>> viewAllGames() {
         return ResponseEntity.ok(racingGameService.findAllGameHistories());
-    }
-
-    private List<String> splitNames(String names) {
-        String regex = ",";
-        return List.of(names.split(regex));
-    }
-
-    private void validateTryTime(int tryTime) {
-        if (tryTime < 0) {
-            throw new IllegalArgumentException("시도 횟수는 음수일 수 없습니다.");
-        }
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

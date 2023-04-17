@@ -4,9 +4,6 @@ import racingcar.dto.CarDto;
 import racingcar.dto.ResultDto;
 
 public class OutputView {
-    public void printErrorMessage(String message) {
-        System.out.println(message);
-    }
 
     public void printResult(ResultDto result) {
         printWinners(result.getWinners());
@@ -15,14 +12,18 @@ public class OutputView {
                 .forEach(this::printEachCarFinalPosition);
     }
 
+    private void printWinners(String winners) {
+        System.out.println("우승자:");
+        System.out.println(winners);
+    }
+
     private void printEachCarFinalPosition(CarDto carDto) {
         String resultStatement = String.format("Name: %s, Position: %d", carDto.getName(), carDto.getPosition());
         System.out.println(resultStatement);
     }
 
-    private void printWinners(String winners) {
-        System.out.println("우승자:");
-        System.out.println(winners);
+    public void printErrorMessage(String message) {
+        System.out.println(message);
     }
 
 }
