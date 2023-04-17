@@ -37,8 +37,12 @@ class RacingGameHistoryDaoTest {
         RacingGameHistory racingGameHistory = jdbcTemplate.queryForObject(
                 "SELECT trial_count, play_time FROM racing_history WHERE id = :id",
                 new MapSqlParameterSource("id", insertedHistoryId),
-                (rs, rowNum) -> new RacingGameHistory(rs.getInt("trial_count"),
-                        rs.getTimestamp("play_time").toLocalDateTime()));
+                (rs, rowNum) -> new RacingGameHistory(
+                        rs.getLong("id"),
+                        rs.getInt("trial_count"),
+                        rs.getTimestamp("play_time").toLocalDateTime()
+                )
+        );
 
         assertAll(
                 () -> assertThat(racingGameHistory.getPlayTime()).isEqualTo(now),

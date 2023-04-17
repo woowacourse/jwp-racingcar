@@ -44,6 +44,7 @@ class RacingRacingRacingCarRecordDaoTest {
                 "SELECT * FROM car_record WHERE id = :id",
                 new MapSqlParameterSource("id", insertedRecordId),
                 (rs, rowNum) -> new RacingCarRecord(
+                        rs.getLong("id"),
                         rs.getString("name"),
                         rs.getInt("position"),
                         rs.getBoolean("is_winner"),
