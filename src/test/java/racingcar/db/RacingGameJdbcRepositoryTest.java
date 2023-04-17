@@ -34,6 +34,8 @@ class RacingGameJdbcRepositoryTest {
         racingGameRepository.saveGame(gameResultDto);
         List<GameResponse> games = racingGameRepository.findAllGame();
 
-        assertThat(games.get(0).getWinners()).isEqualTo("qwer");
+        assertThat(games.get(0)).usingRecursiveComparison()
+                .ignoringFields("trialCount")
+                .isEqualTo(gameResultDto);
     }
 }

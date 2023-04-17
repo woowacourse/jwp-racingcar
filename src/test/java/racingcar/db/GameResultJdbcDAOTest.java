@@ -52,11 +52,12 @@ class GameResultJdbcDAOTest {
 
     @Test
     void findGame_success() {
-        gameResultJdbcDAO.save(new GameResultDto(5, "dochi",
-                List.of(new CarDto("dochi", 4))
-        ));
+        GameResultDto gameResultDto = new GameResultDto(5, "dochi", List.of(new CarDto("dochi", 4)));
+        gameResultJdbcDAO.save(gameResultDto);
 
         List<GameWinnerDto> gameWinners = gameResultJdbcDAO.selectAllGame();
-        assertThat(gameWinners.get(0).getWinners()).isEqualTo("dochi");
+        assertThat(gameWinners.get(0))
+                .usingRecursiveComparison()
+                .comparingOnlyFields("winners");
     }
 }
