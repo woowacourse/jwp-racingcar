@@ -6,6 +6,9 @@ import racing.domain.Cars;
 
 public class OutputView {
 
+    private OutputView() {
+    }
+
     public static final String CANT_CONTAIN_SPACE = "자동차 이름에 공백이 포함될 수 없습니다.";
     public static final String UNSUITABLE_LENGTH = "자동차 이름은 1자~5자만 입력할 수 있습니다.";
     public static final String INPUT_ONLY_DIGIT = "시도 회수는 숫자만 입력할 수 있습니다.";

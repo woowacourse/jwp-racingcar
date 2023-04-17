@@ -6,6 +6,9 @@ import java.util.List;
 
 public class CarFactory {
 
+    private CarFactory() {
+    }
+
     public static Cars carFactory(List<String> names) {
         return new Cars(convertToCars(names));
     }

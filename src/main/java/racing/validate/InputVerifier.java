@@ -4,6 +4,9 @@ import racing.ui.output.OutputView;
 
 public class InputVerifier {
 
+    private InputVerifier() {
+    }
+
     private static void checkSpace(String name) {
         if (name.contains(" ")) {
             throw new IllegalArgumentException(OutputView.CANT_CONTAIN_SPACE);
@@ -21,7 +24,7 @@ public class InputVerifier {
     }
 
     public static String checkInputTypeIsNumber(String input) {
-        if(!input.matches("[0-9]+")){
+        if (!input.matches("[0-9]+")) {
             throw new IllegalArgumentException(OutputView.INPUT_ONLY_DIGIT);
         }
         return input;
