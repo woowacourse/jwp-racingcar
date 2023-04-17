@@ -23,7 +23,7 @@ public class RacingCarController {
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<GameResponseDto>> bringGameHistory() {
+    public ResponseEntity<List<GameResponseDto>> getGameHistory() {
         return ResponseEntity.ok()
                 .body(racingCarService.findAll());
     }
