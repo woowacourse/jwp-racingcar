@@ -9,6 +9,7 @@ import racingcar.domain.*;
 import racingcar.dto.*;
 import racingcar.entity.GameEntity;
 import racingcar.entity.ParticipantEntity;
+import racingcar.entity.PlayerEntity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.PlayerEntity;
+import racingcar.entity.PlayerEntity;
 
 import java.util.Optional;
 
