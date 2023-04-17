@@ -1,4 +1,4 @@
-package racingcar.controller.advice;
+package racingcar.api.advice;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
