@@ -27,7 +27,7 @@
 
 ### 피드백 요구사항
 
-- [ ] 단일 생성자의 경우 `@Autowired` 생략
-- [ ] `@RequestMapping`을 활용하여 코드 중복 제거
-- [ ] Dao의 `@Repository` 어노테이션 통일
+- [x] 단일 생성자의 경우 `@Autowired` 생략
+- [x] `@RequestMapping`을 활용하여 코드 중복 제거
+- [x] Dao의 `@Repository` 어노테이션 통일
 - [ ] WINNER 테이블의 플레이어 정보를 PLAYER 테이블을 참조하도록 하여 중복 제거

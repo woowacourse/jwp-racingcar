@@ -3,21 +3,18 @@ package racingcar.dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 import racingcar.dto.PlayerDto;
 
-@Repository
 public class PlayerDao {
 
     private final SimpleJdbcInsert insertActor;
     private final JdbcTemplate jdbcTemplate;
 
-    public PlayerDao(final DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public PlayerDao(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("player")
                 .usingGeneratedKeyColumns("id");

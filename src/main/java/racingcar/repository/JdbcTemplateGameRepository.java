@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.sql.DataSource;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.WinnerDao;
@@ -19,10 +18,10 @@ public class JdbcTemplateGameRepository implements GameRepository {
     private final PlayerDao playerDao;
     private final WinnerDao winnerDao;
 
-    public JdbcTemplateGameRepository(final DataSource dataSource) {
-        this.gameDao = new GameDao(dataSource);
-        this.playerDao = new PlayerDao(dataSource);
-        this.winnerDao = new WinnerDao(dataSource);
+    public JdbcTemplateGameRepository(final GameDao gameDao, final PlayerDao playerDao, final WinnerDao winnerDao) {
+        this.gameDao = gameDao;
+        this.playerDao = playerDao;
+        this.winnerDao = winnerDao;
     }
 
     private static List<WinnerDto> convertStringToWinnerDtos(final String winners) {

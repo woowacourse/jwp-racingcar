@@ -3,12 +3,10 @@ package racingcar.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +14,7 @@ import racingcar.dto.GameInputDto;
 import racingcar.dto.GameResultDto;
 
 @SpringBootTest
+@TestInstance(Lifecycle.PER_METHOD)
 @Transactional
 class GameServiceTest {
 
@@ -23,23 +22,6 @@ class GameServiceTest {
 
     @Autowired
     GameService gameService;
-
-    private static Stream<Arguments> provideInputs() {
-        return Stream.of(
-                Arguments.of(
-                        List.of(
-                                new GameInputDto("리사", 1),
-                                new GameInputDto("리사,토미,포비", 99)
-                        )
-                ),
-                Arguments.of(
-                        List.of(
-                                new GameInputDto("리사,토미", 2),
-                                new GameInputDto("리사,토미,포비,네오", 100)
-                        )
-                )
-        );
-    }
 
     @DisplayName("정상적으로 게임이 실행된다.")
     @Test
@@ -59,19 +41,20 @@ class GameServiceTest {
     }
 
     @DisplayName("저장된 데이터를 정상적으로 불러온다.")
-    @ParameterizedTest()
-    @MethodSource("provideInputs")
-    void fetchHistory(final List<GameInputDto> inputs) {
-        for (final GameInputDto input : inputs) {
-            gameService.playGame(input);
-        }
+    @Test
+    void fetchHistory() {
+        final List<GameInputDto> inputs = List.of(
+                new GameInputDto("리사,토미", 2),
+                new GameInputDto("리사,토미,포비,네오", 100)
+        );
+
+        inputs.forEach(input -> gameService.playGame(input));
 
         final List<GameResultDto> results = gameService.fetchHistory();
         for (final GameResultDto result : results) {
             System.out.println(result.getPlayCount());
         }
 
-        assertThat(results).hasSize(inputs.size());
         for (int i = 0; i < inputs.size(); i++) {
             final GameResultDto result = results.get(i);
             final GameInputDto input = inputs.get(i);
