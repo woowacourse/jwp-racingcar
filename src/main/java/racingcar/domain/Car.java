@@ -2,6 +2,7 @@ package racingcar.domain;
 
 public final class Car {
 
+    private Long id;
     private final Name name;
     private final Position position;
     private final boolean isWinner;
@@ -21,15 +22,27 @@ public final class Car {
     }
 
     public Car(final Car car, final boolean isWinner) {
-        this.name = Name.of(car.getNameValue());
-        this.position = new Position(car.getPosition());
+        this.name = new Name(car.getNameValue());
+        this.position = car.getPosition();
         this.isWinner = isWinner;
+    }
+
+
+    public Car(final Long gameId, final String nameValue, final int positionValue, final boolean winner) {
+        this.id = gameId;
+        this.name = new Name(nameValue);
+        this.position = new Position(positionValue);
+        this.isWinner = winner;
     }
 
     public void move(final boolean movable) {
         if (movable) {
             position.move();
         }
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Position getPosition() {

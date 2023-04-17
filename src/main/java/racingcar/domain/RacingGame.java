@@ -33,11 +33,20 @@ public final class RacingGame {
         tryCount = tryCount.decreaseCount();
     }
 
+    public int getTryCountValue() {
+        return tryCount.getCount();
+    }
+
     public Cars getWinners() {
+
         final List<Car> result = cars.getCars()
                 .stream()
                 .filter(Car::isWinner)
                 .collect(Collectors.toList());
         return new Cars(result);
+    }
+
+    public List<Car> getCars() {
+        return cars.getCars();
     }
 }

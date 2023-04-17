@@ -1,6 +1,6 @@
 package racingcar.dto;
 
-import racingcar.entity.CarEntity;
+import racingcar.domain.Car;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,13 +10,13 @@ public final class GameResultResponseDto {
     private final List<String> winners;
     private final List<CarDto> racingCars;
 
-    public GameResultResponseDto(final List<CarEntity> carEntities) {
-        this.winners = carEntities.stream()
-                .filter(CarEntity::isWinner)
-                .map(CarEntity::getPlayerName)
+    public GameResultResponseDto(final List<Car> cars) {
+        this.winners = cars.stream()
+                .filter(Car::isWinner)
+                .map(Car::getNameValue)
                 .collect(Collectors.toList());
-        this.racingCars = carEntities.stream()
-                .map(carEntity -> new CarDto(carEntity.getPlayerName(), carEntity.getFinalPosition()))
+        this.racingCars = cars.stream()
+                .map(carEntity -> new CarDto(carEntity.getNameValue(), carEntity.getPositionValue()))
                 .collect(Collectors.toList());
     }
 

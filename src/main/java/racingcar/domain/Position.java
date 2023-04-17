@@ -8,16 +8,8 @@ public final class Position implements Comparable<Position> {
 
     private int position;
 
-    private Position(int position) {
+    public Position(int position) {
         this.position = position;
-    }
-
-    public Position(final Position position) {
-        this.position = position.getPosition();
-    }
-
-    public static Position of(final int position) {
-        return new Position(position);
     }
 
     public static Position create() {

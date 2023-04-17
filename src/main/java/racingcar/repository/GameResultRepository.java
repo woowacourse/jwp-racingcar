@@ -2,7 +2,10 @@ package racingcar.repository;
 
 import org.springframework.stereotype.Repository;
 import racingcar.dao.GameResultDao;
+import racingcar.dto.GameResultResponseDto;
 import racingcar.entity.GameResultEntity;
+
+import java.util.List;
 
 @Repository
 public class GameResultRepository {
@@ -17,8 +20,8 @@ public class GameResultRepository {
         return gameResultDao.save(gameResultEntity);
     }
 
-    /*public List<GameResultsDto> findAllGameResult() {
-        gameResultDao.findAll();
+    public List<GameResultResponseDto> findAll() {
+//        dto -gameResultDao.findAll();
         return null;
-    }*/
+    }
 }

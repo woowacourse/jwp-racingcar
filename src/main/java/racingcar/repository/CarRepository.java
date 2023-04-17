@@ -2,7 +2,7 @@ package racingcar.repository;
 
 import org.springframework.stereotype.Repository;
 import racingcar.dao.CarDao;
-import racingcar.entity.CarEntity;
+import racingcar.domain.Car;
 
 import java.util.List;
 
@@ -15,13 +15,13 @@ public class CarRepository {
         this.carDao = carDao;
     }
 
-    public void save(final CarEntity carEntity) {
-        carDao.save(carEntity);
+    public void save(final Car car) {
+        carDao.save(car);
     }
 
-    public void saveAll(final List<CarEntity> carEntities) {
-        for (CarEntity carEntity : carEntities) {
-            save(carEntity);
+    public void saveAll(final List<Car> carEntities) {
+        for (Car car : carEntities) {
+            save(car);
         }
     }
 }

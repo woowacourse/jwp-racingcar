@@ -8,13 +8,9 @@ public class Name {
 
     private final String name;
 
-    private Name(final String name) {
+    public Name(final String name) {
         validate(name);
         this.name = name;
-    }
-
-    public static Name of(final String name) {
-        return new Name(name);
     }
 
     private void validate(final String name) {

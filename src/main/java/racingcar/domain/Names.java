@@ -11,7 +11,7 @@ public final class Names {
     public Names(final List<String> names) {
         validateDuplicatedCarNames(names);
         this.names = names.stream()
-                .map(Name::of)
+                .map(Name::new)
                 .collect(Collectors.toList());
     }
 

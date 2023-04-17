@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import racingcar.entity.CarEntity;
+import racingcar.domain.Car;
 import racingcar.entity.GameResultEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,8 +24,8 @@ class CarDaoTest {
         Long gameResultId = gameResultDao.save(new GameResultEntity(3));
         assertThat(1L).isEqualTo(gameResultId);
 
-        CarEntity carEntity = new CarEntity("헙크", 3, true, 1L);
-        Long carId = carDao.save(carEntity);
+        Car car = new Car(1L, "헙크", 3, true);
+        Long carId = carDao.save(car);
         assertThat(1L).isEqualTo(carId);
     }
 }

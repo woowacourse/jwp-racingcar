@@ -7,36 +7,29 @@ import racingcar.domain.Names;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
 import racingcar.domain.movingstrategy.DefaultMovingStrategy;
-import racingcar.domain.movingstrategy.MovingStrategy;
 import racingcar.dto.GameResultResponseDto;
 import racingcar.dto.UserRequestDto;
-import racingcar.entity.CarEntity;
-import racingcar.entity.GameResultEntity;
-import racingcar.repository.CarRepository;
-import racingcar.repository.GameResultRepository;
+import racingcar.repository.RacingGameRepository;
+import racingcar.utils.DtoMapper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
 
-    private final GameResultRepository gameResultRepository;
-    private final CarRepository carRepository;
+    private final RacingGameRepository racingGameRepository;
 
-    public RacingGameService(final GameResultRepository gameResultRepository, final CarRepository carRepository) {
-        this.gameResultRepository = gameResultRepository;
-        this.carRepository = carRepository;
+    public RacingGameService(final RacingGameRepository racingGameRepository) {
+        this.racingGameRepository = racingGameRepository;
     }
 
     @Transactional
     public GameResultResponseDto getResult(final UserRequestDto inputDto) {
         final RacingGame racingGame = mapToRacingGame(inputDto);
-        final Long gameResultId = gameResultRepository.save(new GameResultEntity(inputDto.getCount()));
-        final List<CarEntity> carEntities = startAndGetResult(racingGame, gameResultId, new DefaultMovingStrategy());
-        carRepository.saveAll(carEntities);
+        final Cars finalResult = racingGame.run(new DefaultMovingStrategy());
+        racingGameRepository.save(racingGame);
 
-        return new GameResultResponseDto(carEntities);
+        return DtoMapper.mapToGameResultResponseDto(finalResult);
     }
 
     private RacingGame mapToRacingGame(final UserRequestDto inputDto) {
@@ -45,20 +38,5 @@ public class RacingGameService {
         final TryCount tryCount = new TryCount(inputDto.getCount());
 
         return new RacingGame(new Names(splitNames), tryCount);
-    }
-
-    private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId, final MovingStrategy movingStrategy) {
-        final Cars finalResult = racingGame.run(movingStrategy);
-
-        return finalResult.getCars()
-                .stream()
-                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), car.isWinner(), gameResultId))
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public List<GameResultResponseDto> getHistory() {
-//         gameResultRepository.findAllGameResult();
-        return null;
     }
 }
