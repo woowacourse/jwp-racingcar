@@ -26,16 +26,13 @@ public class RacingCarService {
 	@Transactional
 	public GameResultResponseDto startRace (final List<String> carNames, final TryCount tryCount) {
 		Cars cars = Cars.createByNames(carNames);
-		moveCars(cars, tryCount);
-		List<PlayerResult> playerResults = toPlayerResults(cars);
-		gameResultDao.saveGame(playerResults, tryCount);
-		return GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
-	}
-
-	private void moveCars (final Cars cars, final TryCount tryCount) {
 		for (int i = 0; i < tryCount.getTryCount(); i++) {
 			cars.moveAll(randomPowerGenerator);
 		}
+		List<PlayerResult> playerResults = toPlayerResults(cars);
+		gameResultDao.saveGame(playerResults, tryCount);
+
+		return GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
 	}
 
 	private List<PlayerResult> toPlayerResults (Cars cars) {
