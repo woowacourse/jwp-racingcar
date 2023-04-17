@@ -4,7 +4,6 @@ import racingcar.exception.ExceedCarNameLengthException;
 import racingcar.exception.HasBlankCarNameException;
 import racingcar.exception.InvalidCarNameFormatException;
 import racingcar.model.car.strategy.MovingStrategy;
-import racingcar.model.car.strategy.RandomMovingStrategy;
 
 import java.util.regex.Pattern;
 
