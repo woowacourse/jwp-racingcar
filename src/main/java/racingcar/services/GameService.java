@@ -48,7 +48,7 @@ public class GameService {
 
     void createCars(Cars cars, String inputs) {
         List<String> names = Arrays.asList(inputs.split(","));
-            cars.createCars(names);
+        cars.createCars(names);
     }
 
     void moveCars(Cars cars, String countInput) {
@@ -60,7 +60,7 @@ public class GameService {
     }
 
     private void validateCount(int count) {
-        if(count < MIN_MOVE_COUNT) {
+        if (count < MIN_MOVE_COUNT) {
             throw new IllegalArgumentException(MOVE_COUNT_EXCEPTION_MESSAGE);
         }
     }
@@ -81,5 +81,16 @@ public class GameService {
 
     String getWinner(Cars cars) {
         return String.join(", ", cars.getWinners());
+    }
+
+    public List<ResultDto> getAllResults() {
+        List<ResultDto> resultDtos = new ArrayList<>();
+        List<Long> gameIds = gameDao.getGameIds();
+        for (Long gameId : gameIds) {
+            List<CarDto> carDtos = carDao.findCarsInfoByGameId(gameId);
+            List<String> winners = winnerDao.findWinnersByGameId(gameId);
+            resultDtos.add(new ResultDto(String.join(", ", winners), carDtos));
+        }
+        return resultDtos;
     }
 }

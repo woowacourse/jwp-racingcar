@@ -13,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import racingcar.dto.CarDto;
+import racingcar.dto.ResultDto;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.car.Name;
@@ -90,6 +91,24 @@ class GameServiceTest {
                 () -> assertThat(result.get(1).getPosition()).isEqualTo(0),
                 () -> assertThat(result.get(2).getName()).isEqualTo("허브"),
                 () -> assertThat(result.get(2).getPosition()).isEqualTo(0)
+        );
+    }
+
+    @Test
+    @DisplayName("게임의 결과를 반환한다.")
+    void getAllResults() {
+        List<ResultDto> allResults = gameService.getAllResults();
+
+        ResultDto resultDto = allResults.get(0);
+
+        Assertions.assertAll(
+                () -> assertThat(allResults).hasSize(1),
+                () -> assertThat(resultDto.getWinners()).isEqualTo("이리내"),
+                () -> assertThat(resultDto.getRacingCars()).hasSize(2),
+                () -> assertThat(resultDto.getRacingCars().get(0).getName()).isEqualTo("폴로"),
+                () -> assertThat(resultDto.getRacingCars().get(0).getPosition()).isEqualTo(4),
+                () -> assertThat(resultDto.getRacingCars().get(1).getName()).isEqualTo("이리내"),
+                () -> assertThat(resultDto.getRacingCars().get(1).getPosition()).isEqualTo(6)
         );
     }
 }

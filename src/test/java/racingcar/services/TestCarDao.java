@@ -13,6 +13,9 @@ public class TestCarDao implements CarDao {
 
     @Override
     public List<CarDto> findCarsInfoByGameId(Long gameId) {
-        return null;
+        return List.of(
+                new CarDto("폴로", 4),
+                new CarDto("이리내", 6)
+        );
     }
 }

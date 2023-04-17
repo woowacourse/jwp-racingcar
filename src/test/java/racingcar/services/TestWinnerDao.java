@@ -12,6 +12,6 @@ public class TestWinnerDao implements WinnerDao {
 
     @Override
     public List<String> findWinnersByGameId(Long gameId) {
-        return null;
+        return List.of("이리내");
     }
 }
