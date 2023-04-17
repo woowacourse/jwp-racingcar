@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import racingcar.domain.RacingGame;
+import racingcar.dto.GamePlayResponseDto;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 import racingcar.utils.TestNumberGenerator;
@@ -26,10 +27,10 @@ public class RacingGameMapperTest {
         final int trial = 5;
 
         // when
-        final GameEntity gameEntity = racingGameMapper.toGameEntity(trial);
+        final GameEntity result = racingGameMapper.toGameEntity(trial);
 
         // then
-        assertThat(gameEntity.getTrial()).isEqualTo(5);
+        assertThat(result.getTrial()).isEqualTo(5);
     }
 
     @Test
@@ -41,13 +42,37 @@ public class RacingGameMapperTest {
         final int gameId = 1;
 
         // when
-        final List<CarEntity> carEntities = racingGameMapper.toCarEntities(racingGame, gameId);
+        final List<CarEntity> result = racingGameMapper.toCarEntities(racingGame, gameId);
 
         // then
         assertAll(
-                () -> assertThat(carEntities).hasSize(2),
-                () -> assertThat(carEntities.get(0).getName()).isEqualTo("비버"),
-                () -> assertThat(carEntities.get(0).getPosition()).isEqualTo(1)
+                () -> assertThat(result).hasSize(2),
+                () -> assertThat(result.get(0).getName()).isEqualTo("비버"),
+                () -> assertThat(result.get(0).getPosition()).isEqualTo(1)
+        );
+    }
+
+    @Test
+    void toGamePlayResponseDtos_메서드는_차_엔티티들을_받아_GamePlayResponseDto_리스트를_반환한다() {
+        // given
+        final List<CarEntity> carEntities = List.of(
+                new CarEntity("car1", 4, false, 1),
+                new CarEntity("car2", 5, true, 1),
+                new CarEntity("car1", 5, true, 2),
+                new CarEntity("car2", 5, true, 2),
+                new CarEntity("car3", 2, false, 2)
+        );
+
+        // when
+        final List<GamePlayResponseDto> result = racingGameMapper.toGamePlayResponseDtos(carEntities);
+
+        // then
+        assertAll(
+                () -> assertThat(result).hasSize(2),
+                () -> assertThat(result.get(0).getRacingCars()).hasSize(2),
+                () -> assertThat(result.get(0).getWinners()).hasSize(1),
+                () -> assertThat(result.get(1).getRacingCars()).hasSize(3),
+                () -> assertThat(result.get(1).getWinners()).hasSize(2)
         );
     }
 }
