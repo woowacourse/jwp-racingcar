@@ -7,11 +7,9 @@ import racingcar.repository.GameDao;
 public class GameService {
 
     private final GameDao gameDao;
-    private final RecordService recordService;
 
-    public GameService(final GameDao gameDao, final RecordService recordService) {
+    public GameService(final GameDao gameDao) {
         this.gameDao = gameDao;
-        this.recordService = recordService;
     }
 
     public long save(final int count) {
