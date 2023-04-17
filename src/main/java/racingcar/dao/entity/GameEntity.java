@@ -1,4 +1,4 @@
-package racingcar.repository.entity;
+package racingcar.dao.entity;
 
 import racingcar.domain.RacingGame;
 

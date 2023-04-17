@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.entity.GameEntity;
 import racingcar.domain.Car;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarPositionDto;
 import racingcar.dto.RaceDto;
-import racingcar.repository.entity.GameEntity;
+import racingcar.repository.RacingGameRepository;
 
 @Service
 public class RacingCarsService {

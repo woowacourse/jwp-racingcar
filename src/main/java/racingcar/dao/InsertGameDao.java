@@ -1,11 +1,11 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import racingcar.repository.entity.GameEntity;
+import racingcar.dao.entity.GameEntity;
 
 public class InsertGameDao {
 

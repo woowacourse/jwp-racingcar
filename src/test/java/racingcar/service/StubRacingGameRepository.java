@@ -1,7 +1,8 @@
 package racingcar.service;
 
+import racingcar.dao.entity.GameEntity;
 import racingcar.domain.RacingGame;
-import racingcar.repository.entity.GameEntity;
+import racingcar.repository.RacingGameRepository;
 
 public class StubRacingGameRepository implements RacingGameRepository {
 

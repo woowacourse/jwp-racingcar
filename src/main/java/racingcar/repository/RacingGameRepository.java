@@ -1,7 +1,7 @@
-package racingcar.service;
+package racingcar.repository;
 
+import racingcar.dao.entity.GameEntity;
 import racingcar.domain.RacingGame;
-import racingcar.repository.entity.GameEntity;
 
 public interface RacingGameRepository {
 

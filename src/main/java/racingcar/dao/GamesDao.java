@@ -1,8 +1,8 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
-import racingcar.repository.entity.GameEntity;
+import racingcar.dao.entity.GameEntity;
 
 @Repository
 public class GamesDao {
