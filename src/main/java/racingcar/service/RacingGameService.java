@@ -1,7 +1,6 @@
 package racingcar.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
@@ -9,7 +8,6 @@ import racingcar.dao.GameDao;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarResultDto;
 
 @Service
