@@ -8,6 +8,7 @@ import racingcar.domain.Car;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayerResultDto;
 import racingcar.dto.response.GameResponseDto;
@@ -34,12 +35,12 @@ public class RacingGameService {
         racingGame.moveCars(TryCount.from(tryCount));
 
         String winners = decideWinners(racingGame);
-        List<PlayerResultDto> playerResultDtos = getPlayerResultDtos(racingGame);
+        List<CarDto> carDtos = CarDto.from(racingGame.getCars());
 
         int savedId = gameResultDAO.save(GameResultDto.of(tryCount, winners));
-        playerResultDAO.save(savedId, playerResultDtos);
+        playerResultDAO.saveAll(PlayerResultDto.of(carDtos, savedId));
 
-        return new GameResponseDto(winners, playerResultDtos);
+        return new GameResponseDto(winners, carDtos);
     }
 
     private List<Name> convertToNames(List<String> names) {
@@ -52,11 +53,5 @@ public class RacingGameService {
         return racingGame.decideWinners().getCars().stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(DELIMITER));
-    }
-
-    private List<PlayerResultDto> getPlayerResultDtos(RacingGame racingGame) {
-        return racingGame.getCars().stream()
-                .map(PlayerResultDto::from)
-                .collect(Collectors.toList());
     }
 }

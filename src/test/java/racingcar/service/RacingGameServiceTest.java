@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dao.GameResultDAO;
 import racingcar.dao.PlayerResultDAO;
-import racingcar.dto.PlayerResultDto;
+import racingcar.dto.CarDto;
 import racingcar.dto.response.GameResponseDto;
 
 import java.util.List;
@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -67,7 +68,7 @@ class RacingGameServiceTest {
                 .thenReturn(1);
 
         doNothing().when(playerResultDAO)
-                .save(anyInt(), anyList());
+                .saveAll(anyList());
 
         //when
         GameResponseDto result = racingGameService.play(names, tryCount);
@@ -82,7 +83,7 @@ class RacingGameServiceTest {
 
     private List<String> getPlayers(GameResponseDto gameResponseDto) {
         return gameResponseDto.getRacingCars().stream()
-                .map(PlayerResultDto::getName)
+                .map(CarDto::getName)
                 .collect(Collectors.toList());
     }
 }

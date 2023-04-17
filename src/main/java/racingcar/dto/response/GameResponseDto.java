@@ -1,15 +1,15 @@
 package racingcar.dto.response;
 
 
-import racingcar.dto.PlayerResultDto;
+import racingcar.dto.CarDto;
 
 import java.util.List;
 
 public class GameResponseDto {
     private final String winners;
-    private final List<PlayerResultDto> racingCars;
+    private final List<CarDto> racingCars;
 
-    public GameResponseDto(String winners, List<PlayerResultDto> racingCars) {
+    public GameResponseDto(String winners, List<CarDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
@@ -18,7 +18,7 @@ public class GameResponseDto {
         return winners;
     }
 
-    public List<PlayerResultDto> getRacingCars() {
+    public List<CarDto> getRacingCars() {
         return racingCars;
     }
 }
