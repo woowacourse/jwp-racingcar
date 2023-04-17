@@ -1,12 +1,12 @@
 package racingcar.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.RacingCarDto;
-import racingcar.utils.Parser;
 import racingcar.validator.Validator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -22,12 +22,8 @@ public class RacingConsoleController {
         RacingGame racingGame = initializeGame(carNames);
 
         outputView.printResultHeader();
+        racingGame.runRound(tryCount);
         outputView.printRoundResult(createRacingCarDtos(racingGame));
-        for (int roundCount = 0; roundCount < tryCount; roundCount++) {
-            racingGame.runRound();
-            outputView.printRoundResult(createRacingCarDtos(racingGame));
-        }
-
         List<String> winningCarsName = racingGame.findWinningCarsName();
         outputView.printWinners(winningCarsName);
     }
@@ -35,7 +31,9 @@ public class RacingConsoleController {
     private List<String> getValidCarNames() {
         try {
             String carNames = inputView.readCarName();
-            List<String> parsedCarNames = Parser.parsing(carNames, ",");
+            List<String> parsedCarNames = Arrays.stream(carNames.split(","))
+                    .map(String::trim)
+                    .collect(Collectors.toUnmodifiableList());
             Validator.validateNames(parsedCarNames);
             return parsedCarNames;
         } catch (IllegalArgumentException exception) {

@@ -6,8 +6,10 @@ import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
@@ -18,7 +20,6 @@ import racingcar.dto.GameResponseDto;
 import racingcar.dto.HistoryResponseDto;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarResultDto;
-import racingcar.utils.Parser;
 import racingcar.validator.Validator;
 
 @Service
@@ -45,7 +46,9 @@ public class RacingGameService {
     }
 
     private List<String> getValidCarNames(String carNames) {
-        List<String> parsedCarNames = Parser.parsing(carNames, ",");
+        List<String> parsedCarNames = Arrays.stream(carNames.split(","))
+                .map(String::trim)
+                .collect(Collectors.toUnmodifiableList());
         Validator.validateNames(parsedCarNames);
         return parsedCarNames;
     }
