@@ -1,10 +1,12 @@
 package racingcar.dto;
 
 import racingcar.domain.Car;
+import racingcar.domain.Cars;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 public class RacingGameResponse {
 
@@ -18,6 +20,13 @@ public class RacingGameResponse {
 
     public static RacingGameResponse of(String winners, List<CarDto> racingCars) {
         return new RacingGameResponse(winners, racingCars);
+    }
+
+    public static RacingGameResponse of(List<Car> winners, Cars cars) {
+        List<CarDto> carDtos = cars.getCars().stream()
+                .map(CarDto::from)
+                .collect(toList());
+        return RacingGameResponse.of(winners, carDtos);
     }
 
     public static RacingGameResponse of(List<Car> winners, List<CarDto> racingCars) {
