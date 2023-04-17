@@ -20,6 +20,7 @@ public final class ConsoleApplication {
                     new RacingGameService(
                             new RacingGameRepository(
                                     new GameResultDaoConsoleImpl(), new CarDaoConsoleImpl())));
+
             controller.run(new DefaultMovingStrategy());
         }
     }
