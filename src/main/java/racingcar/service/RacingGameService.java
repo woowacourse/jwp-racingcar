@@ -1,22 +1,22 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.entity.Game;
-import racingcar.entity.Player;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
+import racingcar.entity.Game;
+import racingcar.entity.Player;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
-    private static final String DELIMITER = ",";
 
     private final NumberGenerator numberGenerator;
     private final GameDao gameDao;
@@ -34,8 +34,9 @@ public class RacingGameService {
         final Game game = Game.of(gameRequest.getCount());
         final int gameId = gameDao.save(game);
 
+        final Set<String> winners = new HashSet<>(racingGame.findWinners());
         final List<Player> cars = racingGame.findCurrentCarPositions().stream()
-                .map(car -> Player.of(car, racingGame.findWinners().contains(car.getName()),gameId))
+                .map(car -> Player.of(car, winners.contains(car.getName()), gameId))
                 .collect(Collectors.toList());
 
         playerDao.saveAll(cars);
@@ -44,9 +45,7 @@ public class RacingGameService {
     }
 
     private RacingGame playRacingGame(final GameRequest gameRequest) {
-        final List<String> names = Arrays.stream(gameRequest.getNames().split(DELIMITER))
-                .collect(Collectors.toList());
-        final RacingGame racingGame = new RacingGame(numberGenerator, names, gameRequest.getCount());
+        final RacingGame racingGame = new RacingGame(numberGenerator, gameRequest.getNames(), gameRequest.getCount());
 
         racingGame.play();
 

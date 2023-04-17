@@ -9,6 +9,8 @@ import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
 import racingcar.utils.TestNumberGenerator;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -26,7 +28,7 @@ class RacingGameServiceTest {
                 (cars) -> {
                 }
         );
-        final GameRequest gameRequest = new GameRequest("브리,비버,허브", 1);
+        final GameRequest gameRequest = new GameRequest(List.of("브리", "비버", "허브"), 1);
 
         // when
         final GameResponse gameResponse = racingGameService.play(gameRequest);
@@ -36,7 +38,5 @@ class RacingGameServiceTest {
                 () -> assertThat(gameResponse.getWinners()).containsExactly("브리"),
                 () -> assertThat(gameResponse.getRacingCars()).hasSize(3)
         );
-
     }
-
 }
