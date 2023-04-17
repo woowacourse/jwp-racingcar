@@ -3,16 +3,17 @@ package racingcar.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
-import racingcar.dao.PlayerDao;
 import racingcar.domain.NumberGenerator;
-import racingcar.dto.GameRequest;
-import racingcar.dto.GameResponse;
+import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
 import racingcar.utils.TestNumberGenerator;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -23,17 +24,17 @@ class RacingGameServiceTest {
     void 자동차_경주를_진행한다() {
         // given
         final GameDao gameDao = Mockito.mock(GameDao.class);
-        final PlayerDao carDao = Mockito.mock(PlayerDao.class);
+        final CarDao carDao = Mockito.mock(CarDao.class);
         final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 3));
         final RacingGameService racingGameService = new RacingGameService(numberGenerator, gameDao, carDao);
-        final GameRequest gameRequest = new GameRequest("브리,비버,허브", 1);
+        final GameRequestDto gameRequest = new GameRequestDto(List.of("브리", "비버", "허브"), 1);
 
         // when
-        final GameResponse gameResponse = racingGameService.play(gameRequest);
+        final GameResponseDto gameResponse = racingGameService.play(gameRequest);
 
         // then
         assertAll(
-                () -> assertThat(gameResponse.getWinners()).isEqualTo("브리"),
+                () -> assertThat(gameResponse.getWinners()).containsExactly("브리"),
                 () -> assertThat(gameResponse.getRacingCars()).hasSize(3)
         );
     }

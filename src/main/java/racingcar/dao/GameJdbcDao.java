@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.entity.Game;
+import racingcar.entity.GameEntity;
 
 @Component
 public class GameJdbcDao implements GameDao {
@@ -17,7 +17,7 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public int saveAndGetId(final Game game) {
+    public int saveAndGetId(final GameEntity game) {
         final String sql = "insert into game (trial, created_at) values (?, ?)";
 
         final KeyHolder keyHolder = new GeneratedKeyHolder();

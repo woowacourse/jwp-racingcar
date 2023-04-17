@@ -4,7 +4,11 @@ POST localhost:8080/plays
 Content-Type: application/json
 
 {
-  "names": "브리,토미,브라운",
+  "names": [
+    "브리",
+    "토미",
+    "브라운"
+  ],
   "count": 10
 }
 

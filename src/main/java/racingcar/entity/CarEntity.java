@@ -2,18 +2,24 @@ package racingcar.entity;
 
 import racingcar.domain.Car;
 
-public class Player {
+public class CarEntity {
     private final Integer id;
     private final String name;
     private final int position;
     private final boolean winner;
     private final Integer gameId;
 
-    public Player(final String name, final int position, final boolean winner, final Integer gameId) {
+    public CarEntity(final String name, final int position, final boolean winner, final Integer gameId) {
         this(null, name, position, winner, gameId);
     }
 
-    public Player(final Integer id, final String name, final int position, final boolean winner, final Integer gameId) {
+    public CarEntity(
+            final Integer id,
+            final String name,
+            final int position,
+            final boolean winner,
+            final Integer gameId
+    ) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -21,8 +27,8 @@ public class Player {
         this.gameId = gameId;
     }
 
-    public static Player of(final Car car, final boolean winner, final int gameId) {
-        return new Player(car.getName(), car.getPosition(), winner, gameId);
+    public static CarEntity of(final Car car, final boolean winner, final int gameId) {
+        return new CarEntity(car.getName(), car.getPosition(), winner, gameId);
     }
 
     public Integer getId() {

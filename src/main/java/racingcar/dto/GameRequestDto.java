@@ -1,15 +1,17 @@
 package racingcar.dto;
 
-public class GameRequest {
-    private final String names;
+import java.util.List;
+
+public class GameRequestDto {
+    private final List<String> names;
     private final int count;
 
-    public GameRequest(final String names, final int count) {
+    public GameRequestDto(final List<String> names, final int count) {
         this.names = names;
         this.count = count;
     }
 
-    public String getNames() {
+    public List<String> getNames() {
         return names;
     }
 

@@ -10,34 +10,34 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.entity.Game;
-import racingcar.entity.Player;
+import racingcar.entity.CarEntity;
+import racingcar.entity.GameEntity;
 
 @JdbcTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-public class PlayerJdbcDaoTest {
+public class CarJdbcDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private PlayerDao playerDao;
+    private CarDao carDao;
     private GameDao gameDao;
 
     @BeforeEach
     void setUp() {
-        playerDao = new PlayerJdbcDao(jdbcTemplate);
+        carDao = new CarJdbcDao(jdbcTemplate);
         gameDao = new GameJdbcDao(jdbcTemplate);
     }
 
     @Test
     void 입력받은_플레이어를_전부_저장한다() {
         // given
-        final int gameId = gameDao.saveAndGetId(new Game(3));
-        final List<Player> players = List.of(new Player("car1", 1, true, gameId));
+        final int gameId = gameDao.saveAndGetId(new GameEntity(3));
+        final List<CarEntity> players = List.of(new CarEntity("car1", 1, true, gameId));
 
         // when
-        playerDao.saveAll(players);
+        carDao.saveAll(players);
 
         // then
         final String sql = "select count(*) from player";
