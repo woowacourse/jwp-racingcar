@@ -2,6 +2,8 @@ package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +43,21 @@ class RaceServiceTest {
         // then
         assertThat(raceResultResponse.getRacingCars()).isNotNull();
         assertThat(raceResultResponse.getWinners()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("게임 결과를 조회한다.")
+    void searchAllRaceResult() {
+        // given
+        GameInfoRequest gameInfoRequest1 = new GameInfoRequest("성하,이오,코코닥", 5);
+        GameInfoRequest gameInfoRequest2 = new GameInfoRequest("a,b,c", 5);
+        raceService.saveRaceResult(gameInfoRequest1);
+        raceService.saveRaceResult(gameInfoRequest2);
+
+        // when
+        List<RaceResultResponse> raceResultResponses = raceService.searchAllRaceResult();
+
+        // then
+        assertThat(raceResultResponses.size()).isEqualTo(2);
     }
 }
