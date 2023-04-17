@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.CarName;
 import racingcar.domain.CarPosition;
+import racingcar.domain.dao.entity.CarEntity;
+import racingcar.domain.dao.entity.RaceEntity;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
@@ -75,5 +78,27 @@ class RaceControllerTest {
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @DisplayName("")
+    public void testFindAllRace() throws Exception {
+        //given
+        final RaceEntity raceEntity = new RaceEntity(1L, 1, "test");
+        final List<CarEntity> carEntities = List.of(new CarEntity(1L, "test", 1));
+        final List<RaceResponse> raceResponses = List.of(RaceResponse.of(raceEntity, carEntities));
+
+        //when
+        when(raceService.findAllRace())
+            .thenReturn(raceResponses);
+
+        //then
+        mockMvc.perform(get("/plays")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().is2xxSuccessful())
+            .andExpect(jsonPath("$[0].winners").value(raceEntity.getWinners()))
+            .andExpect(jsonPath("$[0].racingCars[0].name").value(carEntities.get(0).getName()))
+            .andExpect(
+                jsonPath("$[0].racingCars[0].position").value(carEntities.get(0).getPosition()));
     }
 }
