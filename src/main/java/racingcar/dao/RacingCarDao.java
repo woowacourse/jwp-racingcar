@@ -1,12 +1,14 @@
 package racingcar.dao;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
@@ -20,8 +22,8 @@ public class RacingCarDao {
     public RacingCarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("PLAY_RESULT")
-                .usingGeneratedKeyColumns("id");
+            .withTableName("PLAY_RESULT")
+            .usingGeneratedKeyColumns("id");
     }
 
     public void insertGame(final RacingCars racingCars, final TryCount tryCount) {
@@ -39,9 +41,12 @@ public class RacingCarDao {
     private void insertGameLog(final RacingCars racingCars, final int gameId) {
         final String sql = "INSERT INTO LOG (game_id, name, move) values (?,?,?)";
 
+        List<Object[]> batchArgs = new ArrayList<>();
         for (RacingCar racingCar : racingCars.getRacingCars()) {
-            jdbcTemplate.update(sql, gameId, racingCar.getName(), racingCar.getPosition());
+            batchArgs.add(new Object[] {gameId, racingCar.getName(), racingCar.getPosition()});
         }
+
+        jdbcTemplate.batchUpdate(sql, batchArgs);
     }
 
     private String concat(final List<String> names) {
