@@ -52,7 +52,7 @@ class GameServiceTest {
         final String[] winners = gameResultDto.getWinners().split(NAME_DELIMITER);
 
         assertThat(gameResultDto.getPlayCount()).isEqualTo(playCount);
-        assertThat(gameResultDto.getPlayers().size()).isEqualTo(names.size());
+        assertThat(gameResultDto.getPlayers()).hasSize(names.size());
         for (final String winner : winners) {
             assertThat(names).contains(winner);
         }
@@ -71,13 +71,13 @@ class GameServiceTest {
             System.out.println(result.getPlayCount());
         }
 
-        assertThat(results.size()).isEqualTo(inputs.size());
+        assertThat(results).hasSize(inputs.size());
         for (int i = 0; i < inputs.size(); i++) {
             final GameResultDto result = results.get(i);
             final GameInputDto input = inputs.get(i);
             final int namesSize = input.getNames().split(NAME_DELIMITER).length;
             assertThat(result.getPlayCount()).isEqualTo(input.getPlayCount());
-            assertThat(result.getPlayers().size()).isEqualTo(namesSize);
+            assertThat(result.getPlayers()).hasSize(namesSize);
             for (final String winner : result.getWinners().split(NAME_DELIMITER)) {
                 assertThat(input.getNames()).contains(winner);
             }
