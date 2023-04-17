@@ -1,8 +1,8 @@
 package racingcar.repository;
 
-import racingcar.dto.RacingGameResultDto;
+import racingcar.domain.RacingGame;
 
 public interface RacingCarRepository {
 
-    void save(RacingGameResultDto racingGameResultDto);
+    void saveRacingGame(RacingGame racingGame);
 }

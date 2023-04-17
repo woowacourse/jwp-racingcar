@@ -1,7 +1,7 @@
 package racingcar.dao;
 
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarDto;
+import racingcar.dao.entity.CarEntity;
 import racingcar.utils.ConnectionProvider;
 
 import java.sql.Connection;
@@ -13,17 +13,17 @@ import java.util.List;
 public class H2CarDao implements CarDao {
 
     @Override
-    public void save(int gameId, List<CarDto> carDtos) {
+    public void saveAll(List<CarEntity> carEntities) {
         String sql = "INSERT INTO CAR(game_id, name, position, is_win) VALUES (?,?,?,?)";
 
         try (Connection connection = ConnectionProvider.getConnection()) {
-            for (CarDto carDto : carDtos) {
+            for (CarEntity carEntity : carEntities) {
                 PreparedStatement ps = connection.prepareStatement(sql);
 
-                ps.setInt(1, gameId);
-                ps.setString(2, carDto.getName());
-                ps.setInt(3, carDto.getPosition());
-                ps.setBoolean(4, carDto.isWin());
+                ps.setInt(1, carEntity.getGameId());
+                ps.setString(2, carEntity.getName());
+                ps.setInt(3, carEntity.getPosition());
+                ps.setBoolean(4, carEntity.isWin());
                 ps.executeUpdate();
 
                 ps.close();

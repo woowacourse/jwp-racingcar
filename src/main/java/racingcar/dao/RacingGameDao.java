@@ -1,6 +1,8 @@
 package racingcar.dao;
 
+import racingcar.dao.entity.RacingGameEntity;
+
 public interface RacingGameDao {
 
-    int save(int count);
+    int save(RacingGameEntity racingGameEntity);
 }

@@ -6,8 +6,6 @@ import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.CarDto;
-import racingcar.dto.RacingGameResultDto;
 import racingcar.dto.request.RacingStartRequest;
 import racingcar.dto.response.RacingCarResponse;
 import racingcar.dto.response.RacingResultResponse;
@@ -43,30 +41,18 @@ public class WebRacingCarService implements RacingCarService {
 
     private RacingResultResponse playGame(Cars cars, int round) {
         RacingGame racingGame = new RacingGame(cars, round);
+        // Todo : 중간 과정 출력을 위한 로직 제거 => racingGame안에서 전체 게임 진행을 할 수 있도록 구현 가능할 듯
         while (!racingGame.isGameEnded()) {
             racingGame.playOneRound();
         }
 
-        saveGameResult(round, racingGame);
+        saveGameResult(racingGame);
 
         return createRacingResultResponse(racingGame);
     }
 
-    private void saveGameResult(int round, RacingGame racingGame) {
-        racingCarRepository.save(createRacingGameResultDto(round, racingGame));
-    }
-
-    private RacingGameResultDto createRacingGameResultDto(int round, RacingGame racingGame) {
-        List<CarDto> carDtos = new ArrayList<>();
-
-        List<Car> winnerCars = racingGame.findWinnerCars();
-        List<Car> cars = racingGame.getCars();
-
-        for (Car car : cars) {
-            carDtos.add(new CarDto(car.getName(), car.getPosition(), winnerCars.contains(car)));
-        }
-
-        return new RacingGameResultDto(round, carDtos);
+    private void saveGameResult(RacingGame racingGame) {
+        racingCarRepository.saveRacingGame(racingGame);
     }
 
     private RacingResultResponse createRacingResultResponse(RacingGame racingGame) {

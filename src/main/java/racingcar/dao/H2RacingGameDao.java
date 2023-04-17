@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import org.springframework.stereotype.Repository;
+import racingcar.dao.entity.RacingGameEntity;
 import racingcar.utils.ConnectionProvider;
 
 import java.sql.Connection;
@@ -13,12 +14,12 @@ import java.sql.Statement;
 public class H2RacingGameDao implements RacingGameDao {
 
     @Override
-    public int save(int count) {
+    public int save(RacingGameEntity racingGameEntity) {
         String sql = "INSERT INTO RACING_GAME(count) VALUES (?)";
 
         try (Connection connection = ConnectionProvider.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, count);
+            ps.setInt(1, racingGameEntity.getCount());
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
