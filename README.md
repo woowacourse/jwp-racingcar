@@ -33,9 +33,9 @@ Dao
 - [x] GameDao
   - [x] InMemoryGameDao
     - [x] PLAY_RESULT 데이터 save
-- [ ] Entity
-  - [ ] CarEntity
-  - [ ] GameEntity 
+- [x] Entity
+  - [x] CarEntity
+  - [x] GameEntity 
 
 ## DB 연동하기
 - [x] CAR_RESULT
