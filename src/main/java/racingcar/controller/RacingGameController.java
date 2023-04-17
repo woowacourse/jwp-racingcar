@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,5 +48,15 @@ public class RacingGameController {
 		} catch (IllegalArgumentException | InputMismatchException exception) {
 			throw new IllegalArgumentException(exception.getMessage());
 		}
+	}
+
+	@ExceptionHandler(value = {HttpMessageNotReadableException.class})
+	ResponseEntity<String> handleRequestDtoValues (HttpMessageNotReadableException exception) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+	}
+
+	@ExceptionHandler(value = {IllegalArgumentException.class, InputMismatchException.class})
+	ResponseEntity<String> handleInputValues (RuntimeException exception) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
 	}
 }
