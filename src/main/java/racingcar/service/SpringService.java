@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RandomMoveChance;
 import racingcar.domain.TrialCount;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.GameResponseDto;
 
 @Service
 public class SpringService {
@@ -29,13 +30,31 @@ public class SpringService {
         this.winnersDao = winnersDao;
     }
 
-    public ResponseDto play(Cars cars, int playCount) {
+    public List<GameResponseDto> getGameLog() {
+        List<GameResponseDto> getLogs = new ArrayList<>();
+        List<Integer> gameNumbers = getGameNumbers();
+        for (int gameNumber : gameNumbers) {
+            getLogs.add(new GameResponseDto(winnerResponseDto(gameNumber), gameLogDao.find(gameNumber)));
+        }
+        return getLogs;
+    }
+
+    public List<Car> winnerResponseDto(int gameNumber) {
+        List<Car> winnerNames = winnersDao.find(gameNumber);
+        return winnerNames;
+    }
+
+    public List<Integer> getGameNumbers() {
+        return gameDao.getGameNumbers();
+    }
+
+    public GameResponseDto play(Cars cars, int playCount) {
         TrialCount trialCount = TrialCount.of(playCount);
         int gameNumber = gameDao.saveGame(trialCount);
         playMultipleTimes(cars, trialCount);
         cars.saveGameLog(gameLogDao, gameNumber);
         cars.saveGameWinner(winnersDao, gameNumber);
-        return new ResponseDto(getWinners(cars), getCars(cars));
+        return new GameResponseDto(getWinners(cars), getCars(cars));
     }
 
     private void playMultipleTimes(Cars cars, TrialCount trialCount) {
