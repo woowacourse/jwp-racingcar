@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
@@ -24,14 +25,13 @@ public class RacingCarService {
         this.racingGames = racingGames;
     }
 
+    @Transactional
     public ResultResponseDto play(RacingGameRequestDto racingGameRequestDto) {
         RacingGame racingGame = initGame(racingGameRequestDto);
         racingGame.moveCars(numberGenerator);
         RacingGame save = racingGames.save(racingGame);
 
-        List<PlayerDto> playerDtos = mapToPlayerDtos(save.getCars());
-
-        return new ResultResponseDto(save.getWinners(), playerDtos);
+        return new ResultResponseDto(save.getWinners(), mapToPlayerDtos(save.getCars()));
     }
 
     private RacingGame initGame(RacingGameRequestDto racingGameRequestDto) {
