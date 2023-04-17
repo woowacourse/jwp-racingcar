@@ -4,11 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.GameEntity;
+import racingcar.dto.GameRecordResponseDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
 import racingcar.model.Cars;
 import racingcar.util.NameFormatConverter;
 import racingcar.util.NumberGenerator;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -37,5 +43,13 @@ public class GameService {
         carDao.saveAll(gameId, cars.getCars());
 
         return new RacingGameResponseDto(cars.getWinners(), cars.getCars());
+    }
+
+    public List<GameRecordResponseDto> getGameRecord() {
+        List<GameEntity> gameEntities = gameDao.findAll();
+        return gameEntities.stream().map(gameEntity -> {
+            List<CarEntity> carEntities = carDao.findAllById(gameEntity.getId());
+            return new GameRecordResponseDto(gameEntity.getWinners(), carEntities);
+        }).collect(Collectors.toUnmodifiableList());
     }
 }

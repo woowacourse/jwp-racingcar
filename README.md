@@ -18,7 +18,7 @@ Service
   - [x] 자동차 이동
   - [x] CAR_RESULT 테이블에 자동차 데이터 삽입
   - [x] PLAY_RESULT 테이블에 게임 데이터 삽입
-- [ ] 게임 이력 조회
+- [x] 게임 이력 조회
 
 Dto
 - [x] CarDto
