@@ -16,11 +16,11 @@ import racingcar.dto.PlayResponseDtoConverter;
 @Transactional(readOnly = true)
 public class RacingCarService {
 
-    private final PlayRecordsDao gameDao;
+    private final PlayRecordsDao playRecordsDao;
     private final CarsDao carsDao;
 
-    public RacingCarService(final PlayRecordsDao gameDao, final CarsDao carsDao) {
-        this.gameDao = gameDao;
+    public RacingCarService(final PlayRecordsDao playRecordsDao, final CarsDao carsDao) {
+        this.playRecordsDao = playRecordsDao;
         this.carsDao = carsDao;
     }
 
@@ -32,7 +32,8 @@ public class RacingCarService {
     }
 
     private void saveGame(final int count, final List<JudgedCarDto> judgedCars) {
-        final long savedId = gameDao.insertAndReturnId(count);
+        playRecordsDao.insert(count);
+        long savedId = playRecordsDao.getLastId();
         carsDao.insert(savedId, judgedCars);
     }
 

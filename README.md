@@ -112,9 +112,9 @@ Content-Type: application/json
 
 ## 코드리뷰 반영 및 리팩터링 목록
 
-### 1단계 피드백
+### 피드백 체크리스트
 
-- [ ] 아래 피드백 학습 후 반영하기
+- 아래 1단계 피드백 학습 후 반영하기
     - [x] [빈 public 생성자 선언하지 않고도 PlayRequestDto의 필드를 json mapping 할 수 있게 만드는 방법은?](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165362349)
         - [x] 기존 불필요한 디폴트 생성자 선언 코드 삭제
         - [x] @RequestBody 사용법 학습
@@ -123,12 +123,16 @@ Content-Type: application/json
         - [x] 자동차 레이스 로직 도메인으로 이동 (콘솔 어플리케이션 기능 수정 후)
     - [x] [@Transactional 사용 이유, 방법, 동작 방식](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165351296)
         - [x] 트랜잭션 서비스 계층에 적용
-        - [x] 성능 이점이 있는 readOnly 적용
-        - [ ] 추가로 깊은 학습 필요
+        - [x] 성능 이점이 있는 readOnly 적용 (추가로 깊은 학습 필요)
     - [x] [@Component 와 @Repository 의 차이](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)
     - [x] [@Repository, @Component, @Service 어노테이션의 차이점](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165357619)
+        - [ ] Spring PSA 학습
     - [x] [새 id값을 반환하는 insert와 그렇지 않은 insert 메서드에 대해서 어떻게 일관성을 부여할까?](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165358853)
         - [x] 메서드 네이밍을 구체적으로 수정
-        - [ ] 다른 방법 생각해보기
+        - [x] 한 가지 메서드가 두 가지 기능을 하고 있는 것 아닐까? => id 조회 메서드 분리
+            - id 조회 SQL 작성: 가장 최근 시퀀스 값 조회하는 SCOPE_IDENTITY() 와 같은 함수는 DB 제품마다 차이가 크므로 사용하지 않음.
     - [ ] [관계형 데이터베이스에서 발생하는 테스트 독립성 문제](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165381209)
     - [ ] [DB 테스트 격리 보장](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
+
+- 2단계 피드백
+    - [ ] 

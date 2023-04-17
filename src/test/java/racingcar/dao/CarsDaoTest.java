@@ -24,17 +24,18 @@ class CarsDaoTest {
     @Autowired
     private CarsDao carsDao;
     @Autowired
-    private PlayRecordsDao gameDao;
+    private PlayRecordsDao playRecordsDao;
 
     @BeforeEach
     void setUp() {
-        gameDao.clear();
+        playRecordsDao.clear();
+        playRecordsDao.insert(5);
     }
 
     @DisplayName("DB: 게임 아이디에 따른 자동차 저장 테스트")
     @Test
     void insert() {
-        long id = gameDao.insertAndReturnId(5);
+        long id = playRecordsDao.getLastId();
 
         carsDao.insert(id, FIXTURE_CARS);
 
@@ -45,9 +46,10 @@ class CarsDaoTest {
     @DisplayName("DB: 모든 게임 별 자동차 정보 최신순 조회 테스트")
     @Test
     void findAllCarsById() {
-        long id1 = gameDao.insertAndReturnId(5);
+        long id1 = playRecordsDao.getLastId();
         carsDao.insert(id1, FIXTURE_CARS);
-        long id2 = gameDao.insertAndReturnId(5);
+        playRecordsDao.insert(5);
+        long id2 = playRecordsDao.getLastId();
         carsDao.insert(id2, FIXTURE_CARS);
 
         Map<Long, List<JudgedCarDto>> allCars = carsDao.findAllCarsByPlayId();
