@@ -40,7 +40,7 @@ Dao
 ## DB 연동하기
 - [x] CAR_RESULT
   - [x] 플레이 횟수, 우승자, 플레이한 날짜/시간 저장
-  - [ ] CAR_RESULT 값 조회
+  - [x] CAR_RESULT 값 조회
 - [x] PLAY_RESULT
   - [x] 게임 ID, 플레이어 별 최종 이동거리 저장
   - [ ] PLAY_RESULT 값 조회

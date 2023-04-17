@@ -3,6 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import racingcar.dao.entity.CarEntity;
 import racingcar.model.Car;
 
 import java.sql.PreparedStatement;
@@ -25,14 +26,26 @@ public class InMemoryCarDao implements CarDao {
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                ps.setInt(1,gameId);
+                ps.setInt(1, gameId);
                 ps.setString(2, cars.get(i).getName());
                 ps.setInt(3, cars.get(i).getLocation());
             }
+
             @Override
             public int getBatchSize() {
                 return cars.size();
             }
         });
+    }
+
+    @Override
+    public List<CarEntity> findAllById(int gameId) {
+        String sql = "select * from CAR_RESULT where play_result_id = ?";
+
+        return jdbcTemplate.query(sql, (result, id) ->
+                        new CarEntity(result.getInt("play_result_id"),
+                                result.getString("car_name"),
+                                result.getInt("car_position"))
+                , gameId);
     }
 }
