@@ -4,6 +4,7 @@ import racingcar.domain.Cars;
 import racingcar.domain.Count;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.RandomNumberPicker;
+import racingcar.dto.RaceDto;
 import racingcar.service.ConsoleRacingGameService;
 import racingcar.util.Repeat;
 import racingcar.view.InputView;
