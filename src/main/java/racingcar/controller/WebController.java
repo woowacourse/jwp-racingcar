@@ -21,8 +21,8 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public RacingResultResponse run(@RequestBody RacingRequest racingRequest) {
-        Cars updatedCars = RacingGame.run(racingRequest);
+    public RacingResultResponse run(@RequestBody RacingRequest dto) {
+        Cars updatedCars = RacingGame.run(dto);
         racingService.save(updatedCars);
         return new RacingResultResponse(updatedCars.getWinnerNames(), updatedCars.getCarDtos());
     }
