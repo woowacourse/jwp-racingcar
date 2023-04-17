@@ -1,8 +1,7 @@
 package racingcar.repository;
 
-import racingcar.domain.CarGroup;
+import racingcar.domain.Cars;
 
 public interface PlayerRepository {
-
-    boolean save(final CarGroup carGroup, final int racingGameId);
+    boolean save(final Cars cars, final int racingGameId);
 }

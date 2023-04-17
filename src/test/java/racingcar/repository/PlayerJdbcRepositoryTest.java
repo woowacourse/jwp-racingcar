@@ -1,32 +1,30 @@
 package racingcar.repository;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import racingcar.domain.Cars;
 
-import racingcar.domain.CarGroup;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 class PlayerJdbcRepositoryTest {
+    @Autowired
+    PlayerJdbcRepository playerJdbcRepository;
 
     @Autowired
-    private PlayerJdbcRepository playerJdbcRepository;
-
-    @Autowired
-    private RacingGameJdbcRepository racingGameJdbcRepository;
+    RacingGameJdbcRepository racingGameJdbcRepository;
 
     @DisplayName("플레이어 저장")
     @Test
     void save() {
         // given
-        CarGroup carGroup = new CarGroup("저문,헤나");
-        int racingGameId = racingGameJdbcRepository.save("저문,헤나", 10);
+        final int savedGameId = racingGameJdbcRepository.save("저문,헤나", 10);
+        final Cars cars = new Cars("저문,헤나");
 
         // when
-        boolean isSaved = playerJdbcRepository.save(carGroup, racingGameId);
+        final boolean isSaved = playerJdbcRepository.save(cars, savedGameId);
 
         // then
         assertThat(isSaved).isTrue();
