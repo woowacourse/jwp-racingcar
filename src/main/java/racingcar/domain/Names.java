@@ -15,7 +15,7 @@ public class Names {
 
     public Names(final String names) {
         validateNotNull(names);
-        final List<String> splitNames = sliceNameByComma(names);
+        final List<String> splitNames = splitNames(names);
         validateMinParticipantNumber(splitNames);
         validateDuplicateName(splitNames);
         splitNames.stream()
@@ -41,24 +41,12 @@ public class Names {
         }
     }
 
-    private List<String> sliceNameByComma(final String names) {
-        validateComma(names);
-
-        return getSplitName(names);
-    }
-
-    private static List<String> getSplitName(final String names) {
+    private List<String> splitNames(final String names) {
         List<String> splitNames = new ArrayList<>();
 
         addAll(splitNames, names.split(DELIMITER));
 
         return splitNames;
-    }
-
-    private void validateComma(final String names) {
-        if (!names.contains(DELIMITER)) {
-            throw new IllegalArgumentException("[ERROR] 쉼표로 이름을 구분해주세요.");
-        }
     }
 
     public List<Name> getNames() {
