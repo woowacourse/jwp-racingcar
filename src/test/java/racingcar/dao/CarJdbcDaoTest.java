@@ -42,7 +42,7 @@ public class CarJdbcDaoTest {
         carDao.saveAll(players);
 
         // then
-        final String sql = "select count(*) from player";
+        final String sql = "select count(*) from car";
         final int count = jdbcTemplate.queryForObject(sql, Integer.class);
         assertThat(count).isEqualTo(1);
     }

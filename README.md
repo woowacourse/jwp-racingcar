@@ -17,7 +17,7 @@
 
 ### Database
 
-<img width="568" alt="image" src="https://user-images.githubusercontent.com/58586537/232359029-fb026bb0-e271-4f9b-9b27-174ccb37215b.png">
+<img width="517" alt="image" src="https://user-images.githubusercontent.com/58586537/232510797-0c0ea14f-4ce9-4d74-a997-1ecdc3175491.png">
 
 ### API
 
