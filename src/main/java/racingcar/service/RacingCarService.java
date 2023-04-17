@@ -46,14 +46,9 @@ public class RacingCarService {
     }
 
     private void playGame(RacingCars racingCars, TryCount tryCount) {
-        while (canProceed(tryCount)) {
+        for (int i = 0; i < tryCount.getCount(); i++) {
             racingCars.moveAll();
-            tryCount = tryCount.deduct();
         }
-    }
-
-    private boolean canProceed(TryCount tryCount) {
-        return tryCount.isOpportunity();
     }
 
     private List<RacingCarDto> createRacingCarDtos(RacingCars racingCars) {
