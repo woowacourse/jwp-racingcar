@@ -12,4 +12,10 @@ public class CarExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(e.getMessage());
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleAllException(Exception e) {
+        return ResponseEntity.badRequest()
+                .body(e.getMessage());
+    }
 }
