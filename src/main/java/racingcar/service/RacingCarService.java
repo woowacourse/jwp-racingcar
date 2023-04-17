@@ -30,7 +30,7 @@ public class RacingCarService {
 		List<GameResult> gameResults = cars.getCars().stream()
 				.map((car -> {
 					return new GameResult(car.getCarName(), car.getDistance(),
-							cars.getWinnerNames().contains(car.getCarName()));
+							cars.isWinner(car));
 				}))
 				.collect(Collectors.toList());
 		gameResultDao.saveGame(gameResults, tryCount);

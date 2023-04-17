@@ -75,4 +75,8 @@ public class Cars {
     public List<Car> getCars() {
         return cars;
     }
+
+    public boolean isWinner (final Car car) {
+        return getWinnerNames().contains(car.getCarName());
+    }
 }
