@@ -22,7 +22,7 @@ class GameDaoTest {
 
     @BeforeEach
     void setUp() {
-        gameDao = new GameDao(jdbcTemplate.getDataSource());
+        gameDao = new GameDao(jdbcTemplate);
         jdbcTemplate.execute("ALTER TABLE game ALTER COLUMN id RESTART WITH 1");
     }
 

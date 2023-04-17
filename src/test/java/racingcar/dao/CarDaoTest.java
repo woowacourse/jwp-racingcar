@@ -29,7 +29,7 @@ class CarDaoTest {
     @BeforeEach
     void setUp() {
         carDao = new CarDao(jdbcTemplate);
-        gameDao = new GameDao(jdbcTemplate.getJdbcTemplate().getDataSource());
+        gameDao = new GameDao(jdbcTemplate.getJdbcTemplate());
         jdbcTemplate.getJdbcTemplate().execute("ALTER TABLE game ALTER COLUMN id RESTART WITH 1");
         long id1 = gameDao.save(1);
         long id2 = gameDao.save(2);
