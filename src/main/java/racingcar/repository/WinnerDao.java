@@ -19,7 +19,7 @@ public class WinnerDao {
     }
 
     public List<WinnerEntity> saveAll(final List<CarEntity> winners, final int gameId) {
-        insertWinnerDao.saveAll(winners, gameId);
+        insertWinnerDao.insertAll(winners, gameId);
         return selectWinnerDao.findAllByGameId(gameId);
     }
 }

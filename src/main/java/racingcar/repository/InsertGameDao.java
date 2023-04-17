@@ -17,7 +17,7 @@ public class InsertGameDao {
                 .usingGeneratedKeyColumns("game_id");
     }
 
-    public GameEntity save(final GameEntity gameEntity) {
+    public GameEntity insert(final GameEntity gameEntity) {
         final Map<String, Object> parameters = new HashMap<>(2);
         final LocalDateTime createAt = LocalDateTime.now();
 

@@ -29,9 +29,9 @@ class WinnerDaoTest {
     void setUp(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
         final GameEntity gameEntity = new GameEntity(null, new RacingGame(List.of("브리"), 5));
 
-        gameId = RepositoryFactory.gamesDao(dataSource).save(gameEntity).getGameId();
+        gameId = RepositoryFactory.gamesDao(dataSource).insert(gameEntity).getGameId();
         carEntity = RepositoryFactory.carDao(dataSource, jdbcTemplate)
-                .saveAll(List.of(new CarEntity("브리", 9)), gameId).get(0);
+                .insertAll(List.of(new CarEntity("브리", 9)), gameId).get(0);
         winnerDao = RepositoryFactory.winnerDao(dataSource, jdbcTemplate);
     }
 
