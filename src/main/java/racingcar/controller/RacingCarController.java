@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.CarFactory;
 import racingcar.domain.Cars;
-import racingcar.dto.RequestDto;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.MoveRequestDto;
+import racingcar.dto.MoveResponseDto;
 import racingcar.genertor.NumberGenerator;
-import racingcar.genertor.RandomNumberGenerator;
 import racingcar.service.RacingCarService;
 
 import java.util.Arrays;
@@ -28,13 +27,13 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResponseDto> play(@RequestBody RequestDto requestDto) {
-        List<String> carNames = Arrays.asList(requestDto.getNames().split(","));
+    public ResponseEntity<MoveResponseDto> play(@RequestBody MoveRequestDto moveRequestDto) {
+        List<String> carNames = Arrays.asList(moveRequestDto.getNames().split(","));
         Cars cars = new Cars(CarFactory.buildCars(carNames));
-        play(cars, requestDto.getCount(), numberGenerator);
-        ResponseDto responseDto = new ResponseDto(cars.findWinners(), cars.getCars());
-        racingCarService.saveResult(requestDto.getCount(), cars);
-        return ResponseEntity.ok().body(responseDto);
+        play(cars, moveRequestDto.getCount(), numberGenerator);
+        MoveResponseDto moveResponseDto = new MoveResponseDto(cars.findWinners(), cars.getCars());
+        racingCarService.saveResult(moveRequestDto.getCount(), cars);
+        return ResponseEntity.ok().body(moveResponseDto);
     }
 
     public void play(Cars cars, int count, NumberGenerator numberGenerator) {
