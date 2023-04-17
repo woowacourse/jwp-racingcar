@@ -40,7 +40,7 @@ class WinnerDaoTest {
 
     @Test
     void 우승자_저장() {
-        final List<WinnerEntity> result = winnerDao.saveAll(List.of(new CarEntity(carId, "브리", 9)),
+        final List<WinnerEntity> result = winnerDao.insertAll(List.of(new CarEntity(carId, "브리", 9)),
                 gameId);
 
         assertAll(

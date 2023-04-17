@@ -16,7 +16,7 @@ public class InsertWinnerDao {
                 .usingGeneratedKeyColumns("winner_id");
     }
 
-    public void saveAll(final List<CarEntity> winners, final int gameId) {
+    public void insertAll(final List<CarEntity> winners, final int gameId) {
         final MapSqlParameterSource[] batch = winners.stream().map(winner ->
                 new MapSqlParameterSource()
                         .addValue("game_id", gameId)

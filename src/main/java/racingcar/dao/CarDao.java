@@ -18,7 +18,7 @@ public class CarDao {
     }
 
     public List<CarEntity> insertAll(final List<CarEntity> carEntities, final int gameId) {
-        insertCarDao.saveAll(carEntities, gameId);
+        insertCarDao.insertAll(carEntities, gameId);
         return selectCarDao.findAllByGameId(gameId);
     }
 }

@@ -16,7 +16,7 @@ public class InsertCarDao {
                 .usingGeneratedKeyColumns("car_id");
     }
 
-    public void saveAll(final List<CarEntity> carEntities, final int gameId) {
+    public void insertAll(final List<CarEntity> carEntities, final int gameId) {
         final MapSqlParameterSource[] batch = carEntities.stream().map(carEntity ->
                 new MapSqlParameterSource()
                         .addValue("game_id", gameId)

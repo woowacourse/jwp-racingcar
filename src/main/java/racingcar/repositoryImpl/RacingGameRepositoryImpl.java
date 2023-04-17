@@ -32,7 +32,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
         final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities, gameEntity.getGameId());
         final List<CarEntity> something = findWinnerCarEntities(savedCarEntities, racingGame.findWinner());
 
-        winnerDao.saveAll(something, gameEntity.getGameId());
+        winnerDao.insertAll(something, gameEntity.getGameId());
         return gameEntity;
     }
 

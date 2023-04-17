@@ -18,8 +18,8 @@ public class WinnerDao {
         selectWinnerDao = new SelectWinnerDao(jdbcTemplate);
     }
 
-    public List<WinnerEntity> saveAll(final List<CarEntity> winners, final int gameId) {
-        insertWinnerDao.saveAll(winners, gameId);
+    public List<WinnerEntity> insertAll(final List<CarEntity> winners, final int gameId) {
+        insertWinnerDao.insertAll(winners, gameId);
         return selectWinnerDao.findAllByGameId(gameId);
     }
 }
