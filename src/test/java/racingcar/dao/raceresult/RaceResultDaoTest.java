@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
+import racingcar.dao.raceresult.entity.RaceResultEntity;
 import racingcar.domain.RacingCars;
 import racingcar.util.RandomNumberGenerator;
 
@@ -54,5 +55,30 @@ class RaceResultDaoTest {
         for (String winner : winnerList) {
             assertThat(nameList).contains(winner);
         }
+    }
+
+    @Test
+    @DisplayName("모든 결과의 우승자를 조회한다.")
+    void findAllWinners() {
+        // given
+        String names1 = "성하,이오,코코닥";
+        RacingCars racingCars1 = RacingCars.makeCars(names1);
+        racingCars1.moveAllCars(5, new RandomNumberGenerator());
+        RaceResultRegisterRequest raceResultRegisterRequest1 = RaceResultRegisterRequest.create(5, racingCars1);
+
+        String names2 = "성하,이오,코코닥";
+        RacingCars racingCars2 = RacingCars.makeCars(names2);
+        racingCars1.moveAllCars(5, new RandomNumberGenerator());
+        RaceResultRegisterRequest raceResultRegisterRequest2 = RaceResultRegisterRequest.create(5, racingCars2);
+
+        // when
+        raceResultDao.save(raceResultRegisterRequest1);
+        raceResultDao.save(raceResultRegisterRequest2);
+        List<RaceResultEntity> allWinners = raceResultDao.findAllWinners();
+
+        // then
+        assertThat(allWinners.size()).isEqualTo(2);
+        assertThat(allWinners.get(0).getWinners()).isNotNull();
+        assertThat(allWinners.get(1).getWinners()).isNotNull();
     }
 }
