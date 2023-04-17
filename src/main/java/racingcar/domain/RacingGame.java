@@ -14,6 +14,12 @@ public class RacingGame {
         this.numberGenerator = numberGenerator;
     }
 
+    public void runRound(int count) {
+        for (int i = 0; i < count; i++) {
+            runRound();
+        }
+    }
+
     public void runRound() {
         racingCars.forEach(racingCar -> racingCar.advance(numberGenerator.getNumber()));
     }

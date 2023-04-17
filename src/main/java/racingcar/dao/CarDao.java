@@ -23,13 +23,13 @@ public class CarDao {
         jdbcTemplate.batchUpdate(sql, SqlParameterSourceUtils.createBatch(racingCarResultDtos));
     }
 
-    public List<String> findWinnersById(long gameId) {
+    public List<String> findWinnersByGameId(long gameId) {
         String sql = "SELECT name FROM car WHERE game_id = :game_id AND is_win = 1";
         Map<String, Long> parameter = Collections.singletonMap("game_id", gameId);
         return jdbcTemplate.query(sql, parameter, (resultSet, count) -> resultSet.getString("name"));
     }
 
-    public List<RacingCarDto> findCarsById(long gameId) {
+    public List<RacingCarDto> findCarsByGameId(long gameId) {
         String sql = "SELECT name, position FROM car WHERE game_id = :game_id";
         Map<String, Long> parameter = Collections.singletonMap("game_id", gameId);
         return jdbcTemplate.query(sql, parameter, (resultSet, count) ->

@@ -44,7 +44,7 @@ class CarDaoTest {
         //given
         //when
         carDao.saveAll(cars);
-        List<RacingCarDto> queriedCars = carDao.findCarsById(1);
+        List<RacingCarDto> queriedCars = carDao.findCarsByGameId(1);
 
         //then
         assertThat(queriedCars).hasSize(2);
@@ -56,7 +56,7 @@ class CarDaoTest {
         carDao.saveAll(cars);
 
         //when
-        List<String> winners = carDao.findWinnersById(1);
+        List<String> winners = carDao.findWinnersByGameId(1);
 
         //then
         assertThat(winners).containsExactly("포이");
