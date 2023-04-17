@@ -19,9 +19,11 @@ public class PlayerResultDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<CarDto> rowMapper = (resultSet, rowNum) -> CarDto.of(
+    private final RowMapper<PlayerResultEntity> rowMapper = (resultSet, rowNum) -> PlayerResultEntity.of(
+            resultSet.getInt("id"),
             resultSet.getString("name"),
-            resultSet.getInt("position")
+            resultSet.getInt("position"),
+            resultSet.getInt("game_id")
     );
 
 
@@ -38,8 +40,8 @@ public class PlayerResultDAO {
                 });
     }
 
-    public List<CarDto> findAllByGameId(int gameId) {
-        String sql = "select name, position from PLAYER_RESULT WHERE game_id = ?";
+    public List<PlayerResultEntity> findAllByGameId(int gameId) {
+        String sql = "select * from PLAYER_RESULT WHERE game_id = ?";
 
         return jdbcTemplate.query(sql, rowMapper, gameId);
     }

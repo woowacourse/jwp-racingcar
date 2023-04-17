@@ -20,8 +20,10 @@ public class GameResultDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<GameResultDto> rowMapper = (resultSet, rowNum) -> GameResultDto.from(
-            resultSet.getInt("trial_count")
+    private final RowMapper<GameResultEntity> rowMapper = (resultSet, rowNum) -> GameResultEntity.of(
+            resultSet.getInt("id"),
+            resultSet.getInt("trial_count"),
+            resultSet.getTime("created_at").toLocalTime()
     );
 
     public int save(GameResultDto resultDto) {
@@ -37,7 +39,7 @@ public class GameResultDAO {
         return keyHolder.getKey().intValue();
     }
 
-    public List<GameResultDto> findAll() {
+    public List<GameResultEntity> findAll() {
         String sql = "select * from GAME_RESULT";
 
         return jdbcTemplate.query(sql, rowMapper);

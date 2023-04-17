@@ -34,7 +34,7 @@ class PlayerResultDAOTest {
         playerResultDAO.saveAll(PlayerResultDto.of(carDtos, savedId));
 
         //then
-        List<CarDto> findResult = playerResultDAO.findAllByGameId(savedId);
+        List<PlayerResultEntity> findResult = playerResultDAO.findAllByGameId(savedId);
         List<String> findNames = getNamesFrom(findResult);
         List<Integer> findPositions = getPositionsFrom(findResult);
 
@@ -44,15 +44,15 @@ class PlayerResultDAOTest {
                 .containsExactlyInAnyOrder(10, 7);
     }
 
-    private List<Integer> getPositionsFrom(List<CarDto> findResult) {
+    private List<Integer> getPositionsFrom(List<PlayerResultEntity> findResult) {
         return findResult.stream()
-                .map(CarDto::getPosition)
+                .map(PlayerResultEntity::getPosition)
                 .collect(Collectors.toList());
     }
 
-    private List<String> getNamesFrom(List<CarDto> findResult) {
+    private List<String> getNamesFrom(List<PlayerResultEntity> findResult) {
         return findResult.stream()
-                .map(CarDto::getName)
+                .map(PlayerResultEntity::getName)
                 .collect(Collectors.toList());
     }
 }

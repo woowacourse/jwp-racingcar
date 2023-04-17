@@ -32,7 +32,7 @@ class GameResultDAOTest {
         for (GameResultDto result : results) {
             gameResultDAO.save(result);
         }
-        List<GameResultDto> findResults = gameResultDAO.findAll();
+        List<GameResultEntity> findResults = gameResultDAO.findAll();
 
         //then
         for (int i = 0; i < findResults.size(); i++) {
