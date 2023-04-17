@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -68,7 +67,7 @@ class RacingGameServiceTest {
                 .thenReturn(1);
 
         doNothing().when(playerResultDAO)
-                .saveAll(anyList());
+                .saveAll(any());
 
         //when
         GameResponseDto result = racingGameService.play(names, tryCount);

@@ -20,19 +20,17 @@ public class GameResultDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<GameResultDto> rowMapper = (resultSet, rowNum) -> GameResultDto.of(
-            resultSet.getInt("trial_count"),
-            resultSet.getString("winners")
+    private final RowMapper<GameResultDto> rowMapper = (resultSet, rowNum) -> GameResultDto.from(
+            resultSet.getInt("trial_count")
     );
 
     public int save(GameResultDto resultDto) {
-        String sql = "insert into GAME_RESULT (winners, trial_count) values (?, ?)";
+        String sql = "insert into GAME_RESULT (trial_count) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((connection) -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
-            preparedStatement.setString(1, resultDto.getWinners());
-            preparedStatement.setInt(2, resultDto.getTrialCount());
+            preparedStatement.setInt(1, resultDto.getTrialCount());
             return preparedStatement;
         }, keyHolder);
 

@@ -24,8 +24,8 @@ class GameResultDAOTest {
     void findAllGameResultTest() {
         //given
         List<GameResultDto> results = List.of(
-                GameResultDto.of(5, "dochi"),
-                GameResultDto.of(10, "zuny")
+                GameResultDto.from(5),
+                GameResultDto.from(10)
         );
 
         //when
@@ -36,9 +36,6 @@ class GameResultDAOTest {
 
         //then
         for (int i = 0; i < findResults.size(); i++) {
-            assertThat(findResults.get(i).getWinners())
-                    .isEqualTo(results.get(i).getWinners());
-
             assertThat(findResults.get(i).getTrialCount())
                     .isEqualTo(results.get(i).getTrialCount());
         }

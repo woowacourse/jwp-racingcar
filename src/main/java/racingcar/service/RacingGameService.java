@@ -37,7 +37,7 @@ public class RacingGameService {
         String winners = decideWinners(racingGame);
         List<CarDto> carDtos = CarDto.from(racingGame.getCars());
 
-        int savedId = gameResultDAO.save(GameResultDto.of(tryCount, winners));
+        int savedId = gameResultDAO.save(GameResultDto.from(tryCount));
         playerResultDAO.saveAll(PlayerResultDto.of(carDtos, savedId));
 
         return new GameResponseDto(winners, carDtos);
