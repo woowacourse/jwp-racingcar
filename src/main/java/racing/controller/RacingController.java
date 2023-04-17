@@ -3,6 +3,7 @@ package racing.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,12 +37,23 @@ public class RacingController {
         return ResponseEntity.ok(getRacingGameResultResponse(cars));
     }
 
+    @GetMapping("/plays")
+    public ResponseEntity<List<RacingGameResultResponse>> getAllResults() {
+        List<Cars> allResults = racingGameService.getAllResults();
+
+        List<RacingGameResultResponse> allResponseResults = allResults.stream()
+                .map(this::getRacingGameResultResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(allResponseResults);
+    }
+
     private RacingGameResultResponse getRacingGameResultResponse(Cars cars) {
         List<RacingCarStateResponse> racingCarsState = cars.getCars().stream()
                 .map(car -> new RacingCarStateResponse(car.getName(), car.getStep()))
                 .collect(Collectors.toList());
 
-        return new RacingGameResultResponse(racingGameService.getWinners(cars), racingCarsState);
+        return new RacingGameResultResponse(racingGameService.filterWinnersToCarNames(cars), racingCarsState);
     }
 
 }

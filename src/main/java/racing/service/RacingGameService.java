@@ -1,8 +1,11 @@
 package racing.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import racing.domain.Car;
+import racing.domain.CarName;
 import racing.domain.Cars;
 import racing.repository.CarEntity;
 import racing.repository.RacingGameDao;
@@ -31,9 +34,32 @@ public class RacingGameService {
         racingGameDao.saveCar(carEntities);
     }
 
-    public String getWinners(Cars cars) {
+    public String filterWinnersToCarNames(Cars cars) {
         List<String> winners = cars.getWinners();
-        return String.join(", ", winners);
+        return String.join(",", winners);
     }
 
+    public List<Cars> getAllResults() {
+        List<Long> gameIdOrderByRecent = racingGameDao.findAllGameIdOrderByRecent();
+        List<CarEntity> carsInGame = racingGameDao.findCarsInGame(gameIdOrderByRecent);
+
+        List<Cars> results = new ArrayList<>();
+        for (Long gameId : gameIdOrderByRecent) {
+            results.add(filterByGameId(carsInGame, gameId));
+        }
+
+        return results;
+    }
+
+    private Cars filterByGameId(List<CarEntity> carsInGame, Long gameId) {
+        return new Cars(carsInGame.stream()
+                .filter(carEntity -> carEntity.getGameId().equals(gameId))
+                .map(this::toCarFrom)
+                .collect(Collectors.toList()));
+    }
+
+    private Car toCarFrom(CarEntity carEntity) {
+        CarName carName = new CarName(carEntity.getCarName());
+        return new Car(carName, carEntity.getStep());
+    }
 }
