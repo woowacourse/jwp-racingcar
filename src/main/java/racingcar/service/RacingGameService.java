@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.RacingGameRequestDto;
@@ -35,11 +34,7 @@ public final class RacingGameService {
     }
 
     private RacingGame createRacingGame(final RacingGameRequestDto racingGameRequestDto) {
-        return new RacingGame(
-                List.of(racingGameRequestDto.getNames().split(",")),
-                racingGameRequestDto.getCount(),
-                new RandomNumberGenerator()
-        );
+        return RacingGame.from(racingGameRequestDto);
     }
 
     private void play(final RacingGame racingGame) {

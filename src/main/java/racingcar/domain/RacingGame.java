@@ -3,6 +3,7 @@ package racingcar.domain;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.dto.RacingGameRequestDto;
 import racingcar.exception.NoCarsExistException;
 
 public class RacingGame {
@@ -14,12 +15,18 @@ public class RacingGame {
     private final NumberGenerator numberGenerator;
     private final Coin gameCoin;
 
-    public RacingGame(List<String> splitCarNames, int gameTry, NumberGenerator numberGenerator) {
-        this.cars = splitCarNames.stream()
+    public RacingGame(List<Car> cars, NumberGenerator numberGenerator, Coin gameCoin) {
+        this.cars = cars;
+        this.numberGenerator = numberGenerator;
+        this.gameCoin = gameCoin;
+    }
+
+    public static RacingGame from(RacingGameRequestDto racingGameRequestDto) {
+        List<String> carNames = List.of(racingGameRequestDto.getNames().split(","));
+        List<Car> cars = carNames.stream()
                 .map(carName -> new Car(carName, DEFAULT_START_LINE))
                 .collect(Collectors.toList());
-        this.gameCoin = new Coin(gameTry);
-        this.numberGenerator = numberGenerator;
+        return new RacingGame(cars, new RandomNumberGenerator(), new Coin(racingGameRequestDto.getCount()));
     }
 
     public void start() {
