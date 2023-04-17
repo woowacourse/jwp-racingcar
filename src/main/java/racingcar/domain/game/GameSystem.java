@@ -1,14 +1,10 @@
-package racingcar.domain.system;
-
-import racingcar.domain.cars.Cars;
-import racingcar.domain.numbergenerator.NumberGenerator;
-import racingcar.domain.record.GameRecorder;
-import racingcar.domain.result.GameResultOfCar;
+package racingcar.domain.game;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.car.Cars;
 
 public class GameSystem {
 

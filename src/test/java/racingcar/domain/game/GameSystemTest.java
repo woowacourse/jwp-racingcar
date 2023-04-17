@@ -1,4 +1,4 @@
-package racingcar.domain.system;
+package racingcar.domain.game;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -6,14 +6,15 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import racingcar.domain.car.Car;
-import racingcar.domain.cars.Cars;
-import racingcar.domain.record.GameRecorder;
-import racingcar.domain.result.GameResultOfCar;
+import racingcar.domain.car.Cars;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import racingcar.domain.game.GameRecorder;
+import racingcar.domain.game.GameResultOfCar;
+import racingcar.domain.game.GameSystem;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

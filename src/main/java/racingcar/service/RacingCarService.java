@@ -9,12 +9,12 @@ import racingcar.dao.GameDao;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.GameEntity;
 import racingcar.domain.car.Car;
-import racingcar.domain.carfactory.CarFactory;
-import racingcar.domain.cars.Cars;
-import racingcar.domain.numbergenerator.RandomSingleDigitGenerator;
-import racingcar.domain.record.GameRecorder;
-import racingcar.domain.result.GameResultOfCar;
-import racingcar.domain.system.GameSystem;
+import racingcar.domain.car.CarFactory;
+import racingcar.domain.car.Cars;
+import racingcar.domain.game.GameRecorder;
+import racingcar.domain.game.GameResultOfCar;
+import racingcar.domain.game.GameSystem;
+import racingcar.domain.game.RandomSingleDigitGenerator;
 import racingcar.dto.CarDTO;
 import racingcar.dto.ResultDTO;
 

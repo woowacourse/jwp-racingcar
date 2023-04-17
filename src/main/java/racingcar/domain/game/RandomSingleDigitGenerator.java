@@ -1,4 +1,4 @@
-package racingcar.domain.numbergenerator;
+package racingcar.domain.game;
 
 import java.util.Random;
 

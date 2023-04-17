@@ -3,17 +3,13 @@ package racingcar.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
-import javax.swing.text.html.Option;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.GameEntity;
-import racingcar.domain.car.Car;
 
 @Repository
 public class JdbcGameDao implements GameDao {

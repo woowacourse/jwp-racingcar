@@ -1,23 +1,18 @@
 package racingcar.controller;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import racingcar.dao.entity.GameEntity;
-import racingcar.domain.carfactory.CarFactory;
-import racingcar.domain.cars.Cars;
-import racingcar.domain.numbergenerator.RandomSingleDigitGenerator;
-import racingcar.domain.record.GameRecorder;
-import racingcar.domain.result.GameResultOfCar;
-import racingcar.domain.system.GameSystem;
-import racingcar.dto.CarDTO;
-import racingcar.dto.RacingGameResponseDTO;
-import racingcar.dto.ResultDTO;
-import racingcar.service.RacingCarService;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import racingcar.domain.car.CarFactory;
+import racingcar.domain.car.Cars;
+import racingcar.domain.game.GameRecorder;
+import racingcar.domain.game.GameResultOfCar;
+import racingcar.domain.game.GameSystem;
+import racingcar.domain.game.RandomSingleDigitGenerator;
+import racingcar.dto.CarDTO;
+import racingcar.dto.RacingGameResponseDTO;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 public class GameController {
 
@@ -39,7 +34,8 @@ public class GameController {
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
         String winners = getWinners(gameSystem).stream().collect(Collectors.joining(DELIMITER));
 
-        final RacingGameResponseDTO racingGameResponseDTO = new RacingGameResponseDTO(winners, getCarDTOs(count, gameSystem));
+        final RacingGameResponseDTO racingGameResponseDTO = new RacingGameResponseDTO(winners,
+                getCarDTOs(count, gameSystem));
 
         outputView.printResult(racingGameResponseDTO);
     }

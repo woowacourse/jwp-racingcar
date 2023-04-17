@@ -1,9 +1,7 @@
-package racingcar.domain.cars;
-
-import racingcar.domain.car.Car;
-import racingcar.domain.numbergenerator.NumberGenerator;
+package racingcar.domain.car;
 
 import java.util.List;
+import racingcar.domain.game.NumberGenerator;
 import racingcar.exception.CarsException;
 
 public class Cars {

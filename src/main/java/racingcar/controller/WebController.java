@@ -42,7 +42,6 @@ public class WebController {
     @GetMapping("/plays")
     public List<RacingGameResponseDTO> getGameResults() {
         final List<RacingGameResponseDTO> racingGameResponseDTOs = new ArrayList<>();
-
         final List<ResultDTO> resultDTOs = racingCarService.getSavedGames();
 
         for (ResultDTO resultDTO : resultDTOs) {
