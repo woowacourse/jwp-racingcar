@@ -52,7 +52,6 @@ public class ConsoleController {
     private void playMultipleTimes() {
         for (int i = 0; i < trialCount; i++) {
             consoleService.playOnce();
-            outputView.printCars(consoleService.getCars());
         }
     }
 }
