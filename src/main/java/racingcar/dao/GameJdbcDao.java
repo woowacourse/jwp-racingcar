@@ -18,7 +18,7 @@ public class GameJdbcDao implements GameDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public int save(final Game game) {
+    public int saveAndGetId(final Game game) {
         final Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("trial", game.getTrial());

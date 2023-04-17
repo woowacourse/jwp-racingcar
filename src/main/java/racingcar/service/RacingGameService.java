@@ -34,7 +34,7 @@ public class RacingGameService {
         final RacingGame racingGame = playRacingGame(gameRequest);
 
         final Game game = Game.of(gameRequest.getCount());
-        final int gameId = gameDao.save(game);
+        final int gameId = gameDao.saveAndGetId(game);
 
         final Set<String> winners = new HashSet<>(racingGame.findWinners());
         final List<Player> cars = racingGame.findCurrentCarPositions().stream()
