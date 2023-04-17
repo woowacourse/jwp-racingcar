@@ -7,12 +7,17 @@ public class Name {
 
     private final String name;
 
-    public Name(String name) {
-        validate(name);
+    private Name(String name) {
         this.name = name;
     }
 
-    private void validate(String name) {
+    public static Name from(String name) {
+        validate(name);
+
+        return new Name(name);
+    }
+
+    private static void validate(String name) {
         if (name.isBlank() || name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(
                     String.format(ErrorMessage.INVALID_NAME_LENGTH.getValue(), MAX_NAME_LENGTH)
