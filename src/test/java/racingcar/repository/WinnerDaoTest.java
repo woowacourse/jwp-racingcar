@@ -22,6 +22,7 @@ import racingcar.repository.entity.WinnerEntity;
 class WinnerDaoTest {
 
     private WinnerDao winnerDao;
+    private CarEntity carEntity;
     private int gameId;
 
     @Autowired
@@ -29,16 +30,14 @@ class WinnerDaoTest {
         final GameEntity gameEntity = new GameEntity(null, new RacingGame(List.of("브리"), 5));
 
         gameId = RepositoryFactory.gamesDao(dataSource).save(gameEntity).getGameId();
-        RepositoryFactory.insertCarDao(dataSource)
-                .saveAll(List.of(new CarEntity("브리", 9)), gameId);
-
+        carEntity = RepositoryFactory.carDao(dataSource, jdbcTemplate)
+                .saveAll(List.of(new CarEntity("브리", 9)), gameId).get(0);
         winnerDao = RepositoryFactory.winnerDao(dataSource, jdbcTemplate);
     }
 
     @Test
     void 우승자_저장() {
-        final List<WinnerEntity> result = winnerDao.saveAll(List.of(new CarEntity(1, "브리", 9)),
-                gameId);
+        final List<WinnerEntity> result = winnerDao.saveAll(List.of(carEntity), gameId);
 
         assertAll(
                 () -> assertThat(result).hasSize(1),
