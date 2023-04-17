@@ -17,4 +17,8 @@ public class SelectGameEntity {
     public int getGameId() {
         return gameId;
     }
+
+    public int getTryCount() {
+        return tryCount;
+    }
 }
