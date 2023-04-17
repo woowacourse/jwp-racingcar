@@ -58,9 +58,4 @@ public class CarDao {
         String sql = "SELECT name, position FROM car WHERE game_id = ?";
         return jdbcTemplate.query(sql, carDtoRowMapper, gameId);
     }
-
-    public CarDto findCar(String name, int gameId) {
-        String sql = "SELECT name, position FROM car WHERE game_id = ? AND name = ?";
-        return jdbcTemplate.queryForObject(sql, carDtoRowMapper, gameId, name);
-    }
 }

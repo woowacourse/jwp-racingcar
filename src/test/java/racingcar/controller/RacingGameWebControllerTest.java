@@ -7,7 +7,6 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.config.TestConfig;
 import racingcar.dto.GameRequest;
-import racingcar.strategy.MovingStrategy;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import({TestConfig.class})
@@ -23,9 +21,6 @@ class RacingGameWebControllerTest {
 
     @LocalServerPort
     int port;
-
-    @Autowired
-    MovingStrategy movingStrategy;
 
     @BeforeEach
     void setUp() {

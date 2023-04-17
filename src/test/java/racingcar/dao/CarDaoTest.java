@@ -8,6 +8,7 @@ import static racingcar.constant.RacingCarDDL.CREATE_TABLE_GAME;
 import static racingcar.constant.RacingCarDDL.DROP_TABLE_CAR;
 import static racingcar.constant.RacingCarDDL.DROP_TABLE_GAME;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,12 @@ class CarDaoTest {
     @DisplayName("position을 업데이트한다.")
     void updatePosition() {
         carDao.updatePosition(CarDto.of("밀리", 5), gameId);
-        assertThat(carDao.findCar("밀리", gameId).getPosition()).isEqualTo(5);
+        List<CarDto> cars = carDao.findCars(gameId);
+        CarDto car = cars.get(0);
+        assertAll(
+                () -> assertThat(car.getName()).isEqualTo("밀리"),
+                () -> assertThat(car.getPosition()).isEqualTo(5)
+        );
     }
 
     @Test
