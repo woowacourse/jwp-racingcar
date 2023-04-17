@@ -34,7 +34,7 @@ public class RacingCarService {
         int count = gameInfoRequest.getCount();
         play(cars, count, numberGenerator);
         saveResult(count, cars);
-        return GameResultResponse.from(cars.findWinners(), cars.getCars());
+        return new GameResultResponse(cars.findWinners(), cars.getCars());
     }
 
     private void play(Cars cars, int count, NumberGenerator numberGenerator) {
