@@ -19,7 +19,7 @@ import racingcar.dao.RacingCarRecordDao;
 import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.RacingGameService;
 import racingcar.domain.game.RandomNumberGenerator;
-import racingcar.domain.game.RacingGameDto;
+import racingcar.dto.RacingGameDto;
 
 @ExtendWith(MockitoExtension.class)
 class RacingGameServiceTest {

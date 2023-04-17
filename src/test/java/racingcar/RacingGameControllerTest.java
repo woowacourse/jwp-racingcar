@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import racingcar.domain.RacingGameService;
 import racingcar.domain.game.RacingGame;
-import racingcar.domain.game.RacingGameDto;
+import racingcar.dto.RacingGameDto;
 import racingcar.web.RacingGameRequest;
 import racingcar.web.RacingGameController;
 import racingcar.web.RacingGameResponse;

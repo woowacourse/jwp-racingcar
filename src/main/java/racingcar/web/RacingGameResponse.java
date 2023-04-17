@@ -1,8 +1,8 @@
 package racingcar.web;
 
 import java.util.List;
-import racingcar.domain.cars.RacingCarDto;
-import racingcar.domain.game.RacingGameDto;
+import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingGameDto;
 
 public class RacingGameResponse {
     private final String winners;

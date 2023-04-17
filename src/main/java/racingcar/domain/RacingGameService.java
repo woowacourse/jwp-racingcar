@@ -8,7 +8,7 @@ import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.NumberGenerator;
 import racingcar.domain.game.RacingGame;
-import racingcar.domain.game.RacingGameDto;
+import racingcar.dto.RacingGameDto;
 
 @Service
 public class RacingGameService {
