@@ -23,7 +23,7 @@ public final class OutputView {
     }
 
     private void printMovingStatus(final Cars cars) {
-        for (Car car : cars) {
+        for (Car car : cars.getCars()) {
             print(String.format(
                     "%s : %s",
                     car.getName(), drawMovingLength(car.getPosition()))
@@ -40,7 +40,7 @@ public final class OutputView {
     public void printWinners(final PrintWinnersDto dto) {
         final Cars cars = dto.getCars();
         final StringJoiner stringJoiner = new StringJoiner(", ", "", "");
-        for (Car car : cars) {
+        for (Car car : cars.getCars()) {
             stringJoiner.add(car.getName().toString());
         }
         print(String.format("%s가 최종 우승했습니다.", stringJoiner));

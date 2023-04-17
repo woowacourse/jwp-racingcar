@@ -65,7 +65,7 @@ public final class RacingGameController {
     }
 
     private GameProcess startRace(final MovingStrategy strategy) {
-        final List<Cars> movingStatus = racingGame.start(strategy);
+        final List<Cars> movingStatus = racingGame.run(strategy);
         ioViewResolver.outputViewResolve(new PrintMovingStatusDto(movingStatus));
         return GameProcess.PRINT_WINNERS;
     }

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public final class RacingGame {
 
-    private final Cars cars;
+    private Cars cars;
     private TryCount tryCount;
 
     public RacingGame(final Names carNames, final TryCount tryCount) {
@@ -21,17 +21,25 @@ public final class RacingGame {
         this.tryCount = tryCount;
     }
 
-    public List<Cars> start(final MovingStrategy strategy) {
-        final List<Cars> movingStatus = new ArrayList<>();
+    public List<Cars> run(final MovingStrategy strategy) {
+        final List<Cars> result = new ArrayList<>();
         for (int i = 0; i < tryCount.getCount(); i++) {
-            cars.moveCars(strategy);
-            movingStatus.add(new Cars(cars));
-            tryCount = tryCount.decreaseCount();
+            moveCars(strategy);
+            result.add(cars);
         }
-        return movingStatus;
+        return result;
+    }
+
+    private void moveCars(final MovingStrategy strategy) {
+        this.cars = cars.move(strategy);
+        tryCount = tryCount.decreaseCount();
     }
 
     public Cars getWinners() {
-        return cars.getWinners();
+        final List<Car> result = cars.getCars()
+                .stream()
+                .filter(Car::isWinner)
+                .collect(Collectors.toList());
+        return new Cars(result);
     }
 }

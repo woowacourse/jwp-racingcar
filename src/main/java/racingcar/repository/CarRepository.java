@@ -20,9 +20,8 @@ public class CarRepository {
     }
 
     public void saveAll(final List<CarEntity> carEntities) {
-       /* for (CarEntity carEntity : carEntities) {
+        for (CarEntity carEntity : carEntities) {
             save(carEntity);
-        }*/
-        carDao.saveAll(carEntities);
+        }
     }
 }

@@ -6,19 +6,25 @@ public final class Car {
 
     private final Name name;
     private final Position position;
+    private boolean isWinner;
+
+    public Car(final Name name) {
+        this(name, Position.create());
+    }
 
     public Car(final Name name, final Position position) {
         this.name = name;
         this.position = position;
     }
 
-    public Car(final Name name) {
-        this(name, Position.create());
+    public Car(final Car car) {
+        this(car, false);
     }
 
-    public Car(final Car car) {
+    public Car(final Car car, final boolean isWinner) {
         this.name = Name.of(car.getNameValue());
         this.position = new Position(car.getPosition());
+        this.isWinner = isWinner;
     }
 
     public void move(final boolean movable) {
@@ -41,6 +47,14 @@ public final class Car {
 
     public String getNameValue() {
         return name.getName();
+    }
+
+    public boolean isWinner() {
+        return isWinner;
+    }
+
+    public void setWinner(final boolean result) {
+        this.isWinner = result;
     }
 
     @Override

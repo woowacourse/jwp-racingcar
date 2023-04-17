@@ -3,12 +3,9 @@ package racingcar.domain;
 import racingcar.domain.movingstrategy.MovingStrategy;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public final class Cars implements Iterable<Car> {
+public final class Cars {
 
     private final List<Car> cars;
 
@@ -16,46 +13,33 @@ public final class Cars implements Iterable<Car> {
         this.cars = cars;
     }
 
-    public Cars(final Cars cars) {
-        final List<Car> result = new ArrayList<>();
-        for (Car car : cars) {
-            result.add(new Car(car));
-        }
-        this.cars = result;
-    }
-
-    public void moveCars(final MovingStrategy strategy) {
+    public Cars move(final MovingStrategy strategy) {
         for (Car car : cars) {
             car.move(strategy.movable());
         }
+        return updateWinner(getMaxPosition());
     }
 
-    public boolean contains(final Car car) {
-        return cars.contains(car);
-    }
-
-    @Override
-    public Iterator<Car> iterator() {
-        return cars.iterator();
-    }
-
-    public Cars getWinners() {
-        final Position maxPosition = getMaxPosition();
-        final List<Car> result = cars.stream()
-                .filter(car -> car.getPosition().equals(maxPosition))
-                .collect(Collectors.toList());
-
+    private Cars updateWinner(final Position maxPosition) {
+        final List<Car> result = new ArrayList<>();
+        for (Car car : cars) {
+            if (car.getPosition().equals(maxPosition)) {
+                result.add(new Car(car, true));
+                continue;
+            }
+            result.add(new Car(car, false));
+        }
         return new Cars(result);
     }
 
     private Position getMaxPosition() {
         return cars.stream()
                 .map(Car::getPosition)
-                .max(Comparator.comparingInt(Position::getPosition))
+                .max(Position::compareTo)
                 .orElseGet(Position::create);
     }
 
     public List<Car> getCars() {
-        return cars;
+        return new ArrayList<>(cars);
     }
 }

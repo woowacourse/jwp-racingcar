@@ -7,6 +7,7 @@ import racingcar.domain.Names;
 import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
 import racingcar.domain.movingstrategy.DefaultMovingStrategy;
+import racingcar.domain.movingstrategy.MovingStrategy;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameResultEntity;
 import racingcar.repository.CarRepository;
@@ -30,7 +31,7 @@ public class RacingGameService {
     public GameResultResponseDto getResult(final UserRequestDto inputDto) {
         final RacingGame racingGame = mapToRacingGame(inputDto);
         final Long gameResultId = gameResultRepository.save(new GameResultEntity(inputDto.getCount()));
-        final List<CarEntity> carEntities = startAndGetResult(racingGame, gameResultId);
+        final List<CarEntity> carEntities = startAndGetResult(racingGame, gameResultId, new DefaultMovingStrategy());
         carRepository.saveAll(carEntities);
 
         return new GameResultResponseDto(carEntities);
@@ -44,14 +45,13 @@ public class RacingGameService {
         return new RacingGame(new Names(splitNames), tryCount);
     }
 
-    private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId) {
-        final List<Cars> result = racingGame.start(new DefaultMovingStrategy());
+    private List<CarEntity> startAndGetResult(final RacingGame racingGame, final Long gameResultId, final MovingStrategy movingStrategy) {
+        final List<Cars> result = racingGame.run(movingStrategy);
         final Cars finalResult = result.get(result.size() - 1);
-        final Cars winnersResults = racingGame.getWinners();
 
         return finalResult.getCars()
                 .stream()
-                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), winnersResults.contains(car), gameResultId))
+                .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), car.isWinner(), gameResultId))
                 .collect(Collectors.toList());
     }
 }
