@@ -78,13 +78,12 @@
 
 # TO-STUDY
 
-- [ ] `@Transactional` 학습, 어떻게 사용할 수 있는지
-- [ ] Mock 테스트의 테스트 범위와 원리 학습하기
-- [ ] RequestBody + Model 같이 사용할 수 있는지
-- [ ] RequestBody의 required가 어떻게 동작하는지
+- [x] `@Transactional` 학습, 어떻게 사용할 수 있는지
+- [x] Mock 테스트의 테스트 범위와 원리 학습하기
+- [x] RequestBody + Model 같이 사용할 수 있는지
+- [x] RequestBody의 required가 어떻게 동작하는지
 
 # 고민사항
 
-- [ ] 이너클래스로 `CarDTO`를 둘지, 외부 객체로 뺼지
 - [ ] 어느 기준으로 DTO를 생성해야 할지
     - [ ] Controller - Service, Service - Dao 사이마다 DTO를 새로 정의해야 하는지(필드가 새롭게 추가되는 경우)

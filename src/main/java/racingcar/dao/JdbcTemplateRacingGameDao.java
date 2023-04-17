@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.CarDto;
 
 import java.sql.PreparedStatement;
@@ -20,6 +21,7 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Transactional
     public Number saveGameResult(final String winners, final int trialCount) {
         final String sqlToInsertGameResult = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -32,10 +34,12 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
         return keyHolder.getKey();
     }
 
+    @Transactional
     public void savePlayerResults(final List<CarDto> racingCars, final Number gameResultKey) {
         for (CarDto carDto : racingCars) {
             String sqlToInsertPlayerResult = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
             jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), carDto.getPosition(), gameResultKey);
+
         }
     }
 }
