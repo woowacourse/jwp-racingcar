@@ -3,7 +3,6 @@ package racingcar.controller;
 import racingcar.domain.car.Car;
 import racingcar.domain.game.RacingCarGame;
 import racingcar.domain.strategy.MovingStrategy;
-import racingcar.domain.strategy.NumberMovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -17,7 +16,7 @@ public class RacingCarGameConsoleController {
     private final OutputView outputView;
     private final MovingStrategy movingStrategy;
 
-    public RacingCarGameConsoleController(InputView inputView, OutputView outputView, NumberMovingStrategy movingStrategy) {
+    public RacingCarGameConsoleController(InputView inputView, OutputView outputView, MovingStrategy movingStrategy) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.movingStrategy = movingStrategy;

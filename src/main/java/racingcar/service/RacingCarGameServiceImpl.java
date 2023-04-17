@@ -15,14 +15,16 @@ import java.util.List;
 public class RacingCarGameServiceImpl implements RacingCarGameService {
 
     private final RacingCarGameDao racingCarGameDao;
+    private final MovingStrategy movingStrategy;
 
     @Autowired
-    public RacingCarGameServiceImpl(final RacingCarGameDao racingCarGameDao) {
+    public RacingCarGameServiceImpl(final RacingCarGameDao racingCarGameDao, final MovingStrategy movingStrategy) {
         this.racingCarGameDao = racingCarGameDao;
+        this.movingStrategy = movingStrategy;
     }
 
     @Override
-    public int play(final String carNames, final int count, MovingStrategy movingStrategy) {
+    public int play(final String carNames, final int count) {
         final RacingCarGame newGame = RacingCarGame.createNewGame(carNames);
         newGame.moveCars(count, movingStrategy);
         return racingCarGameDao.save(newGame, count);

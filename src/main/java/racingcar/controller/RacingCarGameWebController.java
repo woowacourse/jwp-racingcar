@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.strategy.MovingStrategy;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultResponse;
 import racingcar.dto.RacingCarGameRequest;
@@ -18,17 +17,15 @@ import java.util.stream.Collectors;
 public class RacingCarGameWebController {
 
     private final RacingCarGameService racingCarGameService;
-    private final MovingStrategy movingStrategy;
 
     @Autowired
-    public RacingCarGameWebController(final RacingCarGameService racingCarGameService, final MovingStrategy movingStrategy) {
+    public RacingCarGameWebController(final RacingCarGameService racingCarGameService) {
         this.racingCarGameService = racingCarGameService;
-        this.movingStrategy = movingStrategy;
     }
 
     @PostMapping("/plays")
     public GameResultResponse play(@RequestBody RacingCarGameRequest racingCarGameRequest) {
-        final int gameId = racingCarGameService.play(racingCarGameRequest.getNames(), racingCarGameRequest.getCount(), movingStrategy);
+        final int gameId = racingCarGameService.play(racingCarGameRequest.getNames(), racingCarGameRequest.getCount());
 
         List<CarDto> carDtos = racingCarGameService.getCars(gameId);
         final String winners = getWinners(gameId);

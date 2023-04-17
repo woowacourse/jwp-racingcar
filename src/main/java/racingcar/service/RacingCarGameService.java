@@ -1,6 +1,5 @@
 package racingcar.service;
 
-import racingcar.domain.strategy.MovingStrategy;
 import racingcar.dto.CarDto;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 public interface RacingCarGameService {
 
 
-    int play(String carNames, int count, MovingStrategy movingStrategy);
+    int play(String carNames, int count);
 
     List<CarDto> getCars(int gameId);
 
