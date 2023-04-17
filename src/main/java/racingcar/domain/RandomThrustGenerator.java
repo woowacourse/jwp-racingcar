@@ -3,7 +3,6 @@ package racingcar.domain;
 import java.util.Random;
 
 public class RandomThrustGenerator implements ThrustGenerator {
-
     private final int MAX_THRUST = 10;
 
     @Override

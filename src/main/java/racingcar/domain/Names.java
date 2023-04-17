@@ -7,20 +7,24 @@ import java.util.Collections;
 import java.util.List;
 
 public class Names {
-
     private static final String DELIMITER = ",";
     private static final int MIN_PARTICIPANT = 2;
 
     private final List<Name> names = new ArrayList<>();
 
     public Names(final String names) {
+        final List<String> splitNames = validateAndSplit(names);
+        splitNames.stream()
+                .map(Name::new)
+                .forEach(this.names::add);
+    }
+
+    private List<String> validateAndSplit(final String names) {
         validateNotNull(names);
         final List<String> splitNames = splitNames(names);
         validateMinParticipantNumber(splitNames);
         validateDuplicateName(splitNames);
-        splitNames.stream()
-                .map(Name::new)
-                .forEach(this.names::add);
+        return splitNames;
     }
 
     private void validateNotNull(final String names) {

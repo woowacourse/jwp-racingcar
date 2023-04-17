@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 public class TryCount {
-
     private static final int EXCEPTION_FLAG = 0;
 
     private final int tryCount;

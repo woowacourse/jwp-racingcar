@@ -10,7 +10,6 @@ import racingcar.domain.Names;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
-import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarRequestDto;
 import racingcar.dto.RacingCarResponseDto;
 import racingcar.dto.RacingCarsDto;
@@ -18,7 +17,6 @@ import racingcar.dto.TryCountDto;
 
 @Service
 public class RacingCarService {
-
     private final RacingCarDao racingCarDao;
 
     public RacingCarService(RacingCarDao racingCarDao) {
@@ -31,8 +29,9 @@ public class RacingCarService {
 
         playGame(racingCars, tryCount);
 
-        racingCarDao.insertGame(new RacingCarsDto(racingCars), new TryCountDto(tryCount));
-        return new RacingCarResponseDto(racingCars.getWinnerNames(), createRacingCarDtos(racingCars));
+        RacingCarsDto racingCarsDto = new RacingCarsDto(racingCars);
+        racingCarDao.insertGame(racingCarsDto, new TryCountDto(tryCount));
+        return new RacingCarResponseDto(racingCarsDto);
     }
 
     private RacingCars createRacingCar(RacingCarRequestDto racingCarRequestDto) {
@@ -51,12 +50,5 @@ public class RacingCarService {
         for (int i = 0; i < tryCount.getCount(); i++) {
             racingCars.moveAll();
         }
-    }
-
-    private List<RacingCarDto> createRacingCarDtos(RacingCars racingCars) {
-        return racingCars.getRacingCars()
-            .stream()
-            .map(RacingCarDto::new)
-            .collect(Collectors.toUnmodifiableList());
     }
 }

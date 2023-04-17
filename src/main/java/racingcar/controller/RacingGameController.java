@@ -14,7 +14,6 @@ import racingcar.service.RacingCarService;
 
 @Controller
 public class RacingGameController {
-
     private final RacingCarService racingCarService;
 
     public RacingGameController(final RacingCarService racingCarService) {

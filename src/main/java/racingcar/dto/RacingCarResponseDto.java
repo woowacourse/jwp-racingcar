@@ -7,9 +7,9 @@ public final class RacingCarResponseDto {
     private final List<String> winners;
     private final List<RacingCarDto> racingCars;
 
-    public RacingCarResponseDto(final List<String> winners, final List<RacingCarDto> racingCars) {
-        this.winners = winners;
-        this.racingCars = racingCars;
+    public RacingCarResponseDto(final RacingCarsDto racingCarsDto) {
+        this.winners = racingCarsDto.getWinnerNames();
+        this.racingCars = racingCarsDto.getRacingCarDtos();
     }
 
     public List<String> getWinners() {

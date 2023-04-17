@@ -2,6 +2,7 @@ package racingcar.domain;
 
 public class RacingCar {
     private static final int THRESHOLD = 4;
+
     private final Name name;
     private final ThrustGenerator thrustGenerator;
     private int position;

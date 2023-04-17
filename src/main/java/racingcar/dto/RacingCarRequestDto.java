@@ -1,7 +1,6 @@
 package racingcar.dto;
 
 public final class RacingCarRequestDto {
-
     private final String names;
     private final int tryCount;
 

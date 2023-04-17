@@ -1,12 +1,10 @@
 package racingcar.domain;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingCars {
-
     private final List<RacingCar> racingCars = new ArrayList<>();
 
     public RacingCars(final List<RacingCar> racingCars) {
@@ -27,16 +25,16 @@ public class RacingCars {
         int maxPosition = getMaxPosition();
 
         return racingCars.stream()
-                .filter(racingCar -> racingCar.getPosition() == maxPosition)
-                .map(RacingCar::getName)
-                .collect(toList());
+            .filter(racingCar -> racingCar.getPosition() == maxPosition)
+            .map(RacingCar::getName)
+            .collect(Collectors.toUnmodifiableList());
     }
 
     private int getMaxPosition() {
         return this.racingCars
-                .stream()
-                .mapToInt(RacingCar::getPosition)
-                .max()
-                .orElse(0);
+            .stream()
+            .mapToInt(RacingCar::getPosition)
+            .max()
+            .orElse(0);
     }
 }
