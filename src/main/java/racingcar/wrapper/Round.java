@@ -1,6 +1,7 @@
 package racingcar.wrapper;
 
-import racingcar.exception.WrongRoundException;
+import racingcar.exception.BadRequestException;
+import racingcar.exception.ExceptionMessage;
 
 public class Round {
 
@@ -19,13 +20,13 @@ public class Round {
         try {
             return Integer.parseInt(inputRound);
         } catch (NumberFormatException exception) {
-            throw new WrongRoundException();
+            throw new BadRequestException(ExceptionMessage.WRONG_ROUND);
         }
     }
 
     private void validateRound(int round) {
         if (round < MIN_VALUE) {
-            throw new WrongRoundException();
+            throw new BadRequestException(ExceptionMessage.WRONG_ROUND);
         }
     }
 

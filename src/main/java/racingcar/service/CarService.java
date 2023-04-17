@@ -5,7 +5,8 @@ import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayerDao;
 import racingcar.dto.GameDto;
 import racingcar.dto.WinnerCarDto;
-import racingcar.exception.DuplicateCarNameException;
+import racingcar.exception.BadRequestException;
+import racingcar.exception.ExceptionMessage;
 import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.strategy.RacingNumberGenerator;
@@ -84,7 +85,7 @@ public class CarService {
 
     private void checkDuplication(String[] carsName) {
         if (getDistinctCarsCount(carsName) != carsName.length) {
-            throw new DuplicateCarNameException();
+            throw new BadRequestException(ExceptionMessage.DUPLICATE_CAR_NAME);
         }
     }
 

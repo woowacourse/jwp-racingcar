@@ -1,7 +1,7 @@
 package racingcar.model.wrapper;
 
-import racingcar.exception.BlankNameException;
-import racingcar.exception.WrongNameLengthException;
+import racingcar.exception.BadRequestException;
+import racingcar.exception.ExceptionMessage;
 
 public class Name {
 
@@ -16,11 +16,11 @@ public class Name {
     }
 
     private void validateName(String name) {
-        if (!name.isBlank()) {
-            throw new BlankNameException();
+        if (name.isBlank()) {
+            throw new BadRequestException(ExceptionMessage.BLANK_NAME);
         }
         if (!validateLength(name)) {
-            throw new WrongNameLengthException();
+            throw new BadRequestException(ExceptionMessage.WRONG_NAME_LENGTH);
         }
     }
 
