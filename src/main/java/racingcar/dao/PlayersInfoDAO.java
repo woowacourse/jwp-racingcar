@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
@@ -11,14 +12,14 @@ import java.util.stream.Collectors;
 @Repository
 public class PlayersInfoDAO {
 
-    private final JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
-    public PlayersInfoDAO(JdbcTemplate jdbcTemplate) {
+    public PlayersInfoDAO(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public void insert(int parentId, List<Car> cars) {
-        String sql = "insert into players_info (name, position, parent_id) values (?, ?, ?)";
+        String sql = "insert into player_info (name, position, play_result_id) values (?, ?, ?)";
         jdbcTemplate.batchUpdate(sql,
                 cars,
                 10,

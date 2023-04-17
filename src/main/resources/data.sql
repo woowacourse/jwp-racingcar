@@ -7,12 +7,12 @@ CREATE TABLE PLAY_RESULT (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE PLAYERS_INFO(
+CREATE TABLE PLAYER_INFO(
     id          INT         NOT NULL AUTO_INCREMENT,
     name        VARCHAR(6)  NOT NULL ,
     position    INT         NOT NULL ,
-    parent_id   INT         NOT NULL ,
+    play_result_id   INT         NOT NULL ,
     PRIMARY KEY (id),
-    FOREIGN KEY (parent_id)
+    FOREIGN KEY (play_result_id)
     REFERENCES PLAY_RESULT(id)
 );
