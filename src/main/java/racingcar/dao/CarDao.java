@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.domain.Car;
+import racingcar.dto.CarDto;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -18,24 +18,24 @@ public final class CarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long save(final Car car) {
+    public Long save(final CarDto dto) {
         String sql = "INSERT INTO car (player_name, final_position, is_winner, game_result_id) VALUES (?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setString(1, car.getNameValue());
-            ps.setInt(2, car.getPositionValue());
-            ps.setBoolean(3, car.isWinner());
-            ps.setLong(4, car.getId());
+            ps.setString(1, dto.getName());
+            ps.setInt(2, dto.getPosition());
+            ps.setBoolean(3, dto.isWinner());
+            ps.setLong(4, dto.getId());
             return ps;
         }, keyHolder);
 
         return keyHolder.getKey().longValue();
     }
 
-    public void saveAll(final List<Car> result) {
-        for (Car car : result) {
-            save(car);
+    public void saveAll(final List<CarDto> dtos) {
+        for (CarDto dto : dtos) {
+            save(dto);
         }
     }
 }

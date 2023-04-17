@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 public final class RacingGame {
 
+    private Long id;
     private Cars cars;
     private TryCount tryCount;
 

@@ -1,10 +1,11 @@
-package racingcar.entity;
+package racingcar.dto;
 
-public final class GameResultEntity {
+public final class GameResultDto {
 
     private final int tryCount;
 
-    public GameResultEntity(final int tryCount) {
+
+    public GameResultDto(final int tryCount) {
         this.tryCount = tryCount;
     }
 

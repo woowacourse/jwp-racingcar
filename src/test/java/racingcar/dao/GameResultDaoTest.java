@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import racingcar.entity.GameResultEntity;
+import racingcar.dto.GameResultDto;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -17,7 +17,7 @@ class GameResultDaoTest {
     @Test
     @Rollback
     void save() {
-        Long id = gameResultDao.save(new GameResultEntity(3));
+        Long id = gameResultDao.save(new GameResultDto(3));
         assertThat(1L).isEqualTo(id);
     }
 }

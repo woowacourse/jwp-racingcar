@@ -3,6 +3,7 @@ package racingcar.repository;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.CarDao;
 import racingcar.domain.Car;
+import racingcar.utils.DtoMapper;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class CarRepository {
     }
 
     public void save(final Car car) {
-        carDao.save(car);
+        carDao.save(DtoMapper.toCarDto(car));
     }
 
     public void saveAll(final List<Car> carEntities) {

@@ -1,6 +1,10 @@
 package racingcar.utils;
 
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
+import racingcar.domain.RacingGame;
+import racingcar.dto.CarDto;
+import racingcar.dto.GameResultDto;
 import racingcar.dto.GameResultResponseDto;
 
 public final class DtoMapper {
@@ -22,5 +26,13 @@ public final class DtoMapper {
                 .collect(Collectors.toList());
         */
         return new GameResultResponseDto(finalResult.getCars());
+    }
+
+    public static CarDto toCarDto(final Car car) {
+        return new CarDto(car.getNameValue(), car.getPositionValue());
+    }
+
+    public static GameResultDto toRacingGameDto(final RacingGame racingGame) {
+        return new GameResultDto(racingGame.getTryCountValue());
     }
 }

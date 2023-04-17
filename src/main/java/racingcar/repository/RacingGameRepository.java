@@ -4,9 +4,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameResultDao;
-import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.entity.GameResultEntity;
+import racingcar.dto.CarDto;
+import racingcar.utils.DtoMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,10 +24,10 @@ public class RacingGameRepository {
 
     @Transactional
     public void save(final RacingGame racingGame) {
-        final Long gameId = gameResultDao.save(new GameResultEntity(racingGame.getTryCountValue()));
-        final List<Car> collect = racingGame.getCars()
+        final Long gameId = gameResultDao.save(DtoMapper.toRacingGameDto(racingGame));
+        final List<CarDto> collect = racingGame.getCars()
                 .stream()
-                .map(car -> new Car(gameId, car.getNameValue(), car.getPositionValue(), car.isWinner()))
+                .map(car -> new CarDto(gameId, car.getNameValue(), car.getPositionValue(), car.isWinner()))
                 .collect(Collectors.toList());
         carDao.saveAll(collect);
     }
