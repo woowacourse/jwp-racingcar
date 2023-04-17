@@ -72,8 +72,8 @@ public class ConsoleController {
 
     private void moveAllCars(int moveCount, Cars cars) {
         for (int i = 0; i < moveCount; i++) {
-            cars.moveAllCarsOnce(carMoveManager);
-            List<Car> currentResult = cars.getCurrentResult();
+            cars.moveCars(carMoveManager);
+            List<Car> currentResult = cars.getCars();
             outputView.printResult(currentResult);
         }
     }

@@ -1,5 +1,7 @@
 package racingcar.model.car;
 
+import racingcar.util.ValueEditor;
+
 import java.util.Objects;
 
 public class Car {
@@ -11,6 +13,7 @@ public class Car {
     private int position;
 
     public Car(String name) {
+        name = ValueEditor.removeSpace(name);
         validate(name);
         this.name = name;
         this.position = 0;

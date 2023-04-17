@@ -99,8 +99,8 @@ class CarsTest {
         Car secondIrene = new Car("이리내부캐");
         Cars cars = new Cars(Arrays.asList(gitJjang, secondGitJjang, irene, secondIrene));
 
-        cars.moveAllCarsOnce(new ThresholdCarMoveManager());
-        List<Car> carsAfterMove = cars.getCurrentResult();
+        cars.moveCars(new ThresholdCarMoveManager());
+        List<Car> carsAfterMove = cars.getCars();
         assertThat(carsAfterMove.stream().dropWhile(car -> car.getPosition() > 1).collect(Collectors.toList()).equals(carsAfterMove));
     }
 

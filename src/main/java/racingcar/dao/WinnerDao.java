@@ -3,7 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.ResultDto;
+import racingcar.dto.GameResultDto;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,9 +18,9 @@ public class WinnerDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertWinner(ResultDto resultDto, long gameId) {
+    public void insertWinner(GameResultDto gameResultDto, long gameId) {
         String sql3 = "INSERT INTO winner (game_id,winner) VALUES (?,?)";
-        List<String> winners = resultDto.getWinners();
+        List<String> winners = gameResultDto.getWinners();
         jdbcTemplate.batchUpdate(sql3, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {

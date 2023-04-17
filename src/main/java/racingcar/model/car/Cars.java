@@ -1,7 +1,11 @@
 package racingcar.model.car;
 
+import racingcar.dto.CarDto;
+import racingcar.model.MoveCount;
 import racingcar.model.manager.CarMoveManager;
+import racingcar.model.manager.ThresholdCarMoveManager;
 import racingcar.util.RandomNumberGenerator;
+import racingcar.util.ValueEditor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,12 +34,15 @@ public class Cars {
         }
     }
 
-    public List<Car> getCurrentResult() {
-        return List.copyOf(cars);
+    public void moveCars(CarMoveManager carMoveManager) {
+        cars.forEach(car -> car.move(carMoveManager.isMove(RandomNumberGenerator.getRandomNumber())));
     }
 
-    public void moveAllCarsOnce(CarMoveManager carMoveManager) {
-        cars.forEach(car -> car.move(carMoveManager.isMove(RandomNumberGenerator.getRandomNumber())));
+    public int getMaxPosition() {
+        return cars.stream()
+                .mapToInt(Car::getPosition)
+                .max()
+                .orElse(0);
     }
 
     public List<String> getWinners() {
@@ -46,14 +53,8 @@ public class Cars {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private int getMaxPosition() {
-        return cars.stream()
-                .mapToInt(Car::getPosition)
-                .max()
-                .orElse(0);
+    public List<Car> getCars() {
+        return List.copyOf(cars);
     }
 
-    public void add(Car car) {
-        cars.add(car);
-    }
 }
