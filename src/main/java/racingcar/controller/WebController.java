@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import racingcar.dto.GameResultResponseDto;
-import racingcar.dto.UserRequestDto;
+import racingcar.dto.request.UserRequestDto;
+import racingcar.dto.response.GameResultResponseDto;
 import racingcar.service.RacingGameService;
 
 @Controller

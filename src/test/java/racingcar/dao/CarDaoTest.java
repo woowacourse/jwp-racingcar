@@ -27,7 +27,7 @@ class CarDaoTest {
         Long gameResultId = gameResultDao.save(DtoMapper.toRacingGameDto(racingGame));
         assertThat(1L).isEqualTo(gameResultId);
 
-        Car car = new Car(1L, "헙크", 3, true);
+        Car car = new Car("헙크", 3, true);
         Long carId = carDao.save(DtoMapper.toCarDto(car));
         assertThat(1L).isEqualTo(carId);
     }

@@ -3,9 +3,13 @@ package racingcar.utils;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
-import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
-import racingcar.dto.GameResultResponseDto;
+import racingcar.dto.db.CarDto;
+import racingcar.dto.db.GameResultDto;
+import racingcar.dto.response.CarResponseDto;
+import racingcar.dto.response.GameResultResponseDto;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class DtoMapper {
 
@@ -13,19 +17,18 @@ public final class DtoMapper {
 
     }
 
-    /*public static List<Car> mapToCarEntity(final Long gameId, final List<Car> cars) {
-        return cars.stream()
-                .map(car -> new CarEntity(gameId, car.getNameValue(), car.getPositionValue(), car.isWinner()))
-                .collect(Collectors.toList());
-    }*/
-
     public static GameResultResponseDto mapToGameResultResponseDto(final Cars finalResult) {
-        /*final List<Car> collect = finalResult.getCars()
+        final List<String> winners = finalResult.getCars()
                 .stream()
-                .map(m -> new Car(m.getId(), m.getNameValue(), m.getPositionValue(), m.isWinner()))
+                .filter(Car::isWinner)
+                .map(Car::getNameValue)
                 .collect(Collectors.toList());
-        */
-        return new GameResultResponseDto(finalResult.getCars());
+        final List<CarResponseDto> carResponseDtos = finalResult.getCars()
+                .stream()
+                .map(car -> new CarResponseDto(car.getNameValue(), car.getPositionValue()))
+                .collect(Collectors.toList());
+
+        return new GameResultResponseDto(winners, carResponseDtos);
     }
 
     public static CarDto toCarDto(final Car car) {
@@ -34,5 +37,12 @@ public final class DtoMapper {
 
     public static GameResultDto toRacingGameDto(final RacingGame racingGame) {
         return new GameResultDto(racingGame.getTryCountValue());
+    }
+
+    public static List<CarDto> toCarsDto(final Long gameId, final RacingGame racingGame) {
+        return racingGame.getCars()
+                .stream()
+                .map(car -> new CarDto(gameId, car.getNameValue(), car.getPositionValue(), car.isWinner()))
+                .collect(Collectors.toList());
     }
 }

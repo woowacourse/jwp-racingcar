@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 public final class RacingGame {
 
-    private Long id;
     private Cars cars;
     private TryCount tryCount;
 
@@ -39,7 +38,6 @@ public final class RacingGame {
     }
 
     public Cars getWinners() {
-
         final List<Car> result = cars.getCars()
                 .stream()
                 .filter(Car::isWinner)

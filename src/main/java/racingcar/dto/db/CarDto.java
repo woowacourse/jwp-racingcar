@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.dto.db;
 
 public final class CarDto {
 

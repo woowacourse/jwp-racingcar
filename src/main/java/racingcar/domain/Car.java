@@ -2,7 +2,6 @@ package racingcar.domain;
 
 public final class Car {
 
-    private Long id;
     private final Name name;
     private final Position position;
     private final boolean isWinner;
@@ -28,8 +27,7 @@ public final class Car {
     }
 
 
-    public Car(final Long gameId, final String nameValue, final int positionValue, final boolean winner) {
-        this.id = gameId;
+    public Car(final String nameValue, final int positionValue, final boolean winner) {
         this.name = new Name(nameValue);
         this.position = new Position(positionValue);
         this.isWinner = winner;
@@ -39,10 +37,6 @@ public final class Car {
         if (movable) {
             position.move();
         }
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public Position getPosition() {

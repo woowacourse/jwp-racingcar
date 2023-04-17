@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.dto.CarDto;
+import racingcar.dto.db.CarDto;
 
 import java.sql.PreparedStatement;
 import java.util.List;
