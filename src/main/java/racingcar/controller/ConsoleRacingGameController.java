@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.dto.GameRequestDto;
-import racingcar.dto.GameResponseDto;
+import racingcar.dto.GamePlayRequestDto;
+import racingcar.dto.GamePlayResponseDto;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -23,8 +23,8 @@ public class ConsoleRacingGameController {
 
     public void run() {
         try {
-            final GameRequestDto request = inputView.readGameRequest();
-            final GameResponseDto response = racingGameService.play(request);
+            final GamePlayRequestDto request = inputView.readGamePlayRequest();
+            final GamePlayResponseDto response = racingGameService.play(request);
             outputView.printResult(response);
         } catch (final IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());

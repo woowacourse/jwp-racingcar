@@ -1,18 +1,19 @@
 package racingcar.view;
 
+import static java.util.stream.Collectors.joining;
+
 import java.util.List;
-import java.util.stream.Collectors;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameResponseDto;
+import racingcar.dto.GamePlayResponseDto;
 
 public class OutputView {
     private static final String NEXT_LINE = System.lineSeparator();
     private static final String DELIMITER = ", ";
 
-    public void printResult(final GameResponseDto gameResponseDto) {
+    public void printResult(final GamePlayResponseDto response) {
         System.out.println("실행 결과");
-        printCurrentCarPositions(gameResponseDto.getRacingCars());
-        printWinnersMessage(gameResponseDto.getWinners());
+        printCurrentCarPositions(response.getRacingCars());
+        printWinnersMessage(response.getWinners());
     }
 
     private void printCurrentCarPositions(final List<CarDto> cars) {
@@ -22,7 +23,7 @@ public class OutputView {
     private String generatePositionMessages(final List<CarDto> cars) {
         return cars.stream()
                 .map(this::generatePositionMessage)
-                .collect(Collectors.joining(NEXT_LINE));
+                .collect(joining(NEXT_LINE));
     }
 
     private String generatePositionMessage(final CarDto car) {

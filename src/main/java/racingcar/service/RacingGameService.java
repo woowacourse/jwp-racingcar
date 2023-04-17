@@ -12,8 +12,8 @@ import racingcar.domain.Car;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameRequestDto;
-import racingcar.dto.GameResponseDto;
+import racingcar.dto.GamePlayRequestDto;
+import racingcar.dto.GamePlayResponseDto;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
@@ -29,7 +29,7 @@ public class RacingGameService {
         this.carDao = carDao;
     }
 
-    public GameResponseDto play(final GameRequestDto gameRequest) {
+    public GamePlayResponseDto play(final GamePlayRequestDto gameRequest) {
         final RacingGame racingGame = playRacingGame(gameRequest);
 
         final GameEntity game = new GameEntity(gameRequest.getCount());
@@ -45,16 +45,16 @@ public class RacingGameService {
         return toGameResponse(racingGame.findWinners(), cars);
     }
 
-    private RacingGame playRacingGame(final GameRequestDto gameRequest) {
+    private RacingGame playRacingGame(final GamePlayRequestDto gameRequest) {
         final RacingGame racingGame = new RacingGame(numberGenerator, gameRequest.getNames(), gameRequest.getCount());
         racingGame.play();
         return racingGame;
     }
 
-    private GameResponseDto toGameResponse(final List<String> winners, final List<Car> cars) {
+    private GamePlayResponseDto toGameResponse(final List<String> winners, final List<Car> cars) {
         final List<CarDto> carDtos = cars.stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(toList());
-        return new GameResponseDto(winners, carDtos);
+        return new GamePlayResponseDto(winners, carDtos);
     }
 }

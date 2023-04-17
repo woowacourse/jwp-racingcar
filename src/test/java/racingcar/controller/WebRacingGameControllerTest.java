@@ -21,8 +21,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameRequestDto;
-import racingcar.dto.GameResponseDto;
+import racingcar.dto.GamePlayRequestDto;
+import racingcar.dto.GamePlayResponseDto;
 import racingcar.service.RacingGameService;
 
 @WebMvcTest
@@ -43,13 +43,13 @@ class WebRacingGameControllerTest {
     @Test
     void play_메서드는_게임을_진행한다() throws Exception {
         // given
-        final GameRequestDto gameRequest = new GameRequestDto(List.of("비버", "허브"), 1);
+        final GamePlayRequestDto gameRequest = new GamePlayRequestDto(List.of("비버", "허브"), 1);
         final String request = objectMapper.writeValueAsString(gameRequest);
-        final GameResponseDto gameResponse = new GameResponseDto(
+        final GamePlayResponseDto gameResponse = new GamePlayResponseDto(
                 List.of("비버"),
                 List.of(new CarDto("비버", 1), new CarDto("허브", 0))
         );
-        given(racingGameService.play(any(GameRequestDto.class)))
+        given(racingGameService.play(any(GamePlayRequestDto.class)))
                 .willReturn(gameResponse);
 
         // expect
