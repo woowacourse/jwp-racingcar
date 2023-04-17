@@ -1,31 +1,28 @@
 package racingcar.view;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import racingcar.domain.car.Car;
+import racingcar.dto.CarDto;
+import racingcar.dto.ResultDto;
 
 public class OutputView {
     public void printErrorMessage(String message) {
         System.out.println(message);
     }
 
-    public void printResultTitle() {
-        System.out.println("실행 결과");
+    public void printResult(ResultDto result) {
+        printWinners(result.getWinners());
+        System.out.println("결과:");
+        result.getRacingCars()
+                .forEach(this::printEachCarFinalPosition);
     }
 
-    public void printStatus(List<Car> cars) {
-        for (Car car : cars) {
-            String status = String.format("%s : %s", car.getName(), "-".repeat(car.getPosition()));
-            System.out.println(status);
-        }
-        System.out.println();
+    private void printEachCarFinalPosition(CarDto carDto) {
+        String resultStatement = String.format("Name: %s, Position: %d", carDto.getName(), carDto.getPosition());
+        System.out.println(resultStatement);
     }
 
-    public void printWinners(List<Car> winners) {
-        List<String> winnersNames = winners.stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
-        System.out.print(String.join(", ", winnersNames));
-        System.out.print("가 최종 우승했습니다.");
+    private void printWinners(String winners) {
+        System.out.println("우승자:");
+        System.out.println(winners);
     }
+
 }
