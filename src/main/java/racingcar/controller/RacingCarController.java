@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<PlaysResponse> play(@RequestBody PlaysRequest playsRequest) {
+    public ResponseEntity<PlaysResponse> play(@RequestBody @Valid PlaysRequest playsRequest) {
         PlaysResponse response = racingCarService.play(playsRequest);
         return ResponseEntity.ok().body(response);
     }
