@@ -1,8 +1,7 @@
 package racingcar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dao.RacingGameDao;
+import racingcar.dao.RacingGameRepository;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
@@ -17,11 +16,10 @@ import java.util.stream.Collectors;
 @Service
 public final class RacingGameService {
 
-    private final RacingGameDao racingGameDao;
+    private final RacingGameRepository racingGameRepository;
 
-    @Autowired
-    public RacingGameService(final RacingGameDao racingGameDao) {
-        this.racingGameDao = racingGameDao;
+    public RacingGameService(final RacingGameRepository racingGameRepository) {
+        this.racingGameRepository = racingGameRepository;
     }
 
     public GameResultResponse playRacingGame(final RacingGameRequest racingGameRequest) {
@@ -31,7 +29,7 @@ public final class RacingGameService {
                 mapWinnerNamesTextFrom(racingGame),
                 mapCarDtosFrom(racingGame)
         );
-        save(gameResultResponse, racingGameRequest.getCount());
+        racingGameRepository.saveGameRecord(gameResultResponse, racingGameRequest.getCount());
         return gameResultResponse;
     }
 
@@ -61,10 +59,5 @@ public final class RacingGameService {
         return racingGame.getWinners().stream()
                 .map(Car::getCarName)
                 .collect(Collectors.joining(","));
-    }
-
-    private void save(final GameResultResponse gameResultResponse, final int trialCount) {
-        Number gameResultKey = racingGameDao.saveGameResult(gameResultResponse.getWinners(), trialCount);
-        racingGameDao.savePlayerResults(gameResultResponse.getRacingCars(), gameResultKey);
     }
 }
