@@ -24,17 +24,8 @@ public class OutputView {
 
     public void printResult(List<Car> cars) {
         for (Car car : cars) {
-            System.out.printf(Message.OUTPUT_RESULT_FORMAT.message, car.getName(), createResultDisplay(car));
+            System.out.println(car.getName() + ": " + car.getPosition());
         }
-        System.out.println();
-    }
-
-    private static StringBuilder createResultDisplay(Car car) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < car.getPosition(); i++) {
-            result.append("-");
-        }
-        return result;
     }
 
     public void printWinners(List<String> winners) {
@@ -44,7 +35,7 @@ public class OutputView {
     private enum Message {
         OUTPUT_RESULT_MESSAGE("실행 결과"),
         OUTPUT_RESULT_FORMAT("%s : %s%n"),
-        OUTPUT_WINNER("%s가 최종 우승했습니다.");
+        OUTPUT_WINNER("%s가 최종 우승했습니다.%n");
 
         private final String message;
 

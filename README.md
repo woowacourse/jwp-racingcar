@@ -16,8 +16,9 @@
 
 ### 리팩터링 목록
 
-- [ ] console application 기존 기능 수정
-    - [ ] 플레이의 중간 과정 출력 로직 제거
+- [x] console application 기존 기능 수정
+    - [x] 플레이의 중간 과정 출력 로직 제거
+    - [x] 우승자와와 플레이어별 이동거리를 출력하도록 수정
 - [ ] console application 과 web application 의 중복 코드 제거
     - [ ] 두 application 은 입출력과 데이터 저장 방식을 제외하고는 내부 비즈니스 로직은 동일
     - [ ] 두 application 의 비즈니스 로직은 새로운 객체를 도출 하여 중복 제거 가능

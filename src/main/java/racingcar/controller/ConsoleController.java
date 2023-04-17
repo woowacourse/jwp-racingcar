@@ -67,14 +67,13 @@ public class ConsoleController {
         moveAllCars(moveCount, cars);
         outputView.printResultMessage();
         outputView.printWinners(cars.getWinners());
+        outputView.printResult(cars.getCars());
         return GameStatus.GAME_EXIT;
     }
 
     private void moveAllCars(int moveCount, Cars cars) {
         for (int i = 0; i < moveCount; i++) {
             cars.moveCars(carMoveManager);
-            List<Car> currentResult = cars.getCars();
-            outputView.printResult(currentResult);
         }
     }
 
