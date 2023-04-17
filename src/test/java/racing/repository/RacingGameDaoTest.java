@@ -87,4 +87,17 @@ class RacingGameDaoTest {
         Integer carCount = jdbcTemplate.queryForObject("SELECT COUNT(*) from cars", Integer.class);
         assertThat(carCount).isEqualTo(2);
     }
+
+    @DisplayName("저장시간을 기준으로 최신순으로 게임 Id 조회")
+    @Test
+    void findAllGameIdOrderByRecentTest() {
+        int gameAmount = 4;
+        for (int i = 0; i < gameAmount; i++) {
+            racingGameDao.saveGame(1);
+        }
+
+        List<Long> allGameIds = racingGameDao.findAllGameIdOrderByRecent();
+        assertThat(allGameIds).hasSize(gameAmount);
+        assertThat(allGameIds).containsExactlyInAnyOrder(4L, 3L, 2L, 1L);
+    }
 }

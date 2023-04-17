@@ -53,8 +53,14 @@ public class RacingGameDao {
     }
 
     public int findGameTrialById(Long gameId) {
-        String findGameById = "SELECT count FROM games as g where g.game_id = ?";
+        String findGameById = "SELECT count FROM games AS g WHERE g.game_id = ?";
 
         return jdbcTemplate.queryForObject(findGameById, Integer.class, gameId);
+    }
+
+    public List<Long> findAllGameIdOrderByRecent() {
+        String findGameById = "SELECT game_id FROM games AS g ORDER BY g.create_time DESC ";
+
+        return jdbcTemplate.query(findGameById, (rs, rowNum) -> rs.getLong("game_id"));
     }
 }
