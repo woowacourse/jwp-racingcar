@@ -2,6 +2,8 @@ package racingcar.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@SuppressWarnings("NonAsciiCharacters")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SpringBootTest
 @Import(value = RacingGameControllerTest.MockNumberGenerator.class)
 @DisplayName("RacingGameControllerTest 은")
@@ -48,7 +52,7 @@ class RacingGameControllerTest {
     }
 
     @Test
-    void playTest() throws Exception {
+    void 게임_진행_요청을_처리하고_결과를_반환한다() throws Exception {
         final MvcResult mvcResult = mockMvc.perform(post("/plays").content(
                                 "{\"names\": \"브리,토미,브라운\", \"count\": 10}")
                         .contentType(APPLICATION_JSON))

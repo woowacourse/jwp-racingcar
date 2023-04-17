@@ -1,6 +1,9 @@
 package racingcar.infrastructure.persistence.dao;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,8 +23,11 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@SuppressWarnings("NonAsciiCharacters")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @Transactional
 @SpringBootTest
+@DisplayName("CarDaoTest 는")
 class CarDaoTest {
 
     @Autowired
@@ -43,7 +49,7 @@ class CarDaoTest {
     }
 
     @Test
-    void save() {
+    void Car_를_저장한다() {
         // given
         final CarDao dao = new CarDao(template);
         final Car car = new Car("말랑");
