@@ -45,15 +45,21 @@ public class GameService {
         return resultDto;
     }
 
-    void saveResult(String countInput, ResultDto resultDto) {
+    private void saveResult(String countInput, ResultDto resultDto) {
         int moveCount = Integer.parseInt(countInput);
         long gameId = gameDao.saveGame(new Game(moveCount));
-        List<Car> cars = resultDto.getRacingCars()
-                .stream()
+        saveCars(gameId, resultDto.getRacingCars());
+        saveWinners(gameId, resultDto.getWinners());
+    }
+
+    private void saveCars(long gameId, List<CarDto> carDtos) {
+        List<Car> cars = carDtos.stream()
                 .map(carDto -> new Car(gameId, carDto.getName(), carDto.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
         carDao.insertCar(cars);
-        String winnerNames = resultDto.getWinners();
+    }
+
+    private void saveWinners(long gameId, String winnerNames) {
         List<Winner> winners = Arrays.stream(winnerNames.split(", "))
                 .map(winner -> new Winner(gameId, winner))
                 .collect(Collectors.toUnmodifiableList());
@@ -61,24 +67,48 @@ public class GameService {
     }
 
     public List<ResultDto> getAllResults() {
-        List<ResultDto> resultDtos = new ArrayList<>();
         List<Long> gameIds = gameDao.getGameIds();
+        Map<Long, List<Car>> carsGroupByGameId = getCarsGroupByGameId();
+        Map<Long, List<Winner>> winnersGroupByGameId = getWinnersGroupByGameId();
+        return getResultDtos(gameIds, carsGroupByGameId, winnersGroupByGameId);
+    }
+
+    private Map<Long, List<Car>> getCarsGroupByGameId() {
         List<Car> allCars = carDao.findAllCars();
-        List<Winner> allWinner = winnerDao.findAllWinner();
-        Map<Long, List<Car>> carsGroupByGameId = allCars.stream()
+        return allCars.stream()
                 .collect(Collectors.groupingBy(Car::getGameId));
-        Map<Long, List<Winner>> winnersGroupByGameId = allWinner.stream()
+    }
+
+    private Map<Long, List<Winner>> getWinnersGroupByGameId() {
+        List<Winner> allWinner = winnerDao.findAllWinner();
+        return allWinner.stream()
                 .collect(Collectors.groupingBy(Winner::getGameId));
+    }
+
+    private List<ResultDto> getResultDtos(
+            List<Long> gameIds,
+            Map<Long, List<Car>> carsGroupByGameId,
+            Map<Long, List<Winner>> winnersGroupByGameId
+    ) {
+        List<ResultDto> resultDtos = new ArrayList<>();
         for (Long gameId : gameIds) {
-            List<Winner> winners = winnersGroupByGameId.get(gameId);
-            String winnersName = ValueEditor.joinWithComma(
-                    winners.stream().map(Winner::getWinner).collect(Collectors.toList()));
-            List<Car> cars = carsGroupByGameId.get(gameId);
-            List<CarDto> carDtos = cars.stream()
-                    .map(car -> new CarDto(car.getName(), car.getPosition()))
-                    .collect(Collectors.toList());
+            List<CarDto> carDtos = getCarDtos(carsGroupByGameId, gameId);
+            String winnersName = getWinnersName(winnersGroupByGameId, gameId);
             resultDtos.add(new ResultDto(winnersName, carDtos));
         }
         return resultDtos;
+    }
+
+    private List<CarDto> getCarDtos(Map<Long, List<Car>> carsGroupByGameId, Long gameId) {
+        List<Car> cars = carsGroupByGameId.get(gameId);
+        return cars.stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+    }
+
+    private String getWinnersName(Map<Long, List<Winner>> winnersGroupByGameId, Long gameId) {
+        List<Winner> winners = winnersGroupByGameId.get(gameId);
+        return ValueEditor.joinWithComma(
+                winners.stream().map(Winner::getWinner).collect(Collectors.toList()));
     }
 }
