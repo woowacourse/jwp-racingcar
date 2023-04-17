@@ -23,7 +23,7 @@ import static org.hamcrest.core.Is.is;
 class WebControllerTest {
 
     @LocalServerPort
-    int port;
+    private int port;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
