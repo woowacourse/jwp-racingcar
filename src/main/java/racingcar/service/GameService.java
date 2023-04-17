@@ -10,6 +10,7 @@ import racingcar.dto.GameRecordResponseDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
 import racingcar.model.Cars;
+import racingcar.model.RacingGame;
 import racingcar.util.NameFormatConverter;
 import racingcar.util.NumberGenerator;
 
@@ -34,9 +35,8 @@ public class GameService {
         int tryCount = racingGameRequestDto.getCount();
         Cars cars = new Cars(NameFormatConverter.splitNameByDelimiter(racingGameRequestDto.getNames()));
 
-        for (int count = 0; count < tryCount; count++) {
-            cars.moveResult(numberGenerator);
-        }
+        RacingGame racingGame = new RacingGame(cars, tryCount);
+        racingGame.race(numberGenerator);
 
         String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
         int gameId = gameDao.save(tryCount, winners);

@@ -21,7 +21,7 @@ public class OutputView {
     }
 
     public void printWinner(List<String> winner) {
-        System.out.printf(PRINT_WINNER, String.join(CAR_WINNER_INDICATOR,winner));
+        System.out.printf(PRINT_WINNER, String.join(CAR_WINNER_INDICATOR, winner));
     }
 
     public void printRequestCarName() {

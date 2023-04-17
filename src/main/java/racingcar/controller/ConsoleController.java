@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import racingcar.model.Cars;
+import racingcar.model.RacingGame;
 import racingcar.util.NumberGenerator;
 import racingcar.util.RandomNumberGenerator;
 import racingcar.view.InputView;
@@ -13,7 +14,8 @@ public class ConsoleController {
 
     public void run() {
         Cars cars = setCars();
-        repeatMove(cars, setTryCount());
+        RacingGame racingGame = new RacingGame(cars, setTryCount());
+        racingGame.race(numberGenerator);
         outputView.printWinner(cars.getWinners());
         outputView.printResult(cars);
     }
@@ -29,12 +31,6 @@ public class ConsoleController {
         }
     }
 
-    private void repeatMove(Cars cars, int tryCount) {
-        for (int count = 0; count < tryCount; count++) {
-            cars.moveResult(numberGenerator);
-        }
-    }
-
     private int setTryCount() {
         outputView.printRequestTryCount();
         try {
@@ -44,5 +40,4 @@ public class ConsoleController {
             return setTryCount();
         }
     }
-
 }
