@@ -22,10 +22,10 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
 
     @Transactional
     public Number saveGameResult(final String winners, final int trialCount) {
-        final String sqlToInsertGameResult = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
+        final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlToInsertGameResult,
+            PreparedStatement preparedStatement = connection.prepareStatement(sql,
                     new String[]{"id"});
             preparedStatement.setString(1, winners);
             preparedStatement.setInt(2, trialCount);
