@@ -12,9 +12,9 @@ CREATE TABLE RACING_CAR
     id              INT          NOT NULL AUTO_INCREMENT,
     player_name     VARCHAR(255) NOT NULL,
     player_position INT          NOT NULL,
-    game_id         INT          NOT NULL,
+    play_result_id  INT          NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES PLAY_RESULT (id)
+    FOREIGN KEY (play_result_id) REFERENCES PLAY_RESULT (id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
