@@ -36,4 +36,14 @@ class RacingCarControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("racingCars.size()", is(3));
     }
+
+    @DisplayName("게임 플레이 이력 조회를 한다")
+    @Test
+    void getAllResults() {
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
 }

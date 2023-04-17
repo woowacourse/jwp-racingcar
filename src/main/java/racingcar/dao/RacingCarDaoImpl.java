@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
+import racingcar.dto.GameResultDto;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -50,5 +51,17 @@ public class RacingCarDaoImpl implements RacingCarDao {
                         return cars.size();
                     }
                 });
+    }
+
+    @Override
+    public List<GameResultDto> findAllResult() {
+        return jdbcTemplate.query("SELECT id, winners FROM play_result",
+                (rs, rowNum) -> new GameResultDto(rs.getLong(1), rs.getString(2)));
+    }
+
+    @Override
+    public List<Car> findCarsByResultId(final long resultId) {
+        return jdbcTemplate.query("SELECT name, position FROM car WHERE play_result_id=" + resultId,
+                (rs, rowNum) -> new Car(rs.getString(1), rs.getInt(2)));
     }
 }

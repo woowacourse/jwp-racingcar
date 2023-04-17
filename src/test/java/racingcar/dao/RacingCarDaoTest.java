@@ -19,7 +19,7 @@ class RacingCarDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private RacingCarDao racingCarDao;
-    
+
     @BeforeEach
     void setUp() {
         racingCarDao = new RacingCarDaoImpl(jdbcTemplate);
@@ -55,5 +55,39 @@ class RacingCarDaoTest {
 
         //then
         assertThat(countRowsInTable(jdbcTemplate, "car")).isEqualTo(2);
+    }
+
+    @DisplayName("모든 우승자를 반환한다")
+    @Test
+    void findAllResult() {
+        //given
+        final String winners = "a, b";
+        final int count = 5;
+
+        //when
+        racingCarDao.saveWinners(count, winners);
+        racingCarDao.saveWinners(count, winners);
+        racingCarDao.saveWinners(count, winners);
+
+        //then
+        assertThat(racingCarDao.findAllResult()).hasSize(3);
+    }
+
+    @DisplayName("result_id를 받아서 해당하는 자동차들을 반환한다")
+    @Test
+    void findCarsByResultId() {
+        //given
+        final List<Car> cars = List.of(new Car("a"), new Car("b"));
+        final String winners = "a, b";
+        final int count = 5;
+
+        //when
+        final long id = racingCarDao.saveWinners(count, winners);
+        racingCarDao.saveCars(id, cars);
+
+        //then
+        assertThat(racingCarDao.findCarsByResultId(id))
+                .map(Car::getName)
+                .containsExactly("a", "b");
     }
 }

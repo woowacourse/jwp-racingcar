@@ -1,19 +1,16 @@
 package racingcar.dto;
 
-import java.util.List;
-
-public class GameResultDto {
-
-    private final List<CarDto> racingCars;
+public final class GameResultDto {
+    private final Long id;
     private final String winners;
 
-    public GameResultDto(final List<CarDto> racingCars, final String winners) {
-        this.racingCars = racingCars;
+    public GameResultDto(final Long id, final String winners) {
+        this.id = id;
         this.winners = winners;
     }
 
-    public List<CarDto> getRacingCars() {
-        return racingCars;
+    public Long getId() {
+        return id;
     }
 
     public String getWinners() {
