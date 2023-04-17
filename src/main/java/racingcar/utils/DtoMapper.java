@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public final class DtoMapper {
 
     private DtoMapper() {
-
     }
 
     public static GameResultResponseDto mapToGameResultResponseDto(final Cars finalResult) {
@@ -53,9 +52,9 @@ public final class DtoMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<GameResultResponseDto> mapToGameResultResponseDtos(final Map<Long, List<GameResultWithCarDto>> map) {
+    public static List<GameResultResponseDto> mapToGameResultResponseDtos(final Map<Long, List<GameResultWithCarDto>> dtosById) {
         List<GameResultResponseDto> result = new ArrayList<>();
-        for (Map.Entry<Long, List<GameResultWithCarDto>> entry : map.entrySet()) {
+        for (Map.Entry<Long, List<GameResultWithCarDto>> entry : dtosById.entrySet()) {
             final List<String> winners = entry.getValue()
                     .stream()
                     .filter(GameResultWithCarDto::isWinner)

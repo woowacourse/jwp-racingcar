@@ -1,8 +1,8 @@
 package racingcar.repository;
 
 import org.springframework.stereotype.Repository;
-import racingcar.dao.CarDao;
-import racingcar.dao.GameResultDao;
+import racingcar.dao.car.CarDao;
+import racingcar.dao.gameresult.GameResultDao;
 import racingcar.domain.RacingGame;
 import racingcar.dto.db.GameResultWithCarDto;
 import racingcar.utils.DtoMapper;
@@ -13,20 +13,20 @@ import java.util.Map;
 @Repository
 public class RacingGameRepository {
 
-    private final GameResultDao gameResultDao;
-    private final CarDao carDao;
+    private final GameResultDao gameResultDaoWebImpl;
+    private final CarDao carDaoWebImpl;
 
-    public RacingGameRepository(final GameResultDao gameResultDao, final CarDao carDao) {
-        this.gameResultDao = gameResultDao;
-        this.carDao = carDao;
+    public RacingGameRepository(final GameResultDao gameResultDaoWebImpl, final CarDao carDaoWebImpl) {
+        this.gameResultDaoWebImpl = gameResultDaoWebImpl;
+        this.carDaoWebImpl = carDaoWebImpl;
     }
 
     public void save(final RacingGame racingGame) {
-        final Long gameId = gameResultDao.save(DtoMapper.toRacingGameDto(racingGame));
-        carDao.saveAll(DtoMapper.toCarsDto(gameId, racingGame));
+        final Long gameId = gameResultDaoWebImpl.save(DtoMapper.toRacingGameDto(racingGame));
+        carDaoWebImpl.saveAll(DtoMapper.toCarsDto(gameId, racingGame));
     }
 
     public Map<Long, List<GameResultWithCarDto>> findAll() {
-        return gameResultDao.findAll();
+        return gameResultDaoWebImpl.findAll();
     }
 }

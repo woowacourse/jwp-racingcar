@@ -1,40 +1,26 @@
 package racingcar.view;
 
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.Position;
-
-import java.util.stream.Collectors;
+import racingcar.dto.response.CarResponseDto;
+import racingcar.dto.response.GameResultResponseDto;
 
 public final class OutputView {
 
-    public void printTotalMovingStatus(final Cars cars) {
-        print("\n실행 결과");
-        for (Car car : cars.getCars()) {
-            print(String.format(
-                    "%s : %s",
-                    car.getName(), drawMovingLength(car.getPosition()))
-            );
+    public void printTotalMovingStatus(final GameResultResponseDto dto) {
+        println("\n실행 결과");
+        for (CarResponseDto car : dto.getRacingCars()) {
+            println(car.getName() + " : " + drawMovingLength(car.getPosition()));
         }
-    }
-
-    private String drawMovingLength(final Position position) {
-        return "-".repeat(Math.max(0, position.getPosition()));
-    }
-
-
-    public void printWinners(final Cars cars) {
-        final String result = cars.getCars()
-                .stream()
-                .map(Car::getNameValue)
-                .collect(Collectors.joining(", "));
-
         printLineSeparator();
-        print(String.format("%s가 최종 우승했습니다.", result));
+        final String winners = String.join(", ", dto.getWinners());
+        println(String.format("%s가 최종 우승했습니다.", winners));
+    }
+
+    private String drawMovingLength(final int position) {
+        return "-".repeat(Math.max(0, position));
     }
 
 
-    private void print(String... messages) {
+    private void println(String... messages) {
         for (String message : messages) {
             System.out.print(message + System.lineSeparator());
         }

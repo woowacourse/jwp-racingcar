@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.gameresult;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,11 +14,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public final class GameResultDao {
+public final class GameResultDaoWebImpl implements GameResultDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public GameResultDao(final JdbcTemplate jdbcTemplate) {
+    public GameResultDaoWebImpl(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -32,6 +32,7 @@ public final class GameResultDao {
         );
     };
 
+    @Override
     public Long save(final GameResultDto dto) {
         String sql = "INSERT INTO game_result (try_count) VALUES (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -44,6 +45,7 @@ public final class GameResultDao {
         return keyHolder.getKey().longValue();
     }
 
+    @Override
     public Map<Long, List<GameResultWithCarDto>> findAll() {
         String sql = "SELECT gr.id, gr.try_count, c.player_name, c.final_position, c.is_winner " +
                 "FROM game_result as gr " +

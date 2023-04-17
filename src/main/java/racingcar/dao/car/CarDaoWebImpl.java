@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.car;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -10,14 +10,15 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @Component
-public final class CarDao {
+public final class CarDaoWebImpl implements CarDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public CarDao(final JdbcTemplate jdbcTemplate) {
+    public CarDaoWebImpl(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public Long save(final CarDto dto) {
         String sql = "INSERT INTO car (player_name, final_position, is_winner, game_result_id) VALUES (?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -33,6 +34,7 @@ public final class CarDao {
         return keyHolder.getKey().longValue();
     }
 
+    @Override
     public void saveAll(final List<CarDto> dtos) {
         for (CarDto dto : dtos) {
             save(dto);
