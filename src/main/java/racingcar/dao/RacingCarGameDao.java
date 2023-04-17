@@ -31,10 +31,4 @@ public class RacingCarGameDao {
         return Long.valueOf(String.valueOf(keyHolder.getKeys().get("game_id")));
 
     }
-
-    public void insertPlayers(Player player) {
-        String sql = "INSERT INTO player(name, position, game_id) VALUES(?, ?, ?)";
-
-        jdbcTemplate.update(sql, player.getName(), player.getPosition(), player.getGameId());
-    }
 }

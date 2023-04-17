@@ -26,4 +26,5 @@
   - [x] 음수에 대한 예외처리
 - [x] 테스트 코드를 보다 구체적으로 구성하기
 - [x] service 계층에서 도메인 분리하기 
+- [x] dao의 단위를 entity하나당 하나로 매치되도록 분리하기
 - [ ] console application의 출력 방식을 web application과 동일하게 하기
