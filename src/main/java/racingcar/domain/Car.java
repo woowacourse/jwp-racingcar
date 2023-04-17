@@ -22,11 +22,11 @@ public class Car {
         return this.position.equals(position);
     }
 
-    public Position getMovedLength() {
-        return position;
+    public int getMovedLength() {
+        return position.getValue();
     }
 
-    public Name getName() {
-        return name;
+    public String getName() {
+        return name.getName();
     }
 }

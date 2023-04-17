@@ -18,11 +18,11 @@ class CarTest {
     @DisplayName("차를 움직였을 때 위치가 변해야 한다.")
     void car_move() {
         // given
-        int prevValue = car.getMovedLength().getValue();
+        int prevValue = car.getMovedLength();
         car.move();
 
         // expect
-        assertThat(car.getMovedLength().getValue()).isGreaterThan(prevValue);
+        assertThat(car.getMovedLength()).isGreaterThan(prevValue);
     }
 
     @Test
@@ -33,7 +33,7 @@ class CarTest {
         car.move();
 
         // expect
-        assertThat(car.getMovedLength().getValue()).isEqualTo(2);
-        assertThat(car.getName().getName()).isEqualTo("mycar");
+        assertThat(car.getMovedLength()).isEqualTo(2);
+        assertThat(car.getName()).isEqualTo("mycar");
     }
 }
