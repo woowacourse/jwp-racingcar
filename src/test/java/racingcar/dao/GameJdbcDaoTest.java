@@ -7,9 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.Entity.Game;
-
-import java.util.List;
+import racingcar.entity.Game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,9 +30,8 @@ public class GameJdbcDaoTest {
     void 게임을_저장한다() {
         // given
         final int trialCount = 5;
-        final List<String> winners = List.of("비버");
 
-        Game game = Game.of(winners, trialCount);
+        Game game = Game.of(trialCount);
         // when
         final int id = gameDao.save(game);
 

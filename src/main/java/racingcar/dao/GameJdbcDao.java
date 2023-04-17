@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.Entity.Game;
+import racingcar.entity.Game;
 
 import java.sql.PreparedStatement;
 
@@ -17,13 +17,12 @@ public class GameJdbcDao implements GameDao {
     }
 
     public int save(final Game game) {
-        final String sql = "insert into game (trial, winners) values (?,?)";
+        final String sql = "insert into game (trial) values (?)";
 
         final KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setInt(1, game.getTrial());
-            ps.setString(2, game.getWinners());
             return ps;
         }, keyHolder);
 

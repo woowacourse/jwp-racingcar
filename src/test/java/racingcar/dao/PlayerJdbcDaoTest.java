@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.Entity.Game;
-import racingcar.Entity.Player;
+import racingcar.entity.Game;
+import racingcar.entity.Player;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.utils.TestNumberGenerator;
@@ -32,8 +32,8 @@ public class PlayerJdbcDaoTest {
 
     @BeforeEach
     void setUp() {
-        final String sql = "insert into game (trial, winners) values (?,?)";
-        jdbcTemplate.update(sql, 1, "car1");
+        final String sql = "insert into game (trial) values (?)";
+        jdbcTemplate.update(sql, 1);
         playerDao = new PlayerJdbcDao(jdbcTemplate);
         gameDao = new GameJdbcDao(jdbcTemplate);
     }
@@ -45,11 +45,11 @@ public class PlayerJdbcDaoTest {
         NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3));
         cars.race(numberGenerator);
 
-        Game game = Game.of(cars.findWinners(), 3);
+        Game game = Game.of(3);
         final int gameId = gameDao.save(game);
 
         List<Player> players = cars.getCars().stream()
-                .map(car -> Player.of(car, gameId))
+                .map(car -> Player.of(car,true ,gameId))
                 .collect(Collectors.toList());
         // when
         playerDao.saveAll(players);

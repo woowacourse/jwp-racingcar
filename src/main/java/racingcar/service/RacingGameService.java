@@ -1,8 +1,8 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.Entity.Game;
-import racingcar.Entity.Player;
+import racingcar.entity.Game;
+import racingcar.entity.Player;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.NumberGenerator;
@@ -31,16 +31,16 @@ public class RacingGameService {
     public GameResponse play(final GameRequest gameRequest) {
         final RacingGame racingGame = playRacingGame(gameRequest);
 
-        final Game game = Game.of(racingGame.findWinners(), gameRequest.getCount());
+        final Game game = Game.of(gameRequest.getCount());
         final int gameId = gameDao.save(game);
 
         final List<Player> cars = racingGame.findCurrentCarPositions().stream()
-                .map(car -> Player.of(car, gameId))
+                .map(car -> Player.of(car, racingGame.findWinners().contains(car.getName()),gameId))
                 .collect(Collectors.toList());
 
         playerDao.saveAll(cars);
 
-        return GameResponse.of(game.getWinners(), cars);
+        return GameResponse.of(racingGame.findWinners(), cars);
     }
 
     private RacingGame playRacingGame(final GameRequest gameRequest) {

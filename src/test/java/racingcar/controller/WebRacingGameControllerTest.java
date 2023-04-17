@@ -44,10 +44,10 @@ class WebRacingGameControllerTest {
     @Test
     void 게임_진행() throws Exception {
         // given
-        GameResponse gameResponse = new GameResponse("허브", List.of(
+        GameResponse gameResponse = new GameResponse(List.of("허브"), List.of(
                 new PlayerDto("비버", 3),
-                new PlayerDto("허브", 4))
-        );
+                new PlayerDto("허브", 4)));
+
         given(racingGameService.play(any(GameRequest.class)))
                 .willReturn(gameResponse);
         final String request = objectMapper.writeValueAsString(gameResponse);

@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-import racingcar.Entity.Game;
+import racingcar.entity.Game;
 
 public interface GameDao {
     int save(final Game game);

@@ -33,9 +33,10 @@ class RacingGameServiceTest {
 
         // then
         assertAll(
-                () -> assertThat(gameResponse.getWinners()).isEqualTo("브리"),
+                () -> assertThat(gameResponse.getWinners()).containsExactly("브리"),
                 () -> assertThat(gameResponse.getRacingCars()).hasSize(3)
         );
+
     }
 
 }

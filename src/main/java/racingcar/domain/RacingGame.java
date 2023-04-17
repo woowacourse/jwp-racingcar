@@ -14,12 +14,8 @@ public class RacingGame {
         this.count = new Count(count);
     }
 
-    public boolean isPlayable() {
-        return count.isPlayable();
-    }
-
     public void play() {
-        while (isPlayable()) {
+        while (count.isPlayable()) {
             cars.race(numberGenerator);
             count.decrease();
         }

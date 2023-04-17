@@ -1,4 +1,4 @@
-package racingcar.Entity;
+package racingcar.entity;
 
 import racingcar.domain.Car;
 
@@ -6,19 +6,21 @@ public class Player {
     private final Integer id;
     private final String name;
     private final int position;
+    private final boolean isWinner;
     private final int game_id;
 
-    private Player(final Integer id, final String name, final int position, final int game_id) {
+    public Player(final Integer id, final String name, final int position, final boolean isWinner, final int game_id) {
         this.id = id;
         this.name = name;
         this.position = position;
+        this.isWinner = isWinner;
         this.game_id = game_id;
     }
 
-    public static Player of(final Car player, final int game_id) {
+    public static Player of(final Car player, final boolean isWinner, final int game_id) {
         final String playerName = player.getName();
         final int playerPosition = player.getPosition();
-        return new Player(null, playerName, playerPosition, game_id);
+        return new Player(null, playerName, playerPosition, isWinner, game_id);
     }
 
     public int getId() {
@@ -31,6 +33,10 @@ public class Player {
 
     public int getPosition() {
         return position;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
     }
 
     public int getGame_id() {

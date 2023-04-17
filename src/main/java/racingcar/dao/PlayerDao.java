@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-import racingcar.Entity.Player;
+import racingcar.entity.Player;
 
 import java.util.List;
 
