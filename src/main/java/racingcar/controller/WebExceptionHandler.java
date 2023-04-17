@@ -21,6 +21,6 @@ public class WebExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BadResponseDto> handleException() {
-        return ResponseEntity.badRequest().body(new BadResponseDto("예기치 못한 오류가 발생하였습니다."));
+        return ResponseEntity.internalServerError().body(new BadResponseDto("예기치 못한 오류가 발생하였습니다."));
     }
 }
