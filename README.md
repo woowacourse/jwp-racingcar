@@ -136,3 +136,8 @@ Content-Type: application/json
 
 - 2단계 피드백
     - [ ] 
+
+- Spring 제공 기능 적용하기
+    - [ ] 예외 처리 : ExceptionHandler 사용, 예외 발생 정보를 응답 객체에 담아 전달하기
+    - [ ] 필요 시 Dto에 Validation 추가
+    - [ ] Lombok 라이브러리 사용해 생성자, getter 메서드 코드 단순화
