@@ -1,12 +1,13 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import racingcar.exception.IllegalGameArgumentException;
 
 import java.util.List;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class GameTest {
 
@@ -60,6 +61,6 @@ public class GameTest {
     void 중복된_차가_있으면_안된다() {
         List<Car> cars = List.of(new Car("물떡"), new Car("물떡"));
         assertThatThrownBy(() -> new Game(cars, 0))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalGameArgumentException.class);
     }
 }
