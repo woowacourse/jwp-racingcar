@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GameInfoRequest;
 import racingcar.dto.GameResultResponse;
-import racingcar.exception.PlayerNumberException;
-import racingcar.exception.PlayerSizeException;
 import racingcar.service.RacingCarService;
 
 @RestController
@@ -25,8 +23,8 @@ public class RacingCarController {
         return ResponseEntity.ok().body(gameResultResponse);
     }
 
-    @ExceptionHandler({PlayerNumberException.class, PlayerSizeException.class})
-    public ResponseEntity<String> handlePlayerNumber(Exception ex) {
+    @ExceptionHandler
+    public ResponseEntity<String> handlePlayerNumber(IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
