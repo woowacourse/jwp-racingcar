@@ -20,7 +20,7 @@ public class RacingGameConsoleController {
 
     public void run() {
         RacingGameRequest racingGameRequest = readGameRequest();
-        ResultDto resultDto = racingGameService.start(racingGameRequest.getCount(), racingGameRequest.getNames());
+        ResultDto resultDto = racingGameService.start(racingGameRequest.getCount(), racingGameRequest.convertToSplitedNames());
         outputView.printResult(resultDto);
     }
 

@@ -2,7 +2,6 @@ package racingcar.controller;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,18 +21,13 @@ public class RacingGameController {
 
     @PostMapping("/plays")
     public ResponseEntity<ResultDto> play(@RequestBody RacingGameRequest request) {
-        ResultDto result = racingGameService.start(request.getCount(), request.getNames());
+        ResultDto result = racingGameService.start(request.getCount(), request.convertToSplitedNames());
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<ResultDto>> viewAllGames() {
         return ResponseEntity.ok(racingGameService.findAllGameHistories());
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleTryTimeException(IllegalArgumentException exception) {
-        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 
 }

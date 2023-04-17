@@ -4,6 +4,8 @@ import java.util.List;
 import racingcar.domain.car.Car;
 
 public class RacingGame {
+
+    private static final int TRIAL_COUNT_BOUND = 0;
     private final RacingCars racingCars;
     private final WinnerJudge winnerJudge;
 
@@ -13,8 +15,15 @@ public class RacingGame {
     }
 
     public void progress(int trialCount) {
+        validateTrialCount(trialCount);
         for (int count = 0; count < trialCount; count++) {
             racingCars.moveCars();
+        }
+    }
+
+    private void validateTrialCount(int trialCount) {
+        if (trialCount <= TRIAL_COUNT_BOUND) {
+            throw new IllegalArgumentException("시도 횟수는 0번 보다 커야 합니다.");
         }
     }
 

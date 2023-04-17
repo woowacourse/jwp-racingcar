@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -73,5 +74,17 @@ class RacingGameTest {
                 .allMatch(car -> 0 <= car.getPosition() && car.getPosition() <= trialCount);
 
         assertThat(isAllInTrialCount).isTrue();
+    }
+
+    @DisplayName("시도 횟수가 0 이하면 예외가 발생한다.")
+    @Test
+    void progressFailWhenWrongTrialCount() {
+        //given
+        int trialCount = -1;
+        RacingGame racingGame = new RacingGame(List.of("로지", "브리"), new WinnerJudgeImpl());
+        //when
+        //then
+        assertThatThrownBy(() -> racingGame.progress(trialCount))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

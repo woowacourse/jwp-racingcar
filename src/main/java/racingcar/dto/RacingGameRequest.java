@@ -11,7 +11,6 @@ public class RacingGameRequest {
 
     public RacingGameRequest(String names, int count) {
         validateNotEmpty(names);
-        validateCountPositive(count);
         this.names = names;
         this.count = count;
     }
@@ -25,17 +24,20 @@ public class RacingGameRequest {
         }
     }
 
-    private void validateCountPositive(int count) {
-        if (count <= 0) {
-            throw new IllegalArgumentException("횟수는 0보다 커야 합니다.");
-        }
+    public String getNames() {
+        return names;
     }
 
-    public List<String> getNames() {
+    public List<String> convertToSplitedNames() {
         return List.of(names.split(NAME_DELIMITER));
     }
 
     public int getCount() {
         return count;
+    }
+
+    public void setNames(String names) {
+        validateNotEmpty(names);
+        this.names = names;
     }
 }
