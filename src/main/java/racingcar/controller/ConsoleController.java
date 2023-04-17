@@ -1,89 +1,40 @@
 package racingcar.controller;
 
-import racingcar.model.car.CarRegisterer;
+import racingcar.model.MoveCount;
+import racingcar.model.RacingGame;
 import racingcar.model.car.Cars;
 import racingcar.model.manager.CarMoveManager;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
 public class ConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final Map<GameStatus, Supplier<GameStatus>> gameGuide;
     private final CarMoveManager carMoveManager;
-    private final CarRegisterer carRegisterer;
 
     public ConsoleController(InputView inputView, OutputView outputView, CarMoveManager carMoveManager) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameGuide = initializeGameGuide();
         this.carMoveManager = carMoveManager;
-        this.carRegisterer = new CarRegisterer();
     }
 
-    private Map<GameStatus, Supplier<GameStatus>> initializeGameGuide() {
-        Map<GameStatus, Supplier<GameStatus>> gameGuide = new EnumMap<>(GameStatus.class);
-        gameGuide.put(GameStatus.CAR_REGISTRATION, this::registerCars);
-        gameGuide.put(GameStatus.GAME_START, this::race);
-        return gameGuide;
+    public void play(){
+        RacingGame racingGame = createRacingGame();
+        racingGame.play();
+        showGameResult(racingGame);
     }
 
-    public void play() {
-        GameStatus gameStatus = progress(GameStatus.CAR_REGISTRATION);
-        while (gameStatus.isContinue(gameStatus)) {
-            gameStatus = progress(gameStatus);
-        }
+    private RacingGame createRacingGame() {
+        Cars cars = Cars.from(inputView.readCarNames());
+        MoveCount moveCount = new MoveCount(inputView.readMoveCount());
+        return new RacingGame(carMoveManager, cars, moveCount);
     }
 
-    private GameStatus progress(GameStatus gameStatus) {
-        try {
-            return gameGuide.get(gameStatus).get();
-        } catch (IllegalArgumentException exception) {
-            outputView.printExceptionMessage(exception);
-            return gameStatus;
-        } catch (NullPointerException exception) {
-            return GameStatus.GAME_EXIT;
-        } catch (Exception exception) {
-            return GameStatus.GAME_EXIT;
-        }
-    }
-
-    private GameStatus registerCars() {
-        List<String> carNames = inputView.readCarNames();
-        carNames.forEach(carRegisterer::registerCar);
-        return GameStatus.GAME_START;
-    }
-
-    private GameStatus race() {
-        int moveCount = inputView.readMoveCount();
-        Cars cars = carRegisterer.prepareCars();
-        moveAllCars(moveCount, cars);
+    private void showGameResult(RacingGame racingGame) {
         outputView.printResultMessage();
-        outputView.printWinners(cars.getWinners());
-        outputView.printResult(cars.getCars());
-        return GameStatus.GAME_EXIT;
+        outputView.printWinners(racingGame.getWinners());
+        outputView.printResult(racingGame.getCars());
     }
 
-    private void moveAllCars(int moveCount, Cars cars) {
-        for (int i = 0; i < moveCount; i++) {
-            cars.moveCars(carMoveManager);
-        }
-    }
-
-    private enum GameStatus {
-        CAR_REGISTRATION, GAME_START, GAME_EXIT;
-
-        GameStatus() {
-        }
-
-        boolean isContinue(GameStatus gameStatus) {
-            return !gameStatus.equals(GAME_EXIT);
-        }
-    }
 }

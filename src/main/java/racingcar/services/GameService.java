@@ -23,18 +23,21 @@ public class GameService {
     }
 
     public GameResultDto play(GameInformationDto gameInformationDto) {
-        Cars cars = Cars.from(gameInformationDto.getNames());
-        MoveCount moveCount = MoveCount.from(gameInformationDto.getCount());
-        RacingGame racingGame = new RacingGame(new ThresholdCarMoveManager(), cars, moveCount);
+        RacingGame racingGame = createRacingGame(gameInformationDto);
         racingGame.play();
-
         GameResultDto gameResultDto = new GameResultDto(racingGame.getWinners(), createCarDto(racingGame));
-        racingGameRepository.saveGame(moveCount, gameResultDto);
+        racingGameRepository.saveGame(racingGame.getMoveCount(), gameResultDto);
         return gameResultDto;
     }
 
+    private RacingGame createRacingGame(GameInformationDto gameInformationDto){
+        Cars cars = Cars.from(gameInformationDto.getNames());
+        MoveCount moveCount = MoveCount.from(gameInformationDto.getCount());
+        return new RacingGame(new ThresholdCarMoveManager(), cars, moveCount);
+    }
+
     private List<CarDto> createCarDto(RacingGame racingGame) {
-        return racingGame.getResult()
+        return racingGame.getCars()
                 .stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());

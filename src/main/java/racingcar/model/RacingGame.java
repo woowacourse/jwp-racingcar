@@ -34,8 +34,11 @@ public class RacingGame {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public List<Car> getResult() {
+    public List<Car> getCars() {
         return cars.getCars();
     }
 
+    public MoveCount getMoveCount() {
+        return moveCount;
+    }
 }
