@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(RacingGameController.class)
 @DisplayName("RacingGameControllerTest 은")
-class RacingGameControllerTest {
+class RacingGameConsoleApplicationTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -4,7 +4,6 @@ import racingcar.domain.Winner;
 import racingcar.domain.Winners;
 
 import static java.util.stream.Collectors.joining;
-import static racingcar.view.OutputConstant.RESULT_POSTFIX;
 
 public class OutputView {
 
@@ -16,9 +15,8 @@ public class OutputView {
         System.out.println(name + COLON + CAR_POSITION_SIGN.repeat(position));
     }
 
-    public void printWinners(Winners winners) {
-        System.out.print(winnersToString(winners));
-        System.out.println(RESULT_POSTFIX);
+    public void printWinners(String winners) {
+        System.out.println("승자 : " + winners);
     }
 
     public String winnersToString(Winners winners) {
