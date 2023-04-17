@@ -10,13 +10,13 @@ import racingcar.dto.gameResultResponse;
 public class MainRacingCarService {
 
     private final PlayRacingCarService playRacingCarService;
-    private final SaveRacingCarResultService saveRacingCarResultService;
+    private final SaveRacingCarService saveRacingCarService;
 
     @Autowired
     public MainRacingCarService(final PlayRacingCarService playRacingCarService,
-                                final SaveRacingCarResultService saveRacingCarResultService) {
+                                final SaveRacingCarService saveRacingCarService) {
         this.playRacingCarService = playRacingCarService;
-        this.saveRacingCarResultService = saveRacingCarResultService;
+        this.saveRacingCarService = saveRacingCarService;
     }
 
     public gameResultResponse raceCar(final gameInitializationRequest gameInitializationRequest) {
@@ -24,7 +24,7 @@ public class MainRacingCarService {
         final int count = gameInitializationRequest.getCount();
 
         final RacingCarResult racingCarResult = playRacingCarService.playRacingCar(names, count);
-        saveRacingCarResultService.saveRacingCarResult(racingCarResult);
+        saveRacingCarService.saveRacingCarResult(racingCarResult);
 
         return new gameResultResponse(racingCarResult.getWinners(), racingCarResult.getCars());
     }

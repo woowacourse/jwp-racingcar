@@ -27,11 +27,11 @@ import racingcar.repository.entity.WinnerEntity;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class SaveRacingCarResultServiceTest {
+class SaveRacingCarServiceTest {
 
     private static final int FIRST_GAME_ID = 1;
 
-    private final SaveRacingCarResultService saveRacingCarResultService;
+    private final SaveRacingCarService saveRacingCarService;
     private final UserDao userDao;
     private final GameDao gameDao;
     private final PositionDao positionDao;
@@ -61,12 +61,12 @@ class SaveRacingCarResultServiceTest {
     }
 
     @Autowired
-    public SaveRacingCarResultServiceTest(final SaveRacingCarResultService saveRacingCarResultService,
-                                          final UserDao userDao,
-                                          final GameDao gameDao,
-                                          final PositionDao positionDao,
-                                          final WinnerDao winnerDao) {
-        this.saveRacingCarResultService = saveRacingCarResultService;
+    public SaveRacingCarServiceTest(final SaveRacingCarService saveRacingCarService,
+                                    final UserDao userDao,
+                                    final GameDao gameDao,
+                                    final PositionDao positionDao,
+                                    final WinnerDao winnerDao) {
+        this.saveRacingCarService = saveRacingCarService;
         this.userDao = userDao;
         this.gameDao = gameDao;
         this.positionDao = positionDao;
@@ -88,7 +88,7 @@ class SaveRacingCarResultServiceTest {
         );
         final RacingCarResult racingCarResult = new RacingCarResult(winners, cars, trialCount);
 
-        saveRacingCarResultService.saveRacingCarResult(racingCarResult);
+        saveRacingCarService.saveRacingCarResult(racingCarResult);
 
         assertUser(modi, kokodak);
         assertGame(trialCount);

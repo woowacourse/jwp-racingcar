@@ -22,7 +22,7 @@ import racingcar.repository.entity.UserEntity;
 import racingcar.repository.entity.WinnerEntity;
 
 @Service
-public class SaveRacingCarResultService {
+public class SaveRacingCarService {
 
     private final UserDao userDao;
     private final GameDao gameDao;
@@ -30,10 +30,10 @@ public class SaveRacingCarResultService {
     private final WinnerDao winnerDao;
 
     @Autowired
-    public SaveRacingCarResultService(final UserDao userDao,
-                                      final GameDao gameDao,
-                                      final PositionDao positionDao,
-                                      final WinnerDao winnerDao) {
+    public SaveRacingCarService(final UserDao userDao,
+                                final GameDao gameDao,
+                                final PositionDao positionDao,
+                                final WinnerDao winnerDao) {
         this.userDao = userDao;
         this.gameDao = gameDao;
         this.positionDao = positionDao;
