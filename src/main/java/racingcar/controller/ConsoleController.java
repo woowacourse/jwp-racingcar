@@ -1,6 +1,9 @@
 package racingcar.controller;
 
 import racingcar.domain.Cars;
+import racingcar.domain.RacingGame;
+import racingcar.dto.RacingRequest;
+import racingcar.service.RacingService;
 import racingcar.utils.Converter;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;
@@ -19,36 +22,31 @@ public class ConsoleController {
     }
 
     public void run() {
-        Cars cars = initializeCars();
-        Trial trial = initializeTrial();
-        Cars movedCars = playGame(cars, trial);
-        printFinalResult(movedCars);
+        RacingRequest racingRequest = new RacingRequest(initializeCars(), initializeTrial());
+        Cars updatedCars = RacingGame.run(racingRequest);
+        printFinalResult(updatedCars);
     }
 
-    private Cars initializeCars() {
+    private String initializeCars() {
         try {
-            return Cars.initialize(inputView.getCarNames(), RandomNumberGenerator.makeInstance());
+            String input = inputView.getCarNames();
+            Cars.initialize(input, RandomNumberGenerator.makeInstance());
+            return input;
         } catch (IllegalArgumentException exception) {
             outputView.printErrorMessage(exception.getMessage());
             return initializeCars();
         }
     }
 
-    private Trial initializeTrial() {
+    private String initializeTrial() {
         try {
-            return Trial.of(Converter.convertStringToInt(inputView.getTrial()));
+            String input = inputView.getTrial();
+            Trial.of(Converter.convertStringToInt(input));
+            return input;
         } catch (IllegalArgumentException exception) {
             outputView.printErrorMessage(exception.getMessage());
             return initializeTrial();
         }
-    }
-
-    private Cars playGame(Cars cars, Trial trial) {
-        outputView.printResultMessage();
-        for (int count = 0; count < trial.getValue(); count++) {
-            cars.move();
-        }
-        return cars;
     }
 
     private void printFinalResult(Cars cars) {

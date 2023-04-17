@@ -18,14 +18,13 @@ public class InsertingDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int insert(Trial trial) {
-        String sql = "INSERT INTO racing (trial_count) values (?)";
+    public int insert() {
+        String sql = "INSERT INTO racing () values ()";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
             connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql,
                     new String[]{"id"});
-                preparedStatement.setInt(1, trial.getValue());
                 return preparedStatement;
             },
             keyHolder

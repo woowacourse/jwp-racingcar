@@ -1,64 +1,34 @@
 package racingcar.controller;
 
-import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dao.InsertingDAO;
-import racingcar.dao.QueryingDAO;
 import racingcar.domain.Cars;
+import racingcar.domain.RacingGame;
 import racingcar.dto.*;
-import racingcar.utils.Converter;
-import racingcar.utils.RandomNumberGenerator;
-import racingcar.domain.vo.Trial;
+import racingcar.service.RacingService;
 
 import java.util.List;
 
 @RestController
 public class WebController {
 
-    final private InsertingDAO insertingDAO;
-    final private QueryingDAO queryingDAO;
+    final private RacingService racingService;
 
-    public WebController(InsertingDAO insertingDAO, QueryingDAO queryingDAO) {
-        this.insertingDAO = insertingDAO;
-        this.queryingDAO = queryingDAO;
+    public WebController(RacingService racingService) {
+        this.racingService = racingService;
     }
 
     @PostMapping("/plays")
-    public RacingResultResponse run(@RequestBody RacingRequest dto) {
-        Cars cars = Cars.initialize(dto.getNames(), RandomNumberGenerator.makeInstance());
-        Trial trial = getTrial(dto.getCount());
-        Cars updatedCars = playGame(cars, trial);
-        final int racingId = insertingDAO.insert(trial);
-        List<CarResponse> carResponses = cars.getCarDtos();
-        List<String> winnerNames = cars.getWinnerNames();
-
-        for (CarResponse car : carResponses) {
-            String name = car.getName();
-            insertingDAO.insert(
-                new CarInfoEntity(racingId, name, car.getPosition(), winnerNames.contains(name)));
-        }
+    public RacingResultResponse run(@RequestBody RacingRequest racingRequest) {
+        Cars updatedCars = RacingGame.run(racingRequest);
+        racingService.save(updatedCars);
         return new RacingResultResponse(updatedCars.getWinnerNames(), updatedCars.getCarDtos());
-    }
-
-    public Trial getTrial(String input) {
-        return Trial.of(Converter.convertStringToInt(input));
-    }
-
-    private Cars playGame(Cars cars, Trial trial) {
-        for (int count = 0; count < trial.getValue(); count++) {
-            cars.move();
-        }
-        return cars;
     }
 
     @GetMapping("/plays")
     public List<RacingResultResponse> run() {
-        return queryingDAO.findRacingIds().stream().map((id) ->
-            new RacingResultResponse(queryingDAO.findWinnersByRacingId(id),
-                queryingDAO.findCarsById(id).getCarDtos())
-        ).collect(Collectors.toList());
+        return racingService.loadHistory();
     }
 }

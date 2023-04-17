@@ -5,6 +5,11 @@ public class RacingRequest {
     private String names;
     private String count;
 
+    public RacingRequest(String names, String count) {
+        this.names = names;
+        this.count = count;
+    }
+
     public String getNames() {
         return names;
     }

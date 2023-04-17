@@ -1,6 +1,10 @@
 package racingcar;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.controller.ConsoleController;
+import racingcar.dao.InsertingDAO;
+import racingcar.domain.RacingGame;
+import racingcar.service.RacingService;
 import racingcar.utils.ScannerInputReader;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
