@@ -23,7 +23,8 @@ public final class RacingGame {
 
     public List<Cars> run(final MovingStrategy strategy) {
         final List<Cars> result = new ArrayList<>();
-        for (int i = 0; i < tryCount.getCount(); i++) {
+        final int count = tryCount.getCount();
+        for (int i = 0; i < count; i++) {
             moveCars(strategy);
             result.add(cars);
         }

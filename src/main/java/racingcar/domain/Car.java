@@ -1,12 +1,10 @@
 package racingcar.domain;
 
-import java.util.Objects;
-
 public final class Car {
 
     private final Name name;
     private final Position position;
-    private boolean isWinner;
+    private final boolean isWinner;
 
     public Car(final Name name) {
         this(name, Position.create());
@@ -15,6 +13,7 @@ public final class Car {
     public Car(final Name name, final Position position) {
         this.name = name;
         this.position = position;
+        this.isWinner = false;
     }
 
     public Car(final Car car) {
@@ -53,24 +52,4 @@ public final class Car {
         return isWinner;
     }
 
-    public void setWinner(final boolean result) {
-        this.isWinner = result;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final Car car = (Car) o;
-        return Objects.equals(name, car.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
 }
