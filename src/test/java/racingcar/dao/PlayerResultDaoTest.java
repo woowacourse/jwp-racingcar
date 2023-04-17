@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import racingcar.service.PlayResult;
 import racingcar.service.PlayerResult;
 
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class PlayerResultDaoTest {
 
@@ -31,24 +33,15 @@ class PlayerResultDaoTest {
     @Autowired
     PlayerResultDao playerResultDao;
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
-
     private int playResultId;
 
     @BeforeEach
-    void initialize(){
-        String deletePlayerResultSql = "delete from player_result";
-        jdbcTemplate.execute(deletePlayerResultSql);
-
-        String deletePlayResultSql = "delete from play_result";
-        jdbcTemplate.execute(deletePlayResultSql);
-
+    void initialize() {
         playResultId = playResultDao.insertPlayResult(new PlayResult("name1,name2", 3));
     }
 
     @Test
-    void insertPlayer(){
+    void insertPlayer() {
         PlayerResult playerResult = new PlayerResult(playResultId, "name", 10);
         playerResultDao.insertPlayerResult(playerResult);
 
@@ -59,7 +52,7 @@ class PlayerResultDaoTest {
     }
 
     @Test
-    void selectPlayerResultByPlayResultIdTest(){
+    void selectPlayerResultByPlayResultIdTest() {
         PlayerResult playerResult = new PlayerResult(playResultId, "name1", 10);
         PlayerResult playerResult2 = new PlayerResult(playResultId, "name2", 10);
         playerResultDao.insertPlayerResult(playerResult);
