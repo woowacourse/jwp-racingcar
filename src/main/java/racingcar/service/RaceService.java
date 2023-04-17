@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
 import racingcar.domain.dao.CarDao;
 import racingcar.domain.dao.RaceResultDao;
+import racingcar.domain.dao.entity.CarEntity;
+import racingcar.domain.dao.entity.RaceEntity;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
@@ -55,5 +58,15 @@ public class RaceService {
             .map(car -> new CarStatusDto(car.getCarName(), car.getCarPosition()))
             .collect(Collectors.toUnmodifiableList());
         return RaceResponse.create(winners, carRaceResult);
+    }
+
+    public List<RaceResponse> findAllRace() {
+        final List<RaceResponse> raceResponses = new ArrayList<>();
+        final List<RaceEntity> raceEntities = raceResultDao.findAll();
+        for (final RaceEntity raceEntity : raceEntities) {
+            final List<CarEntity> carEntities = carDao.findAll(raceEntity.getId());
+            raceResponses.add(RaceResponse.of(raceEntity, carEntities));
+        }
+        return raceResponses;
     }
 }
