@@ -6,9 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,19 +38,5 @@ class CarTest {
         assertThatThrownBy(() -> carNames.stream().map(Car::new).collect(Collectors.toList()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("자동차명은 1 ~ 5 글자로 입력해야합니다.");
-    }
-
-    public static class TestCar extends Car {
-        private final Queue<Integer> randomNumbers;
-
-        public TestCar(final String name, final List<Integer> randomNumbers) {
-            super(name);
-            this.randomNumbers = new LinkedList<>(randomNumbers);
-        }
-
-        @Override
-        public boolean isMove() {
-            return randomNumbers.poll().intValue() >= 4;
-        }
     }
 }

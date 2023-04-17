@@ -4,10 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class CarsTest {
@@ -32,20 +33,15 @@ class CarsTest {
         assertThat(cars.getWinner()).isEqualTo("true1,true2");
     }
 
-    public static class TestCar extends Car {
-        private final Queue<Integer> randomNumbers;
+    @DisplayName("자동차 이름 중복 예외 테스트")
+    @Test
+    void 자동차_이름_중복_예외_테스트() {
+        List<Car> cars = Stream.of("a", "a", "b").
+                map(Car::new)
+                .collect(Collectors.toList());
 
-        public TestCar(final String name, final List<Integer> randomNumbers) {
-            super(name);
-            this.randomNumbers = new LinkedList<>(randomNumbers);
-        }
-
-        @Override
-        public boolean isMove() {
-            if (randomNumbers.poll().intValue() >= 4) {
-                return true;
-            }
-            return false;
-        }
+        assertThatThrownBy(() -> new Cars(cars))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("자동차명은 중복되어선 안됩니다.");
     }
 }
