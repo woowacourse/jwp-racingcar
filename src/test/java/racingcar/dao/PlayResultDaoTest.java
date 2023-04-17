@@ -49,7 +49,7 @@ class PlayResultDaoTest {
     @Test
     void key() {
         PlayResult entity = PlayResult.of(10, "aa", Timestamp.valueOf(LocalDateTime.now()));
-        Long id = mapper.save(entity);;
+        Integer id = mapper.save(entity);;
         PlayResult result = mapper.findById(id);
         System.out.println(result);
         assertThat(result).isNotNull();

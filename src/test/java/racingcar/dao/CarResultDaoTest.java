@@ -63,9 +63,9 @@ class CarResultDaoTest {
     @Test
     void key() {
         PlayResult playResult = PlayResult.of(10, "juno", Timestamp.valueOf(LocalDateTime.now()));
-        Long playResultId = playResultDao.save(playResult);
+        Integer playResultId = playResultDao.save(playResult);
         CarResult carResult = CarResult.of(playResultId, "juno", 3);
-        Long carId = carResultDao.save(carResult);
+        int carId = carResultDao.save(carResult);
         CarResult result = carResultDao.findById(carId);
         System.out.println(result);
         assertThat(result).isNotNull();

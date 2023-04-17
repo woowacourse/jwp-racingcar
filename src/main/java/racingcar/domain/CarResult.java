@@ -3,27 +3,27 @@ package racingcar.domain;
 import java.util.Objects;
 
 public class CarResult {
-    private final Long id;
-    private final long playResultId;
+    private final Integer id;
+    private final int playResultId;
     private final String name;
     private final int position;
 
-    private CarResult(Long id, long playResultId, String name, int position) {
+    private CarResult(Integer id, int playResultId, String name, int position) {
         this.id = id;
         this.playResultId = playResultId;
         this.name = name;
         this.position = position;
     }
 
-    public static CarResult of(long resultId, String name, int position) {
+    public static CarResult of(int resultId, String name, int position) {
         return new CarResult(null, resultId, name, position);
     }
 
-    public static CarResult of(Long id, long resultId, String name, int position) {
+    public static CarResult of(Integer id, int resultId, String name, int position) {
         return new CarResult(id, resultId, name, position);
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
