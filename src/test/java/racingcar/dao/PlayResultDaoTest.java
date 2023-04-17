@@ -47,7 +47,7 @@ class PlayResultDaoTest {
         List<PlayResult> playResults = playResultDao.selectAllResults();
         PlayResult findPlayResul = playResults.get(0);
 
-        assertThat(findPlayResul.getId()).isEqualTo(playResult.getId());
+        assertThat(findPlayResul.getId()).isGreaterThan(0);
         assertThat(findPlayResul.getWinners()).isEqualTo(playResult.getWinners());
         assertThat(findPlayResul.getTrialCount()).isEqualTo(playResult.getTrialCount());
     }

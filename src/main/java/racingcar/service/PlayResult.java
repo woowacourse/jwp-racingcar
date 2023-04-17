@@ -37,4 +37,12 @@ public class PlayResult {
         return trialCount;
     }
 
+    @Override
+    public String toString() {
+        return "PlayResult{" +
+                "id=" + id +
+                ", winners='" + winners + '\'' +
+                ", trialCount=" + trialCount +
+                '}';
+    }
 }

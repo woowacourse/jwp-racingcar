@@ -34,7 +34,7 @@ class PlayerResultDaoTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    private PlayResult playResult;
+    private int playResultId;
 
     @BeforeEach
     void initialize(){
@@ -44,15 +44,15 @@ class PlayerResultDaoTest {
         String deletePlayResultSql = "delete from play_result";
         jdbcTemplate.execute(deletePlayResultSql);
 
-        playResult = playResultDao.insertPlayResult(new PlayResult("name1,name2", 3));
+        playResultId = playResultDao.insertPlayResult(new PlayResult("name1,name2", 3));
     }
 
     @Test
     void insertPlayer(){
-        PlayerResult playerResult = new PlayerResult(playResult.getId(), "name", 10);
-        playerResultDao.insertPlayer(playerResult);
+        PlayerResult playerResult = new PlayerResult(playResultId, "name", 10);
+        playerResultDao.insertPlayerResult(playerResult);
 
-        List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByPlayResultId(playResult.getId());
+        List<PlayerResult> playerResults = playerResultDao.selectPlayerResult(playResultId);
         PlayerResult findedPlayerResult = playerResults.get(0);
 
         assertThat(findedPlayerResult.getName()).isEqualTo(playerResult.getName());
@@ -60,12 +60,12 @@ class PlayerResultDaoTest {
 
     @Test
     void selectPlayerResultByPlayResultIdTest(){
-        PlayerResult playerResult = new PlayerResult(playResult.getId(), "name1", 10);
-        PlayerResult playerResult2 = new PlayerResult(playResult.getId(), "name2", 10);
-        playerResultDao.insertPlayer(playerResult);
-        playerResultDao.insertPlayer(playerResult2);
+        PlayerResult playerResult = new PlayerResult(playResultId, "name1", 10);
+        PlayerResult playerResult2 = new PlayerResult(playResultId, "name2", 10);
+        playerResultDao.insertPlayerResult(playerResult);
+        playerResultDao.insertPlayerResult(playerResult2);
 
-        List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByPlayResultId(playResult.getId());
+        List<PlayerResult> playerResults = playerResultDao.selectPlayerResult(playResultId);
 
         assertThat(playerResults.size()).isEqualTo(2);
     }

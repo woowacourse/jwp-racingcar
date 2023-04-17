@@ -30,17 +30,17 @@ public class RacingcarService {
 
         String winners = findWinners(cars);
 
-        PlayResult playResult = playResultDao.insertPlayResult(new PlayResult(winners, count));
-        List<PlayerResult> playerResults = insertPlayerResults(cars, playResult);
+        int playResultId = playResultDao.insertPlayResult(new PlayResult(winners, count));
+        List<PlayerResult> playerResults = insertPlayerResults(cars, playResultId);
         return new RacingResponse(winners, playerResults);
     }
 
-    private List<PlayerResult> insertPlayerResults(final List<Car> cars, final PlayResult playResult) {
+    private List<PlayerResult> insertPlayerResults(final List<Car> cars, final int playResultId) {
         List<PlayerResult> playerResults = cars.stream()
-                .map(car -> new PlayerResult(playResult.getId(), car.getName(), car.getPosition()))
+                .map(car -> new PlayerResult(playResultId, car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
 
-        playerResults.forEach(playerResultDao::insertPlayer);
+        playerResults.forEach(playerResultDao::insertPlayerResult);
         return playerResults;
     }
 
@@ -94,7 +94,7 @@ public class RacingcarService {
         List<List<PlayerResult>> playerResults = new ArrayList<>();
         for (PlayResult playResult : playResults) {
             int playResultId = playResult.getId();
-            playerResults.add(playerResultDao.selectPlayerResultByPlayResultId(playResultId));
+            playerResults.add(playerResultDao.selectPlayerResult(playResultId));
         }
         return playerResults;
     }
