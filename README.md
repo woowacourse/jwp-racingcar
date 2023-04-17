@@ -8,7 +8,7 @@ WebController
   - [x] 자동차 이름 분리
   - [x] 자동차 객체 생성
   - [x] 게임 결과 반환 (winners, racingCars)
-- [ ] 게임 play 이력 Get 요청 받기
+- [x] 게임 play 이력 Get 요청 받기
 
 ControllerAdvice
 - [x] Count 검증 예외 처리
