@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,26 @@ class CarRecordDaoTest {
                 () -> assertThat(foundCar.getPosition()).isZero(),
                 () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner)
                 );
+    }
+
+    @DisplayName("한 게임에 있는 모든 자동차 이동 기록을 조회한다.")
+    @Test
+    void findAllByHistoryId() {
+        //given
+        String carName1 = "Rosie";
+        String carName2 = "Baron";
+        carRecordDao.save(racingHistoryId, new Car(carName1), true);
+        carRecordDao.save(racingHistoryId, new Car(carName2), false);
+
+        //when
+        List<CarRecord> carRecords = carRecordDao.findAllByRacingHistoryId(racingHistoryId);
+
+        //then
+        assertAll(
+                () -> assertThat(carRecords).hasSize(2),
+                () -> assertThat(carRecords.get(0).getName()).isEqualTo("Rosie"),
+                () -> assertThat(carRecords.get(1).getName()).isEqualTo("Baron")
+        );
     }
 
 }

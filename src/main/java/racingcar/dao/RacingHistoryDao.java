@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -23,6 +24,15 @@ public class RacingHistoryDao {
         jdbcTemplate.update(sql, new MapSqlParameterSource(Map.of("trialCount", trialCount, "playTime", playTime)),
                 keyHolder);
         return keyHolder.getKeyAs(Long.class);
+    }
+
+    public List<RacingHistory> findAll() {
+        String sql = "SELECT id, trial_count, play_time FROM racing_history";
+        return jdbcTemplate.query(sql, ((rs, rowNum) -> new RacingHistory(
+                rs.getLong("id"),
+                rs.getInt("trial_count"),
+                rs.getObject("play_time", LocalDateTime.class)
+        )));
     }
 
 }

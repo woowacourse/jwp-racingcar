@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import java.util.List;
 import java.util.Map;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -27,6 +28,18 @@ public class CarRecordDao {
                                 "isWinner", isWinner)),
                 keyHolder);
         return keyHolder.getKeyAs(Long.class);
+    }
+
+    public List<CarRecord> findAllByRacingHistoryId(long racingHistoryId) {
+        return jdbcTemplate.query(
+                "SELECT name, position, is_winner FROM car_record WHERE history_id = :id",
+                new MapSqlParameterSource("id", racingHistoryId),
+                (rs, rowNum) -> new CarRecord(
+                        rs.getString("name"),
+                        rs.getInt("position"),
+                        rs.getBoolean("is_winner")
+                )
+        );
     }
 
 }
