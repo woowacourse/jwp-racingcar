@@ -37,14 +37,8 @@ public class RacingCarController {
         return ResponseEntity.ok().body(gameResultResponseDto);
     }
 
-    private void play(Cars cars, int count, NumberGenerator numberGenerator) {
-        while (count-- > 0) {
-            cars.moveCars(numberGenerator);
-        }
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<String> handlePlayerNumber(PlayerNumberException ex){
+    @ExceptionHandler({PlayerNumberException.class, PlayerSizeException.class})
+    public ResponseEntity<String> handlePlayerNumber(Exception ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
