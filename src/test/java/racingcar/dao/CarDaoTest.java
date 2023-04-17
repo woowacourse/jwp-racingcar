@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +48,11 @@ class CarDaoTest {
         List<RacingCarDto> queriedCars = carDao.findCarsById(1);
 
         //then
-        assertThat(queriedCars).hasSize(2);
+        assertThat(queriedCars).hasSize(2)
+                .extracting("name", "position")
+                .containsExactly(
+                        tuple("오잉", 1),
+                        tuple("포이", 1)
+                );
     }
 }
