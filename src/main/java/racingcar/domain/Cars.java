@@ -18,7 +18,7 @@ public class Cars {
     private final List<Car> cars;
     private final NumberGenerator numberGenerator;
 
-    private Cars(List<Car> cars, NumberGenerator numberGenerator) {
+    public Cars(List<Car> cars, NumberGenerator numberGenerator) {
         this.cars = cars;
         this.numberGenerator = numberGenerator;
     }

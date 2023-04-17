@@ -14,6 +14,10 @@ public class Car {
         this.name = name;
         this.position = Position.of(ZERO_POSITION);
     }
+    public Car(CarName name, Position position) {
+        this.name = name;
+        this.position = position;
+    }
 
     public static Car of(CarName name) {
         return new Car(name);

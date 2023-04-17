@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,8 +55,10 @@ public class WebController {
     }
 
     @GetMapping("/plays")
-    public String run() {
-        System.out.println(String.join(", ", queryingDAO.findWinnersByRacingId(1)));
-        return String.join(", ", queryingDAO.findWinnersByRacingId(1));
+    public List<RacingResultResponse> run() {
+        return queryingDAO.findRacingIds().stream().map((id) ->
+            new RacingResultResponse(queryingDAO.findWinnersByRacingId(id),
+                queryingDAO.findCarsById(id).getCarDtos())
+        ).collect(Collectors.toList());
     }
 }
