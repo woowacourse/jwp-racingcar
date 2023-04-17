@@ -15,11 +15,11 @@ public class ConsoleController {
         Cars cars = setCars();
         repeatMove(cars, setTryCount());
         outputView.printWinner(cars.getWinners());
+        outputView.printResult(cars);
     }
 
     private Cars setCars() {
         outputView.printRequestCarName();
-
         try {
             Cars cars = new Cars(inputView.inputCarName());
             return cars;
@@ -30,17 +30,13 @@ public class ConsoleController {
     }
 
     private void repeatMove(Cars cars, int tryCount) {
-        outputView.printResult();
-
         for (int count = 0; count < tryCount; count++) {
             cars.moveResult(numberGenerator);
-            outputView.printResult(cars);
         }
     }
 
     private int setTryCount() {
         outputView.printRequestTryCount();
-
         try {
             return inputView.inputTryCount();
         } catch (Exception e) {
