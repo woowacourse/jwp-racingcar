@@ -3,7 +3,10 @@ package racingcar.dao;
 
 import static racingcar.dao.ObjectMapper.carDTOMapper;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.CarEntity;
@@ -19,11 +22,24 @@ public class JdbcCarDao implements CarDao {
     }
 
     @Override
-    public void insert(final CarEntity carEntity) {
+    public void batchInsert(final List<CarEntity> carEntities) {
         final String sql = "INSERT INTO car(name, position, game_id, is_win) VALUES (?,?,?,?)";
-        jdbcTemplate.update(sql, carEntity.getName(), carEntity.getPosition(), carEntity.getGameId(),
-                carEntity.getIsWin());
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                CarEntity carEntity = carEntities.get(i);
+                ps.setString(1, carEntity.getName());
+                ps.setInt(2, carEntity.getPosition());
+                ps.setLong(3, carEntity.getGameId());
+                ps.setBoolean(4, carEntity.getIsWin());
+            }
+            @Override
+            public int getBatchSize() {
+                return carEntities.size();
+            }
+        });
     }
+
 
     @Override
     public List<CarDTO> selectAll(final int gameId) {

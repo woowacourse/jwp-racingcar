@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -33,11 +34,17 @@ public class JdbcCarDaoTest {
     @Test
     void 게임_id와_함께_차량_정보를_저장한다() {
         // given
-        final long gameId = gameDao.insert(GameEntity.create(5));
+        final long firstGameId = gameDao.insert(GameEntity.create(5));
+        final long secondGameId = gameDao.insert(GameEntity.create(4));
+
+        final CarEntity firstCarEntity = CarEntity.create("jayon", 3, firstGameId, true);
+        final CarEntity secondCarEntity = CarEntity.create("gavi", 2, secondGameId, true);
+
+        List<CarEntity> carEntities = List.of(firstCarEntity, secondCarEntity);
 
         // expect
         Assertions.assertDoesNotThrow(
-                () -> carDao.insert(CarEntity.create("jayon", 3, gameId, true))
+                () -> carDao.batchInsert(carEntities)
         );
     }
 }

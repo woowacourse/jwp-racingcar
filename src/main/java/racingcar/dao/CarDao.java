@@ -6,7 +6,7 @@ import racingcar.dto.CarDTO;
 
 public interface CarDao {
 
-    void insert(final CarEntity carEntity);
+    void batchInsert(final List<CarEntity> carEntity);
 
     List<CarDTO> selectAll(final int gameId);
 

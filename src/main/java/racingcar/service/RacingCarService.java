@@ -47,11 +47,11 @@ public class RacingCarService {
     }
 
     private void insertCar(final Cars cars, final Long id, final GameSystem gameSystem) {
+        final List<CarEntity> carEntities = new ArrayList<>();
         for (Car car : cars.getCars()) {
-            carDao.insert(
-                    CarEntity.create(car.getName(), car.getPosition(), id, isWin(car, gameSystem))
-            );
+            carEntities.add(CarEntity.create(car.getName(), car.getPosition(), id, isWin(car, gameSystem)));
         }
+        carDao.batchInsert(carEntities);
     }
 
     private boolean isWin(final Car car, final GameSystem gameSystem) {
