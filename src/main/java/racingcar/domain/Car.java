@@ -1,22 +1,26 @@
 package racingcar.domain;
 
-public class Car {
-
-    private static final int INITIAL_VALUE = 0;
-    private static final int MOVABLE_VALUE = 4;
+public final class Car {
+    private static final int MIN_MOVABLE_VALUE = 4;
+    private static final int MAX_MOVABLE_VALUE = 9;
 
     private final Name name;
     private Position position;
 
-    public Car(String name) {
-        this.name = new Name(name);
-        this.position = new Position(INITIAL_VALUE);
+    public Car(final String nameValue) {
+        this.name = new Name(nameValue);
+        this.position = Position.ZERO;
     }
 
-    public void move(NumberGenerator numberGenerator) {
-        if (numberGenerator.generate() >= MOVABLE_VALUE) {
-            this.position = position.increase();
+    public void move(final NumberGenerator numberGenerator) {
+        final int number = numberGenerator.generate();
+        if (isMovable(number)) {
+            position = position.move();
         }
+    }
+
+    private boolean isMovable(final int number) {
+        return MIN_MOVABLE_VALUE <= number && number <= MAX_MOVABLE_VALUE;
     }
 
     public Name getName() {
@@ -25,5 +29,13 @@ public class Car {
 
     public Position getPosition() {
         return position;
+    }
+
+    public String getNameValue() {
+        return name.getValue();
+    }
+
+    public int getPositionValue() {
+        return position.getValue();
     }
 }
