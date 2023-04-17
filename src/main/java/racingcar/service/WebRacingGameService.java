@@ -13,12 +13,12 @@ import racingcar.dto.CarPositionDto;
 import racingcar.repository.RacingGameRepository;
 
 @Service
-public class RacingCarsService {
+public class WebRacingGameService {
 
     private final NumberPicker numberPicker;
     private final RacingGameRepository racingGameRepository;
 
-    public RacingCarsService(final NumberPicker numberPicker, final RacingGameRepository racingGameRepository) {
+    public WebRacingGameService(final NumberPicker numberPicker, final RacingGameRepository racingGameRepository) {
         this.numberPicker = numberPicker;
         this.racingGameRepository = racingGameRepository;
     }

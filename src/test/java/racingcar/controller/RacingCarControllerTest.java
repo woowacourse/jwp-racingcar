@@ -19,7 +19,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.dto.GameRequest;
-import racingcar.service.RacingCarsService;
+import racingcar.service.WebRacingGameService;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -69,11 +69,11 @@ class RacingCarControllerTest {
     class findTotalHistoryTest {
 
         @Autowired
-        private RacingCarsService racingCarsService;
+        private WebRacingGameService webRacingGameService;
 
         @BeforeEach
         void setUp() {
-            racingCarsService.race(List.of("브리", "토미", "브라운"), 10);
+            webRacingGameService.race(List.of("브리", "토미", "브라운"), 10);
         }
 
         @Test
