@@ -20,6 +20,7 @@ import racingcar.dto.ResultDTO;
 
 @Service
 public class RacingCarService {
+    private static final int INITIAL_GAME_ID = 1;
 
     private final GameDao gameDao;
     private final CarDao carDao;
@@ -30,7 +31,7 @@ public class RacingCarService {
     }
 
     public ResultDTO play(final List<String> names, final int count) {
-        final GameSystem gameSystem = createGameSystem(count);
+        final GameSystem gameSystem = new GameSystem(count, new GameRecorder(new ArrayList<>()));
         final Long gameId = gameDao.insert(GameEntity.create(count));
 
         final Cars cars = makeCars(names);
@@ -38,10 +39,6 @@ public class RacingCarService {
         insertCar(cars, gameId, gameSystem);
 
         return createGameDTO(count, gameSystem);
-    }
-
-    private GameSystem createGameSystem(final int gameRound) {
-        return new GameSystem(gameRound, new GameRecorder(new ArrayList<>()));
     }
 
     private Cars makeCars(final List<String> names) {
@@ -87,7 +84,7 @@ public class RacingCarService {
         List<ResultDTO> playingCars = new ArrayList<>();
 
         final int games = gameDao.countGames().orElse(0);
-        for (int gameId = 1; gameId <= games; gameId++) {
+        for (int gameId = INITIAL_GAME_ID; gameId <= games; gameId++) {
             final List<CarDTO> carDTO = carDao.selectAll(gameId);
             final List<String> winnerNames = carDao.selectWinners(gameId);
 
@@ -96,5 +93,4 @@ public class RacingCarService {
 
         return new ArrayList<>(playingCars);
     }
-
 }

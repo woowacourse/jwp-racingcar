@@ -9,7 +9,9 @@ public enum Message {
     POSITION_MARKER("-"),
     WINNER_DELIMITER(", "),
     EMPTY_MESSAGE(""),
-    WINNER_GUIDE("%s가 최종 우승했습니다.");
+    WINNER("우승자: "),
+    ;
+
     private final String message;
 
     Message(final String message) {

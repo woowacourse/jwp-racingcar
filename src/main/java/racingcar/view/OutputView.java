@@ -1,6 +1,8 @@
 package racingcar.view;
 
 import racingcar.domain.result.GameResultOfCar;
+import racingcar.dto.CarDTO;
+import racingcar.dto.RacingGameResponseDTO;
 import racingcar.view.message.Message;
 
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.stream.Collectors;
 public class OutputView {
 
     private static final int DEFAULT_ROUND = 0;
+    private static final String ENTER_LINE = System.lineSeparator();
 
     public void printCarNameInputGuide() {
         print(Message.CAR_NAME_INPUT_GUIDE.getMessage());
@@ -16,18 +19,6 @@ public class OutputView {
 
     public void printGameRoundGuide() {
         print(Message.GAME_ROUND_INPUT_GUIDE.getMessage());
-    }
-
-    public void printAllGameResults(final List<GameResultOfCar> gameResultOfAllCars) {
-        printResultGuide();
-        int gameRound = getFirstGameRound(gameResultOfAllCars);
-        for (GameResultOfCar gameResultOfCar : gameResultOfAllCars) {
-            printBlankLineBy(gameRound, gameResultOfCar);
-
-            print(makeResultMessage(gameResultOfCar.getCarName(), gameResultOfCar.getPosition()));
-
-            gameRound = gameResultOfCar.getGameRound();
-        }
     }
 
     private void printResultGuide() {
@@ -61,7 +52,7 @@ public class OutputView {
     }
 
     private String makeWinnersMessage(final List<GameResultOfCar> gameResultOfWinners, final String delimiter) {
-        return String.format(Message.WINNER_GUIDE.getMessage(), makeWinnerNames(gameResultOfWinners, delimiter));
+        return String.format(Message.WINNER.getMessage(), makeWinnerNames(gameResultOfWinners, delimiter));
     }
 
     private String makeWinnerNames(final List<GameResultOfCar> gameResultOfWinners, final String delimiter) {
@@ -72,5 +63,14 @@ public class OutputView {
 
     private void print(final String message) {
         System.out.println(message);
+    }
+
+    public void printResult(final RacingGameResponseDTO racingGameResponseDTO) {
+        System.out.println(Message.WINNER.getMessage() + racingGameResponseDTO.getWinners() + ENTER_LINE);
+        System.out.println(Message.GAME_RESULT_GUIDE.getMessage());
+        for (CarDTO carDTO : racingGameResponseDTO.getRacingCarDTOs()) {
+            System.out.println("이름: " + carDTO.getName());
+            System.out.println("최종 결과: " + carDTO.getPosition());
+        }
     }
 }
