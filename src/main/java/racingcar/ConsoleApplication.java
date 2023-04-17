@@ -18,7 +18,10 @@ public final class ConsoleApplication {
                 new InputView(),
                 new OutputView()
         );
-
-        controller.run();
+        try {
+            controller.run();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

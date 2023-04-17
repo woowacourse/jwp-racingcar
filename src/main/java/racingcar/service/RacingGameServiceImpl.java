@@ -44,26 +44,38 @@ public class RacingGameServiceImpl implements RacingGameService {
     }
 
     public List<GameResultDto> findAllResult() {
-        Map<Long, List<CarEntity>> allCars = racingGameRepository.findAllCars();
-        Map<Long, List<WinnerEntity>> allWinners = racingGameRepository.findAllWinners();
+        final Map<Long, List<CarEntity>> allCars = racingGameRepository.findAllCars();
+        final Map<Long, List<WinnerEntity>> allWinners = racingGameRepository.findAllWinners();
 
         List<GameResultDto> gameResultDtos = new ArrayList<>();
+        addGameResultById(allCars, allWinners, gameResultDtos);
+
+        return gameResultDtos;
+    }
+
+    private void addGameResultById(final Map<Long, List<CarEntity>> allCars, final Map<Long, List<WinnerEntity>> allWinners, final List<GameResultDto> gameResultDtos) {
         for (Map.Entry<Long, List<CarEntity>> entry : allCars.entrySet()) {
             Long key = entry.getKey();
             List<CarEntity> carEntities = allCars.get(key);
             List<WinnerEntity> winnerEntities = allWinners.get(key);
 
-            List<Car> cars = carEntities.stream()
-                    .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition()))
-                    .collect(Collectors.toList());
+            List<Car> cars = toCars(carEntities);
 
-            List<Winner> winners = winnerEntities.stream()
-                    .map(winnerEntity -> new Winner(winnerEntity.getName()))
-                    .collect(Collectors.toList());
+            List<Winner> winners = toWinners(winnerEntities);
 
             gameResultDtos.add(new GameResultDto(cars, new Winners(winners)));
         }
+    }
 
-        return gameResultDtos;
+    private List<Car> toCars(final List<CarEntity> carEntities) {
+        return carEntities.stream()
+                .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Winner> toWinners(final List<WinnerEntity> winnerEntities) {
+        return winnerEntities.stream()
+                .map(winnerEntity -> new Winner(winnerEntity.getName()))
+                .collect(Collectors.toList());
     }
 }
