@@ -17,7 +17,16 @@ class RacingGameTest {
     @MethodSource("parameterProvider")
     void getWinnersTest(List<String> carNames, List<Integer> determinedNumbers, int gameTry,
                         List<String> expectedWinners) {
+<<<<<<< HEAD
         DeterminedNumberGenerator determinedNumberGenerator = DeterminedNumberGenerator.createByList(determinedNumbers
+=======
+        DeterminedNumberGenerator determinedNumberGenerator = new DeterminedNumberGenerator();
+        List<Car> cars = carNames.stream()
+                .map(carName -> new Car(carName, 0))
+                .collect(Collectors.toList());
+        RacingGame racingGame = new RacingGame(cars, determinedNumberGenerator, new Coin(gameTry));
+        determinedNumberGenerator.readRepository(determinedNumbers);
+>>>>>>> 41a1436 (refactor: 정적 팩터리 메서드 추가하여 서비스의 문자열 분리 로직 제거)
 
         );
         List<Car> cars = carNames.stream()
