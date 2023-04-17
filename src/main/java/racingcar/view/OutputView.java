@@ -10,10 +10,6 @@ public class OutputView {
         System.out.println("[ERROR]" + message);
     }
 
-    public void printResultMessage() {
-        System.out.println(System.lineSeparator() + "실행 결과");
-    }
-
     public void printResult(Cars cars) {
         cars.getCars().forEach((car)
             -> System.out.printf("%s : %d%n", car.getName(), car.getPosition())

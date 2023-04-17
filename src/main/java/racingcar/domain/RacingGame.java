@@ -24,5 +24,4 @@ public class RacingGame {
         return cars;
     }
 
-
 }

@@ -6,7 +6,6 @@ public class RacingRequest {
     private String count;
 
     public RacingRequest() {
-
     }
 
     public RacingRequest(String names, String count) {
