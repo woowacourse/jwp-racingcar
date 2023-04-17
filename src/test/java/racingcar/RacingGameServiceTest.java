@@ -16,9 +16,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.dao.CarRecord;
+import racingcar.dto.CarRecordDto;
 import racingcar.dao.CarRecordDao;
-import racingcar.dao.RacingHistory;
+import racingcar.dto.RacingHistoryDto;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.dto.ResultDto;
 
@@ -56,9 +56,9 @@ class RacingGameServiceTest {
         //given
         LocalDateTime time = LocalDateTime.of(2023, 4, 17, 15, 54, 55);
         given(racingHistoryDao.findAll()).willReturn(
-                List.of(new RacingHistory(1, 10, time), new RacingHistory(2, 10, time)));
+                List.of(new RacingHistoryDto(1, 10, time), new RacingHistoryDto(2, 10, time)));
         given(carRecordDao.findAllByRacingHistoryId(anyLong())).willReturn(
-                List.of(new CarRecord("Rosie", 5, true), new CarRecord("Baron", 3, false)));
+                List.of(new CarRecordDto("Rosie", 5, true), new CarRecordDto("Baron", 3, false)));
 
         //when
         List<ResultDto> allGames = racingGameService.findAllGameHistories();

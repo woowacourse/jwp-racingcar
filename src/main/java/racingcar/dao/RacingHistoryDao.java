@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.dto.RacingHistoryDto;
 
 @Repository
 public class RacingHistoryDao {
@@ -26,9 +27,9 @@ public class RacingHistoryDao {
         return keyHolder.getKeyAs(Long.class);
     }
 
-    public List<RacingHistory> findAll() {
+    public List<RacingHistoryDto> findAll() {
         String sql = "SELECT id, trial_count, play_time FROM racing_history";
-        return jdbcTemplate.query(sql, ((rs, rowNum) -> new RacingHistory(
+        return jdbcTemplate.query(sql, ((rs, rowNum) -> new RacingHistoryDto(
                 rs.getLong("id"),
                 rs.getInt("trial_count"),
                 rs.getObject("play_time", LocalDateTime.class)

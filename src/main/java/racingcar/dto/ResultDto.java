@@ -2,7 +2,6 @@ package racingcar.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.dao.CarRecord;
 import racingcar.domain.car.Car;
 
 public class ResultDto {
@@ -19,18 +18,18 @@ public class ResultDto {
         return new ResultDto(convertCarToWinnersString(winners), convertCarToCarDto(racingCars));
     }
 
-    public static ResultDto fromRecords(List<CarRecord> racingCars) {
+    public static ResultDto fromRecords(List<CarRecordDto> racingCars) {
         return new ResultDto(convertRecordToWinnersString(racingCars), convertRecordToCarDto(racingCars));
     }
 
-    private static String convertRecordToWinnersString(List<CarRecord> racingCars) {
+    private static String convertRecordToWinnersString(List<CarRecordDto> racingCars) {
         return racingCars.stream()
-                .filter(CarRecord::isWinner)
-                .map(CarRecord::getName)
+                .filter(CarRecordDto::isWinner)
+                .map(CarRecordDto::getName)
                 .collect(Collectors.joining(","));
     }
 
-    private static List<CarDto> convertRecordToCarDto(List<CarRecord> racingCars) {
+    private static List<CarDto> convertRecordToCarDto(List<CarRecordDto> racingCars) {
         return racingCars.stream()
                 .map(CarDto::fromRecord)
                 .collect(Collectors.toList());

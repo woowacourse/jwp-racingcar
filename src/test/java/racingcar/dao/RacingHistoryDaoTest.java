@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import racingcar.dto.RacingHistoryDto;
 
 @JdbcTest
 class RacingHistoryDaoTest {
@@ -37,17 +38,17 @@ class RacingHistoryDaoTest {
         //when
         Long savedId = racingHistoryDao.save(trialCount, now);
         //then
-        RacingHistory racingHistory = jdbcTemplate.queryForObject(
+        RacingHistoryDto racingHistoryDto = jdbcTemplate.queryForObject(
             "SELECT id, trial_count, play_time FROM racing_history WHERE id = :id",
             new MapSqlParameterSource("id", savedId),
-            (rs, rowNum) -> new RacingHistory(rs.getLong("id"),
+            (rs, rowNum) -> new RacingHistoryDto(rs.getLong("id"),
                     rs.getInt("trial_count"),
                     rs.getObject("play_time", LocalDateTime.class)));
 
         assertAll(
-            () -> assertThat(racingHistory.getPlayTime().format(timeFormatter)).isEqualTo(
+            () -> assertThat(racingHistoryDto.getPlayTime().format(timeFormatter)).isEqualTo(
                 now.format(timeFormatter)),
-            () -> assertThat(racingHistory.getTrialCount()).isEqualTo(trialCount)
+            () -> assertThat(racingHistoryDto.getTrialCount()).isEqualTo(trialCount)
         );
     }
 
@@ -61,7 +62,7 @@ class RacingHistoryDaoTest {
         Long savedId2 = racingHistoryDao.save(trialCount, playTime);
 
         //when
-        List<RacingHistory> racingHistories = racingHistoryDao.findAll();
+        List<RacingHistoryDto> racingHistories = racingHistoryDao.findAll();
 
         //then
         assertAll(

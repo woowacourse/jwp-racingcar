@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racingcar.dao.CarRecord;
+import racingcar.dto.CarRecordDto;
 import racingcar.dao.CarRecordDao;
-import racingcar.dao.RacingHistory;
+import racingcar.dto.RacingHistoryDto;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
@@ -39,14 +39,14 @@ public class RacingGameService {
     }
 
     public List<ResultDto> findAllGameHistories() {
-        List<RacingHistory> racingHistories = racingHistoryDao.findAll();
-        List<List<CarRecord>> carRecords = findAllCarRecordsInHistory(racingHistories);
+        List<RacingHistoryDto> racingHistories = racingHistoryDao.findAll();
+        List<List<CarRecordDto>> carRecords = findAllCarRecordsInHistory(racingHistories);
         return carRecords.stream()
                 .map(ResultDto::fromRecords)
                 .collect(Collectors.toList());
     }
 
-    private List<List<CarRecord>> findAllCarRecordsInHistory(List<RacingHistory> racingHistories) {
+    private List<List<CarRecordDto>> findAllCarRecordsInHistory(List<RacingHistoryDto> racingHistories) {
         return racingHistories.stream()
                 .map(history -> carRecordDao.findAllByRacingHistoryId(history.getId()))
                 .collect(Collectors.toList());

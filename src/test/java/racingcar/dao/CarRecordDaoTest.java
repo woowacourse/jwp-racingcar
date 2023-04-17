@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import racingcar.domain.car.Car;
+import racingcar.dto.CarRecordDto;
 
 @JdbcTest
 class CarRecordDaoTest {
@@ -40,10 +41,10 @@ class CarRecordDaoTest {
         //when
         Long savedId = carRecordDao.save(racingHistoryId, car, isWinner);
         //then
-        CarRecord foundCar = jdbcTemplate.queryForObject(
+        CarRecordDto foundCar = jdbcTemplate.queryForObject(
                 "SELECT * FROM car_record WHERE id = :id",
                 new MapSqlParameterSource("id", savedId),
-                (rs, rowNum) -> new CarRecord(
+                (rs, rowNum) -> new CarRecordDto(
                         rs.getString("name"),
                         rs.getInt("position"),
                         rs.getBoolean("is_winner")
@@ -66,7 +67,7 @@ class CarRecordDaoTest {
         carRecordDao.save(racingHistoryId, new Car(carName2), false);
 
         //when
-        List<CarRecord> carRecords = carRecordDao.findAllByRacingHistoryId(racingHistoryId);
+        List<CarRecordDto> carRecords = carRecordDao.findAllByRacingHistoryId(racingHistoryId);
 
         //then
         assertAll(

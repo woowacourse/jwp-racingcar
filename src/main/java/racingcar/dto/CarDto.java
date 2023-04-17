@@ -1,6 +1,5 @@
 package racingcar.dto;
 
-import racingcar.dao.CarRecord;
 import racingcar.domain.car.Car;
 
 public class CarDto {
@@ -17,8 +16,8 @@ public class CarDto {
         return new CarDto(car.getName(), car.getPosition());
     }
 
-    public static CarDto fromRecord(CarRecord carRecord) {
-        return new CarDto(carRecord.getName(), carRecord.getPosition());
+    public static CarDto fromRecord(CarRecordDto carRecordDto) {
+        return new CarDto(carRecordDto.getName(), carRecordDto.getPosition());
     }
 
     public String getName() {

@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.car.Car;
+import racingcar.dto.CarRecordDto;
 
 @Repository
 public class CarRecordDao {
@@ -30,11 +31,11 @@ public class CarRecordDao {
         return keyHolder.getKeyAs(Long.class);
     }
 
-    public List<CarRecord> findAllByRacingHistoryId(long racingHistoryId) {
+    public List<CarRecordDto> findAllByRacingHistoryId(long racingHistoryId) {
         return jdbcTemplate.query(
                 "SELECT name, position, is_winner FROM car_record WHERE history_id = :id",
                 new MapSqlParameterSource("id", racingHistoryId),
-                (rs, rowNum) -> new CarRecord(
+                (rs, rowNum) -> new CarRecordDto(
                         rs.getString("name"),
                         rs.getInt("position"),
                         rs.getBoolean("is_winner")
