@@ -18,7 +18,7 @@ public class RacingGame {
                 .map(name -> new Car(name, engine))
                 .collect(Collectors.toList());
 
-        this.cars = new Cars(collect);
+        this.cars = Cars.from(collect);
     }
 
     private void validate(List<Name> carNames) {

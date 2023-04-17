@@ -18,7 +18,7 @@ class RacingGameTest {
         Car car1 = new Car(Name.from("k7"), engine);
         Car car2 = new Car(Name.from("audi"), engine);
 
-        Cars cars = new Cars(Arrays.asList(car1, car2));
+        Cars cars = Cars.from(Arrays.asList(car1, car2));
 
         moveByCount(car1, 5);
         moveByCount(car2, 7);
@@ -35,7 +35,7 @@ class RacingGameTest {
         Car car3 = new Car(Name.from("bmw"), engine);
 
 
-        Cars cars = new Cars(Arrays.asList(car1, car2, car3));
+        Cars cars = Cars.from(Arrays.asList(car1, car2, car3));
 
         moveByCount(car1, 5);
         moveByCount(car2, 7);
