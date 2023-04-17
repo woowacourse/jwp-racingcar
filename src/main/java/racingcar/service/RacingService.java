@@ -2,6 +2,8 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.controller.CarResponse;
+import racingcar.controller.TrackResponse;
 import racingcar.dao.RacingDao;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
@@ -11,6 +13,7 @@ import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.track.Track;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RacingService {
@@ -24,15 +27,15 @@ public class RacingService {
     }
 
     @Transactional
-    public Cars play(final String names, final String trialTimes) {
+    public TrackResponse play(final String names, final String trialTimes) {
         final Cars cars = makeCars(names, movingStrategy);
         final Track track = makeTrack(cars, trialTimes);
-        final Cars finishedCars = startRace(track);
 
         final Integer trackId = saveTrack(track);
+        final Cars finishedCars = startRace(track);
         saveCars(trackId, finishedCars);
 
-        return finishedCars;
+        return makeResponse(finishedCars);
     }
 
     private Cars makeCars(final String name, final MovingStrategy movingStrategy) {
@@ -62,5 +65,25 @@ public class RacingService {
         for (final Car car : carsCurrentInfo) {
             racingDao.save(new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId));
         }
+    }
+
+    private TrackResponse makeResponse(final Cars finishedCars) {
+        final String winnerCarNames = makeWinnerCarNames(finishedCars);
+        final List<CarResponse> results = makeCarResponses(finishedCars);
+        return new TrackResponse(winnerCarNames, results);
+    }
+
+    private String makeWinnerCarNames(final Cars finishedCars) {
+        final String winnerCarNames = finishedCars.getWinnerCars().stream()
+                .map(Car::getCarName)
+                .collect(Collectors.joining(", "));
+        return winnerCarNames;
+    }
+
+    private List<CarResponse> makeCarResponses(final Cars finishedCars) {
+        final List<CarResponse> results = finishedCars.getCarsCurrentInfo().stream()
+                .map(car -> new CarResponse(car.getCarName(), car.getPosition()))
+                .collect(Collectors.toList());
+        return results;
     }
 }

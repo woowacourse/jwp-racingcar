@@ -4,7 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import racingcar.controller.CarResponse;
+import racingcar.controller.TrackResponse;
 import racingcar.model.car.Cars;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,8 +24,9 @@ class RacingServiceTest {
         String names = "그레이,호이,로건";
         String trialTimes = "10";
 
-        final Cars finishedCars = racingService.play(names, trialTimes);
+        final TrackResponse trackResponse = racingService.play(names, trialTimes);
+        final List<CarResponse> cars = trackResponse.getRacingCars();
 
-        assertThat(finishedCars.getCarsCurrentInfo().size()).isEqualTo(names.split(",").length);
+        assertThat(cars.size()).isEqualTo(names.split(",").length);
     }
 }
