@@ -4,8 +4,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.dao.entity.GameEntity;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class InMemoryGameDao implements GameDao {
@@ -28,5 +30,16 @@ public class InMemoryGameDao implements GameDao {
         }, keyHolder);
 
         return keyHolder.getKey().intValue();
+    }
+
+    @Override
+    public List<GameEntity> findAll() {
+        String sql = "select * from PLAY_RESULT";
+
+        return jdbcTemplate.query(sql, (result, id) ->
+                new GameEntity(result.getInt("id"),
+                        result.getInt("trial_count"),
+                        result.getString("winners"))
+        );
     }
 }

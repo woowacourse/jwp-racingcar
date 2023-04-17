@@ -43,4 +43,4 @@ Dao
   - [x] CAR_RESULT 값 조회
 - [x] PLAY_RESULT
   - [x] 게임 ID, 플레이어 별 최종 이동거리 저장
-  - [ ] PLAY_RESULT 값 조회
+  - [x] PLAY_RESULT 값 조회
