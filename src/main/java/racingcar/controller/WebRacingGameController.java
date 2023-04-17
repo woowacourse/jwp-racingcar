@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ public class WebRacingGameController {
     }
 
     @PostMapping("/plays")
-    public GamePlayResponseDto plays(@RequestBody final GamePlayRequestDto request) {
+    public GamePlayResponseDto play(@RequestBody @Valid final GamePlayRequestDto request) {
         return racingGameService.play(request);
     }
 
