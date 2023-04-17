@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 
 public class ValueEditor {
 
+    private static final String COMMA = ",";
+    private static final String COMMA_WITH_SPACE = ", ";
+    private static final String NUMBER_FORMAT_EXCEPTIONS_MESSAGE = "정수만 입력가능 합니다.";
+
     private ValueEditor() {
     }
 
@@ -14,7 +18,7 @@ public class ValueEditor {
     }
 
     public static List<String> splitByComma(String input) {
-        return Arrays.stream(input.split(","))
+        return Arrays.stream(input.split(COMMA))
                 .collect(Collectors.toList());
     }
 
@@ -22,8 +26,12 @@ public class ValueEditor {
         try {
             return Integer.parseInt(input);
         } catch(NumberFormatException ex) {
-            throw new IllegalArgumentException("숫자만 입력가능 합니다.");
+            throw new IllegalArgumentException(NUMBER_FORMAT_EXCEPTIONS_MESSAGE);
         }
+    }
+
+    public static String joinWithComma(List<String> inputs) {
+        return String.join(COMMA_WITH_SPACE, inputs);
     }
 
     private enum Regex {

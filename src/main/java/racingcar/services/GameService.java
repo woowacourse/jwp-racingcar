@@ -1,7 +1,6 @@
 package racingcar.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +46,7 @@ public class GameService {
     }
 
     void createCars(Cars cars, String inputs) {
-        List<String> names = Arrays.asList(inputs.split(","));
+        List<String> names = ValueEditor.splitByComma(inputs);
         cars.createCars(names);
     }
 
@@ -80,7 +79,7 @@ public class GameService {
     }
 
     String getWinner(Cars cars) {
-        return String.join(", ", cars.getWinners());
+        return ValueEditor.joinWithComma(cars.getWinners());
     }
 
     public List<ResultDto> getAllResults() {
@@ -89,7 +88,7 @@ public class GameService {
         for (Long gameId : gameIds) {
             List<CarDto> carDtos = carDao.findCarsInfoByGameId(gameId);
             List<String> winners = winnerDao.findWinnersByGameId(gameId);
-            resultDtos.add(new ResultDto(String.join(", ", winners), carDtos));
+            resultDtos.add(new ResultDto(ValueEditor.joinWithComma(winners), carDtos));
         }
         return resultDtos;
     }
