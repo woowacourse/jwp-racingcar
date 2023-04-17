@@ -2,6 +2,7 @@ package racingcar.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.dao.entity.CarEntity;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 
@@ -15,18 +16,25 @@ public class RacingGameResponse {
         this.racingCars = racingCars;
     }
 
-    public static RacingGameResponse of(RacingGame racingGame) {
-        List<Car> winners = racingGame.findWinners();
-        List<CarDto> carDtos = racingGame.getCars().stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition(), winners.contains(car)))
+    public static RacingGameResponse of(List<CarEntity> carEntities) {
+        List<String> winners = carEntities.stream()
+                .filter(CarEntity::isWin)
+                .map(CarEntity::getName)
                 .collect(Collectors.toList());
-        return new RacingGameResponse(getWinnerNames(winners), carDtos);
+        List<CarDto> carDtos = carEntities.stream()
+                .map(carEntity -> new CarDto(carEntity.getName(), carEntity.getPosition()))
+                .collect(Collectors.toList());
+        return new RacingGameResponse(winners, carDtos);
     }
 
-    private static List<String> getWinnerNames(List<Car> winners) {
-        return winners.stream()
+    public static RacingGameResponse of(RacingGame racingGame) {
+        List<String> winners = racingGame.findWinners().stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
+        List<CarDto> carDtos = racingGame.getCars().stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+        return new RacingGameResponse(winners, carDtos);
     }
 
     public String getWinners() {

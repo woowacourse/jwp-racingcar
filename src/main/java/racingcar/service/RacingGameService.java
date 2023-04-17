@@ -27,21 +27,37 @@ public class RacingGameService {
         Cars cars = toCars(racingGameRequest);
         RacingGame racingGame = new RacingGame(racingGameRequest.getCount(), cars);
         racingGame.run();
-        Long racingGameId = racingGameDao.save(new RacingGameEntity(racingGameRequest.getCount()));
-        carDao.saveAll(toCarEntities(racingGame, racingGameId));
+
+        save(racingGameRequest, racingGame);
         return RacingGameResponse.of(racingGame);
     }
 
     private Cars toCars(RacingGameRequest racingGameRequest) {
-        return new Cars(racingGameRequest.toNameList().stream()
+        List<Car> cars = racingGameRequest.toNameList().stream()
                 .map(Car::new)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+        return new Cars(cars);
+    }
+
+    private void save(RacingGameRequest racingGameRequest, RacingGame racingGame) {
+        Long racingGameId = racingGameDao.save(new RacingGameEntity(racingGameRequest.getCount()));
+        carDao.saveAll(toCarEntities(racingGame, racingGameId));
     }
 
     private List<CarEntity> toCarEntities(RacingGame game, Long racingGameId) {
         List<Car> winners = game.findWinners();
         return game.getCars().stream()
                 .map(car -> new CarEntity(car.getName(), car.getPosition(), winners.contains(car), racingGameId))
+                .collect(Collectors.toList());
+    }
+
+    public List<RacingGameResponse> findHistory() {
+        List<RacingGameEntity> racingGameEntities = racingGameDao.findAllByCreatedTimeAsc();
+
+        return racingGameEntities.stream()
+                .map(RacingGameEntity::getId)
+                .map(carDao::findByRacingGameId)
+                .map(RacingGameResponse::of)
                 .collect(Collectors.toList());
     }
 }
