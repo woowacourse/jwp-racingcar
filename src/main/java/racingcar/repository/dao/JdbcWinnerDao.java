@@ -4,12 +4,14 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
+
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+
 import racingcar.repository.entity.WinnerEntity;
 
 @Repository
@@ -22,7 +24,6 @@ public class JdbcWinnerDao implements WinnerDao {
             resultSet.getLong("users_id")
     );
 
-    @Autowired
     public JdbcWinnerDao(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }

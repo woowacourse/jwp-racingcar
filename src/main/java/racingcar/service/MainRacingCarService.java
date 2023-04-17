@@ -1,8 +1,10 @@
 package racingcar.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
+
 import racingcar.dto.RequestDto;
 import racingcar.dto.ResponseDto;
 
@@ -10,13 +12,22 @@ import racingcar.dto.ResponseDto;
 public class MainRacingCarService {
 
     private final PlayRacingCarService playRacingCarService;
+    private final FindRecordService findRecordService;
     private final SaveRacingCarResultService saveRacingCarResultService;
 
-    @Autowired
     public MainRacingCarService(final PlayRacingCarService playRacingCarService,
-                                final SaveRacingCarResultService saveRacingCarResultService) {
+        final FindRecordService findRecordService,
+        final SaveRacingCarResultService saveRacingCarResultService) {
         this.playRacingCarService = playRacingCarService;
+        this.findRecordService = findRecordService;
         this.saveRacingCarResultService = saveRacingCarResultService;
+    }
+
+    public List<ResponseDto> findAllRecords() {
+        final List<RacingCarResult> racingCarResults = findRecordService.findAllRecords();
+        return racingCarResults.stream()
+            .map(racingCarResult -> new ResponseDto(racingCarResult.getWinners(), racingCarResult.getCars()))
+            .collect(Collectors.toList());
     }
 
     public ResponseDto raceCar(final RequestDto requestDto) {

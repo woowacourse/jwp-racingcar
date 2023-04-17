@@ -1,25 +1,25 @@
 package racingcar.service;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
 import racingcar.domain.Car;
 import racingcar.repository.dao.GameDao;
 import racingcar.repository.dao.PositionDao;
-import racingcar.repository.dao.WinnerDao;
 import racingcar.repository.dao.UserDao;
+import racingcar.repository.dao.WinnerDao;
 import racingcar.repository.entity.GameEntity;
 import racingcar.repository.entity.PositionEntity;
-import racingcar.repository.entity.WinnerEntity;
 import racingcar.repository.entity.UserEntity;
+import racingcar.repository.entity.WinnerEntity;
 
 @Service
 public class SaveRacingCarResultService {
@@ -29,7 +29,6 @@ public class SaveRacingCarResultService {
     private final PositionDao positionDao;
     private final WinnerDao winnerDao;
 
-    @Autowired
     public SaveRacingCarResultService(final UserDao userDao,
                                       final GameDao gameDao,
                                       final PositionDao positionDao,

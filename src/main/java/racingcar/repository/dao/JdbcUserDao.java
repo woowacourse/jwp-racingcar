@@ -3,12 +3,14 @@ package racingcar.repository.dao;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Objects;
+
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+
 import racingcar.repository.entity.UserEntity;
 
 @Repository
@@ -20,7 +22,6 @@ public class JdbcUserDao implements UserDao {
             resultSet.getString("name")
     );
 
-    @Autowired
     public JdbcUserDao(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
