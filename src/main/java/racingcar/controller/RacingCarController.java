@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
@@ -29,8 +28,7 @@ public class RacingCarController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponse> plays(@RequestBody @Valid final GameRequest gameRequest) {
-        final List<String> carNames = Arrays.asList(gameRequest.getNames().split(CAR_NAME_DELIMITER));
-        final RaceDto raceDto = racingCarsService.race(carNames, gameRequest.getCount());
+        final RaceDto raceDto = racingCarsService.race(gameRequest.getNames(), gameRequest.getCount());
         final GameResponse gameResponse = toGameResponse(raceDto);
 
         return new ResponseEntity<>(gameResponse, HttpStatus.OK);

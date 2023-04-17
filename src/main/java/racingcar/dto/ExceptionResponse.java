@@ -1,14 +1,14 @@
 package racingcar.dto;
 
-public class ExceptionResponse {
+public class ExceptionResponse<T> {
 
-    private final String message;
+    private final T body;
 
-    public ExceptionResponse(final String message) {
-        this.message = message;
+    public ExceptionResponse(final T body) {
+        this.body = body;
     }
 
-    public String getMessage() {
-        return message;
+    public T getBody() {
+        return body;
     }
 }

@@ -30,7 +30,7 @@ class RacingCarControllerTest {
 
     @Test
     void 게임_진행() {
-        final GameRequest gameRequest = new GameRequest("브리,토미,브라운", 10);
+        final GameRequest gameRequest = new GameRequest(List.of("브리", "토미", "브라운"), 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
