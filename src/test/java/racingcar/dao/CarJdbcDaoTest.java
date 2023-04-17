@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
 @JdbcTest
+@DisplayName("CarJdbcDao 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
 public class CarJdbcDaoTest {
@@ -31,7 +33,7 @@ public class CarJdbcDaoTest {
     }
 
     @Test
-    void 입력받은_플레이어를_전부_저장한다() {
+    void saveAll_메서드는_입력받은_플레이어를_전부_저장한다() {
         // given
         final int gameId = gameDao.saveAndGetId(new GameEntity(3));
         final List<CarEntity> players = List.of(new CarEntity("car1", 1, true, gameId));

@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingGameService;
 
 @WebMvcTest
+@DisplayName("WebRacingGameController 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
 class WebRacingGameControllerTest {
@@ -39,7 +41,7 @@ class WebRacingGameControllerTest {
     private RacingGameService racingGameService;
 
     @Test
-    void 게임을_진행한다() throws Exception {
+    void play_메서드는_게임을_진행한다() throws Exception {
         // given
         final GameRequestDto gameRequest = new GameRequestDto(List.of("비버", "허브"), 1);
         final String request = objectMapper.writeValueAsString(gameRequest);

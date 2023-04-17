@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import racingcar.dao.CarDao;
@@ -16,12 +17,12 @@ import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
 import racingcar.utils.TestNumberGenerator;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@SuppressWarnings("NonAsciiCharacters")
+@DisplayName("RacingGameService 클래스")
+@DisplayNameGeneration(ReplaceUnderscores.class)
 class RacingGameServiceTest {
 
     @Test
-    void 자동차_경주를_진행한다() {
+    void play_메서드는_자동차_경주를_진행한다() {
         // given
         final GameDao gameDao = Mockito.mock(GameDao.class);
         final CarDao carDao = Mockito.mock(CarDao.class);
@@ -38,5 +39,4 @@ class RacingGameServiceTest {
                 () -> assertThat(gameResponse.getRacingCars()).hasSize(3)
         );
     }
-
 }

@@ -3,25 +3,33 @@ package racingcar.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Position 클래스")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@SuppressWarnings("NonAsciiCharacters")
 class PositionTest {
 
     @Test
-    @DisplayName("Position의 초기값은 0을 가진다.")
-    void should_initValueIsZero_when_createPosition() {
+    void Position의_초기_위치값은_0이다() {
+        // given
         Position position = new Position();
 
+        // expect
         assertThat(position.getValue()).isEqualTo(0);
     }
 
     @Test
-    @DisplayName("increase 메서드는 위치 값을 1 증가시킨다.")
-    void should_plusOne_when_increase() {
+    void increase_메서드는_위치_값을_1_증가시킨다() {
+        // given
         Position position = new Position();
 
+        // when
         position.increase();
 
+        // then
         assertThat(position.getValue()).isEqualTo(1);
     }
 }
