@@ -22,15 +22,15 @@ public class RacingGameController {
     }
 
     @PostMapping("/plays")
-    ResponseEntity<Response> play(
-            @RequestBody final Request request
+    ResponseEntity<PlayGameResponse> play(
+            @RequestBody final PlayGameRequest playGameRequest
     ) {
-        final Long id = racingGameService.play(request.getNames(), request.getCount());
+        final Long id = racingGameService.play(playGameRequest.getNames(), playGameRequest.getCount());
         final GameResult result = racingGameService.findResultById(id);
-        return ResponseEntity.ok(Response.from(result));
+        return ResponseEntity.ok(PlayGameResponse.from(result));
     }
 
-    public static class Request {
+    public static class PlayGameRequest {
         private String names;
         private int count;
 
@@ -43,17 +43,17 @@ public class RacingGameController {
         }
     }
 
-    public static class Response {
+    public static class PlayGameResponse {
         private final String winners;
         private final List<CarDto> racingCars;
 
-        private Response(final List<String> winners, final List<CarDto> racingCars) {
+        private PlayGameResponse(final List<String> winners, final List<CarDto> racingCars) {
             this.winners = String.join(",", winners);
             this.racingCars = racingCars;
         }
 
-        public static Response from(final GameResult gameResult) {
-            return new Response(gameResult.getWinners(), gameResult.getRacingCars());
+        public static PlayGameResponse from(final GameResult gameResult) {
+            return new PlayGameResponse(gameResult.getWinners(), gameResult.getRacingCars());
         }
 
         public String getWinners() {
