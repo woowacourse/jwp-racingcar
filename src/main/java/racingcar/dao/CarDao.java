@@ -45,7 +45,7 @@ public class CarDao {
         });
     }
 
-    public List<CarDto> selectByGameId(long gameId){
+    public List<CarDto> selectByGameId(long gameId) {
         String sql = "SELECT * FROM car WHERE game_id = ?";
         return jdbcTemplate.query(sql, carDtoRowMapper, gameId);
     }

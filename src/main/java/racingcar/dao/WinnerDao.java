@@ -2,9 +2,7 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 
 import java.sql.PreparedStatement;
@@ -37,8 +35,8 @@ public class WinnerDao {
         });
     }
 
-    public List<String> selectByGameId(long gameId){
+    public List<String> selectByGameId(long gameId) {
         String sql = "SELECT winner FROM winner WHERE game_id = ?";
-        return jdbcTemplate.query(sql,(resultSet, rowNum) -> resultSet.getString("winner"), gameId);
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getString("winner"), gameId);
     }
 }

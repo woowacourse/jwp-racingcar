@@ -22,7 +22,7 @@ public class GameService {
         this.racingGameRepository = racingGameRepository;
     }
 
-    public GameResultDto play(GameInformationDto gameInformationDto){
+    public GameResultDto play(GameInformationDto gameInformationDto) {
         Cars cars = Cars.from(gameInformationDto.getNames());
         MoveCount moveCount = MoveCount.from(gameInformationDto.getCount());
         RacingGame racingGame = new RacingGame(new ThresholdCarMoveManager(), cars, moveCount);
@@ -33,14 +33,14 @@ public class GameService {
         return gameResultDto;
     }
 
-    private List<CarDto> createCarDto(RacingGame racingGame){
+    private List<CarDto> createCarDto(RacingGame racingGame) {
         return racingGame.getResult()
                 .stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public List<GameResultDto> queryHistory(){
+    public List<GameResultDto> queryHistory() {
         return racingGameRepository.selectAllGames();
     }
 }

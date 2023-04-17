@@ -19,7 +19,7 @@ public class Car {
         this.position = 0;
     }
 
-    private void validate(String name){
+    private void validate(String name) {
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(INVALID_NAME_LENGTH);
         }

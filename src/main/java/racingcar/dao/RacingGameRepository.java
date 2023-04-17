@@ -28,10 +28,10 @@ public class RacingGameRepository {
         winnerDao.insertWinner(gameResultDto, gameId);
     }
 
-    public List<GameResultDto> selectAllGames(){
+    public List<GameResultDto> selectAllGames() {
         List<GameResultDto> games = new ArrayList<>();
         List<Long> gameIds = gameDao.selectAllGameIds();
-        for(Long gameId : gameIds){
+        for (Long gameId : gameIds) {
             List<CarDto> carDto = carDao.selectByGameId(gameId);
             List<String> winners = winnerDao.selectByGameId(gameId);
             games.add(new GameResultDto(winners, carDto));

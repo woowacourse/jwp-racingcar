@@ -4,7 +4,7 @@ public class RequestDto {
     private String names;
     private String count;
 
-    private RequestDto(){
+    private RequestDto() {
     }
 
     public RequestDto(String names, String count) {

@@ -12,11 +12,11 @@ public class CarRegisterer {
         this.carNames = new ArrayList<>();
     }
 
-    public void registerCar(String carName){
+    public void registerCar(String carName) {
         carNames.add(carName);
     }
 
-    public Cars prepareCars(){
+    public Cars prepareCars() {
         return new Cars(carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toUnmodifiableList()));

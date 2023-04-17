@@ -3,7 +3,6 @@ package racingcar.model;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.manager.CarMoveManager;
-import racingcar.model.manager.ThresholdCarMoveManager;
 
 import java.util.List;
 import java.util.stream.Collectors;

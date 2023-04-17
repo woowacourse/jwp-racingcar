@@ -1,11 +1,7 @@
 package racingcar.model.car;
 
-import racingcar.dto.CarDto;
-import racingcar.model.MoveCount;
 import racingcar.model.manager.CarMoveManager;
-import racingcar.model.manager.ThresholdCarMoveManager;
 import racingcar.util.RandomNumberGenerator;
-import racingcar.util.ValueEditor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +18,7 @@ public class Cars {
         this.cars = cars;
     }
 
-    public static Cars from(List<String> carNames){
+    public static Cars from(List<String> carNames) {
         return new Cars(carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toUnmodifiableList()));
