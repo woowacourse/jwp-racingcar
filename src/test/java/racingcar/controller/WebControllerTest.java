@@ -12,13 +12,13 @@ import racingcar.dto.ResultResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class RacingCarControllerTest {
+class WebControllerTest {
 
-    private final RacingCarController racingCarController;
+    private final WebController webController;
 
     @Autowired
-    public RacingCarControllerTest(final RacingCarController racingCarController) {
-        this.racingCarController = racingCarController;
+    public WebControllerTest(final WebController webController) {
+        this.webController = webController;
     }
 
     @DisplayName("정상 작동 후 200 상태 코드 반환한다.")
@@ -27,7 +27,7 @@ class RacingCarControllerTest {
         //given
         NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest("망고,루카,소니,현구막", 10);
         //when
-        ResponseEntity<ResultResponse> responseEntity = racingCarController.play(namesAndCountRequest);
+        ResponseEntity<ResultResponse> responseEntity = webController.play(namesAndCountRequest);
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
