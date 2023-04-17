@@ -3,7 +3,7 @@ package racingcar.domain;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import racingcar.dto.CarDto;
+import racingcar.dto.CarResponse;
 import racingcar.utils.NumberGenerator;
 
 import java.util.Collections;
@@ -65,8 +65,8 @@ public class Cars {
         }
     }
 
-    public List<CarDto> getCarDtos() {
-        return cars.stream().map((car) -> new CarDto(car.getName(), car.getPosition()))
+    public List<CarResponse> getCarDtos() {
+        return cars.stream().map((car) -> new CarResponse(car.getName(), car.getPosition()))
             .collect(Collectors.toList());
     }
 
@@ -86,8 +86,8 @@ public class Cars {
             .collect(Collectors.toUnmodifiableList());
     }
 
-    public List<CarDto> getCarsDto() {
-        return cars.stream().map((car) -> new CarDto(car.getName(), car.getPosition()))
+    public List<CarResponse> getCarsDto() {
+        return cars.stream().map((car) -> new CarResponse(car.getName(), car.getPosition()))
             .collect(Collectors.toList());
     }
 

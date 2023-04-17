@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarInfoDto;
+import racingcar.dto.CarInfoEntity;
 import racingcar.domain.vo.Trial;
 
 import java.sql.PreparedStatement;
@@ -34,14 +34,14 @@ public class InsertingDAO {
         return keyHolder.getKey().intValue();
     }
 
-    public void insert(CarInfoDto carInfoDto) {
+    public void insert(CarInfoEntity carInfoEntity) {
         String sql = "INSERT INTO car_info (racing_id, name, position, is_winner) values (?, ?, ?, ?)";
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, carInfoDto.getRacingId());
-            preparedStatement.setString(2, carInfoDto.getName());
-            preparedStatement.setInt(3, carInfoDto.getPosition());
-            preparedStatement.setBoolean(4, carInfoDto.isWinner());
+            preparedStatement.setInt(1, carInfoEntity.getRacingId());
+            preparedStatement.setString(2, carInfoEntity.getName());
+            preparedStatement.setInt(3, carInfoEntity.getPosition());
+            preparedStatement.setBoolean(4, carInfoEntity.isWinner());
             return preparedStatement;
         });
     }

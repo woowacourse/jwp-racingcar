@@ -1,12 +1,12 @@
 package racingcar.dto;
 
-public class ExceptionMessageDTO {
+public class ExceptionResponse {
 
     private final boolean success = false;
     private final int type;
     private final String message;
 
-    public ExceptionMessageDTO(int type, String message) {
+    public ExceptionResponse(int type, String message) {
         this.type = type;
         this.message = message;
     }
