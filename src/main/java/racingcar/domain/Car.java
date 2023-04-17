@@ -22,8 +22,8 @@ public class Car {
         return this.position.equals(position);
     }
 
-    public int getMovedLength() {
-        return position.getValue();
+    public Position getMovedLength() {
+        return position;
     }
 
     public String getName() {

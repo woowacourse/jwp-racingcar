@@ -13,7 +13,7 @@ public class RacingCarStatusDto {
     }
 
     public static RacingCarStatusDto from(Car car) {
-        return new RacingCarStatusDto(car.getName(), car.getMovedLength());
+        return new RacingCarStatusDto(car.getName(), car.getMovedLength().getValue());
     }
 
     public static RacingCarStatusDto from(Player player) {
