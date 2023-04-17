@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import racingcar.controller.dto.PlaysRequest;
-import racingcar.controller.dto.PlaysResponse;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
+import racingcar.dto.PlaysRequest;
+import racingcar.dto.PlaysResponse;
 import racingcar.utils.DrivableNumberGenerator;
 
 public class RacingCarServiceTest {

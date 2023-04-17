@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.controller.dto.PlaysRequest;
-import racingcar.controller.dto.PlaysResponse;
+import racingcar.dto.PlaysRequest;
+import racingcar.dto.PlaysResponse;
 import racingcar.service.RacingCarService;
 
 @RestController
