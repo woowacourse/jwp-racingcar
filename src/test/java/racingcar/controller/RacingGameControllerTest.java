@@ -1,5 +1,7 @@
 package racingcar.controller;
 
+import static org.hamcrest.Matchers.*;
+
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -47,6 +49,8 @@ class RacingGameControllerTest {
                 .body(racingCarRequestDto)
                 .when().post("/plays")
                 .then().log().all()
+                .body("winners", anyOf(contains("a"), contains("b"), contains("c")))
+                .body("racingCars", hasSize(3))
                 .statusCode(HttpStatus.OK.value());
     }
 }
