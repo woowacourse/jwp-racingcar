@@ -13,13 +13,13 @@ import racingcar.dto.GameResponse;
 import racingcar.service.RacingCarService;
 
 @RestController
-public class RacingCarController {
+public class RacingCarWebController {
 
     private static final String DELIMITER = ",";
 
     private final RacingCarService racingCarService;
 
-    public RacingCarController(final RacingCarService racingCarService) {
+    public RacingCarWebController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 

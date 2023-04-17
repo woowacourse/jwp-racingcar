@@ -18,7 +18,7 @@ import racingcar.strategy.FixedMovingStrategy;
 import racingcar.strategy.MovingStrategy;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarControllerTest {
+class RacingCarWebControllerTest {
 
     @LocalServerPort
     int port;
