@@ -2,7 +2,7 @@ package racingcar.car.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.car.model.Car;
+import racingcar.car.model.RacingCar;
 
 @Repository
 public class RacingCarDao {
@@ -13,7 +13,7 @@ public class RacingCarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
     
-    public void insert(final Car car, final int gameId) {
+    public void insert(final RacingCar car, final int gameId) {
         final String sql = "INSERT INTO racing_car(name,position,racing_game_id) VALUES (?,?,?)";
         this.jdbcTemplate.update(sql, car.getName(), car.getPosition(), gameId);
     }

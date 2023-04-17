@@ -11,15 +11,15 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.jdbc.Sql;
-import racingcar.car.model.Car;
+import racingcar.car.model.RacingCar;
 import racingcar.car.repository.RacingCarDao;
 
 @JdbcTest
 @Sql(scripts = {"classpath:data.sql"})
 class RacingCarDaoTest {
     
-    private final RowMapper<Car> actorRowMapper = (resultSet, rowNum) -> {
-        return new Car(
+    private final RowMapper<RacingCar> actorRowMapper = (resultSet, rowNum) -> {
+        return new RacingCar(
                 resultSet.getString("name"),
                 resultSet.getInt("position")
         );
@@ -40,12 +40,12 @@ class RacingCarDaoTest {
     @Test
     @DisplayName("insert - 자동차 객체와 게임 아이디를 받아서 DB에 저장한다.")
     void insertCarTest() {
-        final Car car = new Car("echo", 5);
+        final RacingCar car = new RacingCar("echo", 5);
         final int gameId = 1;
         
         this.carDao.insert(car, gameId);
         final String sql = "SELECT * FROM racing_car WHERE racing_game_id = ? AND name = ?";
-        final Car carFromDB = this.jdbcTemplate.queryForObject(sql, this.actorRowMapper, gameId, car.getName());
+        final RacingCar carFromDB = this.jdbcTemplate.queryForObject(sql, this.actorRowMapper, gameId, car.getName());
         assertThat(carFromDB.getName()).isEqualTo(car.getName());
         
     }
@@ -54,12 +54,12 @@ class RacingCarDaoTest {
     @DisplayName("isert - 여러 자동차 객체와 게임 아이디를 받아서 DB에 저장한다.")
     void findCarsByGameIdTest() {
         final int gameId = 1;
-        final Car car = new Car("io", 5);
+        final RacingCar car = new RacingCar("io", 5);
         this.carDao.insert(car, gameId);
-        final Car car2 = new Car("echo", 5);
+        final RacingCar car2 = new RacingCar("echo", 5);
         this.carDao.insert(car2, gameId);
         final String sql = "SELECT * FROM racing_car WHERE racing_game_id = ?";
-        final List<Car> cars = this.jdbcTemplate.query(sql, this.actorRowMapper, gameId);
+        final List<RacingCar> cars = this.jdbcTemplate.query(sql, this.actorRowMapper, gameId);
         assertThat(cars.size()).isEqualTo(2);
     }
     

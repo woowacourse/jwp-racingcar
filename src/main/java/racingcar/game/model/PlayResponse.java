@@ -1,14 +1,14 @@
 package racingcar.game.model;
 
 import java.util.List;
-import racingcar.car.model.Car;
+import racingcar.car.model.RacingCar;
 
 public class PlayResponse {
     
     private final String winners;
-    private final List<Car> racingCars;
+    private final List<RacingCar> racingCars;
     
-    public PlayResponse(final String winners, final List<Car> racingCars) {
+    public PlayResponse(final String winners, final List<RacingCar> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
@@ -17,7 +17,7 @@ public class PlayResponse {
         return this.winners;
     }
     
-    public List<Car> getRacingCars() {
+    public List<RacingCar> getRacingCars() {
         return this.racingCars;
     }
 }
