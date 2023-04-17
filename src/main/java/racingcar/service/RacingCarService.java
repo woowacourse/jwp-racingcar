@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.domain.Car;
+import racingcar.domain.CarFactory;
+import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameRequest;
 import racingcar.strategy.MovingStrategy;
