@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.numbergenerator.NumberGenerator;
 import racingcar.application.RacingGameService.GameResult;
+import racingcar.domain.numbergenerator.NumberGenerator;
 
 import javax.annotation.Priority;
 import java.util.List;
