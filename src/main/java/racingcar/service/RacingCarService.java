@@ -1,12 +1,14 @@
 package racingcar.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameResultDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
+import racingcar.entity.GameResult;
 import racingcar.utils.CarsFactory;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.utils.RandomPowerMaker;
@@ -26,10 +28,14 @@ public class RacingCarService {
 	public GameResultResponseDto startRace (final List<String> carNames, final TryCount tryCount) {
 		Cars cars = CarsFactory.createCars(carNames.toArray(new String[0]));
 		moveCars(cars, tryCount);
-		GameResultResponseDto gameResult = GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
-
-		gameResultDao.saveGame(tryCount, gameResult);
-		return gameResult;
+		List<GameResult> gameResults = cars.getCars().stream()
+				.map((car -> {
+					return new GameResult(car.getCarName(), car.getDistance(),
+							cars.getWinnerNames().contains(car.getCarName()));
+				}))
+				.collect(Collectors.toList());
+		gameResultDao.saveGame(gameResults, tryCount);
+		return GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
 	}
 
 	private void moveCars (final Cars cars, final TryCount tryCount) {
