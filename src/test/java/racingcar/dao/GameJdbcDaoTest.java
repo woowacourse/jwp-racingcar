@@ -6,8 +6,9 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.entity.Game;
+
+import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,13 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GameJdbcDaoTest {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private DataSource dataSource;
 
     private GameDao gameDao;
 
     @BeforeEach
     void setUp() {
-        gameDao = new GameJdbcDao(jdbcTemplate);
+        gameDao = new GameJdbcDao(dataSource);
     }
 
     @Test

@@ -1,40 +1,32 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import racingcar.entity.Player;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 import java.util.List;
 
 @Component
 public class PlayerJdbcDao implements PlayerDao {
-    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert insertActor;
 
-    public PlayerJdbcDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PlayerJdbcDao(final DataSource dataSource) {
+        this.insertActor = new SimpleJdbcInsert(dataSource)
+                .withTableName("player")
+                .usingGeneratedKeyColumns("id");
     }
 
     public void saveAll(final List<Player> players) {
-        final String sql = "INSERT INTO player(name, position, is_winner, game_id) VALUES (?, ?, ?, ?)";
-        final BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
+        final MapSqlParameterSource[] batch = players.stream().map(player ->
+                new MapSqlParameterSource()
+                        .addValue("game_id", player.getGame_id())
+                        .addValue("name", player.getName())
+                        .addValue("position", player.getPosition())
+                        .addValue("is_winner", player.isWinner())
+        ).toArray(MapSqlParameterSource[]::new);
 
-            @Override
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                final Player player = players.get(i);
-                ps.setString(1, player.getName());
-                ps.setInt(2, player.getPosition());
-                ps.setBoolean(3,player.isWinner());
-                ps.setInt(4, player.getGame_id());
-            }
-
-            @Override
-            public int getBatchSize() {
-                return players.size();
-            }
-        };
-        jdbcTemplate.batchUpdate(sql, batchPreparedStatementSetter);
+        insertActor.executeBatch(batch);
     }
 }

@@ -8,12 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.entity.Game;
-import racingcar.entity.Player;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
+import racingcar.entity.Game;
+import racingcar.entity.Player;
 import racingcar.utils.TestNumberGenerator;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PlayerJdbcDaoTest {
 
     @Autowired
+    private DataSource dataSource;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private PlayerDao playerDao;
@@ -32,10 +36,8 @@ public class PlayerJdbcDaoTest {
 
     @BeforeEach
     void setUp() {
-        final String sql = "insert into game (trial) values (?)";
-        jdbcTemplate.update(sql, 1);
-        playerDao = new PlayerJdbcDao(jdbcTemplate);
-        gameDao = new GameJdbcDao(jdbcTemplate);
+        playerDao = new PlayerJdbcDao(dataSource);
+        gameDao = new GameJdbcDao(dataSource);
     }
 
     @Test
@@ -45,7 +47,7 @@ public class PlayerJdbcDaoTest {
         NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3));
         cars.race(numberGenerator);
 
-        Game game = Game.of(3);
+        Game game = Game.of(1);
         final int gameId = gameDao.save(game);
 
         List<Player> players = cars.getCars().stream()
@@ -55,7 +57,7 @@ public class PlayerJdbcDaoTest {
         playerDao.saveAll(players);
 
         // then
-        final String sql = "select count(*) from game";
+        final String sql = "select count(*) from player";
         final int count = jdbcTemplate.queryForObject(sql, Integer.class);
         assertThat(count).isEqualTo(2);
     }
