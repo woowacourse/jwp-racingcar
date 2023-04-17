@@ -41,9 +41,8 @@ class JdbcCarDaoTest {
         long gameId = jdbcGameDao.saveGame(1);
         jdbcCarDao.insertCar(carDtos, gameId);
 
-        String sql = "SELECT count(*) FROM car WHERE g_id = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, gameId);
+        List<CarDto> carsInfoByGameId = jdbcCarDao.findCarsInfoByGameId(gameId);
 
-        assertThat(count).isEqualTo(2);
+        assertThat(carsInfoByGameId).hasSize(2);
     }
 }

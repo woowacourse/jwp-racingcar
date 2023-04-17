@@ -26,7 +26,7 @@ class GameServiceTest {
     void setUp() {
         gameService = new GameService(
                 new TestGameDao(),
-                (resultDto, gameId) -> {},
+                new TestCarDao(),
                 (resultDto, gameId) -> {},
                 new TestMoveManager(List.of(true, false, false))
         );

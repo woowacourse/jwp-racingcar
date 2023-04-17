@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import racingcar.dto.CarDto;
 
 @Repository
 public class JdbcCarDao implements CarDao {
+    private final RowMapper<CarDto> carDtoRowMapper = (resultSet, index) -> new CarDto(
+            resultSet.getString("name"),
+            resultSet.getInt("position")
+    );
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcCarDao(JdbcTemplate jdbcTemplate) {
@@ -33,5 +38,11 @@ public class JdbcCarDao implements CarDao {
                     return objects;
                 })
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public List<CarDto> findCarsInfoByGameId(Long gameId) {
+        String sql = "SELECT name, position FROM car WHERE g_id = ?";
+        return jdbcTemplate.query(sql, carDtoRowMapper, gameId);
     }
 }
