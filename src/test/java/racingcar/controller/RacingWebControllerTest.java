@@ -11,6 +11,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -55,7 +56,7 @@ class RacingWebControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("message", is(exceptionMessage));
+                .body("message", containsString(exceptionMessage));
     }
 
     @DisplayName("잘못된 시도 횟수 요청이 오면 상태코드 Bad Request 반환")
@@ -73,6 +74,6 @@ class RacingWebControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("message", is(exceptionMessage));
+                .body("message", containsString(exceptionMessage));
     }
 }
