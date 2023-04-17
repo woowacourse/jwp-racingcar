@@ -20,7 +20,7 @@ public class Cars {
     public void calculator(Random random) {
         cars.stream()
                 .filter(car -> 4 <= random.nextInt(10))
-                .forEach(Car::move);
+                .forEach(Car::moveForward);
     }
 
     public List<String> getWinners() {
@@ -29,11 +29,10 @@ public class Cars {
     }
 
     private int getWinnerStep() {
-        int winnerStep = 0;
-        for (Car car : cars) {
-            winnerStep = car.getCarStep(winnerStep);
-        }
-        return winnerStep;
+        return cars.stream()
+                .mapToInt(Car::getStep)
+                .max()
+                .orElseThrow();
     }
 
     private List<String> findWinners(int winnerStep) {

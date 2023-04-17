@@ -24,11 +24,11 @@ class CarsTest {
     @DisplayName("경기 승자를 반환해야 한다.")
     @Test
     void getWinners() {
-        cars.getCar(0).move();
-        cars.getCar(1).move();
-        cars.getCar(1).move();
-        cars.getCar(2).move();
-        cars.getCar(2).move();
+        cars.getCar(0).moveForward();
+        cars.getCar(1).moveForward();
+        cars.getCar(1).moveForward();
+        cars.getCar(2).moveForward();
+        cars.getCar(2).moveForward();
         assertEquals(cars.getWinners(), List.of("bebe1", "bebe2"));
     }
 }

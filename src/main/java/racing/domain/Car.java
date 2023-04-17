@@ -15,12 +15,8 @@ public class Car {
         this.step = step;
     }
 
-    public void move() {
+    public void moveForward() {
         this.step++;
-    }
-
-    public int getCarStep(int winnerStep) {
-        return Math.max(winnerStep, step);
     }
 
     public String getName() {
