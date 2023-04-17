@@ -4,11 +4,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-<<<<<<< HEAD
-=======
-import racingcar.dto.RacingGameRequestDto;
-import racingcar.exception.NoCarsExistException;
->>>>>>> 41a1436 (refactor: 정적 팩터리 메서드 추가하여 서비스의 문자열 분리 로직 제거)
 
 public class RacingGame {
 
@@ -23,17 +18,6 @@ public class RacingGame {
         this.cars = cars;
         this.numberGenerator = numberGenerator;
         this.gameCoin = gameCoin;
-<<<<<<< HEAD
-=======
-    }
-
-    public static RacingGame from(RacingGameRequestDto racingGameRequestDto) {
-        List<String> carNames = List.of(racingGameRequestDto.getNames().split(","));
-        List<Car> cars = carNames.stream()
-                .map(carName -> new Car(carName, DEFAULT_START_LINE))
-                .collect(Collectors.toList());
-        return new RacingGame(cars, new RandomNumberGenerator(), new Coin(racingGameRequestDto.getCount()));
->>>>>>> 41a1436 (refactor: 정적 팩터리 메서드 추가하여 서비스의 문자열 분리 로직 제거)
     }
 
     public static RacingGame of(final List<String> carNames, final int tryCount) {
