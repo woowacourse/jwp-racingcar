@@ -26,10 +26,8 @@ class PlayerResultDAOTest {
     @Test
     void savePlayerResultTest() {
         //given
-        List<PlayerResultDto> resultDto = List.of(
-                new PlayerResultDto("zuny", 5)
-        );
-        int savedId = gameResultDAO.save(new GameResultDto(10, "zuny"));
+        List<PlayerResultDto> resultDto = List.of(PlayerResultDto.of("zuny", 5));
+        int savedId = gameResultDAO.save(GameResultDto.of(10, "zuny"));
 
         //when
         playerResultDAO.save(savedId, resultDto);

@@ -24,8 +24,8 @@ class GameResultDAOTest {
     void findAllGameResultTest() {
         //given
         List<GameResultDto> results = List.of(
-                new GameResultDto(5, "dochi"),
-                new GameResultDto(10, "zuny")
+                GameResultDto.of(5, "dochi"),
+                GameResultDto.of(10, "zuny")
         );
 
         //when

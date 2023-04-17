@@ -12,7 +12,6 @@ import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayerResultDto;
 import racingcar.dto.response.GameResponseDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,12 +34,12 @@ public class RacingGameService {
         racingGame.moveCars(TryCount.from(tryCount));
 
         String winners = decideWinners(racingGame);
-        List<PlayerResultDto> playerResults = getPlayerResults(racingGame);
+        List<PlayerResultDto> playerResultDtos = getPlayerResultDtos(racingGame);
 
-        int savedId = gameResultDAO.save(new GameResultDto(tryCount, winners));
-        playerResultDAO.save(savedId, playerResults);
+        int savedId = gameResultDAO.save(GameResultDto.of(tryCount, winners));
+        playerResultDAO.save(savedId, playerResultDtos);
 
-        return new GameResponseDto(winners, playerResults);
+        return new GameResponseDto(winners, playerResultDtos);
     }
 
     private List<Name> convertToNames(List<String> names) {
@@ -55,13 +54,9 @@ public class RacingGameService {
                 .collect(Collectors.joining(DELIMITER));
     }
 
-    private List<PlayerResultDto> getPlayerResults(RacingGame racingGame) {
-        List<PlayerResultDto> playerResults = new ArrayList<>();
-
-        for (Car car : racingGame.getCars()) {
-            playerResults.add(new PlayerResultDto(car.getName(), car.getPosition()));
-        }
-
-        return playerResults;
+    private List<PlayerResultDto> getPlayerResultDtos(RacingGame racingGame) {
+        return racingGame.getCars().stream()
+                .map(PlayerResultDto::from)
+                .collect(Collectors.toList());
     }
 }

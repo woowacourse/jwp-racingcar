@@ -18,7 +18,7 @@ public class PlayerResultDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<PlayerResultDto> rowMapper = (resultSet, rowNum) -> new PlayerResultDto(
+    private final RowMapper<PlayerResultDto> rowMapper = (resultSet, rowNum) -> PlayerResultDto.of(
             resultSet.getString("name"),
             resultSet.getInt("position")
     );

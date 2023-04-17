@@ -20,7 +20,7 @@ public class GameResultDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<GameResultDto> rowMapper = (resultSet, rowNum) -> new GameResultDto(
+    private final RowMapper<GameResultDto> rowMapper = (resultSet, rowNum) -> GameResultDto.of(
             resultSet.getInt("trial_count"),
             resultSet.getString("winners")
     );

@@ -39,7 +39,7 @@ public class WebRacingGameControllerTest {
         //given
         GameRequestDto request = new GameRequestDto("브리,브라운", 10);
         GameResponseDto response = new GameResponseDto("브라운",
-                List.of(new PlayerResultDto("브리", 7), new PlayerResultDto("브라운", 8)));
+                List.of(PlayerResultDto.of("브리", 7), PlayerResultDto.of("브라운", 8)));
 
         //when
         List<String> names = List.of(request.getNames().split(","));
