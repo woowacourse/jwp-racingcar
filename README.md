@@ -14,7 +14,7 @@
 
 - [x] DB에 저장된 플레이 이력을 요청하면 응답할 수 있다.
 - [x] console에서 플레이의 중간 과정 출력 로직 제거
-- [ ] console과 web이 동일하게 우승자와 player별 최종 이동거리를 출력
+- [x] console과 web이 동일하게 우승자와 player별 최종 이동거리를 출력
 
 ### 리팩터링
-- [ ] console과 web의 중복 코드를 제거한다. 
+- [x] console과 web의 중복 코드를 제거한다. 

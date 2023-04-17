@@ -12,6 +12,7 @@ import racingcar.domain.RacingGame;
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.RacingGameResultDto;
 import racingcar.utils.InputUtil;
+import racingcar.view.OutputView;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class RacingGameController {
         final RacingGameResultDto racingGameResultDto = racingGame.convertToDto();
         final int resultId = racingHistoryDao.insertResult(racingGameResultDto);
         playersHistoryDao.insertResult(racingGameResultDto.getRacingCars(), resultId);
+        OutputView.printResult(racingGameResultDto);
         return ResponseEntity.ok(racingGameResultDto);
     }
 
