@@ -5,7 +5,7 @@ import racingcar.domain.car.Car;
 
 public class RacingGame {
     private final RacingCars racingCars;
-    private WinnerJudge winnerJudge;
+    private final WinnerJudge winnerJudge;
 
     public RacingGame(List<String> carNames, WinnerJudge winnerJudge) {
         this.racingCars = new RacingCars(carNames);
