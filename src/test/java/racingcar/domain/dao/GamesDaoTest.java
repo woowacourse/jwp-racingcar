@@ -17,6 +17,7 @@ import racingcar.dao.GamesDao;
 import racingcar.dao.entity.InsertGameEntity;
 import racingcar.dao.entity.SelectGameEntity;
 import racingcar.domain.RacingGame;
+import racingcar.domain.RacingGameResult;
 import racingcar.repository.RepositoryFactory;
 
 @JdbcTest
@@ -33,7 +34,8 @@ class GamesDaoTest {
 
     @Test
     void 저장시_게임_id_가_반환된다() {
-        final InsertGameEntity insertGameEntity = new InsertGameEntity(null, new RacingGame(List.of("브리"), 5));
+        final RacingGameResult racingGameResult = new RacingGame(List.of("브리"), 5).findResult();
+        final InsertGameEntity insertGameEntity = new InsertGameEntity(null, racingGameResult);
         final InsertGameEntity result = gamesDao.insert(insertGameEntity);
 
         assertThat(result.getGameId()).isPositive();
@@ -44,7 +46,8 @@ class GamesDaoTest {
 
         @BeforeEach
         void setUp() {
-            final InsertGameEntity insertGameEntity = new InsertGameEntity(null, new RacingGame(List.of("브리"), 5));
+            final RacingGameResult racingGameResult = new RacingGame(List.of("브리"), 5).findResult();
+            final InsertGameEntity insertGameEntity = new InsertGameEntity(null, racingGameResult);
 
             gamesDao.insert(insertGameEntity);
             gamesDao.insert(insertGameEntity);

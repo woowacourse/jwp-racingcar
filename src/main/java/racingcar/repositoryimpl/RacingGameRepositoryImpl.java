@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 import racingcar.dao.CarDao;
 import racingcar.dao.GamesDao;
 import racingcar.dao.WinnerDao;
-import racingcar.domain.Car;
-import racingcar.domain.RacingGame;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.InsertGameEntity;
+import racingcar.domain.Car;
+import racingcar.domain.RacingGameResult;
 import racingcar.repository.RacingGameRepository;
 
 @Repository
@@ -26,26 +26,27 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     }
 
     @Override
-    public InsertGameEntity save(final RacingGame racingGame) {
-        final InsertGameEntity insertGameEntity = gamesDao.insert(InsertGameEntity.fromDomain(racingGame));
-        final List<CarEntity> carEntities = fromCarsToEntity(racingGame.findResult());
+    public InsertGameEntity save(final RacingGameResult racingGameResult) {
+        final InsertGameEntity insertGameEntity = gamesDao.insert(InsertGameEntity.fromDomain(racingGameResult));
+
+        final List<CarEntity> carEntities = fromCarsToEntity(racingGameResult.getTotalCars());
         final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities, insertGameEntity.getGameId());
-        final List<CarEntity> something = findWinnerCarEntities(savedCarEntities, racingGame.findWinner());
+        final List<CarEntity> something = findWinnerCarEntities(savedCarEntities, racingGameResult.getWinners());
 
         winnerDao.saveAll(something, insertGameEntity.getGameId());
         return insertGameEntity;
+    }
+
+    private List<CarEntity> fromCarsToEntity(final List<Car> cars) {
+        return cars.stream()
+                .map(CarEntity::fromDomain)
+                .collect(Collectors.toList());
     }
 
     private List<CarEntity> findWinnerCarEntities(final List<CarEntity> savedCarEntities, final List<Car> winner) {
         final List<String> winnerNames = winner.stream().map(Car::getCarName).collect(Collectors.toList());
         return savedCarEntities.stream()
                 .filter(carEntity -> winnerNames.contains(carEntity.getName()))
-                .collect(Collectors.toList());
-    }
-
-    private List<CarEntity> fromCarsToEntity(final List<Car> cars) {
-        return cars.stream()
-                .map(CarEntity::fromDomain)
                 .collect(Collectors.toList());
     }
 }

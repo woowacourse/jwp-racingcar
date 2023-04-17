@@ -1,13 +1,13 @@
 package racingcar.service;
 
-import racingcar.domain.RacingGame;
-import racingcar.repository.RacingGameRepository;
 import racingcar.dao.entity.InsertGameEntity;
+import racingcar.domain.RacingGameResult;
+import racingcar.repository.RacingGameRepository;
 
 public class StubRacingGameRepository implements RacingGameRepository {
 
     @Override
-    public InsertGameEntity save(final RacingGame racingGame) {
-        return new InsertGameEntity(1, racingGame);
+    public InsertGameEntity save(final RacingGameResult racingGameResult) {
+        return new InsertGameEntity(1, racingGameResult);
     }
 }

@@ -16,12 +16,8 @@ public class RacingGame {
         cars.race(count, numberPicker);
     }
 
-    public List<Car> findWinner() {
-        return cars.findWinner();
-    }
-
-    public List<Car> findResult() {
-        return cars.getCars();
+    public RacingGameResult findResult() {
+        return new RacingGameResult(cars.getCars(), cars.findWinner(), count);
     }
 
     public Count getCount() {

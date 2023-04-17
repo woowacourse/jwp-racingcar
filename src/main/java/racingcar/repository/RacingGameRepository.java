@@ -1,10 +1,10 @@
 package racingcar.repository;
 
-import racingcar.domain.RacingGame;
 import racingcar.dao.entity.InsertGameEntity;
+import racingcar.domain.RacingGameResult;
 
 public interface RacingGameRepository {
 
-    InsertGameEntity save(RacingGame racingGame);
+    InsertGameEntity save(RacingGameResult racingGameResult);
 
 }
