@@ -1,12 +1,13 @@
 package racingcar.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameResultDto;
 import racingcar.utils.powerGenerator.PowerGenerator;
 import racingcar.utils.powerGenerator.RandomPowerGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingGame {
     private final List<Car> cars;

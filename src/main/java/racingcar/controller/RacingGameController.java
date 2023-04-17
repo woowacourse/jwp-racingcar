@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,8 @@ import racingcar.domain.RacingGame;
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.RacingGameResultDto;
 import racingcar.utils.InputUtil;
+
+import java.util.List;
 
 @RestController
 public class RacingGameController {
@@ -30,5 +33,11 @@ public class RacingGameController {
         final int resultId = racingHistoryDao.insertResult(racingGameResultDto);
         playersHistoryDao.insertResult(racingGameResultDto.getRacingCars(), resultId);
         return ResponseEntity.ok(racingGameResultDto);
+    }
+
+    @GetMapping(path = "/plays")
+    public ResponseEntity<List<RacingGameResultDto>> inquireResult() {
+        List<RacingGameResultDto> racingGameResultDtos = racingHistoryDao.getResult();
+        return ResponseEntity.ok(racingGameResultDtos);
     }
 }
