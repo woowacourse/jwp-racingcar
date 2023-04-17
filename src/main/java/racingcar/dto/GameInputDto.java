@@ -5,10 +5,13 @@ import java.util.Objects;
 
 public class GameInputDto {
     @NotBlank(message = "이름을 입력해주세요")
-    private final String names;
+    private String names;
     @NotBlank(message = "시도 횟수를 입력해주세요")
-    private final String count;
-
+    private String count;
+    
+    public GameInputDto() {
+    }
+    
     public GameInputDto(String names, String count) {
         this.names = names;
         this.count = count;
@@ -20,6 +23,14 @@ public class GameInputDto {
 
     public String getCount() {
         return count;
+    }
+    
+    public void setNames(String names) {
+        this.names = names;
+    }
+    
+    public void setCount(String count) {
+        this.count = count;
     }
     
     @Override

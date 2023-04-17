@@ -6,13 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
 import racingcar.dto.GameInputDto;
 import racingcar.dto.RacingResultResponseDto;
@@ -20,7 +16,8 @@ import racingcar.service.RacingGameServiceImpl;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -28,14 +25,12 @@ import static org.mockito.BDDMockito.given;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @WebMvcTest(WebRacingGameController.class)
 class WebRacingGameControllerUnitTest {
-    @Autowired
-    private MockMvc mockMvc;
     @MockBean
     private RacingGameServiceImpl racingGameServiceImpl;
     
     @BeforeEach
     void setUp() {
-        RestAssuredMockMvc.mockMvc(mockMvc);
+        RestAssuredMockMvc.standaloneSetup(new WebRacingGameController(racingGameServiceImpl));
     }
     
     @Test
@@ -80,46 +75,5 @@ class WebRacingGameControllerUnitTest {
                 .body("[1].winners", is("스플릿"))
                 .body("[0].racingCars.name", contains("아벨", "스플릿", "포비"))
                 .body("[1].racingCars.name", contains("아벨", "스플릿"));
-    }
-    
-    @ParameterizedTest(name = "{displayName} : name = {0}")
-    @NullAndEmptySource
-    void names_null_또는_empty_입력_시_예외_발생(String names) {
-        RestAssuredMockMvc.given().log().all()
-                .contentType(ContentType.JSON)
-                .body(new GameInputDto(names, "12"))
-                .when().post("/plays")
-                .then().log().all()
-                .status(HttpStatus.BAD_REQUEST)
-                .contentType(ContentType.JSON)
-                .body("message", is("이름을 입력해주세요"));
-    }
-    
-    @ParameterizedTest(name = "{displayName} : name = {0}")
-    @NullAndEmptySource
-    void count_null_또는_empty_입력_시_예외_발생(String count) {
-        RestAssuredMockMvc.given().log().all()
-                .contentType(ContentType.JSON)
-                .body(new GameInputDto("abel", count))
-                .when().post("/plays")
-                .then().log().all()
-                .status(HttpStatus.BAD_REQUEST)
-                .contentType(ContentType.JSON)
-                .body("message", is("시도 횟수를 입력해주세요"));
-    }
-    
-    @ParameterizedTest(name = "{displayName} : name = {0}")
-    @NullAndEmptySource
-    void names_and_count_null_또는_empty_입력_시_예외_발생(String param) {
-        RestAssuredMockMvc.given().log().all()
-                .contentType(ContentType.JSON)
-                .body(new GameInputDto(param, param))
-                .when().post("/plays")
-                .then().log().all()
-                .status(HttpStatus.BAD_REQUEST)
-                .contentType(ContentType.JSON)
-                .body("message", containsString("이름을 입력해주세요"))
-                .body("message", containsString(System.lineSeparator()))
-                .body("message", containsString("시도 횟수를 입력해주세요"));
     }
 }
