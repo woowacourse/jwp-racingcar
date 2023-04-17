@@ -1,12 +1,6 @@
 package racingcar.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
-
 import racingcar.dao.CarsDao;
 import racingcar.dao.GamesDao;
 import racingcar.dao.WinnersDao;
@@ -14,6 +8,12 @@ import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.domain.MoveChance;
 import racingcar.domain.RandomMoveChance;
+import racingcar.dto.CarDto;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -64,5 +64,21 @@ public class GameService {
                 .filter(entry -> cars.contains(entry.getKey()))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
+    }
+
+    public List<Integer> findAllPlayedGameIds() {
+        return gamesDao.findAllGameIds();
+    }
+
+    public List<String> findWinnersIn(final int gameId) {
+        final List<Integer> winnerIds = winnersDao.findAllWinnerIdsByGameId(gameId);
+        return winnerIds.stream()
+                .map(carsDao::findById)
+                .map(CarDto::getName)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<CarDto> findAllCarsIn(final int gameId) {
+        return carsDao.findAllByGameId(gameId);
     }
 }

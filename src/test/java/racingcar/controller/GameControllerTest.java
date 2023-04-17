@@ -9,14 +9,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import racingcar.controller.dto.PlayRequest;
-import racingcar.controller.dto.ResultResponse;
+import racingcar.controller.dto.SingleGameResultResponse;
+import racingcar.controller.dto.SinglePlayRequest;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
+import racingcar.dto.CarDto;
 import racingcar.exception.IllegalGameArgumentException;
 import racingcar.service.GameService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -40,11 +42,14 @@ class GameControllerTest {
     @DisplayName("post(/plays) 테스트")
     void post_plays() throws Exception {
         final List<Car> cars = List.of(new Car("aa"));
+        final List<CarDto> carDtos = cars.stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
         given(gameService.createGameWith(any(), anyInt()))
                 .willReturn(new Game(cars, 10));
 
-        String request = objectMapper.writeValueAsString(new PlayRequest("aa", 1));
-        String response = objectMapper.writeValueAsString(new ResultResponse(List.of("aa"), cars));
+        String request = objectMapper.writeValueAsString(new SinglePlayRequest("aa", 1));
+        String response = objectMapper.writeValueAsString(new SingleGameResultResponse(List.of("aa"), carDtos));
 
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/plays")
@@ -64,7 +69,7 @@ class GameControllerTest {
         given(gameService.createGameWith(any(), anyInt()))
                 .willThrow(new IllegalGameArgumentException("test"));
 
-        String request = objectMapper.writeValueAsString(new PlayRequest("aa", 1));
+        String request = objectMapper.writeValueAsString(new SinglePlayRequest("aa", 1));
 
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/plays")

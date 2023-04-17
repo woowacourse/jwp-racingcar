@@ -10,7 +10,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.TestDatabaseConfig;
-import racingcar.controller.dto.PlayRequest;
+import racingcar.controller.dto.SinglePlayRequest;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
@@ -34,11 +34,11 @@ class GameControllerRestAssuredTest {
         RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(ContentType.JSON)
-                .body(new PlayRequest("aa", 1))
+                .body(new SinglePlayRequest("aa", 1))
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("winners", hasItems("aa"))
+                .body("winners", is("aa"))
                 .body("racingCars.size()", is(1));
 
     }
@@ -49,7 +49,7 @@ class GameControllerRestAssuredTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new PlayRequest("aa,aa", 1))
+                .body(new SinglePlayRequest("aa,aa", 1))
 
                 .when()
                 .post("/plays")
