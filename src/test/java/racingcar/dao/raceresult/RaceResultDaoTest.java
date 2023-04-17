@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
-import racingcar.dao.raceresult.entity.RaceResultEntity;
 import racingcar.domain.RacingCars;
 import racingcar.util.RandomNumberGenerator;
 
