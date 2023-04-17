@@ -36,8 +36,9 @@ public class RacingCarController {
 
 		Cars cars = racingGame.getCars();
 		racingCarDao.insertCar(cars, count);
+		resultDto = toResultDto(cars);
 		OutputView.printResult(resultDto.getWinners(), resultDto.getRacingCars());
-		return toResultDto(cars);
+		return resultDto;
 	}
 
 	private void startRacing(int count, RacingGame racingGame) {
