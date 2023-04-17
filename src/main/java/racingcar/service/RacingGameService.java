@@ -38,4 +38,9 @@ public class RacingGameService {
 
         return new RacingGame(new Names(splitNames), new TryCount(inputDto.getCount()));
     }
+
+    @Transactional(readOnly = true)
+    public List<GameResultResponseDto> getHistory() {
+        return DtoMapper.mapToGameResultResponseDtos(racingGameRepository.findAll());
+    }
 }
