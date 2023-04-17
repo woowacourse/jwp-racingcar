@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import racingcar.controller.RacingGameController;
 import racingcar.domain.car.Car;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;

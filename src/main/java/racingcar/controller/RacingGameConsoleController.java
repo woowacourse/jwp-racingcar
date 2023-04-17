@@ -1,5 +1,6 @@
-package racingcar;
+package racingcar.controller;
 
+import racingcar.RacingGameService;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;
 import racingcar.view.InputView;
