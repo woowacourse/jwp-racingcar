@@ -1,20 +1,23 @@
 package racingcar.dto;
 
 import racingcar.domain.Car;
-import racingcar.domain.Name;
-import racingcar.domain.Position;
+import racingcar.entity.Player;
 
 public class RacingCarStatusDto {
     private final String name;
     private final int position;
 
-    public RacingCarStatusDto(Name name, Position position) {
-        this.name = name.getName();
-        this.position = position.getValue();
+    private RacingCarStatusDto(String name, int position) {
+        this.name = name;
+        this.position = position;
     }
 
-    public static RacingCarStatusDto of(Car car) {
-        return new RacingCarStatusDto(car.getName(), car.getMovedLength());
+    public static RacingCarStatusDto from(Car car) {
+        return new RacingCarStatusDto(car.getName().getName(), car.getMovedLength().getValue());
+    }
+
+    public static RacingCarStatusDto from(Player player) {
+        return new RacingCarStatusDto(player.getName(), player.getPosition());
     }
 
     public String getName() {

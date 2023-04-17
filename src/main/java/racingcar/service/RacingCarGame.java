@@ -42,7 +42,7 @@ public class RacingCarGame {
         validateEmptyCars();
         return cars.getCars()
                 .stream()
-                .map(RacingCarStatusDto::of)
+                .map(RacingCarStatusDto::from)
                 .collect(toList());
     }
 

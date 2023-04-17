@@ -33,8 +33,8 @@ class PlayerRepositoryTest {
     void insertPlayer() {
         // given
         long gameId = gameRepository.save(10);
-        RacingCarStatusDto veroStatusResponse = RacingCarStatusDto.of(new Car("vero", 10));
-        RacingCarStatusDto poiStatusResponse = RacingCarStatusDto.of(new Car("poi", 7));
+        RacingCarStatusDto veroStatusResponse = RacingCarStatusDto.from(new Car("vero", 10));
+        RacingCarStatusDto poiStatusResponse = RacingCarStatusDto.from(new Car("poi", 7));
         List<String> winners = List.of("vero");
 
         // when
