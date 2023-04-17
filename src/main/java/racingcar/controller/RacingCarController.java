@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import racingcar.dto.CarPositionDto;
 import racingcar.dto.CarResponse;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
+import racingcar.dto.GameHistoryResponse;
 import racingcar.service.RacingCarsService;
 
 @RestController
@@ -34,6 +36,16 @@ public class RacingCarController {
         final GameResponse gameResponse = toGameResponse(raceDto);
 
         return new ResponseEntity<>(gameResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<GameHistoryResponse> findTotalGameHistory() {
+        final List<RaceDto> totalGameHistory = racingCarsService.findTotalGameHistory();
+        final List<GameResponse> gameResponses = totalGameHistory.stream()
+                .map(this::toGameResponse)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(new GameHistoryResponse(gameResponses), HttpStatus.OK);
     }
 
     private GameResponse toGameResponse(final RaceDto raceDto) {
