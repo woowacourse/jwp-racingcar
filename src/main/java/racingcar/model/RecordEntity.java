@@ -1,35 +1,16 @@
 package racingcar.model;
 
 public class RecordEntity {
-    private int gameId;
-    private int position;
-    private boolean isWinner;
-    private String playerName;
+    private final String playerName;
+    private final int gameId;
+    private final int position;
+    private final boolean isWinner;
 
-    public RecordEntity() {
-    }
 
-    public int getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(final int gameId) {
+    public RecordEntity(final String playerName, final int gameId, final int position, final boolean isWinner) {
+        this.playerName = playerName;
         this.gameId = gameId;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(final int position) {
         this.position = position;
-    }
-
-    public boolean isWinner() {
-        return isWinner;
-    }
-
-    public void setWinner(final boolean isWinner) {
         this.isWinner = isWinner;
     }
 
@@ -37,7 +18,15 @@ public class RecordEntity {
         return playerName;
     }
 
-    public void setPlayerName(final String playerName) {
-        this.playerName = playerName;
+    public int getGameId() {
+        return gameId;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
     }
 }

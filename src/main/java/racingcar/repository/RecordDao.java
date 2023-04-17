@@ -31,13 +31,12 @@ public class RecordDao {
 
     public RowMapper<RecordEntity> mapRow() {
         return (rs, rowNum) -> {
-            RecordEntity recordEntity = new RecordEntity();
-            recordEntity.setPlayerName(rs.getString(1));
-            recordEntity.setGameId(rs.getInt(2));
-            recordEntity.setPosition(rs.getInt(3));
-            recordEntity.setWinner(rs.getBoolean(4));
+            String playerName = rs.getString(1);
+            int gameId = rs.getInt(2);
+            int position = rs.getInt(3);
+            boolean isWinner = rs.getBoolean(4);
 
-            return recordEntity;
+            return new RecordEntity(playerName, gameId, position, isWinner);
         };
     }
 }
