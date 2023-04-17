@@ -2,7 +2,6 @@ package racingcar.dto;
 
 import racingcar.domain.Car;
 
-
 public class CarResponse {
 
     private final String name;
