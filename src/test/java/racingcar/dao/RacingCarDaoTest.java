@@ -25,7 +25,7 @@ class RacingCarDaoTest {
     void setUp() {
         racingCarDao = new RacingCarDao(jdbcTemplate);
 
-        jdbcTemplate.execute("DROP TABLE LOG IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE MOVE_LOG IF EXISTS");
         jdbcTemplate.execute("DROP TABLE PLAY_RESULT IF EXISTS");
         jdbcTemplate.execute("CREATE TABLE PLAY_RESULT("
                 + "    id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,"
@@ -34,7 +34,7 @@ class RacingCarDaoTest {
                 + "    created_at  DATETIME    NOT NULL,"
                 + "    PRIMARY KEY (id))");
 
-        jdbcTemplate.execute("CREATE TABLE LOG("
+        jdbcTemplate.execute("CREATE TABLE MOVE_LOG("
                 + "    id      INT         NOT NULL AUTO_INCREMENT,"
                 + "    game_id INT         NOT NULL,"
                 + "    name    VARCHAR(50) NOT NULL,"
@@ -43,7 +43,7 @@ class RacingCarDaoTest {
                 + "    FOREIGN KEY (game_id) REFERENCES PLAY_RESULT (id))");
     }
 
-    @DisplayName("게임 플레이 인원수 만큼 LOG 테이블에 정보가 레코드된다.")
+    @DisplayName("게임 플레이 인원수 만큼 MOVE_LOG 테이블에 정보가 레코드된다.")
     @Test
     void insertDBTest() {
         //given
@@ -52,7 +52,7 @@ class RacingCarDaoTest {
                         new RacingCar(new Name("리오"))
                 ));
         final TryCount tryCount = new TryCount(3);
-        final String sql = "SELECT COUNT(*) FROM LOG";
+        final String sql = "SELECT COUNT(*) FROM MOVE_LOG";
 
         //when
         racingCarDao.insertGame(racingCars, tryCount);

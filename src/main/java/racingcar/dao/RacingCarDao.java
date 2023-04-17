@@ -39,7 +39,7 @@ public class RacingCarDao {
     }
 
     private void insertGameLog(final RacingCars racingCars, final int gameId) {
-        final String sql = "INSERT INTO LOG (game_id, name, move) values (?,?,?)";
+        final String sql = "INSERT INTO MOVE_LOG (game_id, name, move) values (?,?,?)";
 
         List<Object[]> batchArgs = new ArrayList<>();
         for (RacingCar racingCar : racingCars.getRacingCars()) {
