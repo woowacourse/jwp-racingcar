@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +33,31 @@ class CarResultDaoTest {
     @BeforeEach
     void setUp() {
         jdbcTemplate.execute("DROP TABLE car_result IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE CAR_RESULT" +
+        jdbcTemplate.execute("DROP TABLE play_result IF EXISTS");
+
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS play_result" +
+                "(" +
+                "    id         INT         NOT NULL AUTO_INCREMENT," +
+                "    trial_count INT         NOT NULL," +
+                "    winners    VARCHAR(120) NOT NULL," +
+                "    created_at DATETIME    NOT NULL," +
+                "    PRIMARY KEY (id)" +
+                ");");
+
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS car_result" +
                 "(" +
                 "    id             INT         NOT NULL AUTO_INCREMENT," +
                 "    play_result_id INT         NOT NULL," +
-                "    name           VARCHAR(50) NOT NULL," +
+                "    name           VARCHAR(10) NOT NULL," +
                 "    position       INT         NOT NULL," +
-                "    PRIMARY KEY (id)" +
+                "    PRIMARY KEY (id)," +
+                "    FOREIGN KEY (play_result_id) REFERENCES play_result (id) ON DELETE CASCADE" +
                 ");");
+    }
+
+    @AfterEach
+    void deleteTable() {
+        jdbcTemplate.execute("DROP TABLE car_result IF EXISTS");
     }
 
     @Test
