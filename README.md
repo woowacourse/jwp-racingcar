@@ -24,7 +24,7 @@ Dto
 - [x] CarDto
 - [x] RacingGameRequestDto
 - [x] RacingGameResponseDto
-- [ ] GameRecordResponseDto
+- [x] GameRecordResponseDto
 
 Dao
 - [x] CarDao
