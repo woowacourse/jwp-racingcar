@@ -5,13 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayerResultDto;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @JdbcTest
 class PlayerResultDAOTest {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private GameResultDAO gameResultDAO;
     @Autowired
     private PlayerResultDAO playerResultDAO;
 
@@ -32,7 +29,7 @@ class PlayerResultDAOTest {
         List<PlayerResultDto> resultDto = List.of(
                 new PlayerResultDto("zuny", 5)
         );
-        int savedId = saveSampleGameResult();
+        int savedId = gameResultDAO.save(new GameResultDto(10, "zuny"));
 
         //when
         playerResultDAO.save(savedId, resultDto);
@@ -44,19 +41,5 @@ class PlayerResultDAOTest {
                 .isEqualTo(resultDto.get(0).getPosition());
         assertThat(findResult.getName())
                 .isEqualTo(resultDto.get(0).getName());
-    }
-
-    private int saveSampleGameResult() {
-        String sql = "insert into GAME_RESULT (winners, trial_count) values (?, ?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        jdbcTemplate.update((connection) -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
-            preparedStatement.setString(1, "sample");
-            preparedStatement.setInt(2, 10);
-            return preparedStatement;
-        }, keyHolder);
-
-        return keyHolder.getKey().intValue();
     }
 }
