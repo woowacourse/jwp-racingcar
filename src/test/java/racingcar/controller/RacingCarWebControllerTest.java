@@ -51,4 +51,31 @@ class RacingCarWebControllerTest {
                 .body("winners", notNullValue())
                 .body("racingCars", notNullValue());
     }
+
+    @Test
+    @DisplayName("모든 게임 조회 결과를 응답 바디에 반환한다.")
+    void searchAllRaceResult() {
+        // given
+        GameInfoRequest gameInfoRequest1 = new GameInfoRequest("성하,이오,코코닥", 5);
+        GameInfoRequest gameInfoRequest2 = new GameInfoRequest("a,b,c", 4);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(gameInfoRequest1)
+                .when().post("/plays");
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(gameInfoRequest2)
+                .when().post("/plays");
+
+        // when, then
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("winners", notNullValue())
+                .body("racingCars", notNullValue());
+    }
 }
