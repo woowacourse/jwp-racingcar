@@ -29,7 +29,7 @@ public class Car {
     }
 
     private void validateNamesIsEmpty(String name) {
-        if (name.isEmpty()) {
+        if (name.isBlank()) {
             throw new IllegalArgumentException(EXCEEDED_CAR_NAME_LENGTH_ERROR);
         }
     }

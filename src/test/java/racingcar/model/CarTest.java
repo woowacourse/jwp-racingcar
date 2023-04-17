@@ -34,7 +34,7 @@ class CarTest {
 
     @DisplayName("자동차 이름 길이 예외 테스트")
     @ParameterizedTest
-    @ValueSource(strings = {"", "가나다라마바,가나"})
+    @ValueSource(strings = {"", "가나다라마바,가나", " ", "  "})
     void validate(String input) {
         List<String> carNames = Arrays.asList(input.split(","));
         assertThatThrownBy(() -> carNames.stream().map(Car::new).collect(Collectors.toList()))
