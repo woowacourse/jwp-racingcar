@@ -1,22 +1,24 @@
 package racingcar.dao;
 
-import java.util.List;
-
-import javax.sql.DataSource;
-
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import java.util.List;
+
 @Repository
 public class WinnersDao {
 
     private final SimpleJdbcInsert simpleJdbcInsert;
+    private final JdbcTemplate jdbcTemplate;
 
-    public WinnersDao(DataSource dataSource) {
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+    public WinnersDao(JdbcTemplate jdbcTemplate) {
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("winners");
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void insert(final int gameId, final List<Integer> winnerIds) {
@@ -27,5 +29,11 @@ public class WinnersDao {
 
             simpleJdbcInsert.execute(parameterSource);
         }
+    }
+
+    public List<Integer> findAllWinnerIdsByGameId(final int gameId) {
+        final String sql = "SELECT car_id FROM winners WHERE game_id = ?";
+
+        return jdbcTemplate.queryForList(sql, Integer.class, gameId);
     }
 }

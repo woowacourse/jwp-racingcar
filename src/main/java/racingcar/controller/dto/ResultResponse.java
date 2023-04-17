@@ -14,7 +14,6 @@ public class ResultResponse {
         this.racingCars = racingCars;
     }
 
-    // getter가 직렬화에 쓰이는 것 같다.
     public List<String> getWinners() {
         return winners;
     }

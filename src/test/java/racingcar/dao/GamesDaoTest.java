@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.TestDatabaseConfig;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,6 +23,7 @@ class GamesDaoTest {
 
     @Test
     @DisplayName("게임 추가 테스트")
+    @Transactional
     void insert_test() {
         final int gameId = gamesDao.insert(5);
 
@@ -27,6 +31,19 @@ class GamesDaoTest {
         final Integer trialCount = jdbcTemplate.queryForObject(sql, Integer.class, gameId);
 
         assertThat(trialCount).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("진행한 게임 id조회 테스트")
+    @Transactional
+    void find_ids_test() {
+        gamesDao.insert(5);
+        gamesDao.insert(4);
+        gamesDao.insert(9);
+
+        final List<Integer> allGameIds = gamesDao.findAllGameIds();
+
+        assertThat(allGameIds).hasSize(3);
     }
 
 }
