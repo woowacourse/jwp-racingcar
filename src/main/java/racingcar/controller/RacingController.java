@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import racingcar.exception.CustomException;
+import racingcar.exception.MaxAttemptInputException;
 import racingcar.model.car.Cars;
 import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.track.Track;
@@ -8,6 +9,9 @@ import racingcar.view.inputview.InputView;
 import racingcar.view.outputview.OutputView;
 
 public class RacingController {
+
+    private static final int MAX_ATTEMPT_COUNT = 5;
+
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -18,8 +22,7 @@ public class RacingController {
 
     public void start(final MovingStrategy movingStrategy) {
         Cars cars = makeCars(movingStrategy);
-        String trialTimes = inputView.inputTrialTimes();
-        Track track = makeTrack(cars, trialTimes);
+        Track track = makeTrack(cars);
 
         outputView.printCurrentCarsPosition(cars);
         startRace(track);
@@ -27,23 +30,28 @@ public class RacingController {
     }
 
     private Cars makeCars(final MovingStrategy movingStrategy) {
-        try {
-            return new Cars(inputView.inputCarNames(), movingStrategy);
-        } catch (CustomException customException) {
-            terminated(customException);
+        for (int count = 0; count < MAX_ATTEMPT_COUNT; count++) {
+            try {
+                return new Cars(inputView.inputCarNames(), movingStrategy);
+            } catch (CustomException customException) {
+                terminated(customException);
+            }
         }
 
-        return makeCars(movingStrategy);
+        throw new MaxAttemptInputException();
     }
 
-    private Track makeTrack(final Cars cars, final String trialTimes) {
-        try {
-            return new Track(cars, trialTimes);
-        } catch (CustomException customException) {
-            terminated(customException);
+    private Track makeTrack(final Cars cars) {
+        for (int count = 0; count < MAX_ATTEMPT_COUNT; count++) {
+            try {
+                String trialTimes = inputView.inputTrialTimes();
+                return new Track(cars, trialTimes);
+            } catch (CustomException customException) {
+                terminated(customException);
+            }
         }
 
-        return makeTrack(cars, trialTimes);
+        throw new MaxAttemptInputException();
     }
 
     public void startRace(final Track track) {

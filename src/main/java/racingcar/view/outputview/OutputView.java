@@ -12,10 +12,13 @@ public abstract class OutputView {
     }
 
     protected void initialErrorMessage() {
+        initialInputErrorMessage();
         initialCarsErrorMessage();
         initialCarErrorMessage();
         initialTrackErrorMessage();
     }
+
+    abstract void initialInputErrorMessage();
 
     abstract void initialCarsErrorMessage();
 
