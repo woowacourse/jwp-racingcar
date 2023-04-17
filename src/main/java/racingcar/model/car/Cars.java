@@ -19,7 +19,7 @@ public class Cars {
         validate(carNames);
 
         this.cars = Arrays.stream(carNames.split(SEPARATOR))
-                .map(carName -> new Car(carName, movingStrategy))
+                .map(carName -> Car.of(carName, movingStrategy))
                 .collect(Collectors.toList());
     }
 

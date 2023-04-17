@@ -17,18 +17,18 @@ public class Car {
     private int position;
     private final MovingStrategy movingStrategy;
 
-    public Car(final String carName, final MovingStrategy movingStrategy) {
+    private Car(final String carName, final int position, final MovingStrategy movingStrategy) {
         validate(carName);
 
         this.carName = carName;
-        this.position = POSITION_INIT;
+        this.position = position;
         this.movingStrategy = movingStrategy;
     }
 
-    public Car(final String carName, final int position) {
-        this.carName = carName;
-        this.position = position;
-        this.movingStrategy = new RandomMovingStrategy();
+    public static Car of(final String carName, final MovingStrategy movingStrategy) {
+        final String stripCarName = carName.strip();
+
+        return new Car(stripCarName, POSITION_INIT, movingStrategy);
     }
 
     private void validate(final String carName) {
