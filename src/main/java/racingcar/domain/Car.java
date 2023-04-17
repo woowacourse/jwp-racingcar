@@ -5,19 +5,17 @@ public class Car {
     private static final int CAR_FORWARD_NUMBER = 4;
 
     private final CarName name;
-    private final CarPosition position;
+    private CarPosition position;
 
     public Car(final CarName name, final CarPosition position) {
         this.name = name;
         this.position = position;
     }
 
-    public Car move(final int power) {
+    public void move(final int power) {
         if (power >= CAR_FORWARD_NUMBER) {
-            final CarPosition newPosition = position.addPosition();
-            return new Car(name, newPosition);
+            this.position = position.addPosition();
         }
-        return new Car(name, position);
     }
 
     public CarPosition getCarPosition() {

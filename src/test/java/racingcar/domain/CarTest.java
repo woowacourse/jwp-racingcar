@@ -21,10 +21,10 @@ public class CarTest {
     @DisplayName("랜덤값이 4 이상이면 자동차가 전진한다.")
     void move(final int randomNumber) {
         // when
-        final Car movedCar = testCar.move(randomNumber);
+        testCar.move(randomNumber);
 
         // then
-        assertThat(movedCar.getCarPosition())
+        assertThat(testCar.getCarPosition())
                 .isEqualTo(CarPosition.create(2));
     }
 

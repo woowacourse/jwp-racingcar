@@ -36,11 +36,11 @@ public class RaceService {
         final Cars cars = Cars.create(names, numberGenerator);
         final Race race = new Race(raceRequest.getCount());
 
-        final Cars movedCars = race.run(cars);
-        final RaceResponse raceResponse = makeRaceResponse(movedCars);
+        race.run(cars);
+        final RaceResponse raceResponse = makeRaceResponse(cars);
         final Long raceResultId = raceResultDao.save(raceRequest.getCount(), raceResponse.getWinners());
 
-        carDao.saveAll(raceResultId, movedCars.getCars());
+        carDao.saveAll(raceResultId, cars.getCars());
         return raceResponse;
     }
 

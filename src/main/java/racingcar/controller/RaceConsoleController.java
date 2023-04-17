@@ -19,8 +19,8 @@ public class RaceConsoleController {
     public void race() {
         final Cars cars = createCars();
         final Race race = createRace();
-        final Cars movedCars = race.run(cars);
-        printRaceResult(movedCars);
+        race.run(cars);
+        printRaceResult(cars);
     }
 
     private Cars createCars() {

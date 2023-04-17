@@ -14,13 +14,11 @@ public class Race {
         this.count = raceCount;
     }
 
-    public Cars run(final Cars cars) {
+    public void run(final Cars cars) {
         int tryCount = 0;
-        Cars currentCars = cars;
         while (isRunning(tryCount++)) {
-            currentCars = currentCars.race();
+            cars.race();
         }
-        return currentCars;
     }
 
     private void validateRange(final int raceCount) {

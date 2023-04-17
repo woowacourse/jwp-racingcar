@@ -22,13 +22,11 @@ public class Cars {
         return new Cars(createCars(carNames), numberGenerator);
     }
 
-    public Cars race() {
-        final List<Car> movedCars = cars.stream()
-                .map(car -> {
-                    final int power = numberGenerator.generate();
-                    return car.move(power);
-                }).collect(Collectors.toUnmodifiableList());
-        return new Cars(movedCars, numberGenerator);
+    public void race() {
+        cars.forEach(car -> {
+            final int power = numberGenerator.generate();
+            car.move(power);
+        });
     }
 
     public List<String> getWinnerCarNames() {

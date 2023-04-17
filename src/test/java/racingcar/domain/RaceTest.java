@@ -38,10 +38,10 @@ public class RaceTest {
         final Cars cars = Cars.create(List.of("test1", "test2", "test3"), () -> 4);
 
         // when
-        final Cars movedCars = race.run(cars);
+        race.run(cars);
 
         // then
-        for (Car car : movedCars.getCars()) {
+        for (Car car : cars.getCars()) {
             assertThat(car.getCarPosition()).isEqualTo(CarPosition.create(11));
         }
     }
