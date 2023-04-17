@@ -28,12 +28,11 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     @Override
     public InsertGameEntity save(final RacingGameResult racingGameResult) {
         final InsertGameEntity insertGameEntity = gamesDao.insert(InsertGameEntity.fromDomain(racingGameResult));
-
         final List<CarEntity> carEntities = fromCarsToEntity(racingGameResult.getTotalCars());
         final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities, insertGameEntity.getGameId());
-        final List<CarEntity> something = findWinnerCarEntities(savedCarEntities, racingGameResult.getWinners());
+        final List<CarEntity> winnerCarEntities = findWinnerCarEntities(savedCarEntities, racingGameResult.getWinners());
 
-        winnerDao.saveAll(something, insertGameEntity.getGameId());
+        winnerDao.saveAll(winnerCarEntities, insertGameEntity.getGameId());
         return insertGameEntity;
     }
 
@@ -45,6 +44,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
 
     private List<CarEntity> findWinnerCarEntities(final List<CarEntity> savedCarEntities, final List<Car> winner) {
         final List<String> winnerNames = winner.stream().map(Car::getCarName).collect(Collectors.toList());
+
         return savedCarEntities.stream()
                 .filter(carEntity -> winnerNames.contains(carEntity.getName()))
                 .collect(Collectors.toList());
