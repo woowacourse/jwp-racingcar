@@ -43,7 +43,7 @@ public class RacingCarService {
     }
 
     private Cars makeCars(final List<String> names) {
-        CarFactory carFactory = new CarFactory();
+        final CarFactory carFactory = new CarFactory();
         return carFactory.createCars(names);
     }
 
@@ -56,12 +56,12 @@ public class RacingCarService {
     }
 
     private boolean isWin(final Car car, final GameSystem gameSystem) {
-        List<String> winners = getWinners(gameSystem);
+        final List<String> winners = getWinners(gameSystem);
         return winners.contains(car.getName());
     }
 
     private List<String> getWinners(final GameSystem gameSystem) {
-        List<GameResultOfCar> winnersGameResult = gameSystem.getWinnersGameResult();
+        final List<GameResultOfCar> winnersGameResult = gameSystem.getWinnersGameResult();
         return winnersGameResult.stream()
                 .map(gameResultOfCar -> gameResultOfCar.getCarName())
                 .collect(Collectors.toList());
@@ -74,7 +74,7 @@ public class RacingCarService {
     }
 
     private List<CarDTO> getCarDTOs(final int count, final GameSystem gameSystem) {
-        List<GameResultOfCar> allGameResult = gameSystem.getAllGameResult();
+        final List<GameResultOfCar> allGameResult = gameSystem.getAllGameResult();
         return allGameResult.stream()
                 .filter(gameResultOfCar -> gameResultOfCar.isSameGameRound(count))
                 .map(gameResultOfCar -> new CarDTO(gameResultOfCar.getCarName(), gameResultOfCar.getPosition()))
@@ -82,7 +82,7 @@ public class RacingCarService {
     }
 
     public List<ResultDTO> getSavedGames() {
-        List<ResultDTO> playingCars = new ArrayList<>();
+        final List<ResultDTO> playingCars = new ArrayList<>();
 
         final int games = gameDao.countGames();
         for (int gameId = INITIAL_GAME_ID; gameId <= games; gameId++) {

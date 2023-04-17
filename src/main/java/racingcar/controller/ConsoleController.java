@@ -10,7 +10,7 @@ import racingcar.domain.game.GameResultOfCar;
 import racingcar.domain.game.GameSystem;
 import racingcar.domain.game.RandomSingleDigitGenerator;
 import racingcar.dto.CarDTO;
-import racingcar.dto.RacingGameResponseDTO;
+import racingcar.response.RacingGameResponse;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -27,26 +27,25 @@ public class ConsoleController {
     }
 
     public void run() {
-        Cars cars = makeCars(inputView.readCarNames());
+        final Cars cars = makeCars(inputView.readCarNames());
 
         final int count = inputView.readGameRound();
-        GameSystem gameSystem = new GameSystem(count, new GameRecorder(new ArrayList<>()));
+        final GameSystem gameSystem = new GameSystem(count, new GameRecorder(new ArrayList<>()));
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
-        String winners = getWinners(gameSystem).stream().collect(Collectors.joining(DELIMITER));
+        final String winners = getWinners(gameSystem).stream().collect(Collectors.joining(DELIMITER));
 
-        final RacingGameResponseDTO racingGameResponseDTO = new RacingGameResponseDTO(winners,
-                getCarDTOs(count, gameSystem));
+        final RacingGameResponse racingGameResponse = new RacingGameResponse(winners, getCarDTOs(count, gameSystem));
 
-        outputView.printResult(racingGameResponseDTO);
+        outputView.printResult(racingGameResponse);
     }
 
     private Cars makeCars(final List<String> carNames) {
-        CarFactory carFactory = new CarFactory();
+        final CarFactory carFactory = new CarFactory();
         return carFactory.createCars(carNames);
     }
 
     private List<String> getWinners(final GameSystem gameSystem) {
-        List<GameResultOfCar> winnersGameResult = gameSystem.getWinnersGameResult();
+        final List<GameResultOfCar> winnersGameResult = gameSystem.getWinnersGameResult();
         return winnersGameResult.stream()
                 .map(gameResultOfCar -> gameResultOfCar.getCarName())
                 .collect(Collectors.toList());
