@@ -22,7 +22,7 @@ public class OutputView {
 		stringBuilder.append("결과:\n");
 		for(CarDto car : cars){
 			stringBuilder.append("Name: ").append(car.getName());
-			stringBuilder.append(", Position").append(car.getPosition()).append("\n");
+			stringBuilder.append(", Position: ").append(car.getPosition()).append("\n");
 		}
 		System.out.println(stringBuilder);
 	}
