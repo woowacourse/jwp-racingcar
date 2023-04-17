@@ -8,9 +8,10 @@ CREATE TABLE games
 );
 CREATE TABLE cars
 (
+    `id`       INT         NOT NULL AUTO_INCREMENT,
     `name`     VARCHAR(20) NOT NULL,
     `position` INT         NOT NULL,
     `game_id`  INT         NOT NULL,
-    PRIMARY KEY (`name`, `game_id`),
+    PRIMARY KEY (`id`),
     FOREIGN KEY (`game_id`) REFERENCES `games` (`id`)
 );

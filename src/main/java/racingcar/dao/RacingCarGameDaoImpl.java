@@ -32,7 +32,8 @@ public class RacingCarGameDaoImpl implements RacingCarGameDao {
 
     @Autowired
     public RacingCarGameDaoImpl(DataSource dataSource) {
-        this.simpleJdbcInsertCars = new SimpleJdbcInsert(dataSource).withTableName("cars");
+        this.simpleJdbcInsertCars = new SimpleJdbcInsert(dataSource).withTableName("cars")
+                                                                    .usingGeneratedKeyColumns("id");
         this.simpleJdbcInsertGames = new SimpleJdbcInsert(dataSource).withTableName("games")
                                                                      .usingGeneratedKeyColumns("id");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
