@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class GameDAO {
+public class GameDao {
     private SimpleJdbcInsert simpleJdbcInsert;
 
-    public GameDAO(DataSource dataSource) {
+    public GameDao(DataSource dataSource) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingGeneratedKeyColumns("game_number", "created_at");

@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
-import racingcar.dao.GameDAO;
-import racingcar.dao.GameLogDAO;
-import racingcar.dao.WinnersDAO;
+import racingcar.dao.GameDao;
+import racingcar.dao.GameLogDao;
+import racingcar.dao.WinnersDao;
 
 @Service
 public class SpringService {
@@ -17,11 +17,11 @@ public class SpringService {
     private List<Car> cars;
     private final MoveChance moveChance;
 
-    private GameDAO gameDAO;
-    private GameLogDAO gameLogDAO;
-    private WinnersDAO winnersDAO;
+    private GameDao gameDAO;
+    private GameLogDao gameLogDAO;
+    private WinnersDao winnersDAO;
 
-    public SpringService(GameDAO gameDAO, GameLogDAO gameLogDAO, WinnersDAO winnersDAO) {
+    public SpringService(GameDao gameDAO, GameLogDao gameLogDAO, WinnersDao winnersDAO) {
         this.gameDAO = gameDAO;
         this.gameLogDAO = gameLogDAO;
         this.winnersDAO = winnersDAO;

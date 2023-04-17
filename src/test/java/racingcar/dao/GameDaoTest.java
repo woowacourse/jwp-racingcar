@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class GameDAOTest {
+public class GameDaoTest {
 
     @Autowired
-    private GameDAO gameDao;
+    private GameDao gameDao;
 
     @Test
     void saveGameTest() {

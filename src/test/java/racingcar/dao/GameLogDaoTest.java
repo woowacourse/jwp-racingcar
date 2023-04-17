@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureTestDatabase
-public class GameLogDAOTest {
+public class GameLogDaoTest {
 
     @Autowired
-    private GameLogDAO gameLogDao;
+    private GameLogDao gameLogDao;
 
     @Test
     void insert() {

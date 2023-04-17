@@ -9,13 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureTestDatabase
-public class WinnersDAOTest {
+public class WinnersDaoTest {
 
     @Autowired
-    private WinnersDAO winnersDAO;
+    private WinnersDao winnersDao;
 
     @Test
     void insert() {
-        assertThatNoException().isThrownBy(() -> winnersDAO.insert(5, "달리"));
+        assertThatNoException().isThrownBy(() -> winnersDao.insert(5, "달리"));
     }
 }
