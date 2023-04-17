@@ -2,23 +2,35 @@
 
 ## 요구사항
 - [x] 자동차 경주 코드 가져오기
-- [x] 웹 요청
+- [x] 게임 플레이
+  - PostMapping
   - path: /plays
-  - type: json
-  - names
-  - count
-- [x] 웹 응답
-  - path: /plays
-  - type: json
-  - winners
-  - racingCars
-    - name
-    - position
-  - count
+  - Request
+    - type: json
+    - names
+    - count
+  - Response
+    - type: json
+    - winners
+    - List\<CarDto> racingCars
+      - CarDto
+        - name
+        - position
+    - count
 - [x] DB 연동하기
-- [ ] 게임 플레이 이력 조회 API 구현
-  - [ ] 전체 PlayResult 조회
-  - [ ] 전체 Player 조회
+- [x] 게임 플레이 이력 조회 API 구현 
+  - [x] 전체 PlayResult 조회
+  - [x] 전체 Player 
+  - Get
+  - path: /plays
+  - Request
+  - Response
+    - type: json
+    - List\<String> winners
+    - List\<CarDto> racingCars
+      - CarDto
+        - name
+        - position
 - [ ] 기존 기능 수정 - 출력 방식 수정
 - [ ] 리팩터링 - 중복 코드 제거
 

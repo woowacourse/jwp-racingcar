@@ -13,4 +13,20 @@ public class Player {
         this.name = name;
         this.position = position;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public long getPlayResultId() {
+        return playResultId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPosition() {
+        return position;
+    }
 }

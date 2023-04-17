@@ -3,8 +3,12 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayerDao;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameDto;
+import racingcar.dto.GameResponse;
 import racingcar.dto.WinnerCarDto;
+import racingcar.entity.PlayResult;
+import racingcar.entity.Player;
 import racingcar.exception.BadRequestException;
 import racingcar.exception.ExceptionMessage;
 import racingcar.model.Car;
@@ -12,6 +16,7 @@ import racingcar.model.Cars;
 import racingcar.strategy.RacingNumberGenerator;
 import racingcar.wrapper.Round;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,5 +98,28 @@ public class CarService {
         return Arrays.stream(carsName)
                 .distinct()
                 .count();
+    }
+
+    public List<GameResponse> findPlaysHistory() {
+        final List<GameResponse> gameResponses = new ArrayList<>();
+        final List<PlayResult> allPlayResult = playResultDao.findAllPlayResult();
+        final List<List<Player>> allPlayer = findAllPlayer(allPlayResult);
+
+        for (int index = 0; index < allPlayResult.size(); index++) {
+            gameResponses.add(new GameResponse(allPlayResult.get(index).getWinners(),
+                    convertToCarDto(allPlayer, index)));
+        }
+        return gameResponses;
+    }
+
+    private static List<CarDto> convertToCarDto(final List<List<Player>> allPlayer, final int index) {
+        return allPlayer.get(index).stream()
+                .map(player -> new CarDto(player.getName(), player.getPosition())).collect(Collectors.toList());
+    }
+
+    private List<List<Player>> findAllPlayer(final List<PlayResult> allPlayResult) {
+        return allPlayResult.stream()
+                .map(playResult -> playerDao.findAllPlayer(playResult.getId()))
+                .collect(Collectors.toList());
     }
 }
