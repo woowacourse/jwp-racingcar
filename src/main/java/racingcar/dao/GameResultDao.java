@@ -28,7 +28,7 @@ public class GameResultDao {
 	}
 
 	public int saveGameHistory (final TryCount tryCount) {
-		String sql = "INSERT INTO game (trialCount, dateTime) VALUES (?, ?)";
+		String sql = "INSERT INTO game (trial_count, date_time) VALUES (?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(connection -> {
@@ -42,7 +42,7 @@ public class GameResultDao {
 	}
 
 	private void savePlayersStatus (final List<GameResult> gameResults, final int gameId) {
-		String sql = "INSERT INTO player (game_id, name, position, isWinner) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO player (game_id, name, position, is_winner) VALUES (?, ?, ?, ?)";
 
 		gameResults.forEach(racingCar -> {
 					jdbcTemplate.update(sql,
