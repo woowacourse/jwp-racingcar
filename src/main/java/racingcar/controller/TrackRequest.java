@@ -1,13 +1,13 @@
 package racingcar.controller;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class TrackRequest {
 
     private String names;
     private String count;
 
-    protected TrackRequest() {
-    }
-
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public TrackRequest(final String names, final String count) {
         this.names = names;
         this.count = count;
