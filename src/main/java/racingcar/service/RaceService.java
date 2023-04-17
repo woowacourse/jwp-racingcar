@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import racingcar.controller.dto.GameInfoRequest;
@@ -34,5 +35,12 @@ public class RaceService {
         String winners = raceResultService.searchWinners(playResultId);
         List<Car> findCars = carService.getAllCars(playResultId);
         return RaceResultResponse.create(winners, findCars);
+    }
+
+    public List<RaceResultResponse> searchAllRaceResult() {
+        List<Integer> playResultIds = raceResultService.searchPlayResultIds();
+        return playResultIds.stream()
+                .map(this::createRaceResult)
+                .collect(Collectors.toUnmodifiableList());
     }
 }

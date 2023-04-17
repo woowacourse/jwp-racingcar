@@ -1,5 +1,7 @@
 package racingcar.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import racingcar.dao.raceresult.RaceResultDao;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
@@ -19,6 +21,10 @@ public class RaceResultService {
 
     public String searchWinners(int playResultId) {
         return raceResultDao.findWinnersByPlayResultId(playResultId);
+    }
+
+    public List<Integer> searchPlayResultIds() {
+        return raceResultDao.findAllPlayResultId();
     }
 }
 
