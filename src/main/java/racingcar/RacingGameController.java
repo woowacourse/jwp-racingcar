@@ -3,6 +3,7 @@ package racingcar;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,11 @@ public class RacingGameController {
         validateTryTime(request.getCount());
         ResultDto result = racingGameService.start(request.getCount(), splitNames(request.getNames()));
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<ResultDto>> viewAllGames() {
+        return ResponseEntity.ok(racingGameService.findAllGameHistories());
     }
 
     private List<String> splitNames(String names) {

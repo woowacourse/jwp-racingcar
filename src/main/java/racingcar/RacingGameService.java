@@ -2,8 +2,11 @@ package racingcar;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import racingcar.dao.CarRecord;
 import racingcar.dao.CarRecordDao;
+import racingcar.dao.RacingHistory;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
@@ -26,13 +29,27 @@ public class RacingGameService {
         Long historyId = racingHistoryDao.save(trialCount, LocalDateTime.now());
         game.progress(trialCount);
         saveCars(game, historyId);
-        return new ResultDto(game.getRacingCars(), game.getWinners());
+        return ResultDto.ofCars(game.getRacingCars(), game.getWinners());
     }
 
     private void saveCars(RacingGame game, long historyId) {
         for (Car car : game.getRacingCars()) {
             carRecordDao.save(historyId, car, game.isWinner(car));
         }
+    }
+
+    public List<ResultDto> findAllGameHistories() {
+        List<RacingHistory> racingHistories = racingHistoryDao.findAll();
+        List<List<CarRecord>> carRecords = findAllCarRecordsInHistory(racingHistories);
+        return carRecords.stream()
+                .map(ResultDto::fromRecords)
+                .collect(Collectors.toList());
+    }
+
+    private List<List<CarRecord>> findAllCarRecordsInHistory(List<RacingHistory> racingHistories) {
+        return racingHistories.stream()
+                .map(history -> carRecordDao.findAllByRacingHistoryId(history.getId()))
+                .collect(Collectors.toList());
     }
 
 }

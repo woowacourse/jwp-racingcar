@@ -8,6 +8,7 @@ import static org.mockito.BDDMockito.anyInt;
 import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.given;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import racingcar.dao.CarRecord;
 import racingcar.dao.CarRecordDao;
+import racingcar.dao.RacingHistory;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.dto.ResultDto;
 
@@ -46,4 +49,26 @@ class RacingGameServiceTest {
                 () -> assertThat(result.getWinners()).isNotEmpty()
         );
     }
+
+    @DisplayName("전체 누적 게임 결과를 조회한다.")
+    @Test
+    void findAllRacingGameResult() {
+        //given
+        LocalDateTime time = LocalDateTime.of(2023, 4, 17, 15, 54, 55);
+        given(racingHistoryDao.findAll()).willReturn(
+                List.of(new RacingHistory(1, 10, time), new RacingHistory(2, 10, time)));
+        given(carRecordDao.findAllByRacingHistoryId(anyLong())).willReturn(
+                List.of(new CarRecord("Rosie", 5, true), new CarRecord("Baron", 3, false)));
+
+        //when
+        List<ResultDto> allGames = racingGameService.findAllGameHistories();
+
+        //then
+        assertAll(
+                () -> assertThat(allGames).hasSize(2),
+                () -> assertThat(allGames.get(0).getWinners()).isEqualTo("Rosie"),
+                () -> assertThat(allGames.get(0).getRacingCars()).hasSize(2)
+        );
+    }
+
 }
