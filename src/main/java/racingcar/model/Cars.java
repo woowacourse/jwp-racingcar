@@ -25,9 +25,8 @@ public class Cars {
         return List.copyOf(cars);
     }
 
-    public List<String> getWinners() {
+    public List<Car> getWinners() {
         return cars.stream().filter(car -> car.checkLocationEqual(getMaxLocation()))
-                .map(Car::getName)
                 .collect(Collectors.toList());
     }
 

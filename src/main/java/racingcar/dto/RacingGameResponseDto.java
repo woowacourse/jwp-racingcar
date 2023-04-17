@@ -10,9 +10,17 @@ public class RacingGameResponseDto {
     private final String winners;
     private final List<CarDto> racingCars;
 
-    public RacingGameResponseDto(List<String> winners, List<Car> racingCars) {
-        this.winners = NameFormatConverter.joinNameWithDelimiter(winners);
+    public RacingGameResponseDto(List<Car> winners, List<Car> racingCars) {
+        this.winners = NameFormatConverter.joinNameWithDelimiter(convertWinner(winners));
         this.racingCars = convert(racingCars);
+    }
+
+    private List<String> convertWinner(List<Car> winners){
+        List<String> winnerDtos = new ArrayList<>();
+        for(Car car : winners){
+            winnerDtos.add(car.getName());
+        }
+        return winnerDtos;
     }
 
     private List<CarDto> convert(List<Car> cars){

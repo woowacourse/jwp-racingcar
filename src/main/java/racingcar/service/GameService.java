@@ -9,11 +9,13 @@ import racingcar.dao.entity.GameEntity;
 import racingcar.dto.GameRecordResponseDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
+import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.model.RacingGame;
 import racingcar.util.NameFormatConverter;
 import racingcar.util.NumberGenerator;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,9 +40,9 @@ public class GameService {
         RacingGame racingGame = new RacingGame(cars, tryCount);
         racingGame.race(numberGenerator);
 
-        String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
-        int gameId = gameDao.save(tryCount, winners);
-        carDao.saveAll(gameId, cars.getCars());
+        List<Car> winners = cars.getWinners();
+        int gameId = gameDao.save(tryCount);
+        carDao.saveAll(gameId, cars.getCars(), winners);
 
         return new RacingGameResponseDto(cars.getWinners(), cars.getCars());
     }
@@ -49,7 +51,12 @@ public class GameService {
         List<GameEntity> gameEntities = gameDao.findAll();
         return gameEntities.stream().map(gameEntity -> {
             List<CarEntity> carEntities = carDao.findAllById(gameEntity.getId());
-            return new GameRecordResponseDto(gameEntity.getWinners(), carEntities);
+            int max = carEntities.stream()
+                    .max(Comparator.comparing(b->b.getPosition())).get().getPosition();
+
+            List<CarEntity> result = carEntities.stream().filter(a -> a.getPosition() == max).collect(Collectors.toList());
+
+            return new GameRecordResponseDto(result, carEntities);
         }).collect(Collectors.toUnmodifiableList());
     }
 }

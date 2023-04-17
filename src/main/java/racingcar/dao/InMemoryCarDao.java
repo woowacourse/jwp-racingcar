@@ -20,7 +20,7 @@ public class InMemoryCarDao implements CarDao {
     }
 
     @Override
-    public void saveAll(int gameId, List<Car> cars) {
+    public void saveAll(int gameId, List<Car> cars, List<Car> winners) {
         String sql = "insert into CAR_RESULT (play_result_id, car_name, car_position) values (?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {

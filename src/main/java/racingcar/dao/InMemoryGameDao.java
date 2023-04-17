@@ -18,14 +18,13 @@ public class InMemoryGameDao implements GameDao {
     }
 
     @Override
-    public int save(int trialCount, String winners) {
-        String sql = "insert into PLAY_RESULT (trial_Count, winners) values (?,?)";
+    public int save(int trialCount) {
+        String sql = "insert into PLAY_RESULT (trial_Count) values (?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setInt(1, trialCount);
-            ps.setString(2, winners);
             return ps;
         }, keyHolder);
 
@@ -38,8 +37,7 @@ public class InMemoryGameDao implements GameDao {
 
         return jdbcTemplate.query(sql, (result, id) ->
                 new GameEntity(result.getInt("id"),
-                        result.getInt("trial_count"),
-                        result.getString("winners"))
+                        result.getInt("trial_count"))
         );
     }
 }
