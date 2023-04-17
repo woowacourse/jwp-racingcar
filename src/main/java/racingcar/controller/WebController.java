@@ -27,7 +27,7 @@ public class WebController {
     public RecordDto plays(@RequestBody final GameDto gameDto) {
         Cars cars = racingGameService.play(gameDto);
 
-        gameRecordService.plays(gameDto.getCount(), cars);
+        gameRecordService.saveGameRecord(gameDto.getCount(), cars);
 
         return new RecordDto(cars.getWinner(), racingGameService.carsToDto(cars));
     }

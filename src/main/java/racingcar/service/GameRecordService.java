@@ -22,7 +22,7 @@ public class GameRecordService {
     }
 
     @Transactional
-    public void plays(final int count,final Cars cars) {
+    public void saveGameRecord(final int count, final Cars cars) {
         long gameId = gameService.save(count);
         recordService.save(gameId, cars);
     }
