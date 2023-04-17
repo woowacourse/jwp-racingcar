@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-public interface ThrottleGenerator {
+public interface ThrustGenerator {
     int generate();
 }
 

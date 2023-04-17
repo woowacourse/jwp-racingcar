@@ -5,24 +5,36 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import racingcar.dao.RacingCarDao;
 import racingcar.domain.Names;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
 import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingCarRequest;
+import racingcar.dto.RacingCarRequestDto;
+import racingcar.dto.RacingCarResponseDto;
 
 @Service
 public class RacingCarService {
-    public List<RacingCarDto> createRacingCarDtos(final RacingCars racingCars) {
-        return racingCars.getRacingCars()
-            .stream()
-            .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
-            .collect(Collectors.toUnmodifiableList());
+
+    private final RacingCarDao racingCarDao;
+
+    public RacingCarService(RacingCarDao racingCarDao) {
+        this.racingCarDao = racingCarDao;
     }
 
-    public RacingCars createRacingCar(RacingCarRequest racingCarRequest) {
-        Names names = new Names(racingCarRequest.getNames());
+    public RacingCarResponseDto play(RacingCarRequestDto racingCarRequestDto) {
+        RacingCars racingCars = createRacingCar(racingCarRequestDto);
+        TryCount tryCount = new TryCount(racingCarRequestDto.getTryCount());
+
+        playGame(racingCars, tryCount);
+
+        racingCarDao.insertGame(racingCars, tryCount);
+        return new RacingCarResponseDto(racingCars.getWinnerNames(), createRacingCarDtos(racingCars));
+    }
+
+    private RacingCars createRacingCar(RacingCarRequestDto racingCarRequestDto) {
+        Names names = new Names(racingCarRequestDto.getNames());
         return new RacingCars(createRacingCar(names));
     }
 
@@ -33,7 +45,7 @@ public class RacingCarService {
             .collect(Collectors.toList());
     }
 
-    public void playGame(RacingCars racingCars, TryCount tryCount) {
+    private void playGame(RacingCars racingCars, TryCount tryCount) {
         while (canProceed(tryCount)) {
             racingCars.moveAll();
             tryCount = tryCount.deduct();
@@ -42,5 +54,12 @@ public class RacingCarService {
 
     private boolean canProceed(TryCount tryCount) {
         return tryCount.isOpportunity();
+    }
+
+    private List<RacingCarDto> createRacingCarDtos(RacingCars racingCars) {
+        return racingCars.getRacingCars()
+            .stream()
+            .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
+            .collect(Collectors.toUnmodifiableList());
     }
 }

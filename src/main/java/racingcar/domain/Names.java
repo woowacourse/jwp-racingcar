@@ -8,8 +8,7 @@ import java.util.List;
 
 public class Names {
 
-    private static final String ENTER_NAME_WITH_COMMA = "쉼표로 이름을 구분해주세요.";
-    private static final String COMMA = ",";
+    private static final String DELIMITER = ",";
     private static final int MIN_PARTICIPANT = 2;
 
     private final List<Name> names = new ArrayList<>();
@@ -51,14 +50,14 @@ public class Names {
     private static List<String> getSplitName(final String names) {
         List<String> splitNames = new ArrayList<>();
 
-        addAll(splitNames, names.split(COMMA));
+        addAll(splitNames, names.split(DELIMITER));
 
         return splitNames;
     }
 
     private void validateComma(final String names) {
-        if (!names.contains(COMMA)) {
-            throw new IllegalArgumentException(ENTER_NAME_WITH_COMMA);
+        if (!names.contains(DELIMITER)) {
+            throw new IllegalArgumentException("[ERROR] 쉼표로 이름을 구분해주세요.");
         }
     }
 
