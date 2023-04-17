@@ -19,18 +19,19 @@ import java.util.List;
 @RestController
 public class RacingCarController {
     private final RacingCarService racingCarService;
+    private final NumberGenerator numberGenerator;
 
     @Autowired
-    public RacingCarController(RacingCarService racingCarService) {
+    public RacingCarController(final RacingCarService racingCarService, final NumberGenerator numberGenerator) {
         this.racingCarService = racingCarService;
+        this.numberGenerator = numberGenerator;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<ResponseDto> play(@RequestBody RequestDto requestDto) {
         List<String> carNames = Arrays.asList(requestDto.getNames().split(","));
         Cars cars = new Cars(CarFactory.buildCars(carNames));
-        NumberGenerator numberGenerator = new RandomNumberGenerator();
-        play(cars, requestDto.getCount(),   numberGenerator);
+        play(cars, requestDto.getCount(), numberGenerator);
         ResponseDto responseDto = new ResponseDto(cars.findWinners(), cars.getCars());
         racingCarService.saveResult(requestDto.getCount(), cars);
         return ResponseEntity.ok().body(responseDto);
