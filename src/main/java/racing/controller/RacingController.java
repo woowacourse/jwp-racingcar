@@ -2,7 +2,6 @@ package racing.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,9 +33,7 @@ public class RacingController {
         Long gameId = racingGameService.saveGameByCount(request.getCount());
         racingGameService.playGame(gameId, cars);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(getRacingGameResultResponse(cars));
+        return ResponseEntity.ok(getRacingGameResultResponse(cars));
     }
 
     private RacingGameResultResponse getRacingGameResultResponse(Cars cars) {
