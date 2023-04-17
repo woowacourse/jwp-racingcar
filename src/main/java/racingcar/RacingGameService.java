@@ -54,4 +54,10 @@ public class RacingGameService {
                 .map(car -> new CarEntity(car.getNameValue(), car.getPositionValue(), car.isWinner(), gameResultId))
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public List<GameResultResponseDto> getHistory() {
+//         gameResultRepository.findAllGameResult();
+        return null;
+    }
 }

@@ -18,7 +18,7 @@ public final class CarDao {
     }
 
     public Long save(final CarEntity carEntity) {
-        String sql = "insert into car (player_name, final_position, is_winner, game_result_id) values (?, ?, ?, ?)";
+        String sql = "INSERT INTO car (player_name, final_position, is_winner, game_result_id) VALUES (?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
