@@ -1,4 +1,4 @@
-package racingcar.service;
+package racingcar.dao;
 
 public class PlayerResult {
 

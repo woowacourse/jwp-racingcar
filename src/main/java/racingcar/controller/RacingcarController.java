@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.service.RacingResponse;
 import racingcar.service.RacingcarService;
 
 @RestController
@@ -28,13 +27,13 @@ public class RacingcarController {
     }
 
     @GetMapping("/plays")
-    public List<RacingResponse> allResults(){
+    public List<RacingResponse> allResults() {
         return racingcarService.allResults();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorMessage handler(IllegalArgumentException exception){
+    public ErrorMessage handler(IllegalArgumentException exception) {
         return new ErrorMessage(exception.getMessage());
     }
 

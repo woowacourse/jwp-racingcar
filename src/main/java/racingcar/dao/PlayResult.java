@@ -1,4 +1,4 @@
-package racingcar.service;
+package racingcar.dao;
 
 /**
  * @author 우가

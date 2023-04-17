@@ -1,6 +1,7 @@
-package racingcar.service;
+package racingcar.controller;
 
 import java.util.List;
+import racingcar.dao.PlayerResult;
 
 public class RacingResponse {
 
