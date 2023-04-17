@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -18,8 +19,8 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public int saveAndGetId(final GameEntity game) {
+    public Optional<Integer> saveAndGetId(final GameEntity game) {
         SqlParameterSource params = new BeanPropertySqlParameterSource(game);
-        return jdbcInsert.executeAndReturnKey(params).intValue();
+        return Optional.of(jdbcInsert.executeAndReturnKey(params).intValue());
     }
 }

@@ -1,10 +1,11 @@
 package racingcar.dao;
 
+import java.util.Optional;
 import racingcar.entity.GameEntity;
 
 public class ConsoleGameDao implements GameDao {
     @Override
-    public int saveAndGetId(final GameEntity game) {
-        return 0;
+    public Optional<Integer> saveAndGetId(final GameEntity game) {
+        return Optional.of(0);
     }
 }

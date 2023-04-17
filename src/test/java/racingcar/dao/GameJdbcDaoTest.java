@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -34,9 +35,9 @@ public class GameJdbcDaoTest {
         final GameEntity game = new GameEntity(5);
 
         // when
-        final int id = gameDao.saveAndGetId(game);
+        final Optional<Integer> gameId = gameDao.saveAndGetId(game);
 
         // then
-        assertThat(id).isPositive();
+        assertThat(gameId.isPresent()).isTrue();
     }
 }

@@ -2,8 +2,11 @@ package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 import java.util.List;
+import java.util.Optional;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -35,6 +38,7 @@ class RacingGameServiceTest {
                 carDao
         );
         final GamePlayRequestDto gameRequest = new GamePlayRequestDto(List.of("브리", "비버", "허브"), 1);
+        given(gameDao.saveAndGetId(any())).willReturn(Optional.of(1));
 
         // when
         final GamePlayResponseDto gameResponse = racingGameService.play(gameRequest);

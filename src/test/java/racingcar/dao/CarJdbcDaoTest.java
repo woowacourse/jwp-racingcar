@@ -35,7 +35,7 @@ public class CarJdbcDaoTest {
     @Test
     void saveAll_메서드는_입력받은_플레이어를_전부_저장한다() {
         // given
-        final int gameId = gameDao.saveAndGetId(new GameEntity(3));
+        final Integer gameId = gameDao.saveAndGetId(new GameEntity(3)).get();
         final List<CarEntity> players = List.of(new CarEntity("car1", 1, true, gameId));
 
         // when
