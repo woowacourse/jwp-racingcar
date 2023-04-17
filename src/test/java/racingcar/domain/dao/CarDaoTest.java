@@ -29,7 +29,7 @@ class CarDaoTest {
     void setUp(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
         final InsertGameEntity insertGameEntity = new InsertGameEntity(null, new RacingGame(List.of("브리"), 5));
 
-        gameId = RepositoryFactory.gamesDao(dataSource).insert(insertGameEntity).getGameId();
+        gameId = RepositoryFactory.gamesDao(dataSource, jdbcTemplate).insert(insertGameEntity).getGameId();
         carDao = RepositoryFactory.carDao(dataSource, jdbcTemplate);
     }
 

@@ -21,7 +21,7 @@ public final class RepositoryFactory {
         return new WinnerDao(dataSource, jdbcTemplate);
     }
 
-    public static GamesDao gamesDao(final DataSource dataSource) {
-        return new GamesDao(dataSource);
+    public static GamesDao gamesDao(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
+        return new GamesDao(dataSource, jdbcTemplate);
     }
 }
