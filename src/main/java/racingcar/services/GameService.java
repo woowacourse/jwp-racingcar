@@ -71,7 +71,11 @@ public class GameService {
     void saveResult(String countInput, ResultDto resultDto) {
         int moveCount = Integer.parseInt(countInput);
         long gameId = gameDao.saveGame(new Game(moveCount));
-        carDao.insertCar(resultDto.getRacingCars(), gameId);
+        List<Car> cars = resultDto.getRacingCars()
+                .stream()
+                .map(carDto -> new Car(gameId, carDto.getName(), carDto.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
+        carDao.insertCar(cars);
         winnerDao.insertWinner(resultDto.getWinners(), gameId);
     }
 

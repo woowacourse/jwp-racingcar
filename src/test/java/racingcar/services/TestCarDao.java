@@ -4,11 +4,10 @@ import java.util.List;
 
 import racingcar.dao.car.CarDao;
 import racingcar.dao.entity.Car;
-import racingcar.dto.CarDto;
 
 public class TestCarDao implements CarDao {
     @Override
-    public void insertCar(List<CarDto> carDtos, long gameId) {
+    public void insertCar(List<Car> cars) {
 
     }
 

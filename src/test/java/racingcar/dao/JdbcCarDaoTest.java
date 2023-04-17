@@ -17,7 +17,6 @@ import racingcar.dao.car.JdbcCarDao;
 import racingcar.dao.entity.Car;
 import racingcar.dao.entity.Game;
 import racingcar.dao.game.JdbcGameDao;
-import racingcar.dto.CarDto;
 
 @JdbcTest
 class JdbcCarDaoTest {
@@ -38,12 +37,12 @@ class JdbcCarDaoTest {
     @Test
     @DisplayName("자동차의 이동 결과를 저장한다.")
     void insertCar() {
-        List<CarDto> carDtos = List.of(
-                new CarDto("폴로", 1),
-                new CarDto("이리내", 2)
-        );
         long gameId = jdbcGameDao.saveGame(new Game(1));
-        jdbcCarDao.insertCar(carDtos, gameId);
+        List<Car> cars = List.of(
+                new Car(gameId,"폴로", 1),
+                new Car(gameId,"이리내", 2)
+        );
+        jdbcCarDao.insertCar(cars);
 
         List<Car> carsInfoByGameId = jdbcCarDao.findAllCars();
 

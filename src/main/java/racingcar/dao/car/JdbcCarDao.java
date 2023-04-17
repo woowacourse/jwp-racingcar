@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import racingcar.dao.entity.Car;
-import racingcar.dto.CarDto;
 
 @Repository
 public class JdbcCarDao implements CarDao {
@@ -24,19 +23,19 @@ public class JdbcCarDao implements CarDao {
     }
 
     @Override
-    public void insertCar(List<CarDto> carDtos, long gameId) {
+    public void insertCar(List<Car> cars) {
         String sql = "INSERT INTO car(g_id, name, position) VALUES (?,?,?)";
-        List<Object[]> carsInfo = getCarsInfo(gameId, carDtos);
+        List<Object[]> carsInfo = getCarsInfo(cars);
         jdbcTemplate.batchUpdate(sql, carsInfo);
     }
 
-    private List<Object[]> getCarsInfo(long gameId, List<CarDto> carDtos) {
-        return carDtos.stream()
-                .map(carDto -> {
+    private List<Object[]> getCarsInfo(List<Car> cars) {
+        return cars.stream()
+                .map(car -> {
                     Object[] objects = new Object[3];
-                    objects[0] = gameId;
-                    objects[1] = carDto.getName();
-                    objects[2] = carDto.getPosition();
+                    objects[0] = car.getGameId();
+                    objects[1] = car.getName();
+                    objects[2] = car.getPosition();
                     return objects;
                 })
                 .collect(Collectors.toUnmodifiableList());
