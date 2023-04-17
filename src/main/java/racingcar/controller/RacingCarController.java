@@ -5,17 +5,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.CarFactory;
-import racingcar.domain.Cars;
-import racingcar.dto.GameInfoRequestDto;
-import racingcar.dto.GameResultResponseDto;
+import racingcar.dto.GameInfoRequest;
+import racingcar.dto.GameResultResponse;
 import racingcar.exception.PlayerNumberException;
-import racingcar.genertor.NumberGenerator;
-import racingcar.genertor.RandomNumberGenerator;
+import racingcar.exception.PlayerSizeException;
 import racingcar.service.RacingCarService;
-
-import java.util.Arrays;
-import java.util.List;
 
 @RestController
 public class RacingCarController {
@@ -26,15 +20,9 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResultResponseDto> play(@RequestBody GameInfoRequestDto gameInfoRequestDto) {
-        List<String> carNames = Arrays.asList(gameInfoRequestDto.getNames().split(","));
-        Cars cars = new Cars(CarFactory.buildCars(carNames));
-        NumberGenerator numberGenerator = new RandomNumberGenerator();
-        int count = gameInfoRequestDto.getCount();
-        play(cars, count, numberGenerator);
-        GameResultResponseDto gameResultResponseDto = GameResultResponseDto.createGameResultResponseDto(cars.findWinners(), cars.getCars());
-        racingCarService.saveResult(count, cars);
-        return ResponseEntity.ok().body(gameResultResponseDto);
+    public ResponseEntity<GameResultResponse> play(@RequestBody GameInfoRequest gameInfoRequest) {
+        GameResultResponse gameResultResponse = racingCarService.createResponse(gameInfoRequest);
+        return ResponseEntity.ok().body(gameResultResponse);
     }
 
     @ExceptionHandler({PlayerNumberException.class, PlayerSizeException.class})
