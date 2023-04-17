@@ -9,7 +9,7 @@ public class Car {
 
     public Car(Name name, Engine engine) {
         this.name = name;
-        this.position = new Position();
+        this.position = Position.create();
         this.engine = engine;
     }
 

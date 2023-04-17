@@ -17,7 +17,7 @@ class CarTest {
 
         car.tryMove();
 
-        Position position = new Position();
+        Position position = Position.create();
         position.move();
 
         Assertions.assertThat(car.getPosition())
@@ -31,7 +31,7 @@ class CarTest {
 
         car.tryMove();
 
-        Position position = new Position();
+        Position position = Position.create();
 
         Assertions.assertThat(car.getPosition())
                 .isEqualTo(position.getPosition());
