@@ -7,10 +7,14 @@ public class Car {
     private final Position position;
     private final Engine engine;
 
-    public Car(Name name, Engine engine) {
+    private Car(Name name, Position position, Engine engine) {
         this.name = name;
-        this.position = Position.create();
+        this.position = position;
         this.engine = engine;
+    }
+
+    public static Car of(Name name, Engine engine) {
+        return new Car(name, Position.create(), engine);
     }
 
     public void tryMove() {

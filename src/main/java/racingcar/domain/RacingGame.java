@@ -15,7 +15,7 @@ public class RacingGame {
 
         Engine engine = new RandomMovingEngine();
         List<Car> collect = carNames.stream()
-                .map(name -> new Car(name, engine))
+                .map(name -> Car.of(name, engine))
                 .collect(Collectors.toList());
 
         this.cars = Cars.from(collect);

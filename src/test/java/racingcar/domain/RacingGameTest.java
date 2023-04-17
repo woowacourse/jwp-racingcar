@@ -15,8 +15,8 @@ class RacingGameTest {
     @DisplayName("더 많이 움직인 자동차가 우승자가 된다.")
     @Test
     public void getWinnersTest() {
-        Car car1 = new Car(Name.from("k7"), engine);
-        Car car2 = new Car(Name.from("audi"), engine);
+        Car car1 = Car.of(Name.from("k7"), engine);
+        Car car2 = Car.of(Name.from("audi"), engine);
 
         Cars cars = Cars.from(Arrays.asList(car1, car2));
 
@@ -30,9 +30,9 @@ class RacingGameTest {
     @DisplayName("많이 움직인 자동차가 2개 이상인 경우 공동 우승자가 된다.")
     @Test
     public void getJointWinnersTest() {
-        Car car1 = new Car(Name.from("k7"), engine);
-        Car car2 = new Car(Name.from("audi"), engine);
-        Car car3 = new Car(Name.from("bmw"), engine);
+        Car car1 = Car.of(Name.from("k7"), engine);
+        Car car2 = Car.of(Name.from("audi"), engine);
+        Car car3 = Car.of(Name.from("bmw"), engine);
 
 
         Cars cars = Cars.from(Arrays.asList(car1, car2, car3));
