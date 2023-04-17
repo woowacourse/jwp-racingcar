@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racingcar.dao.entity.Player;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Count;
@@ -38,7 +37,11 @@ public class RacingCarService {
             carsToPlayerDtos(racingCarGame)
         );
 
-        return new ResultResponseDto(getWinners(racingCarGame), carsToPlayers(racingCarGame));
+        return new ResultResponseDto(getWinners(racingCarGame), carsToPlayerDtos(racingCarGame));
+    }
+
+    public List<ResultResponseDto> readGameResultAll() {
+        return racingCarRepository.readGameResultAll();
     }
 
     private List<String> spiteNameWithComma(RacingGameRequestDto racingGameRequestDto) {
@@ -57,11 +60,5 @@ public class RacingCarService {
         return racingCarGame.getCars().getAll().stream()
                 .map(car -> new PlayerDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
-    }
-
-    public List<Player> carsToPlayers(RacingCarGame racingCarGame) {
-        return racingCarGame.getCars().getAll().stream()
-            .map(Player::new)
-            .collect(Collectors.toList());
     }
 }

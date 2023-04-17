@@ -1,14 +1,13 @@
 package racingcar.dto;
 
 import java.util.List;
-import racingcar.dao.entity.Player;
 
 public class ResultResponseDto {
 
     private final String winners;
-    private final List<Player> racingCars;
+    private final List<PlayerDto> racingCars;
 
-    public ResultResponseDto(String winners, List<Player> racingCars) {
+    public ResultResponseDto(String winners, List<PlayerDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
@@ -17,7 +16,7 @@ public class ResultResponseDto {
         return winners;
     }
 
-    public List<Player> getRacingCars() {
+    public List<PlayerDto> getRacingCars() {
         return racingCars;
     }
 }

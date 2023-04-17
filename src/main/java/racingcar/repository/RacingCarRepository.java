@@ -1,7 +1,6 @@
 package racingcar.repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.RacingCarGameDao;
@@ -9,6 +8,7 @@ import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Player;
 import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingGameDto;
+import racingcar.dto.ResultResponseDto;
 
 @Repository
 public class RacingCarRepository {
@@ -28,5 +28,9 @@ public class RacingCarRepository {
                 new Player(playerDto.getName(), playerDto.getPosition(), gameId)
             )
         );
+    }
+
+    public List<ResultResponseDto> readGameResultAll() {
+        return racingCarGameDao.findAll();
     }
 }
