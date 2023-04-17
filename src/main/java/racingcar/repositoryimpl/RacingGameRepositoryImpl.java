@@ -9,7 +9,7 @@ import racingcar.dao.WinnerDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.dao.entity.CarEntity;
-import racingcar.dao.entity.GameEntity;
+import racingcar.dao.entity.InsertGameEntity;
 import racingcar.repository.RacingGameRepository;
 
 @Repository
@@ -26,14 +26,14 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     }
 
     @Override
-    public GameEntity save(final RacingGame racingGame) {
-        final GameEntity gameEntity = gamesDao.insert(GameEntity.fromDomain(racingGame));
+    public InsertGameEntity save(final RacingGame racingGame) {
+        final InsertGameEntity insertGameEntity = gamesDao.insert(InsertGameEntity.fromDomain(racingGame));
         final List<CarEntity> carEntities = fromCarsToEntity(racingGame.findResult());
-        final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities, gameEntity.getGameId());
+        final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities, insertGameEntity.getGameId());
         final List<CarEntity> something = findWinnerCarEntities(savedCarEntities, racingGame.findWinner());
 
-        winnerDao.saveAll(something, gameEntity.getGameId());
-        return gameEntity;
+        winnerDao.saveAll(something, insertGameEntity.getGameId());
+        return insertGameEntity;
     }
 
     private List<CarEntity> findWinnerCarEntities(final List<CarEntity> savedCarEntities, final List<Car> winner) {

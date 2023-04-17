@@ -1,4 +1,4 @@
-package racingcar.repository;
+package racingcar.domain.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -12,10 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dao.WinnerDao;
-import racingcar.domain.RacingGame;
 import racingcar.dao.entity.CarEntity;
-import racingcar.dao.entity.GameEntity;
+import racingcar.dao.entity.InsertGameEntity;
 import racingcar.dao.entity.WinnerEntity;
+import racingcar.domain.RacingGame;
+import racingcar.repository.RepositoryFactory;
 
 @JdbcTest
 @SuppressWarnings("NonAsciiCharacters")
@@ -28,9 +29,9 @@ class WinnerDaoTest {
 
     @Autowired
     void setUp(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
-        final GameEntity gameEntity = new GameEntity(null, new RacingGame(List.of("브리"), 5));
+        final InsertGameEntity insertGameEntity = new InsertGameEntity(null, new RacingGame(List.of("브리"), 5));
 
-        gameId = RepositoryFactory.gamesDao(dataSource).insert(gameEntity).getGameId();
+        gameId = RepositoryFactory.gamesDao(dataSource).insert(insertGameEntity).getGameId();
         carEntity = RepositoryFactory.carDao(dataSource, jdbcTemplate)
                 .insertAll(List.of(new CarEntity("브리", 9)), gameId).get(0);
         winnerDao = RepositoryFactory.winnerDao(dataSource, jdbcTemplate);

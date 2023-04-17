@@ -1,4 +1,4 @@
-package racingcar.repository;
+package racingcar.domain.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -12,9 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dao.CarDao;
-import racingcar.domain.RacingGame;
 import racingcar.dao.entity.CarEntity;
-import racingcar.dao.entity.GameEntity;
+import racingcar.dao.entity.InsertGameEntity;
+import racingcar.domain.RacingGame;
+import racingcar.repository.RepositoryFactory;
 
 @JdbcTest
 @SuppressWarnings("NonAsciiCharacters")
@@ -26,9 +27,9 @@ class CarDaoTest {
 
     @Autowired
     void setUp(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
-        final GameEntity gameEntity = new GameEntity(null, new RacingGame(List.of("브리"), 5));
+        final InsertGameEntity insertGameEntity = new InsertGameEntity(null, new RacingGame(List.of("브리"), 5));
 
-        gameId = RepositoryFactory.gamesDao(dataSource).insert(gameEntity).getGameId();
+        gameId = RepositoryFactory.gamesDao(dataSource).insert(insertGameEntity).getGameId();
         carDao = RepositoryFactory.carDao(dataSource, jdbcTemplate);
     }
 
