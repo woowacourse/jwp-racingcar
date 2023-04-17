@@ -1,9 +1,8 @@
 package racingcar.service;
 
-import racingcar.controller.dto.RacingInfoResponse;
-import racingcar.domain.CarGroup;
+import racingcar.controller.dto.RacingGameResponse;
+import racingcar.domain.Cars;
 
 public interface RacingGameService {
-
-    RacingInfoResponse race(final CarGroup carGroup, final int count);
+    RacingGameResponse race(final Cars cars, final int count);
 }
