@@ -1,4 +1,6 @@
-package racingcar.strategy;
+package racingcar.config;
+
+import racingcar.strategy.MovingStrategy;
 
 public class FixedMovingStrategy implements MovingStrategy {
 
