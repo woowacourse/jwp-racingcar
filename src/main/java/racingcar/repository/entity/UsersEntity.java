@@ -2,11 +2,11 @@ package racingcar.repository.entity;
 
 public class UsersEntity {
 
-    private final long id;
+    private final Long id;
     private final String name;
 
     public UsersEntity(final String name) {
-        this.id = 0;
+        this.id = null;
         this.name = name;
     }
 

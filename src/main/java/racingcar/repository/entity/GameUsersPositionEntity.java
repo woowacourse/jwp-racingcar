@@ -2,13 +2,13 @@ package racingcar.repository.entity;
 
 public class GameUsersPositionEntity {
 
-    private final long id;
-    private final long gameId;
-    private final long usersId;
+    private final Long id;
+    private final Long gameId;
+    private final Long usersId;
     private final int position;
 
     public GameUsersPositionEntity(final long gameId, final long usersId, final int position) {
-        this.id = 0;
+        this.id = null;
         this.gameId = gameId;
         this.usersId = usersId;
         this.position = position;
