@@ -8,7 +8,6 @@ import racingcar.dao.dto.TrackDto;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.car.strategy.MovingStrategy;
-import racingcar.model.car.strategy.RandomMovingStrategy;
 import racingcar.model.track.Track;
 
 import java.util.List;
@@ -17,10 +16,11 @@ import java.util.List;
 public class RacingService {
 
     private final RacingDao racingDao;
-    private final MovingStrategy movingStrategy = new RandomMovingStrategy();
+    private final MovingStrategy movingStrategy;
 
-    public RacingService(final RacingDao racingDao) {
+    public RacingService(final RacingDao racingDao, final MovingStrategy movingStrategy) {
         this.racingDao = racingDao;
+        this.movingStrategy = movingStrategy;
     }
 
     @Transactional
