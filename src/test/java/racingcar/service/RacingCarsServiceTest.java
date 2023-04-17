@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
-import racingcar.RaceDto;
+import racingcar.dto.RaceDto;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -27,7 +27,7 @@ class RacingCarsServiceTest {
     @Test
     void 레이스_진행() {
         final RaceDto result = racingCarsService.race(carsName, count);
-
+        
         assertAll(
                 () -> assertThat(result.getWinners()).hasSize(3),
                 () -> assertThat(result.getCarPositionDtos().get(0).getCarName()).isEqualTo("브리"),
