@@ -3,7 +3,7 @@ package racingcar.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
+import racingcar.dto.ResponseDto;
 import racingcar.model.MoveCount;
 
 import java.util.ArrayList;
@@ -22,19 +22,19 @@ public class RacingGameRepository {
     }
 
     @Transactional
-    public void saveGame(MoveCount moveCount, GameResultDto gameResultDto) {
+    public void saveGame(MoveCount moveCount, List<String> winners, List<CarDto> cars) {
         long gameId = gameDao.insertGame(moveCount);
-        carDao.insert(gameResultDto, gameId);
-        winnerDao.insertWinner(gameResultDto, gameId);
+        carDao.insert(cars, gameId);
+        winnerDao.insertWinner(winners, gameId);
     }
 
-    public List<GameResultDto> selectAllGames() {
-        List<GameResultDto> games = new ArrayList<>();
+    public List<ResponseDto> selectAllGames() {
+        List<ResponseDto> games = new ArrayList<>();
         List<Long> gameIds = gameDao.selectAllGameIds();
         for (Long gameId : gameIds) {
             List<CarDto> carDto = carDao.selectByGameId(gameId);
             List<String> winners = winnerDao.selectByGameId(gameId);
-            games.add(new GameResultDto(winners, carDto));
+            games.add(new ResponseDto(winners, carDto));
         }
         return games;
     }
