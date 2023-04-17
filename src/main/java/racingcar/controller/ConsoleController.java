@@ -6,7 +6,7 @@ import racingcar.util.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class Controller {
+public class ConsoleController {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final NumberGenerator numberGenerator = new RandomNumberGenerator();
