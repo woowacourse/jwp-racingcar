@@ -9,8 +9,8 @@ public class OutputView {
 
     private static final String RESULT_HEADER = "\n실행 결과";
     private static final String WIN_MENTION = "%s가 최종 우승했습니다.%n%n";
-    private static final String STICK = "-";
-    public static final String CAR_RESULT = "%s : %s\n";
+    public static final String CAR_RESULT = "이름: %s, 이동 거리 : %s\n";
+    public static final String RECORD_NAME_FORMAT = "%-5s";
 
     public void result(RecordDto recordDto) {
         System.out.println(RESULT_HEADER);
@@ -25,6 +25,10 @@ public class OutputView {
     }
 
     private String convertResultToString(CarDto car) {
-        return String.format(CAR_RESULT, car.getName(), STICK.repeat(car.getPosition()));
+        return String.format(CAR_RESULT, padRight(car.getName()), car.getPosition());
+    }
+
+    public static String padRight(String s) {
+        return String.format(RECORD_NAME_FORMAT, s);
     }
 }
