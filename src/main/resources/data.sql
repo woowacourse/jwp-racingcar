@@ -13,7 +13,7 @@ CREATE TABLE game
     PRIMARY KEY (id)
 );
 
-CREATE TABLE game_users_position
+CREATE TABLE position
 (
     id       BIGINT NOT NULL AUTO_INCREMENT,
     game_id  BIGINT NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE game_users_position
     PRIMARY KEY (id)
 );
 
-CREATE TABLE game_win_users
+CREATE TABLE winner
 (
     id       BIGINT NOT NULL AUTO_INCREMENT,
     game_id  BIGINT NOT NULL,

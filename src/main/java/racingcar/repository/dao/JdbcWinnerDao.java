@@ -10,32 +10,32 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.repository.entity.GameWinUsersEntity;
+import racingcar.repository.entity.WinnerEntity;
 
 @Repository
-public class JdbcGameWinUsersDao implements GameWinUsersDao {
+public class JdbcWinnerDao implements WinnerDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<GameWinUsersEntity> actorRowMapper = (resultSet, rowNum) -> new GameWinUsersEntity(
+    private final RowMapper<WinnerEntity> actorRowMapper = (resultSet, rowNum) -> new WinnerEntity(
             resultSet.getLong("id"),
             resultSet.getLong("game_id"),
             resultSet.getLong("users_id")
     );
 
     @Autowired
-    public JdbcGameWinUsersDao(final DataSource dataSource) {
+    public JdbcWinnerDao(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public long save(final GameWinUsersEntity gameWinUsersEntity) {
-        final String sql = "INSERT INTO game_win_users (game_id, users_id) VALUES (?, ?)";
+    public long save(final WinnerEntity winnerEntity) {
+        final String sql = "INSERT INTO winner (game_id, users_id) VALUES (?, ?)";
         final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             final PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setLong(1, gameWinUsersEntity.getGameId());
-            preparedStatement.setLong(2, gameWinUsersEntity.getUsersId());
+            preparedStatement.setLong(1, winnerEntity.getGameId());
+            preparedStatement.setLong(2, winnerEntity.getUserId());
             return preparedStatement;
         }, keyHolder);
 
@@ -43,9 +43,9 @@ public class JdbcGameWinUsersDao implements GameWinUsersDao {
     }
 
     @Override
-    public List<GameWinUsersEntity> findByGameId(final long gameId) {
+    public List<WinnerEntity> findByGameId(final long gameId) {
         final String sql = "SELECT id, game_id, users_id "
-                + "FROM game_win_users "
+                + "FROM winner "
                 + "WHERE game_id = ?";
         return jdbcTemplate.query(sql, actorRowMapper, gameId);
     }
