@@ -1,48 +1,76 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+
 class RacingResultTest {
-
-    @DisplayName("최종 우승 자동차 대수가 2대 이상인 경우를 확인한다.")
+    @DisplayName("레이싱 게임 결과를 생성한다.")
     @Test
-    void checkWinner() {
-        //given
-        Map<Name, Position> history = new HashMap<>();
-        history.put(new Name("a"), new Position(4));
-        history.put(new Name("b"), new Position(2));
-        history.put(new Name("c"), new Position(3));
-        history.put(new Name("d"), new Position(4));
-        RacingResult racingResult = new RacingResult(history);
+    void create() {
+        // given
+        final List<Car> cars = List.of(new Car("헤나"), new Car("찰리"));
 
-        //when
-        List<Name> winners = racingResult.pickWinner();
-
-        //then
-        assertThat(winners).containsExactlyInAnyOrderElementsOf(List.of(new Name("a"), new Name("d")));
+        // expect
+        Assertions.assertDoesNotThrow(() -> new RacingResult(cars));
     }
 
-    @DisplayName("최종 우승 자동차 대수가 1대인 경우를 확인한다.")
+    @DisplayName("한 명의 레이싱 게임 승리자를 조회한다.")
     @Test
-    void checkWinnerWhenWinnerIsOnlyOne() {
-        //given
-        Map<Name, Position> history = new HashMap<>();
-        history.put(new Name("a"), new Position(4));
-        history.put(new Name("b"), new Position(2));
-        history.put(new Name("c"), new Position(3));
-        RacingResult racingResult = new RacingResult(history);
+    void pickWinner() {
+        // given
+        final List<Car> cars = List.of(new Car("헤나"));
 
-        //when
-        List<Name> winners = racingResult.pickWinner();
+        // when
+        final RacingResult racingResult = new RacingResult(cars);
+        final List<String> nameValues = racingResult.pickWinner()
+                .stream()
+                .map(Name::getValue)
+                .collect(Collectors.toList());
 
-        //then
-        assertThat(winners).containsExactly(new Name("a"));
+        // then
+        assertThat(nameValues).containsExactly("헤나");
+    }
+
+    @DisplayName("다수의 레이싱 게임 승리자를 조회한다.")
+    @Test
+    void pickMultiWinners() {
+        // given
+        final List<Car> cars = List.of(new Car("헤나"), new Car("찰리"), new Car("저문"));
+
+        // when
+        final RacingResult racingResult = new RacingResult(cars);
+        final List<String> nameValues = racingResult.pickWinner()
+                .stream()
+                .map(Name::getValue)
+                .collect(Collectors.toList());
+
+        // then
+        assertThat(nameValues).containsExactly("헤나", "찰리", "저문");
+    }
+
+    @DisplayName("레이싱 게임 결과 히스토리를 조회한다.")
+    @Test
+    void getHistory() {
+        // given
+        final List<Car> cars = List.of(new Car("헤나"), new Car("찰리"), new Car("저문"));
+
+        // when
+        final RacingResult racingResult = new RacingResult(cars);
+        final LinkedHashMap<Name, Position> history = racingResult.getHistory();
+
+        // then
+        assertThat(history).containsExactly(
+                entry(new Name("헤나"), Position.ZERO),
+                entry(new Name("찰리"), Position.ZERO),
+                entry(new Name("저문"), Position.ZERO)
+        );
     }
 }
