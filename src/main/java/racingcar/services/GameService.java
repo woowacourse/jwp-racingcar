@@ -30,7 +30,7 @@ public class GameService {
         return gameResultDto;
     }
 
-    private RacingGame createRacingGame(GameInformationDto gameInformationDto){
+    private RacingGame createRacingGame(GameInformationDto gameInformationDto) {
         Cars cars = Cars.from(gameInformationDto.getNames());
         MoveCount moveCount = MoveCount.from(gameInformationDto.getCount());
         return new RacingGame(new ThresholdCarMoveManager(), cars, moveCount);

@@ -19,13 +19,10 @@ public class CarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<CarDto> carDtoRowMapper = (resultSet, rowNum) -> {
-        CarDto carDto = new CarDto(
-                resultSet.getString("name"),
-                resultSet.getInt("position")
-        );
-        return carDto;
-    };
+    private final RowMapper<CarDto> carDtoRowMapper = (resultSet, rowNum) -> new CarDto(
+            resultSet.getString("name"),
+            resultSet.getInt("position")
+    );
 
     public void insert(GameResultDto gameResultDto, long gameId) {
         String sql = "INSERT INTO car(game_id, name, position) VALUES (?,?,?)";

@@ -19,7 +19,7 @@ public class ConsoleController {
         this.carMoveManager = carMoveManager;
     }
 
-    public void play(){
+    public void play() {
         RacingGame racingGame = createRacingGame();
         racingGame.play();
         showGameResult(racingGame);
