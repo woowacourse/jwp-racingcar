@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.AlwaysMoveNumberGenerator;
+import racingcar.AlwaysMoveStrategy;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Import(value = AlwaysMoveNumberGenerator.class)
+@Import(value = AlwaysMoveStrategy.class)
 @Transactional
 @SpringBootTest
 class RacingGameServiceTest {

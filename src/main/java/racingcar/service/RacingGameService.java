@@ -1,11 +1,11 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.NumberGenerator;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
+import racingcar.domain.MoveStrategy;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameRequest;
@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 public class RacingGameService {
     private final CarDao carDao;
     private final RacingGameDao racingGameDao;
-    private final NumberGenerator numberGenerator;
+    private final MoveStrategy moveStrategy;
 
-    public RacingGameService(CarDao carDao, RacingGameDao racingGameDao, NumberGenerator numberGenerator) {
+    public RacingGameService(CarDao carDao, RacingGameDao racingGameDao, MoveStrategy moveStrategy) {
         this.carDao = carDao;
         this.racingGameDao = racingGameDao;
-        this.numberGenerator = numberGenerator;
+        this.moveStrategy = moveStrategy;
     }
 
     public RacingGameResponse play(RacingGameRequest racingGameRequest) {
@@ -46,7 +46,7 @@ public class RacingGameService {
         Cars cars = new Cars(racingGameRequest.getNamesList().stream()
                 .map(Car::new)
                 .collect(Collectors.toList()));
-        return new RacingGame(numberGenerator, racingGameRequest.getCount(), cars);
+        return new RacingGame(moveStrategy, racingGameRequest.getCount(), cars);
     }
 
     private void saveGame(RacingGameRequest racingGameRequest, RacingGameResponse result) {

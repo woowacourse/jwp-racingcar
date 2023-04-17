@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.AlwaysMoveNumberGenerator;
+import racingcar.AlwaysMoveStrategy;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.dto.CarDto;
@@ -22,7 +22,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-@Import(value = AlwaysMoveNumberGenerator.class)
+@Import(value = AlwaysMoveStrategy.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class RacingGameControllerTest {
 
