@@ -27,9 +27,9 @@ public class RacingService {
     public Cars play(final String names, final String trialTimes) {
         final Cars cars = makeCars(names, movingStrategy);
         final Track track = makeTrack(cars, trialTimes);
-        final Cars finishedCars = startRace(track);
-
         final Integer trackId = saveTrack(track);
+
+        final Cars finishedCars = startRace(track);
         saveCars(trackId, finishedCars);
 
         return finishedCars;
@@ -52,6 +52,7 @@ public class RacingService {
     }
 
     private Integer saveTrack(final Track track) {
+        System.out.println(track.getTrialTimes());
         return racingDao.save(new TrackDto(track.getTrialTimes()));
     }
 
