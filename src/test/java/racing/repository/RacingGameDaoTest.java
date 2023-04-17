@@ -2,6 +2,7 @@ package racing.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Comparator;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,17 +10,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import racing.domain.Car;
 import racing.domain.CarName;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@Import(RacingGameDao.class)
+@JdbcTest
 class RacingGameDaoTest {
 
     @Autowired
@@ -37,7 +37,7 @@ class RacingGameDaoTest {
     private void createGameTable() {
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS games (" +
                 "game_id bigint NOT NULL AUTO_INCREMENT, " +
-                "count int(3) NOT NULL," +
+                "count int NOT NULL," +
                 "create_time timestamp NOT NULL," +
                 "PRIMARY KEY (game_id)" +
                 ");");
@@ -47,7 +47,7 @@ class RacingGameDaoTest {
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS cars (" +
                 "car_id bigint NOT NULL AUTO_INCREMENT," +
                 "car_name VARCHAR(8) NOT NULL," +
-                "step int(3) NOT NULL," +
+                "step int NOT NULL," +
                 "winner boolean default false," +
                 "game_id bigint not null," +
                 "PRIMARY KEY (car_id)" +
@@ -56,6 +56,7 @@ class RacingGameDaoTest {
 
     @BeforeEach
     void setUp() {
+//        racingGameDao = new RacingGameDao(jdbcTemplate);
         jdbcTemplate.execute("DELETE FROM games");
         jdbcTemplate.execute("DELETE FROM cars");
     }
@@ -90,14 +91,33 @@ class RacingGameDaoTest {
 
     @DisplayName("저장시간을 기준으로 최신순으로 게임 Id 조회")
     @Test
-    void findAllGameIdOrderByRecentTest() {
+    void findAllGameIdOrderByRecentTest() throws InterruptedException {
         int gameAmount = 4;
         for (int i = 0; i < gameAmount; i++) {
+            Thread.sleep(100); // 동시간대에 저장되어 TIMESTAMP에 동일한 값이 들어가는 경우를 방지
             racingGameDao.saveGame(1);
         }
 
         List<Long> allGameIds = racingGameDao.findAllGameIdOrderByRecent();
         assertThat(allGameIds).hasSize(gameAmount);
-        assertThat(allGameIds).containsExactlyInAnyOrder(4L, 3L, 2L, 1L);
+        assertThat(allGameIds).isSortedAccordingTo(Comparator.reverseOrder());
+    }
+
+    @DisplayName("모든 자동차 조회")
+    @Test
+    void findAllCarsTest() {
+        Car carA = new Car(new CarName("CarA"), 5);
+        Car carB = new Car(new CarName("CarB"), 3);
+        Long gameId = 1L;
+        List<CarEntity> carEntities = List.of(
+                CarEntity.of(gameId, carA, true),
+                CarEntity.of(gameId, carB, true)
+        );
+        racingGameDao.saveCar(carEntities);
+
+        List<CarEntity> findAllCars = racingGameDao.findAllCars();
+        assertThat(findAllCars).hasSize(2);
+        assertThat(findAllCars).extracting("carName")
+                .contains("CarA", "CarB");
     }
 }

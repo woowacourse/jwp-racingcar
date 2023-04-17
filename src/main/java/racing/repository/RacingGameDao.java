@@ -59,8 +59,23 @@ public class RacingGameDao {
     }
 
     public List<Long> findAllGameIdOrderByRecent() {
-        String findGameById = "SELECT game_id FROM games AS g ORDER BY g.create_time DESC ";
+        String findAllGamesOrderByRecentQuery = "SELECT game_id FROM games AS g ORDER BY g.create_time DESC";
 
-        return jdbcTemplate.query(findGameById, (rs, rowNum) -> rs.getLong("game_id"));
+        return jdbcTemplate.query(findAllGamesOrderByRecentQuery, (rs, rowNum) -> rs.getLong("game_id"));
+    }
+
+    public List<CarEntity> findAllCars() {
+        String findGameById = "SELECT * FROM cars";
+
+        return jdbcTemplate.query(findGameById, (rs, rowNum) -> {
+
+            String carName = rs.getString("car_name");
+            int step = rs.getInt("step");
+            boolean winner = rs.getBoolean("winner");
+            Long gameId = rs.getLong("game_id");
+
+            return CarEntity.of(gameId, carName, step, winner);
+        });
+
     }
 }

@@ -19,6 +19,10 @@ public class CarEntity {
         return new CarEntity(gameId, car.getName(), car.getStep(), isWinner);
     }
 
+    public static CarEntity of(Long gameId, String carName, int step, boolean isWinner) {
+        return new CarEntity(gameId, carName, step, isWinner);
+    }
+
     public Long getGameId() {
         return gameId;
     }
