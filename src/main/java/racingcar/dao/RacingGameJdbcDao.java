@@ -45,7 +45,7 @@ public class RacingGameJdbcDao implements RacingGameDao {
                     String winners = resultSet.getString("winners");
                     List<CarDto> racingCars = carDao.findCarsByGameId(gameId);
 
-                    return new RacingGameResponse(winners, racingCars);
+                    return RacingGameResponse.of(winners, racingCars);
 
                 });
     }

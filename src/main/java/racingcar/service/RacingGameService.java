@@ -14,8 +14,6 @@ import racingcar.dto.RacingGameResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.joining;
-
 @Service
 public class RacingGameService {
     private final CarDao carDao;
@@ -62,13 +60,7 @@ public class RacingGameService {
         List<CarDto> racingCars = cars.getCars().stream()
                 .map(CarDto::from)
                 .collect(Collectors.toList());
-        return new RacingGameResponse(getWinnerNames(winners), racingCars);
-    }
-
-    private String getWinnerNames(List<Car> winners) {
-        return winners.stream()
-                .map(Car::getName)
-                .collect(joining(","));
+        return RacingGameResponse.of(winners, racingCars);
     }
 
     public List<RacingGameResponse> getHistory() {

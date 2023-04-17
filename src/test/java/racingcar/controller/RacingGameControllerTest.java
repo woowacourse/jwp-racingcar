@@ -52,7 +52,7 @@ class RacingGameControllerTest {
     void playGame_success() {
         String names = "브리,토미,브라운";
         RacingGameRequest request = new RacingGameRequest(names, 10);
-        RacingGameResponse response = new RacingGameResponse(names, null);
+        RacingGameResponse response = RacingGameResponse.of(names, null);
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
