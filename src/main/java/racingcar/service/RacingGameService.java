@@ -45,4 +45,10 @@ public class RacingGameService {
 
         return GamePlayResponseDto.of(game.findWinners(), game.getCars());
     }
+
+    @Transactional
+    public List<GamePlayResponseDto> findAll() {
+        final List<CarEntity> result = carDao.findAll();
+        return racingGameMapper.toGamePlayResponseDtos(result);
+    }
 }
