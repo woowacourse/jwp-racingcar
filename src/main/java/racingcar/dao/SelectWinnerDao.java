@@ -9,9 +9,9 @@ public class SelectWinnerDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<WinnerEntity> actionRowMapper = (resultSet, rowNum) -> new WinnerEntity(
-            resultSet.getInt("winner_id"),
             resultSet.getInt("game_id"),
-            resultSet.getInt("car_id")
+            resultSet.getInt("car_id"),
+            resultSet.getInt("winner_id")
     );
 
     public SelectWinnerDao(final JdbcTemplate jdbcTemplate) {
