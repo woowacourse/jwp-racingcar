@@ -18,7 +18,7 @@ public class PlayerResultDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int returnTableIdAfterInsert(int count, List<Car> winners) {
+    public int returnPlayResultIdAfterInsert(int count, List<Car> winners) {
         String sql = "insert into play_result (count, winners) values (?, ?)";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {

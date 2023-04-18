@@ -42,8 +42,8 @@ public class RacingCarService {
             cars.moveCars(numberGenerator);
         }
     }
-    public void saveResult(int trialCount, Cars cars){
-        int playerResultId = playerResultDAO.returnTableIdAfterInsert(trialCount, cars.findWinners());
+    private void saveResult(int trialCount, Cars cars){
+        int playerResultId = playerResultDAO.returnPlayResultIdAfterInsert(trialCount, cars.findWinners());
         playersInfoDAO.insert(playerResultId, cars.getCars());
     }
 }
