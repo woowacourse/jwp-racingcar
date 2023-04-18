@@ -56,10 +56,10 @@ public class RacingCarService {
     }
 
     public List<RacingResultResponse> searchGameHistory() {
-        Map<Integer, List<RacingCarDto>> playerHistory = racingCarRepository.findRacingCars();
+        Map<Integer, List<RacingCarDto>> racingCars = racingCarRepository.findRacingCars();
         Map<Integer, List<String>> winners = racingCarRepository.findWinners();
         List<RacingResultResponse> racingResultResponses = new ArrayList<>();
-        playerHistory.keySet().forEach(gameId -> racingResultResponses.add(new RacingResultResponse(winners.get(gameId),playerHistory.get(gameId))));
+        racingCars.keySet().forEach(gameId -> racingResultResponses.add(new RacingResultResponse(winners.get(gameId),racingCars.get(gameId))));
         return racingResultResponses;
     }
 }

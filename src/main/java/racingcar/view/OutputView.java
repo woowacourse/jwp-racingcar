@@ -26,7 +26,14 @@ public class OutputView {
 		System.out.println(ROUND_RESULT_MSG);
 	}
 
-	public static void printRoundState(List<Car> cars) {
+	public static void printRacingResult(List<Car> cars, List<String> winners) {
+		printRoundState(cars);
+		String winnersFormat = winners.stream()
+				.collect(Collectors.joining(WINNERS_DELIMITER));
+		System.out.println(winnersFormat + RACING_RESULT_SUFFIX);
+	}
+
+	private static void printRoundState(List<Car> cars) {
 		String racingState = cars.stream()
 				.map(OutputView::formatCarState)
 				.collect(Collectors.joining(CAR_DELIMITER));
@@ -37,11 +44,5 @@ public class OutputView {
 		StringBuilder sb = new StringBuilder(car.getName() + " : -");
 		sb.append(POSITION_DELIMITER.repeat(Math.max(0, car.getPosition())));
 		return sb.toString();
-	}
-
-	public static void printRacingResult(List<String> winners) {
-		String winnersFormat = winners.stream()
-				.collect(Collectors.joining(WINNERS_DELIMITER));
-		System.out.println(winnersFormat + RACING_RESULT_SUFFIX);
 	}
 }

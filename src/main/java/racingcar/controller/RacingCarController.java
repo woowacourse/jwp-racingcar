@@ -22,44 +22,35 @@ public class RacingCarController {
     }
 
     public void run() {
-        List<String> carNames = createRacingCars();
-        int roundCount = createRoundCount();
+        List<String> carNames = inputCarNames();
+        int roundCount = inputRoundCount();
         startRound(carNames, roundCount);
-    }
-
-    private List<String> createRacingCars() {
-        try {
-            return inputCarNames();
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return createRacingCars();
-        }
     }
 
     private List<String> inputCarNames() {
         OutputView.printCarNameRequestMsg();
-        return InputView.readCarNames();
-    }
-
-    private int createRoundCount() {
         try {
-            return inputRoundCount();
-        } catch (Exception e) {
+            return InputView.readCarNames();
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return createRoundCount();
+            return inputCarNames();
         }
     }
 
     private int inputRoundCount() {
         OutputView.printRoundCountRequestMsg();
-        return InputView.readRoundCount();
+        try {
+            return InputView.readRoundCount();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return inputRoundCount();
+        }
     }
 
     private void startRound(List<String> carNames, int roundCount) {
         OutputView.printRoundResultMsg();
         RacingCars racingCars = racingCarService.createRacingCars(carNames);
         racingCarService.moveCars(racingCars, roundCount);
-        OutputView.printRoundState(racingCars.getCars());
-        OutputView.printRacingResult(racingCars.getWinners());
+        OutputView.printRacingResult(racingCars.getCars(), racingCars.getWinners());
     }
 }
