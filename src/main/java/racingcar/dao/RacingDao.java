@@ -3,6 +3,7 @@ package racingcar.dao;
 import java.util.List;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
+import racingcar.model.car.Cars;
 
 public interface RacingDao {
 
@@ -14,5 +15,5 @@ public interface RacingDao {
 
     List<Integer> findAllTrackIds();
 
-    List<CarDto> findAllCarsByTrackId(int trackId);
+    Cars findAllCarsByTrackId(int trackId);
 }

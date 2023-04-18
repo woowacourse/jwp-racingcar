@@ -3,6 +3,7 @@ package racingcar.dao;
 import java.util.List;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
+import racingcar.model.car.Cars;
 
 public class RacingConsoleDao implements RacingDao {
     @Override
@@ -26,7 +27,7 @@ public class RacingConsoleDao implements RacingDao {
     }
 
     @Override
-    public List<CarDto> findAllCarsByTrackId(int trackId) {
+    public Cars findAllCarsByTrackId(int trackId) {
         return null;
     }
 }

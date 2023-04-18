@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,6 +10,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
+import racingcar.model.car.Car;
+import racingcar.model.car.Cars;
 
 @Repository
 public class RacingWebDao implements RacingDao {
@@ -65,8 +68,14 @@ public class RacingWebDao implements RacingDao {
         return jdbcTemplate.query(query, (rs, rowNum) -> rs.getInt("id"));
     }
 
-    public List<CarDto> findAllCarsByTrackId(int trackId) {
+    public Cars findAllCarsByTrackId(int trackId) {
         String query = "SELECT * FROM CAR WHERE track_id = ?";
-        return jdbcTemplate.query(query, actorRowMapper, trackId);
+        List<CarDto> carDtos = jdbcTemplate.query(query, actorRowMapper, trackId);
+
+        List<Car> cars = new ArrayList<>();
+        for (CarDto carDto : carDtos) {
+            cars.add(new Car(carDto.getName(), carDto.getPosition()));
+        }
+        return new Cars(cars);
     }
 }

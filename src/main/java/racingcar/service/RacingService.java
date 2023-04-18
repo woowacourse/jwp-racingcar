@@ -34,7 +34,7 @@ public class RacingService {
 
         final Cars finishedCars = startRace(track);
         saveCars(trackId, finishedCars);
-        return TrackResponse.of(finishedCars);
+        return new TrackResponse(makeWinnerCarNames(finishedCars), makeCarResponses(finishedCars));
     }
 
     private Cars makeCars(final String name, final MovingStrategy movingStrategy) {
@@ -72,16 +72,23 @@ public class RacingService {
 
         List<Integer> trackIds = racingDao.findAllTrackIds();
         for (Integer trackId : trackIds) {
-            List<CarDto> carDtos = racingDao.findAllCarsByTrackId(trackId);
-            String winners = carDtos.stream()
-                    .filter(carDto -> carDto.getIsWinner() == true)
-                    .map(CarDto::getName)
-                    .collect(Collectors.joining(","));
-            List<CarResponse> carResponses = carDtos.stream()
-                    .map(caaDto -> new CarResponse(caaDto.getName(), caaDto.getPosition()))
-                    .collect(Collectors.toList());
+            Cars cars = racingDao.findAllCarsByTrackId(trackId);
+            String winners = makeWinnerCarNames(cars);
+            List<CarResponse> carResponses = makeCarResponses(cars);
             trackResponses.add(new TrackResponse(winners, carResponses));
         }
         return trackResponses;
+    }
+
+    private static String makeWinnerCarNames(final Cars finishedCars) {
+        return finishedCars.getWinnerCars().stream()
+                .map(Car::getCarName)
+                .collect(Collectors.joining(", "));
+    }
+
+    private static List<CarResponse> makeCarResponses(final Cars finishedCars) {
+        return finishedCars.getCarsCurrentInfo().stream()
+                .map(car -> new CarResponse(car.getCarName(), car.getPosition()))
+                .collect(Collectors.toList());
     }
 }
