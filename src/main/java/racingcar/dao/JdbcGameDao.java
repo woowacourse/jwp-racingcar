@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class JdbcGameDao implements GameDao {
@@ -30,9 +31,9 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public int findLastId() {
+    public Optional<Integer> findLastId() {
         String sql = "SELECT MAX(game_id) FROM GAME";
-        return jdbcTemplate.queryForObject(sql, Integer.class);
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, Integer.class));
     }
 
     @Override
