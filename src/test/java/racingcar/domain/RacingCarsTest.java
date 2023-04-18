@@ -14,26 +14,26 @@ class RacingCarsTest {
     @Test
     void 경주참여_자동차들_생성() {
         final List<String> carNames = new ArrayList<>(List.of("자동차1", "자동차2"));
-        final RacingCars racingCars = new RacingCars(carNames);
+        final RacingCars racingCars = new RacingCars(new RacingCarNames(carNames).createCars());
 
         assertThat(racingCars.racingCars()).hasSize(carNames.size());
     }
 
     @Test
     void 경주참여_자동차들_생성_중복이름_예외_테스트() {
-        assertThatThrownBy(() -> new RacingCars(List.of("자동차", "자동차")))
+        assertThatThrownBy(() -> new RacingCars(new RacingCarNames(List.of("자동차", "자동차")).createCars()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 경주참여_자동차들_생성_차량개수_예외_테스트() {
-        assertThatThrownBy(() -> new RacingCars(List.of("자동차")))
+        assertThatThrownBy(() -> new RacingCars(new RacingCarNames(List.of("자동차")).createCars()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 값에_따른_1회_경주_테스트() {
-        final RacingCars racingCars = new RacingCars(List.of("a", "b", "c"));
+        final RacingCars racingCars = new RacingCars(new RacingCarNames(List.of("a", "b", "c")).createCars());
 
         racingCars.process(new TestNumberGenerator(new LinkedList<>(List.of(0, 3, 4))));
 
@@ -45,7 +45,7 @@ class RacingCarsTest {
 
     @Test
     void 우승자_산출_테스트() {
-        final RacingCars racingCars = new RacingCars(List.of("a", "b", "c"));
+        final RacingCars racingCars = new RacingCars(new RacingCarNames(List.of("a", "b", "c")).createCars());
 
         racingCars.process(new TestNumberGenerator(new LinkedList<>(List.of(0, 4, 9))));
 

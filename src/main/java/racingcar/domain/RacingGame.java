@@ -12,8 +12,8 @@ public class RacingGame {
     private final NumberGenerator powerValueGenerator = new RandomNumberGenerator(POWER_VALUE_MIN, POWER_VALUE_MAX);
     private RacingCars racingCars;
 
-    public List<JudgedCarDto> play(final int racingCount, final List<String> carNames) {
-        racingCars = new RacingCars(carNames);
+    public List<JudgedCarDto> play(final int racingCount, final RacingCarNames carNames) {
+        racingCars = new RacingCars(carNames.createCars());
         race(racingCount);
         return getJudgedCars();
     }

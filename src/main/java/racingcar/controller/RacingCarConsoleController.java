@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import java.util.List;
+import racingcar.domain.RacingCarNames;
 import racingcar.domain.RacingGame;
 import racingcar.dto.JudgedCarDto;
 import racingcar.dto.PlayResponseDtoConverter;
@@ -16,7 +17,7 @@ public class RacingCarConsoleController {
         final List<String> carNames = inputView.askCarNames();
         final int racingCount = inputView.askRacingCount();
 
-        final List<JudgedCarDto> judgedCars = new RacingGame().play(racingCount, carNames);
+        final List<JudgedCarDto> judgedCars = new RacingGame().play(racingCount, new RacingCarNames(carNames));
 
         outputView.printPlayResult(PlayResponseDtoConverter.from(judgedCars));
     }

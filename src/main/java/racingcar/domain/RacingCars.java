@@ -2,7 +2,6 @@ package racingcar.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,20 +10,8 @@ public class RacingCars {
     private static final int SORTED_CARS_HEAD_INDEX = 0;
     private final List<Car> racingCars;
 
-    public RacingCars(List<String> carNames) {
-        validateCarNames(carNames);
-        racingCars = carNames.stream()
-                .map(Car::new)
-                .collect(Collectors.toList());
-    }
-
-    private void validateCarNames(final List<String> carNames) {
-        if (carNames.size() != new HashSet<>(carNames).size()) {
-            throw new IllegalArgumentException("중복된 차량 이름이 존재합니다.");
-        }
-        if (carNames.size() == 1) {
-            throw new IllegalArgumentException("차량이 둘 이상이어야 경주를 진행할 수 있습니다.");
-        }
+    public RacingCars(final List<Car> racingCars) {
+        this.racingCars = racingCars;
     }
 
     public void process(final NumberGenerator powerValueGenerator) {

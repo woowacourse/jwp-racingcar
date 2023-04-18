@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarsDao;
 import racingcar.dao.PlayRecordsDao;
+import racingcar.domain.RacingCarNames;
 import racingcar.domain.RacingGame;
 import racingcar.dto.JudgedCarDto;
 import racingcar.dto.PlayResponseDto;
@@ -25,7 +26,7 @@ public class RacingCarService {
     }
 
     @Transactional
-    public PlayResponseDto playGame(final int count, final List<String> carNames) {
+    public PlayResponseDto playGame(final int count, final RacingCarNames carNames) {
         final List<JudgedCarDto> judgedCars = new RacingGame().play(count, carNames);
         saveGame(count, judgedCars);
         return PlayResponseDtoConverter.from(judgedCars);
