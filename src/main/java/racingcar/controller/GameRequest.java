@@ -2,10 +2,12 @@ package racingcar.controller;
 
 public class GameRequest {
 
-    private String names;
-    private int count;
+    private final String names;
+    private final int count;
 
-    private GameRequest() {
+    public GameRequest(final String names, final int count) {
+        this.names = names;
+        this.count = count;
     }
 
     public String getNames() {
