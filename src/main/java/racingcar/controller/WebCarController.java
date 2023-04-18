@@ -11,11 +11,11 @@ import racingcar.service.CarService;
 import java.util.List;
 
 @RestController
-public class CarController {
+public class WebCarController {
 
     private final CarService carService;
 
-    public CarController(final CarService carService) {
+    public WebCarController(final CarService carService) {
         this.carService = carService;
     }
 
