@@ -5,10 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,28 +22,43 @@ import java.util.stream.Stream;
 @TestPropertySource(locations = "/application.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Transactional
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RecordDaoTest {
 
-    @Autowired
-    private RecordDao recordDao;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @Autowired private RecordDao recordDao;
+    @Autowired private JdbcTemplate jdbcTemplate;
 
-    @BeforeAll
-    void beforeAll() {
-        recordDao = new RecordDao(jdbcTemplate);
+    @BeforeEach
+    void beforeEach() {
+        jdbcTemplate.execute("DROP TABLE IF EXISTS record;\n" +
+                "DROP TABLE IF EXISTS game;\n" +
+                "\n" +
+                "CREATE TABLE game\n" +
+                "(\n" +
+                "    id          int PRIMARY KEY AUTO_INCREMENT      NOT NULL,\n" +
+                "    trial_count int                                 NOT NULL,\n" +
+                "    game_date   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n" +
+                ");\n" +
+                "\n" +
+                "CREATE TABLE record\n" +
+                "(\n" +
+                "    game_id     int         NOT NULL,\n" +
+                "    position    int         NOT NULL,\n" +
+                "    is_winner   boolean     NOT NULL,\n" +
+                "    player_name varchar(30) NOT NULL,\n" +
+                "    PRIMARY KEY (game_id, player_name),\n" +
+                "    FOREIGN KEY (game_id) REFERENCES game (id)\n" +
+                ");\n");
 
-        initGameTable();
-        initRecordTable();
+        initGameTableData();
+        initRecordTableData();
     }
 
-    private void initGameTable() {
+    private void initGameTableData() {
         List<Object[]> trialCounts = Arrays.asList(new String[]{"10"}, new String[]{"20"});
         jdbcTemplate.batchUpdate("INSERT INTO game(trial_count) VALUES (?)", trialCounts);
     }
 
-    private void initRecordTable() {
+    private void initRecordTableData() {
         List<Object[]> records = Stream.of(
                 new Object[]{1, 5, false, "doggy"},
                 new Object[]{1, 7, true, "power"},
