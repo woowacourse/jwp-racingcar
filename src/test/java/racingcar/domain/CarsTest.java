@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 
 class CarsTest {
 
-    private final List<String> dummy = List.of("포르쉐", "현대차", "기아");
+    private final String carNames = "포르쉐,현대차,기아";
 
     @Test
     @DisplayName("moveAll 메소드를 호출하면 Car의 Position이 1 증가한다.")
     void moveAllTest() {
-        Cars cars = new Cars(dummy);
+        Cars cars = Cars.from(carNames);
 
         cars.moveAll(new AlwaysMoveGenerator());
 
@@ -28,7 +28,7 @@ class CarsTest {
     @Test
     @DisplayName("moveAll 메소드를 호출해도 Car의 Position이 증가하지 않는다.")
     void notMoveAllTest() {
-        Cars cars = new Cars(dummy);
+        Cars cars = Cars.from(carNames);
 
         cars.moveAll(new NeverMoveGenerator());
 
@@ -40,17 +40,12 @@ class CarsTest {
     }
 
     @Test
-    @DisplayName("dicideWinners 메소드를 호출하면 우승자의 이름 목록을 반환한다.")
-    void decideWinners() {
-        Cars cars = new Cars(dummy);
-
+    @DisplayName("포지션이 가장 큰 자동차들을 반환한다.")
+    void maxPositionCars() {
+        Cars cars = Cars.from(carNames);
         cars.moveAll(new AlwaysMoveGenerator());
-
-        List<String> carNames = cars.getUnmodifiableCars().stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
-
-        Assertions.assertThat(carNames).containsAll(dummy);
+        List<Car> maxPositionCars = cars.getMaxPositionCars();
+        Assertions.assertThat(maxPositionCars).isEqualTo(cars.getUnmodifiableCars());
     }
 
     private static class AlwaysMoveGenerator implements RandomNumberGenerator {

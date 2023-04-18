@@ -12,13 +12,12 @@ public class CarResponse {
         this.position = position;
     }
 
-    public CarResponse(final Car car) {
-        this(car.getName(), car.getPosition());
+    public static CarResponse fromCar(final Car car) {
+        return new CarResponse(car.getName(), car.getPosition());
     }
 
-    // TODO 생성 방식 변경 필요, car로만 생성 or carResult로만 생성?
-    public CarResponse(final CarResult carResult) {
-        this(carResult.getName(), carResult.getPosition());
+    public static CarResponse fromCarResult(final CarResult carResult) {
+        return new CarResponse(carResult.getName(), carResult.getPosition());
     }
 
     public String getName() {

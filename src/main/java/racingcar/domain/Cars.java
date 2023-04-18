@@ -1,9 +1,6 @@
 package racingcar.domain;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Cars {
@@ -11,12 +8,17 @@ public class Cars {
     private static final int MAX_SIZE = 20;
     private final List<Car> cars;
 
-    public Cars(final List<String> cars) {
+    private Cars(final List<String> cars) {
         validateCars(cars);
         validateSize(cars);
         this.cars = cars.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
+    }
+
+    public static Cars from(final String carNames) {
+        return new Cars(Arrays.stream(carNames.split(","))
+                .collect(Collectors.toList()));
     }
 
     private void validateCars(final List<String> cars) {
@@ -52,7 +54,7 @@ public class Cars {
         }
     }
 
-    public List<Car> decideWinners() {
+    public List<Car> getMaxPositionCars() {
         int maxPosition = this.calculateMaxPosition();
 
         return cars.stream()

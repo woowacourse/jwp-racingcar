@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 
 class RacingGameTest {
 
-    private final List<String> carNames = List.of("박스터", "포르쉐", "소나타");
+    private final String carNames = "박스터,포르쉐,소나타";
 
     @Test
     @DisplayName("play 메소드를 호출하면 모든 자동차의 position이 1 증가한다.")
     void play_with_always_move() {
         int tryCount = 1;
 
-        RacingGame game = new RacingGame(new AlwaysMoveGenerator(), new Cars(carNames), tryCount);
+        RacingGame game = new RacingGame(new AlwaysMoveGenerator(), Cars.from(carNames), tryCount);
         game.play();
 
         Cars result = game.getCars();
@@ -33,7 +33,7 @@ class RacingGameTest {
     void play_with_always_stop() {
         int tryCount = 1;
 
-        RacingGame game = new RacingGame(new NeverMoveGenerator(), new Cars(carNames), tryCount);
+        RacingGame game = new RacingGame(new NeverMoveGenerator(), Cars.from(carNames), tryCount);
         game.play();
 
         Cars result = game.getCars();
