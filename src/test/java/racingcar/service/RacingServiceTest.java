@@ -4,9 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.controller.CarResponse;
-import racingcar.controller.TrackRequest;
-import racingcar.controller.TrackResponse;
+import racingcar.controller.dto.CarResponse;
+import racingcar.controller.dto.TrackRequest;
+import racingcar.controller.dto.TrackResponse;
 
 import java.util.List;
 

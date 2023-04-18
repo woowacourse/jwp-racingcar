@@ -2,9 +2,9 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.controller.CarResponse;
-import racingcar.controller.TrackRequest;
-import racingcar.controller.TrackResponse;
+import racingcar.controller.dto.CarResponse;
+import racingcar.controller.dto.TrackRequest;
+import racingcar.controller.dto.TrackResponse;
 import racingcar.dao.RacingDao;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
