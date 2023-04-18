@@ -44,7 +44,7 @@ public class GameService {
         return PlayResponse.from(cars);
     }
 
-    public void saveResults(final long gameId, final Cars cars) {
+    private void saveResults(final long gameId, final Cars cars) {
         List<String> winnerNames = cars.winnerNames();
 
         for (final Car car : cars.getCars()) {
