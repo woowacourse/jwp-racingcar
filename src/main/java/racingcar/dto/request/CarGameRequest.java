@@ -12,7 +12,7 @@ public class CarGameRequest {
 
     @Positive
     private final Integer count;
-
+    
     public CarGameRequest(String names, Integer count) {
         this.names = trimName(names);
         this.count = count;

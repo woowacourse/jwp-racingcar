@@ -12,15 +12,15 @@ import javax.sql.DataSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-class PlayResultMapperTest {
+class H2PlayResultMapperTest {
 
-    private final PlayResultMapper mapper;
+    private final H2PlayResultMapper mapper;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    PlayResultMapperTest(DataSource dataSource) {
+    H2PlayResultMapperTest(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.mapper = new PlayResultMapper(dataSource);
+        this.mapper = new H2PlayResultMapper(dataSource);
     }
 
     @BeforeEach

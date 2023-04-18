@@ -1,27 +1,26 @@
 package racingcar.controller;
 
-import org.springframework.stereotype.Component;
 import racingcar.dto.request.CarGameRequest;
+import racingcar.dto.response.CarGameResponse;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-@Component
 public class ConsoleRacingGameController {
 
-    private final RacingGameService racingGame;
+    private final RacingGameService service;
 
-    public ConsoleRacingGameController(RacingGameService racingGame) {
-        this.racingGame = racingGame;
+    public ConsoleRacingGameController(RacingGameService service) {
+        this.service = service;
     }
 
     public void run() {
         OutputView.printBeforeRacing();
-
         String carNames = InputView.inputCarNames();
         int tryCount = InputView.inputTryCount();
-        CarGameRequest request = new CarGameRequest(carNames, tryCount);
 
-        OutputView.printResult(racingGame.play(request));
+        CarGameRequest request = new CarGameRequest(carNames, tryCount);
+        CarGameResponse response = service.play(request);
+        OutputView.printResult(response);
     }
 }

@@ -13,19 +13,19 @@ import javax.sql.DataSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-class CarResultMapperTest {
+class H2CarResultMapperTest {
 
-    private final PlayResultMapper playResultMapper;
-    private final CarResultMapper carResultMapper;
+    private final H2PlayResultMapper h2PlayResultMapper;
+    private final H2CarResultMapper h2CarResultMapper;
     private final JdbcTemplate jdbcTemplate;
     private final DataSource dataSource;
 
     @Autowired
-    CarResultMapperTest(DataSource dataSource) {
+    H2CarResultMapperTest(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.playResultMapper = new PlayResultMapper(dataSource);
-        this.carResultMapper = new CarResultMapper(dataSource);
+        this.h2PlayResultMapper = new H2PlayResultMapper(dataSource);
+        this.h2CarResultMapper = new H2CarResultMapper(dataSource);
     }
 
     @BeforeEach
@@ -44,10 +44,10 @@ class CarResultMapperTest {
     @Test
     void 자동차_기록_저장_조회_테스트() {
         PlayResultEntity playResultEntity = PlayResultEntity.of(0, 10, "juno", null);
-        long playResultId = playResultMapper.save(playResultEntity);
+        long playResultId = h2PlayResultMapper.save(playResultEntity);
         CarResultEntity carResultEntity = CarResultEntity.of(0, playResultId, "juno", 3);
-        long carId = carResultMapper.save(carResultEntity);
-        CarResultEntity result = carResultMapper.findById(carId);
+        long carId = h2CarResultMapper.save(carResultEntity);
+        CarResultEntity result = h2CarResultMapper.findById(carId);
         System.out.println(result);
         assertThat(result).isNotNull();
     }

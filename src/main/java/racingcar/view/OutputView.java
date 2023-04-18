@@ -14,7 +14,7 @@ public class OutputView {
 
     public static void printResult(final CarGameResponse response) {
         System.out.println("우승자 : " + response.getWinners());
-        System.out.println("결과 : ");
+        System.out.println("[ 결과 ]");
         for (CarResponse racingCar : response.getRacingCars()) {
             System.out.print("이름 : " + racingCar.getName());
             System.out.println(", 위치 : " + racingCar.getPosition());

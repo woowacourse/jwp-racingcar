@@ -10,8 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.RandomNumberGenerator;
 import racingcar.dto.request.CarGameRequest;
 import racingcar.dto.response.CarGameResponse;
-import racingcar.mapper.CarResultMapper;
-import racingcar.mapper.PlayResultMapper;
+import racingcar.mapper.H2CarResultMapper;
+import racingcar.mapper.H2PlayResultMapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -20,10 +20,10 @@ import static org.mockito.ArgumentMatchers.any;
 class RacingGameServiceTest {
 
     @Mock
-    CarResultMapper carResultMapper;
+    H2CarResultMapper h2CarResultMapper;
 
     @Mock
-    PlayResultMapper playResultMapper;
+    H2PlayResultMapper h2PlayResultMapper;
 
     @Mock
     RandomNumberGenerator numberGenerator;
@@ -39,10 +39,10 @@ class RacingGameServiceTest {
         Mockito.when(numberGenerator.generate())
                 .thenReturn(4, 3);
 
-        Mockito.when(carResultMapper.save(any()))
+        Mockito.when(h2CarResultMapper.save(any()))
                 .thenReturn(1L);
 
-        Mockito.when(playResultMapper.save(any()))
+        Mockito.when(h2PlayResultMapper.save(any()))
                 .thenReturn(1L);
 
         CarGameResponse result = racingGameService.play(request);

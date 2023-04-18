@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class RacingGameService {
 
-    private final CarResultMapper carResultMapper;
-    private final PlayResultMapper playResultMapper;
+    private final CarResultMapper h2CarResultMapper;
+    private final PlayResultMapper h2PlayResultMapper;
     private final RandomNumberGenerator numberGenerator;
 
-    public RacingGameService(CarResultMapper carResultMapper, PlayResultMapper playResultMapper, RandomNumberGenerator numberGenerator) {
-        this.carResultMapper = carResultMapper;
-        this.playResultMapper = playResultMapper;
+    public RacingGameService(CarResultMapper h2CarResultMapper, PlayResultMapper h2PlayResultMapper, RandomNumberGenerator numberGenerator) {
+        this.h2CarResultMapper = h2CarResultMapper;
+        this.h2PlayResultMapper = h2PlayResultMapper;
         this.numberGenerator = numberGenerator;
     }
 
@@ -55,11 +55,11 @@ public class RacingGameService {
     }
 
     private void saveCarResult(int tryCount, Cars cars, String winners) {
-        long resultId = playResultMapper.save(PlayResultEntity.of(tryCount, winners));
+        long resultId = h2PlayResultMapper.save(PlayResultEntity.of(tryCount, winners));
         cars.getUnmodifiableCars()
                 .stream()
                 .map(car -> CarResultEntity.of(resultId, car.getName(), car.getPosition()))
-                .forEach(carResultMapper::save);
+                .forEach(h2CarResultMapper::save);
     }
 
     private void progress(RacingGame game) {
@@ -69,7 +69,7 @@ public class RacingGameService {
     }
 
     public List<CarGameResponse> findAllGame() {
-        List<PlayResultEntity> entities = playResultMapper.findAll();
+        List<PlayResultEntity> entities = h2PlayResultMapper.findAll();
 
         return entities.stream()
                 .map(playResultEntity -> CarGameResponse.of(playResultEntity.getWinners(), getAllByPlayResultId(playResultEntity.getId())))
@@ -77,7 +77,7 @@ public class RacingGameService {
     }
 
     private List<CarResponse> getAllByPlayResultId(Long id) {
-        List<CarResultEntity> carEntities = carResultMapper.findAllByPlayResultId(id);
+        List<CarResultEntity> carEntities = h2CarResultMapper.findAllByPlayResultId(id);
         return carEntities.stream()
                 .map(CarResponse::new)
                 .collect(Collectors.toList());
