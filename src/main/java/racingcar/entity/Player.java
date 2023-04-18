@@ -17,10 +17,8 @@ public class Player {
         this.game_id = game_id;
     }
 
-    public static Player of(final Car player, final boolean isWinner, final int game_id) {
-        final String playerName = player.getName();
-        final int playerPosition = player.getPosition();
-        return new Player(null, playerName, playerPosition, isWinner, game_id);
+    public Player (final Car player, final boolean isWinner, final int game_id) {
+        this(null, player.getName(), player.getPosition(), isWinner, game_id);
     }
 
     public int getId() {
