@@ -1,6 +1,6 @@
 package racingcar.dto;
 
-import racingcar.entity.Player;
+import racingcar.domain.Car;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ public class GameResponse {
         this.racingCars = racingCars;
     }
 
-    public static GameResponse of(final List<String> winners, final List<Player> players) {
+    public static GameResponse of(final List<String> winners, final List<Car> players) {
         final List<PlayerDto> playerDtos = players.stream()
                 .map(car -> new PlayerDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());

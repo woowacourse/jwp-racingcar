@@ -24,8 +24,7 @@ class RacingGameServiceTest {
         final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 3));
         final RacingGameService racingGameService = new RacingGameService(
                 numberGenerator,
-                (game) -> 1,
-                (cars) -> {
+                (RacingGameRepositoryImpl) -> {
                 }
         );
         final GameRequest gameRequest = new GameRequest(List.of("브리", "비버", "허브"), 1);

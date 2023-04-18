@@ -3,14 +3,14 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import racingcar.entity.Game;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Repository
 public class GameJdbcDao implements GameDao {
     private final SimpleJdbcInsert insertActor;
     public final JdbcTemplate jdbcTemplate;
