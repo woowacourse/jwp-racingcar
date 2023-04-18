@@ -1,19 +1,23 @@
 package racingcar.entity;
 
-import racingcar.dto.request.PlayerResultSaveDto;
-
 public class PlayerResult {
 
-    private final long id;
+    private long id;
     private final String name;
     private final int finalPosition;
     private final long gameId;
 
-    public PlayerResult(final long id, final PlayerResultSaveDto playerResultSaveDto) {
+    public PlayerResult(final String name, final int finalPosition, final long gameId) {
+        this.name = name;
+        this.finalPosition = finalPosition;
+        this.gameId = gameId;
+    }
+
+    public PlayerResult(final long id, final PlayerResult playerResult) {
         this.id = id;
-        this.name = playerResultSaveDto.getName();
-        this.finalPosition = playerResultSaveDto.getFinalPosition();
-        this.gameId = playerResultSaveDto.getGameId();
+        this.name = playerResult.name;
+        this.finalPosition = playerResult.finalPosition;
+        this.gameId = playerResult.gameId;
     }
 
     public long getId() {

@@ -7,16 +7,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.domain.Car;
 import racingcar.domain.TestNumberGenerator;
-import racingcar.dto.request.GameResultDto;
-import racingcar.dto.request.GameSaveDto;
-import racingcar.dto.request.PlayerResultSaveDto;
+import racingcar.dto.request.GameRequestDto;
 import racingcar.dto.response.GameResponseDto;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
 import racingcar.repository.GameRepository;
 import racingcar.repository.PlayerResultRepository;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,38 +32,39 @@ public class GameServiceTest {
 
     @Test
     public void playGameTest() {
-        GameSaveDto gameSaveDto = new GameSaveDto("ditoo", 10);
-        Game game = new Game(1, gameSaveDto);
-        given(gameRepository.createGame(any()))
+        GameRequestDto requestDto = new GameRequestDto("ditoo,leo", 10);
+        final String ditoo = requestDto.getNames().split(",")[0];
+        final String leo = requestDto.getNames().split(",")[1];
+        Game game = new Game(requestDto.getCount(), ditoo);
+        given(gameRepository.save(any()))
                 .willReturn(game);
 
-        Car ditooCar = new Car("ditoo");
-        PlayerResult ditooResult = getDitooResult(ditooCar);
+        PlayerResult ditooResult = getDitooResult();
+        PlayerResult leoResult = getLeoResult();
 
-        Car leoCar = new Car("leo");
-        PlayerResult leoResult = getLeoResult(leoCar);
-
-        given(playerResultRepository.savePlayerResult(any()))
+        given(playerResultRepository.save(any()))
                 .willReturn(ditooResult);
-        given(playerResultRepository.savePlayerResult(any()))
+        given(playerResultRepository.save(any()))
                 .willReturn(leoResult);
 
-        GameResultDto gameResultDto = GameResultDto.of(List.of("ditoo"), 2, List.of(ditooCar, leoCar));
-
-        GameResponseDto gameResponseDto = gameService.playGame(gameResultDto);
-        assertThat(gameResponseDto.getWinners()).isEqualTo(gameResultDto.getWinners());
+        GameResponseDto gameResponseDto = gameService.playGame(requestDto);
+        assertThat(gameResponseDto.getWinners()).isEqualTo(game.getWinners());
     }
 
-    private PlayerResult getDitooResult(Car ditooCar) {
+    private PlayerResult getDitooResult() {
+        Car ditooCar = new Car("ditoo");
         ditooCar.move(new TestNumberGenerator(7));
         ditooCar.move(new TestNumberGenerator(7));
-        PlayerResultSaveDto ditoo = new PlayerResultSaveDto(1, ditooCar);
+        PlayerResult ditoo = new PlayerResult(
+                ditooCar.getCarName().getName(), ditooCar.getCurrentPosition().getPosition(), 1);
         return new PlayerResult(1, ditoo);
     }
 
-    private PlayerResult getLeoResult(Car leoCar) {
+    private PlayerResult getLeoResult() {
+        Car leoCar = new Car("leo");
         leoCar.move(new TestNumberGenerator(7));
-        PlayerResultSaveDto leo = new PlayerResultSaveDto(1, leoCar);
+        PlayerResult leo = new PlayerResult(
+                leoCar.getCarName().getName(), leoCar.getCurrentPosition().getPosition(), 1);
         return new PlayerResult(1, leo);
     }
 }

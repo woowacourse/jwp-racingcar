@@ -11,13 +11,11 @@ import racingcar.domain.RandomNumberGenerator;
 import racingcar.domain.WinnerMaker;
 import racingcar.dto.request.GameRequestDto;
 import racingcar.dto.response.GameResponseDto;
-import racingcar.dto.request.GameResultDto;
-import racingcar.dto.request.GameSaveDto;
-import racingcar.dto.request.PlayerResultSaveDto;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
 import racingcar.repository.GameRepository;
 import racingcar.repository.PlayerResultRepository;
+import racingcar.util.ListJoiner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,35 +40,35 @@ public class GameService {
         final Cars cars = new Cars(request.getNames());
         final Lap lap = new Lap(request.getCount());
         race(cars, lap, new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER));
-
-        final WinnerMaker winnerMaker = new WinnerMaker();
-        List<String> winners = winnerMaker.getWinnerCarsName(cars.getLatestResult());
-
-        final GameResultDto gameResult = GameResultDto.of(winners, request.getCount(), cars.getLatestResult());
-        final Game game = createGame(gameResult);
-        final List<PlayerResult> playerResults = createPlayerResults(gameResult, game);
+        final List<String> winners = makeWinners(cars);
+        final Game game = saveGame(winners, request.getCount());
+        final List<PlayerResult> playerResults = savePlayerResults(cars, game);
         return GameResponseDto.of(game, playerResults);
     }
 
-    private void race(Cars cars, Lap lap, NumberGenerator numberGenerator) {
+    private void race(final Cars cars, final Lap lap, final NumberGenerator numberGenerator) {
         while (!lap.isFinish()) {
             cars.moveCars(numberGenerator);
             lap.reduce();
         }
     }
 
-    private Game createGame(final GameResultDto gameResult) {
-        GameSaveDto gameSaveDto = new GameSaveDto(gameResult.getWinners(), gameResult.getTrialCount());
-        Game game = gameRepository.createGame(gameSaveDto);
-        return game;
+    private List<String> makeWinners(final Cars cars) {
+        final WinnerMaker winnerMaker = new WinnerMaker();
+        return winnerMaker.getWinnerCarsName(cars.getLatestResult());
     }
 
-    private List<PlayerResult> createPlayerResults(final GameResultDto gameResult, final Game game) {
+    private Game saveGame(final List<String> winners, final int trialCount) {
+        final Game game = new Game(trialCount, ListJoiner.join(winners));
+        return gameRepository.save(game);
+    }
+
+    private List<PlayerResult> savePlayerResults(final Cars cars, final Game game) {
         final List<PlayerResult> playerResults = new ArrayList<>();
-        for (Car car : gameResult.getCars()) {
-            final PlayerResultSaveDto playerResultSaveDto = new PlayerResultSaveDto(game.getId(), car);
-            final PlayerResult playerResult = playerResultRepository.savePlayerResult(playerResultSaveDto);
-            playerResults.add(playerResult);
+        for (Car car : cars.getLatestResult()) {
+            final PlayerResult playerResult = new PlayerResult(
+                    car.getCarName().getName(), car.getCurrentPosition().getPosition(), game.getId());
+            playerResults.add(playerResultRepository.save(playerResult));
         }
         return playerResults;
     }

@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.request.PlayerResultSaveDto;
 import racingcar.entity.PlayerResult;
 
 import javax.sql.DataSource;
@@ -20,9 +19,9 @@ public class PlayerResultRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public PlayerResult savePlayerResult(final PlayerResultSaveDto playerResultSaveDto) {
-        final SqlParameterSource params = new BeanPropertySqlParameterSource(playerResultSaveDto);
+    public PlayerResult save(final PlayerResult playerResult) {
+        final SqlParameterSource params = new BeanPropertySqlParameterSource(playerResult);
         final long id = insertPlayerResult.executeAndReturnKey(params).longValue();
-        return new PlayerResult(id, playerResultSaveDto);
+        return new PlayerResult(id, playerResult);
     }
 }

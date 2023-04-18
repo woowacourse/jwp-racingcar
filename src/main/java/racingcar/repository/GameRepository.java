@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.request.GameSaveDto;
 import racingcar.entity.Game;
 
 import javax.sql.DataSource;
@@ -20,9 +19,9 @@ public class GameRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Game createGame(final GameSaveDto gameSaveDto) {
-        final SqlParameterSource params = new BeanPropertySqlParameterSource(gameSaveDto);
+    public Game save(final Game game) {
+        final SqlParameterSource params = new BeanPropertySqlParameterSource(game);
         final long id = insertGame.executeAndReturnKey(params).longValue();
-        return new Game(id, gameSaveDto);
+        return new Game(id, game);
     }
 }
