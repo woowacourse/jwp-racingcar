@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import racingcar.controller.RacingGameWebController;
 import racingcar.dao.CarDao;
 import racingcar.dao.CarEntity;
 import racingcar.dao.GameDao;
@@ -68,7 +69,7 @@ public class RacingGameService {
     }
 
     private RacingGameResponseDto createResult(RacingCars racingCars) {
-        String winners = String.join(",", racingCars.pickWinnerCarNames());
+        String winners = String.join(RacingGameWebController.NAME_DELIMITER, racingCars.pickWinnerCarNames());
         List<CarDto> cars = racingCars.getCars().stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
