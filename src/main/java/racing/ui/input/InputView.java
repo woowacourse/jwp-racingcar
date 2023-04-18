@@ -18,8 +18,10 @@ public class InputView {
         return sc.next();
     }
 
-    public static String inputCount() {
+    public static int inputCount() {
         System.out.println(INPUT_COUNT);
-        return InputVerifier.checkInputTypeIsNumber(sc.next());
+        String inputCount = sc.next();
+        InputVerifier.checkInputTypeIsNumber(inputCount);
+        return Integer.parseInt(inputCount);
     }
 }
