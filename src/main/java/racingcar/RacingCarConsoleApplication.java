@@ -7,7 +7,7 @@ import racingcar.domain.NumberPicker;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberPicker;
 import racingcar.repositoryImpl.DefaultRacingGameRepository;
-import racingcar.service.RacingCarsService;
+import racingcar.service.AddRaceService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -16,9 +16,9 @@ public class RacingCarConsoleApplication {
     public static void main(final String[] args) {
         final List<String> names = InputView.inputCarName();
         final int targetCount = InputView.inputTryCount();
-        final RacingCarsService racingCarsService = new RacingCarsService(numberPicker(),
+        final AddRaceService addRaceService = new AddRaceService(numberPicker(),
                 new DefaultRacingGameRepository());
-        final RacingGame raceResult = racingCarsService.race(names, targetCount);
+        final RacingGame raceResult = addRaceService.addRace(names, targetCount);
 
         final List<String> winnerNames = raceResult.findWinner()
                 .stream()

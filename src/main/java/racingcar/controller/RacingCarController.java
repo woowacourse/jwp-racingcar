@@ -13,22 +13,27 @@ import racingcar.domain.RacingGame;
 import racingcar.dto.CarResponse;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
-import racingcar.service.RacingCarsService;
+import racingcar.service.AddRaceService;
+import racingcar.service.FindRaceService;
 
 @RestController
 public class RacingCarController {
 
     private static final String CAR_NAME_DELIMITER = ",";
 
-    private final RacingCarsService racingCarsService;
+    private final AddRaceService addRaceService;
+    private final FindRaceService findRaceService;
 
-    public RacingCarController(final RacingCarsService racingCarsService) {
-        this.racingCarsService = racingCarsService;
+    public RacingCarController(
+            final AddRaceService addRaceService,
+            final FindRaceService findRaceService) {
+        this.addRaceService = addRaceService;
+        this.findRaceService = findRaceService;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponse> raceAdd(@RequestBody @Valid final GameRequest gameRequest) {
-        final RacingGame racingGame = racingCarsService.race(gameRequest.getNames(), gameRequest.getCount());
+        final RacingGame racingGame = addRaceService.addRace(gameRequest.getNames(), gameRequest.getCount());
         final GameResponse gameResponse = toGameResponse(racingGame);
 
         return ResponseEntity.ok(gameResponse);
@@ -36,7 +41,7 @@ public class RacingCarController {
 
     @GetMapping("/plays")
     public ResponseEntity<List<GameResponse>> raceList() {
-        final List<RacingGame> racingGames = racingCarsService.findRaceResult();
+        final List<RacingGame> racingGames = findRaceService.findAllRace();
         final List<GameResponse> gameResponses = racingGames.stream()
                 .map(this::toGameResponse)
                 .collect(Collectors.toList());
