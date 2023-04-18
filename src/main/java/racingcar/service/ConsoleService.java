@@ -1,44 +1,32 @@
 package racingcar.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import racingcar.domain.Car;
-import racingcar.domain.MoveChance;
+import racingcar.domain.Cars;
+import racingcar.domain.RandomMoveChance;
+import racingcar.domain.TrialCount;
 
 public class ConsoleService {
 
-    private final List<Car> cars;
-    private final MoveChance moveChance;
-
-    public ConsoleService(List<Car> cars, MoveChance moveChance) {
-        this.cars = new ArrayList<>(cars);
-        this.moveChance = moveChance;
+    public void play(Cars cars, TrialCount trialCount) {
+        playMultipleTimes(cars, trialCount);
     }
 
-    public List<Car> findWinners() {
-        int maxPosition = findMaxPosition();
-        return cars.stream()
-                .filter(car -> car.hasSamePositionWith(maxPosition))
-                .collect(Collectors.toList());
-    }
-
-    private int findMaxPosition() {
-        int maxPosition = 0;
-        for (Car car : cars) {
-            maxPosition = car.selectMaxPosition(maxPosition);
-        }
-        return maxPosition;
-    }
-
-    public void playOnce() {
-        for (Car car : cars) {
-            car.move(moveChance);
+    private void playMultipleTimes(Cars cars, TrialCount trialCount) {
+        for (int i = 0; i < trialCount.getTrialCount(); i++) {
+            playOnce(cars);
         }
     }
 
-    public List<Car> getCars() {
-        return Collections.unmodifiableList(cars);
+    private void playOnce(Cars cars) {
+        cars.moveCars(new RandomMoveChance());
+    }
+
+    public List<Car> getWinners(Cars cars) {
+        return cars.getWinners();
+    }
+
+    public List<Car> getCars(Cars cars) {
+        return cars.getCars();
     }
 }

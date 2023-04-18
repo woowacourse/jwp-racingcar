@@ -14,17 +14,17 @@ import racingcar.domain.TrialCount;
 import racingcar.dto.GameResponseDto;
 
 @Service
-public class SpringService {
+public class RacingGameService {
 
     private GameDao gameDao;
     private GameLogDao gameLogDao;
     private WinnersDao winnersDao;
 
-    public SpringService() {
+    public RacingGameService() {
     }
 
     @Autowired
-    public SpringService(GameDao gameDao, GameLogDao gameLogDao, WinnersDao winnersDao) {
+    public RacingGameService(GameDao gameDao, GameLogDao gameLogDao, WinnersDao winnersDao) {
         this.gameDao = gameDao;
         this.gameLogDao = gameLogDao;
         this.winnersDao = winnersDao;
@@ -57,7 +57,7 @@ public class SpringService {
         return new GameResponseDto(getWinners(cars), getCars(cars));
     }
 
-    private void playMultipleTimes(Cars cars, TrialCount trialCount) {
+    public void playMultipleTimes(Cars cars, TrialCount trialCount) {
         for (int i = 0; i < trialCount.getTrialCount(); i++) {
             playOnce(cars);
         }

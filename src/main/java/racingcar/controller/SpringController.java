@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.Cars;
 import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
-import racingcar.service.SpringService;
+import racingcar.service.RacingGameService;
 
 @RestController
 @RequestMapping("/plays")
 public class SpringController {
 
-    private final SpringService springService;
+    private final RacingGameService racingGameService;
 
-    public SpringController(SpringService springService) {
-        this.springService = springService;
+    public SpringController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
     }
 
     @PostMapping
     public ResponseEntity<GameResponseDto> postInput(@RequestBody GameRequestDto gameRequestDto) {
         Cars cars = Cars.of(gameRequestDto.getNames());
-        GameResponseDto gameResponseDto = springService.play(cars, gameRequestDto.getCount());
+        GameResponseDto gameResponseDto = racingGameService.play(cars, gameRequestDto.getCount());
         return ResponseEntity.ok()
                 .body(gameResponseDto);
     }
@@ -33,6 +33,6 @@ public class SpringController {
     @GetMapping
     public ResponseEntity<List<GameResponseDto>> getWinner() {
         return ResponseEntity.ok()
-                .body(springService.getGameLog());
+                .body(racingGameService.getGameLog());
     }
 }

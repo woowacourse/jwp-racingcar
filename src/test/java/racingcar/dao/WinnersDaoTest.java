@@ -4,17 +4,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.domain.Car;
+import racingcar.domain.Name;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@AutoConfigureTestDatabase
+@JdbcTest
 public class WinnersDaoTest {
-
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     private WinnersDao winnersDao;
+
+    @BeforeEach
+    void setUp() {
+        winnersDao = new WinnersDao(jdbcTemplate);
+    }
 
     @Test
     void insert() {
@@ -23,8 +31,9 @@ public class WinnersDaoTest {
 
     @Test
     void find() {
-        winnersDao.insert(2, "달리");
-        winnersDao.insert(2, "디노");
-        assertThat(winnersDao.find(2)).isEqualTo(List.of("달리", "디노"));
+        winnersDao.insert(1, "달리");
+        winnersDao.insert(1, "디노");
+        System.out.println(winnersDao.find(1));
+        assertThat(winnersDao.find(1)).isEqualTo(List.of(new Car(new Name("달리")), new Car(new Name("디노"))));
     }
 }

@@ -26,6 +26,6 @@ public class GameLogDaoTest {
         gameLogDao.insert(3, "디노", 5);
         gameLogDao.insert(3, "저문", 6);
 
-        assertThat(gameLogDao.find(3).size()).isEqualTo(3);
+        assertThat(gameLogDao.find(3)).hasSize(3);
     }
 }
