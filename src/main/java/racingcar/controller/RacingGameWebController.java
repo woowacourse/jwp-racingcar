@@ -1,7 +1,6 @@
 package racingcar.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import racingcar.dto.ExceptionDto;
 import racingcar.dto.RacingGameRequestDto;
@@ -14,7 +13,7 @@ import java.util.List;
 @RestController
 public class RacingGameWebController {
 
-    private final static String NAME_DELIMITER = ",";
+    public final static String NAME_DELIMITER = ",";
 
     private final RacingGameService racingGameService;
 
@@ -23,28 +22,28 @@ public class RacingGameWebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingGameResponseDto> run(@RequestBody RacingGameRequestDto racingGameRequestDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public RacingGameResponseDto run(@RequestBody RacingGameRequestDto racingGameRequestDto) {
         List<String> names = Arrays.asList(racingGameRequestDto.getNames().split(NAME_DELIMITER));
         int count = racingGameRequestDto.getCount();
-        RacingGameResponseDto racingGameResponseDto = racingGameService.run(names, count);
-        return ResponseEntity.status(HttpStatus.OK).body(racingGameResponseDto);
+        return racingGameService.run(names, count);
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<RacingGameResponseDto>> getAllResults() {
-        List<RacingGameResponseDto> results = racingGameService.findAllResults();
-        return ResponseEntity.status(HttpStatus.OK).body(results);
+    @ResponseStatus(HttpStatus.OK)
+    public List<RacingGameResponseDto> getAllResults() {
+        return racingGameService.findAllResults();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ExceptionDto> handle(IllegalArgumentException e) {
-        ExceptionDto exceptionDto = new ExceptionDto(e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDto);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handle(IllegalArgumentException e) {
+        return new ExceptionDto(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionDto> handle(Exception e) {
-        ExceptionDto exceptionDto = new ExceptionDto(e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionDto);
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionDto handle(Exception e) {
+        return new ExceptionDto(e.getMessage());
     }
 }
