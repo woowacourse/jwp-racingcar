@@ -20,11 +20,11 @@ import racingcar.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
 
 @RestController
-public class RacingCarController {
+public class WebRacingCarController {
 
     private final RacingCarService racingCarService;
 
-    public RacingCarController(RacingCarService racingCarService) {
+    public WebRacingCarController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 
@@ -33,6 +33,7 @@ public class RacingCarController {
         final Cars cars = Cars.from(splitNames(gameInitializeDto.getNames()));
         final TryCount tryCount = new TryCount(gameInitializeDto.getCount());
         racingCarService.playRound(cars, tryCount, RandomNumberPicker.getInstance());
+        racingCarService.saveGameResult(cars, tryCount);
         return new RacingCarGameResultDto(cars.getWinner(), makeCarDtos(cars));
     }
 
@@ -40,11 +41,11 @@ public class RacingCarController {
     public List<RacingCarGameResultDto> findGameHistory() {
         return racingCarService.findGameHistory()
                 .values().stream()
-                .map(RacingCarController::toDto)
+                .map(WebRacingCarController::toDto)
                 .collect(toUnmodifiableList());
     }
 
-    private static List<String> splitNames(final String names) {
+    static List<String> splitNames(final String names) {
         return stream(names.split(",", -1))
                 .collect(toUnmodifiableList());
     }

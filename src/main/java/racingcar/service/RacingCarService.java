@@ -19,8 +19,11 @@ import racingcar.entity.GameHistoryEntity;
 @Service
 public class RacingCarService {
 
-    private final PlayResultDao playResultDao;
-    private final RacingCarDao racingCarDao;
+    private PlayResultDao playResultDao;
+    private RacingCarDao racingCarDao;
+
+    public RacingCarService() {
+    }
 
     public RacingCarService(PlayResultDao playResultDao, RacingCarDao racingCarDao) {
         this.playResultDao = playResultDao;
@@ -41,11 +44,10 @@ public class RacingCarService {
         for (int i = 0; i < tryCount.getValue(); i++) {
             cars.runRound(numberPicker);
         }
-        saveGameResult(cars, tryCount);
     }
 
     @Transactional
-    void saveGameResult(Cars cars, TryCount tryCount) {
+    public void saveGameResult(Cars cars, TryCount tryCount) {
         Long gameId = playResultDao.insertWithKeyHolder(tryCount.getValue(), cars.getWinner());
         for (Car car : cars.getCars()) {
             racingCarDao.insert(gameId, car.getName().getValue(), car.getDistance().getValue());
