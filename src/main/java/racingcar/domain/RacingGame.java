@@ -31,4 +31,8 @@ public class RacingGame {
     private boolean isGameContinue() {
         return this.tryCount-- > 0;
     }
+
+    public List<Car> getCars() {
+        return List.copyOf(cars);
+    }
 }

@@ -26,14 +26,22 @@ public class RacingGameService {
     RacingGameRepository racingGameRepository;
 
     public PlayResultResponseDto run(String names, Integer count) {
-        List<Car> cars = carGenerator.generateCars(names.split(DELIMETER));
-        RacingGame racingGame = new RacingGame(cars, count, numberGenerator);
-        racingGame.run();
+        RacingGame racingGame = play(names, count);
         Winner winner = racingGame.getWinner();
+        List<Car> cars = racingGame.getCars();
 
         racingGameRepository.insert(winner, count, cars);
 
         return new PlayResultResponseDto(winner, cars);
+    }
+
+    public RacingGame play(String names, Integer count) {
+        List<Car> cars = carGenerator.generateCars(names.split(DELIMETER));
+        RacingGame racingGame = new RacingGame(cars, count, numberGenerator);
+        racingGame.run();
+
+        return racingGame;
+
     }
 
     public List<PlayResultResponseDto> get() {
