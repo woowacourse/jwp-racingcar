@@ -27,7 +27,7 @@ class RacingWebControllerTest {
 
     @DisplayName("정상 요청이 오면 상태코드 OK 반환")
     @Test
-    void requestSuccess() {
+    void postRequestSuccess() {
         final TrackRequest trackRequest = new TrackRequest("gray,hoy,logan", "10");
 
         RestAssured.given().log().all()
@@ -46,7 +46,7 @@ class RacingWebControllerTest {
             "gra@,ho@,l@gan:자동차 이름은 문자와 숫자만 가능합니다.",
             "grayyy,hoy,logan:자동차 이름은 다섯 글자 이하여야 합니다.",
             "hoy,hoy,hoy:중복된 차 이름이 존재합니다."}, delimiter = ':')
-    void requestFailWithWrongName(final String names, final String exceptionMessage) {
+    void postRequestFailWithWrongName(final String names, final String exceptionMessage) {
         final TrackRequest trackRequest = new TrackRequest(names, "10");
 
         RestAssured.given().log().all()
@@ -64,7 +64,7 @@ class RacingWebControllerTest {
     @CsvSource(value = {"two:시도 횟수는 숫자만 입력 가능합니다.",
             "0:시도 횟수는 1 이상 100 이하여야 합니다.",
             "101:시도 횟수는 1 이상 100 이하여야 합니다."}, delimiter = ':')
-    void requestFailWithWrongTrialTimes(final String trialTime, final String exceptionMessage) {
+    void postRequestFailWithWrongTrialTimes(final String trialTime, final String exceptionMessage) {
         final TrackRequest trackRequest = new TrackRequest("gray,hoy,logan", trialTime);
 
         RestAssured.given().log().all()
@@ -75,5 +75,15 @@ class RacingWebControllerTest {
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .body("message", containsString(exceptionMessage));
+    }
+
+    @DisplayName("게임 이력 조회 요청이 들어오면 상태코드 OK 반환")
+    @Test
+    void getRequestSuccess() {
+        RestAssured.given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
     }
 }
