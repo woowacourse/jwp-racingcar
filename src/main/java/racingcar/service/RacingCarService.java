@@ -45,11 +45,6 @@ public class RacingCarService {
         return createGameDTO(count, gameSystem);
     }
 
-    private Cars makeCars(final List<String> names) {
-        final CarFactory carFactory = new CarFactory();
-        return carFactory.createCars(names);
-    }
-
     private void insertCar(final Cars cars, final Long id, final GameSystem gameSystem) {
         final List<CarEntity> carEntities = new ArrayList<>();
         for (Car car : cars.getCars()) {
