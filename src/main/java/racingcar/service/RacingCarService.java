@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.domain.Car;
+import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameDto;
+import racingcar.dto.GameIdDto;
 import racingcar.dto.GameResponse;
 import racingcar.strategy.MovingStrategy;
 
@@ -52,6 +54,19 @@ public class RacingCarService {
 
         List<Car> cars = racingGame.getCars();
         convertDto(cars).forEach(car -> carDao.updatePosition(car, racingGame.getId()));
+    }
+
+    public List<GameResponse> getGameResults() {
+        List<GameResponse> gameResponses = new ArrayList<>();
+        List<GameIdDto> allGame = gameDao.findAll();
+
+        for (GameIdDto gameIdDto : allGame) {
+            gameResponses.add(
+                    makeGameResponse(gameIdDto.getId())
+            );
+        }
+
+        return gameResponses;
     }
 
     private GameResponse makeGameResponse(final int gameId) {
