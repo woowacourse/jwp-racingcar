@@ -1,9 +1,9 @@
 package racingcar.domain;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,18 +24,13 @@ class RacingGameTest {
         racingGame = new RacingGame(1, cars, movingStrategy);
     }
 
-    @DisplayName("생성된 수에 따라 차를 이동시키고 현재 상태를 제대로 출력하는지 확인")
-    @Test
-    void playSingleRoundTest() {
-        assertEquals(racingGame.playSingleRound(),
-            Map.of("joy", 1, "pobi", 1));
-    }
-
     @DisplayName("차들의 위치 값을 비교해 최종 우승자들을 구한다.")
     @Test
     void getWinnersTest() {
-        assertEquals(racingGame.getWinners(),
-            List.of("joy", "pobi")
-        );
+        List<String> actual = racingGame.getWinners().stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+
+        assertThat(actual).containsExactly("joy", "pobi");
     }
 }

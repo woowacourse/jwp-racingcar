@@ -3,18 +3,20 @@ package racingcar.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.CarDto;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
+import racingcar.dto.ResultDto;
 import racingcar.service.RacingCarService;
 
 @RestController
+@RequestMapping("/plays")
 public class RacingGameWebController {
-
-    private static final String DELIMITER = ",";
 
     private final RacingCarService racingCarService;
 
@@ -22,15 +24,22 @@ public class RacingGameWebController {
         this.racingCarService = racingCarService;
     }
 
-    @PostMapping("/plays")
+    @PostMapping
     public GameResponse play(@Valid @RequestBody GameRequest gameRequest) {
-        int gameId = racingCarService.play(gameRequest);
-        List<CarDto> winners = racingCarService.findWinners(gameId);
-        String winnerNames = winners.stream()
-                .map(CarDto::getName)
-                .collect(Collectors.joining(DELIMITER));
-        List<CarDto> cars = racingCarService.findCars(gameId);
+        ResultDto resultDto = racingCarService.play(gameRequest);
+        return GameResponse.from(resultDto);
+    }
 
-        return GameResponse.of(winnerNames, cars);
+    @GetMapping
+    public ResponseEntity<List<GameResponse>> getAllGames() {
+        List<ResultDto> results = racingCarService.findAllResults();
+
+        List<GameResponse> gameResponses = results.stream()
+                .map(GameResponse::from)
+                .collect(Collectors.toList());
+
+        return ResponseEntity
+                .ok()
+                .body(gameResponses);
     }
 }

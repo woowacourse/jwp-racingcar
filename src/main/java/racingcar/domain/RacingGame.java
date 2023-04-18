@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 import java.util.List;
-import java.util.Map;
 import racingcar.strategy.MovingStrategy;
 
 public class RacingGame {
@@ -16,12 +15,13 @@ public class RacingGame {
         this.movingStrategy = movingStrategy;
     }
 
-    public Map<String, Integer> playSingleRound() {
-        cars.moveCars(movingStrategy);
-        return cars.getTotalStatus();
+    public void race(final int tryCount) {
+        for (int i = 0; i < tryCount; i++) {
+            cars.moveCars(movingStrategy);
+        }
     }
 
-    public List<String> getWinners() {
+    public List<Car> getWinners() {
         return cars.findWinners();
     }
 

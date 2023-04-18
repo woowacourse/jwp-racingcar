@@ -1,9 +1,11 @@
 package racingcar.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import racingcar.config.FixedMovingStrategy;
@@ -29,7 +31,10 @@ class CarsTest {
 
     @Test
     void findWinnersTest() {
-        List<String> expected = List.of("joy", "pobi");
-        assertEquals(expected, cars.findWinners());
+        List<String> actual = cars.findWinners().stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+
+        assertThat(actual).containsExactly("joy", "pobi");
     }
 }

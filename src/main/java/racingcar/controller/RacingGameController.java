@@ -3,6 +3,8 @@ package racingcar.controller;
 import java.util.List;
 import racingcar.domain.CarFactory;
 import racingcar.domain.RacingGame;
+import racingcar.domain.Result;
+import racingcar.dto.ResultDto;
 import racingcar.strategy.MovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -26,8 +28,8 @@ public class RacingGameController {
         List<String> carNames = getCarNames();
         int tryTimes = getTryTimes();
         RacingGame racingGame = new RacingGame(1, CarFactory.buildCars(carNames), movingStrategy);
-        race(racingGame, tryTimes);
-        getWinners(racingGame);
+        racingGame.race(tryTimes);
+        outputView.printResult(ResultDto.from(new Result(racingGame.getWinners(), racingGame.getCars())));
     }
 
     private List<String> getCarNames() {
@@ -38,17 +40,5 @@ public class RacingGameController {
     private int getTryTimes() {
         outputView.printInputTryTimesNotice();
         return inputView.inputTryTimes();
-    }
-
-    private void race(RacingGame racingGame, int tryTimes) {
-        outputView.printResultNotice();
-
-        for (int i = 0; i < tryTimes; i++) {
-            outputView.printSingleRoundResult(racingGame.playSingleRound());
-        }
-    }
-
-    private void getWinners(RacingGame racingGame) {
-        outputView.printWinner(racingGame.getWinners());
     }
 }

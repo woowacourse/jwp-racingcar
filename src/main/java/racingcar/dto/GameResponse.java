@@ -1,8 +1,11 @@
 package racingcar.dto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameResponse {
+    private static final String DELIMITER = ",";
+
     private final String winners;
     private final List<CarDto> racingCars;
 
@@ -11,8 +14,13 @@ public class GameResponse {
         this.racingCars = racingCars;
     }
 
-    public static GameResponse of(final String winners, final List<CarDto> racingCars) {
-        return new GameResponse(winners, racingCars);
+    public static GameResponse from(final ResultDto resultDto) {
+        List<CarDto> winners = resultDto.getWinners();
+        String winnerNames = winners.stream()
+                .map(CarDto::getName)
+                .collect(Collectors.joining(DELIMITER));
+
+        return new GameResponse(winnerNames, resultDto.getCars());
     }
 
     public String getWinners() {
