@@ -1,6 +1,8 @@
 package racingcar.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameInitializeDto;
@@ -34,7 +37,7 @@ public class RacingCarController {
         TryCount tryCount = makeTryCount(gameInitializeDto);
         outputView.printResultMessage();
         playRound(cars, tryCount);
-        outputView.printWinners(cars.getWinner());
+        printGameResult(cars);
         racingCarService.saveGameResult(cars, tryCount);
         return new RacingCarGameResultDto(String.join(",", cars.getWinner()), makeCarDtos(cars));
     }
@@ -76,5 +79,15 @@ public class RacingCarController {
         return cars.getCars().stream()
                 .map(car -> new RacingCarDto(car.getName().getValue(), car.getDistance().getValue()))
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    private void printGameResult(Cars cars) {
+        outputView.printWinners(cars.getWinner());
+        Map<String, Integer> racingCars = new LinkedHashMap<>();
+        List<Car> cars1 = cars.getCars();
+        for (Car car : cars1) {
+            racingCars.put(car.getName().getValue(), car.getDistance().getValue());
+        }
+        outputView.printGameResult(racingCars);
     }
 }

@@ -1,6 +1,8 @@
 package racingcar.view;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import racingcar.domain.Car;
 
@@ -37,5 +39,11 @@ public class OutputView {
                 .map(String::valueOf)
                 .collect(Collectors.joining(WINNER_NAME_DELIMITER))
                 + WINNER_MESSAGE);
+    }
+
+    public void printGameResult(Map<String, Integer> racingCars) {
+        for (Entry<String, Integer> racingCar : racingCars.entrySet()) {
+            System.out.println(racingCar.getKey() + ": " + racingCar.getValue());
+        }
     }
 }
