@@ -1,8 +1,8 @@
-package racing.common.exception;
+package racing.web.exception;
 
 import org.springframework.http.HttpStatus;
 
-public enum BusinessExceptionType {
+public enum RacingGameWebExceptionType {
     CAR_NAME_DUPLICATION(HttpStatus.BAD_REQUEST, "동일한 자동차 이름은 입력될 수 없습니다."),
     CAR_NAME_BLANK(HttpStatus.BAD_REQUEST, "자동차 이름이 비어있습니다."),
     CAR_NAME_INVALID_RANGE(HttpStatus.BAD_REQUEST, "자동차 이름은 1 ~ 5자 사이 이어야 합니다."),
@@ -12,7 +12,7 @@ public enum BusinessExceptionType {
     private final HttpStatus httpStatus;
     private final String exceptionMessage;
 
-    BusinessExceptionType(HttpStatus httpStatus, String exceptionMessage) {
+    RacingGameWebExceptionType(HttpStatus httpStatus, String exceptionMessage) {
         this.httpStatus = httpStatus;
         this.exceptionMessage = exceptionMessage;
     }

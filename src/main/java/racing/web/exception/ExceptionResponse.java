@@ -1,4 +1,4 @@
-package racing.common.exception;
+package racing.web.exception;
 
 public class ExceptionResponse {
     private final String httpStatusMessage;
@@ -9,9 +9,9 @@ public class ExceptionResponse {
         this.errorMessage = errorMessage;
     }
 
-    public ExceptionResponse(BusinessException businessException) {
-        this.httpStatusMessage = businessException.getHttpStatus().name();
-        this.errorMessage = businessException.getExceptionMessage();
+    public ExceptionResponse(RacingGameWebException racingGameWebException) {
+        this.httpStatusMessage = racingGameWebException.getHttpStatus().name();
+        this.errorMessage = racingGameWebException.getExceptionMessage();
     }
 
     public String getHttpStatusMessage() {

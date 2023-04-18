@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import racing.common.exception.BusinessException;
-import racing.common.exception.ExceptionResponse;
+import racing.web.exception.ExceptionResponse;
+import racing.web.exception.RacingGameWebException;
 
 @RestControllerAdvice
 public class RacingCarExceptionHandler {
@@ -22,10 +22,10 @@ public class RacingCarExceptionHandler {
                 .body(exception);
     }
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ExceptionResponse> handleBusinessException(BusinessException businessException) {
+    @ExceptionHandler(RacingGameWebException.class)
+    public ResponseEntity<ExceptionResponse> handleBusinessException(RacingGameWebException racingGameWebException) {
         return ResponseEntity
-                .status(businessException.getHttpStatus())
-                .body(new ExceptionResponse(businessException));
+                .status(racingGameWebException.getHttpStatus())
+                .body(new ExceptionResponse(racingGameWebException));
     }
 }
