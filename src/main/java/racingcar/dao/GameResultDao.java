@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.TryCount;
+import racingcar.entity.GameResult;
 import racingcar.entity.PlayerResult;
 
 @Repository
@@ -45,11 +46,30 @@ public class GameResultDao {
 		String sql = "INSERT INTO player_result (game_id, name, position, is_winner) VALUES (?, ?, ?, ?)";
 
 		playerResults.forEach(racingCar -> {
-					jdbcTemplate.update(sql,
-							gameId,
-							racingCar.getName(),
-							racingCar.getPosition(),
-							racingCar.isWinner());
-				});
+			jdbcTemplate.update(sql,
+					gameId,
+					racingCar.getName(),
+					racingCar.getPosition(),
+					racingCar.isWinner());
+		});
+	}
+
+	public List<GameResult> fetchAllGameResult () {
+		String sql = "SELECT * FROM game_result";
+
+		return jdbcTemplate.query(sql, (rs, rowNum) ->
+				new GameResult(rs.getLong("id"), rs.getInt("trial_count"),
+						rs.getTimestamp("date_time").toLocalDateTime())
+		);
+	}
+
+	public List<PlayerResult> fetchAllPlayerResultByGameId (Long gameId) {
+		String sql = "SELECT * FROM player_result where game_id = ?";
+
+		return jdbcTemplate.query(sql, (rs, rowNum) ->
+						new PlayerResult(rs.getLong("id"), rs.getLong("game_id"), rs.getString("name"), rs.getInt("position"),
+								rs.getBoolean("is_winner"))
+				, gameId
+		);
 	}
 }
