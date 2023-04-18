@@ -1,5 +1,7 @@
 package racingcar.dao;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -15,11 +17,13 @@ import java.util.Map;
 public class JdbcPlayerDao implements PlayerDao {
 
     private final SimpleJdbcInsert insertPlayerActor;
+    private final JdbcTemplate jdbcTemplate;
 
-    public JdbcPlayerDao(DataSource dataSource) {
+    public JdbcPlayerDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.insertPlayerActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("PLAYER")
                 .usingGeneratedKeyColumns("player_id");
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -35,5 +39,16 @@ public class JdbcPlayerDao implements PlayerDao {
         }
 
         insertPlayerActor.executeBatch(batchParams);
+    }
+
+    private final RowMapper<Car> carRowMapper = (resultSet, rowNum) -> {
+        Car car = new Car(resultSet.getString("name"), resultSet.getInt("position"));
+        return car;
+    };
+
+    @Override
+    public List<Car> find(int gameId) {
+        String sql = "SELECT name, position FROM PLAYER WHERE game_id = ?";
+        return jdbcTemplate.query(sql, carRowMapper, gameId);
     }
 }

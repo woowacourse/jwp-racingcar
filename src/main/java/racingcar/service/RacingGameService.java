@@ -35,4 +35,8 @@ public class RacingGameService {
 
         return new PlayResultResponseDto(winner, cars);
     }
+
+    public List<PlayResultResponseDto> get() {
+        return racingGameRepository.get();
+    }
 }
