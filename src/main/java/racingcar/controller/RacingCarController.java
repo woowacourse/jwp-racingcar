@@ -23,8 +23,8 @@ public class RacingCarController {
         return ResponseEntity.ok().body(gameResultResponse);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<String> handlePlayerNumber(IllegalArgumentException ex) {
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
