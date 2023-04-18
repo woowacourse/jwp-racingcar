@@ -1,6 +1,6 @@
 package racingcar;
 
-import racingcar.controller.RacingController;
+import racingcar.controller.RacingConsoleController;
 import racingcar.exception.CustomException;
 import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.car.strategy.RandomMovingStrategy;
@@ -17,12 +17,12 @@ public class ConsoleApplication {
         InputView inputView = new KoreanInputView(scanner);
         OutputView outputView = new KoreanOutputView();
         MovingStrategy randomMovingStrategy = new RandomMovingStrategy();
-        RacingController racingController = new RacingController(inputView, outputView);
+        RacingConsoleController racingConsoleController = new RacingConsoleController(inputView, outputView);
 
         try {
-            racingController.start(randomMovingStrategy);
+            racingConsoleController.start(randomMovingStrategy);
         } catch (CustomException customException) {
-            racingController.terminated(customException);
+            racingConsoleController.terminated(customException);
         }
     }
 }

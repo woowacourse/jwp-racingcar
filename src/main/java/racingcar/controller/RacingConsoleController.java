@@ -8,14 +8,14 @@ import racingcar.model.track.Track;
 import racingcar.view.inputview.InputView;
 import racingcar.view.outputview.OutputView;
 
-public class RacingController {
+public class RacingConsoleController {
 
     private static final int MAX_ATTEMPT_COUNT = 5;
 
     private final InputView inputView;
     private final OutputView outputView;
 
-    public RacingController(final InputView inputView, final OutputView outputView) {
+    public RacingConsoleController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
