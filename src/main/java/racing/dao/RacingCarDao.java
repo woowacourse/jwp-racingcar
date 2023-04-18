@@ -16,10 +16,7 @@ import java.util.List;
 @Repository
 public class RacingCarDao implements CarDao {
 
-    private JdbcTemplate jdbcTemplate;
-
-    public RacingCarDao() {
-    }
+    private final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<CarEntity> rowMapper = (resultSet, rowNum) -> new CarEntity(
             resultSet.getString("name"),

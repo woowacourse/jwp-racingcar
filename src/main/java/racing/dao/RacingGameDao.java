@@ -13,10 +13,7 @@ import java.util.Objects;
 @Repository
 public class RacingGameDao implements GameDao {
 
-    private JdbcTemplate jdbcTemplate;
-
-    public RacingGameDao() {
-    }
+    private final JdbcTemplate jdbcTemplate;
 
     public RacingGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
