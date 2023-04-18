@@ -1,8 +1,5 @@
 package racingcar.controller;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.stream.Collectors;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.CarStatusResponseDto;
@@ -10,6 +7,10 @@ import racingcar.dto.GameHistoriesResponseDto;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
+
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingGameConsoleController {
 
@@ -33,7 +34,7 @@ public class RacingGameConsoleController {
 
         startRace(cars, tryCount);
 
-        GameHistoriesResponseDto gameHistoryDto = GameHistoriesResponseDto.toDto(findWinnerNames(cars), findCarStatuses(cars));
+        GameHistoriesResponseDto gameHistoryDto = GameHistoriesResponseDto.toDto(getWinnerNames(cars), convertToCarStatuses(cars));
 
         outputView.printWinners(gameHistoryDto);
         outputView.printCurrentRacingStatus(gameHistoryDto);
@@ -67,11 +68,11 @@ public class RacingGameConsoleController {
         }
     }
 
-    private String findWinnerNames(final Cars cars) {
+    private String getWinnerNames(final Cars cars) {
         return String.join(CAR_NAME_DELIMITER, cars.getWinnerNames());
     }
 
-    private List<CarStatusResponseDto> findCarStatuses(final Cars cars) {
+    private List<CarStatusResponseDto> convertToCarStatuses(final Cars cars) {
         return cars.getCars().stream()
                 .map(CarStatusResponseDto::toDto)
                 .collect(Collectors.toList());
