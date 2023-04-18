@@ -9,7 +9,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(final Exception e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+        return ResponseEntity.internalServerError().body(e.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
