@@ -7,6 +7,7 @@ import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayersInfoDao;
 import racingcar.domain.CarFactory;
 import racingcar.domain.Cars;
+import racingcar.dto.CarParam;
 import racingcar.dto.GameInfoRequest;
 import racingcar.dto.GameResultResponse;
 import racingcar.genertor.NumberGenerator;
@@ -14,6 +15,7 @@ import racingcar.genertor.RandomNumberGenerator;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,13 +29,19 @@ public class RacingCarService {
         this.playersInfoDAO = playersInfoDAO;
     }
 
-    public GameResultResponse createResponse(GameInfoRequest gameInfoRequest){
+    public GameResultResponse createResponse(GameInfoRequest gameInfoRequest) {
         List<String> carNames = Arrays.asList(gameInfoRequest.getNames().split(","));
         Cars cars = new Cars(CarFactory.buildCars(carNames));
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoRequest.getCount();
         play(cars, count, numberGenerator);
-        saveResult(count, cars);
+        List<CarParam> carParams = cars.getCars().stream()
+                .map(CarParam::new)
+                .collect(Collectors.toList());
+        List<CarParam> winners = cars.findWinners().stream()
+                .map(CarParam::new)
+                .collect(Collectors.toList());
+        saveResult(count, carParams, winners);
         return new GameResultResponse(cars.findWinners(), cars.getCars());
     }
 
@@ -42,8 +50,9 @@ public class RacingCarService {
             cars.moveCars(numberGenerator);
         }
     }
-    private void saveResult(int trialCount, Cars cars){
-        int playerResultId = playResultDAO.returnPlayResultIdAfterInsert(trialCount, cars.findWinners());
-        playersInfoDAO.insert(playerResultId, cars.getCars());
+
+    private void saveResult(int trialCount, List<CarParam> cars, List<CarParam> winners) {
+        int playerResultId = playResultDAO.returnPlayResultIdAfterInsert(trialCount, winners);
+        playersInfoDAO.insert(playerResultId, cars);
     }
 }
