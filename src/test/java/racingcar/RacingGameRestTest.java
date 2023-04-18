@@ -62,4 +62,16 @@ class RacingGameRestTest {
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
+    @DisplayName("빈 값을 입력하면 400에러가 반환된다.")
+    @Test
+    void emptyNameBadRequest() {
+        RacingGameRequest racingGameRequest = new RacingGameRequest("", 10);
+        RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(racingGameRequest)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
 }

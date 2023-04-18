@@ -10,18 +10,11 @@ public class RacingGameRequest {
     private int count;
 
     public RacingGameRequest(String names, int count) {
-        validateNotEmpty(names);
         this.names = names;
         this.count = count;
     }
 
     public RacingGameRequest() {
-    }
-
-    private void validateNotEmpty(String names) {
-        if (names.isBlank()) {
-            throw new IllegalArgumentException("빈값은 입력할 수 없습니다.");
-        }
     }
 
     public String getNames() {
@@ -36,8 +29,4 @@ public class RacingGameRequest {
         return count;
     }
 
-    public void setNames(String names) {
-        validateNotEmpty(names);
-        this.names = names;
-    }
 }
