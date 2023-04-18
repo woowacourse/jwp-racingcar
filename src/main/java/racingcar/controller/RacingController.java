@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@Profile("web")
 public class RacingController {
     private final RacingService racingService;
 

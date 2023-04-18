@@ -3,6 +3,7 @@ package racingcar;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import racingcar.controller.RacingController;
 import racingcar.view.ApplicationCommand;
 import racingcar.view.ConsoleInputView;
 
@@ -26,7 +27,8 @@ public class RacingCarApplication {
         springApplication.setAdditionalProfiles("console");
         ApplicationContext context = springApplication.run(args);
 
-        ConsoleRacingCarApplication application = context.getBean(ConsoleRacingCarApplication.class);
+        RacingController controller = context.getBean(RacingController.class);
+        ConsoleRacingCarApplication application = new ConsoleRacingCarApplication(controller);
         application.run();
     }
 
