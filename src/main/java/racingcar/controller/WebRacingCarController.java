@@ -26,23 +26,15 @@ public class WebRacingCarController {
 
 	@PostMapping("/plays")
 	public ResultDto createData(@RequestBody RacingGameDto racingGameDto) {
-		ResultDto resultDto = new ResultDto();
 		String carNames = racingGameDto.getNames();
 		int count = Integer.parseInt(racingGameDto.getCount());
 
 		RacingGame racingGame = new RacingGame(carNames);
-		startRacing(count, racingGame);
+		racingGame.startRacing(count);
 
 		Cars cars = racingGame.getCars();
 		racingCarDao.insertCar(cars, count);
-		resultDto = toResultDto(cars);
 
-		return resultDto;
-	}
-
-	private void startRacing(int count, RacingGame racingGame) {
-		for (int i = 0; i < count; i++) {
-			racingGame.moveCars();
-		}
+		return toResultDto(cars);
 	}
 }

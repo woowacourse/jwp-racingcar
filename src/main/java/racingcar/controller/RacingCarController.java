@@ -17,17 +17,11 @@ public class RacingCarController {
 		int trial = inputView.askTrial();
 
 		RacingGame racingGame = new RacingGame(carNames);
-		startRacing(trial, racingGame);
+		racingGame.startRacing(trial);
 
 		Cars cars = racingGame.getCars();
 		ResultDto resultDto = toResultDto(cars);
 
 		outputView.printResult(resultDto.getWinners(), resultDto.getRacingCars());
-	}
-
-	public void startRacing(int trial, RacingGame racingGame) {
-		for (int i = 0; i < trial; i++) {
-			racingGame.moveCars();
-		}
 	}
 }

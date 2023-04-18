@@ -14,6 +14,12 @@ public class RacingGame {
 		this.strategy = new RandomMovingStrategy(new RandomNumberGenerator());
 	}
 
+	public void startRacing(int trial){
+		for (int i = 0; i < trial; i++) {
+			moveCars();
+		}
+	}
+
 	public Cars moveCars() {
 		cars.moveCars(strategy);
 		return cars;
