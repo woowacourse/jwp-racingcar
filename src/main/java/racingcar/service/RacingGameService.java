@@ -6,6 +6,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import racingcar.dao.PlayerDao;
 import racingcar.dao.PlayerSaveDto;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.Name;
@@ -18,9 +19,11 @@ import racingcar.exception.CommaNotFoundException;
 public class RacingGameService {
 
     private final RacingGameDao racingGameDao;
+    private final PlayerDao playerDao;
 
-    public RacingGameService(final RacingGameDao racingGameDao) {
+    public RacingGameService(final RacingGameDao racingGameDao, final PlayerDao playerDao) {
         this.racingGameDao = racingGameDao;
+        this.playerDao = playerDao;
     }
 
     public RacingCars run(final String inputNames, final int inputCount) {
@@ -81,7 +84,9 @@ public class RacingGameService {
         final List<PlayerSaveDto> playerSaveDtos = racingCars.getRacingCars().stream()
                 .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
                 .collect(toList());
-        racingGameDao.save(tryCount, playerSaveDtos);
+        final long gameId = racingGameDao.save(tryCount);
+
+        playerDao.saveAllPlayers(gameId, playerSaveDtos);
     }
 
     private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
