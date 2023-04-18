@@ -9,6 +9,7 @@ import racingcar.domain.Game;
 import racingcar.domain.MoveChance;
 import racingcar.domain.RandomMoveChance;
 import racingcar.dto.CarDto;
+import racingcar.service.dto.SingleGameResult;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,23 +41,24 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public void play(Game game) {
+    public int play(Game game) {
         while (game.isNotDone()) {
             game.playOnceWith(moveChance);
         }
 
-        insertResultOf(game);
+        return insertResultOf(game);
     }
 
-    private void insertResultOf(final Game game) {
-        int gameId = gamesDao.insert(game.getTrialCount());
-        Map<Car, Integer> carIds = new HashMap<>();
+    private int insertResultOf(final Game game) {
+        final int gameId = gamesDao.insert(game.getTrialCount());
+        final Map<Car, Integer> carIds = new HashMap<>();
         for (Car car : game.getCars()) {
-            int carId = carsDao.insert(gameId, car.getName(), car.getPosition());
+            final int carId = carsDao.insert(gameId, car.getName(), car.getPosition());
             carIds.put(car, carId);
         }
-        List<Integer> winnerIds = findIdsOf(game.findWinners(), carIds);
+        final List<Integer> winnerIds = findIdsOf(game.findWinners(), carIds);
         winnersDao.insert(gameId, winnerIds);
+        return gameId;
     }
 
     private List<Integer> findIdsOf(List<Car> cars, Map<Car, Integer> carIds) {
@@ -66,15 +68,14 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
+    public SingleGameResult findResult(final int gameId) {
+        final List<String> allWinnerNames = winnersDao.findAllWinnerNameByGameId(gameId);
+        final List<CarDto> allCarInfo = carsDao.findAllByGameId(gameId);
+
+        return new SingleGameResult(allWinnerNames, allCarInfo);
+    }
+
     public List<Integer> findAllPlayedGameIds() {
         return gamesDao.findAllGameIds();
-    }
-
-    public List<String> findWinnersIn(final int gameId) {
-        return winnersDao.findAllWinnerNameByGameId(gameId);
-    }
-
-    public List<CarDto> findAllCarsIn(final int gameId) {
-        return carsDao.findAllByGameId(gameId);
     }
 }

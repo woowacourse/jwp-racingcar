@@ -1,16 +1,16 @@
-package racingcar.controller.dto;
+package racingcar.service.dto;
 
 import racingcar.dto.CarDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SingleGameResultResponse {
+public class SingleGameResult {
 
     private final String winners;
     private final List<CarDto> racingCars;
 
-    public SingleGameResultResponse(List<String> winners, List<CarDto> racingCars) {
+    public SingleGameResult(List<String> winners, List<CarDto> racingCars) {
         this.winners = winners.stream().collect(Collectors.joining(","));
         this.racingCars = racingCars;
     }

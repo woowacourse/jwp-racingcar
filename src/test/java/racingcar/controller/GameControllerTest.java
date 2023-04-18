@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import racingcar.controller.dto.SingleGameResultResponse;
+import racingcar.service.dto.SingleGameResult;
 import racingcar.controller.dto.SinglePlayRequest;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
@@ -45,11 +45,14 @@ class GameControllerTest {
         final List<CarDto> carDtos = cars.stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
+
         given(gameService.createGameWith(any(), anyInt()))
                 .willReturn(new Game(cars, 10));
+        given(gameService.findResult(anyInt()))
+                .willReturn(new SingleGameResult(List.of("aa"), carDtos));
 
         String request = objectMapper.writeValueAsString(new SinglePlayRequest("aa", 1));
-        String response = objectMapper.writeValueAsString(new SingleGameResultResponse(List.of("aa"), carDtos));
+        String response = objectMapper.writeValueAsString(new SingleGameResult(List.of("aa"), carDtos));
 
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/plays")
