@@ -34,7 +34,7 @@ class RacingRacingRacingCarRecordDaoTest {
     void insertCar() {
         //given
         String carName = "Rosie";
-        RacingCar racingCar = new RacingCar(carName);
+        RacingCar racingCar = new RacingCar(0, carName);
         boolean isWinner = true;
         long historyId = 1L;
         //when

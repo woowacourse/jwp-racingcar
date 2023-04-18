@@ -5,17 +5,21 @@ public class RacingCar {
     private static final int MAX_NAME_LENGTH = 5;
     private static final int ONE_STEP = 1;
 
+    private final long gameId;
+
     private final String name;
     private final Position position;
 
 
-    public RacingCar(String name) {
+    public RacingCar(long gameId, String name) {
         validate(name);
+        this.gameId = gameId;
         this.name = name;
         this.position = new Position();
     }
 
-    public RacingCar(String name, int position) {
+    public RacingCar(long gameId, String name, int position) {
+        this.gameId = gameId;
         this.name = name;
         this.position = new Position(position);
     }

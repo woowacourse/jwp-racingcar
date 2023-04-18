@@ -14,14 +14,14 @@ class RacingCarsTest {
     @DisplayName("중복되는 차 이름은 예외가 발생한다")
     @Test
     void racingCarDuplicateFail() {
-        assertThatThrownBy(() -> new RacingCars(List.of(new RacingCar("바론"), new RacingCar("바론"))))
+        assertThatThrownBy(() -> new RacingCars(List.of(new RacingCar(0, "바론"), new RacingCar(0, "바론"))))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("가장 먼 위치를 반환할 수 있다.")
     @Test
     void testCalculateWinPosition() {
-        RacingCars racingCars = new RacingCars(List.of(new RacingCar("로지"), new RacingCar("포지")));
+        RacingCars racingCars = new RacingCars(List.of(new RacingCar(0, "로지"), new RacingCar(0, "포지")));
         racingCars.moveCars(List.of(10, 1));
         int maxPosition = racingCars.calculateMaxPosition();
         assertThat(maxPosition).isEqualTo(1);

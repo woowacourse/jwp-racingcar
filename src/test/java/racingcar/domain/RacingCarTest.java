@@ -16,14 +16,14 @@ public class RacingCarTest {
         @DisplayName("유효하지 않은 길이의 이름")
         @ValueSource(strings = {"abcdef4", "adffdsd", "dadfewe", "", " "})
         void throwExceptionWhenInvalidNameLength(String name) {
-            Assertions.assertThatThrownBy(() -> new RacingCar(name))
+            Assertions.assertThatThrownBy(() -> new RacingCar(0, name))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         @DisplayName("이름이 빈 문자열일 때 IllegalArgumentException 발생")
         void throwExceptionWhenNameIsEmpty() {
-            Assertions.assertThatThrownBy(() -> new RacingCar(""))
+            Assertions.assertThatThrownBy(() -> new RacingCar(0, ""))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -34,7 +34,7 @@ public class RacingCarTest {
         @DisplayName("1회 이동했을 때, 위치가 정상적으로 증가하는지 테스트")
         @CsvSource(value = {"1:0", "2:0", "3:0", "4:1", "5:1"}, delimiter = ':')
         void moveOneStep(int pickedNumber, int expectedPosition) {
-            RacingCar racingCar = new RacingCar("hong");
+            RacingCar racingCar = new RacingCar(0, "hong");
             racingCar.moveDependingOn(pickedNumber);
             Assertions.assertThat(racingCar).extracting("position")
                     .isEqualTo(expectedPosition);

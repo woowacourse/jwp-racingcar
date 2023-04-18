@@ -46,7 +46,7 @@ class RacingGameControllerTest {
 
         @BeforeEach
         void setUp() {
-            RacingGame mockRacingGame = RacingGame.from(List.of("브리", "로지", "바론"));
+            RacingGame mockRacingGame = RacingGame.create(0, List.of("브리", "로지", "바론"));
             RacingGameDto racingGameDto = RacingGameDto.from(mockRacingGame);
             given(racingGameService.play(anyInt(), anyList())).willReturn(racingGameDto);
 

@@ -19,7 +19,7 @@ class RacingGameTest {
         @DisplayName("이름이 중복으로 입력되었을 때 예외 발생")
         void throwExceptionWhenDuplicateNameExists() {
             Assertions.assertThatThrownBy(
-                            () -> RacingGame.from(List.of("rosie", "hong", "rosie")))
+                            () -> RacingGame.create(0, List.of("rosie", "hong", "rosie")))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -34,22 +34,22 @@ class RacingGameTest {
         @DisplayName("우승자이면 true를 반환한다.")
         void shouldContainWinners() {
             // given
-            race = RacingGame.from(List.of("로지", "홍실"));
+            race = RacingGame.create(0, List.of("로지", "홍실"));
             race.play(1, (size) -> List.of(10, 1));
             //when
             //then
-            assertThat(race.isWinner(new RacingCar("로지"))).isTrue();
+            assertThat(race.isWinner(new RacingCar(0, "로지"))).isTrue();
         }
 
         @Test
         @DisplayName("우승자가 아니면 false를 반환한다.")
         void shouldNotContainNonWinners() {
             // given
-            race = RacingGame.from(List.of("rosie", "hong"));
+            race = RacingGame.create(0, List.of("rosie", "hong"));
             race.play(1, (size) -> List.of(10, 1));
             // when
             //then
-            assertThat(race.isWinner(new RacingCar("hong"))).isFalse();
+            assertThat(race.isWinner(new RacingCar(0, "hong"))).isFalse();
         }
     }
 
@@ -58,7 +58,7 @@ class RacingGameTest {
     void testGameProgress() {
         //given
         int trialCount = 10;
-        RacingGame race = RacingGame.from(List.of("바론", "론이", "로니", "로지"));
+        RacingGame race = RacingGame.create(0, List.of("바론", "론이", "로니", "로지"));
         //when
         race.play(trialCount, new RandomNumberGenerator());
         //then
