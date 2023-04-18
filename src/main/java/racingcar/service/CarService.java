@@ -8,7 +8,7 @@ import racingcar.exception.DuplicateCarNameException;
 import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.utils.RacingNumberGenerator;
-import racingcar.wrapper.Round;
+import racingcar.model.Round;
 
 import java.util.Arrays;
 import java.util.List;

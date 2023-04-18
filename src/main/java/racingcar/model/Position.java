@@ -1,4 +1,4 @@
-package racingcar.model.wrapper;
+package racingcar.model;
 
 import racingcar.utils.RacingNumberGenerator;
 

@@ -1,7 +1,5 @@
 package racingcar.model;
 
-import racingcar.model.wrapper.Name;
-import racingcar.model.wrapper.Position;
 import racingcar.utils.RacingNumberGenerator;
 
 public class Car {

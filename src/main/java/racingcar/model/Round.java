@@ -1,4 +1,4 @@
-package racingcar.wrapper;
+package racingcar.model;
 
 import racingcar.exception.WrongRoundException;
 
