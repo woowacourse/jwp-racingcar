@@ -1,8 +1,4 @@
-package racingcar.repository;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import java.util.List;
+package racingcar.dao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,28 +6,31 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import racingcar.dao.mapper.PlayerDtoMapper;
 import racingcar.domain.CarGroup;
-import racingcar.repository.mapper.PlayerDtoMapper;
+
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-class PlayerRepositoryTest {
+class PlayerJdbcDaoTest {
 
     @Autowired
-    private PlayerRepository playerRepository;
+    private PlayerJdbcDao playerJdbcDao;
 
     @Autowired
-    private RacingGameRepository racingGameRepository;
+    private RacingGameJdbcDao racingGameJdbcDao;
 
     @DisplayName("플레이어 저장")
     @Test
     void save() {
         // given
         CarGroup carGroup = new CarGroup("저문,헤나");
-        int racingGameId = racingGameRepository.save("저문,헤나", 10);
+        int racingGameId = racingGameJdbcDao.save("저문,헤나", 10);
 
         // when
-        boolean isSaved = playerRepository.save(carGroup, racingGameId);
+        boolean isSaved = playerJdbcDao.save(carGroup, racingGameId);
 
         // then
         assertThat(isSaved).isTrue();
@@ -43,12 +42,12 @@ class PlayerRepositoryTest {
     void findAllById(String names, int gameCount) {
         // given
         CarGroup firstCarGroup = new CarGroup(names);
-        int firstRacingGameId = racingGameRepository.save(names, gameCount);
+        int firstRacingGameId = racingGameJdbcDao.save(names, gameCount);
 
-        playerRepository.save(firstCarGroup, firstRacingGameId);
+        playerJdbcDao.save(firstCarGroup, firstRacingGameId);
 
         // when
-        List<PlayerDtoMapper> firstPlayerDtoMappers = playerRepository.findAllById(firstRacingGameId);
+        List<PlayerDtoMapper> firstPlayerDtoMappers = playerJdbcDao.findAllById(firstRacingGameId);
 
         // then
         assertThat(firstPlayerDtoMappers.size()).isEqualTo(gameCount);

@@ -1,23 +1,22 @@
-package racingcar.repository;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.Optional;
+package racingcar.dao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import racingcar.dao.mapper.RacingGameDtoMapper;
 
-import racingcar.repository.mapper.RacingGameDtoMapper;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class RacingGameRepositoryTest {
+class RacingGameJdbcDaoTest {
 
     @Autowired
-    RacingGameRepository racingGameRepository;
+    RacingGameJdbcDao racingGameJdbcDao;
 
     @DisplayName("게임 정보 저장 후 조회")
     @Test
@@ -27,8 +26,8 @@ class RacingGameRepositoryTest {
         final int trial = 10;
 
         // when
-        final int savedId = racingGameRepository.save(winners, trial);
-        final Optional<RacingGameDtoMapper> maybeRacingGameInfo = racingGameRepository.findById(savedId);
+        final int savedId = racingGameJdbcDao.save(winners, trial);
+        final Optional<RacingGameDtoMapper> maybeRacingGameInfo = racingGameJdbcDao.findById(savedId);
 
         assertTrue(maybeRacingGameInfo.isPresent());
 
@@ -45,12 +44,12 @@ class RacingGameRepositoryTest {
     @Test
     void findAll() {
         // given
-        racingGameRepository.save("저문,헤나", 10);
-        racingGameRepository.save("저문,디노,우가", 10);
-        racingGameRepository.save("저문,디노,베베,우가", 10);
+        racingGameJdbcDao.save("저문,헤나", 10);
+        racingGameJdbcDao.save("저문,디노,우가", 10);
+        racingGameJdbcDao.save("저문,디노,베베,우가", 10);
 
         // when
-        List<RacingGameDtoMapper> racingGameDtoMappers = racingGameRepository.findAll();
+        List<RacingGameDtoMapper> racingGameDtoMappers = racingGameJdbcDao.findAll();
 
         //then
         assertThat(racingGameDtoMappers.size()).isEqualTo(3);
