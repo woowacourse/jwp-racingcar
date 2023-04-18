@@ -20,17 +20,15 @@ public class RacingWebController {
 
     @PostMapping("/plays")
     public ResponseEntity<TrackResponse> play(@RequestBody final TrackRequest trackRequest) {
-        final String names = trackRequest.getNames();
-        final String trialTimes = trackRequest.getCount();
-
-        TrackResponse trackResponse = racingService.play(names, trialTimes);
+        final TrackResponse trackResponse = racingService.play(trackRequest);
 
         return ResponseEntity.ok(trackResponse);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<TrackResponse>> play() {
-        List<TrackResponse> trackResponses = racingService.findAll();
+        final List<TrackResponse> trackResponses = racingService.findAll();
+
         return ResponseEntity.ok(trackResponses);
     }
 }

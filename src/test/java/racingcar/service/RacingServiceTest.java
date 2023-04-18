@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.controller.CarResponse;
+import racingcar.controller.TrackRequest;
 import racingcar.controller.TrackResponse;
 
 import java.util.List;
@@ -23,7 +24,8 @@ class RacingServiceTest {
         String names = "그레이,호이,로건";
         String trialTimes = "10";
 
-        final TrackResponse trackResponse = racingService.play(names, trialTimes);
+        final TrackRequest trackRequest = new TrackRequest(names, trialTimes);
+        final TrackResponse trackResponse = racingService.play(trackRequest);
         final List<CarResponse> cars = trackResponse.getRacingCars();
 
         assertThat(cars.size()).isEqualTo(names.split(",").length);

@@ -3,6 +3,7 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.CarResponse;
+import racingcar.controller.TrackRequest;
 import racingcar.controller.TrackResponse;
 import racingcar.dao.RacingDao;
 import racingcar.dao.dto.CarDto;
@@ -28,7 +29,10 @@ public class RacingService {
     }
 
     @Transactional
-    public TrackResponse play(final String names, final String trialTimes) {
+    public TrackResponse play(final TrackRequest trackRequest) {
+        final String names = trackRequest.getNames();
+        final String trialTimes = trackRequest.getCount();
+
         final Cars cars = makeCars(names, movingStrategy);
         final Track track = makeTrack(cars, trialTimes);
 
@@ -47,7 +51,7 @@ public class RacingService {
         return new Track(cars, trialTimes);
     }
 
-    public Cars startRace(final Track track) {
+    private Cars startRace(final Track track) {
         while (track.runnable()) {
             track.race();
         }
