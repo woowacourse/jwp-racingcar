@@ -24,7 +24,6 @@ public class RacingConsoleController {
         Cars cars = makeCars(movingStrategy);
         Track track = makeTrack(cars);
 
-        outputView.printCurrentCarsPosition(cars);
         startRace(track);
         concludeWinner(track);
     }
@@ -56,13 +55,13 @@ public class RacingConsoleController {
 
     public void startRace(final Track track) {
         while (track.runnable()) {
-            Cars cars = track.race();
-            outputView.printCurrentCarsPosition(cars);
+            track.race();
         }
     }
 
     public void concludeWinner(final Track track) {
         outputView.printWinnerCars(track.getCars());
+        outputView.printCurrentCarsPosition(track.getCars());
     }
 
     public void terminated(final CustomException customException) {
