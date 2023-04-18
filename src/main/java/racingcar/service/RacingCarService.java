@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class RacingCarService {
 
+    private static final String DELIMITER = ",";
+
     private final PlayResultDao playResultDAO;
     private final PlayersInfoDao playersInfoDAO;
 
@@ -52,7 +54,13 @@ public class RacingCarService {
     }
 
     private void saveResult(int trialCount, List<CarParam> cars, List<CarParam> winners) {
-        int playerResultId = playResultDAO.returnPlayResultIdAfterInsert(trialCount, winners);
+        int playerResultId = playResultDAO.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
         playersInfoDAO.insert(playerResultId, cars);
+    }
+
+    private String makeWinnersString(List<CarParam> winners) {
+        return winners.stream()
+                .map(CarParam::getName)
+                .collect(Collectors.joining(DELIMITER));
     }
 }
