@@ -25,8 +25,7 @@ public class WebRacingCarController {
     @PostMapping("/plays")
     public ResponseEntity<RacingResultResponse> play(@Valid @RequestBody RacingCarRequest request) {
         List<String> carNames = getCarNames(request.getNames());
-        int gameId = racingCarService.playRacingGame(carNames, request.getCount());
-        RacingResultResponse racingResultResponse = racingCarService.obtainRacingResult(gameId);
+        RacingResultResponse racingResultResponse = racingCarService.playRacingGame(carNames, request.getCount());
         return ResponseEntity.ok().body(racingResultResponse);
     }
 

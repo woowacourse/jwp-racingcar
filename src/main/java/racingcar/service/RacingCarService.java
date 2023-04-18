@@ -27,13 +27,13 @@ public class RacingCarService {
     }
 
     @Transactional
-    public int playRacingGame(List<String> carNames, int tryCount) {
+    public RacingResultResponse playRacingGame(List<String> carNames, int tryCount) {
         int gameId = racingCarRepository.saveGame(tryCount);
         RacingCars racingCars = createRacingCars(carNames);
         moveCars(racingCars, tryCount);
         racingCarRepository.saveCars(gameId, racingCars.getCars());
         racingCarRepository.saveWinners(gameId, racingCars.getWinners());
-        return gameId;
+        return obtainRacingResult(gameId);
     }
 
     public RacingCars createRacingCars(List<String> carNames) {

@@ -47,7 +47,7 @@ class WebRacingCarControllerTest {
         List<String> winners = List.of("raon");
         List<RacingCarDto> racingCars = List.of(new RacingCarDto("glen", 4), new RacingCarDto("raon", 6));
 
-        doReturn(1)
+        doReturn(new RacingResultResponse(winners, racingCars))
                 .when(racingCarService)
                 .playRacingGame(anyList(), anyInt());
 

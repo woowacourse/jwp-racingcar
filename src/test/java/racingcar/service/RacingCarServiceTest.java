@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,11 +31,14 @@ class RacingCarServiceTest {
     RacingCarService racingCarService;
 
     @Test
-    @DisplayName("레이싱 게임이 진행되면 gameId를 반환해야 한다.")
+    @DisplayName("레이싱 게임이 진행되면 게임 결과를 반환해야 한다.")
     void playRacingGame_success() {
         // given
         List<String> carNames = List.of("glen", "raon");
         int tryCount = 10;
+
+        RacingCarDto racingCarDto2 = new RacingCarDto("raon", 6);
+        RacingCarDto racingCarDto1 = new RacingCarDto("glen", 4);
 
         doReturn(1)
                 .when(numberGenerator)
@@ -44,10 +48,22 @@ class RacingCarServiceTest {
                 .when(racingCarRepository)
                 .saveGame(10);
 
+        doReturn(List.of("raon"))
+                .when(racingCarRepository)
+                .findWinnersByGameId(anyInt());
+
+        doReturn(List.of(racingCarDto1, racingCarDto2))
+                .when(racingCarRepository)
+                .findRacingCarsByGameId(anyInt());
+
         // expect
-        int gameId = racingCarService.playRacingGame(carNames, tryCount);
-        assertThat(gameId)
-                .isEqualTo(1);
+        RacingResultResponse result =
+                racingCarService.playRacingGame(carNames, tryCount);
+        assertThat(result.getWinners())
+                .containsExactly("raon");
+        assertThat(result.getRacingCars())
+                .hasSize(2)
+                .contains(racingCarDto1, racingCarDto2);
     }
 
     @Test
@@ -66,14 +82,14 @@ class RacingCarServiceTest {
                 .findWinners();
 
         // expect
-        List<RacingResultResponse> racingResultResponses = racingCarService.searchGameHistory();
+        List<RacingResultResponse> results = racingCarService.searchGameHistory();
 
-        assertThat(racingResultResponses)
+        assertThat(results)
                 .hasSize(1);
-        assertThat(racingResultResponses.get(0).getRacingCars())
+        assertThat(results.get(0).getRacingCars())
                 .hasSize(2)
                 .contains(racingCarDto1, racingCarDto2);
-        assertThat(racingResultResponses.get(0).getWinners())
+        assertThat(results.get(0).getWinners())
                 .hasSize(2)
                 .contains("glen", "raon");
     }
