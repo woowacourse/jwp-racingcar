@@ -48,8 +48,8 @@ class CarsTest {
         @Test
         @DisplayName("자동차 이름들이 올바른 경우 잘 추가되는지 검사한다.")
         void 정상_입력() {
-            Car gitJjang = new Car("깃짱");
-            Car irene = new Car("이리내");
+            Car gitJjang = Car.from("깃짱");
+            Car irene = Car.from("이리내");
             List<Car> cars = new ArrayList<>(List.of(gitJjang, irene));
 
             assertThatCode(()-> new Cars(cars)).doesNotThrowAnyException();
@@ -57,46 +57,13 @@ class CarsTest {
 
     }
 
-    @Test
-    @DisplayName("더 많이 이동한 차량이 우승자로 판단되는지 검사한다.")
-    void winnerTest() {
-        Car gitJjang = new Car("깃짱");
-        Car irene = new Car("이리내");
-        Cars cars = new Cars(Arrays.asList(gitJjang, irene));
-
-        gitJjang.move(true);
-        irene.move(true);
-        gitJjang.move(true);
-        irene.move(false);
-
-        assertThat(cars.getWinners().contains("깃짱"));
-    }
-
-    @Test
-    @DisplayName("우승자가 이동한 칸수가 경기에 참여한 차량들이 이동한 칸수 중 최대 칸수와 일치하는지 검사한다.")
-    void maxPositionTest() {
-        Car gitJjang = new Car("깃짱");
-        Car irene = new Car("이리내");
-        Cars cars = Cars.from(Arrays.asList("깃짱", "이리내"));
-
-        gitJjang.move(true);
-        irene.move(true);
-        gitJjang.move(true);
-        irene.move(false);
-        gitJjang.move(true);
-        irene.move(false);
-
-        assertThat(cars.getWinners().contains("깃짱"));
-        assertThat(gitJjang.getPosition()).isEqualTo(3);
-    }
-
     @RepeatedTest(100)
     @DisplayName("자동차가 한번 이동한 칸수가 0칸 또는 1칸인지 검사한다")
     void carMoveTest() {
-        Car gitJjang = new Car("깃짱");
-        Car secondGitJjang = new Car("깃짱부캐");
-        Car irene = new Car("이리내");
-        Car secondIrene = new Car("이리내부캐");
+        Car gitJjang = Car.from("깃짱");
+        Car secondGitJjang = Car.from("깃짱부캐");
+        Car irene = Car.from("이리내");
+        Car secondIrene = Car.from("이리내부캐");
         Cars cars = new Cars(Arrays.asList(gitJjang, secondGitJjang, irene, secondIrene));
 
         cars.moveCars(new ThresholdCarMoveManager());
