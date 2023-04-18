@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RacingGameRepository {
+public class RacingGameRepository implements GameRepository {
     private final GameDao gameDao;
     private final WinnerDao winnerDao;
     private final CarDao carDao;
@@ -20,6 +20,7 @@ public class RacingGameRepository {
         this.carDao = carDao;
     }
 
+    @Override
     @Transactional
     public void saveGame(RacingGameDto racingGameDto) {
         long gameId = gameDao.insertGame(racingGameDto.getMoveCount());
@@ -27,6 +28,7 @@ public class RacingGameRepository {
         winnerDao.insertWinner(racingGameDto.getWinnerNames(), gameId);
     }
 
+    @Override
     public List<RacingGameDto> selectAllGames() {
         List<RacingGameDto> games = new ArrayList<>();
         List<Long> gameIds = gameDao.selectAllGameIds();

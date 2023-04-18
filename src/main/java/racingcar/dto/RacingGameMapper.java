@@ -8,21 +8,20 @@ import java.util.stream.Collectors;
 
 public class RacingGameMapper {
 
-    public static RacingGameDto toGameResultDto(RacingGame racingGame){
+    public static RacingGameDto toRacingGameDto(RacingGame racingGame) {
         List<String> winners = racingGame.getWinnerNames();
         List<Car> cars = racingGame.getCars();
         int moveCount = racingGame.getMoveCount();
         return new RacingGameDto(winners, CarMapper.toCarDtos(cars), moveCount);
     }
 
-    public static ResponseDto toResponseDto(RacingGame racingGame){
-        List<CarDto> carDtos = CarMapper.toCarDtos(racingGame.getCars());
-        return new ResponseDto(racingGame.getWinnerNames(), carDtos);
-    }
-
-    public static List<ResponseDto> toResponseDto(List<RacingGameDto> racingGameDtos){
+    public static List<ResponseDto> toResponseDtos(List<RacingGameDto> racingGameDtos) {
         return racingGameDtos.stream()
                 .map(racingGameDto -> new ResponseDto(racingGameDto.getWinnerNames(), racingGameDto.getCars()))
                 .collect(Collectors.toList());
+    }
+
+    public static ResponseDto toResponseDto(RacingGameDto racingGameDto) {
+        return new ResponseDto(racingGameDto.getWinnerNames(), racingGameDto.getCars());
     }
 }

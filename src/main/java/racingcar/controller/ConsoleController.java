@@ -1,59 +1,45 @@
 package racingcar.controller;
 
-import racingcar.dto.CarMapper;
-import racingcar.model.MoveCount;
-import racingcar.model.RacingGame;
-import racingcar.model.car.Cars;
-import racingcar.model.manager.CarMoveManager;
+import racingcar.dto.RacingGameDto;
+import racingcar.dto.StartInformationDto;
+import racingcar.services.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
+
+import java.util.List;
 
 public class ConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final CarMoveManager carMoveManager;
+    private final RacingGameService racingGameService;
 
-    public ConsoleController(InputView inputView, OutputView outputView, CarMoveManager carMoveManager) {
+    public ConsoleController(InputView inputView, OutputView outputView, RacingGameService racingGameService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.carMoveManager = carMoveManager;
+        this.racingGameService = racingGameService;
     }
 
     public void play() {
-        RacingGame racingGame = createRacingGame();
-        racingGame.play();
-        showGameResult(racingGame);
-    }
-
-    private RacingGame createRacingGame() {
-        Cars cars = createCars();
-        MoveCount moveCount = createMoveCount();
-        return new RacingGame(carMoveManager, cars, moveCount);
-    }
-
-    private Cars createCars() {
         try {
-            return Cars.from(inputView.readCarNames());
+            StartInformationDto startInformationDto = createStartInformation();
+            RacingGameDto racingGameDto = racingGameService.play(startInformationDto);
+            showGameResult(racingGameDto);
         } catch (IllegalArgumentException exception) {
             outputView.printExceptionMessage(exception.getMessage());
-            return createCars();
         }
     }
 
-    private MoveCount createMoveCount() {
-        try {
-            return MoveCount.from(inputView.readMoveCount());
-        } catch (IllegalArgumentException exception) {
-            outputView.printExceptionMessage(exception.getMessage());
-            return createMoveCount();
-        }
+    private StartInformationDto createStartInformation() {
+        List<String> carNames = inputView.readCarNames();
+        String moveCount = inputView.readMoveCount();
+        return new StartInformationDto(carNames, moveCount);
     }
 
-    private void showGameResult(RacingGame racingGame) {
+    private void showGameResult(RacingGameDto racingGameDto) {
         outputView.printResultMessage();
-        outputView.printWinners(racingGame.getWinnerNames());
-        outputView.printResult(CarMapper.toCarDtos(racingGame.getCars()));
+        outputView.printWinners(racingGameDto.getWinnerNames());
+        outputView.printResult(racingGameDto.getCars());
     }
 
 }

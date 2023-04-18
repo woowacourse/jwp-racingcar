@@ -1,8 +1,10 @@
 package racingcar.services;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.RacingGameRepository;
-import racingcar.dto.*;
+import racingcar.dao.GameRepository;
+import racingcar.dto.RacingGameDto;
+import racingcar.dto.RacingGameMapper;
+import racingcar.dto.StartInformationDto;
 import racingcar.model.MoveCount;
 import racingcar.model.RacingGame;
 import racingcar.model.car.Cars;
@@ -13,17 +15,18 @@ import java.util.List;
 @Service
 public class RacingGameService {
 
-    private final RacingGameRepository racingGameRepository;
+    private final GameRepository gameRepository;
 
-    public RacingGameService(RacingGameRepository racingGameRepository) {
-        this.racingGameRepository = racingGameRepository;
+    public RacingGameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
     }
 
-    public ResponseDto play(StartInformationDto startInformationDto) {
+    public RacingGameDto play(StartInformationDto startInformationDto) {
         RacingGame racingGame = createRacingGame(startInformationDto);
         racingGame.play();
-        racingGameRepository.saveGame(RacingGameMapper.toGameResultDto(racingGame));
-        return RacingGameMapper.toResponseDto(racingGame);
+        RacingGameDto racingGameDto = RacingGameMapper.toRacingGameDto(racingGame);
+        gameRepository.saveGame(racingGameDto);
+        return racingGameDto;
     }
 
     private RacingGame createRacingGame(StartInformationDto startInformationDto) {
@@ -32,7 +35,7 @@ public class RacingGameService {
         return new RacingGame(new ThresholdCarMoveManager(), cars, moveCount);
     }
 
-    public List<ResponseDto> queryHistory() {
-        return RacingGameMapper.toResponseDto(racingGameRepository.selectAllGames());
+    public List<RacingGameDto> queryHistory() {
+        return gameRepository.selectAllGames();
     }
 }
