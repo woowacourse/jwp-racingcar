@@ -1,6 +1,5 @@
 package racingcar;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import racingcar.controller.RacingGameController;
 import racingcar.dao.CarDao;
@@ -16,8 +15,7 @@ public class RacingCarConsoleApplication {
     public static void main(String[] args) {
 
         DataSource dataSource = new DriverManagerDataSource();
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        GameDao gameDao = new GameDao(jdbcTemplate);
+        GameDao gameDao = new GameDao(dataSource);
         CarDao carDao = new CarDao(dataSource);
         NumberGenerator randomNumberGenerator = new RandomNumberGenerator();
         RacingGameService racingGameService = new RacingGameService(gameDao, carDao, randomNumberGenerator);
