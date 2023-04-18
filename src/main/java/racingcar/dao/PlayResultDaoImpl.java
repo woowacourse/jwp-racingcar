@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,7 +22,10 @@ public class PlayResultDaoImpl implements PlayResultDao {
         String sql = "INSERT INTO PLAY_RESULT (winners, trial_count) VALUES(:winners, :trialCount)";
 
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(playResult);
-        return namedParameterJdbcTemplate.update(sql, parameterSource, new GeneratedKeyHolder());
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(sql, parameterSource, keyHolder);
+        return (int) keyHolder.getKeys().get("id");
     }
 
     @Override

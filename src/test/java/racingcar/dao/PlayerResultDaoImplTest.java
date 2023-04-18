@@ -38,8 +38,6 @@ class PlayerResultDaoImplTest {
     void initialize() {
         jdbcTemplate.execute("delete from PLAYER_RESULT");
         jdbcTemplate.execute("delete from PLAY_RESULT");
-        jdbcTemplate.update("alter table play_result alter column id restart");
-        jdbcTemplate.update("alter table player_result alter column id restart");
         playResultId = playResultDaoImpl.insertPlayResult(new PlayResult("name1,name2", 3));
     }
 

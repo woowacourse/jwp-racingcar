@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.controller.RacingResponse;
 import racingcar.dao.PlayResult;
-import racingcar.dao.PlayResultDaoImpl;
+import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayerResult;
-import racingcar.dao.PlayerResultDaoImpl;
+import racingcar.dao.PlayerResultDao;
 import racingcar.model.Car;
 
 @Service
@@ -16,12 +16,12 @@ public class RacingcarService {
 
     private static final int MINIMUM_PARTICIPANT = 2;
 
-    private final PlayResultDaoImpl playResultDaoImpl;
-    private final PlayerResultDaoImpl playerResultDaoImpl;
+    private final PlayResultDao playResultDao;
+    private final PlayerResultDao playerResultDao;
 
-    public RacingcarService(final PlayResultDaoImpl playResultDaoImpl, final PlayerResultDaoImpl playerResultDaoImpl) {
-        this.playResultDaoImpl = playResultDaoImpl;
-        this.playerResultDaoImpl = playerResultDaoImpl;
+    public RacingcarService(final PlayResultDao playResultDao, final PlayerResultDao playerResultDao) {
+        this.playResultDao = playResultDao;
+        this.playerResultDao = playerResultDao;
     }
 
     public RacingResponse move(final List<String> carNames, final int count) {
@@ -33,7 +33,7 @@ public class RacingcarService {
 
         String winners = findWinners(cars);
 
-        int playResultId = playResultDaoImpl.insertPlayResult(new PlayResult(winners, count));
+        int playResultId = playResultDao.insertPlayResult(new PlayResult(winners, count));
         List<PlayerResult> playerResults = insertPlayerResults(cars, playResultId);
         return new RacingResponse(winners, playerResults);
     }
@@ -43,7 +43,7 @@ public class RacingcarService {
                 .map(car -> new PlayerResult(playResultId, car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
 
-        playerResults.forEach(playerResultDaoImpl::insertPlayerResult);
+        playerResults.forEach(playerResultDao::insertPlayerResult);
         return playerResults;
     }
 
@@ -83,7 +83,7 @@ public class RacingcarService {
     }
 
     public List<RacingResponse> allResults() {
-        List<PlayResult> playResults = playResultDaoImpl.selectAllResults();
+        List<PlayResult> playResults = playResultDao.selectAllResults();
         List<List<PlayerResult>> playerResults = selectPlayerResultListsByPlayResultIds(playResults);
 
         List<RacingResponse> racingResponses = new ArrayList<>();
@@ -97,8 +97,9 @@ public class RacingcarService {
         List<List<PlayerResult>> playerResults = new ArrayList<>();
         for (PlayResult playResult : playResults) {
             int playResultId = playResult.getId();
-            playerResults.add(playerResultDaoImpl.selectPlayerResult(playResultId));
+            playerResults.add(playerResultDao.selectPlayerResult(playResultId));
         }
         return playerResults;
     }
+
 }
