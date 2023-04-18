@@ -1,12 +1,5 @@
 package racingcar.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doReturn;
-
-import java.util.List;
-import java.util.Map;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +10,12 @@ import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingResultResponse;
 import racingcar.repository.RacingCarRepository;
 import racingcar.utils.NumberGenerator;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
 class RacingCarServiceTest {

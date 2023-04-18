@@ -1,18 +1,14 @@
 package racingcar.controller;
 
-import static java.util.stream.Collectors.*;
-
-import java.util.List;
-
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.domain.Car;
-import racingcar.domain.RacingGame;
 import racingcar.domain.RacingCars;
 import racingcar.repository.RacingCarRepository;
 import racingcar.service.RacingCarService;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
+
+import java.util.List;
 
 public class RacingCarController {
 
