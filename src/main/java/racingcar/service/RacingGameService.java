@@ -10,25 +10,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import racingcar.controller.dto.CarDto;
 import racingcar.controller.dto.RacingGameResponse;
+import racingcar.dao.PlayerDao;
+import racingcar.dao.RacingGameDao;
+import racingcar.dao.mapper.PlayerDtoMapper;
+import racingcar.dao.mapper.RacingGameDtoMapper;
 import racingcar.domain.CarGroup;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.repository.PlayerRepository;
-import racingcar.repository.RacingGameRepository;
-import racingcar.repository.mapper.PlayerDtoMapper;
-import racingcar.repository.mapper.RacingGameDtoMapper;
 
 @Service
 @Transactional(readOnly = true)
 public class RacingGameService {
 
-    private final RacingGameRepository racingGameRepository;
-    private final PlayerRepository playerRepository;
+    private final RacingGameDao racingGameDao;
+    private final PlayerDao playerDao;
 
-    protected RacingGameService(final RacingGameRepository racingGameRepository, final PlayerRepository playerRepository) {
-        this.racingGameRepository = racingGameRepository;
-        this.playerRepository = playerRepository;
+    public RacingGameService(final RacingGameDao racingGameDao, final PlayerDao playerDao) {
+        this.racingGameDao = racingGameDao;
+        this.playerDao = playerDao;
     }
 
     @Transactional
@@ -37,8 +37,8 @@ public class RacingGameService {
         raceBy(count, racingGame);
         final String winners = createWinners(racingGame);
 
-        final int racingGameId = racingGameRepository.save(winners, count);
-        final boolean isSaved = playerRepository.save(carGroup, racingGameId);
+        final int racingGameId = racingGameDao.save(winners, count);
+        final boolean isSaved = playerDao.save(carGroup, racingGameId);
         if (!isSaved) {
             throw new IllegalStateException("[ERROR] 레이싱 플레이어 저장에 실패하였습니다.");
         }
@@ -49,7 +49,7 @@ public class RacingGameService {
     }
 
     public List<RacingGameResponse> findHistory() {
-        final List<RacingGameDtoMapper> gameHistories = racingGameRepository.findAll();
+        final List<RacingGameDtoMapper> gameHistories = racingGameDao.findAll();
         final List<Integer> gameHistoryIds = getGameHistoryIds(gameHistories);
         final List<List<CarDto>> playerHistories = getPlayerHistories(gameHistoryIds);
 
@@ -89,7 +89,7 @@ public class RacingGameService {
     private List<List<CarDto>> getPlayerHistories(final List<Integer> gameHistoryIds) {
         final List<List<CarDto>> playerHistories = new ArrayList<>();
         for (final Integer gameHistoryId : gameHistoryIds) {
-            final List<PlayerDtoMapper> playerDtoMappers = playerRepository.findAllById(gameHistoryId);
+            final List<PlayerDtoMapper> playerDtoMappers = playerDao.findAllById(gameHistoryId);
             final List<CarDto> carDtos = createCarDtos(playerDtoMappers);
             playerHistories.add(carDtos);
         }
