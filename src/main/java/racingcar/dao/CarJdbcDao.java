@@ -11,7 +11,7 @@ import racingcar.entity.CarEntity;
 @Component
 public class CarJdbcDao implements CarDao {
     private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert simpleJdbcInsert;
+    private final SimpleJdbcInsert jdbcInsert;
     private final RowMapper<CarEntity> rowMapper = (resultSet, rowNum) -> new CarEntity(
             resultSet.getInt("id"),
             resultSet.getString("name"),
@@ -22,7 +22,7 @@ public class CarJdbcDao implements CarDao {
 
     public CarJdbcDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+        this.jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("Car")
                 .usingGeneratedKeyColumns("id");
     }
@@ -31,7 +31,7 @@ public class CarJdbcDao implements CarDao {
         final BeanPropertySqlParameterSource[] parameterSources = cars.stream()
                 .map(BeanPropertySqlParameterSource::new)
                 .toArray(BeanPropertySqlParameterSource[]::new);
-        simpleJdbcInsert.executeBatch(parameterSources);
+        jdbcInsert.executeBatch(parameterSources);
     }
 
     @Override
