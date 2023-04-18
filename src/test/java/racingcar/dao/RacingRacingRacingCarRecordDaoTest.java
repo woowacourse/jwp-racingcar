@@ -34,9 +34,8 @@ class RacingRacingRacingCarRecordDaoTest {
     void insertCar() {
         //given
         String carName = "Rosie";
-        RacingCar racingCar = new RacingCar(0, carName);
+        RacingCar racingCar = new RacingCar(carName);
         boolean isWinner = true;
-        long historyId = 1L;
         //when
         long insertedRecordId = racingCarRecordDao.insert(racingHistoryId, racingCar, isWinner);
         //then
@@ -48,7 +47,7 @@ class RacingRacingRacingCarRecordDaoTest {
                         rs.getString("name"),
                         rs.getInt("position"),
                         rs.getBoolean("is_winner"),
-                        historyId
+                        rs.getLong("history_id")
                 )
         );
 
@@ -56,7 +55,7 @@ class RacingRacingRacingCarRecordDaoTest {
                 () -> assertThat(foundCar.getName()).isEqualTo(carName),
                 () -> assertThat(foundCar.getPosition()).isZero(),
                 () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner),
-                () -> assertThat(foundCar.getHistoryId()).isEqualTo(historyId)
+                () -> assertThat(foundCar.getHistoryId()).isEqualTo(racingHistoryId)
         );
 
     }

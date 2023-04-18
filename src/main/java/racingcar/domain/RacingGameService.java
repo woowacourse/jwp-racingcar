@@ -26,7 +26,7 @@ public class RacingGameService {
 
     public RacingGameDto play(int trialCount, List<String> names) {
         Long historyId = racingGameHistoryDao.insert(trialCount, LocalDateTime.now());
-        RacingGame game = RacingGame.create(historyId, names);
+        RacingGame game = RacingGame.from(names);
         game.play(trialCount, numberGenerator);
         insertCars(game, historyId);
 

@@ -7,23 +7,22 @@ import racingcar.domain.cars.RacingCars;
 
 public class RacingGame {
 
-    private final long id;
+    private Long id;
     private final RacingCars racingCars;
 
 
-    public RacingGame(long id, List<RacingCar> racingCars) {
-        this.id = id;
+    public RacingGame(List<RacingCar> racingCars) {
         this.racingCars = new RacingCars(racingCars);
     }
 
-    public static RacingGame create(long gameHistoryId, List<String> carNames) {
-        List<RacingCar> racingCars = createRacingCars(gameHistoryId, carNames);
-        return new RacingGame(gameHistoryId, racingCars);
+    public static RacingGame from(List<String> carNames) {
+        List<RacingCar> racingCars = createRacingCars(carNames);
+        return new RacingGame(racingCars);
     }
 
-    private static List<RacingCar> createRacingCars(long gameId, List<String> carNames) {
+    private static List<RacingCar> createRacingCars(List<String> carNames) {
         List<RacingCar> racingCars = carNames.stream()
-                .map(carName -> new RacingCar(gameId, carName))
+                .map(carName -> new RacingCar(carName))
                 .collect(Collectors.toList());
         return racingCars;
     }
