@@ -31,13 +31,9 @@ public class RacingCarService {
     public GameResponse play(final GameDto gameDto) {
         RacingGame game = createGame(gameDto.getNames(), gameDto.getCount());
         int gameId = game.getId();
-
         race(game, gameDto.getCount());
-        updateWinners(game);
-        String winners = findWinners(gameId);
-        List<CarDto> cars = findCars(gameId);
 
-        return GameResponse.of(winners, new ArrayList<>(cars));
+        return makeGameResponse(gameId);
     }
 
     private RacingGame createGame(final List<String> carNames, final int tryTimes) {
@@ -58,16 +54,22 @@ public class RacingCarService {
         convertDto(cars).forEach(car -> carDao.updatePosition(car, racingGame.getId()));
     }
 
-    private void updateWinners(final RacingGame racingGame) {
-        List<String> winners = racingGame.getWinners();
-        winners.forEach(name -> carDao.updateWinner(name, racingGame.getId()));
+    private GameResponse makeGameResponse(final int gameId) {
+        String winners = findWinners(gameId);
+        List<CarDto> cars = findCars(gameId);
+
+        return GameResponse.of(winners, new ArrayList<>(cars));
     }
 
     private String findWinners(final int gameId) {
-        List<CarDto> winners = carDao.findWinners(gameId);
-        return winners.stream()
-                .map(CarDto::getName)
-                .collect(Collectors.joining(DELIMITER));
+        List<CarDto> carDtos = findCars(gameId);
+        Cars cars = new Cars(
+                carDtos.stream()
+                        .map(carDto -> new Car(carDto.getName(), carDto.getPosition()))
+                        .collect(Collectors.toList())
+        );
+
+        return String.join(DELIMITER, cars.findWinners());
     }
 
     private List<CarDto> findCars(final int gameId) {

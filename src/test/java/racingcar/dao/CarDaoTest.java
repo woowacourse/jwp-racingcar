@@ -57,24 +57,6 @@ class CarDaoTest {
     }
 
     @Test
-    @DisplayName("우승자를 업데이트한다.")
-    void updateWinner() {
-        carDao.updateWinner("밀리", gameId);
-        CarDto winner = carDao.findWinners(gameId).get(0);
-
-        assertThat(winner.getName()).isEqualTo("밀리");
-    }
-
-    @Test
-    @DisplayName("우승자를 조회한다.")
-    void findWinners() {
-        carDao.insertCar(CarDto.of("조이", 1), gameId);
-        carDao.updateWinner("밀리", gameId);
-
-        assertThat(carDao.findWinners(gameId)).hasSize(1);
-    }
-
-    @Test
     @DisplayName("전체 자동차를 조회한다.")
     void findCars() {
         CarDto car = carDao.findCars(gameId).get(0);
