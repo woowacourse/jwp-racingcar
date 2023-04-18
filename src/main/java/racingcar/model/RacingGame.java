@@ -38,7 +38,7 @@ public class RacingGame {
         return cars.getCars();
     }
 
-    public MoveCount getMoveCount() {
-        return moveCount;
+    public int getMoveCount() {
+        return moveCount.getMoveCount();
     }
 }

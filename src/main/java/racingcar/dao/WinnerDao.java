@@ -18,8 +18,8 @@ public class WinnerDao {
     }
 
     public void insertWinner(List<String> winners, long gameId) {
-        String sql3 = "INSERT INTO winner (game_id,winner) VALUES (?,?)";
-        jdbcTemplate.batchUpdate(sql3, new BatchPreparedStatementSetter() {
+        String sql = "INSERT INTO winner (game_id,winner) VALUES (?,?)";
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 ps.setLong(1, gameId);

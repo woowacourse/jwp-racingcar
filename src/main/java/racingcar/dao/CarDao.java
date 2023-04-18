@@ -23,19 +23,19 @@ public class CarDao {
             resultSet.getInt("position")
     );
 
-    public void insert(List<CarDto> cars, long gameId) {
+    public void insert(List<CarDto> carDtos, long gameId) {
         String sql = "INSERT INTO car(game_id, name, position) VALUES (?,?,?)";
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 ps.setLong(1, gameId);
-                ps.setString(2, cars.get(i).getName());
-                ps.setInt(3, cars.get(i).getPosition());
+                ps.setString(2, carDtos.get(i).getName());
+                ps.setInt(3, carDtos.get(i).getPosition());
             }
 
             @Override
             public int getBatchSize() {
-                return cars.size();
+                return carDtos.size();
             }
         });
     }

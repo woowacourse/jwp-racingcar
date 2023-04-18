@@ -21,12 +21,12 @@ public class GameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public long insertGame(MoveCount moveCount) {
+    public long insertGame(int moveCount) {
         String sql = "INSERT INTO game (trial_count, date) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pst.setInt(1, moveCount.getMoveCount());
+            pst.setInt(1, moveCount);
             pst.setDate(2, Date.valueOf(LocalDate.now()));
             return pst;
         }, keyHolder);
@@ -37,4 +37,10 @@ public class GameDao {
         String sql = "SELECT id FROM game";
         return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getLong("id"));
     }
+
+    public int selectMoveCountById(long id) {
+        String sql = "SELECT trial_count FROM game WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    }
+
 }

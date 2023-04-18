@@ -3,8 +3,7 @@ package racingcar.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.CarDto;
-import racingcar.dto.ResponseDto;
-import racingcar.model.MoveCount;
+import racingcar.dto.RacingGameDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +21,20 @@ public class RacingGameRepository {
     }
 
     @Transactional
-    public void saveGame(MoveCount moveCount, List<String> winners, List<CarDto> cars) {
-        long gameId = gameDao.insertGame(moveCount);
-        carDao.insert(cars, gameId);
-        winnerDao.insertWinner(winners, gameId);
+    public void saveGame(RacingGameDto racingGameDto) {
+        long gameId = gameDao.insertGame(racingGameDto.getMoveCount());
+        carDao.insert(racingGameDto.getCars(), gameId);
+        winnerDao.insertWinner(racingGameDto.getWinnerNames(), gameId);
     }
 
-    public List<ResponseDto> selectAllGames() {
-        List<ResponseDto> games = new ArrayList<>();
+    public List<RacingGameDto> selectAllGames() {
+        List<RacingGameDto> games = new ArrayList<>();
         List<Long> gameIds = gameDao.selectAllGameIds();
         for (Long gameId : gameIds) {
-            List<CarDto> carDto = carDao.selectByGameId(gameId);
+            List<CarDto> carDtos = carDao.selectByGameId(gameId);
             List<String> winners = winnerDao.selectByGameId(gameId);
-            games.add(new ResponseDto(winners, carDto));
+            int moveCount = gameDao.selectMoveCountById(gameId);
+            games.add(new RacingGameDto(winners, carDtos, moveCount));
         }
         return games;
     }

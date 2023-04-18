@@ -2,10 +2,7 @@ package racingcar.services;
 
 import org.springframework.stereotype.Service;
 import racingcar.dao.RacingGameRepository;
-import racingcar.dto.CarDto;
-import racingcar.dto.CarMapper;
-import racingcar.dto.ResponseDto;
-import racingcar.dto.StartInformationDto;
+import racingcar.dto.*;
 import racingcar.model.MoveCount;
 import racingcar.model.RacingGame;
 import racingcar.model.car.Cars;
@@ -25,10 +22,8 @@ public class RacingGameService {
     public ResponseDto play(StartInformationDto startInformationDto) {
         RacingGame racingGame = createRacingGame(startInformationDto);
         racingGame.play();
-
-        List<CarDto> carDtos = CarMapper.toCarDtos(racingGame.getCars());
-        racingGameRepository.saveGame(racingGame.getMoveCount(), racingGame.getWinnerNames(), carDtos);
-        return new ResponseDto(racingGame.getWinnerNames(), carDtos);
+        racingGameRepository.saveGame(RacingGameMapper.toGameResultDto(racingGame));
+        return RacingGameMapper.toResponseDto(racingGame);
     }
 
     private RacingGame createRacingGame(StartInformationDto startInformationDto) {
@@ -38,6 +33,6 @@ public class RacingGameService {
     }
 
     public List<ResponseDto> queryHistory() {
-        return racingGameRepository.selectAllGames();
+        return RacingGameMapper.toResponseDto(racingGameRepository.selectAllGames());
     }
 }
