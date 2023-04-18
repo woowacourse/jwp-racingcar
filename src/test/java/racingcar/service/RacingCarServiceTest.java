@@ -68,8 +68,8 @@ class RacingCarServiceTest {
     }
 
     @Test
-    @DisplayName("자동차 경주 게임을 시작한다.")
-    void start_race() {
+    @DisplayName("자동차 경주 게임을 시작하고, 결과를 반환한다.")
+    void returns_result_after_start_race() {
         // given
         Cars cars = Cars.from(List.of("pobi", "crong"));
         TryCount tryCount = new TryCount(3);
