@@ -55,6 +55,7 @@ public class RacingCarService {
         return new RacingResultResponse(winners, racingCars);
     }
 
+    @Transactional(readOnly = true)
     public List<RacingResultResponse> searchGameHistory() {
         Map<Integer, List<RacingCarDto>> racingCars = racingCarRepository.findRacingCars();
         Map<Integer, List<String>> winners = racingCarRepository.findWinners();
