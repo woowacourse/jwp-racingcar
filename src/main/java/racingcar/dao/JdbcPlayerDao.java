@@ -17,6 +17,7 @@ public class JdbcPlayerDao implements PlayerDao {
 
     private final SimpleJdbcInsert insertPlayerActor;
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Car> carRowMapper = new CarRowMapper();
 
     public JdbcPlayerDao(JdbcTemplate jdbcTemplate) {
         this.insertPlayerActor = new SimpleJdbcInsert(jdbcTemplate)
@@ -39,11 +40,6 @@ public class JdbcPlayerDao implements PlayerDao {
 
         insertPlayerActor.executeBatch(batchParams);
     }
-
-    private final RowMapper<Car> carRowMapper = (resultSet, rowNum) -> {
-        Car car = new Car(resultSet.getString("name"), resultSet.getInt("position"));
-        return car;
-    };
 
     @Override
     public List<Car> find(int gameId) {
