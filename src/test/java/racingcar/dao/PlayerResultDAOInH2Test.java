@@ -1,3 +1,4 @@
+
 package racingcar.dao;
 
 import org.assertj.core.api.Assertions;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.entity.PlayerResultEntity;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayerResultDto;
@@ -16,11 +18,11 @@ import java.util.stream.Collectors;
 
 @ComponentScan
 @JdbcTest
-class PlayerResultDAOTest {
+class PlayerResultDAOInH2Test {
     @Autowired
-    private GameResultDAO gameResultDAO;
+    private GameResultDAOInH2 gameResultDAOInH2;
     @Autowired
-    private PlayerResultDAO playerResultDAO;
+    private PlayerResultDAOInH2 playerResultDAOInH2;
 
     @DisplayName("플레이어들의 게임 결과를 저장할 수 있다.")
     @Transactional
@@ -28,13 +30,13 @@ class PlayerResultDAOTest {
     void savePlayerResultTest() {
         //given
         List<CarDto> carDtos = List.of(CarDto.of("zuny", 10), CarDto.of("dochi", 7));
-        int savedId = gameResultDAO.save(GameResultDto.from(10));
+        int savedId = gameResultDAOInH2.save(GameResultDto.from(10));
 
         //when
-        playerResultDAO.saveAll(PlayerResultDto.of(carDtos, savedId));
+        playerResultDAOInH2.saveAll(PlayerResultDto.of(carDtos, savedId));
 
         //then
-        List<PlayerResultEntity> findResult = playerResultDAO.findAllByGameId(savedId);
+        List<PlayerResultEntity> findResult = playerResultDAOInH2.findAll();
         List<String> findNames = getNamesFrom(findResult);
         List<Integer> findPositions = getPositionsFrom(findResult);
 
