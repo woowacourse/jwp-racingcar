@@ -1,7 +1,9 @@
-package racingcar.repository;
+package racingcar.persistence.repository;
 
 import org.springframework.stereotype.Repository;
 import racingcar.dto.GameResultResponse;
+import racingcar.persistence.dao.GameResultDao;
+import racingcar.persistence.dao.PlayerResultDao;
 
 import java.util.List;
 

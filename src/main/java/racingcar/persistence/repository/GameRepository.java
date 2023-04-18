@@ -1,4 +1,4 @@
-package racingcar.repository;
+package racingcar.persistence.repository;
 
 import racingcar.dto.GameResultResponse;
 

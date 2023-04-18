@@ -7,7 +7,7 @@ import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.CarData;
 import racingcar.dto.GameResultResponse;
 import racingcar.dto.RacingGameRequest;
-import racingcar.repository.GameRepository;
+import racingcar.persistence.repository.GameRepository;
 
 import java.util.Comparator;
 import java.util.List;

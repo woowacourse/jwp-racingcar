@@ -2,7 +2,7 @@ package racingcar.controller;
 
 import racingcar.dto.GameResultResponse;
 import racingcar.dto.RacingGameRequest;
-import racingcar.repository.InMemoryGameRepository;
+import racingcar.persistence.repository.InMemoryGameRepository;
 import racingcar.service.RacingGameService;
 import racingcar.view.input.InputView;
 import racingcar.view.output.ConsoleView;

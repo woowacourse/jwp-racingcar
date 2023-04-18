@@ -1,4 +1,4 @@
-package racingcar.repository;
+package racingcar.persistence;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,6 +7,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.CarData;
 import racingcar.dto.GameResultResponse;
+import racingcar.persistence.dao.GameResultDao;
+import racingcar.persistence.dao.PlayerResultDao;
+import racingcar.persistence.repository.RacingGameRepository;
 
 import java.util.Collections;
 import java.util.List;
