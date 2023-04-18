@@ -2,10 +2,10 @@ package racingcar;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.Car;
 import racingcar.domain.NumberPicker;
+import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberPicker;
-import racingcar.dto.CarPositionDto;
-import racingcar.dto.RaceDto;
 import racingcar.repositoryImpl.DefaultRacingGameRepository;
 import racingcar.service.RacingCarsService;
 import racingcar.view.InputView;
@@ -18,11 +18,11 @@ public class RacingCarConsoleApplication {
         final int targetCount = InputView.inputTryCount();
         final RacingCarsService racingCarsService = new RacingCarsService(numberPicker(),
                 new DefaultRacingGameRepository());
-        final RaceDto raceResult = racingCarsService.race(names, targetCount);
+        final RacingGame raceResult = racingCarsService.race(names, targetCount);
 
-        final List<String> winnerNames = raceResult.getWinners()
+        final List<String> winnerNames = raceResult.findWinner()
                 .stream()
-                .map(CarPositionDto::getCarName)
+                .map(Car::getCarName)
                 .collect(Collectors.toList());
         OutputView.printWinner(winnerNames);
     }

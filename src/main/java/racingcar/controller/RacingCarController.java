@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.CarPositionDto;
+import racingcar.domain.Car;
+import racingcar.domain.RacingGame;
 import racingcar.dto.CarResponse;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
-import racingcar.dto.RaceDto;
 import racingcar.service.RacingCarsService;
 
 @RestController
@@ -28,30 +28,30 @@ public class RacingCarController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponse> raceAdd(@RequestBody @Valid final GameRequest gameRequest) {
-        final RaceDto raceDto = racingCarsService.race(gameRequest.getNames(), gameRequest.getCount());
-        final GameResponse gameResponse = toGameResponse(raceDto);
+        final RacingGame racingGame = racingCarsService.race(gameRequest.getNames(), gameRequest.getCount());
+        final GameResponse gameResponse = toGameResponse(racingGame);
 
         return ResponseEntity.ok(gameResponse);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<GameResponse>> raceList() {
-        final List<RaceDto> raceDtos = racingCarsService.findRaceResult();
-        final List<GameResponse> gameResponses = raceDtos.stream()
+        final List<RacingGame> racingGames = racingCarsService.findRaceResult();
+        final List<GameResponse> gameResponses = racingGames.stream()
                 .map(this::toGameResponse)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(gameResponses);
     }
 
-    private GameResponse toGameResponse(final RaceDto raceDto) {
-        final String winners = raceDto.getWinners()
+    private GameResponse toGameResponse(final RacingGame racingGame) {
+        final String winners = racingGame.findWinner()
                 .stream()
-                .map(CarPositionDto::getCarName)
+                .map(Car::getCarName)
                 .collect(Collectors.joining(CAR_NAME_DELIMITER));
-        final List<CarResponse> carResponses = raceDto.getCarPositionDtos()
+        final List<CarResponse> carResponses = racingGame.getCars()
                 .stream()
-                .map(carPositionDto -> new CarResponse(carPositionDto.getCarName(), carPositionDto.getStatus()))
+                .map(car -> new CarResponse(car.getCarName(), car.getPosition()))
                 .collect(Collectors.toList());
 
         return new GameResponse(winners, carResponses);

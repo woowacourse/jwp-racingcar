@@ -8,7 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
-import racingcar.dto.RaceDto;
+import racingcar.domain.Car;
+import racingcar.domain.RacingGame;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -26,16 +27,16 @@ class RacingCarsServiceTest {
 
     @Test
     void 레이스_진행() {
-        final RaceDto result = racingCarsService.race(carsName, count);
-        
+        final RacingGame racingGame = racingCarsService.race(carsName, count);
+        final List<Car> winners = racingGame.findWinner();
         assertAll(
-                () -> assertThat(result.getWinners()).hasSize(3),
-                () -> assertThat(result.getCarPositionDtos().get(0).getCarName()).isEqualTo("브리"),
-                () -> assertThat(result.getCarPositionDtos().get(0).getStatus()).isEqualTo(10),
-                () -> assertThat(result.getCarPositionDtos().get(1).getCarName()).isEqualTo("토미"),
-                () -> assertThat(result.getCarPositionDtos().get(1).getStatus()).isEqualTo(10),
-                () -> assertThat(result.getCarPositionDtos().get(2).getCarName()).isEqualTo("브라운"),
-                () -> assertThat(result.getCarPositionDtos().get(2).getStatus()).isEqualTo(10)
+                () -> assertThat(winners).hasSize(3),
+                () -> assertThat(winners.get(0).getCarName()).isEqualTo("브리"),
+                () -> assertThat(winners.get(0).getPosition()).isEqualTo(10),
+                () -> assertThat(winners.get(1).getCarName()).isEqualTo("토미"),
+                () -> assertThat(winners.get(1).getPosition()).isEqualTo(10),
+                () -> assertThat(winners.get(2).getCarName()).isEqualTo("브라운"),
+                () -> assertThat(winners.get(2).getPosition()).isEqualTo(10)
         );
     }
 }
