@@ -60,9 +60,9 @@ class RacingWebControllerTest {
 
     @DisplayName("잘못된 시도 횟수 요청이 오면 상태코드 Bad Request 반환")
     @ParameterizedTest
-    @CsvSource(value = {"two:시도 횟수는 숫자만 입력 가능합니다.",
-            "0:시도 횟수는 1 이상 100 이하여야 합니다.",
-            "101:시도 횟수는 1 이상 100 이하여야 합니다."}, delimiter = ':')
+    @CsvSource(value = {"two:숫자 타입만 입력할 수 있습니다",
+            "0:최소 1이상 100이하의 수만 입력할 수 있습니다",
+            "101:최소 1이상 100이하의 수만 입력할 수 있습니다"}, delimiter = ':')
     void requestFailWithWrongTrialTimes(final String trialTime, final String exceptionMessage) {
         final TrackRequest trackRequest = new TrackRequest("gray,hoy,logan", trialTime);
 
