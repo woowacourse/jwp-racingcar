@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS record;
+DROP TABLE IF EXISTS game;
+
 CREATE TABLE game
 (
     id          int PRIMARY KEY AUTO_INCREMENT      NOT NULL,
