@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.repository.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

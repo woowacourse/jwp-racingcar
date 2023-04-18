@@ -8,30 +8,24 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.PlayResultDao;
-import racingcar.dao.RacingCarDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.TryCount;
 import racingcar.entity.GameHistoryEntity;
+import racingcar.repository.RacingGameRepository;
 
 @Service
 public class RacingCarService {
 
-    private PlayResultDao playResultDao;
-    private RacingCarDao racingCarDao;
+    private final RacingGameRepository racingGameRepository;
 
-    public RacingCarService() {
-    }
-
-    public RacingCarService(PlayResultDao playResultDao, RacingCarDao racingCarDao) {
-        this.playResultDao = playResultDao;
-        this.racingCarDao = racingCarDao;
+    public RacingCarService(final RacingGameRepository racingGameRepository) {
+        this.racingGameRepository = racingGameRepository;
     }
 
     public Map<Long, List<Car>> findGameHistory() {
-        return playResultDao.findGameHistories().stream()
+        return racingGameRepository.findGameHistories().stream()
                 .collect(groupingBy(GameHistoryEntity::getId,
                         mapping(RacingCarService::mapCar, toUnmodifiableList())));
     }
@@ -48,9 +42,6 @@ public class RacingCarService {
 
     @Transactional
     public void saveGameResult(Cars cars, TryCount tryCount) {
-        Long gameId = playResultDao.insertWithKeyHolder(tryCount.getValue(), cars.getWinner());
-        for (Car car : cars.getCars()) {
-            racingCarDao.insert(gameId, car.getName().getValue(), car.getDistance().getValue());
-        }
+        racingGameRepository.saveGameResult(cars, tryCount);
     }
 }
