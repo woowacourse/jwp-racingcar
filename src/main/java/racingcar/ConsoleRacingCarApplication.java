@@ -1,7 +1,7 @@
 package racingcar;
 
 import racingcar.controller.RacingController;
-import racingcar.dto.RacingResultResponseDto;
+import racingcar.dto.RacingResultDto;
 import racingcar.view.ConsoleInputView;
 import racingcar.view.ConsoleOutputView;
 import racingcar.view.FindingCommand;
@@ -26,13 +26,13 @@ public class ConsoleRacingCarApplication {
     }
 
     private void playRace(RacingController controller) {
-        RacingResultResponseDto racingResult = controller.playRacing(ConsoleInputView.getRacingInfoRequest());
+        RacingResultDto racingResult = controller.playRacing(ConsoleInputView.getRacingInfoRequest());
         ConsoleOutputView.printResult(racingResult);
     }
 
     private void findAllResult(RacingController controller) {
         if (ConsoleInputView.getFindingCommand() == FindingCommand.YES) {
-            List<RacingResultResponseDto> results = controller.findAllRaceResults();
+            List<RacingResultDto> results = controller.findAllRaceResults();
             ConsoleOutputView.printResults(results);
         }
     }

@@ -1,7 +1,7 @@
 package racingcar.view;
 
 import racingcar.dto.CarDto;
-import racingcar.dto.RacingResultResponseDto;
+import racingcar.dto.RacingResultDto;
 
 import java.util.List;
 
@@ -12,15 +12,15 @@ public class ConsoleOutputView {
     public static final String DELIMITER = ", ";
     public static final String POSITION_BAR = "-";
 
-    public static void printResults(List<RacingResultResponseDto> results) {
-        for (RacingResultResponseDto result : results) {
+    public static void printResults(List<RacingResultDto> results) {
+        for (RacingResultDto result : results) {
             System.out.println("- - - - -");
             printResult(result);
             System.out.println("- - - - -");
         }
     }
 
-    public static void printResult(RacingResultResponseDto result) {
+    public static void printResult(RacingResultDto result) {
         System.out.println("실행 결과");
         for (CarDto car : result.getRacingCars()) {
             System.out.printf(RESULT_MESSAGE_FORMAT, car.getName(), makePositionBar(car.getPosition()));
