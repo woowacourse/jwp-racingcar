@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.CarDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class CarsDao {

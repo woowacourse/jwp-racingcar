@@ -71,11 +71,7 @@ public class GameService {
     }
 
     public List<String> findWinnersIn(final int gameId) {
-        final List<Integer> winnerIds = winnersDao.findAllWinnerIdsByGameId(gameId);
-        return winnerIds.stream()
-                .map(carsDao::findById)
-                .map(CarDto::getName)
-                .collect(Collectors.toUnmodifiableList());
+        return winnersDao.findAllWinnerNameByGameId(gameId);
     }
 
     public List<CarDto> findAllCarsIn(final int gameId) {

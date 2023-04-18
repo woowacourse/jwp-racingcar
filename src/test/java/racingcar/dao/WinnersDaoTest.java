@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 import racingcar.TestDatabaseConfig;
 
 import java.util.List;
@@ -51,9 +50,9 @@ class WinnersDaoTest {
     void find_winner_ids_test() {
         winnersDao.insert(gameId, List.of(carId));
 
-        final List<Integer> winnerIds = winnersDao.findAllWinnerIdsByGameId(gameId);
+        final List<String> winnerIds = winnersDao.findAllWinnerNameByGameId(gameId);
 
-        assertThat(winnerIds).containsExactly(carId);
+        assertThat(winnerIds).containsExactly("자동차");
     }
 
 }

@@ -30,7 +30,7 @@ public class GamesDao {
     }
 
     public List<Integer> findAllGameIds() {
-        final String sql = "SELECT id FROM games";
+        final String sql = "SELECT id FROM games ORDER BY id DESC";
 
         return jdbcTemplate.queryForList(sql, Integer.class);
     }

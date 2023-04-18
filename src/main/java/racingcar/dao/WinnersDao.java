@@ -5,8 +5,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import racingcar.dto.CarDto;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -31,9 +31,12 @@ public class WinnersDao {
         }
     }
 
-    public List<Integer> findAllWinnerIdsByGameId(final int gameId) {
-        final String sql = "SELECT car_id FROM winners WHERE game_id = ?";
+    public List<String> findAllWinnerNameByGameId(final int gameId) {
+        final String sql = "select cars.name from winners  " +
+                " left join cars" +
+                " on winners.car_id = cars.id" +
+                " where cars.game_id = ?";
 
-        return jdbcTemplate.queryForList(sql, Integer.class, gameId);
+        return jdbcTemplate.queryForList(sql, String.class, gameId);
     }
 }
