@@ -1,20 +1,19 @@
 package racingcar.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.FixNumberGenerator;
-import racingcar.domain.Cars;
-import racingcar.domain.Count;
+import racingcar.dao.RacingCarDao;
+import racingcar.dao.RacingGameDao;
 import racingcar.domain.NumberGenerator;
-import racingcar.domain.RacingGame;
 import racingcar.dto.response.RacingGameResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -24,19 +23,28 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class RacingCarServiceTest {
 
     @Autowired
+    private RacingGameDao racingGameDao;
+
+    @Autowired
+    private RacingCarDao racingCarDao;
+
     private RacingCarService racingCarService;
+
+    @BeforeEach
+    void setUp() {
+        final NumberGenerator numberGenerator = new FixNumberGenerator(
+                new ArrayList<>(Arrays.asList(6, 3, 6, 5, 6, 8))
+        );
+        racingCarService = new RacingCarService(racingGameDao, racingCarDao, numberGenerator);
+    }
 
     @DisplayName("게임결과를 반환한다.")
     @Test
     void play() {
-        final NumberGenerator numberGenerator = new FixNumberGenerator(
-                new ArrayList<>(Arrays.asList(6, 3, 6, 5, 6, 8))
-        );
-        final Cars cars = new Cars(List.of("다즐", "루쿠"));
-        final Count count = new Count(3);
-        final RacingGame racingGame = new RacingGame(numberGenerator, cars, count);
+        final String rawNames = "다즐,루쿠";
+        final int count = 3;
 
-        final RacingGameResponse racingGameResponse = racingCarService.play(racingGame);
+        final RacingGameResponse racingGameResponse = racingCarService.play(rawNames, count);
 
         assertAll(
                 () -> assertThat(racingGameResponse.getWinners()).isEqualTo("다즐"),
