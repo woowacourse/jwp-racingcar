@@ -1,36 +1,32 @@
 package racingcar.controller;
 
 import java.util.List;
+import racingcar.GameDto;
+import racingcar.GameResultDto;
 import racingcar.GameService;
-import racingcar.domain.Game;
-import racingcar.domain.RandomMoveStrategy;
-import racingcar.domain.TryCount;
 import racingcar.dto.NamesDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.TryCountDto;
-import racingcar.dto.WinnerDto;
 import racingcar.view.RacingCarView;
 
 public class ConsoleController {
-    private final Game game;
     private final RacingCarView racingCarView;
-    private final GameService service;
+    private final GameService gameService;
 
-    public ConsoleController(Game game, RacingCarView racingCarView, GameService service) {
-        this.game = game;
+    public ConsoleController(RacingCarView racingCarView, GameService gameService) {
         this.racingCarView = racingCarView;
-        this.service = service;
+        this.gameService = gameService;
     }
 
     public void run() {
-        createCar();
-        TryCount tryCount = new TryCount(getTryCount());
-        playGame(tryCount);
-    }
-
-    private void createCar() {
-        NamesDto namesDto = receiveCarNames();
-        game.createCars(namesDto);
+        final List<String> names = receiveCarNames().getNames();
+        final int tryCount = getTryCount();
+        final GameDto gameDto = new GameDto(names, tryCount);
+        final GameResultDto gameResult = gameService.play(gameDto);
+        final List<ResultDto> racingCars = gameResult.getRacingCars();
+        printCarStatuses(racingCars);
+        final String winners = gameResult.getWinners();
+        printWinners(winners);
     }
 
     private NamesDto receiveCarNames() {
@@ -56,28 +52,11 @@ public class ConsoleController {
         }
     }
 
-    private void playGame(TryCount tryCount) {
-        RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
-        racingCarView.printStartMessage();
-        while (tryCount.isAvailable()) {
-            game.moveCars(randomMoveStrategy);
-            tryCount.moveUntilZero();
-        }
-        printCarStatuses();
-        findWinners();
+    private void printCarStatuses(final List<ResultDto> racingCars) {
+        racingCarView.printRacingProgress(racingCars);
     }
 
-    private void findWinners() {
-        try {
-            WinnerDto winnerDto = game.findWinners();
-            racingCarView.printWinners(winnerDto);
-        } catch (RuntimeException e) {
-            racingCarView.printExceptionMessage(e);
-        }
-    }
-
-    private void printCarStatuses() {
-        List<ResultDto> carStatuses = game.getCarStatuses();
-        racingCarView.printRacingProgress(carStatuses);
+    private void printWinners(final String winners) {
+        racingCarView.printWinners(winners);
     }
 }

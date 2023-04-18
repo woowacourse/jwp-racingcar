@@ -3,7 +3,6 @@ package racingcar.view;
 import java.util.List;
 import racingcar.dto.NamesDto;
 import racingcar.dto.ResultDto;
-import racingcar.dto.WinnerDto;
 import racingcar.dto.TryCountDto;
 
 public interface RacingCarView {
@@ -13,7 +12,7 @@ public interface RacingCarView {
 
     void printRacingProgress(List<ResultDto> responses);
 
-    void printWinners(WinnerDto response);
+    void printWinners(String response);
 
     void printStartMessage();
 
