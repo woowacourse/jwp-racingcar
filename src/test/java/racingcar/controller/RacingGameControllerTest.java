@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
@@ -65,6 +66,15 @@ public class RacingGameControllerTest {
                 Arguments.of("리사,  토미", 102),
                 Arguments.of("리사,  토미, 포비", 999),
                 Arguments.of("리사,  토미, 포비, 네오", 1000)
+        );
+    }
+
+    private static Stream<Arguments> provideNormalInputsWithSize() {
+        return Stream.of(
+                Arguments.of("리사", 1, 1),
+                Arguments.of("리사, 토미", 2, 2),
+                Arguments.of("리사, 토미, 포비", 99, 3),
+                Arguments.of("리사, 토미, 포비,네오", 100, 4)
         );
     }
 
@@ -145,5 +155,19 @@ public class RacingGameControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @DisplayName("게임 기록을 불러온다.")
+    @ParameterizedTest(name = "참가자: {0}, 플레이 횟수: {1}, 기록 수: {2}")
+    @MethodSource("provideNormalInputsWithSize")
+    void fetchHistoryTest(final String names, final int playCount, final int size) {
+        playGame(names, playCount);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("size()", equalTo(size));
     }
 }
