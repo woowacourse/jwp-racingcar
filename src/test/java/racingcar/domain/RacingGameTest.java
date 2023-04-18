@@ -46,7 +46,7 @@ class RacingGameTest {
         void shouldNotContainNonWinners() {
             // given
             race = RacingGame.from(List.of("rosie", "hong"));
-            race.play(1, (size)-> List.of(10, 1));
+            race.play(1, (size) -> List.of(10, 1));
             // when
             //then
             assertThat(race.isWinner(new RacingCar("hong"))).isFalse();
@@ -67,5 +67,18 @@ class RacingGameTest {
 
         assertThat(isAllInTrialCount).isTrue();
     }
+
+    @DisplayName("id와 자동차 이름으로 객체를 생성할 수 있다.")
+    @Test
+    void testCreateInstanceOfIdAndCarNames() {
+        long gameHistoryId = 1;
+        List<String> carNames = List.of("서브웨이", "로지", "키아라", "연어");
+        var racingGame = RacingGame.create(gameHistoryId, carNames);
+
+        assertThat(racingGame)
+                .isNotNull()
+                .isInstanceOf(RacingGame.class);
+    }
+
 
 }
