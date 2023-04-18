@@ -15,10 +15,10 @@ public class PlayersInfoDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(int parentId, List<Car> cars) {
+    public void insert(int playResultId, List<Car> cars) {
         String sql = "insert into players_info (name, position, play_result_id) values (?, ?, ?)";
         for (Car car : cars) {
-            jdbcTemplate.update(sql, car.getName(), car.getPosition(), parentId);
+            jdbcTemplate.update(sql, car.getName(), car.getPosition(), playResultId);
         }
     }
 
