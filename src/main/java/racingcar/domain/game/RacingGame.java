@@ -1,6 +1,7 @@
 package racingcar.domain.game;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.cars.RacingCars;
@@ -42,4 +43,27 @@ public class RacingGame {
         return racingCars.getCars();
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        RacingGame that = (RacingGame) o;
+        if (id == null || that.id == null) {
+            return this == o;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
