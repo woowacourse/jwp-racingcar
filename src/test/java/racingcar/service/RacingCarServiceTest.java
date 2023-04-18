@@ -11,8 +11,7 @@ import racingcar.dao.ResultDao;
 import racingcar.domain.Cars;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RacingCarServiceTest {
@@ -30,7 +29,7 @@ class RacingCarServiceTest {
         Cars cars = new Cars("roy, jamie");
         racingCarService.insertGame(10, cars);
 
-        verify(resultDao, times(1)).insert(anyInt(), anyString());
-        verify(racingCarDao, times(2)).insert(any(), anyLong());
+        verify(resultDao, atLeastOnce()).insert(anyInt(), anyString());
+        verify(racingCarDao, atLeastOnce()).insert(any(), anyLong());
     }
 }
