@@ -90,7 +90,7 @@ public class RacingService {
                     .map(CarDto::new)
                     .collect(Collectors.toList());
 
-            racingResults.add(new RacingResultDto(null, winnerNames, carDtos));
+            racingResults.add(new RacingResultDto(winnerNames, carDtos));
         }
 
         return racingResults;

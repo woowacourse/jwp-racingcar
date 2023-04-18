@@ -15,6 +15,12 @@ public class RacingResultDto {
         this.racingCars = racingCars;
     }
 
+    public RacingResultDto(List<String> winners, List<CarDto> racingCars) {
+        this.trial = null;
+        this.winners = winners;
+        this.racingCars = racingCars;
+    }
+
     public Trial getTrial() {
         return trial;
     }
