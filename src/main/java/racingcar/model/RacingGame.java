@@ -25,7 +25,7 @@ public class RacingGame {
         }
     }
 
-    public List<String> getWinners() {
+    public List<String> getWinnerNames() {
         int maxPosition = cars.getMaxPosition();
         return cars.getCars()
                 .stream()

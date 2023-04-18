@@ -2,12 +2,12 @@ package racingcar.dto;
 
 import java.util.List;
 
-public class GameInformationDto {
+public class StartInformationDto {
 
     private final List<String> names;
     private final String count;
 
-    public GameInformationDto(List<String> names, String count) {
+    public StartInformationDto(List<String> names, String count) {
         this.names = names;
         this.count = count;
     }

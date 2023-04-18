@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import racingcar.dto.CarMapper;
 import racingcar.model.MoveCount;
 import racingcar.model.RacingGame;
 import racingcar.model.car.Cars;
@@ -51,8 +52,8 @@ public class ConsoleController {
 
     private void showGameResult(RacingGame racingGame) {
         outputView.printResultMessage();
-        outputView.printWinners(racingGame.getWinners());
-        outputView.printResult(racingGame.getCars());
+        outputView.printWinners(racingGame.getWinnerNames());
+        outputView.printResult(CarMapper.toCarDtos(racingGame.getCars()));
     }
 
 }

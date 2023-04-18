@@ -3,15 +3,15 @@ package racingcar.services;
 import org.springframework.stereotype.Service;
 import racingcar.dao.RacingGameRepository;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameInformationDto;
+import racingcar.dto.CarMapper;
 import racingcar.dto.ResponseDto;
+import racingcar.dto.StartInformationDto;
 import racingcar.model.MoveCount;
 import racingcar.model.RacingGame;
 import racingcar.model.car.Cars;
 import racingcar.model.manager.ThresholdCarMoveManager;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
@@ -22,26 +22,19 @@ public class RacingGameService {
         this.racingGameRepository = racingGameRepository;
     }
 
-    public ResponseDto play(GameInformationDto gameInformationDto) {
-        RacingGame racingGame = createRacingGame(gameInformationDto);
+    public ResponseDto play(StartInformationDto startInformationDto) {
+        RacingGame racingGame = createRacingGame(startInformationDto);
         racingGame.play();
 
-        List<CarDto> carDto = createCarDto(racingGame);
-        racingGameRepository.saveGame(racingGame.getMoveCount(), racingGame.getWinners(), carDto);
-        return new ResponseDto(racingGame.getWinners(), carDto);
+        List<CarDto> carDtos = CarMapper.toCarDtos(racingGame.getCars());
+        racingGameRepository.saveGame(racingGame.getMoveCount(), racingGame.getWinnerNames(), carDtos);
+        return new ResponseDto(racingGame.getWinnerNames(), carDtos);
     }
 
-    private RacingGame createRacingGame(GameInformationDto gameInformationDto) {
-        Cars cars = Cars.from(gameInformationDto.getNames());
-        MoveCount moveCount = MoveCount.from(gameInformationDto.getCount());
+    private RacingGame createRacingGame(StartInformationDto startInformationDto) {
+        Cars cars = Cars.from(startInformationDto.getNames());
+        MoveCount moveCount = MoveCount.from(startInformationDto.getCount());
         return new RacingGame(new ThresholdCarMoveManager(), cars, moveCount);
-    }
-
-    private List<CarDto> createCarDto(RacingGame racingGame) {
-        return racingGame.getCars()
-                .stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toUnmodifiableList());
     }
 
     public List<ResponseDto> queryHistory() {

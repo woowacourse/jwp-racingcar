@@ -20,7 +20,7 @@ public class Cars {
 
     public static Cars from(List<String> carNames) {
         return new Cars(carNames.stream()
-                .map(Car::new)
+                .map(Car::from)
                 .collect(Collectors.toUnmodifiableList()));
     }
 
@@ -39,14 +39,6 @@ public class Cars {
                 .mapToInt(Car::getPosition)
                 .max()
                 .orElse(0);
-    }
-
-    public List<String> getWinners() {
-        int maxPosition = getMaxPosition();
-        return cars.stream()
-                .filter(car -> car.isSame(maxPosition))
-                .map(Car::getName)
-                .collect(Collectors.toUnmodifiableList());
     }
 
     public List<Car> getCars() {

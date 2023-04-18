@@ -12,14 +12,18 @@ public class Car {
     private final String name;
     private int position;
 
-    public Car(String name) {
-        name = ValueEditor.removeSpace(name);
-        validate(name);
+    public Car(String name, int position) {
         this.name = name;
-        this.position = 0;
+        this.position = position;
     }
 
-    private void validate(String name) {
+    public static Car from(String name) {
+        name = ValueEditor.removeSpace(name);
+        validate(name);
+        return new Car(name, 0);
+    }
+
+    private static void validate(String name) {
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(INVALID_NAME_LENGTH);
         }
