@@ -48,10 +48,6 @@ public class RacingGame {
         }
     }
 
-    private void order() {
-        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
-    }
-
     public List<Car> getCars() {
         return this.cars;
     }
@@ -68,5 +64,9 @@ public class RacingGame {
         return this.cars.stream()
                 .max(Car::comparePosition)
                 .orElseThrow(() -> new IllegalStateException("자동차가 존재하지 않습니다."));
+    }
+
+    public void order() {
+        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
     }
 }
