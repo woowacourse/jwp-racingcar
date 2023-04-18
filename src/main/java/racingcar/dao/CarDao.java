@@ -40,10 +40,9 @@ public class CarDao {
 
     public RowMapper<CarEntity> rowMapper(int gameId) {
         return ((rs, rowNum) -> {
-            int carId = rs.getInt("car_id");
             String name = rs.getString("name");
             int position = rs.getInt("position");
-            CarEntity carEntity = new CarEntity(carId, name, position, gameId);
+            CarEntity carEntity = new CarEntity(name, position, gameId);
             return carEntity;
         });
     }
