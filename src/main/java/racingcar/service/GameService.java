@@ -21,12 +21,13 @@ public class GameService {
 
     private static final int MIN_GAME_ID = 1;
 
-    private final RacingGame racingGame = new RacingGame();
+    private final RacingGame racingGame;
     private final GameDao gameDao;
     private final RecordDao recordDao;
 
     @Autowired
-    public GameService(final GameDao gameDao, final RecordDao recordDao) {
+    public GameService(final RacingGame racingGame, final GameDao gameDao, final RecordDao recordDao) {
+        this.racingGame = racingGame;
         this.gameDao = gameDao;
         this.recordDao = recordDao;
     }

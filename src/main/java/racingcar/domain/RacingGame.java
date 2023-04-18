@@ -2,9 +2,11 @@ package racingcar.domain;
 
 import static java.util.stream.Collectors.toList;
 
+import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class RacingGame {
 
     private static final String CAR_NAME_DELIMITER = ",";
