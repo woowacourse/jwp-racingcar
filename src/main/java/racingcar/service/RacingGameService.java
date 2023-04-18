@@ -2,6 +2,7 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import racingcar.dao.GameAndPlayerResultEntity;
 import racingcar.dao.GameResultDAO;
 import racingcar.dao.PlayerResultDAO;
 import racingcar.domain.Car;
@@ -53,5 +54,44 @@ public class RacingGameService {
         return racingGame.decideWinners().getCars().stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(DELIMITER));
+    }
+
+    private String decideWinners(List<CarDto> carDtos) {
+        int maxPosition = carDtos.stream()
+                .map(CarDto::getPosition)
+                .max(Integer::compareTo)
+                .orElseThrow();
+
+        return carDtos.stream()
+                .filter(carDto -> carDto.getPosition() == maxPosition)
+                .map(CarDto::getName)
+                .collect(Collectors.joining(","));
+    }
+
+    public List<GameResponseDto> findAllGameAndPlayerResults() {
+        List<GameAndPlayerResultEntity> allGameAndPlayerEntities = gameResultDAO.findAllWithPlayerResults();
+
+        List<Integer> gameIds = getGameIds(allGameAndPlayerEntities);
+
+        return gameIds.stream()
+                .map(gameId -> getGameResponseDto(allGameAndPlayerEntities, gameId))
+                .collect(Collectors.toList());
+    }
+
+    private List<Integer> getGameIds(List<GameAndPlayerResultEntity> allGameAndPlayerResults) {
+        return allGameAndPlayerResults.stream()
+                .map(GameAndPlayerResultEntity::getGameId)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    private GameResponseDto getGameResponseDto(List<GameAndPlayerResultEntity> allGameAndPlayerEntities, Integer gameId) {
+        List<CarDto> carDtos = allGameAndPlayerEntities.stream()
+                .filter(result -> result.getGameId() == gameId)
+                .map(result -> CarDto.of(result.getName(), result.getPosition()))
+                .collect(Collectors.toList());
+        String winners = decideWinners(carDtos);
+
+        return new GameResponseDto(winners, carDtos);
     }
 }
