@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 @Repository
 public class PlayResultDao {
 
+    private static final int FIRST_PARAM = 1;
+    private static final int SECOND_PARAM = 2;
+    private static final String DELIMITER = ",";
     private final JdbcTemplate jdbcTemplate;
 
     public PlayResultDao(JdbcTemplate jdbcTemplate) {
@@ -23,8 +26,8 @@ public class PlayResultDao {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setInt(1, count);
-            ps.setString(2, makeWinnersString(winners));
+            ps.setInt(FIRST_PARAM, count);
+            ps.setString(SECOND_PARAM, makeWinnersString(winners));
             return ps;
         }, keyHolder);
         return (int) keyHolder.getKey();
@@ -33,6 +36,6 @@ public class PlayResultDao {
     private String makeWinnersString(List<CarParam> winners) {
         return winners.stream()
                 .map(CarParam::getName)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(DELIMITER));
     }
 }
