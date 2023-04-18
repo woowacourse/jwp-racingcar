@@ -1,6 +1,8 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @JdbcTest
 public class PlayerDaoImplTest {
+
+    private static final long GAME_ID = 10L;
 
     private PlayerDaoImpl playerDao;
 
@@ -31,12 +35,31 @@ public class PlayerDaoImplTest {
     @Test
     @DisplayName("saveAllPlayers을 테스트를 진행한다.")
     void saveGame_whenCall_thenSuccess() {
+        // when, then
+        assertThatCode(this::saveSampleTwoPlayer).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("findAll을 테스트 한다.")
+    void findAll_whenCall_thenReturnAllPlayers() {
         // given
+        saveSampleTwoPlayer();
+
+        // when
+        final List<Player> players = playerDao.findAll(GAME_ID);
+
+        // then
+        assertAll(
+                () -> assertThat(players).hasSize(2),
+                () -> assertThat(players).usingRecursiveComparison()
+                        .isEqualTo(List.of(new Player("콩하나", 10, true),
+                                        new Player("에단", 5, false)))
+        );
+    }
+
+    private void saveSampleTwoPlayer() {
         final Player kongHana = new Player("콩하나", 10, true);
         final Player ethan = new Player("에단", 5, false);
-
-        // when, then
-        assertThatCode(() ->  playerDao.saveAllPlayers(10L, List.of(kongHana, ethan)))
-                .doesNotThrowAnyException();
+        playerDao.saveAllPlayers(GAME_ID, List.of(kongHana, ethan));
     }
 }

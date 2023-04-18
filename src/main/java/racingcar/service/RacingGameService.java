@@ -6,8 +6,8 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import racingcar.dao.Player;
 import racingcar.dao.PlayerDao;
-import racingcar.dao.PlayerSaveDto;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.Name;
 import racingcar.domain.RacingCar;
@@ -81,15 +81,15 @@ public class RacingGameService {
 
     private void saveRacingCars(final int tryCount, final RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
-        final List<PlayerSaveDto> playerSaveDtos = racingCars.getRacingCars().stream()
+        final List<Player> players = racingCars.getRacingCars().stream()
                 .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
                 .collect(toList());
         final long gameId = racingGameDao.save(tryCount);
 
-        playerDao.saveAllPlayers(gameId, playerSaveDtos);
+        playerDao.saveAllPlayers(gameId, players);
     }
 
-    private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
-        return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
+    private static Player createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
+        return new Player(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 }

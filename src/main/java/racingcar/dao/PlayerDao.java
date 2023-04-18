@@ -4,5 +4,7 @@ import java.util.List;
 
 public interface PlayerDao {
 
-    void saveAllPlayers(final Long id, final List<PlayerSaveDto> playerSaveDtos);
+    void saveAllPlayers(final Long id, final List<Player> players);
+
+    List<Player> findAll(final Long gameId);
 }

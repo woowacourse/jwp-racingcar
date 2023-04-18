@@ -2,9 +2,12 @@ package racingcar.dao;
 
 public class Player {
 
-    private final String name;
-    private final int position;
-    private final boolean isWinner;
+    private String name;
+    private int position;
+    private boolean isWinner;
+
+    private Player() {
+    }
 
     public Player(final String name, final int position, final boolean isWinner) {
         this.name = name;
@@ -22,5 +25,17 @@ public class Player {
 
     public boolean getIsWinner() {
         return isWinner;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setPosition(final int position) {
+        this.position = position;
+    }
+
+    public void setIsWinner(final boolean winner) {
+        isWinner = winner;
     }
 }
