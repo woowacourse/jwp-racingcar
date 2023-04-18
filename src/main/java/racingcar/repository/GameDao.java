@@ -26,9 +26,9 @@ public class GameDao {
                 .usingColumns("trial_count");
     }
 
-    public long insert(final int trial_count) {
+    public long insert(final int trialCount) {
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("trial_count", trial_count);
+                .addValue("trial_count", trialCount);
 
         return insertActor.executeAndReturnKey(params).longValue();
     }
