@@ -1,24 +1,17 @@
 package racingcar.domain;
 
-import racingcar.NumberGenerator;
-import racingcar.RandomNumberGenerator;
-
 public class RacingGame {
     public static final int MAX_TRY_COUNT_BOUND = 100;
 
-    private final NumberGenerator numberGenerator;
+    private final MoveStrategy moveStrategy;
     private final Cars cars;
     private int tryCount;
 
-    public RacingGame(NumberGenerator numberGenerator, int tryCount, Cars cars) {
+    public RacingGame(MoveStrategy moveStrategy, int tryCount, Cars cars) {
         validateTryCount(tryCount);
-        this.numberGenerator = numberGenerator;
+        this.moveStrategy = moveStrategy;
         this.cars = cars;
         this.tryCount = tryCount;
-    }
-
-    public RacingGame(int tryCount, Cars cars) {
-        this(new RandomNumberGenerator(), tryCount, cars);
     }
 
     private void validateTryCount(int tryCount) {
@@ -28,7 +21,7 @@ public class RacingGame {
     }
 
     public void playOneRound() {
-        cars.moveAll(numberGenerator);
+        cars.moveAll(moveStrategy);
         tryCount--;
     }
 

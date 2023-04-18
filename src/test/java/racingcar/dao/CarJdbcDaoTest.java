@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,28 +18,19 @@ class CarJdbcDaoTest {
     private CarDao carDao;
 
     @Autowired
+    private RacingGameDao racingGameDao;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private Long gameId;
-
-    @BeforeEach
-    void setUp() {
-        RacingGameDao racingGameDao = new RacingGameJdbcDao(jdbcTemplate);
-        gameId = racingGameDao.save(List.of("boxster"), 10);
-
-        CarDto carDto1 = CarDto.of("boxster", 10);
-        CarDto carDto2 = CarDto.of("encho", 7);
-
-        jdbcTemplate.update("INSERT INTO CAR (name, position, racing_game_id) VALUES (?, ?, ?)",
-                carDto1.getName(), carDto1.getPosition(), gameId);
-        jdbcTemplate.update("INSERT INTO CAR (name, position, racing_game_id) VALUES (?, ?, ?)",
-                carDto2.getName(), carDto2.getPosition(), gameId);
-    }
-
     @Test
-    void insert() {
-        CarDto carDto = CarDto.of("car", 9);
-        carDao.save(gameId, carDto);
+    void saveAllTest() {
+        Long gameId = racingGameDao.save("car3", 20);
+        CarDto carDto1 = CarDto.of("car1", 9);
+        CarDto carDto2 = CarDto.of("car2", 10);
+        CarDto carDto3 = CarDto.of("car3", 11);
+
+        carDao.saveAll(gameId, List.of(carDto1, carDto2, carDto3));
 
         List<CarDto> cars = carDao.findCarsByGameId(gameId);
 

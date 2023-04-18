@@ -2,7 +2,6 @@ package racingcar.domain;
 
 public class Car {
 
-    private static final int MOVE_CONDITION = 4;
     public static final int MAX_NAME_LENGTH = 5;
 
     private final String name;
@@ -19,8 +18,8 @@ public class Car {
         }
     }
 
-    public void move(int number) {
-        if (number >= MOVE_CONDITION) {
+    public void move(Action action) {
+        if (action == Action.MOVE) {
             addPosition();
         }
     }

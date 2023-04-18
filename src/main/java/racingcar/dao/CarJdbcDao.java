@@ -15,14 +15,13 @@ public class CarJdbcDao implements CarDao {
     }
 
     @Override
-    public void save(Long gameId, CarDto carDto) {
-        String sql = "INSERT INTO CAR (name, position, racing_game_id) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, carDto.getName(), carDto.getPosition(), gameId);
-    }
-
-    @Override
     public void saveAll(Long gameId, List<CarDto> racingCars) {
         racingCars.forEach(carDto -> save(gameId, carDto));
+    }
+
+    private void save(Long gameId, CarDto carDto) {
+        String sql = "INSERT INTO CAR (name, position, racing_game_id) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, carDto.getName(), carDto.getPosition(), gameId);
     }
 
     @Override

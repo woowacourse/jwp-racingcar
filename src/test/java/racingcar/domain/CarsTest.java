@@ -1,11 +1,12 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CarsTest {
     private final Car boxster = new Car("박스터");
@@ -24,9 +25,8 @@ class CarsTest {
     void getFirstCarsTest() {
         Cars cars = new Cars(dummy);
 
-        int moveNumber = 4;
-        boxster.move(moveNumber);
-        sonata.move(moveNumber);
+        boxster.move(Action.MOVE);
+        sonata.move(Action.MOVE);
 
         List<Car> firstCars = cars.findWinners();
 
@@ -38,8 +38,7 @@ class CarsTest {
     void getFirstPositionTest() {
         Cars cars = new Cars(dummy);
 
-        int moveNumber = 4;
-        boxster.move(moveNumber);
+        boxster.move(Action.MOVE);
 
         List<Car> firstCars = cars.findWinners();
 
@@ -51,10 +50,9 @@ class CarsTest {
     void duplicateNameEx() {
         List<Car> duplicateNameCars = List.of(new Car("박스터"), new Car("박스터"));
 
-        assertThatThrownBy(()-> new Cars(duplicateNameCars))
+        assertThatThrownBy(() -> new Cars(duplicateNameCars))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("중복된 이름은 사용할 수 없습니다");
 
     }
-
 }

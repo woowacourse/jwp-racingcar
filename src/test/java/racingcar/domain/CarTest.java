@@ -1,10 +1,10 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CarTest {
 
@@ -16,24 +16,23 @@ class CarTest {
     }
 
     @Test
-    @DisplayName("4 이상의 숫자가 들어오면 position은 1 증가한다.")
+    @DisplayName("Action이 MOVE 이면 position은 1 증가한다.")
     void moveTest() {
         Car car = new Car("test");
 
-        car.move(4);
+        car.move(Action.MOVE);
 
         int position = car.getPosition();
         assertThat(position).isEqualTo(1);
     }
 
     @Test
-    @DisplayName("3 이하의 숫자가 들어오면 position은 증가하지않는다.")
+    @DisplayName("Action이 STAY 이면 position은 증가하지않는다.")
     void notMoveTest() {
         Car boxster = new Car("boxer");
-        Car anotherBoxster = boxster;
-        boxster.move(4);
+        boxster.move(Action.STAY);
 
-        assertThat(anotherBoxster.getPosition()).isEqualTo(1);
+        assertThat(boxster.getPosition()).isZero();
     }
 
     @Test
@@ -42,7 +41,7 @@ class CarTest {
         Car boxster = new Car("박스터");
         Car hyundai = new Car("현대");
 
-        boxster.move(4);
+        boxster.move(Action.MOVE);
 
         Car win = boxster.isWin(hyundai);
 

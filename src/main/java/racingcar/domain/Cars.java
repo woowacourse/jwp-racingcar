@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import racingcar.NumberGenerator;
 
 public class Cars {
 
@@ -39,10 +38,10 @@ public class Cars {
                 .orElseThrow(() -> new IllegalArgumentException("자동차 위치의 최대값을 구할 수 없습니다."));
     }
 
-    public void moveAll(NumberGenerator numberGenerator) {
+    public void moveAll(MoveStrategy moveStrategy) {
         for (Car car : cars) {
-            int moveNumber = numberGenerator.generate();
-            car.move(moveNumber);
+            Action action = moveStrategy.getMovement();
+            car.move(action);
         }
     }
 
