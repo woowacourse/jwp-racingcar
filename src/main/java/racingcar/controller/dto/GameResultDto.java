@@ -19,12 +19,4 @@ public class GameResultDto {
     public List<RacingCarDto> getRacingCars() {
         return racingCars;
     }
-
-    @Override
-    public String toString() {
-        return "GameResultDto{" +
-                "winners='" + winners + '\'' +
-                ", racingCars=" + racingCars +
-                '}';
-    }
 }

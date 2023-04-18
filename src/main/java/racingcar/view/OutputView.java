@@ -12,7 +12,9 @@ public class OutputView {
     private static final String CAR_LOCATION = "-";
     private static final String PRINT_CAR_LOCATION = "%s : %s\n";
     private static final String WINNER_DELIMITER = ", ";
-    private static final String PRINT_WINNER = "%s가 최종 우승했습니다.\n";
+    private static final String PRINT_WINNER = "우승자:\n %s\n";
+    public static final String PRINT_CAR_POSITION = "Name: %s, Position: %d\n";
+
 
     public void printResult(Cars cars) {
         for (Car car : cars.getCars()) {
@@ -27,9 +29,9 @@ public class OutputView {
     }
 
     public void printCarResult(Cars cars) {
-        System.out.println("우승자:");
+        System.out.println("결과: ");
         for (Car car : cars.getCars()) {
-            System.out.printf("Name: %s, Position: %d\n", car.getName(), car.getLocation());
+            System.out.printf(PRINT_CAR_POSITION, car.getName(), car.getLocation());
         }
     }
 }
