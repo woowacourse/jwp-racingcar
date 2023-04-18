@@ -19,16 +19,12 @@ public class InputView {
     }
 
     private static int nextInt() {
-        String line = scanner.nextLine();
+        final String line = scanner.nextLine();
         return Integer.parseInt(line);
     }
 
     public static List<String> inputCarName() {
         System.out.println(INPUT_CAR_NAME_MESSAGE);
         return List.of(scanner.nextLine().split(","));
-    }
-
-    public static void close() {
-        scanner.close();
     }
 }

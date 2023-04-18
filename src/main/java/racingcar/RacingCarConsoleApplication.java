@@ -17,7 +17,6 @@ public class RacingCarConsoleApplication {
                 OutputView::printErrorMessage);
         race(cars, count);
         OutputView.printWinner(cars.findWinnerName());
-        cleanUp();
     }
 
     private static void race(final Cars cars, final Count tryCount) {
@@ -30,9 +29,5 @@ public class RacingCarConsoleApplication {
 
     private static NumberPicker numberPicker() {
         return new RandomNumberPicker();
-    }
-
-    private static void cleanUp() {
-        InputView.close();
     }
 }
