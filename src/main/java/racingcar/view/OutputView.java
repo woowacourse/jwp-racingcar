@@ -28,7 +28,7 @@ public class OutputView {
         System.out.printf(WINNER_MESSAGE, winnerNames.substring(1, winnerNames.length() - 1));
     }
 
-    private static String findWinnerName(List<Name> winners) {
+    private String findWinnerName(List<Name> winners) {
         return winners.stream()
                 .map(Name::getName)
                 .collect(Collectors.toList())

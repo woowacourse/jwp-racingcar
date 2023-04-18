@@ -1,56 +1,35 @@
 package racingcar.controller;
 
+import java.io.IOException;
+
+import racingcar.controller.dto.RacingGameResponse;
+import racingcar.controller.dto.ToView;
 import racingcar.domain.CarGroup;
-import racingcar.domain.RacingGame;
-import racingcar.domain.RandomNumberGenerator;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.io.IOException;
 
 public class RacingGameConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final RacingGameService racingGameService;
 
-    public RacingGameConsoleController() {
-        this.inputView = new InputView();
-        this.outputView = new OutputView();
+    public RacingGameConsoleController(final InputView inputView, final OutputView outputView, final RacingGameService racingGameService) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.racingGameService = racingGameService;
     }
 
     public void run() throws IOException {
-        CarGroup carGroup = createCarGroup();
-        int movingTrial = createMovingTrial();
+        final String carNames = inputView.readCarNames();
+        final CarGroup carGroup = new CarGroup(carNames);
+        final int trial = inputView.readMovingTrial();
 
-        RacingGame racingGame = new RacingGame(carGroup, new RandomNumberGenerator());
-
+        final RacingGameResponse racingGameResponse = racingGameService.race(carGroup, trial);
+        final ToView toView = new ToView(racingGameResponse);
         outputView.printNotice();
-        race(movingTrial, racingGame);
-        outputView.printWinner(racingGame.produceRacingResult().pickWinner());
-        outputView.printRacingResult(racingGame.produceRacingResult().getHistory());
-    }
-
-    private CarGroup createCarGroup() throws IOException {
-        try {
-            return new CarGroup(inputView.readCarNames());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return createCarGroup();
-        }
-    }
-
-    private int createMovingTrial() {
-        try {
-            return inputView.readMovingTrial();
-        } catch (IllegalArgumentException | IOException e) {
-            System.out.println(e.getMessage());
-            return createMovingTrial();
-        }
-    }
-
-    private void race(int movingTrial, RacingGame racingGame) {
-        for (int i = 0; i < movingTrial; i++) {
-            racingGame.race();
-        }
+        outputView.printWinner(toView.getNames());
+        outputView.printRacingResult(toView.getHistory());
     }
 }
