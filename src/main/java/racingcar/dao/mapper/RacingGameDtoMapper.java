@@ -1,4 +1,4 @@
-package racingcar.repository.mapper;
+package racingcar.dao.mapper;
 
 import java.time.LocalDateTime;
 
