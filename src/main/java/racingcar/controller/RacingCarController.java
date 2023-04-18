@@ -3,7 +3,6 @@ package racingcar.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +30,7 @@ public class RacingCarController {
         final RaceDto raceDto = racingCarsService.race(gameRequest.getNames(), gameRequest.getCount());
         final GameResponse gameResponse = toGameResponse(raceDto);
 
-        return new ResponseEntity<>(gameResponse, HttpStatus.OK);
+        return ResponseEntity.ok(gameResponse);
     }
 
     private GameResponse toGameResponse(final RaceDto raceDto) {
