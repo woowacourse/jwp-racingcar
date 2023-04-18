@@ -7,13 +7,13 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
+import racingcar.dao.entity.CarEntity;
 
 @Repository
 public class CarsDao {
 
-    private final RowMapper<Car> actorRowMapper = (resultSet, rowNum) -> {
-        Car car = new Car(
+    private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> {
+        CarEntity car = new CarEntity(
                 resultSet.getLong("play_id"),
                 resultSet.getString("name"),
                 resultSet.getInt("position")
@@ -27,7 +27,7 @@ public class CarsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(final long id, final List<Car> cars) {
+    public void insert(final long id, final List<CarEntity> cars) {
         jdbcTemplate.batchUpdate("INSERT INTO cars (play_id, name, position) VALUES (?, ?, ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
@@ -44,7 +44,7 @@ public class CarsDao {
                 });
     }
 
-    public List<Car> find(final long id) {
+    public List<CarEntity> find(final long id) {
         return jdbcTemplate.query(
                 "SELECT play_id, name, position FROM cars WHERE play_id = ?",
                 actorRowMapper, id
@@ -52,7 +52,7 @@ public class CarsDao {
     }
 
     // TODO 다른 테이블과 조인하는 쿼리를 해당 Dao에서 쓰는 게 맞을까?
-    public List<Car> findAllCarsByPlayId() {
+    public List<CarEntity> findAllCarsByPlayId() {
         return jdbcTemplate.query(
                 "SELECT play_id, name, position FROM cars, play_records "
                         + "WHERE cars.play_id = play_records.id "

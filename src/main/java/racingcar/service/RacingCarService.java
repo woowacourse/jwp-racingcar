@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarsDao;
 import racingcar.dao.PlayRecordsDao;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.EntityConverter;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCarNames;
 import racingcar.domain.RacingGame;
@@ -37,13 +39,14 @@ public class RacingCarService {
     private void saveGame(final int count, final List<Car> cars) {
         playRecordsDao.insert(count);
         long savedId = playRecordsDao.getLastId();
-        carsDao.insert(savedId, cars);
+        carsDao.insert(savedId, EntityConverter.toDaoEntities(cars));
     }
 
     public List<PlayResponseDto> findAllPlayRecords() {
-        List<Car> allCars = carsDao.findAllCarsByPlayId();
+        List<CarEntity> allCars = carsDao.findAllCarsByPlayId();
         // TODO 이렇게 map 으로 꺼내는 방법 뿐일까? repository 클래스로 책임 분리?
         Map<Long, List<Car>> carsById = allCars.stream()
+                .map(EntityConverter::toDomainEntity)
                 .collect(Collectors.groupingBy(Car::getPlayId));
         return carsById.values()
                 .stream()
