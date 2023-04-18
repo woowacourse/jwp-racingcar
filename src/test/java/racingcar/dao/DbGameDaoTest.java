@@ -13,23 +13,23 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @JdbcTest
-class GameDaoTest {
+class DbGameDaoTest {
 
-    private GameDao gameDao;
+    private DbGameDao dbGameDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        gameDao = new GameDao(jdbcTemplate.getDataSource());
+        dbGameDao = new DbGameDao(jdbcTemplate.getDataSource());
         jdbcTemplate.execute("ALTER TABLE game ALTER COLUMN id RESTART WITH 1");
     }
 
     @Test
     void 게임_저장_테스트() {
-        long gameId1 = gameDao.save(3);
-        long gameId2 = gameDao.save(5);
+        long gameId1 = dbGameDao.save(3);
+        long gameId2 = dbGameDao.save(5);
 
         assertAll(
                 () -> assertThat(gameId1).isEqualTo(1),
