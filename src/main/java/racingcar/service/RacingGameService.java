@@ -36,6 +36,7 @@ public final class RacingGameService {
         while (racingGame.isGameOnGoing()) {
             racingGame.start();
         }
+        racingGame.order();
     }
 
     private RacingGame createRacingGame(final RacingGameRequest racingGameRequest) {
@@ -43,7 +44,7 @@ public final class RacingGameService {
     }
 
     private List<CarDto> mapCarDtosFrom(final RacingGame racingGame) {
-        return racingGame.getOrderedCars().stream()
+        return racingGame.getCars().stream()
                 .map(car -> new CarDto(car.getCarName(), car.getPosition()))
                 .collect(Collectors.toList());
     }

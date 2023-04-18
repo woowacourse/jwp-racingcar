@@ -49,10 +49,8 @@ public class RacingGame {
         return gameCoin.isLeft();
     }
 
-    public List<Car> getOrderedCars() {
-        return Collections.unmodifiableList(this.cars).stream()
-                .sorted(Comparator.comparingInt(Car::getPosition).reversed())
-                .collect(Collectors.toList());
+    public List<Car> getCars() {
+        return this.cars;
     }
 
     public List<Car> getWinners() {
@@ -67,5 +65,9 @@ public class RacingGame {
         return this.cars.stream()
                 .max(Car::comparePosition)
                 .orElseThrow(NoCarsExistException::new);
+    }
+
+    public void order() {
+        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
     }
 }
