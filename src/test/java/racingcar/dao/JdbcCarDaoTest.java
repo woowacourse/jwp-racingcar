@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.GameEntity;
+import racingcar.dto.CarDTO;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -25,20 +26,20 @@ public class JdbcCarDaoTest {
     private CarDao carDao;
     private GameDao gameDao;
 
+    private long gameId;
+
     @BeforeEach
     void setUp() {
         carDao = new JdbcCarDao(jdbcTemplate);
         gameDao = new JdbcGameDao(jdbcTemplate);
+        gameId = gameDao.insert(GameEntity.create(5));
     }
 
     @Test
     void 게임_id와_함께_차량_정보를_저장한다() {
         // given
-        final long firstGameId = gameDao.insert(GameEntity.create(5));
-        final long secondGameId = gameDao.insert(GameEntity.create(4));
-
-        final CarEntity firstCarEntity = CarEntity.create("jayon", 3, firstGameId, true);
-        final CarEntity secondCarEntity = CarEntity.create("gavi", 2, secondGameId, true);
+        final CarEntity firstCarEntity = CarEntity.create("jayon", 3, gameId, true);
+        final CarEntity secondCarEntity = CarEntity.create("gavi", 2, gameId, true);
 
         List<CarEntity> carEntities = List.of(firstCarEntity, secondCarEntity);
 
@@ -46,5 +47,38 @@ public class JdbcCarDaoTest {
         Assertions.assertDoesNotThrow(
                 () -> carDao.batchInsert(carEntities)
         );
+    }
+
+
+    @Test
+    void 한_경주에_참여한_모든_자동차를_반환한다() {
+        // given
+        carDao.batchInsert(List.of(
+                CarEntity.create("제이온", 8, gameId, true),
+                CarEntity.create("가비", 6, gameId, false),
+                CarEntity.create("후추", 4, gameId, true)
+        ));
+
+        // when
+        List<CarDTO> carDTOs = carDao.selectAll((int) gameId);
+
+        // then
+        assertThat(carDTOs).hasSize(3);
+    }
+
+    @Test
+    void 우승자를_반환한다() {
+        // given
+        carDao.batchInsert(List.of(
+                CarEntity.create("제이온", 8, gameId, true),
+                CarEntity.create("가비", 6, gameId, false),
+                CarEntity.create("후추", 4, gameId, true)
+        ));
+
+        // when
+        List<String> winners = carDao.selectWinners((int) gameId);
+
+        // then
+        assertThat(winners).hasSize(2);
     }
 }
