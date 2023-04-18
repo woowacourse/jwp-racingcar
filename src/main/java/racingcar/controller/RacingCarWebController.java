@@ -14,12 +14,10 @@ import racingcar.dto.GameInitializeDto;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
-import racingcar.view.OutputView;
 
 @Controller
 public class RacingCarWebController {
     private final RacingCarService racingCarService;
-    private final OutputView outputView = new OutputView();
 
     public RacingCarWebController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
@@ -30,7 +28,6 @@ public class RacingCarWebController {
     public RacingCarGameResultDto run(@RequestBody GameInitializeDto gameInitializeDto) {
         Cars cars = new Cars(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
-        outputView.printResultMessage();
         playRound(cars, tryCount);
         racingCarService.saveGameResult(cars, tryCount);
         return new RacingCarGameResultDto(String.join(",", cars.getWinner()), makeCarDtos(cars));
