@@ -1,18 +1,23 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
+
 import racingcar.dao.mapper.PlayerDtoMapper;
 import racingcar.domain.CarGroup;
 
-import java.util.List;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
+@Transactional
 @SpringBootTest
 class PlayerJdbcDaoTest {
 
@@ -21,6 +26,15 @@ class PlayerJdbcDaoTest {
 
     @Autowired
     private RacingGameJdbcDao racingGameJdbcDao;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void setUp() {
+        jdbcTemplate.update("ALTER TABLE PLAYER ALTER COLUMN id RESTART ");
+        jdbcTemplate.update("ALTER TABLE RACING_GAME ALTER COLUMN id RESTART ");
+    }
 
     @DisplayName("플레이어 저장")
     @Test

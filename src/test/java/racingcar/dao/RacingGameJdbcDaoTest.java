@@ -1,22 +1,36 @@
 package racingcar.dao;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.dao.mapper.RacingGameDtoMapper;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
+import racingcar.dao.mapper.RacingGameDtoMapper;
+
+@Transactional
 @SpringBootTest
 class RacingGameJdbcDaoTest {
 
     @Autowired
-    RacingGameJdbcDao racingGameJdbcDao;
+    private RacingGameJdbcDao racingGameJdbcDao;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void setUp() {
+        jdbcTemplate.update("ALTER TABLE PLAYER ALTER COLUMN id RESTART ");
+        jdbcTemplate.update("ALTER TABLE RACING_GAME ALTER COLUMN id RESTART ");
+    }
 
     @DisplayName("게임 정보 저장 후 조회")
     @Test
@@ -52,6 +66,6 @@ class RacingGameJdbcDaoTest {
         List<RacingGameDtoMapper> racingGameDtoMappers = racingGameJdbcDao.findAll();
 
         //then
-        assertThat(racingGameDtoMappers.size()).isEqualTo(3);
+        assertThat(racingGameDtoMappers).hasSize(3);
     }
 }
