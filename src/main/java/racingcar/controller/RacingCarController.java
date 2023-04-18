@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +23,7 @@ public class RacingCarController {
     }
 
     @PostMapping("plays")
-    public ResponseEntity<GameResultDto> createGame(@RequestBody GameInforamtionDto gameInforamtionDto) {
+    public GameResultDto createGame(@RequestBody GameInforamtionDto gameInforamtionDto) {
         Cars cars = getCars(gameInforamtionDto);
         int trialCount = getTrialCount(gameInforamtionDto);
 
@@ -32,8 +31,7 @@ public class RacingCarController {
         racingCarService.insertGame(trialCount, cars);
 
         GameResultDto gameResultDto = new GameResultDto(cars.getWinnerCars(), racingCars);
-        return ResponseEntity.ok()
-                             .body(gameResultDto);
+        return gameResultDto;
     }
 
     private static Cars getCars(GameInforamtionDto gameInforamtionDto) {
