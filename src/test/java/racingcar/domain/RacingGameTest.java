@@ -20,7 +20,7 @@ class RacingGameTest {
     }
 
     private RacingGame generateRacingGame(final int count) {
-        final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3));
+        final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(3, 4));
         final List<String> names = List.of("car1", "car2");
         return new RacingGame(numberGenerator, new Cars(names), new Count(count));
     }

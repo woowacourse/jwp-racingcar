@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.FixNumberGenerator;
 import racingcar.dao.RacingCarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.NumberGenerator;
 import racingcar.dto.response.RacingGameResponse;
+import racingcar.utils.TestNumberGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +32,8 @@ class RacingCarServiceTest {
 
     @BeforeEach
     void setUp() {
-        final NumberGenerator numberGenerator = new FixNumberGenerator(
-                new ArrayList<>(Arrays.asList(6, 3, 6, 5, 6, 8))
+        final NumberGenerator numberGenerator = new TestNumberGenerator(
+                new ArrayList<>(Arrays.asList(8, 6, 5, 6, 3, 6))
         );
         racingCarService = new RacingCarService(racingGameDao, racingCarDao, numberGenerator);
     }

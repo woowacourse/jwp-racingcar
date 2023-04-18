@@ -14,6 +14,6 @@ public class TestNumberGenerator implements NumberGenerator {
 
     @Override
     public int generate() {
-        return numbers.remove(0);
+        return numbers.remove(numbers.size() - 1);
     }
 }
