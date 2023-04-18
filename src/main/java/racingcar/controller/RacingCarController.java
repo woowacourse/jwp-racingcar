@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
+import racingcar.domain.RandomNumberPicker;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameInitializeDto;
 import racingcar.dto.RacingCarDto;
@@ -29,7 +30,7 @@ public class RacingCarController {
     public RacingCarGameResultDto playGame(@RequestBody GameInitializeDto gameInitializeDto) {
         Cars cars = new Cars(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
-        racingCarService.playRound(cars, tryCount);
+        racingCarService.playRound(cars, tryCount, RandomNumberPicker.getInstance());
         return new RacingCarGameResultDto(cars.getWinner(), makeCarDtos(cars));
     }
 
