@@ -1,8 +1,10 @@
 package racingcar.view.outputview;
 
+import racingcar.controller.CarResponse;
 import racingcar.model.car.Cars;
 
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class OutputView {
     private HashMap<Integer, String> errorMessageTable = new HashMap<>();

@@ -16,11 +16,13 @@ public class ConsoleApplication {
         Scanner scanner = new Scanner(System.in);
         InputView inputView = new KoreanInputView(scanner);
         OutputView outputView = new KoreanOutputView();
-        MovingStrategy randomMovingStrategy = new RandomMovingStrategy();
-        RacingConsoleController racingConsoleController = new RacingConsoleController(inputView, outputView);
+        MovingStrategy movingStrategy = new RandomMovingStrategy();
+
+        RacingConsoleController racingConsoleController
+                = new RacingConsoleController(inputView, outputView, movingStrategy);
 
         try {
-            racingConsoleController.start(randomMovingStrategy);
+            racingConsoleController.start();
         } catch (CustomException customException) {
             racingConsoleController.terminated(customException);
         }

@@ -70,6 +70,7 @@ public class KoreanOutputView extends OutputView {
                     car.getCarName(),
                     POSITION_CAR_FORMAT_SYMBOL.repeat(car.getPosition())));
         });
+
         System.out.println(stringJoiner + LINE_BREAK);
     }
 

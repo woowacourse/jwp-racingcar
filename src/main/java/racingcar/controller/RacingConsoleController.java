@@ -14,18 +14,30 @@ public class RacingConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final MovingStrategy movingStrategy;
 
-    public RacingConsoleController(final InputView inputView, final OutputView outputView) {
+    public RacingConsoleController(final InputView inputView,
+                                   final OutputView outputView,
+                                   final MovingStrategy movingStrategy) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.movingStrategy = movingStrategy;
     }
 
-    public void start(final MovingStrategy movingStrategy) {
-        Cars cars = makeCars(movingStrategy);
-        Track track = makeTrack(cars);
+    public void start() {
+        final TrackRequest trackRequest = makeTrackRequest();
+
+        final Track track = makeTrack(trackRequest);
 
         startRace(track);
         concludeWinner(track);
+    }
+
+    private TrackRequest makeTrackRequest() {
+        final String carNames = inputView.inputCarNames();
+        final String trialTimes = inputView.inputTrialTimes();
+
+        return new TrackRequest(carNames, trialTimes);
     }
 
     private Cars makeCars(final MovingStrategy movingStrategy) {
@@ -40,17 +52,14 @@ public class RacingConsoleController {
         throw new MaxAttemptInputException();
     }
 
-    private Track makeTrack(final Cars cars) {
-        for (int count = 0; count < MAX_ATTEMPT_COUNT; count++) {
-            try {
-                String trialTimes = inputView.inputTrialTimes();
-                return new Track(cars, trialTimes);
-            } catch (CustomException customException) {
-                terminated(customException);
-            }
-        }
+    private Track makeTrack(final TrackRequest trackRequest) {
+        final String carNames = trackRequest.getNames();
+        final String trialTimes = trackRequest.getCount();
 
-        throw new MaxAttemptInputException();
+        final Cars cars = new Cars(carNames, movingStrategy);
+        final Track track = new Track(cars, trialTimes);
+
+        return track;
     }
 
     public void startRace(final Track track) {
