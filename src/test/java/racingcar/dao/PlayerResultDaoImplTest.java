@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class PlayerResultDaoTest {
+class PlayerResultDaoImplTest {
 
     @LocalServerPort
     int port;
@@ -26,24 +24,31 @@ class PlayerResultDaoTest {
     }
 
     @Autowired
-    PlayResultDao playResultDao;
+    PlayResultDao playResultDaoImpl;
 
     @Autowired
-    PlayerResultDao playerResultDao;
+    PlayerResultDao playerResultDaoImpl;
 
     private int playResultId;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     @BeforeEach
     void initialize() {
-        playResultId = playResultDao.insertPlayResult(new PlayResult("name1,name2", 3));
+        jdbcTemplate.execute("delete from PLAYER_RESULT");
+        jdbcTemplate.execute("delete from PLAY_RESULT");
+        jdbcTemplate.update("alter table play_result alter column id restart");
+        jdbcTemplate.update("alter table player_result alter column id restart");
+        playResultId = playResultDaoImpl.insertPlayResult(new PlayResult("name1,name2", 3));
     }
 
     @Test
     void insertPlayer() {
         PlayerResult playerResult = new PlayerResult(playResultId, "name", 10);
-        playerResultDao.insertPlayerResult(playerResult);
+        playerResultDaoImpl.insertPlayerResult(playerResult);
 
-        List<PlayerResult> playerResults = playerResultDao.selectPlayerResult(playResultId);
+        List<PlayerResult> playerResults = playerResultDaoImpl.selectPlayerResult(playResultId);
         PlayerResult findedPlayerResult = playerResults.get(0);
 
         assertThat(findedPlayerResult.getName()).isEqualTo(playerResult.getName());
@@ -53,10 +58,10 @@ class PlayerResultDaoTest {
     void selectPlayerResultByPlayResultIdTest() {
         PlayerResult playerResult = new PlayerResult(playResultId, "name1", 10);
         PlayerResult playerResult2 = new PlayerResult(playResultId, "name2", 10);
-        playerResultDao.insertPlayerResult(playerResult);
-        playerResultDao.insertPlayerResult(playerResult2);
+        playerResultDaoImpl.insertPlayerResult(playerResult);
+        playerResultDaoImpl.insertPlayerResult(playerResult2);
 
-        List<PlayerResult> playerResults = playerResultDao.selectPlayerResult(playResultId);
+        List<PlayerResult> playerResults = playerResultDaoImpl.selectPlayerResult(playResultId);
 
         assertThat(playerResults.size()).isEqualTo(2);
     }
