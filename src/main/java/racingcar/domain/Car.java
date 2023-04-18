@@ -27,7 +27,7 @@ public class Car implements Comparable<Car> {
         this.position = position;
     }
 
-    public Car(long playId, String name, int position) {
+    public Car(Long playId, String name, int position) {
         validateName(name);
         this.playId = playId;
         this.name = name;

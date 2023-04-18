@@ -6,7 +6,8 @@ import java.util.List;
 
 public class InMemoryPlayRecordsDao implements PlayRecordsDao {
 
-    private static long id = 1L;
+    private static long ID_START_VALUE = 1L;
+    private long id = ID_START_VALUE;
     private final List<PlayRecord> playRecords = new ArrayList<>();
 
     @Override
@@ -17,7 +18,7 @@ public class InMemoryPlayRecordsDao implements PlayRecordsDao {
 
     @Override
     public long getLastId() {
-        return id;
+        return ID_START_VALUE;
     }
 
     @Override

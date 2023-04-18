@@ -16,13 +16,15 @@ public class RacingCarConsoleController {
     private final RacingCarService racingCarService = new RacingCarService(
             new RacingCarRepository(new InMemoryPlayRecordsDao(), new InMemoryCarsDao()));
 
+    // TODO 여러번 플레이 가능 + 이력 조회
     public void run() {
         final List<String> carNames = inputView.askCarNames();
         final int racingCount = inputView.askRacingCount();
 
-        PlayResponseDto playResult = racingCarService.playGame(racingCount, carNames);
+        final PlayResponseDto playResult = racingCarService.playGame(racingCount, carNames);
 
         outputView.printPlayResult(playResult);
+        outputView.printPlayRecords(racingCarService.findAllPlayRecords());
     }
 
 }
