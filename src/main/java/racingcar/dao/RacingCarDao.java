@@ -63,7 +63,7 @@ public class RacingCarDao {
     }
 
     public List<GameEntity> findAll() {
-        String sqlForGameEntities = "SELECT * FROM RACING_GAME";
+        String sqlForGameEntities = "SELECT * FROM RACING_GAME ORDER BY created_at";
         return jdbcTemplate.query(sqlForGameEntities, ObjectMapper.getGameEntityMapper(jdbcTemplate));
     }
 
