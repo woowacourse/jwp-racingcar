@@ -1,7 +1,9 @@
 package racingcar.service;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.controller.TrackResponse;
 import racingcar.dao.RacingDao;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
@@ -10,8 +12,6 @@ import racingcar.model.car.Cars;
 import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.car.strategy.RandomMovingStrategy;
 import racingcar.model.track.Track;
-
-import java.util.List;
 
 @Service
 public class RacingService {
@@ -24,7 +24,7 @@ public class RacingService {
     }
 
     @Transactional
-    public Cars play(final String names, final String trialTimes) {
+    public TrackResponse play(final String names, final String trialTimes) {
         final Cars cars = makeCars(names, movingStrategy);
         final Track track = makeTrack(cars, trialTimes);
         final Integer trackId = saveTrack(track);
@@ -32,7 +32,7 @@ public class RacingService {
         final Cars finishedCars = startRace(track);
         saveCars(trackId, finishedCars);
 
-        return finishedCars;
+        return TrackResponse.of(finishedCars);
     }
 
     private Cars makeCars(final String name, final MovingStrategy movingStrategy) {
@@ -52,7 +52,6 @@ public class RacingService {
     }
 
     private Integer saveTrack(final Track track) {
-        System.out.println(track.getTrialTimes());
         return racingDao.save(new TrackDto(track.getTrialTimes()));
     }
 
