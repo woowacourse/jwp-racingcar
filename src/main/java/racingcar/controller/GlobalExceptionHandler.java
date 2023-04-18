@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Exception> inputExceptionHandler(IllegalArgumentException exception) {
+        return ResponseEntity.badRequest()
+                .body(exception);
+    }
+
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<Exception> occurException(Exception exception) {
         return ResponseEntity.badRequest()
                 .body(exception);
