@@ -1,4 +1,4 @@
-package racing;
+package racing.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Repository
-public class RacingGameDao {
+public class RacingGameDao implements GameDao {
 
     private final JdbcTemplate jdbcTemplate;
 
