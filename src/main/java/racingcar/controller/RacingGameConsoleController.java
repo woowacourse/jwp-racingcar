@@ -1,7 +1,5 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.RacingGame;
 import racingcar.service.RacingGameService;
 import racingcar.view.Input;

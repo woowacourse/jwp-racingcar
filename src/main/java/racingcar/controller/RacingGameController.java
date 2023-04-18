@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 public class RacingGameController {
     @Autowired
-    RacingGameService racingGameService;
+    private RacingGameService racingGameService;
 
     @PostMapping(value = "/plays", consumes = "application/json")
     public ResponseEntity<PlayResultResponseDto> play(@Valid @RequestBody PlayRequestDto playRequestDto) {

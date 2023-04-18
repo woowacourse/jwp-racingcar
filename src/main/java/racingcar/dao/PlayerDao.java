@@ -2,7 +2,6 @@ package racingcar.dao;
 
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
-import racingcar.dto.PlayResultResponseDto;
 
 import java.util.List;
 
