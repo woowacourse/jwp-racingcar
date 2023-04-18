@@ -1,22 +1,33 @@
 package racingcar.dao;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import racingcar.entity.Player;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @Component
 public class PlayerJdbcDao implements PlayerDao {
+    private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
-    public PlayerJdbcDao(final DataSource dataSource) {
-        this.insertActor = new SimpleJdbcInsert(dataSource)
+    public PlayerJdbcDao(final JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("player")
                 .usingGeneratedKeyColumns("id");
     }
+
+    private final RowMapper<Player> actorRowMapper = (resultSet, rowNum) -> new Player(
+            resultSet.getInt("id"),
+            resultSet.getString("name"),
+            resultSet.getInt("position"),
+            resultSet.getBoolean("isWinner"),
+            resultSet.getInt("game_id")
+    );
 
     public void saveAll(final List<Player> players) {
         final MapSqlParameterSource[] batch = players.stream().map(player ->
@@ -28,5 +39,12 @@ public class PlayerJdbcDao implements PlayerDao {
         ).toArray(MapSqlParameterSource[]::new);
 
         insertActor.executeBatch(batch);
+    }
+
+    @Override
+    public List<Player> findByGameId(final int gameId) {
+        final String sql = "SELECT * FROM player where game_id =?";
+
+        return jdbcTemplate.query(sql, actorRowMapper, gameId);
     }
 }

@@ -14,7 +14,6 @@ import racingcar.entity.Game;
 import racingcar.entity.Player;
 import racingcar.utils.TestNumberGenerator;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,9 +25,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PlayerJdbcDaoTest {
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private PlayerDao playerDao;
@@ -36,8 +32,8 @@ public class PlayerJdbcDaoTest {
 
     @BeforeEach
     void setUp() {
-        playerDao = new PlayerJdbcDao(dataSource);
-        gameDao = new GameJdbcDao(dataSource);
+        playerDao = new PlayerJdbcDao(jdbcTemplate);
+        gameDao = new GameJdbcDao(jdbcTemplate);
     }
 
     @Test
@@ -47,11 +43,11 @@ public class PlayerJdbcDaoTest {
         NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3));
         cars.race(numberGenerator);
 
-        Game game = Game.of(1);
+        Game game = new Game(1);
         final int gameId = gameDao.saveAndGetId(game);
 
         List<Player> players = cars.getCars().stream()
-                .map(car -> Player.of(car,true ,gameId))
+                .map(car -> new Player(car, true, gameId))
                 .collect(Collectors.toList());
         // when
         playerDao.saveAll(players);
