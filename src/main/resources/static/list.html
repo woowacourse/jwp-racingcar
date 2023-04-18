@@ -39,7 +39,7 @@
   function createTableRow(result) {
     const row = document.createElement("tr");
     row.appendChild(createMovesTableCell(result.racingCars));
-    row.appendChild(createTableCell(result.winners));
+    row.appendChild(createTableCell(result.winners.join(",")));
     return row;
   }
 
