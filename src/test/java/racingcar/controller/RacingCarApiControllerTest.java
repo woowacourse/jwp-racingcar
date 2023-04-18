@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -36,31 +37,60 @@ class RacingCarApiControllerTest {
     @MockBean
     private RacingCarService racingCarService;
 
-    @DisplayName("게임을 진행한다.")
-    @Test
-    void play() throws Exception {
-        final String names = "다즐,오즈";
-        final int count = 3;
-        final RacingCarRequest racingCarRequest = new RacingCarRequest(names, count);
-        final String content = objectMapper.writeValueAsString(racingCarRequest);
-        final RacingGameResponse racingGameResponse = RacingGameResponse.of(
-                List.of("오즈"),
-                List.of(new Car("다즐", new Position(2)), new Car("오즈", new Position(3)))
-        );
+    @Nested
+    @DisplayName("게임 진행 기능")
+    class Play {
 
-        given(racingCarService.play(names, count)).willReturn(racingGameResponse);
+        @DisplayName("게임을 진행을 성공한다.")
+        @Test
+        void successPlay() throws Exception {
+            final String names = "다즐,오즈";
+            final int count = 3;
+            final RacingCarRequest racingCarRequest = new RacingCarRequest(names, count);
+            final String content = objectMapper.writeValueAsString(racingCarRequest);
+            final RacingGameResponse racingGameResponse = RacingGameResponse.of(
+                    List.of("오즈"),
+                    List.of(new Car("다즐", new Position(2)), new Car("오즈", new Position(3)))
+            );
 
-        mockMvc.perform(post("/plays")
-                        .content(content)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$.winners").value("오즈"))
-                .andExpect(jsonPath("$.racingCars", hasSize(2)))
-                .andExpect(jsonPath("$.racingCars[0].name").value("다즐"))
-                .andExpect(jsonPath("$.racingCars[0].position").value(2))
-                .andExpect(jsonPath("$.racingCars[1].name").value("오즈"))
-                .andExpect(jsonPath("$.racingCars[1].position").value(3));
+            given(racingCarService.play(names, count)).willReturn(racingGameResponse);
+
+            mockMvc.perform(post("/plays")
+                            .content(content)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andExpect(jsonPath("$.winners").value("오즈"))
+                    .andExpect(jsonPath("$.racingCars", hasSize(2)))
+                    .andExpect(jsonPath("$.racingCars[0].name").value("다즐"))
+                    .andExpect(jsonPath("$.racingCars[0].position").value(2))
+                    .andExpect(jsonPath("$.racingCars[1].name").value("오즈"))
+                    .andExpect(jsonPath("$.racingCars[1].position").value(3));
+        }
+
+        @DisplayName("요청 데이터가 null이면 예외를 던진다.")
+        @Test
+        void failByNullRequest() throws Exception {
+            final RacingCarRequest racingCarRequest = new RacingCarRequest(null, null);
+            final String content = objectMapper.writeValueAsString(racingCarRequest);
+
+            mockMvc.perform(post("/plays")
+                            .content(content)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }
+
+        @DisplayName("시도 횟수가 음수라면 예외를 던진다.")
+        @Test
+        void failByNegativeCountRequest() throws Exception {
+            final RacingCarRequest racingCarRequest = new RacingCarRequest("다즐,오즈", -1);
+            final String content = objectMapper.writeValueAsString(racingCarRequest);
+
+            mockMvc.perform(post("/plays")
+                            .content(content)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }
     }
 
     @DisplayName("게임 이력을 조회한다.")
