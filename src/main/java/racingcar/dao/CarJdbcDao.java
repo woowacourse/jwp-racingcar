@@ -27,6 +27,7 @@ public class CarJdbcDao implements CarDao {
                 .usingGeneratedKeyColumns("id");
     }
 
+    @Override
     public void saveAll(final List<CarEntity> cars) {
         final BeanPropertySqlParameterSource[] parameterSources = cars.stream()
                 .map(BeanPropertySqlParameterSource::new)
