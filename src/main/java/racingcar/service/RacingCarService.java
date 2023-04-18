@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.domain.car.Car;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RacingCarService {
     private static final String DELIMITER = ",";
 
