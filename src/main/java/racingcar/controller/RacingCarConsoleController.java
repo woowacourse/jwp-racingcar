@@ -19,9 +19,8 @@ public class RacingCarConsoleController {
     }
 
     public void run() {
-        Cars cars = makeCars();
-        TryCount tryCount = makeTryCount();
-        outputView.printResultMessage();
+        Cars cars = new Cars(inputView.readCarNames());
+        TryCount tryCount = new TryCount(inputView.readTryCount());
         playRound(cars, tryCount);
         printGameResult(cars);
     }
@@ -29,26 +28,6 @@ public class RacingCarConsoleController {
     private void playRound(Cars cars, TryCount tryCount) {
         for (int i = 0; i < tryCount.getValue(); i++) {
             cars.runRound();
-        }
-    }
-
-    private Cars makeCars() {
-        try {
-            outputView.printNameInput();
-            return new Cars(inputView.readCarNames());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return makeCars();
-        }
-    }
-
-    private TryCount makeTryCount() {
-        try {
-            outputView.printCountInput();
-            return new TryCount(inputView.readTryCount());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return makeTryCount();
         }
     }
 
