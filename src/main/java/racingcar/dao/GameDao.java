@@ -3,20 +3,22 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.dto.GameDto;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
-public class PlayResultDao {
+public class GameDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public PlayResultDao(final JdbcTemplate jdbcTemplate) {
+    public GameDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public long insert(final String winners, final int trialCount) {
-        String sql = "insert into PLAY_RESULT (winners, trial_count) values (?, ?)";
+    public long save(final String winners, final int trialCount) {
+        String sql = "insert into GAME (winners, trial_count) values (?, ?)";
 
         final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
