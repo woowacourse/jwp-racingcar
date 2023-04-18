@@ -13,5 +13,6 @@ CREATE TABLE CAR
     name           VARCHAR(50) NOT NULL,
     position       INT         NOT NULL,
     race_result_id BIGINT      NOT NULL,
+    created_at     DATETIME    NOT NULL,
     PRIMARY KEY (id)
 );
