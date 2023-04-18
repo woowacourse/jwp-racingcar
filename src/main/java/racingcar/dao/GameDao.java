@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public class GameDao {
 
-    private final static String WINNER_DELIMITER = ",";
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
@@ -25,7 +23,7 @@ public class GameDao {
     }
 
     public int save(List<String> winners, int tryCount, LocalTime playTime) {
-        String winnersWithJoining = String.join(WINNER_DELIMITER, winners);
+        String winnersWithJoining = String.join(GameEntity.WINNER_DELIMITER, winners);
         GameEntity game = new GameEntity(winnersWithJoining, tryCount, playTime);
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(game);
         return insertActor.executeAndReturnKey(sqlParameterSource).intValue();
@@ -34,10 +32,9 @@ public class GameDao {
     public List<GameEntity> findAll() {
         String sql = "select game_id, winners from game";
         List<GameEntity> games = jdbcTemplate.query(sql, (rs, rowNum) -> {
-            GameEntity game = new GameEntity();
-            game.setGameId(rs.getInt("game_id"));
-            game.setWinners(rs.getString("winners"));
-            return game;
+            int gameId = rs.getInt("game_id");
+            String winners = rs.getString("winners");
+            return new GameEntity(gameId, winners);
         });
         return games;
     }
