@@ -31,7 +31,7 @@ public class RacingCarRepository {
     }
 
     public List<List<Car>> getAll() {
-        Map<Long, List<CarEntity>> allCars = carsDao.findAllCarsByPlayId();
+        Map<Long, List<CarEntity>> allCars = carsDao.findAllByPlayerId();
         return allCars.values()
                 .stream()
                 .map(EntityConverter::toDomainEntities)

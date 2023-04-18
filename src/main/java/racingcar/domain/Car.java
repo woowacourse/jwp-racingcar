@@ -12,6 +12,7 @@ public class Car implements Comparable<Car> {
     private int position;
 
     // TODO 생성자 오버라이드 정적 팩토리메서드로 변경
+    // TODO 막상 Dao Entity 만들고 나니, Domain Entity도 id를 가져야하나? 의문이 든다.
     public Car(String name) {
         validateName(name);
         this.playId = null;

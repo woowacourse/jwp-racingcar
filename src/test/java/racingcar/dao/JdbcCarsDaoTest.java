@@ -11,12 +11,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.repository.dao.CarsDao;
-import racingcar.repository.dao.PlayRecordsDao;
+import racingcar.repository.dao.JdbcCarsDao;
+import racingcar.repository.dao.JdbcPlayRecordsDao;
 import racingcar.repository.dao.entity.CarEntity;
 
 @SpringBootTest
-class CarsDaoTest {
+class JdbcCarsDaoTest {
 
     private static final int FIRST_INSERT_ID = 1;
     private static final List<CarEntity> FIXTURE_CARS_ID_NULL = List.of(
@@ -26,9 +26,9 @@ class CarsDaoTest {
     );
 
     @Autowired
-    private CarsDao carsDao;
+    private JdbcCarsDao carsDao;
     @Autowired
-    private PlayRecordsDao playRecordsDao;
+    private JdbcPlayRecordsDao playRecordsDao;
 
     @BeforeEach
     void setUp() {
@@ -68,7 +68,7 @@ class CarsDaoTest {
         long id2 = playRecordsDao.getLastId();
         carsDao.insert(id2, FIXTURE_CARS_ID_NULL);
 
-        Map<Long, List<CarEntity>> allCarsByPlayId = carsDao.findAllCarsByPlayId();
+        Map<Long, List<CarEntity>> allCarsByPlayId = carsDao.findAllByPlayerId();
 
         assertThat(allCarsByPlayId).containsExactly(
                 entry(id2, List.of(
