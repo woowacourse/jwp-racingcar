@@ -18,8 +18,8 @@
       - 시도 횟수
           - [x] 정수를 입력해야 한다
           - [x] 1보다 크고 100보다 작아야 한다
-- [x] 이력조회
-  - [x] 각 유저의 이동횟수와 우승자를 JSON 형식으로 응답한다
+- [x] 이력 조회
+  - [x] 각 유저의 이동 횟수와 우승자를 JSON 형식으로 응답한다
 
 ## DB
 
@@ -28,3 +28,82 @@
     - 플레이어 별 최종 이동 거리 (이름(name), 최종 위치(position))
     - 우승자(winners)
     - 플레이한 날짜/시간
+
+## HTTP
+- 게임하기
+  - 요청
+    ```text
+    Request Method: POST
+    Request URI: /plays
+    Content-Type: application/json; charset=UTF-8
+    Body: {
+      "names": "gray, hoy, logan",
+      "count": "10"
+    }
+    ```
+  - 응답
+    ```text
+    HTTP/1.1 200
+    Content-Type: application/json
+    Body: {
+      "winners": "logan",
+      "racingCars": [
+          {
+              "name": "gray",
+              "position": 8
+          },
+          {
+              "name": "hoy",
+              "position": 7
+          },
+          {
+              "name": "logan",
+              "position": 9
+          }
+      ]
+    }
+    ```
+- 이력 조회
+  - 요청
+    ```text
+    Request Method: GET
+    URI: /plays
+    ```
+  - 응답
+    ```text
+    HTTP/1.1 200
+    Content-Type: application/json
+    Body: [
+    {
+      "winners": "브리",
+      "racingCars": [
+          {
+            "name": "브리",
+            "position": 6
+          },
+          {
+            "name": "토미",
+            "position": 4
+          },
+          {
+            "name": "브라운",
+            "position": 3
+          }]
+    },
+    {
+      "winners": "브리,토미,브라운",
+      "racingCars": [
+          {
+            "name": "브리",
+            "position": 6
+          },
+          {
+            "name": "토미",
+            "position": 6
+          },
+          {
+            "name": "브라운",
+            "position": 6
+          }]
+    }]
+    ```
