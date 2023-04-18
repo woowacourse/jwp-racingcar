@@ -20,8 +20,8 @@ public class RacingCarService {
         this.racingCarRepository = racingCarRepository;
     }
 
-    public PlayResponseDto playGame(final int count, final RacingCarNames carNames) {
-        RacingGame racingGame = RacingGame.of(carNames.createCars());
+    public PlayResponseDto playGame(final int count, final List<String> carNames) {
+        RacingGame racingGame = RacingGame.of(new RacingCarNames(carNames).createCars());
         racingGame.play(count);
         List<Car> cars = racingGame.racingCars();
         racingCarRepository.save(count, cars);
