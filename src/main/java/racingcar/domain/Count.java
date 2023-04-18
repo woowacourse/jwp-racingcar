@@ -4,7 +4,7 @@ import static java.text.MessageFormat.format;
 
 public class Count {
 
-    private static final int MINIMUM_COUNT = 1;
+    private static final int MINIMUM_COUNT = 0;
     private static final int MAXIMUM_COUNT = 100;
     private static final String INVALID_COUNT_MESSAGE =
             "입력된 횟수[{0}]: 횟수는 " + MINIMUM_COUNT + "이상, " + MAXIMUM_COUNT + "이하의 정수만 가능합니다.";

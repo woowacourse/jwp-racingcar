@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import racingcar.utils.TestNumberGenerator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +23,10 @@ class RacingGameTest {
     private RacingGame generateRacingGame(final int count) {
         final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(3, 4));
         final List<String> names = List.of("car1", "car2");
-        return new RacingGame(numberGenerator, new Cars(names), new Count(count));
+        final List<Car> cars = names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
+        return new RacingGame(numberGenerator, new Cars(cars), new Count(count));
     }
 
     @Test

@@ -10,6 +10,7 @@ import racingcar.utils.TestNumberGenerator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.text.MessageFormat.format;
 import static org.assertj.core.api.Assertions.*;
@@ -20,8 +21,11 @@ public class CarsTest {
     @DisplayName("이름 목록이 비어있으면 예외를 던진다.")
     void should_throwException_when_emptyNames() {
         final List<String> names = Collections.emptyList();
+        final List<Car> cars = names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
 
-        assertThatThrownBy(() -> new Cars(names))
+        assertThatThrownBy(() -> new Cars(cars))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(format("입력된 자동차 개수[{0}]: 자동차는 1대 이상, 100대 이하만 경주 가능합니다.", names.size()));
     }
@@ -30,8 +34,11 @@ public class CarsTest {
     @DisplayName("이름 목록에 중복이 존재하면 예외를 던진다.")
     void should_throwException_when_duplicateNames() {
         final List<String> names = List.of("허브", "다즐", "허브");
+        final List<Car> cars = names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
 
-        assertThatThrownBy(() -> new Cars(names))
+        assertThatThrownBy(() -> new Cars(cars))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(format("입력된 이름 목록{0}: 자동차 이름은 중복될 수 없습니다.", names));
     }
@@ -44,8 +51,11 @@ public class CarsTest {
         for (int i = 0; i <= 100; i++) {
             names.add("이름" + i);
         }
+        final List<Car> cars = names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
 
-        assertThatThrownBy(() -> new Cars(names))
+        assertThatThrownBy(() -> new Cars(cars))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(format("입력된 자동차 개수[{0}]: 자동차는 1대 이상, 100대 이하만 경주 가능합니다.", names.size()));
     }
@@ -59,14 +69,17 @@ public class CarsTest {
         for (int i = 0; i < size; i++) {
             names.add("이름" + i);
         }
+        final List<Car> cars = names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
 
-        assertThatNoException().isThrownBy(() -> new Cars(names));
+        assertThatNoException().isThrownBy(() -> new Cars(cars));
     }
 
     @Test
     @DisplayName("move 메서드는 전진 가능한 자동차들을 이동시킨다.")
     void should_moveCars_when_move() {
-        final Cars cars = new Cars(List.of("car1", "car2", "car3"));
+        final Cars cars = new Cars(List.of(new Car("car1"), new Car("car2"), new Car("car3")));
         final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 5));
 
         cars.move(numberGenerator);
@@ -79,7 +92,7 @@ public class CarsTest {
     @Test
     @DisplayName("findWinners 메서드는 우승자 이름 목록을 반환한다.")
     void should_returnWinnersName_when_findWinners() {
-        final Cars cars = new Cars(List.of("car1", "car2", "car3"));
+        final Cars cars = new Cars(List.of(new Car("car1"), new Car("car2"), new Car("car3")));
         final NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 5));
         cars.move(numberGenerator);
 

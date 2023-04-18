@@ -6,7 +6,15 @@ public class Position {
 
     private static final int INITIAL_VALUE = 0;
 
-    private int value = INITIAL_VALUE;
+    private int value;
+
+    public Position() {
+        this(INITIAL_VALUE);
+    }
+
+    public Position(final int value) {
+        this.value = value;
+    }
 
     public void increase() {
         value++;
