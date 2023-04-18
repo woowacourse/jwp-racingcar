@@ -54,11 +54,10 @@ public class RacingCarController {
     private void startRound(RacingCars racingCars, int roundCount) {
         RacingGame racingGame = new RacingGame(new RandomNumberGenerator(), racingCars);
         OutputView.printRoundResultMsg();
-        OutputView.printRoundState(racingCars.getCars());
         for (int i = 0; i < roundCount; i++) {
             racingGame.moveCars();
-            OutputView.printRoundState(racingCars.getCars());
         }
+        OutputView.printRoundState(racingCars.getCars());
         OutputView.printRacingResult(racingGame.getWinners());
     }
 }
