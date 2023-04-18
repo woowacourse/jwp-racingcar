@@ -13,6 +13,8 @@ import java.util.List;
 @Repository
 public class GameResultDao {
 
+    private static final String[] GAME_RESULT_ID = new String[]{"id"};
+
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -24,7 +26,7 @@ public class GameResultDao {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, GAME_RESULT_ID);
             preparedStatement.setString(1, winners);
             preparedStatement.setInt(2, trialCount);
             return preparedStatement;
