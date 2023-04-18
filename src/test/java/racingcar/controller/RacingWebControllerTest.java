@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.dto.GameRequestDto;
+import racingcar.dto.PlayRequestDto;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,7 +28,7 @@ public class RacingWebControllerTest {
 
     @Test
     void 플레이어_1명인_경우_테스트() {
-        GameRequestDto requestDto = new GameRequestDto("오잉", 2);
+        PlayRequestDto requestDto = new PlayRequestDto("오잉", 2);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -42,7 +42,7 @@ public class RacingWebControllerTest {
 
     @Test
     void 플레이어_여러명인_경우_테스트() {
-        GameRequestDto requestDto = new GameRequestDto("오잉,포이,브리", 3);
+        PlayRequestDto requestDto = new PlayRequestDto("오잉,포이,브리", 3);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
