@@ -1,11 +1,14 @@
 package racingcar.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GamePlayRequestDto;
 import racingcar.dto.GamePlayResponseDto;
 import racingcar.service.CarService;
+
+import java.util.List;
 
 @RestController
 public class CarController {
@@ -19,6 +22,11 @@ public class CarController {
     @PostMapping("/plays")
     public GamePlayResponseDto playGame(@RequestBody GamePlayRequestDto gamePlayRequestDto) {
         return carService.playGame(gamePlayRequestDto);
+    }
+
+    @GetMapping("/plays")
+    public List<GamePlayResponseDto> findGamePlayHistoryAll() {
+        return carService.findGamePlayHistoryAll();
     }
 
 }
