@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import racingcar.dao.GameAndPlayerResultEntity;
 import racingcar.dao.GameResultDAO;
 import racingcar.dao.PlayerResultDAO;
 import racingcar.dto.CarDto;
@@ -78,6 +79,33 @@ class RacingGameServiceTest {
 
         assertThat(names).containsAll(winners);
         assertThat(names).containsExactlyElementsOf(players);
+    }
+
+    @DisplayName("데이터베이스에 저장된 모든 게임 및 플레이어 결과를 가져올 수 있다.")
+    @Test
+    void findAllGameAndPlayerResultsTest() {
+        //given
+        GameAndPlayerResultEntity entity = new GameAndPlayerResultEntity.GameAndPlayerResultEntityBuilder()
+                .name("쥬니")
+                .position(2)
+                .build();
+
+        when(gameResultDAO.findAllWithPlayerResults())
+                .thenReturn(List.of(entity));
+
+        //when
+        GameResponseDto gameResponseDto = racingGameService.findAllGameAndPlayerResults().get(0);
+
+        List<String> players = getPlayers(gameResponseDto);
+        List<String> winners = List.of(gameResponseDto.getWinners().split(","));
+        int position = gameResponseDto.getRacingCars().get(0).getPosition();
+        //then
+        assertThat(players)
+                .containsExactly("쥬니");
+        assertThat(winners)
+                .containsExactly("쥬니");
+        assertThat(position)
+                .isEqualTo(2);
     }
 
     private List<String> getPlayers(GameResponseDto gameResponseDto) {
