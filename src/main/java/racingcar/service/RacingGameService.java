@@ -8,6 +8,8 @@ import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
 import racingcar.repositiory.RacingGameRepository;
 
+import java.util.List;
+
 @Service
 public class RacingGameService {
 
@@ -26,6 +28,11 @@ public class RacingGameService {
         racingGameRepository.save(racingGame);
 
         return GameResponse.of(racingGame.findWinners(), racingGame.findCurrentCarPositions());
+    }
+
+    @Transactional
+    public List<GameResponse> findAll() {
+        return racingGameRepository.findAll();
     }
 
     private RacingGame playRacingGame(final GameRequest gameRequest) {
