@@ -27,7 +27,7 @@ public class RacingGameController {
     }
 
     @RequestMapping(value = "/plays", produces = "application/json")
-    public ResponseEntity<List<PlayResultResponseDto>> get() {
-        return ResponseEntity.ok().body(racingGameService.get());
+    public ResponseEntity<List<PlayResultResponseDto>> viewHistory() {
+        return ResponseEntity.ok().body(racingGameService.getPlayHistory());
     }
 }
