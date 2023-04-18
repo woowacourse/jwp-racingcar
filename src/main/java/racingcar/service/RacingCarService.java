@@ -8,14 +8,14 @@ import java.util.List;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Position;
-import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarResultDto;
+import racingcar.dto.NamesDto;
+import racingcar.dto.ResultDto;
 import racingcar.dto.WinnerDto;
 
 public class RacingCarService {
     private Cars cars;
 
-    public void createCars(RacingCarNamesRequest request) {
+    public void createCars(NamesDto request) {
         this.cars = new Cars(request.getNames());
     }
 
@@ -42,11 +42,11 @@ public class RacingCarService {
         }
     }
 
-    public List<RacingCarResultDto> getCarStatuses() {
+    public List<ResultDto> getCarStatuses() {
         validateEmptyCars();
         return cars.getCars()
                 .stream()
-                .map(RacingCarResultDto::of)
+                .map(ResultDto::of)
                 .collect(toList());
     }
 

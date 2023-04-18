@@ -1,20 +1,20 @@
 package racingcar.controller;
 
 import java.util.List;
-import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarResultDto;
+import racingcar.dto.NamesDto;
+import racingcar.dto.ResultDto;
+import racingcar.dto.TryCountDto;
 import racingcar.dto.WinnerDto;
-import racingcar.dto.TryCountRequest;
 import racingcar.service.RacingCarService;
 import racingcar.service.RandomMoveStrategy;
 import racingcar.service.TryCount;
 import racingcar.view.RacingCarView;
 
-public class RacingCarController {
+public class ConsoleController {
     private final RacingCarService racingCarService;
     private final RacingCarView racingCarView;
 
-    public RacingCarController(RacingCarService racingCarService, RacingCarView racingCarView) {
+    public ConsoleController(RacingCarService racingCarService, RacingCarView racingCarView) {
         this.racingCarService = racingCarService;
         this.racingCarView = racingCarView;
     }
@@ -26,11 +26,11 @@ public class RacingCarController {
     }
 
     private void createCar() {
-        RacingCarNamesRequest racingCarNamesRequest = receiveCarNames();
-        racingCarService.createCars(racingCarNamesRequest);
+        NamesDto namesDto = receiveCarNames();
+        racingCarService.createCars(namesDto);
     }
 
-    private RacingCarNamesRequest receiveCarNames() {
+    private NamesDto receiveCarNames() {
         try {
             return racingCarView.receiveCarNames();
         } catch (RuntimeException e) {
@@ -40,11 +40,11 @@ public class RacingCarController {
     }
 
     private int getTryCount() {
-        TryCountRequest tryCountRequest = receiveTryCount();
-        return tryCountRequest.getTryCount();
+        TryCountDto tryCountDto = receiveTryCount();
+        return tryCountDto.getTryCount();
     }
 
-    private TryCountRequest receiveTryCount() {
+    private TryCountDto receiveTryCount() {
         try {
             return racingCarView.receiveTryCount();
         } catch (RuntimeException e) {
@@ -58,7 +58,6 @@ public class RacingCarController {
         racingCarView.printStartMessage();
         while (tryCount.isAvailable()) {
             racingCarService.moveCars(randomMoveStrategy);
-            printCarStatuses();
             tryCount.moveUntilZero();
         }
         printCarStatuses();
@@ -75,7 +74,7 @@ public class RacingCarController {
     }
 
     private void printCarStatuses() {
-        List<RacingCarResultDto> carStatuses = racingCarService.getCarStatuses();
+        List<ResultDto> carStatuses = racingCarService.getCarStatuses();
         racingCarView.printRacingProgress(carStatuses);
     }
 }

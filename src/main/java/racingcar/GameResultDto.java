@@ -1,19 +1,19 @@
 package racingcar;
 
 import java.util.List;
-import racingcar.dto.RacingCarResultDto;
+import racingcar.dto.ResultDto;
 import racingcar.dto.WinnerDto;
 
 public class GameResultDto {
     private final String winners;
-    private final List<RacingCarResultDto> racingCars;
+    private final List<ResultDto> racingCars;
 
-    public GameResultDto(List<String> winners, List<RacingCarResultDto> racingCars) {
+    public GameResultDto(List<String> winners, List<ResultDto> racingCars) {
         this.winners = String.join(",", winners);
         this.racingCars = racingCars;
     }
 
-    public static GameResultDto of(WinnerDto winners, List<RacingCarResultDto> racingCars) {
+    public static GameResultDto of(WinnerDto winners, List<ResultDto> racingCars) {
         return new GameResultDto(winners.getWinners(), racingCars);
     }
 
@@ -21,7 +21,7 @@ public class GameResultDto {
         return winners;
     }
 
-    public List<RacingCarResultDto> getRacingCars() {
+    public List<ResultDto> getRacingCars() {
         return racingCars;
     }
 }
