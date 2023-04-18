@@ -1,6 +1,7 @@
 package racingcar;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import racingcar.controller.RacingGameController;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
@@ -8,13 +9,16 @@ import racingcar.domain.Car.NumberGenerator;
 import racingcar.domain.Car.RandomNumberGenerator;
 import racingcar.service.RacingGameService;
 
+import javax.sql.DataSource;
+
 public class RacingCarConsoleApplication {
 
     public static void main(String[] args) {
 
+        DataSource dataSource = new DriverManagerDataSource();
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         GameDao gameDao = new GameDao(jdbcTemplate);
-        CarDao carDao = new CarDao(jdbcTemplate);
+        CarDao carDao = new CarDao(dataSource);
         NumberGenerator randomNumberGenerator = new RandomNumberGenerator();
         RacingGameService racingGameService = new RacingGameService(gameDao, carDao, randomNumberGenerator);
 
