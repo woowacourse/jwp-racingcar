@@ -2,22 +2,21 @@ package racingcar;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.stereotype.Service;
 import racingcar.dto.ResultDto;
 import racingcar.dto.WinnerDto;
-import racingcar.service.RacingCarService;
-import racingcar.service.RandomMoveStrategy;
-import racingcar.service.TryCount;
+import racingcar.domain.Game;
+import racingcar.domain.RandomMoveStrategy;
+import racingcar.domain.TryCount;
 
-@Service
+@org.springframework.stereotype.Service
 public class RacingCarWebService {
-    private final RacingCarService racingCarService;
+    private final Game game;
     private final GameDao gameDao;
     private final PlayerDao playerDao;
 
     public RacingCarWebService(final GameDao gameDao,
                                final PlayerDao playerDao) {
-        this.racingCarService = new RacingCarService();
+        this.game = new Game();
         this.gameDao = gameDao;
         this.playerDao = playerDao;
     }
@@ -32,27 +31,27 @@ public class RacingCarWebService {
 
     private void createCars(final GameDto gameDto) {
         final List<String> names = gameDto.getNames();
-        racingCarService.createCars(names);
+        game.createCars(names);
     }
 
     private void playGame(TryCount tryCount) {
         RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
         while (tryCount.isAvailable()) {
-            racingCarService.moveCars(randomMoveStrategy);
+            game.moveCars(randomMoveStrategy);
             tryCount.moveUntilZero();
         }
     }
 
     private GameResultDto save(TryCount tryCount) {
         WinnerDto winners = findWinners();
-        List<ResultDto> racingCars = racingCarService.getCarStatuses();
+        List<ResultDto> racingCars = game.getCarStatuses();
         int gameId = gameDao.insertGame(tryCount).intValue();
         playerDao.insertPlayer(racingCars, winners.getWinners(), gameId);
         return GameResultDto.of(winners, racingCars);
     }
 
     private WinnerDto findWinners() {
-        return racingCarService.findWinners();
+        return game.findWinners();
     }
 
     public GameResultsDto gameHistory() {

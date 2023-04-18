@@ -6,7 +6,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.service.TryCount;
+import racingcar.domain.TryCount;
 
 @Repository
 public class GameDao {

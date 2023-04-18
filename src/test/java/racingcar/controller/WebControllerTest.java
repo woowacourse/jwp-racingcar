@@ -10,7 +10,7 @@ import racingcar.dto.NamesDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.WinnerDto;
 import racingcar.dto.TryCountDto;
-import racingcar.service.RacingCarService;
+import racingcar.domain.Game;
 import racingcar.view.RacingCarView;
 
 class WebControllerTest {
@@ -50,7 +50,7 @@ class WebControllerTest {
 
     @BeforeEach
     void setUp() {
-        consoleController = new ConsoleController(new RacingCarService(), new MockRacingCarView());
+        consoleController = new ConsoleController(new Game(), new MockRacingCarView());
     }
 
     @Test

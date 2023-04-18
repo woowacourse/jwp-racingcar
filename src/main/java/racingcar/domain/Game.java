@@ -1,18 +1,15 @@
-package racingcar.service;
+package racingcar.domain;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static racingcar.exception.ExceptionMessage.EMPTY_CARS;
 
 import java.util.List;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.Position;
 import racingcar.dto.NamesDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.WinnerDto;
 
-public class RacingCarService {
+public class Game {
     private Cars cars;
 
     public void createCars(NamesDto request) {

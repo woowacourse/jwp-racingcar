@@ -10,18 +10,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import racingcar.domain.CustomMoveStrategy;
+import racingcar.domain.Game;
 import racingcar.dto.NamesDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.WinnerDto;
 
-class RacingCarServiceTest {
+class GameTest {
     private static final CustomMoveStrategy MOVE_STRATEGY = new CustomMoveStrategy(5);
 
-    private RacingCarService service;
+    private Game game;
 
     @BeforeEach
     void setUp() {
-        service = new RacingCarService();
+        game = new Game();
     }
 
     @ParameterizedTest
@@ -30,11 +32,11 @@ class RacingCarServiceTest {
     void move_shouldNotMoveWhenNumberIsUnderThree(int input, int expected) {
         // given
         CustomMoveStrategy moveStrategy = new CustomMoveStrategy(input);
-        service.createCars(NamesDto.of("car1"));
-        service.moveCars(moveStrategy);
+        game.createCars(NamesDto.of("car1"));
+        game.moveCars(moveStrategy);
 
         // when
-        List<ResultDto> carStatuses = service.getCarStatuses();
+        List<ResultDto> carStatuses = game.getCarStatuses();
 
         // then
         assertThat(carStatuses.get(0).getPosition()).isEqualTo(expected);
@@ -45,10 +47,10 @@ class RacingCarServiceTest {
     @DisplayName("자동차가 생성되어야 한다.")
     void car_create(String input, int expected) {
         // given
-        service.createCars(NamesDto.of(input));
+        game.createCars(NamesDto.of(input));
 
         // when
-        List<ResultDto> carStatuses = service.getCarStatuses();
+        List<ResultDto> carStatuses = game.getCarStatuses();
 
         // then
         assertThat(carStatuses.size()).isEqualTo(expected);
@@ -58,10 +60,10 @@ class RacingCarServiceTest {
     @DisplayName("자동차의 정보가 정상적으로 반환되어야 한다.")
     void car_getStatues() {
         // given
-        service.createCars(NamesDto.of("car1"));
+        game.createCars(NamesDto.of("car1"));
 
         // when
-        List<ResultDto> carStatuses = service.getCarStatuses();
+        List<ResultDto> carStatuses = game.getCarStatuses();
 
         // then
         assertThat(carStatuses.get(0).getPosition()).isEqualTo(0);
@@ -72,11 +74,11 @@ class RacingCarServiceTest {
     @DisplayName("우승자의 이름이 정상적으로 반환되어야 한다.")
     void findWinners() {
         // given
-        service.createCars(NamesDto.of("car1,car2"));
-        service.moveCars(MOVE_STRATEGY);
+        game.createCars(NamesDto.of("car1,car2"));
+        game.moveCars(MOVE_STRATEGY);
 
         // then
-        WinnerDto winners = service.findWinners();
+        WinnerDto winners = game.findWinners();
         assertThat(winners.getWinners().size())
                 .isEqualTo(2);
         assertThat(winners.getWinners().get(0))
@@ -89,7 +91,7 @@ class RacingCarServiceTest {
     @DisplayName("자동차를 생성하지 않고 우승자를 찾으면 예외가 발생해야 한다.")
     void findWinners_emptyCars() {
         // expect
-        assertThatThrownBy(() -> service.findWinners())
+        assertThatThrownBy(() -> game.findWinners())
                 .isInstanceOf(IllegalStateException.class);
     }
 
@@ -97,7 +99,7 @@ class RacingCarServiceTest {
     @DisplayName("자동차를 생성하지 않고 자동차의 상태를 가져오면 비어있어야 한다.")
     void getCarStatuses_empty() {
         // expect
-        assertThatThrownBy(() -> service.getCarStatuses())
+        assertThatThrownBy(() -> game.getCarStatuses())
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage(EMPTY_CARS.getMessage());
     }
@@ -106,7 +108,7 @@ class RacingCarServiceTest {
     @DisplayName("자동차를 생성하지 않고 자동차를 움직이면 예외가 발생해야 한다.")
     void moveCars_empty() {
         // expect
-        assertThatThrownBy(() -> service.moveCars(MOVE_STRATEGY))
+        assertThatThrownBy(() -> game.moveCars(MOVE_STRATEGY))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage(EMPTY_CARS.getMessage());
     }

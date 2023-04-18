@@ -5,17 +5,17 @@ import racingcar.dto.NamesDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.TryCountDto;
 import racingcar.dto.WinnerDto;
-import racingcar.service.RacingCarService;
-import racingcar.service.RandomMoveStrategy;
-import racingcar.service.TryCount;
+import racingcar.domain.Game;
+import racingcar.domain.RandomMoveStrategy;
+import racingcar.domain.TryCount;
 import racingcar.view.RacingCarView;
 
 public class ConsoleController {
-    private final RacingCarService racingCarService;
+    private final Game game;
     private final RacingCarView racingCarView;
 
-    public ConsoleController(RacingCarService racingCarService, RacingCarView racingCarView) {
-        this.racingCarService = racingCarService;
+    public ConsoleController(Game game, RacingCarView racingCarView) {
+        this.game = game;
         this.racingCarView = racingCarView;
     }
 
@@ -27,7 +27,7 @@ public class ConsoleController {
 
     private void createCar() {
         NamesDto namesDto = receiveCarNames();
-        racingCarService.createCars(namesDto);
+        game.createCars(namesDto);
     }
 
     private NamesDto receiveCarNames() {
@@ -57,7 +57,7 @@ public class ConsoleController {
         RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
         racingCarView.printStartMessage();
         while (tryCount.isAvailable()) {
-            racingCarService.moveCars(randomMoveStrategy);
+            game.moveCars(randomMoveStrategy);
             tryCount.moveUntilZero();
         }
         printCarStatuses();
@@ -66,7 +66,7 @@ public class ConsoleController {
 
     private void findWinners() {
         try {
-            WinnerDto winnerDto = racingCarService.findWinners();
+            WinnerDto winnerDto = game.findWinners();
             racingCarView.printWinners(winnerDto);
         } catch (RuntimeException e) {
             racingCarView.printExceptionMessage(e);
@@ -74,7 +74,7 @@ public class ConsoleController {
     }
 
     private void printCarStatuses() {
-        List<ResultDto> carStatuses = racingCarService.getCarStatuses();
+        List<ResultDto> carStatuses = game.getCarStatuses();
         racingCarView.printRacingProgress(carStatuses);
     }
 }
