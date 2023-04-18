@@ -1,0 +1,59 @@
+package racing.web.controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import racing.domain.CarFactory;
+import racing.domain.Cars;
+import racing.web.controller.dto.request.RacingGameInfoRequest;
+import racing.web.controller.dto.request.validator.RacingGameInfoRequestValidator;
+import racing.web.controller.dto.request.validator.RequestValidator;
+import racing.web.controller.dto.response.RacingCarStateResponse;
+import racing.web.controller.dto.response.RacingGameResultResponse;
+import racing.web.service.RacingGameService;
+
+@RestController
+public class RacingController {
+
+    private final RacingGameService racingGameService;
+
+    public RacingController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
+
+    @PostMapping("/plays")
+    public ResponseEntity<RacingGameResultResponse> playGame(@RequestBody RacingGameInfoRequest request) {
+        RequestValidator<RacingGameInfoRequest> requestValidator = new RacingGameInfoRequestValidator();
+        requestValidator.validate(request);
+
+        Cars cars = CarFactory.carFactory(request.getNames());
+        Long gameId = racingGameService.saveGameByCount(request.getCount());
+        racingGameService.playGame(gameId, cars);
+
+        return ResponseEntity.ok(getRacingGameResultResponse(cars));
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<RacingGameResultResponse>> getAllResults() {
+        List<Cars> allResults = racingGameService.getAllResults();
+
+        List<RacingGameResultResponse> allResponseResults = allResults.stream()
+                .map(this::getRacingGameResultResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(allResponseResults);
+    }
+
+    private RacingGameResultResponse getRacingGameResultResponse(Cars cars) {
+        List<RacingCarStateResponse> racingCarsState = cars.getCars().stream()
+                .map(car -> new RacingCarStateResponse(car.getName(), car.getStep()))
+                .collect(Collectors.toList());
+
+        return new RacingGameResultResponse(racingGameService.filterWinnersToCarNames(cars), racingCarsState);
+    }
+
+}
