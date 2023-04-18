@@ -48,7 +48,7 @@ public class RacingCarWebController {
 
     private List<RacingCarDto> makeCarDtos(Cars cars) {
         return cars.getCars().stream()
-                .map(car -> new RacingCarDto(car.getName().getValue(), car.getDistance().getValue()))
+                .map(car -> new RacingCarDto(car.getName().getValue(), car.getPosition().getValue()))
                 .collect(Collectors.toUnmodifiableList());
     }
 }

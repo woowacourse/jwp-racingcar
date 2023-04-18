@@ -31,16 +31,16 @@ public class Cars {
     }
 
     public List<String> getWinner() {
-        int maxDistance = findMaxDistance();
-        return cars.stream().filter(car -> car.isSameDistance(maxDistance))
+        int maxPosition = findMaxPosition();
+        return cars.stream().filter(car -> car.isSamePosition(maxPosition))
                 .map(Car::getName)
                 .map(Name::getValue)
                 .collect(Collectors.toList());
     }
 
-    private int findMaxDistance() {
+    private int findMaxPosition() {
         return cars.stream()
-                .mapToInt(car -> car.getDistance().getValue())
+                .mapToInt(car -> car.getPosition().getValue())
                 .max()
                 .orElse(-1);
     }

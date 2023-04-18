@@ -14,7 +14,7 @@ class CarTest {
     @ValueSource(ints = {0, 2, 3})
     void Should_Success_When_EngineLessThan4(int engine) {
         car.runForward(engine);
-        assertThat(car.getDistance().getValue()).isEqualTo(0);
+        assertThat(car.getPosition().getValue()).isEqualTo(0);
     }
 
     @DisplayName("4 이상인 경우 전진")
@@ -22,6 +22,6 @@ class CarTest {
     @ValueSource(ints = {4, 7, 10})
     void Should_Success_When_EngineMoreThan4(int engine) {
         car.runForward(engine);
-        assertThat(car.getDistance().getValue()).isEqualTo(1);
+        assertThat(car.getPosition().getValue()).isEqualTo(1);
     }
 }

@@ -36,7 +36,7 @@ public class RacingCarConsoleController {
         Map<String, Integer> racingCars = new LinkedHashMap<>();
         List<Car> cars1 = cars.getCars();
         for (Car car : cars1) {
-            racingCars.put(car.getName().getValue(), car.getDistance().getValue());
+            racingCars.put(car.getName().getValue(), car.getPosition().getValue());
         }
         outputView.printGameResult(racingCars);
     }
