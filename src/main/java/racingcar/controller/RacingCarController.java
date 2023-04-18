@@ -29,8 +29,7 @@ public class RacingCarController {
     public RacingCarGameResultDto playGame(@RequestBody GameInitializeDto gameInitializeDto) {
         Cars cars = new Cars(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
-        playRound(cars, tryCount);
-        racingCarService.saveGameResult(cars, tryCount);
+        racingCarService.playRound(cars, tryCount);
         return new RacingCarGameResultDto(cars.getWinner(), makeCarDtos(cars));
     }
 
@@ -45,12 +44,6 @@ public class RacingCarController {
     private static RacingCarGameResultDto toDto(final List<Car> carList) {
         final Cars cars = new Cars(carList);
         return new RacingCarGameResultDto(cars.getWinner(), makeCarDtos(cars));
-    }
-
-    private void playRound(Cars cars, TryCount tryCount) {
-        for (int i = 0; i < tryCount.getValue(); i++) {
-            cars.runRound();
-        }
     }
 
     private static List<RacingCarDto> makeCarDtos(Cars cars) {

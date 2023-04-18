@@ -26,14 +26,6 @@ public class RacingCarService {
         this.racingCarDao = racingCarDao;
     }
 
-    @Transactional
-    public void saveGameResult(Cars cars, TryCount tryCount) {
-        Long gameId = playResultDao.insertWithKeyHolder(tryCount.getValue(), cars.getWinner());
-        for (Car car : cars.getCars()) {
-            racingCarDao.insert(gameId, car.getName().getValue(), car.getDistance().getValue());
-        }
-    }
-
     public Map<Long, List<Car>> findGameHistory() {
         return playResultDao.findGameHistories().stream()
                 .collect(groupingBy(GameHistoryEntity::getId,
@@ -42,5 +34,20 @@ public class RacingCarService {
 
     private static Car mapCar(final GameHistoryEntity gameHistoryEntity) {
         return new Car(gameHistoryEntity.getPlayerName(), gameHistoryEntity.getPlayerPosition());
+    }
+
+    public void playRound(final Cars cars, final TryCount tryCount) {
+        for (int i = 0; i < tryCount.getValue(); i++) {
+            cars.runRound();
+        }
+        saveGameResult(cars, tryCount);
+    }
+
+    @Transactional
+    void saveGameResult(Cars cars, TryCount tryCount) {
+        Long gameId = playResultDao.insertWithKeyHolder(tryCount.getValue(), cars.getWinner());
+        for (Car car : cars.getCars()) {
+            racingCarDao.insert(gameId, car.getName().getValue(), car.getDistance().getValue());
+        }
     }
 }
