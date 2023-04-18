@@ -6,17 +6,21 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class RacingCollectionRepository implements RaceRepository {
+public class RaceCollectionRepository implements RaceRepository {
     private final List<Race> races = new ArrayList<>();
     private int idHolder = 0;
 
     @Override
-    public int saveRace(Race race) {
+    public Optional<Integer> saveRace(Race race) {
         int id = idHolder++;
         races.add(new Race(id, race.getTrialCount(), Timestamp.valueOf(LocalDateTime.now())));
-        return id;
+        if (id < 0) {
+            return Optional.empty();
+        }
+        return Optional.of(id);
     }
 
     @Override

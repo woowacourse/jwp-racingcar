@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import racingcar.repository.CarInfoCollectionRepository;
 import racingcar.repository.CarInfoRepository;
 import racingcar.repository.RaceRepository;
-import racingcar.repository.RacingCollectionRepository;
+import racingcar.repository.RaceCollectionRepository;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
 
@@ -20,7 +20,7 @@ public class ConsoleAppConfig {
 
     @Bean
     public RaceRepository raceRepository() {
-        return new RacingCollectionRepository();
+        return new RaceCollectionRepository();
     }
 
     @Bean

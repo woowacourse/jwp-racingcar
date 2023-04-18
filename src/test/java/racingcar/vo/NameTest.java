@@ -109,5 +109,4 @@ class NameTest {
                     .isEqualTo(expected);
         }
     }
-
 }

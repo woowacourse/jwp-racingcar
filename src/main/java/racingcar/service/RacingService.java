@@ -2,6 +2,7 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.exception.RepositoryOutOfSpaceException;
 import racingcar.repository.CarInfoRepository;
 import racingcar.repository.RaceRepository;
 import racingcar.domain.Car;
@@ -18,6 +19,7 @@ import racingcar.domain.Trial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,11 +69,17 @@ public class RacingService {
     }
 
     private void saveResult(Trial trial, Cars cars) {
-        final int raceId = raceRepository.saveRace(new Race(trial));
+        final Optional<Integer> raceId = raceRepository.saveRace(new Race(trial));
+        if (raceId.isEmpty()) {
+            throw new RepositoryOutOfSpaceException();
+        }
         for (CarDto carDto : cars.getCarDtos()) {
             String name = carDto.getName();
-            CarInfo carInfo = new CarInfo(raceId, name, carDto.getPosition(), cars.isWinnerContaining(name));
-            carInfoRepository.saveCar(carInfo);
+            CarInfo carInfo = new CarInfo(raceId.get(), name, carDto.getPosition(), cars.isWinnerContaining(name));
+            Optional<Integer> carInfoId = carInfoRepository.saveCar(carInfo);
+            if (carInfoId.isEmpty()) {
+                throw new RepositoryOutOfSpaceException();
+            }
         }
     }
 

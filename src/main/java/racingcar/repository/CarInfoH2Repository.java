@@ -9,6 +9,7 @@ import racingcar.domain.entity.CarInfo;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CarInfoH2Repository implements CarInfoRepository {
@@ -23,11 +24,14 @@ public class CarInfoH2Repository implements CarInfoRepository {
     }
 
     @Override
-    public int saveCar(CarInfo carInfo) {
+    public Optional<Integer> saveCar(CarInfo carInfo) {
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(carInfo);
-        return carInfoSimpleJdbcInsert
-                .executeAndReturnKey(parameterSource)
-                .intValue();
+        Number key = carInfoSimpleJdbcInsert
+                .executeAndReturnKey(parameterSource);
+        if (key != null) {
+            return Optional.of(key.intValue());
+        }
+        return Optional.empty();
     }
 
     @Override

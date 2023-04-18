@@ -4,6 +4,7 @@ import racingcar.domain.entity.CarInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CarInfoCollectionRepository implements CarInfoRepository {
@@ -11,7 +12,7 @@ public class CarInfoCollectionRepository implements CarInfoRepository {
     private int idHolder = 0;
 
     @Override
-    public int saveCar(CarInfo carInfo) {
+    public Optional<Integer> saveCar(CarInfo carInfo) {
         int id = idHolder++;
         cars.add(
                 new CarInfo(id,
@@ -20,7 +21,10 @@ public class CarInfoCollectionRepository implements CarInfoRepository {
                         carInfo.getPosition(),
                         carInfo.getIsWinner())
         );
-        return id;
+        if (id < 0) {
+            return Optional.empty();
+        }
+        return Optional.of(id);
     }
 
     @Override

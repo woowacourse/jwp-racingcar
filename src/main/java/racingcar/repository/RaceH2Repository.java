@@ -8,16 +8,17 @@ import racingcar.domain.entity.Race;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Optional;
 
-public class RacingH2Repository implements RaceRepository {
+public class RaceH2Repository implements RaceRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public RacingH2Repository(DataSource dataSource) {
+    public RaceH2Repository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public int saveRace(Race race) {
+    public Optional<Integer> saveRace(Race race) {
         String sql = "INSERT INTO racing (trial_Count) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -31,10 +32,10 @@ public class RacingH2Repository implements RaceRepository {
 
         Number key = keyHolder.getKey();
         if (key != null) {
-            return key.intValue();
+            return Optional.of(key.intValue());
         }
 
-        throw new IllegalStateException("레이싱 정보를 저장하고 키를 가져오지 못했습니다.");
+        return Optional.empty();
     }
 
     @Override
