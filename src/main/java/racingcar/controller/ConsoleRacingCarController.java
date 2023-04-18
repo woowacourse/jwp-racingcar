@@ -27,8 +27,7 @@ public class ConsoleRacingCarController {
         final int count = inputView.readGameRound();
 
         final ResultDTO resultDTO = racingCarService.play(carNames, count);
-        final String winnerNames = resultDTO.getWinners().stream()
-                .collect(Collectors.joining(DELIMITER));
+        final String winnerNames = String.join(DELIMITER, resultDTO.getWinners());
         final RacingGameResponse racingGameResponse = new RacingGameResponse(winnerNames, resultDTO.getCarDTOs());
         outputView.printResult(racingGameResponse);
     }

@@ -32,8 +32,7 @@ public class WebRacingCarController {
         final List<String> carNames = Arrays.stream(racingGameRequest.getNames().split(DELIMITER))
                 .collect(Collectors.toList());
         final ResultDTO resultDTO = racingCarService.play(carNames, racingGameRequest.getCount());
-        final String winnerNames = resultDTO.getWinners().stream()
-                .collect(Collectors.joining(DELIMITER));
+        final String winnerNames = String.join(DELIMITER, resultDTO.getWinners());
         return new RacingGameResponse(winnerNames, resultDTO.getCarDTOs());
     }
 
@@ -43,9 +42,7 @@ public class WebRacingCarController {
         final List<ResultDTO> resultDTOs = racingCarService.getSavedGames();
 
         for (ResultDTO resultDTO : resultDTOs) {
-            String winnerNames = resultDTO.getWinners()
-                    .stream()
-                    .collect(Collectors.joining(DELIMITER));
+            final String winnerNames = String.join(DELIMITER, resultDTO.getWinners());
             racingGameResponses.add(new RacingGameResponse(winnerNames, resultDTO.getCarDTOs()));
         }
         return new ArrayList<>(racingGameResponses);
