@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.car.dto.CarRegisterRequest;
 
+import java.time.LocalDateTime;
+
 @Repository
 public class CarDao {
 
@@ -24,7 +26,8 @@ public class CarDao {
         final SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("name", carRegisterRequest.getName())
                 .addValue("position", carRegisterRequest.getPosition())
-                .addValue("race_result_id", carRegisterRequest.getPlayResultId());
+                .addValue("race_result_id", carRegisterRequest.getPlayResultId())
+                .addValue("created_at", LocalDateTime.now());
 
         jdbcInsert.execute(params);
     }
