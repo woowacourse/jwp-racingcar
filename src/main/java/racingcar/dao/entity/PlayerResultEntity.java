@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.entity;
 
 public class PlayerResultEntity {
     private final int id;

@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.entity;
 
 import java.time.LocalTime;
 
