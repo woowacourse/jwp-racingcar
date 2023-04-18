@@ -22,7 +22,7 @@ public class RacingGameController {
 
     @GetMapping(path = "/plays", produces = "application/json")
     public ResponseEntity<List<RacingGameResultDto>> requestResult() {
-        List<RacingGameResultDto> racingGameDtos = racingGameService.requestResult();
+        List<RacingGameResultDto> racingGameDtos = racingGameService.requestAllRacingGameResult();
         return ResponseEntity.ok(racingGameDtos);
     }
 

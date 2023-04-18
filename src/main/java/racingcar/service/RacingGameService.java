@@ -39,17 +39,17 @@ public class RacingGameService {
         return racingGameResultDto;
     }
 
-    public List<RacingGameResultDto> requestResult() {
+    public List<RacingGameResultDto> requestAllRacingGameResult() {
         List<RacingGameResultDto> racingGameResultDtos = new ArrayList<>();
         List<PlayResultEntity> playResultEntities = playResultDao.getResult();
         for (PlayResultEntity playResultEntity : playResultEntities) {
             int resultId = playResultEntity.getId();
-            racingGameResultDtos.add(findResult(resultId, playResultEntity.getWinners()));
+            racingGameResultDtos.add(requestRacingGameResult(resultId, playResultEntity.getWinners()));
         }
         return racingGameResultDtos;
     }
 
-    private RacingGameResultDto findResult(final int resultId, final String winners) {
+    private RacingGameResultDto requestRacingGameResult(final int resultId, final String winners) {
         List<PlayerResultEntity> playerResultEntities = playersResultDao.getResultByResultId(resultId);
         List<PlayerResultDto> playerResultDtos = new ArrayList<>();
         for (PlayerResultEntity playerResultEntity : playerResultEntities) {
