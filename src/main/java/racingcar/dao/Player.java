@@ -1,12 +1,12 @@
 package racingcar.dao;
 
-public class PlayerSaveDto {
+public class Player {
 
     private final String name;
     private final int position;
     private final boolean isWinner;
 
-    public PlayerSaveDto(final String name, final int position, final boolean isWinner) {
+    public Player(final String name, final int position, final boolean isWinner) {
         this.name = name;
         this.position = position;
         this.isWinner = isWinner;
