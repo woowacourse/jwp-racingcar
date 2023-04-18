@@ -5,10 +5,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.repository.mapper.RacingGameInfo;
+import racingcar.repository.mapper.RacingGameMapper;
 
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,8 +20,8 @@ public class RacingGameJdbcRepository implements RacingGameRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<RacingGameInfo> racingGameRowMapper = (resultSet, rowNum) -> {
-        return new RacingGameInfo(
+    private final RowMapper<RacingGameMapper> racingGameRowMapper = (resultSet, rowNum) -> {
+        return new RacingGameMapper(
                 resultSet.getInt("id"),
                 resultSet.getString("winners"),
                 resultSet.getObject("created_at", LocalDateTime.class),
@@ -44,8 +45,14 @@ public class RacingGameJdbcRepository implements RacingGameRepository {
     }
 
     @Override
-    public Optional<RacingGameInfo> findById(final int id) {
+    public Optional<RacingGameMapper> findById(final int id) {
         final String sql = "SELECT * FROM RACING_GAME WHERE id = ?";
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, racingGameRowMapper, id));
+    }
+
+    @Override
+    public List<RacingGameMapper> findAll() {
+        final String sql = "SELECT * FROM RACING_GAME ORDER BY created_at";
+        return jdbcTemplate.query(sql, racingGameRowMapper);
     }
 }
