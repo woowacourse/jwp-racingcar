@@ -1,10 +1,5 @@
 package racing.dao;
 
-/**
- * @author 베베
- * @version 1.0.0
- * @since by 베베 on 2023. 04. 18.
- */
 public class CarEntity {
 
     private final String name;

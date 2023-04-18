@@ -1,5 +1,6 @@
 package racing.ui.output;
 
+import racing.domain.Car;
 import racing.domain.Cars;
 
 import java.util.List;
@@ -29,7 +30,8 @@ public class OutputView {
 
     public static void printResult(Cars cars) {
         List<String> winners = cars.getWinners();
-        System.out.println(makeWinnersPrintForm(winners));
+        printWinnersStep(cars);
+        System.out.println(System.lineSeparator() + makeWinnersPrintForm(winners));
     }
 
     private static String makeWinnersPrintForm(List<String> winners) {
@@ -39,4 +41,12 @@ public class OutputView {
         }
         return sb.substring(0, sb.toString().length() - 2) + FINAL_WINNER;
     }
+
+    private static void printWinnersStep(Cars cars) {
+        System.out.println(System.lineSeparator() + "이동 횟수");
+        for (Car car : cars.getCars()) {
+            System.out.println(car.getName() + " : " + car.getStep() + "회");
+        }
+    }
+
 }

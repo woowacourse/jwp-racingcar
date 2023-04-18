@@ -17,12 +17,6 @@ public class Cars {
         return cars.get(n);
     }
 
-    public void calculator(int randomNumber) {
-        cars.stream()
-                .filter(car -> 4 <= randomNumber)
-                .forEach(Car::move);
-    }
-
     public List<String> getPrintForm() {
         List<String> forms = new ArrayList<>();
         for (Car car : cars) {

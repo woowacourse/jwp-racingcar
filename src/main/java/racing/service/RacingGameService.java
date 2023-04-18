@@ -1,5 +1,6 @@
 package racing.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racing.controller.dto.response.CarResponse;
 import racing.dao.CarEntity;
@@ -20,9 +21,13 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class RacingGameService {
 
-    private final GameDao gameDao;
-    private final CarDao carDao;
+    private GameDao gameDao;
+    private CarDao carDao;
 
+    public RacingGameService() {
+    }
+
+    @Autowired
     public RacingGameService(GameDao gameDao, CarDao carDao) {
         this.gameDao = gameDao;
         this.carDao = carDao;
