@@ -1,7 +1,9 @@
 package racingcar.controller;
 
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,12 @@ public class RacingWebController {
 
     public RacingWebController(final RacingService racingService) {
         this.racingService = racingService;
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<TrackResponse>> getResult() {
+        List<TrackResponse> allResults = racingService.findAllResults();
+        return ResponseEntity.ok(allResults);
     }
 
     @PostMapping("/plays")
