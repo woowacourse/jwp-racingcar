@@ -19,12 +19,6 @@ public class RacingGame {
         this.count = new Count(count);
     }
 
-    public RacingGame(final int gameId, final RacingGame racingGame) {
-        this.gameId = gameId;
-        cars = racingGame.cars;
-        count = racingGame.count;
-    }
-
     public void race(final NumberPicker numberPicker) {
         cars.race(count, numberPicker);
     }

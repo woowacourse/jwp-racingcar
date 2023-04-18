@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +27,21 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResponse> plays(@RequestBody @Valid final GameRequest gameRequest) {
+    public ResponseEntity<GameResponse> raceAdd(@RequestBody @Valid final GameRequest gameRequest) {
         final RaceDto raceDto = racingCarsService.race(gameRequest.getNames(), gameRequest.getCount());
         final GameResponse gameResponse = toGameResponse(raceDto);
 
         return ResponseEntity.ok(gameResponse);
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<GameResponse>> raceList() {
+        final List<RaceDto> raceDtos = racingCarsService.findRaceResult();
+        final List<GameResponse> gameResponses = raceDtos.stream()
+                .map(this::toGameResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(gameResponses);
     }
 
     private GameResponse toGameResponse(final RaceDto raceDto) {

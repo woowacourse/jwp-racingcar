@@ -29,7 +29,19 @@ public class RacingCarsService {
 
         final RacingGame saved = racingGameRepository.insert(racingGame);
 
-        return new RaceDto(saved.getGameId(), toDto(racingGame.findResult()), toDto(racingGame.findWinner()));
+        return toRaceDto(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RaceDto> findRaceResult() {
+        final List<RacingGame> racingGames = racingGameRepository.findAll();
+        return racingGames.stream()
+                .map(this::toRaceDto)
+                .collect(Collectors.toList());
+    }
+
+    private RaceDto toRaceDto(final RacingGame racingGame) {
+        return new RaceDto(racingGame.getGameId(), toDto(racingGame.findResult()), toDto(racingGame.findWinner()));
     }
 
     private List<CarPositionDto> toDto(final List<Car> cars) {
