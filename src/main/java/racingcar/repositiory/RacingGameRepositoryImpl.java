@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.RacingGame;
-import racingcar.dto.GameResponse;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
 
@@ -33,9 +32,8 @@ public class RacingGameRepositoryImpl implements RacingGameRepository{
     }
 
     @Override
-    public List<GameResponse> findAll() {
-        List<Player> selectPlayers = playerDao.findAll();
-        return GameResponse.toGamePlayResponse(selectPlayers);
+    public List<Player> findAll() {
+        return playerDao.findAll();
     }
 
     private List<Player> fromPlayers(final RacingGame racingGame, final int gameId, final Set<String> winners) {

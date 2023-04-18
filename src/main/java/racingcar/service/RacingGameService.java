@@ -6,6 +6,7 @@ import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
+import racingcar.entity.Player;
 import racingcar.repositiory.RacingGameRepository;
 
 import java.util.List;
@@ -32,7 +33,9 @@ public class RacingGameService {
 
     @Transactional
     public List<GameResponse> findAll() {
-        return racingGameRepository.findAll();
+        List<Player> players = racingGameRepository.findAll();
+
+        return GameResponse.toGamePlayResponse(players);
     }
 
     private RacingGame playRacingGame(final GameRequest gameRequest) {

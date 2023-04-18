@@ -1,11 +1,12 @@
 package racingcar.repositiory;
 
 import racingcar.domain.RacingGame;
-import racingcar.dto.GameResponse;
+import racingcar.entity.Player;
 
 import java.util.List;
 
 public interface RacingGameRepository {
     void save(final RacingGame racingGame);
-    List<GameResponse> findAll();
+
+    List<Player> findAll();
 }
