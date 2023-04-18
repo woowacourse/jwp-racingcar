@@ -35,17 +35,14 @@ public class RacingCarService {
     public ResultDTO play(final List<String> names, final int count) {
         final GameSystem gameSystem = new GameSystem(count, new GameRecorder(new ArrayList<>()));
         final Long gameId = gameDao.insert(GameEntity.create(count));
-        final Cars cars = makeCars(names);
+
+        final CarFactory carFactory = new CarFactory();
+        final Cars cars = carFactory.createCars(names);
 
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
         insertCar(cars, gameId, gameSystem);
 
         return createGameDTO(count, gameSystem);
-    }
-
-    private Cars makeCars(final List<String> names) {
-        final CarFactory carFactory = new CarFactory();
-        return carFactory.createCars(names);
     }
 
     private void insertCar(final Cars cars, final Long id, final GameSystem gameSystem) {
