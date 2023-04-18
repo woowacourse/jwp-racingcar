@@ -41,7 +41,7 @@ public class RacingService {
         Trial trial = Trial.of(count);
         playGame(cars, trial);
         saveResult(trial, cars);
-        return new RacingResultDto(trial, cars.getWinnerNames(), cars.getCarDtos());
+        return new RacingResultDto(cars.getWinnerNames(), cars.getCarDtos());
     }
 
     private Cars initializeCars(String names) {
