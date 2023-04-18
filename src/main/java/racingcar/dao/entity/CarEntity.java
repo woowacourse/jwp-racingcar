@@ -4,22 +4,28 @@ import racingcar.domain.Car;
 
 public class CarEntity {
 
+    private final Integer carId;
     private final String name;
     private final int position;
-    private Integer id;
+    private final Integer gameId;
 
-    public CarEntity(final String name, final int position) {
+    public CarEntity(final String name, final int position, final Integer gameId) {
+        this(null, name, position, gameId);
+    }
+
+    public CarEntity(final Integer carId, final String name, final int position, final Integer gameId) {
+        this.carId = carId;
         this.name = name;
         this.position = position;
+        this.gameId = gameId;
     }
 
-    public CarEntity(final int id, final String name, final int position) {
-        this(name, position);
-        this.id = id;
+    public static CarEntity fromDomain(final Car car, final Integer gameId) {
+        return new CarEntity(car.getCarName(), car.getPosition(), gameId);
     }
 
-    public static CarEntity fromDomain(final Car car) {
-        return new CarEntity(car.getCarName(), car.getPosition());
+    public Car toDomain() {
+        return new Car(name, position, carId);
     }
 
     public String getName() {
@@ -30,7 +36,11 @@ public class CarEntity {
         return position;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getCarId() {
+        return carId;
+    }
+
+    public Integer getGameId() {
+        return gameId;
     }
 }
