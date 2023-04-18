@@ -25,33 +25,33 @@ public class KoreanOutputView extends OutputView {
     @Override
     void initialCarsErrorMessage() {
         super.insertErrorMessage(
-                new NotExistCarsException().getErrorNumber(),
+                new NotExistCarsException(NOT_EXIST_CARS_ERROR_MESSAGE).getErrorNumber(),
                 NOT_EXIST_CARS_ERROR_MESSAGE);
         super.insertErrorMessage(
-                new DuplicateCarNamesException().getErrorNumber(),
+                new DuplicateCarNamesException(DUPLICATE_CAR_NAMES_ERROR_MESSAGE).getErrorNumber(),
                 DUPLICATE_CAR_NAMES_ERROR_MESSAGE);
     }
 
     @Override
     void initialCarErrorMessage() {
         super.insertErrorMessage(
-                new ExceedCarNameLengthException().getErrorNumber(),
+                new ExceedCarNameLengthException(EXCEED_CAR_NAME_LENGTH_ERROR_MESSAGE).getErrorNumber(),
                 EXCEED_CAR_NAME_LENGTH_ERROR_MESSAGE);
         super.insertErrorMessage(
-                new HasBlankCarNameException().getErrorNumber(),
+                new HasBlankCarNameException(HAS_BLANK_CAR_NAME_ERROR_MESSAGE).getErrorNumber(),
                 HAS_BLANK_CAR_NAME_ERROR_MESSAGE);
         super.insertErrorMessage(
-                new InvalidCarNameFormatException().getErrorNumber(),
+                new InvalidCarNameFormatException(INVALID_CAR_NAME_FORMAT_ERROR_MESSAGE).getErrorNumber(),
                 INVALID_CAR_NAME_FORMAT_ERROR_MESSAGE);
     }
 
     @Override
     void initialTrackErrorMessage() {
         super.insertErrorMessage(
-                new InvalidRangeTrialTimesException().getErrorNumber(),
+                new InvalidRangeTrialTimesException(INVALID_RANGE_TRIAL_TIMES_ERROR_MESSAGE).getErrorNumber(),
                 INVALID_RANGE_TRIAL_TIMES_ERROR_MESSAGE);
         super.insertErrorMessage(
-                new InvalidTrialTimesFormatException().getErrorNumber(),
+                new InvalidTrialTimesFormatException(INVALID_TRIAL_TIMES_FORMAT_ERROR_MESSAGE).getErrorNumber(),
                 INVALID_TRIAL_TIMES_FORMAT_ERROR_MESSAGE);
     }
 

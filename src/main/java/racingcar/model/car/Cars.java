@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 public class Cars {
     private static final int NOT_EXIST_CARS = 0;
     private static final String SEPARATOR = ",";
+    private static final String DUPLICATE_CAR_NAMES_ERROR_MESSAGE = "중복된 차 이름이 존재합니다.";
+    private static final String NOT_EXIST_CAR_NAMES_ERROR_MESSAGE = "1개 이상의 차 이름이 필요합니다.";
 
     private final List<Car> cars;
 
@@ -37,7 +39,7 @@ public class Cars {
 
     private void validateNotExistCar(final String[] splitCarNames) {
         if (splitCarNames.length == NOT_EXIST_CARS) {
-            throw new NotExistCarsException();
+            throw new NotExistCarsException(NOT_EXIST_CAR_NAMES_ERROR_MESSAGE);
         }
     }
 
@@ -46,7 +48,7 @@ public class Cars {
         int distinctCarNamesCount = new HashSet<>(Arrays.asList(splitCarNames)).size();
 
         if (carNamesCount != distinctCarNamesCount) {
-            throw new DuplicateCarNamesException();
+            throw new DuplicateCarNamesException(DUPLICATE_CAR_NAMES_ERROR_MESSAGE);
         }
     }
 

@@ -12,6 +12,9 @@ public class Car {
     private static final int POSITION_INIT = 1;
     private static final int MAX_NAME_LENGTH = 5;
     private static final Pattern STRING_PATTERN = Pattern.compile("(^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$)+");
+    private static final String EXCEED_CAR_NAME_LENGTH_ERROR_MESSAGE = "자동차 이름은 다섯 글자 이하여야 합니다.";
+    private static final String INVALID_CAR_NAME_FORMAT_ERROR_MESSAGE = "자동차 이름은 문자와 숫자만 가능합니다.";
+    private static final String BLANK_CAR_NAME_ERROR_MESSAGE = "자동차 이름에 공백이 포함될 수 없습니다.";
 
     private final String carName;
     private int position;
@@ -39,19 +42,19 @@ public class Car {
 
     private void validateValue(final String carName) {
         if (!STRING_PATTERN.matcher(carName).matches()) {
-            throw new InvalidCarNameFormatException();
+            throw new InvalidCarNameFormatException(INVALID_CAR_NAME_FORMAT_ERROR_MESSAGE);
         }
     }
 
     private void validateHasBlank(final String carName) {
         if (carName.isBlank()) {
-            throw new HasBlankCarNameException();
+            throw new HasBlankCarNameException(BLANK_CAR_NAME_ERROR_MESSAGE);
         }
     }
 
     private void validateOverMaxNameLength(final String carName) {
         if (carName.length() > MAX_NAME_LENGTH) {
-            throw new ExceedCarNameLengthException();
+            throw new ExceedCarNameLengthException(EXCEED_CAR_NAME_LENGTH_ERROR_MESSAGE);
         }
     }
 

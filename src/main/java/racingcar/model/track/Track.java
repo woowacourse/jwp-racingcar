@@ -12,6 +12,9 @@ public class Track {
     private static final int TRIAL_MIN_TIMES = 1;
     private static final int ONE_GAME = 1;
     private static final int CAN_GAME = 0;
+    private static final String INVALID_FORMAT_ERROR_MESSAGE = "숫자 타입만 입력할 수 있습니다";
+    private static final String INVALID_RANGE_ERROR_MESSAGE = "최소 1이상 100이하의 수만 입력할 수 있습니다";
+
     private final Cars cars;
     private int trialTimes;
 
@@ -29,7 +32,7 @@ public class Track {
 
     private void validateNumber(final String trialTimes) {
         if (!NUMBER_PATTERN.matcher(trialTimes).matches()) {
-            throw new InvalidTrialTimesFormatException();
+            throw new InvalidTrialTimesFormatException(INVALID_FORMAT_ERROR_MESSAGE);
         }
     }
 
@@ -37,7 +40,7 @@ public class Track {
         int trialTimesNumber = Integer.parseInt(trialTimes);
 
         if (trialTimesNumber < TRIAL_MIN_TIMES || trialTimesNumber > TRIAL_MAX_TIMES) {
-            throw new InvalidRangeTrialTimesException();
+            throw new InvalidRangeTrialTimesException(INVALID_RANGE_ERROR_MESSAGE);
         }
     }
 

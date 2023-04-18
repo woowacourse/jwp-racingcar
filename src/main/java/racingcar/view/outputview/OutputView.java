@@ -5,7 +5,7 @@ import racingcar.model.car.Cars;
 import java.util.HashMap;
 
 public abstract class OutputView {
-    private HashMap<Integer, String> errorMessageTable = new HashMap<>();
+    private final HashMap<Integer, String> errorMessageTable = new HashMap<>();
 
     public OutputView() {
         initialErrorMessage();
@@ -30,8 +30,6 @@ public abstract class OutputView {
     protected void insertErrorMessage(int errorNumber, String errorMessage) {
         errorMessageTable.put(errorNumber, errorMessage);
     }
-
-    ;
 
     public void printErrorMessage(int errorNumber) {
         System.out.println(errorMessageTable.get(errorNumber));

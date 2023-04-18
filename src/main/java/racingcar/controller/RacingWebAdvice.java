@@ -1,6 +1,9 @@
 package racingcar.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import racingcar.exception.DuplicateCarNamesException;
@@ -12,35 +15,48 @@ import racingcar.exception.InvalidTrialTimesFormatException;
 @RestControllerAdvice
 public class RacingWebAdvice {
 
-    private static final String DUPLICATE_CAR_NAMES_ERROR_MESSAGE = "중복된 차 이름이 존재합니다.";
-    private static final String EXCEED_CAR_NAME_LENGTH_ERROR_MESSAGE = "자동차 이름은 다섯 글자 이하여야 합니다.";
-    private static final String INVALID_CAR_NAME_FORMAT_ERROR_MESSAGE = "자동차 이름은 문자와 숫자만 가능합니다.";
-    private static final String INVALID_RANGE_TRIAL_TIMES_ERROR_MESSAGE = "시도 횟수는 1 이상 100 이하여야 합니다.";
-    private static final String INVALID_TRIAL_TIMES_FORMAT_ERROR_MESSAGE = "시도 횟수는 숫자만 입력 가능합니다.";
+    private final Logger logger = LoggerFactory.getLogger(RacingWebAdvice.class);
 
     @ExceptionHandler(DuplicateCarNamesException.class)
-    public ResponseEntity<ExceptionInfo> duplicateCarNamesHandler() {
-        return ResponseEntity.badRequest().body(new ExceptionInfo(DUPLICATE_CAR_NAMES_ERROR_MESSAGE));
+    public ResponseEntity<ExceptionInfo> duplicateCarNamesHandler(DuplicateCarNamesException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().body(new ExceptionInfo(e.getMessage()));
     }
 
     @ExceptionHandler(ExceedCarNameLengthException.class)
-    public ResponseEntity<ExceptionInfo> exceedCarNameLengthHandler() {
-        return ResponseEntity.badRequest().body(new ExceptionInfo(EXCEED_CAR_NAME_LENGTH_ERROR_MESSAGE));
+    public ResponseEntity<ExceptionInfo> exceedCarNameLengthHandler(ExceedCarNameLengthException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().body(new ExceptionInfo(e.getMessage()));
     }
 
     @ExceptionHandler(InvalidCarNameFormatException.class)
-    public ResponseEntity<ExceptionInfo> invalidCarNameFormatHandler() {
-        return ResponseEntity.badRequest().body(new ExceptionInfo(INVALID_CAR_NAME_FORMAT_ERROR_MESSAGE));
+    public ResponseEntity<ExceptionInfo> invalidCarNameFormatHandler(InvalidCarNameFormatException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().body(new ExceptionInfo(e.getMessage()));
     }
 
     @ExceptionHandler(InvalidRangeTrialTimesException.class)
-    public ResponseEntity<ExceptionInfo> invalidRangeTrialTimesHandler() {
-        return ResponseEntity.badRequest().body(new ExceptionInfo(INVALID_RANGE_TRIAL_TIMES_ERROR_MESSAGE));
+    public ResponseEntity<ExceptionInfo> invalidRangeTrialTimesHandler(InvalidRangeTrialTimesException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().body(new ExceptionInfo(e.getMessage()));
     }
 
     @ExceptionHandler(InvalidTrialTimesFormatException.class)
-    public ResponseEntity<ExceptionInfo> invalidTrialTimesFormatHandler() {
-        return ResponseEntity.badRequest().body(new ExceptionInfo(INVALID_TRIAL_TIMES_FORMAT_ERROR_MESSAGE));
+    public ResponseEntity<ExceptionInfo> invalidTrialTimesFormatHandler(InvalidTrialTimesFormatException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().body(new ExceptionInfo(e.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionInfo> methodArgsNotValidException(MethodArgumentNotValidException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().body(new ExceptionInfo(e.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionInfo> unExpectedException(Exception e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.internalServerError().body(new ExceptionInfo(e.getMessage()));
     }
 
     static class ExceptionInfo {
