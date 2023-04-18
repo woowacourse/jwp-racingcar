@@ -42,6 +42,7 @@ public class JdbcGameDaoTest {
 
     @Test
     void 저장된_게임의_수를_알_수_있다() {
+        jdbcTemplate.execute("DELETE FROM CAR");
         jdbcTemplate.execute("DELETE FROM GAME");
 
         // given
