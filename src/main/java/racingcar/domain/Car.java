@@ -1,7 +1,5 @@
 package racingcar.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Car {
@@ -9,25 +7,21 @@ public class Car {
 
     private final String name;
     private int distance;
-    private List<Integer> distanceRecord;
 
     public Car(String name) {
         this.name = name;
         this.distance = 0;
-        distanceRecord = new ArrayList<>();
     }
 
     public Car(String name, int distance) {
         this.name = name;
         this.distance = distance;
-        distanceRecord = new ArrayList<>();
     }
 
     public void move(int power) {
         if (power >= MOVE_LOWER_BOUND) {
             this.distance++;
         }
-        distanceRecord.add(this.distance);
     }
 
     public boolean isWinner(int distance) {
@@ -42,20 +36,16 @@ public class Car {
         return distance;
     }
 
-    public int getDistanceRecord(int index) {
-        return distanceRecord.get(index);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return distance == car.distance && Objects.equals(name, car.name) && Objects.equals(distanceRecord, car.distanceRecord);
+        return distance == car.distance && Objects.equals(name, car.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, distance, distanceRecord);
+        return Objects.hash(name, distance);
     }
 }
