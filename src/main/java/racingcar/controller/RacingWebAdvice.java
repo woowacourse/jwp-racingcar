@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import racingcar.exception.DuplicateCarNamesException;
 import racingcar.exception.ExceedCarNameLengthException;
 import racingcar.exception.ExceptionInfo;
+import racingcar.exception.HasBlankCarNameException;
 import racingcar.exception.InvalidCarNameFormatException;
 import racingcar.exception.InvalidRangeTrialTimesException;
 import racingcar.exception.InvalidTrialTimesFormatException;
@@ -42,6 +43,12 @@ public class RacingWebAdvice {
     @ExceptionHandler(InvalidTrialTimesFormatException.class)
     public ResponseEntity<ExceptionInfo> invalidTrialTimesFormatHandler() {
         final ExceptionInfo exceptionInfo = new ExceptionInfo(ERROR_PREFIX + "시도 횟수는 숫자만 입력 가능합니다.");
+        return exceptionInfo.makeErrorResponse();
+    }
+
+    @ExceptionHandler(HasBlankCarNameException.class)
+    public ResponseEntity<ExceptionInfo> hasBlankCarNameHandler() {
+        final ExceptionInfo exceptionInfo = new ExceptionInfo(ERROR_PREFIX + "비어있는 자동차 이름이 존재합니다.");
         return exceptionInfo.makeErrorResponse();
     }
 
