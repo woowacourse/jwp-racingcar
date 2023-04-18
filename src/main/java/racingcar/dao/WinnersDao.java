@@ -25,18 +25,14 @@ public class WinnersDao {
     };
 
     public void insert(int gameNumber, String winner) {
-        System.out.println(gameNumber + " : " +  winner);
         String sql = "insert into winners(game_number, winner) values(?,?)";
         jdbcTemplate.update(sql, gameNumber, winner);
     }
 
     public List<Car> find(int gameNumber) {
-        System.out.println(gameNumber);
         String sql = "select gl.game_number, gl.player_name, gl.result_position "
                 + "from game_log gl, winners w "
                 + "where w.game_number = gl.game_number and w.winner = gl.player_name and w.game_number = ?";
-        List<Car> query = jdbcTemplate.query(sql, carRowMapper, gameNumber);
-        System.out.println(query);
-        return query;
+        return jdbcTemplate.query(sql, carRowMapper, gameNumber);
     }
 }

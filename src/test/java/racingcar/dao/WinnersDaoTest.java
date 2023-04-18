@@ -7,21 +7,24 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.domain.Name;
 
-@JdbcTest
+@SpringBootTest
 public class WinnersDaoTest {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private WinnersDao winnersDao;
+    private GameLogDao gameLogDao;
 
     @BeforeEach
     void setUp() {
         winnersDao = new WinnersDao(jdbcTemplate);
+        gameLogDao = new GameLogDao(jdbcTemplate);
     }
 
     @Test
@@ -31,9 +34,19 @@ public class WinnersDaoTest {
 
     @Test
     void find() {
-        winnersDao.insert(1, "달리");
-        winnersDao.insert(1, "디노");
-        System.out.println(winnersDao.find(1));
-        assertThat(winnersDao.find(1)).isEqualTo(List.of(new Car(new Name("달리")), new Car(new Name("디노"))));
+        gameLogDao.insert(3, "달리", 4);
+        gameLogDao.insert(3, "디노", 4);
+        winnersDao.insert(3, "달리");
+        winnersDao.insert(3, "디노");
+        assertThat(winnersDao.find(3)).isEqualTo(List.of(new Car(new Name("달리"), 4), new Car(new Name("디노"), 4)));
+    }
+
+    @Test
+    void find2() {
+        gameLogDao.insert(3, "달리", 4);
+        gameLogDao.insert(3, "디노", 4);
+        winnersDao.insert(3, "달리");
+        winnersDao.insert(3, "디노");
+        assertThat(winnersDao.find(3)).isEqualTo(List.of(new Car(new Name("달리"), 4), new Car(new Name("디노"), 4)));
     }
 }
