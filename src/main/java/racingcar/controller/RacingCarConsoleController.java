@@ -3,33 +3,30 @@ package racingcar.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import racingcar.domain.CarFactory;
-import racingcar.domain.RacingGame;
-import racingcar.strategy.MovingStrategy;
+import racingcar.dto.CarDto;
+import racingcar.dto.GameDto;
+import racingcar.dto.GameResponse;
+import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarConsoleController {
 
     private final InputView inputView;
-
     private final OutputView outputView;
+    private final RacingCarService racingCarService;
 
-    private final MovingStrategy movingStrategy;
-
-    public RacingCarConsoleController(InputView inputView, OutputView outputView,
-                                      MovingStrategy movingStrategy) {
+    public RacingCarConsoleController(InputView inputView, OutputView outputView, RacingCarService racingCarService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.movingStrategy = movingStrategy;
+        this.racingCarService = racingCarService;
     }
 
     public void execute() {
         List<String> carNames = getCarNames();
         int tryTimes = getTryTimes();
-        RacingGame racingGame = new RacingGame(1, CarFactory.buildCars(carNames), movingStrategy);
-        race(racingGame, tryTimes);
-        getWinners(racingGame);
+        GameResponse gameResponse = racingCarService.play(GameDto.of(carNames, tryTimes));
+        printResult(gameResponse);
     }
 
     private List<String> getCarNames() {
@@ -42,15 +39,12 @@ public class RacingCarConsoleController {
         return inputView.inputTryTimes();
     }
 
-    private void race(RacingGame racingGame, int tryTimes) {
-        outputView.printResultNotice();
-
-        for (int i = 0; i < tryTimes; i++) {
-            outputView.printSingleRoundResult(racingGame.playSingleRound());
+    private void printResult(GameResponse gameResponse) {
+        Map<String, Integer> result = new HashMap<>();
+        for (CarDto carDto : gameResponse.getRacingCars()) {
+            result.put(carDto.getName(), carDto.getPosition());
         }
-    }
-
-    private void getWinners(RacingGame racingGame) {
-        outputView.printWinner(racingGame.getWinners());
+        outputView.printSingleRoundResult(result);
+        outputView.printWinner(gameResponse.getWinners());
     }
 }

@@ -1,6 +1,5 @@
 package racingcar.view;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,7 +11,6 @@ public class OutputView {
     private final String FINAL_WINNER = "%s가 최종 우승했습니다.";
     private final String POSITION_BAR = "-";
     private final String NAME_POSITION_DELIMITER = " : ";
-    private final String WINNER_NAME_DELIMITER = ", ";
 
     public void printInputCarNamesNotice() {
         System.out.println(ENTER_CAR_NAME);
@@ -20,10 +18,6 @@ public class OutputView {
 
     public void printInputTryTimesNotice() {
         System.out.println(ENTER_TRY_TIMES);
-    }
-
-    public void printResultNotice() {
-        System.out.println(RESULT);
     }
 
     public void printSingleRoundResult(Map<String, Integer> subResult) {
@@ -35,13 +29,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printWinner(List<String> winners) {
-        System.out.printf(FINAL_WINNER, String.join(WINNER_NAME_DELIMITER, winners));
+    public void printWinner(String winners) {
+        System.out.printf(FINAL_WINNER, winners);
     }
-
-//    public void printResult(List<Car> cars) {
-//        for (Car car : cars) {
-//
-//        }
-//    }
 }
