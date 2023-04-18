@@ -5,17 +5,17 @@ import racingcar.domain.RacingCar;
 public class RacingCarResultDto {
     private final String name;
     private final int position;
-    private final int isWin;
+    private final boolean isWin;
     private final long gameId;
 
-    public RacingCarResultDto(String name, int position, int isWin, long gameId) {
+    public RacingCarResultDto(String name, int position, boolean isWin, long gameId) {
         this.name = name;
         this.position = position;
         this.isWin = isWin;
         this.gameId = gameId;
     }
 
-    public static RacingCarResultDto of(RacingCar racingCar, int isWin, long gameId) {
+    public static RacingCarResultDto of(RacingCar racingCar, boolean isWin, long gameId) {
         return new RacingCarResultDto(racingCar.getName(), racingCar.getPosition(), isWin, gameId);
     }
 
@@ -27,7 +27,7 @@ public class RacingCarResultDto {
         return position;
     }
 
-    public int isWin() {
+    public boolean getIsWin() {
         return isWin;
     }
 

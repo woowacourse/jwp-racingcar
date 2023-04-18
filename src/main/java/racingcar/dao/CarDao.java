@@ -45,7 +45,7 @@ public class CarDao {
         return jdbcTemplate.query(sql, (resultSet, count) -> new RacingCarResultDto(
                 resultSet.getString("name"),
                 resultSet.getInt("position"),
-                resultSet.getInt("is_win"),
+                resultSet.getBoolean("is_win"),
                 resultSet.getInt("game_Id")));
     }
 }

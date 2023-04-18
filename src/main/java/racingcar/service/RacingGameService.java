@@ -27,12 +27,12 @@ public class RacingGameService {
     private final GameDao gameDao;
     private final CarDao carDao;
 
-    public RacingGameService(GameDao gameDao, CarDao carDao) {
+    public RacingGameService(final GameDao gameDao, final CarDao carDao) {
         this.gameDao = gameDao;
         this.carDao = carDao;
     }
 
-    public GameResponseDto play(String carNames, int count) {
+    public GameResponseDto play(final String carNames, final int count) {
         List<String> validCarNames = getValidCarNames(carNames);
         RacingGame racingGame = initializeGame(validCarNames);
         int validTryCount = getValidTryCount(count);
@@ -45,7 +45,7 @@ public class RacingGameService {
         return new GameResponseDto(winners, racingCarDtos);
     }
 
-    private List<String> getValidCarNames(String carNames) {
+    private List<String> getValidCarNames(final String carNames) {
         List<String> parsedCarNames = Arrays.stream(carNames.split(","))
                 .map(String::trim)
                 .collect(Collectors.toUnmodifiableList());
@@ -53,7 +53,7 @@ public class RacingGameService {
         return parsedCarNames;
     }
 
-    private int getValidTryCount(int tryCount) {
+    private int getValidTryCount(final int tryCount) {
         Validator.validateTryCount(tryCount);
         return tryCount;
     }
@@ -66,7 +66,7 @@ public class RacingGameService {
                 .collect(toUnmodifiableList());
     }
 
-    private RacingGame initializeGame(List<String> carNames) {
+    private RacingGame initializeGame(final List<String> carNames) {
         List<RacingCar> racingCars = carNames.stream()
                 .map(RacingCar::new)
                 .collect(toUnmodifiableList());
@@ -74,16 +74,24 @@ public class RacingGameService {
     }
 
     public List<HistoryResponseDto> findHistory() {
-        final List<RacingCarResultDto> allResults = carDao.findAllResults();
-        final Map<Long, String> winners = allResults.stream()
-                .filter(result -> result.isWin() == 1)
-                .collect(groupingBy(RacingCarResultDto::getGameId,
-                        mapping(RacingCarResultDto::getName, joining(","))));
-        final Map<Long, List<RacingCarDto>> results = allResults.stream()
-                .collect(groupingBy(RacingCarResultDto::getGameId,
-                        mapping(result -> RacingCarDto.of(result.getName(), result.getPosition()), toList())));
+        List<RacingCarResultDto> allResults = carDao.findAllResults();
+        Map<Long, String> winners = groupingWinnersByGameId(allResults);
+        Map<Long, List<RacingCarDto>> results = groupingResultByGameId(allResults);
         return winners.entrySet().stream()
                 .map(entry -> new HistoryResponseDto(entry.getValue(), results.get(entry.getKey())))
                 .collect(toUnmodifiableList());
+    }
+
+    private Map<Long, String> groupingWinnersByGameId(final List<RacingCarResultDto> allResults) {
+        return allResults.stream()
+                .filter(RacingCarResultDto::getIsWin)
+                .collect(groupingBy(RacingCarResultDto::getGameId,
+                        mapping(RacingCarResultDto::getName, joining(","))));
+    }
+
+    private Map<Long, List<RacingCarDto>> groupingResultByGameId(final List<RacingCarResultDto> allResults) {
+        return allResults.stream()
+                .collect(groupingBy(RacingCarResultDto::getGameId,
+                        mapping(result -> RacingCarDto.of(result.getName(), result.getPosition()), toList())));
     }
 }
