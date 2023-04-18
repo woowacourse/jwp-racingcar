@@ -1,10 +1,13 @@
 package racingcar.view;
 
+import org.springframework.stereotype.Component;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 
 import java.util.List;
 
+
+@Component
 public class OutputView {
     private static final String CAR_LOCATION = "-";
     private static final String PRINT_CAR_LOCATION = "%s : %s\n";
@@ -21,5 +24,12 @@ public class OutputView {
 
     public void printWinner(List<String> winner) {
         System.out.printf(PRINT_WINNER, String.join(WINNER_DELIMITER, winner));
+    }
+
+    public void printCarResult(Cars cars) {
+        System.out.println("우승자:");
+        for (Car car : cars.getCars()) {
+            System.out.printf("Name: %s, Position: %d\n", car.getName(), car.getLocation());
+        }
     }
 }

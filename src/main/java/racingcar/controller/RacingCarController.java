@@ -12,6 +12,7 @@ import racingcar.controller.dto.RacingCarDto;
 import racingcar.service.RacingCarService;
 import racingcar.util.NumberGenerator;
 import racingcar.validation.Validation;
+import racingcar.view.OutputView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,12 @@ public class RacingCarController {
 
     private final RacingCarService racingCarService;
     private final NumberGenerator numberGenerator;
+    private final OutputView outputView;
 
-    public RacingCarController(RacingCarService racingCarService, NumberGenerator numberGenerator) {
+    public RacingCarController(RacingCarService racingCarService, NumberGenerator numberGenerator, OutputView outputView) {
         this.racingCarService = racingCarService;
         this.numberGenerator = numberGenerator;
+        this.outputView = outputView;
     }
 
     @PostMapping("plays")
@@ -34,6 +37,9 @@ public class RacingCarController {
 
         List<RacingCarDto> racingCars = playGame(cars, trialCount);
         racingCarService.insertGame(trialCount, cars);
+
+        outputView.printWinner(cars.getWinners());
+        outputView.printCarResult(cars);
 
         return new GameResultDto(cars.getWinnerCars(), racingCars);
     }
