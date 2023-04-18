@@ -39,7 +39,7 @@ public class CarTest {
         @CsvSource(value = {"1:0", "2:0", "3:0", "4:1", "5:1"}, delimiter = ':')
         void moveOneStep(int pickedNumber, int expectedPosition) {
             Car car = new Car("hong", new TestNumberPicker(pickedNumber));
-            car.moveDependingOn();
+            car.moveDependingOn(pickedNumber);
             Assertions.assertThat(car).extracting("position")
                     .isEqualTo(expectedPosition);
         }

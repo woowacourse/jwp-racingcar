@@ -1,6 +1,7 @@
 package racingcar.domain.race;
 
 import java.util.List;
+import racingcar.domain.RandomNumberPicker;
 import racingcar.domain.car.Car;
 import racingcar.domain.car.Winners;
 
@@ -16,7 +17,7 @@ public class RacingGame {
     public void progress(int trialCount) {
         validateTrialCount(trialCount);
         for (int count = 0; count < trialCount; count++) {
-            racingCars.moveCars();
+            racingCars.moveCars(new RandomNumberPicker());
         }
     }
 

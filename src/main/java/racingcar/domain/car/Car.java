@@ -48,9 +48,8 @@ public class Car {
         }
     }
 
-    public void moveDependingOn() {
-        int pickedNumber = numberPicker.pickNumber();
-        if (pickedNumber >= LEAST_CONDITION) {
+    public void moveDependingOn(int power) {
+        if (power >= LEAST_CONDITION) {
             position.add(ONE_STEP);
         }
     }

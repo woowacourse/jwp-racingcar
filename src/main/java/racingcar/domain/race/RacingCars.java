@@ -33,9 +33,9 @@ public class RacingCars {
         return Collections.unmodifiableList(cars);
     }
 
-    public void moveCars() {
+    public void moveCars(NumberPicker numberPicker) {
         for (Car car : cars) {
-            car.moveDependingOn();
+            car.moveDependingOn(numberPicker.pickNumber());
         }
     }
 
