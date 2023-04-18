@@ -6,7 +6,6 @@ import java.util.List;
 
 public class OutputView {
 
-    private static final String RESULT_HEADER = "실행 결과";
     private static final String WINNERS_FORMAT = "%s가 최종 우승했습니다.%n";
     private static final String CAR_RESULT_FORMAT = "%s : %s\n";
 

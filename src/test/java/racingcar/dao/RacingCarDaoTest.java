@@ -44,6 +44,19 @@ class RacingCarDaoTest {
         Assertions.assertEquals(result.get(1).getRacingCars().size(), 2);
     }
 
+    @Test
+    void findAll반환값은_생성순서를_기준으로_정렬된다() {
+        for (int i = 0; i < 4; i++) {
+            racingCarDao.saveGame(generateGameEntity());
+        }
+
+        List<GameEntity> result = racingCarDao.findAll();
+
+        for (int i = 0; i < 2; i++) {
+            Assertions.assertTrue(result.get(i).getCreatedAt().isBefore(result.get(i + 1).getCreatedAt()));
+        }
+    }
+
     public static GameEntity generateGameEntity() {
         return new GameEntity.Builder()
                 .count(10)
