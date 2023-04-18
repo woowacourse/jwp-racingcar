@@ -46,14 +46,14 @@ public class RacingCarGameDao {
                 Map<Long, ResultResponseDto> history = new HashMap<>();
                 while (rs.next()) {
                     long gameId = rs.getLong("game_id");
-                    extracted(rs, history, gameId);
+                    putData(rs, history, gameId);
                 }
                 return new ArrayList<>(history.values());
             }
         );
     }
 
-    private void extracted(final ResultSet rs, final Map<Long, ResultResponseDto> history, final long gameId) throws SQLException {
+    private void putData(final ResultSet rs, final Map<Long, ResultResponseDto> history, final long gameId) throws SQLException {
         if (history.containsKey(gameId)) {
             ResultResponseDto resultResponseDto = history.get(gameId);
             resultResponseDto.getRacingCars().add(new PlayerDto(rs.getString("name"), rs.getInt("position")));
