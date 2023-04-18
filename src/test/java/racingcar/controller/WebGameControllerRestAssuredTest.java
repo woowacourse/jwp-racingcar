@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 
 @TestDatabaseConfig
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class GameControllerRestAssuredTest {
+class WebGameControllerRestAssuredTest {
 
     @LocalServerPort
     int port;

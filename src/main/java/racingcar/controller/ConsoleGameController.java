@@ -24,8 +24,7 @@ public class ConsoleGameController {
 
     public void play() {
         final Game game = createGame();
-        final int gameId = gameService.play(game);
-        final SingleGameResult result = gameService.findResult(gameId);
+        final SingleGameResult result = gameService.play(game);
         showResult(result);
     }
 

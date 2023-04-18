@@ -24,7 +24,11 @@ public class GameService {
     private final WinnersDao winnersDao;
     private final MoveChance moveChance;
 
-    public GameService(GamesDao gamesDao, CarsDao carsDao, WinnersDao winnersDao) {
+    public GameService(
+            final GamesDao gamesDao,
+            final CarsDao carsDao,
+            final WinnersDao winnersDao
+    ) {
         this.gamesDao = gamesDao;
         this.carsDao = carsDao;
         this.winnersDao = winnersDao;
@@ -41,7 +45,7 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public int play(Game game) {
+    public SingleGameResult play(Game game) {
         while (game.isNotDone()) {
             game.playOnceWith(moveChance);
         }
@@ -49,16 +53,19 @@ public class GameService {
         return insertResultOf(game);
     }
 
-    private int insertResultOf(final Game game) {
+    private SingleGameResult insertResultOf(final Game game) {
         final int gameId = gamesDao.insert(game.getTrialCount());
+
         final Map<Car, Integer> carIds = new HashMap<>();
         for (Car car : game.getCars()) {
             final int carId = carsDao.insert(gameId, car.getName(), car.getPosition());
             carIds.put(car, carId);
         }
+
         final List<Integer> winnerIds = findIdsOf(game.findWinners(), carIds);
         winnersDao.insert(gameId, winnerIds);
-        return gameId;
+
+        return getGameResult(game);
     }
 
     private List<Integer> findIdsOf(List<Car> cars, Map<Car, Integer> carIds) {
@@ -68,7 +75,17 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public SingleGameResult findResult(final int gameId) {
+    private SingleGameResult getGameResult(final Game game) {
+        final List<String> allWinnerNames = game.findWinners().stream()
+                .map(Car::getName)
+                .collect(Collectors.toUnmodifiableList());
+        final List<CarDto> allCarInfo = game.getCars().stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
+        return new SingleGameResult(allWinnerNames, allCarInfo);
+    }
+
+    public SingleGameResult getGameResult(final int gameId) {
         final List<String> allWinnerNames = winnersDao.findAllWinnerNameByGameId(gameId);
         final List<CarDto> allCarInfo = carsDao.findAllByGameId(gameId);
 

@@ -27,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(GameController.class)
-class GameControllerTest {
+@WebMvcTest(WebGameController.class)
+class WebGameControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,7 +48,7 @@ class GameControllerTest {
 
         given(gameService.createGameWith(any(), anyInt()))
                 .willReturn(new Game(cars, 10));
-        given(gameService.findResult(anyInt()))
+        given(gameService.play(any()))
                 .willReturn(new SingleGameResult(List.of("aa"), carDtos));
 
         String request = objectMapper.writeValueAsString(new SinglePlayRequest("aa", 1));

@@ -33,9 +33,9 @@ public class WebGameController {
         final int playCount = singlePlayRequest.getCount();
 
         final Game game = gameService.createGameWith(trim(names), playCount);
-        final int gameId = gameService.play(game);
+        final SingleGameResult gameResult = gameService.play(game);
 
-        return ResponseEntity.ok(gameService.findResult(gameId));
+        return ResponseEntity.ok(gameResult);
     }
 
     private List<String> trim(List<String> carNames) {
@@ -50,7 +50,7 @@ public class WebGameController {
 
         final List<Integer> allPlayedGameIds = gameService.findAllPlayedGameIds();
         for (final int gameId : allPlayedGameIds) {
-            responseBody.add(gameService.findResult(gameId));
+            responseBody.add(gameService.getGameResult(gameId));
         }
 
         return ResponseEntity.ok(responseBody);
