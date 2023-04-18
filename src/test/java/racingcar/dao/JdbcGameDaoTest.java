@@ -18,7 +18,6 @@ import racingcar.dao.entity.GameEntity;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class JdbcGameDaoTest {
 
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -28,7 +27,6 @@ public class JdbcGameDaoTest {
     void setUp() {
         gameDao = new JdbcGameDao(jdbcTemplate);
     }
-
 
     @Test
     void 게임을_저장한다() {
