@@ -1,4 +1,4 @@
-package racingcar.controller.dto;
+package racingcar.service.dto;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;

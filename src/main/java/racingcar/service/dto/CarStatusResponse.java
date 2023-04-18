@@ -1,4 +1,4 @@
-package racingcar.controller.dto;
+package racingcar.service.dto;
 
 public class CarStatusResponse {
 

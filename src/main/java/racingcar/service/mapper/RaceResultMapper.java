@@ -1,7 +1,7 @@
 package racingcar.service.mapper;
 
 import org.springframework.stereotype.Component;
-import racingcar.controller.dto.CarStatusResponse;
+import racingcar.service.dto.CarStatusResponse;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;

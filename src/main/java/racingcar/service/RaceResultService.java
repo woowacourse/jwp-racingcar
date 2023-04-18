@@ -1,9 +1,9 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.controller.dto.CarStatusResponse;
-import racingcar.controller.dto.GameInfoRequest;
-import racingcar.controller.dto.RaceResultResponse;
+import racingcar.service.dto.CarStatusResponse;
+import racingcar.service.dto.GameInfoRequest;
+import racingcar.service.dto.RaceResultResponse;
 import racingcar.dao.raceresult.RaceResultDao;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
 import racingcar.domain.Car;
