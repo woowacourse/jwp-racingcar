@@ -6,6 +6,6 @@ import racingcar.domain.Car;
 import java.util.List;
 
 @Repository
-public interface PlayerInsertDao {
-    void insertPlayers(int gameId, List<Car> cars);
+public interface PlayerDao {
+    void insert(int gameId, List<Car> cars);
 }

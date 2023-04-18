@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class JdbcGameInsertDao implements GameInsertDao {
+public class JdbcGameDao implements GameDao {
 
     private final SimpleJdbcInsert insertGameActor;
 
-    public JdbcGameInsertDao(DataSource dataSource) {
+    public JdbcGameDao(DataSource dataSource) {
         this.insertGameActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("GAME")
                 .usingGeneratedKeyColumns("game_id")
@@ -20,7 +20,7 @@ public class JdbcGameInsertDao implements GameInsertDao {
     }
 
     @Override
-    public int insertGame(String winners, Integer count) {
+    public int insert(String winners, Integer count) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("winners", winners);
         parameters.put("trial_count", count);

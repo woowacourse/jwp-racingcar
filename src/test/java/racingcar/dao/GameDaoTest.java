@@ -9,22 +9,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @JdbcTest
-class GameInsertDaoTest {
+class GameDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private GameInsertDao jdbcGameInsertDao;
+    private GameDao jdbcGameDao;
 
     @BeforeEach
     public void setUp() {
-        jdbcGameInsertDao = new JdbcGameInsertDao(jdbcTemplate.getDataSource());
+        jdbcGameDao = new JdbcGameDao(jdbcTemplate.getDataSource());
     }
 
     @Test
     void insertGameTest() {
         // given, when
-        int gameId1 = jdbcGameInsertDao.insertGame("jena", 3);
-        int gameId2 = jdbcGameInsertDao.insertGame("odo", 6);
+        int gameId1 = jdbcGameDao.insert("jena", 3);
+        int gameId2 = jdbcGameDao.insert("odo", 6);
 
         // then
         assertThat(gameId2 - gameId1).isEqualTo(1);

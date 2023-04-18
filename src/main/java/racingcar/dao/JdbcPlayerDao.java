@@ -12,18 +12,18 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class JdbcPlayerInsertDao implements PlayerInsertDao {
+public class JdbcPlayerDao implements PlayerDao {
 
     private final SimpleJdbcInsert insertPlayerActor;
 
-    public JdbcPlayerInsertDao(DataSource dataSource) {
+    public JdbcPlayerDao(DataSource dataSource) {
         this.insertPlayerActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("PLAYER")
                 .usingGeneratedKeyColumns("player_id");
     }
 
     @Override
-    public void insertPlayers(int gameId, List<Car> cars) {
+    public void insert(int gameId, List<Car> cars) {
         SqlParameterSource[] batchParams = new SqlParameterSource[cars.size()];
         for (int index = 0; index < cars.size(); index++) {
             Car car = cars.get(index);

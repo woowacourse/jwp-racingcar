@@ -11,27 +11,27 @@ import racingcar.domain.Car;
 import java.util.List;
 
 @JdbcTest
-class PlayerInsertDaoTest {
+class PlayerDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private PlayerInsertDao jdbcPlayerInsertDao;
-    private GameInsertDao jdbcGameInsertDao;
+    private PlayerDao jdbcPlayerDao;
+    private GameDao jdbcGameDao;
 
     @BeforeEach
     public void setUp() {
-        jdbcPlayerInsertDao = new JdbcPlayerInsertDao(jdbcTemplate.getDataSource());
-        jdbcGameInsertDao = new JdbcGameInsertDao(jdbcTemplate.getDataSource());
+        jdbcPlayerDao = new JdbcPlayerDao(jdbcTemplate.getDataSource());
+        jdbcGameDao = new JdbcGameDao(jdbcTemplate.getDataSource());
     }
 
     @Test
     void insertPlayersTest() {
         // given
-        int gameId = jdbcGameInsertDao.insertGame("jena", 3);
+        int gameId = jdbcGameDao.insert("jena", 3);
         List<Car> cars = List.of(new Car("jena", 0), new Car("odo", 2), new Car("pobi", 4));
 
         // when, then
-        Assertions.assertThatNoException().isThrownBy(() -> jdbcPlayerInsertDao.insertPlayers(gameId, cars));
+        Assertions.assertThatNoException().isThrownBy(() -> jdbcPlayerDao.insert(gameId, cars));
     }
 }
