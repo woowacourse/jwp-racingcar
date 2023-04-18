@@ -9,10 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.Name;
 
 @SpringBootTest
+@Transactional
 public class WinnersDaoTest {
 
     @Autowired
@@ -33,20 +35,24 @@ public class WinnersDaoTest {
     }
 
     @Test
-    void find() {
+    void findWinners() {
         gameLogDao.insert(3, "달리", 4);
         gameLogDao.insert(3, "디노", 4);
+        gameLogDao.insert(3, "저문", 2);
+
         winnersDao.insert(3, "달리");
         winnersDao.insert(3, "디노");
+
         assertThat(winnersDao.find(3)).isEqualTo(List.of(new Car(new Name("달리"), 4), new Car(new Name("디노"), 4)));
     }
 
     @Test
-    void find2() {
-        gameLogDao.insert(3, "달리", 4);
-        gameLogDao.insert(3, "디노", 4);
-        winnersDao.insert(3, "달리");
-        winnersDao.insert(3, "디노");
-        assertThat(winnersDao.find(3)).isEqualTo(List.of(new Car(new Name("달리"), 4), new Car(new Name("디노"), 4)));
+    void findAnotherGameWinners() {
+        gameLogDao.insert(5, "메리", 7);
+        gameLogDao.insert(5, "밀리", 4);
+
+        winnersDao.insert(5, "메리");
+
+        assertThat(winnersDao.find(5)).isEqualTo(List.of(new Car(new Name("메리"), 7)));
     }
 }
