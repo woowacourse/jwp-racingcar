@@ -7,10 +7,17 @@ public class Car {
     private static final int GO = 4;
 
     private final CarName carName;
+    private Integer carId;
     private Position position;
 
     public Car(final String carName) {
         this(carName, 0);
+    }
+
+    public Car(final Integer carId, final Car car) {
+        this.carId = carId;
+        carName = car.carName;
+        position = car.position;
     }
 
     public Car(final String carName, final int position) {
@@ -38,5 +45,9 @@ public class Car {
 
     public String getCarName() {
         return carName.getName();
+    }
+
+    public Integer getCarId() {
+        return carId;
     }
 }

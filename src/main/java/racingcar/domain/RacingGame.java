@@ -6,10 +6,17 @@ public class RacingGame {
 
     private final Cars cars;
     private final Count count;
+    private Integer gameId;
 
     public RacingGame(final List<String> carsName, final int count) {
         cars = new Cars(carsName);
         this.count = new Count(count);
+    }
+
+    public RacingGame(final Integer gameId, final RacingGame racingGame) {
+        this.gameId = gameId;
+        cars = racingGame.cars;
+        count = racingGame.count;
     }
 
     public void race(final NumberPicker numberPicker) {
@@ -26,5 +33,9 @@ public class RacingGame {
 
     public Count getCount() {
         return count;
+    }
+
+    public Integer getGameId() {
+        return gameId;
     }
 }
