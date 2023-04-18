@@ -54,4 +54,9 @@ public class Car {
             position.add(ONE_STEP);
         }
     }
+
+    public boolean isInSamePosition(Position other) {
+        return this.position.equals(other);
+    }
+
 }

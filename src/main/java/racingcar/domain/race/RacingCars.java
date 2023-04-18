@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.car.Car;
+import racingcar.domain.car.Position;
 
 public class RacingCars {
     private final List<Car> cars;
@@ -36,5 +37,19 @@ public class RacingCars {
         for (Car car : cars) {
             car.moveDependingOn();
         }
+    }
+
+    public Position findBestPosition() {
+        int maxValue = cars.stream()
+                .mapToInt(Car::getPosition)
+                .max()
+                .orElse(0);
+        return new Position(maxValue);
+    }
+
+    public List<Car> findCarsInSamePosition(Position maxPosition) {
+        return cars.stream()
+                .filter(car -> car.isInSamePosition(maxPosition))
+                .collect(Collectors.toList());
     }
 }

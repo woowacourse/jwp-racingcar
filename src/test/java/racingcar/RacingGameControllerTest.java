@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import racingcar.controller.RacingGameController;
 import racingcar.domain.car.Car;
+import racingcar.domain.car.Winners;
+import racingcar.domain.race.RacingCars;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;
 
@@ -37,10 +39,10 @@ class RacingGameControllerTest {
     RacingGameController racingGameController;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final ResultDto mockResponse = ResultDto.ofCars(List.of(new Car("브리", 6),
+    private final ResultDto mockResponse = ResultDto.of(List.of(new Car("브리", 6),
                     new Car("로지", 5),
                     new Car("바론", 4)),
-            List.of(new Car("브리", 6)));
+            Winners.from(new RacingCars(List.of("브리", "로지", "바론"))));
 
     @DisplayName("게임 실행 후 결과를 조회한다.")
     @Test

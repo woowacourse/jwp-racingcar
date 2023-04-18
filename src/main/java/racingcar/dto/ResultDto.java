@@ -3,6 +3,7 @@ package racingcar.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.car.Car;
+import racingcar.domain.car.Winners;
 
 public class ResultDto {
 
@@ -14,7 +15,7 @@ public class ResultDto {
         this.racingCars = racingCars;
     }
 
-    public static ResultDto ofCars(List<Car> racingCars, List<Car> winners) {
+    public static ResultDto of(List<Car> racingCars, Winners winners) {
         return new ResultDto(convertCarToWinnersString(winners), convertCarToCarDto(racingCars));
     }
 
@@ -35,8 +36,9 @@ public class ResultDto {
                 .collect(Collectors.toList());
     }
 
-    private static String convertCarToWinnersString(List<Car> winners) {
-        return winners.stream()
+    private static String convertCarToWinnersString(Winners winners) {
+        return winners.getCars()
+                .stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(","));
     }
