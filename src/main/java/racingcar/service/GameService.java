@@ -55,7 +55,7 @@ public class GameService {
     public List<PlayResponse> getAllSavedGames() {
         List<PlayResponse> playResponses = new ArrayList<>();
 
-        int count = gameDao.countAll().orElse(0);
+        int count = gameDao.countAll();
         for (int gameId = MIN_GAME_ID; gameId <= count; gameId++) {
             List<RecordDto> foundRecordDtos = recordDao.findAllByGameId(gameId);
             playResponses.add(PlayResponse.from(foundRecordDtos));

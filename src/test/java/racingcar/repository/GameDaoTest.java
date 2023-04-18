@@ -45,8 +45,13 @@ class GameDaoTest {
     @Test
     @DisplayName("테이블의 모든 행의 수를 반환한다")
     void 테이블의_모든_행의_수를_반환한다() {
-        Integer result = gameDao.countAll().get();
-
+        Integer result = gameDao.countAll();
         assertThat(result).isEqualTo(2);
+
+        gameDao.insert(10);
+        assertThat(gameDao.countAll()).isEqualTo(3);
+
+        jdbcTemplate.execute("DELETE FROM game");
+        assertThat(gameDao.countAll()).isEqualTo(0);
     }
 }
