@@ -23,7 +23,7 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
     }
 
     @Transactional
-    public Number saveGameResult(final GameResultDto gameResultDto, final int trialCount) {
+    public int saveGameResult(final GameResultDto gameResultDto, final int trialCount) {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -35,14 +35,17 @@ public class JdbcTemplateRacingGameDao implements RacingGameDao {
             preparedStatement.setInt(2, trialCount);
             return preparedStatement;
         }, keyHolder);
-        return keyHolder.getKey();
+        if (keyHolder.getKey() == null) {
+            throw new IllegalStateException("게임 결과 저장에 실패했습니다.");
+        }
+        return keyHolder.getKey().intValue();
     }
 
     @Transactional
-    public void savePlayerResults(final List<CarDto> racingCars, final Number gameResultKey) {
+    public void savePlayerResults(final List<CarDto> racingCars, final int gameResultId) {
         String sqlToInsertPlayerResult = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
         for (CarDto carDto : racingCars) {
-            jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), carDto.getPosition(), gameResultKey);
+            jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), carDto.getPosition(), gameResultId);
         }
     }
 }

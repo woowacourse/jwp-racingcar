@@ -6,7 +6,7 @@ import racingcar.dto.GameResultDto;
 
 public interface RacingGameDao {
 
-    Number saveGameResult(final GameResultDto gameResultDto, final int trialCount);
+    int saveGameResult(final GameResultDto gameResultDto, final int trialCount);
 
-    void savePlayerResults(final List<CarDto> racingCars, final Number gameResultKey);
+    void savePlayerResults(final List<CarDto> racingCars, final int gameResultId);
 }

@@ -22,7 +22,8 @@ class RacingGameServiceTest {
         GameResultDto gameResultDto = racingGameService.playRacingGame(racingGameRequest);
 
         assertThat(gameResultDto.getRacingCars()).hasSize(1);
-        assertThat(gameResultDto.getWinners()).isEqualTo("브리");
+        assertThat(gameResultDto.getWinners()).hasSize(1);
+        assertThat(gameResultDto.getWinners().get(0).getName()).isEqualTo("브리");
     }
 
     @Test
