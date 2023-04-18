@@ -17,7 +17,7 @@
   
 - [ ] 예외처리
   - [ ] console로 처리되고 있던 예외처리 메세지를 api 응답으로 보내기
-  - [ ] spring validaton을 이용해서 null처리하기
+  - [x] spring validaton을 이용해서 이름과 시도횟수의 blank 처리하기
 
 
 ## 리팩토링 목록
