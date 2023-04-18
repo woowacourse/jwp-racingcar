@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,10 +32,9 @@ class RacingHistoryDaoTest {
     void insertRacingHistory() {
         //given
         int trialCount = 10;
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss");
+        LocalDateTime playTime = LocalDateTime.of(2023, 4, 17, 15, 19, 30);
         //when
-        Long savedId = racingHistoryDao.save(trialCount, now);
+        Long savedId = racingHistoryDao.save(trialCount, playTime);
         //then
         RacingHistoryDto racingHistoryDto = jdbcTemplate.queryForObject(
             "SELECT id, trial_count, play_time FROM racing_history WHERE id = :id",
@@ -46,8 +44,7 @@ class RacingHistoryDaoTest {
                     rs.getObject("play_time", LocalDateTime.class)));
 
         assertAll(
-            () -> assertThat(racingHistoryDto.getPlayTime().format(timeFormatter)).isEqualTo(
-                now.format(timeFormatter)),
+            () -> assertThat(racingHistoryDto.getPlayTime()).isEqualTo(playTime),
             () -> assertThat(racingHistoryDto.getTrialCount()).isEqualTo(trialCount)
         );
     }
