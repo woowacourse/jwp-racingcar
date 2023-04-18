@@ -25,6 +25,7 @@ public class RacingCarWebController {
     @PostMapping("/plays")
     public GameResponse play(@Valid @RequestBody GameRequest gameRequest) {
         String names = gameRequest.getNames();
+        validateDelimiter(names);
         List<String> splitNames = List.of(names.split(DELIMITER));
         GameDto gameDto = GameDto.of(splitNames, gameRequest.getCount());
 
@@ -34,5 +35,11 @@ public class RacingCarWebController {
     @GetMapping("/plays")
     public List<GameResponse> getGameResults() {
         return racingCarService.getGameResults();
+    }
+
+    private void validateDelimiter(String names) {
+        if (!names.contains(DELIMITER)) {
+            throw new IllegalArgumentException("구분자는 쉼표(,)입니다.");
+        }
     }
 }
