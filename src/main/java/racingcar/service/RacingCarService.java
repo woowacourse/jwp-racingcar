@@ -1,5 +1,11 @@
 package racingcar.service;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toUnmodifiableList;
+
+import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.PlayResultDao;
@@ -7,9 +13,11 @@ import racingcar.dao.RacingCarDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.entity.GameHistoryEntity;
 
 @Service
 public class RacingCarService {
+
     private final PlayResultDao playResultDao;
     private final RacingCarDao racingCarDao;
 
@@ -24,5 +32,15 @@ public class RacingCarService {
         for (Car car : cars.getCars()) {
             racingCarDao.insert(gameId, car.getName().getValue(), car.getDistance().getValue());
         }
+    }
+
+    public Map<Long, List<Car>> findGameHistory() {
+        return playResultDao.findGameHistories().stream()
+                .collect(groupingBy(GameHistoryEntity::getId,
+                        mapping(RacingCarService::mapCar, toUnmodifiableList())));
+    }
+
+    private static Car mapCar(final GameHistoryEntity gameHistoryEntity) {
+        return new Car(gameHistoryEntity.getPlayerName(), gameHistoryEntity.getPlayerPosition());
     }
 }

@@ -44,9 +44,9 @@ public class PlayResultDao {
     }
 
     private static GameHistoryEntity mapGameHistoryRow(ResultSet rs, int rowNum) throws SQLException {
-        final long id = rs.getLong("pr.id");
+        final long id = rs.getLong("id");
         final String winners = rs.getString("winners");
-        final String name = rs.getString("playerName");
+        final String name = rs.getString("player_name");
         final int position = rs.getInt("player_position");
         return new GameHistoryEntity(id, winners, name, position);
     }
