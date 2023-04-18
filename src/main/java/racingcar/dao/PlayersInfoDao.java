@@ -23,9 +23,9 @@ public class PlayersInfoDao {
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                CarParam car = carParams.get(i);
-                ps.setString(1, car.getName());
-                ps.setInt(2, car.getPosition());
+                CarParam carParam = carParams.get(i);
+                ps.setString(1, carParam.getName());
+                ps.setInt(2, carParam.getPosition());
                 ps.setInt(3, playResultId);
             }
 
