@@ -2,7 +2,9 @@ package racingcar.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +38,13 @@ public class RacingCarController {
         outputView.printWinners(cars.getWinner());
         racingCarService.saveGameResult(cars, tryCount);
         return new RacingCarGameResultDto(String.join(",", cars.getWinner()), makeCarDtos(cars));
+    }
+
+    @GetMapping("/plays")
+    @ResponseBody
+    public ResponseEntity<List<RacingCarGameResultDto>> showGameResult() {
+        List<RacingCarGameResultDto> gameResult = racingCarService.getGameResult();
+        return ResponseEntity.ok().body(gameResult);
     }
 
     private Cars makeCars(GameInitializeDto gameInitializeDto) {

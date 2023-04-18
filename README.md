@@ -50,8 +50,8 @@
 
 ## 2단계 기능 요구사항
 
-- [ ] 게임 플레이 이력 조회 API 구현
-  - [ ] web application에서 DB에 저장된 플레이 이력을 요청하면 응답하는 기능을 구현
+- [x] 게임 플레이 이력 조회 API 구현
+  - [x] web application에서 DB에 저장된 플레이 이력을 요청하면 응답하는 기능을 구현
     - Request
     ```http request
     GET /plays HTTP/1.1
