@@ -37,8 +37,9 @@
       - [x] RESPONSE : 우승자와 각 차량의 이름 및 위치를 출력한다
 
 - DTO
-  - RequestDto : 경주에 참여하는 차량의 이름과 시도횟수를 포함한다
-  - ResponseDto : 경주 우승자와 차량의 상태를 포함한다
+  - GameInfoRequest : 경주에 참여하는 차량의 이름과 시도횟수를 포함한다
+  - GameResultResponse : 경주 우승자와 전체 차량의 상태를 포함한다
+  - CarParam : 단일 차량의 상태를 포함한다
 
 - DAO
   - PlayResult
