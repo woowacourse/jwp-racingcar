@@ -12,8 +12,8 @@ public class CarDto {
         this.position = position;
     }
 
-    public CarDto(Car car){
-        this(car.getName(),car.getPosition());
+    public CarDto(Car car) {
+        this(car.getName(), car.getPosition());
     }
 
     public String getName() {
