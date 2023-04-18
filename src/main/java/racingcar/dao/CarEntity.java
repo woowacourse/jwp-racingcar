@@ -16,6 +16,13 @@ public class CarEntity {
         this.gameId = gameId;
     }
 
+    public CarEntity(int carId, String name, int position, int gameId) {
+        this.carId = carId;
+        this.name = name;
+        this.position = position;
+        this.gameId = gameId;
+    }
+
     public int getCarId() {
         return carId;
     }
@@ -30,21 +37,5 @@ public class CarEntity {
 
     public int getGameId() {
         return gameId;
-    }
-
-    public void setCarId(int carId) {
-        this.carId = carId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
     }
 }
