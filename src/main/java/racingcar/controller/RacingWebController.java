@@ -1,5 +1,8 @@
 package racingcar.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,9 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.service.RacingService;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class RacingWebController {
@@ -21,7 +21,7 @@ public class RacingWebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<TrackResponse> play(@RequestBody final TrackRequest trackRequest) {
+    public ResponseEntity<TrackResponse> play(@RequestBody @Valid final TrackRequest trackRequest) {
         final String names = trackRequest.getNames();
         final String trialTimes = trackRequest.getCount();
 
