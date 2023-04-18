@@ -53,13 +53,14 @@ public class GameService {
         }
     }
 
-    public List<PlayResponse> getAllSavedGames() {
+    public List<PlayResponse> showGameHistory() {
         List<PlayResponse> playResponses = new ArrayList<>();
 
         int count = gameDao.countAll();
         for (int gameId = MIN_GAME_ID; gameId <= count; gameId++) {
-            List<RecordDto> foundRecordDtos = recordDao.findAllByGameId(gameId);
-            playResponses.add(PlayResponse.from(foundRecordDtos));
+            List<RecordDto> recordsByGameId = recordDao.findAllByGameId(gameId);
+
+            playResponses.add(PlayResponse.from(recordsByGameId));
         }
 
         return unmodifiableList(playResponses);

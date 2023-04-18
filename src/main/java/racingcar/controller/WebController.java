@@ -32,7 +32,7 @@ public class WebController {
 
     @GetMapping
     public ResponseEntity<List<PlayResponse>> plays() {
-        List<PlayResponse> allGameHistory = gameService.getAllSavedGames();
+        List<PlayResponse> allGameHistory = gameService.showGameHistory();
         return ResponseEntity.ok().body(allGameHistory);
     }
 }
