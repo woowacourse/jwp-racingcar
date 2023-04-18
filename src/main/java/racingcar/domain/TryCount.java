@@ -8,14 +8,7 @@ public class TryCount {
     private final int tryCount;
 
     public TryCount(final int tryCount) {
-        validate(tryCount);
         this.tryCount = tryCount;
-    }
-
-    private void validate(final int tryCount) {
-        if (tryCount < MINIMUM_TRY_COUNT || tryCount > MAXIMUM_TRY_COUNT) {
-            throw new IllegalArgumentException("2 이상, 10 이하의 수를 입력해주세요.");
-        }
     }
 
     public int getTryCount() {
