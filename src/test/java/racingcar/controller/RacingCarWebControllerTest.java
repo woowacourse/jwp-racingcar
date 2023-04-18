@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.dto.PlayRequestDto;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,7 +29,7 @@ class RacingCarWebControllerTest {
     void playRequest() {
         final PlayRequestDto dto = new PlayRequestDto("a, b, c", 10);
 
-        RestAssured.given().log().all()
+        given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(dto)
                 .when().post("/plays")
@@ -40,7 +41,7 @@ class RacingCarWebControllerTest {
     @DisplayName("게임 플레이 이력 조회를 한다")
     @Test
     void getAllResults() {
-        RestAssured.given().log().all()
+        given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/plays")
                 .then().log().all()
