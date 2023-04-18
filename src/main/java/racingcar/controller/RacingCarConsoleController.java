@@ -1,56 +1,38 @@
 package racingcar.controller;
 
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.GameCount;
-import racingcar.domain.PowerGenerator;
-import racingcar.util.CarNamesDivider;
+import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.controller.dto.GameRequestDtoForPlays;
+import racingcar.controller.dto.GameResponseDto;
+import racingcar.dao.RacingCarDao;
+import racingcar.entity.GameEntity;
+import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.List;
-import java.util.Random;
-
-import static java.util.stream.Collectors.*;
 
 public class RacingCarConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final CarNamesDivider carNamesDivider;
+    private final RacingCarService racingCarService;
 
     public RacingCarConsoleController() {
         inputView = new InputView(System.in);
         outputView = new OutputView();
-        carNamesDivider = new CarNamesDivider();
+        this.racingCarService = new RacingCarService(new RacingCarDao(new JdbcTemplate()));
     }
 
     public void run() {
         String carNames = inputView.requestCarNames();
-        List<String> carNamesByDivider = carNamesDivider.divideCarNames(carNames);
-        List<Car> inputCars = carNamesByDivider.stream()
-                .map(Car::new)
-                .collect(toList());
-        Cars cars = new Cars(inputCars);
-        GameCount gameCount = new GameCount(inputView.requestNumberOfTimes());
-        progress(cars, gameCount);
-        finish(cars);
+        String numberOfTimes = inputView.requestNumberOfTimes();
+        GameEntity gameResultEntity = racingCarService.getGameResultEntity(
+                new GameRequestDtoForPlays(carNames, numberOfTimes)
+        );
+        finish(racingCarService.generateRacingGameResponseDto(gameResultEntity));
     }
 
-    private void progress(Cars cars, GameCount gameCount) {
-        while (gameCount.isGameProgress()) {
-            gameCount.proceedOnce();
-            moveAllCar(cars);
-        }
-    }
-
-    private void moveAllCar(Cars cars) {
-        cars.moveAll(new PowerGenerator(new Random()));
-    }
-
-    private void finish(Cars cars) {
-        outputView.printWinners(cars.getWinners());
-        outputView.printResult(cars.getCars());
+    private void finish(GameResponseDto gameResponseDto) {
+        outputView.printWinners(gameResponseDto.getWinners());
+        outputView.printResult(gameResponseDto.getRacingCars());
     }
 
 }
