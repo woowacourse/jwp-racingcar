@@ -1,8 +1,5 @@
 package racingcar.controller;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,22 +11,17 @@ import racingcar.service.RacingGameService;
 public class RacingGameController {
 
     private final RacingGameService racingGameService;
+    private final RacingGameMapper mapper;
 
-    public RacingGameController(final RacingGameService racingGameService) {
+    public RacingGameController(final RacingGameService racingGameService, final RacingGameMapper mapper) {
         this.racingGameService = racingGameService;
+        this.mapper = mapper;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponse> doGame(@RequestBody final GameRequest gameRequest) {
         final RacingCars racingCars = racingGameService.run(gameRequest.getNames(), gameRequest.getCount());
 
-        final List<String> winnerNames = racingCars.getWinnerNames();
-        final String winnerName = String.join(", ", winnerNames);
-
-        final List<RacingCarDto> racingCarsDto = racingCars.getRacingCars().stream()
-                .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
-                .collect(toList());
-
-        return ResponseEntity.ok(new GameResponse(winnerName, racingCarsDto));
+        return ResponseEntity.ok(mapper.toGameResponse(racingCars));
     }
 }
