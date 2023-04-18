@@ -36,7 +36,7 @@ public class RacingWebControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("winners", is(List.of("오잉")))
+                .body("winners", is("오잉"))
                 .body("racingCars[0].name", is("오잉"));
     }
 

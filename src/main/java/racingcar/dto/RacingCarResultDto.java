@@ -15,8 +15,12 @@ public class RacingCarResultDto {
         this.gameId = gameId;
     }
 
-    public static RacingCarResultDto of(RacingCar racingCar, int isWin, long gameId) {
+    public static RacingCarResultDto createByDomain(RacingCar racingCar, int isWin, long gameId) {
         return new RacingCarResultDto(racingCar.getName(), racingCar.getPosition(), isWin, gameId);
+    }
+
+    public static RacingCarResultDto create(String name, int position, int isWin, long gameId) {
+        return new RacingCarResultDto(name, position, isWin, gameId);
     }
 
     public String getName() {

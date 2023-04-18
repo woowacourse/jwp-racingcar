@@ -23,14 +23,15 @@ public class DbCarDao implements CarDao{
         jdbcTemplate.batchUpdate(sql, SqlParameterSourceUtils.createBatch(racingCarResultDtos));
     }
 
-    public List<RacingCarDto> findCarsById(long gameId) {
-        String sql = "SELECT name, position FROM car WHERE game_id = :game_id";
+    public List<RacingCarResultDto> findCarsById(long gameId) {
+        String sql = "SELECT name, position, is_win FROM car WHERE game_id = :game_id";
         Map<String, Long> parameter = Collections.singletonMap("game_id", gameId);
         return jdbcTemplate.query(sql, parameter, (resultSet, count) ->
         {
             String name = resultSet.getString("name");
             int position = resultSet.getInt("position");
-            return RacingCarDto.of(name, position);
+            int is_win = resultSet.getInt("is_win");
+            return RacingCarResultDto.create(name, position, is_win, gameId);
         });
     }
 }

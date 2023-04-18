@@ -35,9 +35,9 @@ class DbCarDaoTest {
         long id1 = dbGameDao.save(1);
         long id2 = dbGameDao.save(2);
         cars = List.of(
-                RacingCarResultDto.of(new RacingCar("오잉"), GameResult.LOSE.getValue(), id1),
-                RacingCarResultDto.of(new RacingCar("포이"), GameResult.WIN.getValue(), id1),
-                RacingCarResultDto.of(new RacingCar("말랑"), GameResult.WIN.getValue(), id2));
+                RacingCarResultDto.createByDomain(new RacingCar("오잉"), GameResult.LOSE.getValue(), id1),
+                RacingCarResultDto.createByDomain(new RacingCar("포이"), GameResult.WIN.getValue(), id1),
+                RacingCarResultDto.createByDomain(new RacingCar("말랑"), GameResult.WIN.getValue(), id2));
     }
 
     @Test
@@ -45,7 +45,7 @@ class DbCarDaoTest {
         //given
         //when
         dbCarDao.saveAll(cars);
-        List<RacingCarDto> queriedCars = dbCarDao.findCarsById(1);
+        List<RacingCarResultDto> queriedCars = dbCarDao.findCarsById(1);
 
         //then
         assertThat(queriedCars).hasSize(2)

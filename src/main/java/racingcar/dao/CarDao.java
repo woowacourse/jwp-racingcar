@@ -6,5 +6,5 @@ import racingcar.dto.RacingCarResultDto;
 
 public interface CarDao {
     void saveAll(List<RacingCarResultDto> racingCarResultDtos);
-    List<RacingCarDto> findCarsById(long gameId);
+    List<RacingCarResultDto> findCarsById(long gameId);
 }

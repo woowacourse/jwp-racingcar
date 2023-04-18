@@ -17,10 +17,10 @@ public class MemoryCarDao implements CarDao{
     }
 
     @Override
-    public List<RacingCarDto> findCarsById(long gameId) {
+    public List<RacingCarResultDto> findCarsById(long gameId) {
         return cars.stream()
                 .filter(it -> it.getGameId() == gameId)
-                .map(it -> RacingCarDto.of(it.getName(), it.getPosition()))
+                .map(it -> RacingCarResultDto.create(it.getName(), it.getPosition(), it.isWin(), it.getGameId()))
                 .collect(Collectors.toList());
     }
 }
