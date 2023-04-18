@@ -2,18 +2,20 @@ package racingcar.repository;
 
 import racingcar.domain.entity.CarInfo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class CarInfoCollectionRepository implements CarInfoRepository {
-    private final List<CarInfo> cars = new ArrayList<>();
+    private final Map<Integer, List<CarInfo>> cars = new HashMap<>();
     private int idHolder = 0;
 
     @Override
     public Optional<Integer> saveCar(CarInfo carInfo) {
         int id = idHolder++;
+        if (id < 0) {
+            return Optional.empty();
+        }
+
+        List<CarInfo> cars = this.cars.getOrDefault(id, new ArrayList<>());
         cars.add(
                 new CarInfo(id,
                         carInfo.getRacingId(),
@@ -21,16 +23,13 @@ public class CarInfoCollectionRepository implements CarInfoRepository {
                         carInfo.getPosition(),
                         carInfo.getIsWinner())
         );
-        if (id < 0) {
-            return Optional.empty();
-        }
+
+        this.cars.put(id, cars);
         return Optional.of(id);
     }
 
     @Override
     public List<CarInfo> findAllByRaceId(int raceId) {
-        return cars.stream()
-                .filter(carInfo -> carInfo.getRacingId() == raceId)
-                .collect(Collectors.toList());
+        return cars.getOrDefault(raceId, Collections.emptyList());
     }
 }
