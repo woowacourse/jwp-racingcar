@@ -9,7 +9,8 @@ public class RacingGameEntity {
     private Integer trialCount;
     private LocalDateTime date;
 
-    private RacingGameEntity(final Integer trialCount, final LocalDateTime date) {
+    private RacingGameEntity(final Long id, final Integer trialCount, final LocalDateTime date) {
+        this.id = id;
         this.trialCount = trialCount;
         this.date = date;
     }
@@ -18,10 +19,16 @@ public class RacingGameEntity {
         return new RacingGameBuilder();
     }
 
-    private static class RacingGameBuilder {
+    public static class RacingGameBuilder {
 
+        private Long id;
         private Integer trialCount;
         private LocalDateTime date;
+
+        public RacingGameBuilder id(final Long id) {
+            this.id = id;
+            return this;
+        }
 
         public RacingGameBuilder trialCount(final Integer trialCount) {
             this.trialCount = trialCount;
@@ -34,7 +41,7 @@ public class RacingGameEntity {
         }
 
         public RacingGameEntity build() {
-            return new RacingGameEntity(trialCount, date);
+            return new RacingGameEntity(id, trialCount, date);
         }
     }
 
@@ -49,5 +56,17 @@ public class RacingGameEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getTrialCount() {
+        return trialCount;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
     }
 }

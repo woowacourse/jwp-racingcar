@@ -8,7 +8,8 @@ public class RacingWinnerEntity {
     private Long gameId;
     private Long carId;
 
-    private RacingWinnerEntity(final Long gameId, final Long carId) {
+    private RacingWinnerEntity(final Long id, final Long gameId, final Long carId) {
+        this.id = id;
         this.gameId = gameId;
         this.carId = carId;
     }
@@ -17,10 +18,16 @@ public class RacingWinnerEntity {
         return new RacingWinnerBuilder();
     }
 
-    private static class RacingWinnerBuilder {
+    public static class RacingWinnerBuilder {
 
+        private Long id;
         private Long gameId;
         private Long carId;
+
+        public RacingWinnerBuilder id(final Long id) {
+            this.id = id;
+            return this;
+        }
 
         public RacingWinnerBuilder gameId(final Long gameId) {
             this.gameId = gameId;
@@ -33,7 +40,7 @@ public class RacingWinnerEntity {
         }
 
         public RacingWinnerEntity build() {
-            return new RacingWinnerEntity(gameId, carId);
+            return new RacingWinnerEntity(id, gameId, carId);
         }
     }
 
@@ -48,5 +55,17 @@ public class RacingWinnerEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public Long getCarId() {
+        return carId;
     }
 }
