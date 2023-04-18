@@ -12,6 +12,7 @@ import racingcar.dao.PlayResultDao;
 import racingcar.dao.RacingCarDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
+import racingcar.domain.NumberPicker;
 import racingcar.domain.TryCount;
 import racingcar.entity.GameHistoryEntity;
 
@@ -36,9 +37,9 @@ public class RacingCarService {
         return new Car(gameHistoryEntity.getPlayerName(), gameHistoryEntity.getPlayerPosition());
     }
 
-    public void playRound(final Cars cars, final TryCount tryCount) {
+    public void playRound(final Cars cars, final TryCount tryCount, final NumberPicker numberPicker) {
         for (int i = 0; i < tryCount.getValue(); i++) {
-            cars.runRound();
+            cars.runRound(numberPicker);
         }
         saveGameResult(cars, tryCount);
     }
