@@ -4,6 +4,7 @@ import racingcar.exception.ExceedCarNameLengthException;
 import racingcar.exception.HasBlankCarNameException;
 import racingcar.exception.InvalidCarNameFormatException;
 import racingcar.model.car.strategy.MovingStrategy;
+import racingcar.model.car.strategy.RandomMovingStrategy;
 
 import java.util.regex.Pattern;
 
@@ -22,6 +23,12 @@ public class Car {
         this.carName = carName;
         this.position = position;
         this.movingStrategy = movingStrategy;
+    }
+
+    public static Car of(final String carName, final int position, final MovingStrategy movingStrategy) {
+        final String stripCarName = carName.strip();
+
+        return new Car(stripCarName, position, movingStrategy);
     }
 
     public static Car of(final String carName, final MovingStrategy movingStrategy) {

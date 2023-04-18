@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.service.RacingService;
 
+import java.util.List;
+
 @RestController
 public class RacingWebController {
 
@@ -23,11 +25,12 @@ public class RacingWebController {
 
         TrackResponse trackResponse = racingService.play(names, trialTimes);
 
-        return play(trackResponse);
+        return ResponseEntity.ok(trackResponse);
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<TrackResponse> play(@RequestBody final TrackResponse trackResponse) {
-        return ResponseEntity.ok(trackResponse);
+    public ResponseEntity<List<TrackResponse>> play() {
+        List<TrackResponse> trackResponses = racingService.findAll();
+        return ResponseEntity.ok(trackResponses);
     }
 }

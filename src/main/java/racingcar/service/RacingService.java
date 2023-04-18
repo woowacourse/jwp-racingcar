@@ -12,6 +12,7 @@ import racingcar.model.car.Cars;
 import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.track.Track;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,5 +86,19 @@ public class RacingService {
                 .map(car -> new CarResponse(car.getCarName(), car.getPosition()))
                 .collect(Collectors.toList());
         return results;
+    }
+
+    public List<TrackResponse> findAll() {
+        final List<TrackResponse> trackResponses = new ArrayList<>();
+
+        for (int id = 1; id <= racingDao.findMaxId(); id++) {
+            final Cars cars = new Cars(racingDao.findAllById(id));
+            final String winners = makeWinnerCarNames(cars);
+            final List<CarResponse> racingCars = makeCarResponses(cars);
+
+            trackResponses.add(new TrackResponse(winners, racingCars));
+        }
+
+        return trackResponses;
     }
 }
