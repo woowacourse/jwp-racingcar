@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
+import racingcar.domain.CarName;
+import racingcar.domain.CarPosition;
 import racingcar.domain.dao.entity.CarEntity;
 
 import java.util.List;
@@ -17,7 +19,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Transactional
 class CarDaoTest {
 
-    private static final List<Car> cars = List.of(Car.create("test1"), Car.create("test2"));
+    private static final List<Car> cars = List.of(new Car(CarName.create("test1"),
+            CarPosition.init()), new Car(CarName.create("test2"), CarPosition.init()));
     private static final int trialCount = 10;
     private static final String winners = "test1,test2";
 
@@ -28,7 +31,7 @@ class CarDaoTest {
 
     @Test
     @DisplayName("차들의 정보를 저장한다")
-    public void testSaveAll() {
+    public void saveAll() {
         //given
         final Long raceResultId = raceResultDao.save(trialCount, winners);
 

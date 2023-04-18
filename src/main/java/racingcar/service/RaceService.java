@@ -5,11 +5,13 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
-import racingcar.domain.RaceResult;
-import racingcar.dto.CarStatusDto;
+import racingcar.domain.dao.CarDao;
+import racingcar.domain.dao.RaceResultDao;
+import racingcar.domain.dao.entity.CarEntity;
+import racingcar.domain.dao.entity.RaceEntity;
+import racingcar.dto.CarResponse;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
-import racingcar.repository.CarRaceRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,37 +21,56 @@ import java.util.stream.Collectors;
 public class RaceService {
 
     private final NumberGenerator numberGenerator;
-    private final CarRaceRepository carRaceRepository;
+    private final CarDao carDao;
+    private final RaceResultDao raceResultDao;
 
-    public RaceService(final NumberGenerator numberGenerator, final CarRaceRepository carRaceRepository) {
+    public RaceService(final NumberGenerator numberGenerator, final CarDao carDao, final RaceResultDao raceResultDao) {
         this.numberGenerator = numberGenerator;
-        this.carRaceRepository = carRaceRepository;
+        this.carDao = carDao;
+        this.raceResultDao = raceResultDao;
     }
 
     @Transactional
     public RaceResponse play(final RaceRequest raceRequest) {
-        final Race race = Race.create(raceRequest.getCount());
-        final Cars cars = Cars.create(raceRequest.getNames(), numberGenerator);
-        final RaceResponse raceResponse = getRaceResult(race, cars);
-        final RaceResult raceResult = new RaceResult(raceRequest.getCount(), raceResponse.getWinners(), cars);
-        carRaceRepository.save(raceResult);
+        final List<String> names = raceRequest.makeSplitNames();
+        final Cars cars = Cars.create(names, numberGenerator);
+        final Race race = new Race(raceRequest.getCount());
+
+        race.run(cars);
+        final RaceResponse raceResponse = makeRaceResponse(cars);
+        final Long raceResultId = raceResultDao.save(raceRequest.getCount(), raceResponse.getWinners());
+
+        carDao.saveAll(raceResultId, cars.getCars());
         return raceResponse;
     }
 
-    private RaceResponse getRaceResult(final Race race, final Cars cars) {
-        int tryCount = 0;
-        while (race.isRunning(tryCount++)) {
-            cars.race();
-        }
-        return makeRaceResponse(cars);
+    public List<RaceResponse> getRaceResult() {
+        final List<RaceEntity> raceEntities = raceResultDao.findAll();
+        return raceEntities.stream()
+                .map(raceEntity -> {
+                    final List<CarEntity> carEntities = carDao.findAll(raceEntity.getId());
+                    final List<CarResponse> carResponses = makeCarRaceResult(carEntities);
+                    return RaceResponse.create(raceEntity.getWinners(), carResponses);
+                })
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private RaceResponse makeRaceResponse(final Cars cars) {
         final List<String> winners = cars.getWinnerCarNames();
-        final List<CarStatusDto> carRaceResult = cars.getCars()
-                .stream()
-                .map(car -> new CarStatusDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toUnmodifiableList());
+        final List<CarResponse> carRaceResult = makeCarRaceResult(cars);
         return RaceResponse.create(winners, carRaceResult);
+    }
+
+    private List<CarResponse> makeCarRaceResult(final Cars cars) {
+        return cars.getCars()
+                .stream()
+                .map(car -> new CarResponse(car.getName(), car.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private List<CarResponse> makeCarRaceResult(final List<CarEntity> carEntities) {
+        return carEntities.stream()
+                .map(carEntity -> new CarResponse(carEntity.getName(), carEntity.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
     }
 }

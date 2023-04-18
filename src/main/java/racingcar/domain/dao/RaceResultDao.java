@@ -3,7 +3,7 @@ package racingcar.domain.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import racingcar.domain.dao.entity.RaceEntity;
 
 import javax.sql.DataSource;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-@Component
+@Repository
 public class RaceResultDao {
 
     private final JdbcTemplate jdbcTemplate;

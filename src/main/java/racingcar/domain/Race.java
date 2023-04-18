@@ -1,28 +1,33 @@
 package racingcar.domain;
 
+import racingcar.common.ErrorData;
+import racingcar.common.exception.ResourceMinRangeException;
+
 public class Race {
 
-    private static final int RACE_MIN_TRY_COUNT = 0;
-    private static final String RANGE_MESSAGE = "%d 이상의 값을 입력해 주세요.";
+    private static final int MIN_RACE_COUNT = 0;
 
     private final int count;
 
-    private Race(final int raceCount) {
-        this.count = validateRange(raceCount);
+    public Race(final int raceCount) {
+        validateRange(raceCount);
+        this.count = raceCount;
     }
 
-    public static Race create(final int raceCount) {
-        return new Race(raceCount);
-    }
-
-    public boolean isRunning(final int raceCount) {
-        return raceCount != count;
-    }
-
-    private int validateRange(final int raceCount) {
-        if (raceCount <= RACE_MIN_TRY_COUNT) {
-            throw new IllegalArgumentException(String.format(RANGE_MESSAGE, RACE_MIN_TRY_COUNT));
+    public void run(final Cars cars) {
+        int tryCount = 0;
+        while (isRunning(tryCount++)) {
+            cars.race();
         }
-        return raceCount;
+    }
+
+    private void validateRange(final int raceCount) {
+        if (raceCount <= MIN_RACE_COUNT) {
+            throw new ResourceMinRangeException(new ErrorData<>(MIN_RACE_COUNT));
+        }
+    }
+
+    private boolean isRunning(final int raceCount) {
+        return raceCount != count;
     }
 }
