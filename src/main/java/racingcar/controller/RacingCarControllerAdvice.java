@@ -5,17 +5,17 @@ import java.io.StringWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class RacingCarControllerAdvice {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> loggingUnExpectedException(final Exception e) {
-        logger.error("예상치 못한 에러 발생 : {}", convertToString(e));
+        logger.error("예상치 못한 에러 발생 : " + System.lineSeparator() + "{}", convertToString(e));
         return ResponseEntity.internalServerError()
                 .body(e.getMessage());
     }
