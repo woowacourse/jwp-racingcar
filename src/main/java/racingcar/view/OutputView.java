@@ -1,35 +1,26 @@
 package racingcar.view;
 
+import racingcar.dto.PlayResponseDto;
 import racingcar.dto.RacingCarDto;
 
 import java.util.List;
 
 public class OutputView {
-    private static final String GAME_RESULT_HEADER = "실행 결과";
     private static final String ERROR_HEADER = "[ERROR] ";
-    private static final String NAME_DELIMITER = ", ";
-    private static final String ROUND_RESULT_DELIMITER = " : ";
-    private static final String CAR_POSITION_DELIMITER = "-";
-    private static final String WINNER_MESSAGE = "가 최종 우승했습니다.";
+    public static final String WINNER_MESSAGE = "우승자는 %s 입니다.";
+    public static final String RESULT_HEADER = "---결과----";
+    public static final String DELIMITER = " : ";
 
-    public void printResultHeader() {
-        System.out.println(GAME_RESULT_HEADER);
-    }
 
-    public void printRoundResult(List<RacingCarDto> carResults) {
-        for (RacingCarDto racingCarDto : carResults) {
-            String carResult = racingCarDto.getName() + ROUND_RESULT_DELIMITER + CAR_POSITION_DELIMITER.repeat(racingCarDto.getPosition());
-            System.out.println(carResult);
+    public static void printResult(PlayResponseDto results) {
+        System.out.println(String.format(WINNER_MESSAGE, results.getWinners()));
+        System.out.println(RESULT_HEADER);
+        for (RacingCarDto racingCar : results.getRacingCars()) {
+            System.out.println(racingCar.getName() + DELIMITER +racingCar.getPosition());
         }
-        System.out.println();
     }
 
-    public void printWinners(List<String> winningCarsName) {
-        String winners = String.join(NAME_DELIMITER, winningCarsName);
-        System.out.println(winners + WINNER_MESSAGE);
-    }
-
-    public void printErrorMessage(String message) {
+    public static void printErrorMessage(String message) {
         System.out.println(ERROR_HEADER + message);
     }
 }
