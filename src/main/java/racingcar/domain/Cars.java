@@ -22,12 +22,11 @@ public class Cars {
         this.cars = cars;
     }
 
-    public List<Car> runRound() {
+    public void runRound() {
         for (Car car : cars) {
             int randomNumber = random.nextInt(RANDOM_NUM_MAX_VALUE);
             car.runForward(randomNumber);
         }
-        return cars;
     }
 
     public List<String> getWinner() {

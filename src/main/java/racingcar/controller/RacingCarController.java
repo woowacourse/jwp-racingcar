@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameInitializeDto;
@@ -69,10 +68,8 @@ public class RacingCarController {
 
     private void playRound(Cars cars, TryCount tryCount) {
         for (int i = 0; i < tryCount.getValue(); i++) {
-            List<Car> roundResult = cars.runRound();
-            outputView.printRoundResult(roundResult);
+            cars.runRound();
         }
-        outputView.printRoundResult(cars.getCars());
     }
 
     private List<RacingCarDto> makeCarDtos(Cars cars) {
