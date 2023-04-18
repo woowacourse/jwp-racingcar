@@ -10,14 +10,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @JdbcTest
 class GameDaoTest {
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private GameDao jdbcGameDao;
 
     @BeforeEach
     public void setUp() {
-        jdbcGameDao = new JdbcGameDao(jdbcTemplate.getDataSource(), jdbcTemplate);
+        jdbcGameDao = new JdbcGameDao(jdbcTemplate);
     }
 
     @Test

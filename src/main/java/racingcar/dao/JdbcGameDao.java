@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +13,8 @@ public class JdbcGameDao implements GameDao {
     private final SimpleJdbcInsert insertGameActor;
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcGameDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.insertGameActor = new SimpleJdbcInsert(dataSource)
+    public JdbcGameDao(JdbcTemplate jdbcTemplate) {
+        this.insertGameActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("GAME")
                 .usingGeneratedKeyColumns("game_id")
                 .usingColumns("winners", "trial_count");

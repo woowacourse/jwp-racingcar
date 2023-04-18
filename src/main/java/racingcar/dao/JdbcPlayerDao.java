@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +18,8 @@ public class JdbcPlayerDao implements PlayerDao {
     private final SimpleJdbcInsert insertPlayerActor;
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcPlayerDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.insertPlayerActor = new SimpleJdbcInsert(dataSource)
+    public JdbcPlayerDao(JdbcTemplate jdbcTemplate) {
+        this.insertPlayerActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("PLAYER")
                 .usingGeneratedKeyColumns("player_id");
         this.jdbcTemplate = jdbcTemplate;
