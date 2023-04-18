@@ -6,8 +6,6 @@ import racingcar.exception.HasBlankCarNameException;
 import racingcar.exception.InvalidCarNameFormatException;
 import racingcar.exception.InvalidRangeTrialTimesException;
 import racingcar.exception.InvalidTrialTimesFormatException;
-import racingcar.exception.MaxAttemptInputException;
-import racingcar.exception.NotExistCarsException;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 
@@ -22,17 +20,7 @@ public class KoreanOutputView extends OutputView {
     private static final String LINE_BREAK = "\n";
 
     @Override
-    void initialInputErrorMessage() {
-        super.insertErrorMessage(
-                new MaxAttemptInputException().getErrorNumber(),
-                "[ERROR] 최대 입력 횟수를 초과했습니다. 프로그램을 종료합니다.");
-    }
-
-    @Override
     void initialCarsErrorMessage() {
-        super.insertErrorMessage(
-                new NotExistCarsException().getErrorNumber(),
-                "[ERROR] 게임에 참여한 자동차가 없습니다." + LINE_BREAK);
         super.insertErrorMessage(
                 new DuplicateCarNamesException().getErrorNumber(),
                 "[ERROR] 중복된 차 이름이 존재합니다." + LINE_BREAK);

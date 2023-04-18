@@ -1,7 +1,6 @@
 package racingcar.controller;
 
 import racingcar.exception.CustomException;
-import racingcar.exception.MaxAttemptInputException;
 import racingcar.model.car.Cars;
 import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.track.Track;
@@ -9,8 +8,6 @@ import racingcar.view.inputview.InputView;
 import racingcar.view.outputview.OutputView;
 
 public class RacingConsoleController {
-
-    private static final int MAX_ATTEMPT_COUNT = 5;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -38,18 +35,6 @@ public class RacingConsoleController {
         final String trialTimes = inputView.inputTrialTimes();
 
         return new TrackRequest(carNames, trialTimes);
-    }
-
-    private Cars makeCars(final MovingStrategy movingStrategy) {
-        for (int count = 0; count < MAX_ATTEMPT_COUNT; count++) {
-            try {
-                return new Cars(inputView.inputCarNames(), movingStrategy);
-            } catch (CustomException customException) {
-                terminated(customException);
-            }
-        }
-
-        throw new MaxAttemptInputException();
     }
 
     private Track makeTrack(final TrackRequest trackRequest) {
