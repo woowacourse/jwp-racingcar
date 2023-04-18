@@ -2,68 +2,74 @@ package racingcar.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.GameResult;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
+import racingcar.dto.PlayResponseDto;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingCarResultDto;
+import racingcar.service.RacingGameService;
 import racingcar.utils.Parser;
 import racingcar.validator.Validator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingConsoleController {
-    private final OutputView outputView = new OutputView();
-    private final InputView inputView = new InputView();
+    private final RacingGameService racingGameService;
+
+    public RacingConsoleController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
 
     public void run() {
         List<String> carNames = getValidCarNames();
-        int tryCount = getValidTryCount();
+        int count = getValidTryCount();
 
-        RacingGame racingGame = initializeGame(carNames);
+        List<RacingCarResultDto> results = racingGameService.run(carNames, count);
 
-        outputView.printResultHeader();
-        outputView.printRoundResult(createRacingCarDtos(racingGame));
-        for (int roundCount = 0; roundCount < tryCount; roundCount++) {
-            racingGame.runRound();
-            outputView.printRoundResult(createRacingCarDtos(racingGame));
-        }
-
-        List<String> winningCarsName = racingGame.findWinningCarsName();
-        outputView.printWinners(winningCarsName);
+        OutputView.printResult(makePlayResponseDto(results));
     }
 
     private List<String> getValidCarNames() {
         try {
-            String carNames = inputView.readCarName();
+            String carNames = InputView.readCarName();
             List<String> parsedCarNames = Parser.parsing(carNames, ",");
             Validator.validateNames(parsedCarNames);
             return parsedCarNames;
         } catch (IllegalArgumentException exception) {
-            outputView.printErrorMessage(exception.getMessage());
+            OutputView.printErrorMessage(exception.getMessage());
             return getValidCarNames();
         }
     }
 
     private int getValidTryCount() {
         try {
-            String tryCount = inputView.readTryCount();
+            String tryCount = InputView.readTryCount();
             Validator.validateTryCount(tryCount);
             return Integer.parseInt(tryCount);
         } catch (IllegalArgumentException exception) {
-            outputView.printErrorMessage(exception.getMessage());
+            OutputView.printErrorMessage(exception.getMessage());
             return getValidTryCount();
         }
     }
 
-    private RacingGame initializeGame(List<String> carNames) {
-        List<RacingCar> racingCars = carNames.stream().map(RacingCar::new).collect(Collectors.toUnmodifiableList());
-        return new RacingGame(racingCars, new RandomNumberGenerator());
+    private static PlayResponseDto makePlayResponseDto(List<RacingCarResultDto> results) {
+        List<String> winners = getWinners(results);
+        List<RacingCarDto> racingCarDtos = getCarInfos(results);
+        return new PlayResponseDto(winners, racingCarDtos);
     }
 
-    private List<RacingCarDto> createRacingCarDtos(RacingGame racingGame) {
-        return racingGame.getStatus()
-                .stream()
-                .map(RacingCarDto::from)
+    private static List<RacingCarDto> getCarInfos(List<RacingCarResultDto> results) {
+        return results.stream()
+                .map(it -> RacingCarDto.of(it.getName(), it.getPosition()))
+                .collect(Collectors.toList());
+    }
+
+    private static List<String> getWinners(List<RacingCarResultDto> results) {
+        return results.stream()
+                .filter(result -> result.isWin() == GameResult.WIN.getValue())
+                .map(RacingCarResultDto::getName)
                 .collect(Collectors.toList());
     }
 }
