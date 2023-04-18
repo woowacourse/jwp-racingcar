@@ -13,16 +13,13 @@ import racingcar.service.TryCount;
 public class RacingCarWebService {
     private final RacingCarService racingCarService;
     private final GameDao gameDao;
-    private final PlayerInsertDao playerInsertDao;
-    private final PlayerSelectDao playerSelectDao;
+    private final PlayerDao playerDao;
 
     public RacingCarWebService(final GameDao gameDao,
-                               final PlayerInsertDao playerInsertDao,
-                               final PlayerSelectDao playerSelectDao) {
+                               final PlayerDao playerDao) {
         this.racingCarService = new RacingCarService();
         this.gameDao = gameDao;
-        this.playerInsertDao = playerInsertDao;
-        this.playerSelectDao = playerSelectDao;
+        this.playerDao = playerDao;
     }
 
     public GameResultDto play(RacingCarGameDto racingCarGameDto) {
@@ -50,7 +47,7 @@ public class RacingCarWebService {
         WinnerDto winners = findWinners();
         List<RacingCarResultDto> racingCars = racingCarService.getCarStatuses();
         int gameId = gameDao.insertGame(tryCount).intValue();
-        playerInsertDao.insertPlayer(racingCars, winners.getWinners(), gameId);
+        playerDao.insertPlayer(racingCars, winners.getWinners(), gameId);
         return GameResultDto.of(winners, racingCars);
     }
 
@@ -63,8 +60,8 @@ public class RacingCarWebService {
 
         final List<GameResultDto> gameResults = new ArrayList<>();
         for (final Integer gameId : gameIds) {
-            final List<String> winners = playerSelectDao.selectWinnerBy(gameId);
-            final List<RacingCarResultDto> racingCars = playerSelectDao.selectBy(gameId);
+            final List<String> winners = playerDao.selectWinnerBy(gameId);
+            final List<RacingCarResultDto> racingCars = playerDao.selectBy(gameId);
             final GameResultDto gameResultDto = new GameResultDto(winners, racingCars);
             gameResults.add(gameResultDto);
         }

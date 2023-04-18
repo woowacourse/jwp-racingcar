@@ -9,12 +9,27 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.RacingCarResultDto;
 
 @Repository
-public class PlayerSelectDao {
+public class PlayerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public PlayerSelectDao(final NamedParameterJdbcTemplate jdbcTemplate) {
+    public PlayerDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void insertPlayer(List<RacingCarResultDto> responses, List<String> winnerNames, int gameId) {
+        String sql = "INSERT INTO player(name, position, game_id, is_winner) VALUES(:name, :position, :game_id, :is_winner)";
+
+        System.out.println(gameId);
+        for (RacingCarResultDto response : responses) {
+            SqlParameterSource namedParameters = new MapSqlParameterSource()
+                    .addValue("name", response.getName())
+                    .addValue("position", response.getPosition())
+                    .addValue("game_id", gameId)
+                    .addValue("is_winner", winnerNames.contains(response.getName()));
+
+            jdbcTemplate.update(sql, namedParameters);
+        }
     }
 
     public List<RacingCarResultDto> selectBy(final int gameId) {
