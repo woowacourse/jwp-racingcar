@@ -1,7 +1,7 @@
 package racingcar.car.model;
 
 @FunctionalInterface
-public interface CarNumberGenerator {
+public interface NumberGenerator {
     
     int generate();
 }
