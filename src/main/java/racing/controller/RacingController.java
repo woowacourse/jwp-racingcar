@@ -1,12 +1,8 @@
 package racing.controller;
 
 import racing.domain.Cars;
-import racing.service.RacingGameService;
-import racing.ui.input.InputView;
 import racing.ui.output.OutputView;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 /**

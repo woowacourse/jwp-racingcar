@@ -1,8 +1,8 @@
 package racing;
 
 import racing.controller.RacingController;
+import racing.domain.CarFactory;
 import racing.domain.Cars;
-import racing.service.RacingGameService;
 import racing.ui.input.InputView;
 import racing.ui.output.OutputView;
 
