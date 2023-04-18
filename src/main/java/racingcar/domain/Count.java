@@ -35,7 +35,7 @@ public class Count {
     }
 
     public boolean isPlayable() {
-        return value >= MINIMUM_COUNT;
+        return value > MINIMUM_COUNT;
     }
 
     public int getValue() {
