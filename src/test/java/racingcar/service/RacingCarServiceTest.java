@@ -41,12 +41,15 @@ class RacingCarServiceTest {
         // given
         List<Long> allGameId = List.of(1L);
 
-        List<PlayerHistoryDto> playerHistory = List.of(PlayerHistoryDto.toDto("pobi", 3, true),
-                PlayerHistoryDto.toDto("crong", 1, false));
+        List<PlayerHistoryDto> playerHistory = List.of(
+                PlayerHistoryDto.toDto("pobi", 3, true),
+                PlayerHistoryDto.toDto("crong", 1, false)
+        );
 
         List<GameHistoriesResponseDto> expectedResult = List.of(
                 GameHistoriesResponseDto.toDto("pobi",
-                        List.of(CarStatusResponseDto.toDto(new Car("pobi", 3)),
+                        List.of(
+                                CarStatusResponseDto.toDto(new Car("pobi", 3)),
                                 CarStatusResponseDto.toDto(new Car("crong", 1))
                         )
                 ));
