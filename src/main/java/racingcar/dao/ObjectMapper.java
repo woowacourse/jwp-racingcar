@@ -1,11 +1,8 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
-
-import java.util.List;
 
 public class ObjectMapper {
 

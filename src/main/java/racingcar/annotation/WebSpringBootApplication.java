@@ -21,4 +21,5 @@ import java.lang.annotation.Target;
         type = FilterType.ASSIGNABLE_TYPE,
         classes = {ConsoleController.class, RacingCarConsoleApplication.class}))
 public @interface WebSpringBootApplication {
+
 }

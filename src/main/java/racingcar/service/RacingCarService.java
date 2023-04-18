@@ -2,8 +2,8 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.CarResponseDto;
+import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.GameResponseDto;
 import racingcar.dao.RacingCarDao;
 import racingcar.dao.RacingGameDao;
@@ -52,13 +52,13 @@ public class RacingCarService {
         return racingCarDao.findByGameId(gameId);
     }
 
-    private static List<CarResponseDto> generateRacingCarResponseDtos(List<CarEntity> carEntities) {
+    private List<CarResponseDto> generateRacingCarResponseDtos(List<CarEntity> carEntities) {
         return carEntities.stream()
-                .map(RacingCarService::generateRacingCarResponseDto)
+                .map(this::generateRacingCarResponseDto)
                 .collect(Collectors.toList());
     }
 
-    private static CarResponseDto generateRacingCarResponseDto(CarEntity carEntity) {
+    private CarResponseDto generateRacingCarResponseDto(CarEntity carEntity) {
         return new CarResponseDto(carEntity.getName(), carEntity.getPosition());
     }
 
@@ -74,7 +74,7 @@ public class RacingCarService {
         return generateRacingGameResponseDto(gameEntity, carEntities);
     }
 
-    private static Cars generateCars(GameRequestDtoForPlays gameRequestDtoForPlays) {
+    private Cars generateCars(GameRequestDtoForPlays gameRequestDtoForPlays) {
         CarNamesDivider carNamesDivider = new CarNamesDivider();
         List<String> carNamesByDivider = carNamesDivider.divideCarNames(gameRequestDtoForPlays.getNames());
         List<Car> inputCars = carNamesByDivider.stream()
@@ -100,21 +100,21 @@ public class RacingCarService {
                 .collect(joining(","));
     }
 
-    private static GameEntity generateRacingGameEntity(GameRequestDtoForPlays gameRequestDtoForPlays, String winners) {
+    private GameEntity generateRacingGameEntity(GameRequestDtoForPlays gameRequestDtoForPlays, String winners) {
         return new GameEntity.Builder()
                 .count(Integer.parseInt(gameRequestDtoForPlays.getCount()))
                 .winners(winners)
                 .build();
     }
 
-    private static List<CarEntity> generateRacingCarEntities(int gameId, Cars cars) {
+    private List<CarEntity> generateRacingCarEntities(int gameId, Cars cars) {
         return cars.getCars()
                 .stream()
                 .map(car -> generateRacingCarEntity(gameId, car))
                 .collect(Collectors.toList());
     }
 
-    private static CarEntity generateRacingCarEntity(int gameId, Car car) {
+    private CarEntity generateRacingCarEntity(int gameId, Car car) {
         return new CarEntity.Builder()
                 .name(car.getName())
                 .position(car.getPosition())
