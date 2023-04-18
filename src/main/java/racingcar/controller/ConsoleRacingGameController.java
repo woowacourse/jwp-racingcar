@@ -7,21 +7,20 @@ import racingcar.dto.response.CarGameResponse;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.List;
-
 public class ConsoleRacingGameController {
 
     private final RacingGame racingGame;
 
     public ConsoleRacingGameController() {
-        List<String> carNames = InputView.inputCarNames();
+        String carNames = InputView.inputCarNames();
         int tryCount = InputView.inputTryCount();
-        racingGame = new RacingGame(new CarRandomNumberGenerator(), new Cars(carNames), tryCount);
+        racingGame = new RacingGame(new CarRandomNumberGenerator(), Cars.from(carNames), tryCount);
     }
 
     public void run() {
         OutputView.printBeforeRacing();
-        CarGameResponse carGameResult = racingGame.play();
+        racingGame.play();
+        CarGameResponse carGameResult = racingGame.getCarGameResult();
         OutputView.printCarGameResult(carGameResult);
     }
 }
