@@ -4,27 +4,36 @@ import static java.util.stream.Collectors.*;
 
 import java.util.List;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RacingCars;
+import racingcar.repository.RacingCarRepository;
+import racingcar.service.RacingCarService;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarController {
 
-    public void run() {
-        RacingCars racingCars = createRacingCars();
-        int roundCount = createRoundCount();
-        startRound(racingCars, roundCount);
+    private final RacingCarService racingCarService;
+
+    public RacingCarController() {
+        this.racingCarService = new RacingCarService(
+                new RacingCarRepository(new JdbcTemplate()),
+                new RandomNumberGenerator()
+        );
     }
 
-    private RacingCars createRacingCars() {
+    public void run() {
+        List<String> carNames = createRacingCars();
+        int roundCount = createRoundCount();
+        startRound(carNames, roundCount);
+    }
+
+    private List<String> createRacingCars() {
         try {
-            List<String> carNames = inputCarNames();
-            return carNames.stream()
-                    .map(Car::new)
-                    .collect(collectingAndThen(toList(), RacingCars::new));
+            return inputCarNames();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return createRacingCars();
@@ -35,7 +44,6 @@ public class RacingCarController {
         OutputView.printCarNameRequestMsg();
         return InputView.readCarNames();
     }
-
 
     private int createRoundCount() {
         try {
@@ -51,13 +59,11 @@ public class RacingCarController {
         return InputView.readRoundCount();
     }
 
-    private void startRound(RacingCars racingCars, int roundCount) {
-        RacingGame racingGame = new RacingGame(new RandomNumberGenerator(), racingCars);
+    private void startRound(List<String> carNames, int roundCount) {
         OutputView.printRoundResultMsg();
-        for (int i = 0; i < roundCount; i++) {
-            racingGame.moveCars();
-        }
+        RacingCars racingCars = racingCarService.createRacingCars(carNames);
+        racingCarService.moveCars(racingCars, roundCount);
         OutputView.printRoundState(racingCars.getCars());
-        OutputView.printRacingResult(racingGame.getWinners());
+        OutputView.printRacingResult(racingCars.getWinners());
     }
 }
