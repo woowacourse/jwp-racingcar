@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.springframework.stereotype.Service;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayerDao;
 import racingcar.dto.GameInfo;
@@ -7,13 +8,14 @@ import racingcar.dto.WinnerCarDto;
 import racingcar.exception.DuplicateCarNameException;
 import racingcar.model.Car;
 import racingcar.model.Cars;
-import racingcar.utils.RacingNumberGenerator;
 import racingcar.model.Round;
+import racingcar.utils.RacingNumberGenerator;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class CarService {
 
     private final RacingNumberGenerator generator;
