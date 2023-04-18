@@ -11,23 +11,21 @@ import racingcar.service.TryCount;
 import racingcar.view.RacingCarView;
 
 public class RacingCarController {
-    private final RacingCarGame racingCarGame;
     private final RacingCarView racingCarView;
 
-    public RacingCarController(RacingCarGame racingCarGame, RacingCarView racingCarView) {
-        this.racingCarGame = racingCarGame;
+    public RacingCarController(RacingCarView racingCarView) {
         this.racingCarView = racingCarView;
     }
 
     public void start() {
-        createCar();
+        RacingCarGame racingCarGame = createRacingCarGame();
         TryCount tryCount = new TryCount(getTryCount());
-        playGame(tryCount);
+        playGame(tryCount, racingCarGame);
     }
 
-    private void createCar() {
+    private RacingCarGame createRacingCarGame() {
         RacingCarNamesDto racingCarNamesDto = receiveCarNames();
-        racingCarGame.createCars(racingCarNamesDto);
+        return RacingCarGame.from(racingCarNamesDto);
     }
 
     private RacingCarNamesDto receiveCarNames() {
@@ -53,18 +51,18 @@ public class RacingCarController {
         }
     }
 
-    private void playGame(TryCount tryCount) {
+    private void playGame(TryCount tryCount, RacingCarGame racingCarGame) {
         RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
         racingCarView.printStartMessage();
         while (tryCount.isAvailable()) {
             racingCarGame.moveCars(randomMoveStrategy);
             tryCount.moveUntilZero();
         }
-        printCarStatuses();
-        findWinners();
+        printCarStatuses(racingCarGame);
+        findWinners(racingCarGame);
     }
 
-    private void findWinners() {
+    private void findWinners(final RacingCarGame racingCarGame) {
         try {
             RacingCarWinnerDto racingCarWinnerDto = racingCarGame.findWinners();
             racingCarView.printWinners(racingCarWinnerDto);
@@ -73,7 +71,7 @@ public class RacingCarController {
         }
     }
 
-    private void printCarStatuses() {
+    private void printCarStatuses(final RacingCarGame racingCarGame) {
         List<RacingCarStatusDto> carStatuses = racingCarGame.getCarStatuses();
         racingCarView.printRacingProgress(carStatuses);
     }

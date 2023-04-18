@@ -13,10 +13,14 @@ import racingcar.dto.RacingCarStatusDto;
 import racingcar.dto.RacingCarWinnerDto;
 
 public class RacingCarGame {
-    private Cars cars;
+    private final Cars cars;
 
-    public void createCars(RacingCarNamesDto request) {
-        this.cars = new Cars(request.getNames());
+    private RacingCarGame(final Cars cars) {
+        this.cars = cars;
+    }
+
+    public static RacingCarGame from(RacingCarNamesDto racingCarNamesDto) {
+        return new RacingCarGame(new Cars(racingCarNamesDto.getNames()));
     }
 
     public void moveCars(MoveStrategy moveStrategy) {

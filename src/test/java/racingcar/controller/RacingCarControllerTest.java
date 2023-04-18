@@ -10,7 +10,6 @@ import racingcar.dto.RacingCarNamesDto;
 import racingcar.dto.RacingCarStatusDto;
 import racingcar.dto.RacingCarWinnerDto;
 import racingcar.dto.TryCountDto;
-import racingcar.service.RacingCarGame;
 import racingcar.view.RacingCarView;
 
 class RacingCarControllerTest {
@@ -50,7 +49,7 @@ class RacingCarControllerTest {
 
     @BeforeEach
     void setUp() {
-        racingCarController = new RacingCarController(new RacingCarGame(), new MockRacingCarView());
+        racingCarController = new RacingCarController(new MockRacingCarView());
     }
 
     @Test

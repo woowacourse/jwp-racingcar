@@ -27,17 +27,16 @@ public class RacingCarService {
     }
 
     public PlayResponse play(final PlayRequest playRequest) {
-        RacingCarGame racingCarGame = new RacingCarGame();
-        createCars(playRequest, racingCarGame);
+        RacingCarGame racingCarGame = createRacingCarGame(playRequest);
         TryCount tryCount = new TryCount(playRequest.getCount());
         playGame(tryCount, racingCarGame);
         PlayResponse response = save(playRequest.getCount(), racingCarGame);
         return response;
     }
 
-    private void createCars(final PlayRequest playRequest, final RacingCarGame racingCarGame) {
+    private RacingCarGame createRacingCarGame(final PlayRequest playRequest) {
         RacingCarNamesDto racingCarNamesDto = RacingCarNamesDto.of(playRequest.getNames());
-        racingCarGame.createCars(racingCarNamesDto);
+        return RacingCarGame.from(racingCarNamesDto);
     }
 
     private void playGame(final TryCount tryCount, final RacingCarGame racingCarGame) {
