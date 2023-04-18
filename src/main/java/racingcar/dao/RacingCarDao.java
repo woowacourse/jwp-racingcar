@@ -7,7 +7,7 @@ import racingcar.domain.Car;
 @Repository
 public class RacingCarDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public RacingCarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -17,4 +17,8 @@ public class RacingCarDao {
         String sql = "insert into racing_cars (name, position, result_id) values (?, ?, ?)";
         jdbcTemplate.update(sql, car.getName(), car.getLocation(), resultId);
     }
+
+
+
+
 }

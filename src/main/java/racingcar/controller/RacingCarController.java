@@ -1,10 +1,14 @@
 package racingcar.controller;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.*;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.controller.dto.GameInforamtionDto;
+import racingcar.controller.dto.GameResultDto;
+import racingcar.controller.dto.RacingCarDto;
 import racingcar.service.RacingCarService;
 import racingcar.util.NumberGenerator;
 import racingcar.validation.Validation;
@@ -24,16 +28,14 @@ public class RacingCarController {
     }
 
     @PostMapping("plays")
-    public ResponseEntity<GameResultDto> createGame(@RequestBody GameInforamtionDto gameInforamtionDto) {
+    public GameResultDto createGame(@RequestBody GameInforamtionDto gameInforamtionDto) {
         Cars cars = getCars(gameInforamtionDto);
         int trialCount = getTrialCount(gameInforamtionDto);
 
         List<RacingCarDto> racingCars = playGame(cars, trialCount);
         racingCarService.insertGame(trialCount, cars);
 
-        GameResultDto gameResultDto = new GameResultDto(cars.getWinnerCars(), racingCars);
-        return ResponseEntity.ok()
-                             .body(gameResultDto);
+        return new GameResultDto(cars.getWinnerCars(), racingCars);
     }
 
     private static Cars getCars(GameInforamtionDto gameInforamtionDto) {
@@ -60,5 +62,10 @@ public class RacingCarController {
             racingCars.add(racingCarDto);
         }
         return racingCars;
+    }
+
+    @GetMapping("plays")
+    public List<GameResultDto> createGameResult() {
+        return racingCarService.findGameRecord();
     }
 }
