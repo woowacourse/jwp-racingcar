@@ -24,9 +24,4 @@ public class RacingGameController {
         return ResponseEntity.ok(RacingGameResponse.from(racingGameResult));
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleTryTimeException(IllegalArgumentException exception) {
-        return ResponseEntity.badRequest().body(exception.getMessage());
-    }
-
 }

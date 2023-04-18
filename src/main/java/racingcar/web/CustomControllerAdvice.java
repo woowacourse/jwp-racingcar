@@ -26,4 +26,9 @@ public class CustomControllerAdvice {
         return ResponseEntity.badRequest().body(errorMessages);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleTryTimeException(IllegalArgumentException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
+
 }
