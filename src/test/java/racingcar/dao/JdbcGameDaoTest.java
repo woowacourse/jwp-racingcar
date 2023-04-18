@@ -44,9 +44,9 @@ public class JdbcGameDaoTest {
 
     @Test
     void 저장된_게임의_수를_알_수_있다() {
-        // given
         jdbcTemplate.execute("DELETE FROM GAME");
 
+        // given
         gameDao.insert(GameEntity.create(5));
         gameDao.insert(GameEntity.create(5));
         gameDao.insert(GameEntity.create(5));
