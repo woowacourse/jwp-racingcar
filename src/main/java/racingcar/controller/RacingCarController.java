@@ -1,7 +1,9 @@
 package racingcar.controller;
 
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toUnmodifiableList;
+
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +30,8 @@ public class RacingCarController {
 
     @PostMapping(path = "/plays")
     public RacingCarGameResultDto playGame(@RequestBody GameInitializeDto gameInitializeDto) {
-        Cars cars = new Cars(gameInitializeDto.getNames());
-        TryCount tryCount = new TryCount(gameInitializeDto.getCount());
+        final Cars cars = Cars.from(splitNames(gameInitializeDto.getNames()));
+        final TryCount tryCount = new TryCount(gameInitializeDto.getCount());
         racingCarService.playRound(cars, tryCount, RandomNumberPicker.getInstance());
         return new RacingCarGameResultDto(cars.getWinner(), makeCarDtos(cars));
     }
@@ -39,7 +41,12 @@ public class RacingCarController {
         return racingCarService.findGameHistory()
                 .values().stream()
                 .map(RacingCarController::toDto)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(toUnmodifiableList());
+    }
+
+    private static List<String> splitNames(final String names) {
+        return stream(names.split(",", -1))
+                .collect(toUnmodifiableList());
     }
 
     private static RacingCarGameResultDto toDto(final List<Car> carList) {
@@ -50,7 +57,7 @@ public class RacingCarController {
     private static List<RacingCarDto> makeCarDtos(Cars cars) {
         return cars.getCars().stream()
                 .map(car -> new RacingCarDto(car.getName().getValue(), car.getDistance().getValue()))
-                .collect(Collectors.toUnmodifiableList());
+                .collect(toUnmodifiableList());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

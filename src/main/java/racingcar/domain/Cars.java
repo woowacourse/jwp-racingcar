@@ -3,23 +3,19 @@ package racingcar.domain;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Cars {
 
-    private static final String DELIMITER = ",";
-
     private final List<Car> cars;
 
-    public Cars(String carNames) {
-        this(Stream.of(carNames.split(DELIMITER))
-                .map(Car::new)
-                .collect(Collectors.toList()));
+    public Cars(final List<Car> cars) {
+        this.cars = cars;
     }
 
-    public Cars(List<Car> cars) {
-        this.cars = cars;
+    public static Cars from(final List<String> carNames) {
+        return new Cars(carNames.stream()
+                .map(Car::new)
+                .collect(toUnmodifiableList()));
     }
 
     public void runRound(final NumberPicker numberPicker) {
