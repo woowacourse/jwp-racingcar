@@ -13,14 +13,19 @@ public class Cars {
 
     private final List<Car> cars;
 
-    public Cars(final List<String> carNames) {
-        validate(carNames);
-        cars = carNames.stream()
-                .map(Car::new)
-                .collect(Collectors.toList());
+    public Cars(final List<Car> cars) {
+        this.cars = cars;
     }
 
-    private void validate(final List<String> carNames) {
+    public static Cars from(final List<String> carNames) {
+        validate(carNames);
+        final List<Car> cars = carNames.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
+        return new Cars(cars);
+    }
+
+    private static void validate(final List<String> carNames) {
         if (carNames.isEmpty()) {
             throw new IllegalArgumentException(NO_CAR_EXCEPTION);
         }

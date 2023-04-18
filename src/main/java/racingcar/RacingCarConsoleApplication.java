@@ -11,7 +11,8 @@ import racingcar.view.OutputView;
 public class RacingCarConsoleApplication {
 
     public static void main(final String[] args) {
-        final Cars cars = Repeat.repeatIfError(() -> new Cars(InputView.inputCarName()), OutputView::printErrorMessage);
+        final Cars cars = Repeat.repeatIfError(() -> Cars.from(InputView.inputCarName()),
+                OutputView::printErrorMessage);
         final Count count = Repeat.repeatIfError(() -> new Count(InputView.inputTryCount()),
                 OutputView::printErrorMessage);
         race(cars, count);

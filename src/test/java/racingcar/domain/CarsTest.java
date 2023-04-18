@@ -21,7 +21,7 @@ class CarsTest {
     @BeforeEach
     void setUp() {
         mockRandomPicker = new MockRandomPicker(List.of(4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3));
-        cars = new Cars(List.of("judy", "nunu", "pobi"));
+        cars = Cars.from(List.of("judy", "nunu", "pobi"));
     }
 
     @Test
@@ -52,7 +52,7 @@ class CarsTest {
 
     @Test
     void 생성시_중복된_이름이_있으면_예외발생() {
-        assertThatThrownBy(() -> new Cars(List.of("judy", "judy")))
+        assertThatThrownBy(() -> Cars.from(List.of("judy", "judy")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("중복된 이름이 존재합니다.");
     }

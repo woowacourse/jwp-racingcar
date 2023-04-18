@@ -7,22 +7,21 @@ public class Car {
     private static final int GO = 4;
 
     private final CarName carName;
-    private Integer carId;
+    private final Integer carId;
     private Position position;
 
     public Car(final String carName) {
         this(carName, 0);
     }
 
-    public Car(final Integer carId, final Car car) {
-        this.carId = carId;
-        carName = car.carName;
-        position = car.position;
+    public Car(final String carName, final int position) {
+        this(carName, position, null);
     }
 
-    public Car(final String carName, final int position) {
+    public Car(final String carName, final int position, final Integer carId) {
         this.carName = new CarName(carName);
         this.position = new Position(position);
+        this.carId = carId;
     }
 
     public void move(final int power) {

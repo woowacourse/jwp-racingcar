@@ -27,9 +27,9 @@ public class RacingCarsService {
         final RacingGame racingGame = new RacingGame(carsName, count);
         racingGame.race(numberPicker);
 
-        final int gameId = racingGameRepository.save(racingGame);
+        final RacingGame saved = racingGameRepository.insert(racingGame);
 
-        return new RaceDto(gameId, toDto(racingGame.findResult()), toDto(racingGame.findWinner()));
+        return new RaceDto(saved.getGameId(), toDto(racingGame.findResult()), toDto(racingGame.findWinner()));
     }
 
     private List<CarPositionDto> toDto(final List<Car> cars) {
