@@ -3,15 +3,15 @@ package racingcar.dto;
 import java.util.List;
 
 public class PlayResponseDto {
-    private final List<String> winners;
+    private final String winners;
     private final List<RacingCarDto> racingCars;
 
     public PlayResponseDto(List<String> winners, List<RacingCarDto> racingCars) {
-        this.winners = winners;
+        this.winners = String.join(",", winners);
         this.racingCars = racingCars;
     }
 
-    public List<String> getWinners() {
+    public String getWinners() {
         return winners;
     }
 
