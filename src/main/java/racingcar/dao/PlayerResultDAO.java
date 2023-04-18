@@ -27,10 +27,10 @@ public class PlayerResultDAO {
     );
 
 
-    public void saveAll(PlayerResultDto playerResultDtos) {
+    public void saveAll(PlayerResultDto playerResultDto) {
         String sql = "insert into PLAYER_RESULT (name, position, game_id) values (?, ?, ?)";
-        int gameId = playerResultDtos.getGameId();
-        List<CarDto> carDtos = playerResultDtos.getCarDtos();
+        int gameId = playerResultDto.getGameId();
+        List<CarDto> carDtos = playerResultDto.getCarDtos();
 
         jdbcTemplate.batchUpdate(sql, carDtos, carDtos.size(),
                 (PreparedStatement preparedStatement, CarDto carDto) -> {
