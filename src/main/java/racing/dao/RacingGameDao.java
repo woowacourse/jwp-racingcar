@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racing.controller.dto.request.CarRequest;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -14,14 +13,18 @@ import java.util.Objects;
 @Repository
 public class RacingGameDao implements GameDao {
 
-    private final JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+
+    public RacingGameDao() {
+    }
 
     public RacingGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public Long saveGame(int count) {
-        String saveGameQuery = "INSERT INTO games(count, create_time) VALUES (?, ?)";
+        String saveGameQuery = "INSERT INTO game(count, create_time) VALUES (?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -35,17 +38,6 @@ public class RacingGameDao implements GameDao {
         }, keyHolder);
 
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
-    }
-
-    public void saveCar(CarRequest car) {
-        String saveCarQuery = "INSERT INTO cars(car_name, step, winner, game_id) VALUES (?, ?, ?, ?)";
-
-        jdbcTemplate.update(saveCarQuery,
-                car.getCarName(),
-                car.getStep(),
-                car.isWinner(),
-                car.getGameId()
-        );
     }
 
 }
