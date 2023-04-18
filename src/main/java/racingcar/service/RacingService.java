@@ -1,9 +1,11 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.controller.CarResponse;
 import racingcar.controller.TrackResponse;
 import racingcar.dao.RacingDao;
 import racingcar.dao.dto.CarDto;
@@ -55,7 +57,6 @@ public class RacingService {
         return racingDao.save(new TrackDto(track.getTrialTimes()));
     }
 
-
     private void saveCars(final Integer trackId, final Cars finishedCars) {
         final List<Car> winnerCars = finishedCars.getWinnerCars();
         final List<Car> carsCurrentInfo = finishedCars.getCarsCurrentInfo();
@@ -65,5 +66,23 @@ public class RacingService {
                 .collect(Collectors.toList());
 
         racingDao.saveWithBatch(carDtos);
+    }
+
+    public List<TrackResponse> findAllResults() {
+        List<TrackResponse> trackResponses = new ArrayList<>();
+
+        List<Integer> trackIds = racingDao.findAllTrackIds();
+        for (Integer trackId : trackIds) {
+            List<CarDto> carDtos = racingDao.findAllCarsByTrackId(trackId);
+            String winners = carDtos.stream()
+                    .filter(carDto -> carDto.getIsWinner() == true)
+                    .map(CarDto::getName)
+                    .collect(Collectors.joining(","));
+            List<CarResponse> carResponses = carDtos.stream()
+                    .map(caaDto -> new CarResponse(caaDto.getName(), caaDto.getPosition()))
+                    .collect(Collectors.toList());
+            trackResponses.add(new TrackResponse(winners, carResponses));
+        }
+        return trackResponses;
     }
 }
