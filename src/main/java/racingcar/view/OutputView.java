@@ -26,13 +26,11 @@ public class OutputView {
         printMessage(PRINT_RACING_RESULT_MESSAGE);
     }
 
-    public void printCurrentRacingCarsPosition(Map<String, Integer> carPositonMap) {
+    public void printPlayResult(Map<String, Integer> carPositonMap) {
         for (String carName : carPositonMap.keySet()) {
             Integer position = carPositonMap.get(carName);
-            String convertPositionToDash = "-".repeat(position);
-            printMessage(carName + " : " + convertPositionToDash);
+            printMessage(carName + " : " + position);
         }
-        printMessage("");
     }
 
     public void printWinners(List<String> winners) {

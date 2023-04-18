@@ -1,13 +1,17 @@
 package racingcar.controller;
 
-import racingcar.util.NumberGenerator;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
+import racingcar.util.NumberGenerator;
+import racingcar.util.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class RacingCarController {
 
@@ -25,7 +29,7 @@ public class RacingCarController {
 
     public void run() {
         String[] carNames = readCarNamesStep();
-        RacingCars racingCars = generateRacingCarsStep(carNames);
+        RacingCars racingCars = RacingCars.makeCars(String.join(",", carNames));
         int tryNum = readTryNumStep();
         race(tryNum, racingCars);
         showWinners(racingCars);
@@ -37,17 +41,6 @@ public class RacingCarController {
         return carNames;
     }
 
-    private RacingCars generateRacingCarsStep(String[] carNames) {
-        List<Car> cars = generateCars(carNames);
-        return null;
-    }
-
-    private List<Car> generateCars(String[] carNames) {
-        return Arrays.stream(carNames)
-                .map(carName -> new Car(carName, START_POSITION))
-                .collect(Collectors.toUnmodifiableList());
-    }
-
     private void showWinners(RacingCars racingCars) {
         List<String> winners = convertWinnersNameForPrint(racingCars.getWinners());
         outputView.printWinners(winners);
@@ -55,14 +48,9 @@ public class RacingCarController {
 
     private void race(int tryNum, RacingCars racingCars) {
         outputView.printRacingResultMessage();
-        for (int repeatIndex = 0; repeatIndex < tryNum; repeatIndex++) {
-            List<Car> currentCars = racingCars.getCars();
-            for (Car currentCar : currentCars) {
-                int randomValue = numberGenerator.generate();
-                currentCar.move(randomValue);
-            }
-            outputView.printCurrentRacingCarsPosition(convertRacingCarsResultForPrint(currentCars));
-        }
+        racingCars.moveAllCars(tryNum, numberGenerator);
+        List<Car> currentCars = racingCars.getCars();
+        outputView.printPlayResult(convertRacingCarsResultForPrint(currentCars));
     }
 
     private int readTryNumStep() {
