@@ -12,12 +12,12 @@ public class Name {
     }
 
     public static Name from(String name) {
-        validate(name);
+        validateLength(name);
 
         return new Name(name);
     }
 
-    private static void validate(String name) {
+    private static void validateLength(String name) {
         if (name.isBlank() || name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(
                     String.format(ErrorMessage.INVALID_NAME_LENGTH.getValue(), MAX_NAME_LENGTH)

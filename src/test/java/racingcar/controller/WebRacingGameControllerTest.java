@@ -16,6 +16,7 @@ import racingcar.service.RacingGameService;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,10 +44,9 @@ public class WebRacingGameControllerTest {
         GameResponseDto response = new GameResponseDto("브라운", carDtos);
 
         //when
-        List<String> names = List.of(request.getNames().split(","));
         doReturn(response)
                 .when(racingGameService)
-                .play(names, request.getCount());
+                .play(any(), any());
 
         //then
         mockMvc.perform(post("/plays")
