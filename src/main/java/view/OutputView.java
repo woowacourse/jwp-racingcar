@@ -17,10 +17,10 @@ public class OutputView {
 		System.out.println(result);
 	}
 
-	private void printHistory(List<CarDto> cars){
+	private void printHistory(List<CarDto> cars) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n결과:\n");
-		for(CarDto car : cars){
+		for (CarDto car : cars) {
 			stringBuilder.append("Name: ").append(car.getName());
 			stringBuilder.append(", Position: ").append(car.getPosition()).append("\n");
 		}
