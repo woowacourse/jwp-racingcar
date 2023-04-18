@@ -38,6 +38,7 @@ public class RacingService {
         Cars cars = initializeCars(names);
         Trial trial = Trial.of(count);
         playGame(cars, trial);
+        saveResult(trial, cars);
         return new RacingResultDto(trial, cars.getWinnerNames(), cars.getCarDtos());
     }
 
@@ -65,11 +66,11 @@ public class RacingService {
         return new Cars(cars, numberGenerator);
     }
 
-    public void saveResult(RacingResultDto racingResultDto) {
-        final int raceId = raceRepository.saveRace(new Race(racingResultDto.getTrial()));
-        for (CarDto car : racingResultDto.getRacingCars()) {
-            String name = car.getName();
-            CarInfo carInfo = new CarInfo(raceId, name, car.getPosition(), racingResultDto.isWinnerContaining(name));
+    private void saveResult(Trial trial, Cars cars) {
+        final int raceId = raceRepository.saveRace(new Race(trial));
+        for (CarDto carDto : cars.getCarDtos()) {
+            String name = carDto.getName();
+            CarInfo carInfo = new CarInfo(raceId, name, carDto.getPosition(), cars.isWinnerContaining(name));
             carInfoRepository.saveCar(carInfo);
         }
     }

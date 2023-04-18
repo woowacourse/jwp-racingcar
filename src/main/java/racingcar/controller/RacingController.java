@@ -24,7 +24,6 @@ public class RacingController {
     @PostMapping("/plays")
     public RacingResultResponseDto playRacing(@RequestBody RacingInfoRequestDto dto) {
         RacingResultDto racingResultDto = racingService.race(dto.getNames(), dto.getCount());
-        racingService.saveResult(racingResultDto);
         return new RacingResultResponseDto(racingResultDto);
     }
 
