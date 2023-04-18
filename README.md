@@ -31,3 +31,5 @@
 - [x] `@RequestMapping`을 활용하여 코드 중복 제거
 - [x] Dao의 `@Repository` 어노테이션 통일
 - [x] WINNER 테이블의 플레이어 정보를 PLAYER 테이블을 참조하도록 하여 중복 제거
+- [ ] 우승자 업데이트 로직 리팩터링
+- [ ] 추가된 API 테스트 추가
