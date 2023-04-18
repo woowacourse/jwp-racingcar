@@ -1,13 +1,13 @@
 package racingcar.dao;
 
+import java.sql.PreparedStatement;
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
-
-import java.sql.PreparedStatement;
 
 @Repository
 public class RacingDao {
@@ -34,5 +34,19 @@ public class RacingDao {
         }, keyHolder);
 
         return keyHolder.getKey().intValue();
+    }
+
+    public List<CarDto> findAll() {
+        String sql = "SELECT name, position, is_winner, track_id FROM CAR";
+        return jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) ->
+                    new CarDto(
+                            resultSet.getString("name"),
+                            resultSet.getInt("position"),
+                            resultSet.getBoolean("is_winner"),
+                            resultSet.getInt("track_id")
+                    )
+                );
     }
 }
