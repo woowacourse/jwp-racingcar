@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,7 +20,7 @@ public class GameDao {
 
     public long save(int count) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        final String sql = "INSERT INTO game (trial_count) VALUES (?)";
+        String sql = "INSERT INTO game (trial_count) VALUES (?)";
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, count);
@@ -27,5 +28,10 @@ public class GameDao {
         }, keyHolder);
         Map<String, Object> keys = keyHolder.getKeys();
         return (int) keys.get("id");
+    }
+
+    public List<Long> findAllId() {
+        String sql = "SELECT id FROM game";
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getLong("id"));
     }
 }
