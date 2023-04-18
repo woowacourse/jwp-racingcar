@@ -37,16 +37,14 @@ public class RacingWebController {
     }
 
     private String makeWinnerCarNames(final Cars finishedCars) {
-        final String winnerCarNames = finishedCars.getWinnerCars().stream()
+        return finishedCars.getWinnerCars().stream()
                 .map(Car::getCarName)
                 .collect(Collectors.joining(", "));
-        return winnerCarNames;
     }
 
     private List<CarResponse> makeCarResponses(final Cars finishedCars) {
-        final List<CarResponse> results = finishedCars.getCarsCurrentInfo().stream()
+        return finishedCars.getCarsCurrentInfo().stream()
                 .map(car -> new CarResponse(car.getCarName(), car.getPosition()))
                 .collect(Collectors.toList());
-        return results;
     }
 }
