@@ -41,8 +41,8 @@ public final class DtoMapper {
         return new GameResultDto(racingGame.getTryCountValue());
     }
 
-    public static CarDto toCarDto(final Car car) {
-        return new CarDto(car.getNameValue(), car.getPositionValue());
+    public static CarDto toCarDto(final Long id, final Car car) {
+        return new CarDto(id, car.getNameValue(), car.getPositionValue(), car.isWinner());
     }
 
     public static List<CarDto> toCarsDto(final Long gameId, final RacingGame racingGame) {

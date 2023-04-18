@@ -35,7 +35,7 @@ public class WebController {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Void> hello(RuntimeException exception) {
-        System.out.println(exception.getMessage());
+        exception.printStackTrace();
         return ResponseEntity.badRequest().build();
     }
 }

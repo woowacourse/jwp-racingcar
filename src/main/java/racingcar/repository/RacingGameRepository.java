@@ -21,9 +21,10 @@ public class RacingGameRepository {
         this.carDaoWebImpl = carDaoWebImpl;
     }
 
-    public void save(final RacingGame racingGame) {
+    public Long save(final RacingGame racingGame) {
         final Long gameId = gameResultDaoWebImpl.save(DtoMapper.toRacingGameDto(racingGame));
         carDaoWebImpl.saveAll(DtoMapper.toCarsDto(gameId, racingGame));
+        return gameId;
     }
 
     public Map<Long, List<GameResultWithCarDto>> findAll() {
