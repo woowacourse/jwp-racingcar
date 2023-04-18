@@ -6,7 +6,7 @@ import racingcar.view.output.ConsoleView;
 
 import java.util.Scanner;
 
-public class ConsoleApplication {
+public class ConsoleRacingGameApplication {
 
     public static void main(String[] args) {
         new ConsoleRacingGameController(
