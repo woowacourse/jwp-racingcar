@@ -1,7 +1,9 @@
 package racingcar.controller;
 
-import racingcar.domain.RacingGame;
-import racingcar.domain.RandomNumberGenerator;
+import racingcar.dto.GameResultResponse;
+import racingcar.dto.RacingGameRequest;
+import racingcar.repository.InMemoryGameRepository;
+import racingcar.service.RacingGameService;
 import racingcar.view.input.InputView;
 import racingcar.view.output.ConsoleView;
 
@@ -11,7 +13,6 @@ public class ConsoleRacingGameController {
 
     private final InputView inputView;
     private final ConsoleView consoleView;
-    private RacingGame racingGame;
 
     public ConsoleRacingGameController(InputView inputView, ConsoleView consoleView) {
         this.inputView = inputView;
@@ -19,47 +20,10 @@ public class ConsoleRacingGameController {
     }
 
     public void start() {
-        try {
-            makeRacingGame(readCarNames(), readGameTry());
-            startRacingGame();
-            makeRacingGameResult();
-        } catch (RuntimeException e) {
-            consoleView.printExceptionMessage(e.getMessage());
-            start();
-        }
-    }
-
-    private List<String> readCarNames() {
-        try {
-            return inputView.readCarName();
-        } catch (IllegalArgumentException e) {
-            consoleView.printExceptionMessage(e.getMessage());
-            return readCarNames();
-        }
-    }
-
-    private int readGameTry() {
-        try {
-            return inputView.readGameTry();
-        } catch (IllegalArgumentException e) {
-            consoleView.printExceptionMessage(e.getMessage());
-            return readGameTry();
-        }
-    }
-
-    private void makeRacingGame(List<String> carNames, int gameTry) {
-        this.racingGame = new RacingGame(carNames, gameTry, new RandomNumberGenerator());
-    }
-
-    private void startRacingGame() {
-        consoleView.printGameResultMessage();
-        while (racingGame.isGameOnGoing()) {
-            racingGame.start();
-        }
-    }
-
-    private void makeRacingGameResult() {
-        consoleView.printRacingWinners(racingGame.getWinners());
-        consoleView.printRacingStatus(racingGame.getCars());
+        RacingGameRequest racingGameRequest = new RacingGameRequest(inputView.readCarName(), inputView.readGameTry());
+        RacingGameService racingGameService = new RacingGameService(new InMemoryGameRepository());
+        racingGameService.playRacingGame(racingGameRequest);
+        List<GameResultResponse> gameRecordResponse = racingGameService.makeGameRecords();
+        consoleView.renderRacingGameResult(gameRecordResponse);
     }
 }
