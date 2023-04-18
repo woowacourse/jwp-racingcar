@@ -1,5 +1,11 @@
 package racingcar.controller;
 
+import racingcar.dao.CarsDao;
+import racingcar.dao.GamesDao;
+import racingcar.dao.WinnersDao;
+import racingcar.dao.console.ConsoleCarsDao;
+import racingcar.dao.console.ConsoleGamesDao;
+import racingcar.dao.console.ConsoleWinnersDao;
 import racingcar.domain.Game;
 import racingcar.service.GameService;
 import racingcar.service.dto.SingleGameResult;
@@ -18,8 +24,12 @@ public class ConsoleGameController {
 
     private final GameService gameService;
 
-    public ConsoleGameController(final GameService gameService) {
-        this.gameService = gameService;
+    public ConsoleGameController(
+            final GamesDao gamesDao,
+            final CarsDao carsDao,
+            final WinnersDao winnersDao
+    ) {
+        this.gameService = new GameService(gamesDao, carsDao, winnersDao);
     }
 
     public void play() {

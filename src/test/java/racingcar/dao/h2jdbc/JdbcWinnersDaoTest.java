@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.h2jdbc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.TestDatabaseConfig;
+import racingcar.dao.h2jdbc.JdbcCarsDao;
+import racingcar.dao.h2jdbc.JdbcGamesDao;
+import racingcar.dao.h2jdbc.JdbcWinnersDao;
 
 import java.util.List;
 
@@ -14,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @TestDatabaseConfig
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class WinnersDaoTest {
+class JdbcWinnersDaoTest {
 
     @Autowired
-    private GamesDao gamesDao;
+    private JdbcGamesDao gamesDao;
     @Autowired
-    private CarsDao carsDao;
+    private JdbcCarsDao carsDao;
     @Autowired
-    private WinnersDao winnersDao;
+    private JdbcWinnersDao winnersDao;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
