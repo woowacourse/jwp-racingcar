@@ -2,10 +2,12 @@ package racingcar.repository;
 
 import java.util.List;
 import org.springframework.stereotype.Repository;
-import racingcar.dao.PlayerDao;
-import racingcar.dao.RacingCarGameDao;
+import racingcar.dao.game.RacingCarGameDao;
+import racingcar.dao.player.PlayerDBDao;
+import racingcar.dao.game.RacingCarGameDBDao;
 import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Player;
+import racingcar.dao.player.PlayerDao;
 import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.ResultResponseDto;
@@ -24,7 +26,7 @@ public class RacingCarRepository {
     public void save(RacingGameDto racingGameDto, List<PlayerDto> playerDtos) {
         Long gameId = racingCarGameDao.insertGameWithKeyHolder(new Game(racingGameDto));
         playerDtos.forEach(
-            playerDto -> playerDao.insertPlayers(
+            playerDto -> playerDao.insertPlayer(
                 new Player(playerDto.getName(), playerDto.getPosition(), gameId)
             )
         );

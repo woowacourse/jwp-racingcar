@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.game;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,11 +16,11 @@ import racingcar.dto.PlayerDto;
 import racingcar.dto.ResultResponseDto;
 
 @Component
-public class RacingCarGameDao {
+public class RacingCarGameDBDao implements RacingCarGameDao{
 
     private final JdbcTemplate jdbcTemplate;
 
-    public RacingCarGameDao(JdbcTemplate jdbcTemplate) {
+    public RacingCarGameDBDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
