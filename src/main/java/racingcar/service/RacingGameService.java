@@ -36,18 +36,10 @@ public class RacingGameService {
     }
 
     public List<List<RacingCarResultDto>> history() {
-        List<List<RacingCarResultDto>> history = new ArrayList<>();
         List<Long> ids = gameDao.findAllId();
-        for (Long id : ids) {
-            List<RacingCar> racingCars = carDao.findCarsById(id)
-                    .stream()
-                    .map(it -> new RacingCar(it.getName(), it.getPosition()))
-                    .collect(Collectors.toList());
-            RacingGame racingGame = initializeGame(racingCars);
-            List<RacingCarResultDto> results = calculateResults(racingGame, id);
-            history.add(results);
-        }
-        return history;
+        return ids.stream()
+                .map(carDao::findCarsById)
+                .collect(Collectors.toList());
     }
 
     private RacingGame initializeGame(List<RacingCar> cars) {
@@ -58,7 +50,7 @@ public class RacingGameService {
         List<RacingCarResultDto> results = racingGame.calculateResult()
                 .entrySet()
                 .stream()
-                .map((e) -> RacingCarResultDto.of(e.getKey(), e.getValue().getValue(), gameId))
+                .map((e) -> RacingCarResultDto.createByDomain(e.getKey(), e.getValue().getValue(), gameId))
                 .collect(Collectors.toUnmodifiableList());
         return results;
     }
