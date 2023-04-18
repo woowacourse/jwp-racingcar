@@ -16,13 +16,6 @@ public class CarEntity {
         this.gameId = gameId;
     }
 
-    public CarEntity(int carId, String name, int position, int gameId) {
-        this.carId = carId;
-        this.name = name;
-        this.position = position;
-        this.gameId = gameId;
-    }
-
     public int getCarId() {
         return carId;
     }
