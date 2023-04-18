@@ -1,13 +1,15 @@
 package racingcar.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import racingcar.domain.CarFactory;
 import racingcar.domain.RacingGame;
 import racingcar.strategy.MovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class RacingGameController {
+public class RacingCarConsoleController {
 
     private final InputView inputView;
 
@@ -15,8 +17,8 @@ public class RacingGameController {
 
     private final MovingStrategy movingStrategy;
 
-    public RacingGameController(InputView inputView, OutputView outputView,
-        MovingStrategy movingStrategy) {
+    public RacingCarConsoleController(InputView inputView, OutputView outputView,
+                                      MovingStrategy movingStrategy) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.movingStrategy = movingStrategy;

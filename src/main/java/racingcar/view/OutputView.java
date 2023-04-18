@@ -38,4 +38,10 @@ public class OutputView {
     public void printWinner(List<String> winners) {
         System.out.printf(FINAL_WINNER, String.join(WINNER_NAME_DELIMITER, winners));
     }
+
+//    public void printResult(List<Car> cars) {
+//        for (Car car : cars) {
+//
+//        }
+//    }
 }
