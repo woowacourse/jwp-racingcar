@@ -42,19 +42,79 @@
             ]
         }
         ```
+- [ ] 자동차 경주 게임 플레이 이력 조회 요청을 받아 플레이 이력을 응답한다.
+
+    - 요청 형식
+        ```text
+        GET /plays HTTP/1.1
+        ```
+
+    - 응답 형식
+        ```text
+        HTTP/1.1 200 
+        Content-Type: application/json
+
+        [
+            {
+                "winners": "브리",
+                "racingCars": [
+                    {
+                        "name": "브리",
+                        "position": 6
+                    },
+                    {
+                        "name": "토미",
+                        "position": 4
+                    },
+                    {
+                        "name": "브라운",
+                        "position": 3
+                    },
+                ]
+            },
+            {
+                "winners": "브리,토미,브라운",
+                "racingCars": [
+                    {
+                        "name": "브리",
+                        "position": 6
+                    },
+                    {
+                        "name": "토미",
+                        "position": 6
+                    },
+                    {
+                        "name": "브라운",
+                        "position": 6
+                    },
+                ]
+            }
+        ]
+        ```
 
 ### 서비스
 
 - [x] 자동차 경주 게임을 진행 후 결과를 생성한다.
+- [ ] 자동차 경주 게임 플레이 이력을 조회한다.
 
 ### 레포지토리
 
-- [x] 자동차 경주 게임의 최종 우승자, 시도 횟수, 플레이 시간을 저장한다.
-- [x] 자동차의 이름과 최종 위치를 저장한다.
+- [x] 자동차 경주 도메인을 저장한다.
+- [x] 자동차 경주 도메인 목록을 조회한다.
+
+### Dao
+
+- [ ] 자동차 경주 게임 정보를 저장한다.
+- [ ] 자동차 경주 게임 정보를 조회한다.
+- [x] 자동차 경주가 끝난 자동차 정보를 저장한다.
+- [x] 자동차 경주가 끝난 자동차 정보를 조회한다.
+- [ ] 자동차 경주 우승자 정보를 저장한다.
 
 ### DB
 
-- [x] Game 테이블 생성한다.
-    - id, winners, trial_count, date
+- [x] RacingGame 테이블 생성한다.
+    - id, trial_count, date
 - [x] RacingCar 테이블 생성한다.
     - id, game_id, name, position
+- [x] RacingWinner 테이블 생성한다.
+    - id, game_id, car_id

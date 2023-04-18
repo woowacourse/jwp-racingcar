@@ -1,34 +1,53 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+import racingcar.entity.RacingCarEntity;
 
-import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
-@Repository
+@Component
 public class RacingCarDao {
 
-    private final SimpleJdbcInsert simpleJdbcInsert;
+    private final JdbcTemplate jdbcTemplate;
 
-    public RacingCarDao(final DataSource dataSource) {
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("racing_car")
-                .usingGeneratedKeyColumns("id");
+    public RacingCarDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveAll(final Long gameId, final List<Car> cars) {
-        final SqlParameterSource[] batchParameters = cars.stream()
-                .map(car -> new MapSqlParameterSource()
-                        .addValue("game_id", gameId)
-                        .addValue("name", car.getName())
-                        .addValue("position", car.getPosition()))
-                .toArray(MapSqlParameterSource[]::new);
+    public void saveAll(final List<RacingCarEntity> racingCarEntities) {
+        final String sql = "INSERT INTO RACING_CAR (game_id, name, position) VALUES (?, ?, ?)";
 
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setLong(1, racingCarEntities.get(i).getGameId());
+                ps.setString(2, racingCarEntities.get(i).getName());
+                ps.setInt(3, racingCarEntities.get(i).getPosition());
+            }
 
-        simpleJdbcInsert.executeBatch(batchParameters);
+            @Override
+            public int getBatchSize() {
+                return racingCarEntities.size();
+            }
+        });
+    }
+
+    public List<RacingCarEntity> findAllByGameId(final Long gameId) {
+        final String sql = "SELECT * FROM RACING_CAR WHERE game_id = ?";
+
+        return jdbcTemplate.query(
+                sql,
+                (rs, rowNum) -> RacingCarEntity.builder()
+                        .id(rs.getLong(1))
+                        .gameId(rs.getLong(2))
+                        .name(rs.getString(3))
+                        .position(rs.getInt(4))
+                        .build(),
+                gameId
+        );
     }
 }
