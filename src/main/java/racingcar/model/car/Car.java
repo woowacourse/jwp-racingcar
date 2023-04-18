@@ -1,8 +1,7 @@
 package racingcar.model.car;
 
-import racingcar.exception.ExceedCarNameLengthException;
-import racingcar.exception.HasBlankCarNameException;
-import racingcar.exception.InvalidCarNameFormatException;
+import racingcar.exception.CustomException;
+import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.strategy.MovingStrategy;
 
 import java.util.Optional;
@@ -47,25 +46,25 @@ public class Car {
     private void validateNull(final String carName) {
         final Optional<String> optionalCarName = Optional.ofNullable(carName);
         if (optionalCarName.isEmpty()) {
-            throw new HasBlankCarNameException();
+            throw new CustomException(ExceptionStatus.HAS_BLANK_CAR_NAME);
         }
     }
 
     private void validateValue(final String carName) {
         if (!STRING_PATTERN.matcher(carName).matches()) {
-            throw new InvalidCarNameFormatException();
+            throw new CustomException(ExceptionStatus.INVALID_CAR_NAME_FORMAT);
         }
     }
 
     private void validateHasBlank(final String carName) {
         if (carName.isBlank() || carName.isEmpty()) {
-            throw new HasBlankCarNameException();
+            throw new CustomException(ExceptionStatus.HAS_BLANK_CAR_NAME);
         }
     }
 
     private void validateOverMaxNameLength(final String carName) {
         if (carName.length() > MAX_NAME_LENGTH) {
-            throw new ExceedCarNameLengthException();
+            throw new CustomException(ExceptionStatus.EXCEED_CAR_NAME_LENGTH);
         }
     }
 

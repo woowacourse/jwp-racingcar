@@ -1,10 +1,14 @@
 package racingcar.view.outputview;
 
+import racingcar.exception.CustomException;
 import racingcar.model.car.Cars;
 
 import java.util.HashMap;
 
 public abstract class OutputView {
+
+    private static final String ERROR_PREFIX = "[ERROR] ";
+
     private HashMap<Integer, String> errorMessageTable = new HashMap<>();
 
     public OutputView() {
@@ -27,12 +31,15 @@ public abstract class OutputView {
 
     public abstract void printWinnerCars(Cars cars);
 
-    protected void insertErrorMessage(int errorNumber, String errorMessage) {
+    protected void insertErrorMessage(final CustomException customException) {
+        final int errorNumber = customException.getErrorNumber();
+        final String errorMessage = customException.getErrorMessage();
+
         errorMessageTable.put(errorNumber, errorMessage);
     }
 
-    public void printErrorMessage(int errorNumber) {
-        System.out.println(errorMessageTable.get(errorNumber));
+    public void printErrorMessage(final int errorNumber) {
+        System.out.println(ERROR_PREFIX + errorMessageTable.get(errorNumber));
     }
 
 }

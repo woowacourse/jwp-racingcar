@@ -1,11 +1,7 @@
 package racingcar.view.outputview;
 
-import racingcar.exception.DuplicateCarNamesException;
-import racingcar.exception.ExceedCarNameLengthException;
-import racingcar.exception.HasBlankCarNameException;
-import racingcar.exception.InvalidCarNameFormatException;
-import racingcar.exception.InvalidRangeTrialTimesException;
-import racingcar.exception.InvalidTrialTimesFormatException;
+import racingcar.exception.CustomException;
+import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 
@@ -21,32 +17,20 @@ public class KoreanOutputView extends OutputView {
 
     @Override
     void initialCarsErrorMessage() {
-        super.insertErrorMessage(
-                new DuplicateCarNamesException().getErrorNumber(),
-                "[ERROR] 중복된 차 이름이 존재합니다." + LINE_BREAK);
+        super.insertErrorMessage(new CustomException(ExceptionStatus.DUPLICATE_CAR_NAMES));
     }
 
     @Override
     void initialCarErrorMessage() {
-        super.insertErrorMessage(
-                new ExceedCarNameLengthException().getErrorNumber(),
-                "[ERROR] 자동차 이름은 다섯 글자 이하여야 합니다." + LINE_BREAK);
-        super.insertErrorMessage(
-                new HasBlankCarNameException().getErrorNumber(),
-                "[ERROR] 비어있는 자동차 이름이 존재합니다." + LINE_BREAK);
-        super.insertErrorMessage(
-                new InvalidCarNameFormatException().getErrorNumber(),
-                "[ERROR] 자동차 이름은 문자와 숫자만 가능합니다." + LINE_BREAK);
+        super.insertErrorMessage(new CustomException(ExceptionStatus.EXCEED_CAR_NAME_LENGTH));
+        super.insertErrorMessage(new CustomException(ExceptionStatus.HAS_BLANK_CAR_NAME));
+        super.insertErrorMessage(new CustomException(ExceptionStatus.INVALID_CAR_NAME_FORMAT));
     }
 
     @Override
     void initialTrackErrorMessage() {
-        super.insertErrorMessage(
-                new InvalidRangeTrialTimesException().getErrorNumber(),
-                "[ERROR] 시도 횟수는 1 이상 100 이하여야 합니다." + LINE_BREAK);
-        super.insertErrorMessage(
-                new InvalidTrialTimesFormatException().getErrorNumber(),
-                "[ERROR] 시도 횟수는 숫자만 입력 가능합니다." + LINE_BREAK);
+        super.insertErrorMessage(new CustomException(ExceptionStatus.INVALID_RANGE_TRIAL_TIMES));
+        super.insertErrorMessage(new CustomException(ExceptionStatus.INVALID_TRIAL_TIMES_FORMAT));
     }
 
     @Override

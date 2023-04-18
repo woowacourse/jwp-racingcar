@@ -1,7 +1,7 @@
 package racingcar.model.car;
 
-import racingcar.exception.DuplicateCarNamesException;
-import racingcar.exception.HasBlankCarNameException;
+import racingcar.exception.CustomException;
+import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.strategy.MovingStrategy;
 
 import java.util.Arrays;
@@ -37,7 +37,7 @@ public class Cars {
     private void validateNull(final String carNames) {
         final Optional<String> optionalCarName = Optional.ofNullable(carNames);
         if (optionalCarName.isEmpty()) {
-            throw new HasBlankCarNameException();
+            throw new CustomException(ExceptionStatus.HAS_BLANK_CAR_NAME);
         }
     }
 
@@ -47,7 +47,7 @@ public class Cars {
         int distinctCarNamesCount = new HashSet<>(Arrays.asList(splitCarNames)).size();
 
         if (carNamesCount != distinctCarNamesCount) {
-            throw new DuplicateCarNamesException();
+            throw new CustomException(ExceptionStatus.DUPLICATE_CAR_NAMES);
         }
     }
 

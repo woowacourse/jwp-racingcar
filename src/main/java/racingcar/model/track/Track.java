@@ -1,7 +1,7 @@
 package racingcar.model.track;
 
-import racingcar.exception.InvalidRangeTrialTimesException;
-import racingcar.exception.InvalidTrialTimesFormatException;
+import racingcar.exception.CustomException;
+import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.Cars;
 
 import java.util.regex.Pattern;
@@ -27,7 +27,7 @@ public class Track {
 
     private void validateNumber(final String trialTimes) {
         if (!NUMBER_PATTERN.matcher(trialTimes).matches()) {
-            throw new InvalidTrialTimesFormatException();
+            throw new CustomException(ExceptionStatus.INVALID_TRIAL_TIMES_FORMAT);
         }
     }
 
@@ -35,7 +35,7 @@ public class Track {
         int trialTimesNumber = Integer.parseInt(trialTimes);
 
         if (trialTimesNumber < TRIAL_MIN_TIMES || trialTimesNumber > TRIAL_MAX_TIMES) {
-            throw new InvalidRangeTrialTimesException();
+            throw new CustomException(ExceptionStatus.INVALID_RANGE_TRIAL_TIMES);
         }
     }
 
