@@ -47,11 +47,11 @@ public class RacingGame {
         for (int i = 0; i < playCount; i++) {
             moveCars();
         }
+        updateWinner();
         return getResult();
     }
 
     public GameResultDto getResult() {
-        updateWinner();
         final List<PlayerDto> players = cars.stream()
                 .map(Car::getPlayer)
                 .collect(Collectors.toList());
@@ -61,10 +61,9 @@ public class RacingGame {
     private void updateWinner() {
         final int maxPosition = findMaxPosition();
         final Predicate<Car> maxPredicate = car -> car.getPosition() == maxPosition;
-        cars.forEach(car -> car.setWinner(false));
         cars.stream()
                 .filter(maxPredicate)
-                .forEach(car -> car.setWinner(true));
+                .forEach(Car::win);
     }
 
     private List<Car> generateCars(final List<String> names) {

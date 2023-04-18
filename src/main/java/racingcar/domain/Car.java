@@ -45,7 +45,7 @@ public class Car {
         return name;
     }
 
-    public void setWinner(final boolean winner) {
-        isWinner = winner;
+    public void win() {
+        isWinner = true;
     }
 }
