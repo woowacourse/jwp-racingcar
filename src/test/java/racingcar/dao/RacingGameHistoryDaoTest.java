@@ -35,7 +35,7 @@ class RacingGameHistoryDaoTest {
         Long insertedHistoryId = racingGameHistoryDao.insert(trialCount, now);
         //then
         RacingGameHistory racingGameHistory = jdbcTemplate.queryForObject(
-                "SELECT trial_count, play_time FROM racing_history WHERE id = :id",
+                "SELECT id, trial_count, play_time FROM racing_history WHERE id = :id",
                 new MapSqlParameterSource("id", insertedHistoryId),
                 (rs, rowNum) -> new RacingGameHistory(
                         rs.getLong("id"),
