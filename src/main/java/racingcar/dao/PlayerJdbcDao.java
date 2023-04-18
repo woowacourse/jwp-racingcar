@@ -25,7 +25,7 @@ public class PlayerJdbcDao implements PlayerDao {
             resultSet.getInt("id"),
             resultSet.getString("name"),
             resultSet.getInt("position"),
-            resultSet.getBoolean("isWinner"),
+            resultSet.getBoolean("is_winner"),
             resultSet.getInt("game_id")
     );
 
