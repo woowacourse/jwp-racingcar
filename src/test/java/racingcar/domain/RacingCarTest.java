@@ -40,4 +40,13 @@ public class RacingCarTest {
                     .isEqualTo(expectedPosition);
         }
     }
+
+    @ParameterizedTest(name = "게임아이디({0})와 이름이 같으면 같은 자동차이다.")
+    @ValueSource(ints = {0, 1, 2, 3, 4, 100})
+    void equals(int gameId) {
+        String name = "서브웨이";
+        RacingCar racingCar = new RacingCar(gameId, name);
+
+        Assertions.assertThat(racingCar).isEqualTo(new RacingCar(gameId, name));
+    }
 }

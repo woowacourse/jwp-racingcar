@@ -1,5 +1,7 @@
 package racingcar.domain.cars;
 
+import java.util.Objects;
+
 public class RacingCar {
     private static final int LEAST_CONDITION = 4;
     private static final int MAX_NAME_LENGTH = 5;
@@ -45,5 +47,22 @@ public class RacingCar {
         if (pickedNumber >= LEAST_CONDITION) {
             position.add(ONE_STEP);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RacingCar racingCar = (RacingCar) o;
+        return gameId == racingCar.gameId && name.equals(racingCar.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gameId, name);
     }
 }
