@@ -2,8 +2,8 @@ package racingcar.car.model;
 
 public final class CarName implements Name {
     
-    public static final String CAR_NAME_CANNOT_EXCEED_FIVE_LETTERS = "자동차 이름은 5자를 초과할 수 없습니다.";
     public static final int MIN_NAME_LENGTH = 5;
+    public static final String CAR_NAME_CANNOT_EXCEED_FIVE_LETTERS = "자동차 이름은 " + MIN_NAME_LENGTH + "자를 초과할 수 없습니다.";
     private final String value;
     
     private CarName(final String value) {

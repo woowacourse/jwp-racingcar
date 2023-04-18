@@ -31,7 +31,7 @@ public class RacingCar implements Car {
     
     @Override
     public boolean isSamePositionTo(final Car car) {
-        return this.position.compareTo(car.getPosition()) == 0;
+        return this.position == car.getPosition();
     }
     
     public Name getName() {

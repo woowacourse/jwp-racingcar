@@ -1,5 +1,7 @@
 package racingcar.car.model;
 
+import java.util.Objects;
+
 public final class CarPosition implements Position {
     
     public static final int MIN_VALUE = 0;
@@ -19,6 +21,23 @@ public final class CarPosition implements Position {
         if (value < MIN_VALUE) {
             throw new IllegalArgumentException(POSITION_VALUE_IS_LESS_THAN_MIN_VALUE);
         }
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
+    }
+    
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final CarPosition that = (CarPosition) o;
+        return this.value == that.value;
     }
     
     @Override
