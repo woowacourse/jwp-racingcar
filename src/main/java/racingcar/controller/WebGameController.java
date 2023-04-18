@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class GameController {
+public class WebGameController {
 
     private static final String CAR_NAME_SEPARATOR = ",";
 
     private final GameService gameService;
 
-    public GameController(GameService gameService) {
+    public WebGameController(GameService gameService) {
         this.gameService = gameService;
     }
 

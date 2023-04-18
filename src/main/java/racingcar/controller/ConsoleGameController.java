@@ -1,15 +1,13 @@
 package racingcar.controller;
 
-import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import racingcar.domain.Car;
 import racingcar.domain.Game;
-import racingcar.domain.MoveChance;
-import racingcar.domain.RandomMoveChance;
+import racingcar.service.GameService;
+import racingcar.service.dto.SingleGameResult;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 public class ConsoleGameController {
 
@@ -18,44 +16,31 @@ public class ConsoleGameController {
     private static final InputView INPUT_VIEW = new InputView();
     private static final OutputView OUTPUT_VIEW = new OutputView();
 
-    private final Game game;
-    private final MoveChance moveChance;
+    private final GameService gameService;
 
-    public ConsoleGameController() {
-        game = createGame();
-        moveChance = RandomMoveChance.getInstance();
+    public ConsoleGameController(final GameService gameService) {
+        this.gameService = gameService;
+    }
+
+    public void play() {
+        final Game game = createGame();
+        final int gameId = gameService.play(game);
+        final SingleGameResult result = gameService.findResult(gameId);
+        showResult(result);
     }
 
     private Game createGame() {
         return handleExceptionByRepeating(() -> {
             List<String> carNames = INPUT_VIEW.inputCarNames();
             int trialCount = INPUT_VIEW.inputTrialCount();
-            return new Game(makeCarsWith(carNames), trialCount);
+            return gameService.createGameWith(carNames, trialCount);
         });
     }
 
-    public void play() {
+    private void showResult(final SingleGameResult singleGameResult) {
         OUTPUT_VIEW.noticeResult();
-        playMultipleTimes();
-        showResult();
-    }
-
-    private List<Car> makeCarsWith(List<String> carNames) {
-        return carNames.stream()
-                .map(Car::new)
-                .collect(Collectors.toList());
-    }
-
-    private void playMultipleTimes() {
-        while (game.isNotDone()) {
-            game.playOnceWith(moveChance);
-            OUTPUT_VIEW.printStatusOf(game.getCars());
-        }
-    }
-
-    private void showResult() {
-        OUTPUT_VIEW.printStatusOf(game.getCars());
-        OUTPUT_VIEW.printWinners(game.findWinners());
+        OUTPUT_VIEW.printStatusOf(singleGameResult.getRacingCars());
+        OUTPUT_VIEW.printWinners(singleGameResult.getWinners());
     }
 
     private <T> T handleExceptionByRepeating(Supplier<T> supplier) {
