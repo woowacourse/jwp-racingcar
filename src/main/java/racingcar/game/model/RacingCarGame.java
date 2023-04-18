@@ -42,11 +42,11 @@ public final class RacingCarGame implements Game {
     }
     
     @Override
-    public Result calculateResult() {
+    public GameResult calculateResult() {
         final List<Car> sortedCars = new ArrayList<>(this.cars);
         final Car winner = this.findWinner(sortedCars);
         final List<Car> winners = this.findWinners(sortedCars, winner);
-        return GameResult.create(winners);
+        return RacingCarGameResult.create(winners);
     }
     
 }

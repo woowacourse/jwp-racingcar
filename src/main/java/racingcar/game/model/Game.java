@@ -4,5 +4,5 @@ public interface Game {
     
     Game moveCars();
     
-    Result calculateResult();
+    GameResult calculateResult();
 }
