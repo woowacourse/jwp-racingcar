@@ -1,5 +1,7 @@
 package racingcar.view;
 
+import racingcar.controller.dto.CarDto;
+import racingcar.controller.dto.RacingGameResponse;
 import racingcar.domain.Name;
 import racingcar.domain.Position;
 
@@ -12,7 +14,17 @@ public class OutputView {
     private static final String WINNER_MESSAGE = "%s가 최종 우승했습니다.";
 
     public void printNotice() {
-        System.out.println(RESULT_MESSAGE);
+        System.out.println("실행 결과");
+    }
+
+    public void printRacingResult(final RacingGameResponse response) {
+        final List<CarDto> cars = response.getRacingCars();
+        cars.forEach(this::printStatusBy);
+        System.out.printf("%n%n %s가 최종 우승했습니다.%n", response.getWinners());
+    }
+
+    private void printStatusBy(final CarDto car) {
+        System.out.printf("%s : %s%n", car.getName(), "-".repeat(car.getPosition()));
     }
 
     public void printRacingResult(Map<Name, Position> history) {
