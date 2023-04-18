@@ -57,7 +57,7 @@ public class Car {
     }
 
     private void validateHasBlank(final String carName) {
-        if (carName.isBlank() || carName.isEmpty()) {
+        if (carName.isBlank()) {
             throw new CustomException(ExceptionStatus.HAS_BLANK_CAR_NAME);
         }
     }

@@ -7,7 +7,8 @@ public enum ExceptionStatus {
     HAS_BLANK_CAR_NAME(102, "비어있는 자동차 이름이 존재합니다."),
     INVALID_CAR_NAME_FORMAT(103, "자동차 이름은 문자와 숫자만 가능합니다."),
     INVALID_RANGE_TRIAL_TIMES(104, "시도 횟수는 1 이상 100 이하여야 합니다."),
-    INVALID_TRIAL_TIMES_FORMAT(105, "시도 횟수는 숫자만 입력 가능합니다.");
+    INVALID_TRIAL_TIMES_FORMAT(105, "시도 횟수는 숫자만 입력 가능합니다."),
+    EMPTY_INPUT_FORMAT(106, "입력값이 존재하지 않습니다.");
 
     private final int value;
     private final String message;

@@ -10,14 +10,19 @@ public class Track {
     private static final Pattern NUMBER_PATTERN = Pattern.compile("(\\d)+");
     private static final int TRIAL_MAX_TIMES = 100;
     private static final int TRIAL_MIN_TIMES = 1;
+
     private final Cars cars;
     private int trialTimes;
 
-    public Track(final Cars cars, final String trialTimes) {
+    private Track(final Cars cars, final String trialTimes) {
         validate(trialTimes);
 
         this.cars = cars;
         this.trialTimes = Integer.parseInt(trialTimes);
+    }
+
+    public static Track of(final Cars cars, final String trialTimes) {
+        return new Track(cars, trialTimes);
     }
 
     private void validate(final String trialTimes) {

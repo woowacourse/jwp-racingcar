@@ -1,5 +1,8 @@
 package racingcar.view.inputview;
 
+import racingcar.exception.CustomException;
+import racingcar.exception.ExceptionStatus;
+
 import java.util.Scanner;
 
 public abstract class InputView {
@@ -10,7 +13,15 @@ public abstract class InputView {
     }
 
     protected String nextLine() {
-        return scanner.nextLine();
+        final String input = scanner.nextLine().strip();
+        validate(input);
+        return input;
+    }
+
+    private void validate(final String input) {
+        if (input.isEmpty() || input.isBlank()) {
+            throw new CustomException(ExceptionStatus.EMPTY_INPUT_FORMAT);
+        }
     }
 
     public abstract String inputCarNames();

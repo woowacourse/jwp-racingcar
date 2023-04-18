@@ -10,10 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import racingcar.controller.dto.TrackRequest;
 
 import static org.hamcrest.core.Is.is;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RacingWebControllerTest {
 
@@ -46,7 +48,7 @@ class RacingWebControllerTest {
             "gra@,ho@,l@gan:자동차 이름은 문자와 숫자만 가능합니다.",
             "grayyy,hoy,logan:자동차 이름은 다섯 글자 이하여야 합니다.",
             "hoy,hoy,hoy:중복된 차 이름이 존재합니다.",
-            ":비어있는 자동차 이름이 존재합니다.",
+            ":입력값이 존재하지 않습니다.",
             " , :비어있는 자동차 이름이 존재합니다."}, delimiter = ':')
     void postRequestFailWithWrongName(final String names, final String exceptionMessage) {
         final TrackRequest trackRequest = new TrackRequest(names, "10");

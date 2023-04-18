@@ -44,11 +44,11 @@ public class RacingService {
     }
 
     private Cars makeCars(final String name, final MovingStrategy movingStrategy) {
-        return new Cars(name, movingStrategy);
+        return Cars.of(name, movingStrategy);
     }
 
     private Track makeTrack(final Cars cars, final String trialTimes) {
-        return new Track(cars, trialTimes);
+        return Track.of(cars, trialTimes);
     }
 
     private Cars startRace(final Track track) {
@@ -97,7 +97,7 @@ public class RacingService {
         final int maxId = racingDao.findMaxId().orElse(0);
 
         for (int id = 1; id <= maxId; id++) {
-            final Cars cars = new Cars(racingDao.findAllById(id));
+            final Cars cars = Cars.from(racingDao.findAllById(id));
             final String winners = makeWinnerCarNames(cars);
             final List<CarResponse> racingCars = makeCarResponses(cars);
 

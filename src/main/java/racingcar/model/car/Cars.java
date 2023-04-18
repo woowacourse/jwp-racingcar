@@ -17,34 +17,39 @@ public class Cars {
 
     private final List<Car> cars;
 
-    public Cars(final String carNames, final MovingStrategy movingStrategy) {
-        validate(carNames);
+    private Cars(final List<Car> cars) {
+        validateDuplicateCarNames(cars);
 
-        this.cars = Arrays.stream(carNames.split(SEPARATOR, -1))
-                .map(carName -> Car.of(carName, movingStrategy))
-                .collect(Collectors.toList());
-    }
-
-    public Cars(final List<Car> cars) {
         this.cars = cars;
     }
 
-    private void validate(final String carNames) {
-        validateNull(carNames);
-        validateDuplicateCarNames(carNames);
+    public static Cars from(final List<Car> cars) {
+        return new Cars(cars);
     }
 
-    private void validateNull(final String carNames) {
-        final Optional<String> optionalCarName = Optional.ofNullable(carNames);
-        if (optionalCarName.isEmpty()) {
-            throw new CustomException(ExceptionStatus.HAS_BLANK_CAR_NAME);
+    public static Cars of(final String carNames, final MovingStrategy movingStrategy) {
+        validateEmptyInput(carNames);
+
+        List<Car> cars = Arrays.stream(carNames.split(SEPARATOR, -1))
+                .map(carName -> Car.of(carName, movingStrategy))
+                .collect(Collectors.toList());
+
+        return new Cars(cars);
+    }
+
+    private static void validateEmptyInput(final String carNames) {
+        if (carNames == null || carNames.isBlank()) {
+            throw new CustomException(ExceptionStatus.EMPTY_INPUT_FORMAT);
         }
     }
 
-    private void validateDuplicateCarNames(final String carNames) {
-        String[] splitCarNames = carNames.split(SEPARATOR);
-        int carNamesCount = splitCarNames.length;
-        int distinctCarNamesCount = new HashSet<>(Arrays.asList(splitCarNames)).size();
+    private void validateDuplicateCarNames(final List<Car> cars) {
+        final List<String> carNames = cars.stream()
+                .map(Car::getCarName)
+                .collect(Collectors.toList());
+
+        int carNamesCount = carNames.size();
+        int distinctCarNamesCount = new HashSet<>(carNames).size();
 
         if (carNamesCount != distinctCarNamesCount) {
             throw new CustomException(ExceptionStatus.DUPLICATE_CAR_NAMES);
