@@ -20,7 +20,7 @@ class PlayResultDaoTest {
 
     @BeforeEach
     void setUp() {
-        jdbcTemplate.update("DELETE FROM PLAY_RESULT");
+        jdbcTemplate.update("DELETE FROM game");
         playResultDao = new PlayResultDao(jdbcTemplate);
     }
 

@@ -20,7 +20,7 @@ public class PlayResultDao {
 
     public Long insertWithKeyHolder(int trialCount, List<String> winners) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        final String sql = "insert into PLAY_RESULT (trialcount, winners) values (?, ?)";
+        final String sql = "insert into game (trialcount, winners) values (?, ?)";
 
         jdbcTemplate.update((Connection con) -> {
             PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
@@ -32,7 +32,7 @@ public class PlayResultDao {
     }
 
     public List<PlayResultDto> selectAll() {
-        final String sql = "SELECT * FROM PLAY_RESULT";
+        final String sql = "SELECT * FROM game";
         RowMapper<PlayResultDto> playResult = (rs, rowNum)
                 -> new PlayResultDto(rs.getInt("id"), rs.getString("winners"));
         return jdbcTemplate.query(sql, playResult);

@@ -14,13 +14,13 @@ public class RacingCarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(Long play_result_id, String playerName, int playerPosition) {
-        final String sql = "insert into RACING_CAR (player_name, player_position, play_result_id) values (?,?,?)";
-        jdbcTemplate.update(sql, playerName, playerPosition, play_result_id);
+    public void insert(Long gameId, String playerName, int playerPosition) {
+        final String sql = "insert into RACING_CAR (player_name, player_position, game_id) values (?,?,?)";
+        jdbcTemplate.update(sql, playerName, playerPosition, gameId);
     }
 
     public List<RacingCarDto> select(int id) {
-        String sql = "SELECT * FROM RACING_CAR WHERE play_result_id = " + id;
+        String sql = "SELECT * FROM RACING_CAR WHERE game_id = " + id;
         RowMapper<RacingCarDto> racingCar = (rs, rowNum)
                 -> new RacingCarDto(rs.getString("player_name"), rs.getInt("player_position"));
         return jdbcTemplate.query(sql, racingCar);
