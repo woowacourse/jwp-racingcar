@@ -2,8 +2,6 @@ package racingcar.domain.cars;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class RacingCars {
     private final List<RacingCar> racingCars;
@@ -33,14 +31,15 @@ public class RacingCars {
         }
     }
 
-    public int calculateMaxPosition() {
-        return racingCars.stream().mapToInt(RacingCar::getPosition).max().orElse(0);
+    public boolean isWinner(RacingCar car){
+        if (!racingCars.contains(car)) {
+            throw new IllegalArgumentException("포함되어있지 않은 차입니다.");
+        }
+        return calculateMaxPosition() == car.getPosition();
     }
 
-    public List<RacingCar> filter(Predicate<RacingCar> predicate) {
-        return racingCars.stream()
-                .filter(predicate)
-                .collect(Collectors.toList());
+    private int calculateMaxPosition() {
+        return racingCars.stream().mapToInt(RacingCar::getPosition).max().orElse(0);
     }
 
     public List<RacingCar> getCars() {

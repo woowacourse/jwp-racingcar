@@ -15,7 +15,11 @@ public class RacingGameDto {
     }
 
     public static RacingGameDto from(RacingGame game) {
-        return new RacingGameDto(game.getRacingCars(), game.calculateWinners());
+        List<RacingCar> racingCars = game.getRacingCars();
+        List<RacingCar> winners = racingCars.stream()
+                .filter(car -> game.isWinner(car))
+                .collect(Collectors.toList());
+        return new RacingGameDto(racingCars, winners);
     }
 
     private List<String> convertToString(List<RacingCar> winners) {

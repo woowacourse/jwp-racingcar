@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -18,7 +19,7 @@ class RacingGameTest {
         @Test
         @DisplayName("이름이 중복으로 입력되었을 때 예외 발생")
         void throwExceptionWhenDuplicateNameExists() {
-            Assertions.assertThatThrownBy(
+            assertThatThrownBy(
                             () -> RacingGame.create(0, List.of("rosie", "hong", "rosie")))
                     .isInstanceOf(IllegalArgumentException.class);
         }
@@ -38,7 +39,15 @@ class RacingGameTest {
             race.play(1, (size) -> List.of(10, 1));
             //when
             //then
-            assertThat(race.isWinner(new RacingCar(0, "로지"))).isTrue();
+            assertThat(race.isWinner(new RacingCar(0, "로지", 1))).isTrue();
+        }
+
+        @DisplayName("포함되어있지 않은 객체일 경우 예외를 반환한다.")
+        @Test
+        void throwExceptionWhenCarParameterIsNotMember() {
+            race = RacingGame.create(0, List.of("서브웨이", "홍고"));
+            assertThatThrownBy(()-> race.isWinner(new RacingCar(0, "뿡")))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test

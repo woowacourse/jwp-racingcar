@@ -35,14 +35,8 @@ public class RacingGame {
         }
     }
 
-    public List<RacingCar> calculateWinners() {
-        return racingCars.filter(car -> car.getPosition() == racingCars.calculateMaxPosition());
-    }
-
     public boolean isWinner(RacingCar racingCar) {
-        return calculateWinners().stream()
-                .map(RacingCar::getName)
-                .anyMatch(name -> name.equals(racingCar.getName()));
+        return racingCars.isWinner(racingCar);
     }
 
     public List<RacingCar> getRacingCars() {
