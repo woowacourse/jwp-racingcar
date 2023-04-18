@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WebController {
-    private final RacingCarWebService racingCarWebService;
+    private final GameService gameService;
 
-    public WebController(final RacingCarWebService racingCarWebService) {
-        this.racingCarWebService = racingCarWebService;
+    public WebController(final GameService gameService) {
+        this.gameService = gameService;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<GameResultDto> play(@RequestBody PlayRequestDto playRequestDto) {
         final GameDto gameDto = new GameDto(playRequestDto);
-        GameResultDto response = racingCarWebService.play(gameDto);
+        GameResultDto response = gameService.play(gameDto);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/plays")
     public GameResultsDto showGameHistory() {
-        return racingCarWebService.gameHistory();
+        return gameService.gameHistory();
     }
 }

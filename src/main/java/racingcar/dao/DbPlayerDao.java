@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.dao;
 
 import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.ResultDto;
 
 @Repository
-public class PlayerDao {
+public final class DbPlayerDao implements PlayerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public PlayerDao(final NamedParameterJdbcTemplate jdbcTemplate) {
+    public DbPlayerDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

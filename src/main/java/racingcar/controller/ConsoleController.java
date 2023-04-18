@@ -1,25 +1,28 @@
 package racingcar.controller;
 
 import java.util.List;
+import racingcar.GameService;
+import racingcar.domain.Game;
+import racingcar.domain.RandomMoveStrategy;
+import racingcar.domain.TryCount;
 import racingcar.dto.NamesDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.TryCountDto;
 import racingcar.dto.WinnerDto;
-import racingcar.domain.Game;
-import racingcar.domain.RandomMoveStrategy;
-import racingcar.domain.TryCount;
 import racingcar.view.RacingCarView;
 
 public class ConsoleController {
     private final Game game;
     private final RacingCarView racingCarView;
+    private final GameService service;
 
-    public ConsoleController(Game game, RacingCarView racingCarView) {
+    public ConsoleController(Game game, RacingCarView racingCarView, GameService service) {
         this.game = game;
         this.racingCarView = racingCarView;
+        this.service = service;
     }
 
-    public void start() {
+    public void run() {
         createCar();
         TryCount tryCount = new TryCount(getTryCount());
         playGame(tryCount);

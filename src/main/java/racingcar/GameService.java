@@ -2,23 +2,27 @@ package racingcar;
 
 import java.util.ArrayList;
 import java.util.List;
-import racingcar.dto.ResultDto;
-import racingcar.dto.WinnerDto;
+import org.springframework.stereotype.Service;
+import racingcar.dao.GameDao;
+import racingcar.dao.PlayerDao;
 import racingcar.domain.Game;
 import racingcar.domain.RandomMoveStrategy;
 import racingcar.domain.TryCount;
+import racingcar.dto.ResultDto;
+import racingcar.dto.WinnerDto;
 
-@org.springframework.stereotype.Service
-public class RacingCarWebService {
+@Service
+public class GameService {
     private final Game game;
+    // TODO: 게임 없애기
     private final GameDao gameDao;
-    private final PlayerDao playerDao;
+    private final PlayerDao dbPlayerDao;
 
-    public RacingCarWebService(final GameDao gameDao,
-                               final PlayerDao playerDao) {
+    public GameService(final GameDao gameDao,
+                       final PlayerDao dbPlayerDao) {
         this.game = new Game();
         this.gameDao = gameDao;
-        this.playerDao = playerDao;
+        this.dbPlayerDao = dbPlayerDao;
     }
 
     public GameResultDto play(GameDto gameDto) {
@@ -46,7 +50,7 @@ public class RacingCarWebService {
         WinnerDto winners = findWinners();
         List<ResultDto> racingCars = game.getCarStatuses();
         int gameId = gameDao.insertGame(tryCount).intValue();
-        playerDao.insertPlayer(racingCars, winners.getWinners(), gameId);
+        dbPlayerDao.insertPlayer(racingCars, winners.getWinners(), gameId);
         return GameResultDto.of(winners, racingCars);
     }
 
@@ -59,8 +63,8 @@ public class RacingCarWebService {
 
         final List<GameResultDto> gameResults = new ArrayList<>();
         for (final Integer gameId : gameIds) {
-            final List<String> winners = playerDao.selectWinnerBy(gameId);
-            final List<ResultDto> racingCars = playerDao.selectBy(gameId);
+            final List<String> winners = dbPlayerDao.selectWinnerBy(gameId);
+            final List<ResultDto> racingCars = dbPlayerDao.selectBy(gameId);
             final GameResultDto gameResultDto = new GameResultDto(winners, racingCars);
             gameResults.add(gameResultDto);
         }

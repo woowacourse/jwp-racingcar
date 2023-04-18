@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.dao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import racingcar.domain.TryCount;
 
 @Repository
-public class GameDao {
+public final class DbGameDao implements GameDao {
     private final SimpleJdbcInsert insertGame;
     private final JdbcTemplate jdbcTemplate;
 
-    public GameDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+    public DbGameDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.insertGame = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingColumns("trial_count")
