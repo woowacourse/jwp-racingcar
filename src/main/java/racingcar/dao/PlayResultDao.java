@@ -20,7 +20,7 @@ public class PlayResultDao {
 
     public Long insertWithKeyHolder(int trialCount, List<String> winners) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        final String sql = "insert into game (trialcount, winners) values (?, ?)";
+        final String sql = "INSERT INTO game (trialcount, winners) VALUES (?, ?)";
 
         jdbcTemplate.update((Connection con) -> {
             PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
