@@ -1,12 +1,14 @@
 package racingcar.utils;
 
-public class RacingRandomNumberGenerator implements RacingNumberGenerator{
+import java.util.concurrent.ThreadLocalRandom;
 
-    private static final int MIN_VALUE = 0;
-    private static final int MAX_VALUE = 9;
+public class RacingRandomNumberGenerator implements RacingNumberGenerator {
+
+    private static final int LOWER_NUMBER = 0;
+    private static final int UPPER_NUMBER = 9;
 
     @Override
     public int generate() {
-        return (int) (Math.random() * (MAX_VALUE - MIN_VALUE + 1));
+        return LOWER_NUMBER + ThreadLocalRandom.current().nextInt(UPPER_NUMBER - LOWER_NUMBER + 1);
     }
 }
