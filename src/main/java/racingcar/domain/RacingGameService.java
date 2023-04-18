@@ -2,8 +2,11 @@ package racingcar.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import racingcar.dao.RacingCarRecord;
 import racingcar.dao.RacingCarRecordDao;
+import racingcar.dao.RacingGameHistory;
 import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.NumberGenerator;
@@ -46,4 +49,20 @@ public class RacingGameService {
         }
     }
 
+    public List<RacingGameDto> readGameHistory() {
+        List<RacingGameHistory> racingGameHistories = racingGameHistoryDao.selectAll();
+        return racingGameHistories.stream()
+                .mapToLong(history -> history.getId())
+                .mapToObj(this::findById)
+                .map(RacingGameDto::from)
+                .collect(Collectors.toList());
+
+    }
+    
+    private RacingGame findById(Long id) {
+        List<RacingCar> racingCars = racingCarRecordDao.findByHistoryId(id)
+                .stream().map(RacingCarRecord::toDomain)
+                .collect(Collectors.toList());
+        return new RacingGame(id, racingCars);
+    }
 }

@@ -16,6 +16,11 @@ public class RacingGame {
         this.racingCars = new RacingCars(racingCars);
     }
 
+    public RacingGame(Long id, List<RacingCar> racingCars) {
+        this.id = id;
+        this.racingCars = new RacingCars(racingCars);
+    }
+
     public static RacingGame from(List<String> carNames) {
         List<RacingCar> racingCars = createRacingCars(carNames);
         return new RacingGame(racingCars);

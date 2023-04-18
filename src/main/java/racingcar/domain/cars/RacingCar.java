@@ -19,8 +19,14 @@ public class RacingCar {
     }
 
     public RacingCar(String name, int position) {
+        validate(name);
         this.name = name;
         this.position = new Position(position);
+    }
+
+    public RacingCar(Long id, String name, int position) {
+        this(name, position);
+        this.id = id;
     }
 
     private void validate(String name) {

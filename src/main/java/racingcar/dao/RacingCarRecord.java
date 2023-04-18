@@ -1,5 +1,7 @@
 package racingcar.dao;
 
+import racingcar.domain.cars.RacingCar;
+
 public class RacingCarRecord {
 
     private final long id;
@@ -14,6 +16,11 @@ public class RacingCarRecord {
         this.position = position;
         this.isWinner = isWinner;
         this.historyId = historyId;
+    }
+
+    public RacingCar toDomain() {
+        RacingCar racingCar = new RacingCar(id, name, position);
+        return racingCar;
     }
 
     public long getId() {
