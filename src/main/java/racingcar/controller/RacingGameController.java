@@ -1,7 +1,8 @@
 package racingcar.controller;
 
-import racingcar.domain.RacingGame;
-import racingcar.domain.RandomNumberGenerator;
+import racingcar.dto.GameRequest;
+import racingcar.dto.GameResponse;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -12,8 +13,10 @@ public class RacingGameController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final RacingGameService racingGameService;
 
-    public RacingGameController(final InputView inputView, final OutputView outputView) {
+    public RacingGameController(final RacingGameService racingGameService, final InputView inputView, final OutputView outputView) {
+        this.racingGameService = racingGameService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -28,29 +31,20 @@ public class RacingGameController {
     }
 
     public void run() {
-        RacingGame racingGame = initialize();
-        play(racingGame);
-        findWinners(racingGame);
-        printResult(racingGame);
+        GameResponse responses = racingGameService.play(initialize());
+
+        printResult(responses);
     }
 
-    private RacingGame initialize() {
+    private GameRequest initialize() {
         List<String> carNames = retry(inputView::readCarNames);
         int count = retry(inputView::readCount);
-        return new RacingGame(new RandomNumberGenerator(), carNames, count);
+
+        return new GameRequest(carNames, count);
     }
 
-    private void play(final RacingGame racingGame) {
+    private void printResult(final GameResponse responses) {
         outputView.printResultMessage();
-        racingGame.play();
-    }
-
-    private void findWinners(final RacingGame racingGame) {
-        List<String> winners = racingGame.findWinners();
-        outputView.printWinnersMessage(winners);
-    }
-
-    private void printResult(final RacingGame racingGame) {
-        outputView.printCurrentCarPositions(racingGame.findCurrentCarPositions());
+        outputView.printResult(responses);
     }
 }

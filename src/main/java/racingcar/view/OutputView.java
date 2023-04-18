@@ -1,6 +1,7 @@
 package racingcar.view;
 
-import racingcar.domain.Car;
+import racingcar.dto.GameResponse;
+import racingcar.dto.PlayerDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,26 +22,28 @@ public class OutputView {
         System.out.println(RESULT_MESSAGE);
     }
 
+    public void printResult(final GameResponse gameResponse) {
+        printWinnersMessage(gameResponse.getWinners());
+
+        System.out.println(generatePositionMessages(gameResponse.getRacingCars()) + POSITION_MESSAGE_DELIMITER);
+    }
+
     public void printWinnersMessage(final List<String> winners) {
         String winnersMessage = String.join(WINNERS_MESSAGE_DELIMITER, winners);
         System.out.println(NEW_LINE + format(WINNERS_MESSAGE_FORMAT, winnersMessage));
     }
 
-    public void printCurrentCarPositions(final List<Car> cars) {
-        System.out.println(generatePositionMessages(cars) + POSITION_MESSAGE_DELIMITER);
-    }
-
-    private String generatePositionMessages(final List<Car> cars) {
+    private String generatePositionMessages(final List<PlayerDto> cars) {
         return cars.stream()
                 .map(this::generatePositionMessage)
                 .collect(Collectors.joining(POSITION_MESSAGE_DELIMITER));
     }
 
-    private String generatePositionMessage(final Car car) {
+    private String generatePositionMessage(final PlayerDto playerDto) {
         return format(
                 POSITION_MESSAGE_FORMAT,
-                car.getName(),
-                car.getPosition()
+                playerDto.getName(),
+                playerDto.getPosition()
         );
     }
 

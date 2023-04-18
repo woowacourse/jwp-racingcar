@@ -1,39 +1,33 @@
 package racingcar;
 
-import java.util.Scanner;
 import racingcar.controller.RacingGameController;
+import racingcar.dao.ConsoleGameDao;
+import racingcar.dao.ConsolePlayerDao;
+import racingcar.domain.RandomNumberGenerator;
+import racingcar.repositiory.RacingGameRepositoryImpl;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputParser;
 import racingcar.view.InputValidator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
+import java.util.Scanner;
+
 public class RacingGameApplication {
-
-    private static final Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
-        RacingGameController racingGameController = new RacingGameController(inputView(), outputView());
+        final RacingGameService racingGameService = generateRacingGameService();
+        final RacingGameController racingGameController = new RacingGameController(
+                racingGameService,
+                new InputView(new InputValidator(), new InputParser(), new Scanner(System.in)),
+                new OutputView()
+        );
         racingGameController.run();
-        clean();
     }
 
-    private static InputView inputView() {
-        return new InputView(inputValidator(), inputParser(), scanner);
-    }
-
-    private static InputValidator inputValidator() {
-        return new InputValidator();
-    }
-
-    private static InputParser inputParser() {
-        return new InputParser();
-    }
-
-    private static OutputView outputView() {
-        return new OutputView();
-    }
-
-    private static void clean() {
-        scanner.close();
+    private static RacingGameService generateRacingGameService() {
+        return new RacingGameService(
+                new RandomNumberGenerator(),
+                new RacingGameRepositoryImpl(new ConsoleGameDao(), new ConsolePlayerDao())
+        );
     }
 }
