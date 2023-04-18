@@ -22,7 +22,7 @@ class RacingCarDaoTest {
 
     @BeforeEach
     void setUp() {
-        racingCarDao = new RacingCarDaoImpl(jdbcTemplate);
+        racingCarDao = new H2RacingCarDao(jdbcTemplate);
     }
 
     @DisplayName("횟수와 우승자를 저장한다")

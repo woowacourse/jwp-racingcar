@@ -13,7 +13,7 @@ import racingcar.dto.PlayRequestDto;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarControllerTest {
+class RacingCarWebControllerTest {
 
     @Value("${local.server.port}")
     int port;

@@ -1,20 +1,16 @@
 package racingcar.view;
 
 import racingcar.view.util.KeyboardReader;
-import racingcar.view.util.TextParser;
-
-import java.util.List;
 
 public class InputView {
-
-    private static final String CAR_NAMES_DELIMITER = ",";
 
     private static final String ASK_CAR_NAMES_MESSAGE = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
     private static final String ASK_RACING_COUNT_MESSAGE = "시도할 회수는 몇회인가요?";
 
-    public List<String> askCarNames() {
+    public String askCarNames() {
         System.out.println(ASK_CAR_NAMES_MESSAGE);
-        return TextParser.parseByDelimiter(KeyboardReader.readLine(), CAR_NAMES_DELIMITER);
+
+        return KeyboardReader.readLine();
     }
 
     public int askRacingCount() {

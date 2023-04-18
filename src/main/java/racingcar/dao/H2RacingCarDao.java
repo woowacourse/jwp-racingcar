@@ -12,10 +12,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class RacingCarDaoImpl implements RacingCarDao {
+public class H2RacingCarDao implements RacingCarDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public RacingCarDaoImpl(final JdbcTemplate jdbcTemplate) {
+    public H2RacingCarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
