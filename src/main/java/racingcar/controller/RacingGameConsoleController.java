@@ -1,13 +1,12 @@
 package racingcar.controller;
 
-import java.io.IOException;
-
 import racingcar.domain.CarGroup;
 import racingcar.domain.RacingGame;
-import racingcar.domain.RacingResult;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
+
+import java.io.IOException;
 
 public class RacingGameConsoleController {
 
@@ -26,8 +25,9 @@ public class RacingGameConsoleController {
         RacingGame racingGame = new RacingGame(carGroup, new RandomNumberGenerator());
 
         outputView.printNotice();
-        raceWithHistory(movingTrial, racingGame);
+        race(movingTrial, racingGame);
         outputView.printWinner(racingGame.produceRacingResult().pickWinner());
+        outputView.printRacingResult(racingGame.produceRacingResult().getHistory());
     }
 
     private CarGroup createCarGroup() throws IOException {
@@ -48,12 +48,9 @@ public class RacingGameConsoleController {
         }
     }
 
-    private void raceWithHistory(int movingTrial, RacingGame racingGame) {
+    private void race(int movingTrial, RacingGame racingGame) {
         for (int i = 0; i < movingTrial; i++) {
             racingGame.race();
-
-            RacingResult racingResult = racingGame.produceRacingResult();
-            outputView.printRacingResult(racingResult.getHistory());
         }
     }
 }

@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,12 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import io.restassured.RestAssured;
 import racingcar.controller.dto.RacingGameRequest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingGameControllerTest {
+class RacingGameWebControllerTest {
 
     @LocalServerPort
     int port;
