@@ -29,4 +29,15 @@ public class GameDao {
         }, keyHolder);
         return keyHolder.getKey().longValue();
     }
+
+    public List<GameDto> findAllWinners() {
+        final String sql = "SELECT * FROM GAME";
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            final long id = rs.getLong("id");
+            final String winners = rs.getString("winners");
+
+            return new GameDto(id, winners);
+        });
+    }
 }
