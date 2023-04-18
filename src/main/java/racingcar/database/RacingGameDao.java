@@ -2,9 +2,11 @@ package racingcar.database;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 
+@Repository
 public class RacingGameDao {
 
     final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();

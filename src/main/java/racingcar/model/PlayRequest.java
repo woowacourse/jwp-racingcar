@@ -1,7 +1,5 @@
 package racingcar.model;
 
-import java.util.List;
-
 public class PlayRequest {
     private final String names;
     private final int count;

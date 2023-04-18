@@ -1,7 +1,7 @@
 package racingcar.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +22,10 @@ public class PlayRequestController {
     private final RacingGameDao racingGameDao;
     private final RacingCarDao racingCarDao;
 
-    public PlayRequestController(final JdbcTemplate jdbcTemplate) {
-        this.racingGameDao = new RacingGameDao(jdbcTemplate);
-        this.racingCarDao = new RacingCarDao(jdbcTemplate);
+    @Autowired
+    public PlayRequestController(final RacingGameDao racingGameDao, final RacingCarDao racingCarDao) {
+        this.racingGameDao = racingGameDao;
+        this.racingCarDao = racingCarDao;
     }
 
     @PostMapping(path = "/plays")
