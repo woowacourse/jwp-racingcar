@@ -12,6 +12,7 @@ import racingcar.model.car.strategy.RandomMovingStrategy;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RacingDao {
@@ -40,10 +41,10 @@ public class RacingDao {
         return keyHolder.getKey().intValue();
     }
 
-    public Integer findMaxId() {
+    public Optional<Integer> findMaxId() {
         final String query = "SELECT max(id) FROM TRACK";
 
-        return jdbcTemplate.queryForObject(query, Integer.class);
+        return Optional.ofNullable(jdbcTemplate.queryForObject(query, Integer.class));
     }
 
     public List<Car> findAllById(final int id) {

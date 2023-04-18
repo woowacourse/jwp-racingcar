@@ -14,6 +14,7 @@ import racingcar.model.track.Track;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,8 +91,9 @@ public class RacingService {
 
     public List<TrackResponse> findAll() {
         final List<TrackResponse> trackResponses = new ArrayList<>();
+        final int maxId = racingDao.findMaxId().orElse(0);
 
-        for (int id = 1; id <= racingDao.findMaxId(); id++) {
+        for (int id = 1; id <= maxId; id++) {
             final Cars cars = new Cars(racingDao.findAllById(id));
             final String winners = makeWinnerCarNames(cars);
             final List<CarResponse> racingCars = makeCarResponses(cars);
