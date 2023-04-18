@@ -1,5 +1,6 @@
 package racingcar.repository;
 
+import org.springframework.jdbc.JdbcUpdateAffectedIncorrectNumberOfRowsException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -21,21 +22,25 @@ public class RaceH2Repository implements RaceRepository {
     public Optional<Integer> saveRace(Race race) {
         String sql = "INSERT INTO racing (trial_Count) values (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(
-                con -> {
-                    PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
-                    preparedStatement.setInt(1, race.getTrialCount());
-                    return preparedStatement;
-                },
-                keyHolder
-        );
+        try {
+            jdbcTemplate.update(
+                    con -> {
+                        PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
+                        preparedStatement.setInt(1, race.getTrialCount());
+                        return preparedStatement;
+                    },
+                    keyHolder
+            );
 
-        Number key = keyHolder.getKey();
-        if (key != null) {
-            return Optional.of(key.intValue());
+            Number key = keyHolder.getKey();
+
+            if (key != null) {
+                return Optional.of(key.intValue());
+            }
+            return Optional.empty();
+        } catch (JdbcUpdateAffectedIncorrectNumberOfRowsException ex) {
+            return Optional.empty();
         }
-
-        return Optional.empty();
     }
 
     @Override

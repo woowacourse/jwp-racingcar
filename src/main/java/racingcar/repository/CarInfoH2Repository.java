@@ -1,5 +1,7 @@
 package racingcar.repository;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.JdbcUpdateAffectedIncorrectNumberOfRowsException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -26,12 +28,17 @@ public class CarInfoH2Repository implements CarInfoRepository {
     @Override
     public Optional<Integer> saveCar(CarInfo carInfo) {
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(carInfo);
-        Number key = carInfoSimpleJdbcInsert
-                .executeAndReturnKey(parameterSource);
-        if (key != null) {
+        Number key;
+        try {
+            key = carInfoSimpleJdbcInsert
+                    .executeAndReturnKey(parameterSource);
+            if (key == null) {
+                return Optional.empty();
+            }
             return Optional.of(key.intValue());
+        } catch (JdbcUpdateAffectedIncorrectNumberOfRowsException e) {
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     @Override
