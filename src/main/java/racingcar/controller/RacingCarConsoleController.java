@@ -23,7 +23,6 @@ public class RacingCarConsoleController {
         TryCount tryCount = makeTryCount();
         outputView.printResultMessage();
         playRound(cars, tryCount);
-        outputView.printWinners(cars.getWinner());
         printGameResult(cars);
     }
 

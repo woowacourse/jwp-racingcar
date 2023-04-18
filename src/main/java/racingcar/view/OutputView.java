@@ -15,14 +15,14 @@ public class OutputView {
     }
 
     public void printResultMessage() {
-        System.out.println("실행 결과");
+        System.out.println(System.lineSeparator() + "실행 결과");
     }
 
     public void printWinners(List<String> winnerNames) {
         System.out.println(winnerNames.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "))
-                + "가 최종 우승했습니다.");
+                + "가 최종 우승했습니다." + System.lineSeparator());
     }
 
     public void printGameResult(Map<String, Integer> racingCars) {

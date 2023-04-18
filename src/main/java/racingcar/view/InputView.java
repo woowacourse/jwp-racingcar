@@ -13,7 +13,7 @@ public class InputView {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException numberFormatException) {
-            throw new IllegalArgumentException("[ERROR] 숫자 형태로 입력해주세요.");
+            throw new IllegalArgumentException("숫자 형태로 입력해주세요.");
         }
     }
 }
