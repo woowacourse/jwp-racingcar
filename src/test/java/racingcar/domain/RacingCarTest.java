@@ -41,18 +41,18 @@ public class RacingCarTest {
         }
     }
 
-//    @ParameterizedTest(name = "아이디({0})가 같은 자동차이다.")
-//    @ValueSource(longs = {0, 1, 2, 3, 4, 100})
-//    void equals(long id) {
-//        //given
-//        String name = "서브웨이";
-//        RacingCar racingCar = new RacingCar(name);
-//        racingCar.setId(id);
-//
-//        RacingCar other = new RacingCar(name);
-//        other.setId(id);
-//        //when
-//        //then
-//        Assertions.assertThat(racingCar).isEqualTo(other);
-//    }
+    @ParameterizedTest(name = "아이디({0})가 같은 자동차이다.")
+    @ValueSource(longs = {0, 1, 2, 3, 4, 100})
+    void equals(long id) {
+        //given
+        String name = "서브웨이";
+        RacingCar racingCar = new RacingCar(name);
+        racingCar.setId(id);
+
+        RacingCar other = new RacingCar(name);
+        other.setId(id);
+        //when
+        //then
+        Assertions.assertThat(racingCar).isEqualTo(other);
+    }
 }

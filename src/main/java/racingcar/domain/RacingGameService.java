@@ -35,7 +35,8 @@ public class RacingGameService {
 
     private void insertCars(RacingGame game, long historyId) {
         for (RacingCar racingCar : game.getRacingCars()) {
-            racingCarRecordDao.insert(historyId, racingCar, game.isWinner(racingCar));
+            Long savedId = racingCarRecordDao.insert(historyId, racingCar, game.isWinner(racingCar));
+            racingCar.setId(savedId);
         }
     }
 
