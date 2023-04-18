@@ -1,19 +1,29 @@
 package racingcar.dto;
 
+import java.util.List;
+
 public class RacingGameDto {
-    private final String names;
-    private final int count;
+    private final String winners;
 
-    public RacingGameDto(final String names, final int count) {
-        this.names = names;
-        this.count = count;
+    private final int playCount;
+
+    private final List<PlayerResultDto> racingCars;
+
+    public RacingGameDto(final String winners, final int playCount, final List<PlayerResultDto> racingCars) {
+        this.winners = winners;
+        this.playCount = playCount;
+        this.racingCars = racingCars;
     }
 
-    public String getNames() {
-        return names;
+    public String getWinners() {
+        return winners;
     }
 
-    public int getCount() {
-        return count;
+    public List<PlayerResultDto> getRacingCars() {
+        return racingCars;
+    }
+
+    public int getPlayCount() {
+        return playCount;
     }
 }

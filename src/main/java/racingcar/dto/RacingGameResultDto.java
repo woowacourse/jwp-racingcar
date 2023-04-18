@@ -5,13 +5,10 @@ import java.util.List;
 public class RacingGameResultDto {
     private final String winners;
 
-    private final int playCount;
+    private final List<PlayerResultDto> racingCars;
 
-    private final List<RacingCarDto> racingCars;
-
-    public RacingGameResultDto(final String winners, final int playCount, final List<RacingCarDto> racingCars) {
+    public RacingGameResultDto(final String winners, final List<PlayerResultDto> racingCars) {
         this.winners = winners;
-        this.playCount = playCount;
         this.racingCars = racingCars;
     }
 
@@ -19,11 +16,7 @@ public class RacingGameResultDto {
         return winners;
     }
 
-    public List<RacingCarDto> getRacingCars() {
+    public List<PlayerResultDto> getRacingCars() {
         return racingCars;
-    }
-
-    public int getPlayCount() {
-        return playCount;
     }
 }

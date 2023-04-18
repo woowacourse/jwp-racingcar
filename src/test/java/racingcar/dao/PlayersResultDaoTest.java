@@ -5,20 +5,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingGameResultDto;
+import racingcar.dto.PlayerResultDto;
+import racingcar.dto.RacingGameDto;
 
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class PlayersHistoryDaoTest {
+public class PlayersResultDaoTest {
     @Autowired
-    private RacingHistoryDao racingHistoryDao;
+    private PlayResultDao playResultDao;
 
     @Autowired
-    private PlayersHistoryDao playersHistoryDao;
+    private PlayersResultDao playersResultDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -39,12 +39,12 @@ public class PlayersHistoryDaoTest {
 
     @Test
     void insertWithMapAndCount() {
-        final RacingGameResultDto racingGameResultDto = new RacingGameResultDto("포비", 10,
-                List.of(new RacingCarDto("포비", 10),
-                        new RacingCarDto("브라운", 5), new RacingCarDto("구구", 8)));
+        final RacingGameDto racingGameDto = new RacingGameDto("포비", 10,
+                List.of(new PlayerResultDto("포비", 10),
+                        new PlayerResultDto("브라운", 5), new PlayerResultDto("구구", 8)));
 
-        final int newId = racingHistoryDao.insertResult(racingGameResultDto);
-        playersHistoryDao.insertResult(racingGameResultDto.getRacingCars(), newId);
+        final int newId = playResultDao.insertResult(racingGameDto);
+        playersResultDao.insertResult(racingGameDto.getRacingCars(), newId);
 
         final String sql = "select count (*) from players_result";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class)).isEqualTo(3);

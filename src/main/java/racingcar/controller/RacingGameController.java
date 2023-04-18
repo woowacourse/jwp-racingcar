@@ -3,41 +3,27 @@ package racingcar.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import racingcar.dao.PlayersHistoryDao;
-import racingcar.dao.RacingHistoryDao;
-import racingcar.domain.RacingGame;
-import racingcar.dto.RacingGameDto;
+import racingcar.dto.RacingGameInputDto;
 import racingcar.dto.RacingGameResultDto;
-import racingcar.utils.InputUtil;
-import racingcar.view.OutputView;
+import racingcar.service.RacingGameService;
 
 import java.util.List;
 
 @RestController
 public class RacingGameController {
     @Autowired
-    private RacingHistoryDao racingHistoryDao;
-    @Autowired
-    private PlayersHistoryDao playersHistoryDao;
+    private RacingGameService racingGameService;
 
     @PostMapping(path = "/plays", consumes = "application/json")
-    public ResponseEntity<RacingGameResultDto> play(@RequestBody final RacingGameDto racingGameDto) {
-
-        final RacingGame racingGame = new RacingGame(InputUtil.splitNames(racingGameDto.getNames()),
-                racingGameDto.getCount());
-        racingGame.start();
-
-        final RacingGameResultDto racingGameResultDto = racingGame.convertToDto();
-        final int resultId = racingHistoryDao.insertResult(racingGameResultDto);
-        playersHistoryDao.insertResult(racingGameResultDto.getRacingCars(), resultId);
-        OutputView.printResult(racingGameResultDto);
+    public ResponseEntity<RacingGameResultDto> play(@RequestBody final RacingGameInputDto racingGameInputDto) {
+        RacingGameResultDto racingGameResultDto = racingGameService.play(racingGameInputDto);
         return ResponseEntity.ok(racingGameResultDto);
     }
 
     @GetMapping(path = "/plays", produces = "application/json")
-    public ResponseEntity<List<RacingGameResultDto>> inquireResult() {
-        List<RacingGameResultDto> racingGameResultDtos = racingHistoryDao.getResult();
-        return ResponseEntity.ok(racingGameResultDtos);
+    public ResponseEntity<List<RacingGameResultDto>> requestResult() {
+        List<RacingGameResultDto> racingGameDtos = racingGameService.requestResult();
+        return ResponseEntity.ok(racingGameDtos);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
