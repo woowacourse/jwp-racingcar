@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.dto.RacingGameRequest;
@@ -48,8 +49,10 @@ public class RacingGame {
         return gameCoin.isLeft();
     }
 
-    public List<Car> getCars() {
-        return Collections.unmodifiableList(this.cars);
+    public List<Car> getOrderedCars() {
+        return Collections.unmodifiableList(this.cars).stream()
+                .sorted(Comparator.comparingInt(Car::getPosition).reversed())
+                .collect(Collectors.toList());
     }
 
     public List<Car> getWinners() {

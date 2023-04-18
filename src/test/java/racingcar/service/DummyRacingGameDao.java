@@ -1,13 +1,13 @@
 package racingcar.service;
 
+import java.util.List;
 import racingcar.dao.RacingGameDao;
 import racingcar.dto.CarDto;
-
-import java.util.List;
+import racingcar.dto.GameResultDto;
 
 public class DummyRacingGameDao implements RacingGameDao {
     @Override
-    public Number saveGameResult(final String winners, final int trialCount) {
+    public Number saveGameResult(final GameResultDto gameResultDto, final int trialCount) {
         return null;
     }
 

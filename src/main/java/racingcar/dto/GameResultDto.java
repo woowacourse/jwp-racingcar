@@ -4,15 +4,15 @@ import java.util.List;
 
 public final class GameResultDto {
 
-    private final String winners;
+    private final List<CarDto> winners;
     private final List<CarDto> racingCars;
 
-    public GameResultDto(final String winners, final List<CarDto> racingCars) {
+    public GameResultDto(final List<CarDto> winners, final List<CarDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public String getWinners() {
+    public List<CarDto> getWinners() {
         return this.winners;
     }
 
