@@ -49,4 +49,14 @@ class RacingGameControllerTest {
                 .then().log().all()
                 .statusCode(BAD_REQUEST.value());
     }
+
+    @DisplayName("모든 레이싱 게임 결과를 조회한다.")
+    @Test
+    void getRacingGameHistories() {
+        RestAssured.given().log().all()
+                .contentType(APPLICATION_JSON_VALUE)
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(OK.value());
+    }
 }

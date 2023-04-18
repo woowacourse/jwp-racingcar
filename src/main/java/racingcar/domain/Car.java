@@ -12,6 +12,11 @@ public final class Car {
         this.position = Position.ZERO;
     }
 
+    public Car(final Name name, final Position position) {
+        this.name = name;
+        this.position = position;
+    }
+
     public void move(final NumberGenerator numberGenerator) {
         final int number = numberGenerator.generate();
         if (isMovable(number)) {
