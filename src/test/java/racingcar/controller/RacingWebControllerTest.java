@@ -45,7 +45,9 @@ class RacingWebControllerTest {
     @CsvSource(value = {"gray.hoy.logan:자동차 이름은 문자와 숫자만 가능합니다.",
             "gra@,ho@,l@gan:자동차 이름은 문자와 숫자만 가능합니다.",
             "grayyy,hoy,logan:자동차 이름은 다섯 글자 이하여야 합니다.",
-            "hoy,hoy,hoy:중복된 차 이름이 존재합니다."}, delimiter = ':')
+            "hoy,hoy,hoy:중복된 차 이름이 존재합니다.",
+            ":비어있는 자동차 이름이 존재합니다.",
+            " , :비어있는 자동차 이름이 존재합니다."}, delimiter = ':')
     void postRequestFailWithWrongName(final String names, final String exceptionMessage) {
         final TrackRequest trackRequest = new TrackRequest(names, "10");
 
@@ -56,7 +58,7 @@ class RacingWebControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("message", containsString(exceptionMessage));
+                .body("message", is(exceptionMessage));
     }
 
     @DisplayName("잘못된 시도 횟수 요청이 오면 상태코드 Bad Request 반환")
@@ -74,7 +76,7 @@ class RacingWebControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("message", containsString(exceptionMessage));
+                .body("message", is(exceptionMessage));
     }
 
     @DisplayName("게임 이력 조회 요청이 들어오면 상태코드 OK 반환")

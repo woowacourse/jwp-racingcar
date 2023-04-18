@@ -1,12 +1,14 @@
 package racingcar.model.car;
 
 import racingcar.exception.DuplicateCarNamesException;
+import racingcar.exception.HasBlankCarNameException;
 import racingcar.model.car.strategy.MovingStrategy;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Cars {
@@ -18,7 +20,7 @@ public class Cars {
     public Cars(final String carNames, final MovingStrategy movingStrategy) {
         validate(carNames);
 
-        this.cars = Arrays.stream(carNames.split(SEPARATOR))
+        this.cars = Arrays.stream(carNames.split(SEPARATOR, -1))
                 .map(carName -> Car.of(carName, movingStrategy))
                 .collect(Collectors.toList());
     }
@@ -28,12 +30,19 @@ public class Cars {
     }
 
     private void validate(final String carNames) {
-        String[] splitCarNames = carNames.split(SEPARATOR);
-
-        validateDuplicateCarNames(splitCarNames);
+        validateNull(carNames);
+        validateDuplicateCarNames(carNames);
     }
 
-    private void validateDuplicateCarNames(final String[] splitCarNames) {
+    private void validateNull(final String carNames) {
+        final Optional<String> optionalCarName = Optional.ofNullable(carNames);
+        if (optionalCarName.isEmpty()) {
+            throw new HasBlankCarNameException();
+        }
+    }
+
+    private void validateDuplicateCarNames(final String carNames) {
+        String[] splitCarNames = carNames.split(SEPARATOR);
         int carNamesCount = splitCarNames.length;
         int distinctCarNamesCount = new HashSet<>(Arrays.asList(splitCarNames)).size();
 

@@ -5,6 +5,7 @@ import racingcar.exception.HasBlankCarNameException;
 import racingcar.exception.InvalidCarNameFormatException;
 import racingcar.model.car.strategy.MovingStrategy;
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class Car {
@@ -37,9 +38,17 @@ public class Car {
     }
 
     private void validate(final String carName) {
+        validateNull(carName);
         validateHasBlank(carName);
         validateValue(carName);
         validateOverMaxNameLength(carName);
+    }
+
+    private void validateNull(final String carName) {
+        final Optional<String> optionalCarName = Optional.ofNullable(carName);
+        if (optionalCarName.isEmpty()) {
+            throw new HasBlankCarNameException();
+        }
     }
 
     private void validateValue(final String carName) {
