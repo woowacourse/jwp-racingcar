@@ -1,23 +1,25 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.time.LocalTime;
 import java.util.List;
 
 @Repository
 public class GameDao {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate template;
     private final SimpleJdbcInsert insertActor;
 
-    public GameDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
+    public GameDao(DataSource dataSource) {
+        this.template = new NamedParameterJdbcTemplate(dataSource);
+        this.insertActor = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingGeneratedKeyColumns("game_id");
     }
@@ -31,11 +33,14 @@ public class GameDao {
 
     public List<GameEntity> findAll() {
         String sql = "select game_id, winners from game";
-        List<GameEntity> games = jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return template.query(sql, rowMapper());
+    }
+
+    private static RowMapper<GameEntity> rowMapper() {
+        return (rs, rowNum) -> {
             int gameId = rs.getInt("game_id");
             String winners = rs.getString("winners");
             return new GameEntity(gameId, winners);
-        });
-        return games;
+        };
     }
 }
