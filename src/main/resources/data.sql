@@ -1,4 +1,4 @@
-create TABLE GAME (
+create TABLE if not exists GAME (
     game_id     INT         NOT NULL AUTO_INCREMENT,
     winners     VARCHAR(50) NOT NULL,
     try_count   INT         NOT NULL,
@@ -6,7 +6,7 @@ create TABLE GAME (
     PRIMARY KEY (game_id)
 );
 
-create TABLE CAR (
+create TABLE if not exists CAR (
     car_id      INT          NOT NULL AUTO_INCREMENT,
     name        VARCHAR(5)   NOT NULL,
     position    INT          NOT NULL DEFAULT 0,
