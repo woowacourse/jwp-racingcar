@@ -9,14 +9,13 @@ public class CarStatusDto {
     private final String name;
     private final int position;
 
-    public CarStatusDto(final CarName name, final CarPosition position) {
-        this.name = name.getName();
-        this.position = position.getPosition();
-    }
-
-    public CarStatusDto(String name, int position) {
+    private CarStatusDto(final String name, final int position) {
         this.name = name;
         this.position = position;
+    }
+
+    public static CarStatusDto of(final CarName name, final CarPosition position) {
+        return new CarStatusDto(name.getName(), position.getPosition());
     }
 
     public static CarStatusDto of(final CarEntity carEntity) {

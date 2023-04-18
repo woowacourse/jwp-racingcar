@@ -59,9 +59,9 @@ public class RaceService {
         final List<String> winners = cars.getWinnerCarNames();
         final List<CarStatusDto> carRaceResult = cars.getCars()
             .stream()
-            .map(car -> new CarStatusDto(car.getCarName(), car.getCarPosition()))
+            .map(car -> CarStatusDto.of(car.getCarName(), car.getCarPosition()))
             .collect(Collectors.toUnmodifiableList());
-        return RaceResponse.create(winners, carRaceResult);
+        return RaceResponse.of(winners, carRaceResult);
     }
 
     public List<RaceResponse> findAllRace() {

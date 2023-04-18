@@ -45,9 +45,9 @@ class RaceControllerTest {
         // given
         final RaceRequest raceRequest = new RaceRequest("두둠,져니", 10);
         final String request = objectMapper.writeValueAsString(raceRequest);
-        final CarStatusDto carStatusDto = new CarStatusDto(CarName.create("두둠"),
+        final CarStatusDto carStatusDto = CarStatusDto.of(CarName.create("두둠"),
             new CarPosition(6));
-        final RaceResponse raceResponse = RaceResponse.create(List.of("두둠"), List.of(carStatusDto));
+        final RaceResponse raceResponse = RaceResponse.of(List.of("두둠"), List.of(carStatusDto));
 
         when(raceService.play(any()))
             .thenReturn(raceResponse);

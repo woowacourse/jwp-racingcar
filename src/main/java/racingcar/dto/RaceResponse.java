@@ -16,17 +16,17 @@ public class RaceResponse {
         this.racingCars = racingCars;
     }
 
-    public static RaceResponse create(final List<String> winners,
+    public static RaceResponse of(final List<String> winners,
         final List<CarStatusDto> carRaceResult) {
         final String winnerNames = String.join(JOIN_DELIMITER, winners);
         return new RaceResponse(winnerNames, carRaceResult);
     }
 
     public static RaceResponse of(final RaceEntity raceEntity, final List<CarEntity> carEntities) {
-        final List<CarStatusDto> carStatusDtos = carEntities.stream()
+        final List<CarStatusDto> carStatuses = carEntities.stream()
             .map(CarStatusDto::of)
             .collect(Collectors.toUnmodifiableList());
-        return new RaceResponse(raceEntity.getWinners(), carStatusDtos);
+        return new RaceResponse(raceEntity.getWinners(), carStatuses);
     }
 
     public String getWinners() {
