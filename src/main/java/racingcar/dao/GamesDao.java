@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.GameEntity;
 
@@ -9,8 +9,8 @@ public class GamesDao {
 
     private final InsertGameDao insertGameDao;
 
-    public GamesDao(final DataSource dataSource) {
-        insertGameDao = new InsertGameDao(dataSource);
+    public GamesDao(final JdbcTemplate jdbcTemplate) {
+        insertGameDao = new InsertGameDao(jdbcTemplate);
     }
 
     public GameEntity save(final GameEntity gameEntity) {

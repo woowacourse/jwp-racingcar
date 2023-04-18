@@ -11,7 +11,8 @@ public class SelectCarDao {
     private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> new CarEntity(
             resultSet.getInt("car_id"),
             resultSet.getString("name"),
-            resultSet.getInt("position")
+            resultSet.getInt("position"),
+            resultSet.getInt("game_id")
     );
 
     public SelectCarDao(final JdbcTemplate jdbcTemplate) {
@@ -19,7 +20,7 @@ public class SelectCarDao {
     }
 
     public List<CarEntity> findAllByGameId(final int gameId) {
-        final String sql = "SELECT car_id, name, position FROM CAR WHERE game_id = ?";
+        final String sql = "SELECT car_id, name,game_id, position FROM CAR WHERE game_id = ?";
 
         return jdbcTemplate.query(sql, actorRowMapper, gameId);
     }

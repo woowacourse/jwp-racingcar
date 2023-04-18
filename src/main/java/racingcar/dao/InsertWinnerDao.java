@@ -1,27 +1,25 @@
 package racingcar.dao;
 
 import java.util.List;
-import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.WinnerEntity;
 
 public class InsertWinnerDao {
 
     private final SimpleJdbcInsert insertActor;
 
-    public InsertWinnerDao(final DataSource dataSource) {
-        insertActor = new SimpleJdbcInsert(dataSource)
+    public InsertWinnerDao(final JdbcTemplate jdbcTemplate) {
+        insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("winner")
                 .usingGeneratedKeyColumns("winner_id");
     }
 
-    public void insertAll(final List<CarEntity> winners, final int gameId) {
-        final MapSqlParameterSource[] batch = winners.stream().map(winner ->
-                new MapSqlParameterSource()
-                        .addValue("game_id", gameId)
-                        .addValue("car_id", winner.getId())
-        ).toArray(MapSqlParameterSource[]::new);
+    public void insertAll(final List<WinnerEntity> winnerEntities) {
+        final BeanPropertySqlParameterSource[] batch = winnerEntities.stream()
+                .map(BeanPropertySqlParameterSource::new)
+                .toArray(BeanPropertySqlParameterSource[]::new);
 
         insertActor.executeBatch(batch);
     }

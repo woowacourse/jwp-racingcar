@@ -4,6 +4,5 @@ import racingcar.domain.RacingGame;
 
 public interface RacingGameRepository {
 
-    int save(RacingGame racingGame);
-
+    RacingGame insert(RacingGame racingGame);
 }
