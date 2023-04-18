@@ -3,8 +3,8 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.PlayerResultDAO;
-import racingcar.dao.PlayersInfoDAO;
+import racingcar.dao.PlayResultDao;
+import racingcar.dao.PlayersInfoDao;
 import racingcar.domain.CarFactory;
 import racingcar.domain.Cars;
 import racingcar.dto.GameInfoRequest;
@@ -19,11 +19,11 @@ import java.util.List;
 @Transactional
 public class RacingCarService {
 
-    private final PlayerResultDAO playerResultDAO;
-    private final PlayersInfoDAO playersInfoDAO;
+    private final PlayResultDao playResultDAO;
+    private final PlayersInfoDao playersInfoDAO;
 
-    public RacingCarService(PlayerResultDAO playerResultDAO, PlayersInfoDAO playersInfoDAO) {
-        this.playerResultDAO = playerResultDAO;
+    public RacingCarService(PlayResultDao playResultDAO, PlayersInfoDao playersInfoDAO) {
+        this.playResultDAO = playResultDAO;
         this.playersInfoDAO = playersInfoDAO;
     }
 
@@ -43,7 +43,7 @@ public class RacingCarService {
         }
     }
     private void saveResult(int trialCount, Cars cars){
-        int playerResultId = playerResultDAO.returnPlayResultIdAfterInsert(trialCount, cars.findWinners());
+        int playerResultId = playResultDAO.returnPlayResultIdAfterInsert(trialCount, cars.findWinners());
         playersInfoDAO.insert(playerResultId, cars.getCars());
     }
 }

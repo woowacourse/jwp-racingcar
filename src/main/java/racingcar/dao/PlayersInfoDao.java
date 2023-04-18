@@ -10,11 +10,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class PlayersInfoDAO {
+public class PlayersInfoDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public PlayersInfoDAO(JdbcTemplate jdbcTemplate) {
+    public PlayersInfoDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

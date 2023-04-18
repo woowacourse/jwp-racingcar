@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class PlayerResultDAO {
+public class PlayResultDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public PlayerResultDAO(JdbcTemplate jdbcTemplate) {
+    public PlayResultDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
