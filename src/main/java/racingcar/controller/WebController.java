@@ -14,11 +14,11 @@ import racingcar.service.RacingResponse;
 import racingcar.service.RacingcarService;
 
 @RestController
-public class RacingcarController {
+public class WebController {
 
     private final RacingcarService racingcarService;
 
-    public RacingcarController(RacingcarService racingcarService) {
+    public WebController(RacingcarService racingcarService) {
         this.racingcarService = racingcarService;
     }
 
