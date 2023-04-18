@@ -41,4 +41,10 @@ public class RacingGameWebController {
         ExceptionDto exceptionDto = new ExceptionDto(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDto);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionDto> handle(Exception e) {
+        ExceptionDto exceptionDto = new ExceptionDto(e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionDto);
+    }
 }
