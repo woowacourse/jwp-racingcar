@@ -14,7 +14,7 @@ import io.restassured.RestAssured;
 
 @SpringBootTest
 @Transactional
-class RacingcarControllerTest {
+class webControllerTest {
 
     @DisplayName("/plays post 요청 정상동작 확인")
     @Test
