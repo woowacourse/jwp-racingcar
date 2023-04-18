@@ -22,34 +22,32 @@ public class RacingGame {
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public CarGameResponse play() {
-        while (!isEnd()) {
+    public void play() {
+        for (int count = 0; count < getTryCount(); count++) {
             playTurn();
         }
-        String winnerName = String.join(WINNER_DELIMITER, decideWinners());
-        return new CarGameResponse(winnerName, getCarResults());
     }
 
     public void playTurn() {
         cars.moveAll(numberGenerator);
-        tryCount.decreaseCount();
     }
 
-    public List<String> decideWinners() {
-        return cars.decideWinners().stream()
+    public CarGameResponse getCarGameResult() {
+        return new CarGameResponse(getWinnerNames(), getCarResults());
+    }
+
+    public String getWinnerNames() {
+        List<String> names = cars.getMaxPositionCars().stream()
                 .map(Car::getName)
                 .collect(Collectors.toUnmodifiableList());
+        return String.join(WINNER_DELIMITER, names);
     }
 
     private List<CarResponse> getCarResults() {
         return cars.getUnmodifiableCars()
                 .stream()
-                .map(CarResponse::new)
+                .map(CarResponse::fromCar)
                 .collect(Collectors.toList());
-    }
-
-    public boolean isEnd() {
-        return tryCount.isEnd();
     }
 
     public Cars getCars() {
