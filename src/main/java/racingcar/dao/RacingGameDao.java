@@ -1,28 +1,48 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
+import racingcar.entity.RacingGameEntity;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Objects;
 
-@Repository
+@Component
 public class RacingGameDao {
 
-    private final SimpleJdbcInsert simpleJdbcInsert;
+    private final JdbcTemplate jdbcTemplate;
 
-    public RacingGameDao(final DataSource dataSource) {
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("racing_game")
-                .usingColumns("winners", "trial_count")
-                .usingGeneratedKeyColumns("id");
+    public RacingGameDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long save(final String winners, final Integer trialCount) {
-        final Map<String, Object> parameters = new HashMap<>();
-        parameters.put("winners", winners);
-        parameters.put("trial_count", trialCount);
-        return simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
+    public Long save(final RacingGameEntity racingGameEntity) {
+        final String sql = "INSERT INTO RACING_GAME (trial_count) VALUES (?)";
+
+        final KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            final PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
+            preparedStatement.setInt(1, racingGameEntity.getTrialCount());
+            return preparedStatement;
+        }, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+    }
+
+    public List<RacingGameEntity> findAll() {
+        final String sql = "SELECT * FROM RACING_GAME";
+
+        return jdbcTemplate.query(
+                sql,
+                (rs, rowNum) -> RacingGameEntity.builder()
+                        .id(rs.getLong(1))
+                        .trialCount(rs.getInt(2))
+                        .date(new Timestamp(rs.getDate(3).getTime()).toLocalDateTime())
+                        .build()
+        );
     }
 }
