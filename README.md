@@ -12,6 +12,7 @@
         - [x] 자동차 경주 로직 도메인으로 이동
         - [x] 공통 비즈니스 로직을 최종 도메인 객체에 통합
             - 이를 위해 기존 콘솔 게임 도메인 코드 리팩터링
+    - [ ] 저장 기능 추가
 
 ## 웹 자동차 경주 게임 API
 
@@ -136,8 +137,8 @@ Content-Type: application/json
 
 - 2단계 피드백
     - [ ] [Dao 클래스 분리 기준 정하기](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167774162)
-    - [ ] [Dto 사용방식 검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167789126)
-    - [ ] [도메인 관점에서 테이블 설계 재검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167795949)
+    - [x] [Dto 사용방식 검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167789126)
+    - [x] [도메인 관점에서 테이블 설계 재검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167795949)
 
 ### 리팩터링 목록
 

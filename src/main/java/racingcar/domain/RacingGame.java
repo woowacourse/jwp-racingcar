@@ -1,8 +1,7 @@
 package racingcar.domain;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import racingcar.dto.JudgedCarDto;
 
 public class RacingGame {
 
@@ -12,10 +11,16 @@ public class RacingGame {
     private final NumberGenerator powerValueGenerator = new RandomNumberGenerator(POWER_VALUE_MIN, POWER_VALUE_MAX);
     private RacingCars racingCars;
 
-    public List<JudgedCarDto> play(final int racingCount, final RacingCarNames carNames) {
-        racingCars = new RacingCars(carNames.createCars());
+    private RacingGame(final RacingCars racingCars) {
+        this.racingCars = racingCars;
+    }
+
+    public static RacingGame of(final List<Car> racingCars) {
+        return new RacingGame(new RacingCars(racingCars));
+    }
+
+    public void play(final int racingCount) {
         race(racingCount);
-        return getJudgedCars();
     }
 
     private void race(final int count) {
@@ -24,11 +29,12 @@ public class RacingGame {
         }
     }
 
-    private List<JudgedCarDto> getJudgedCars() {
-        final List<Car> winningCars = racingCars.findWinningCars();
-        return racingCars.racingCars()
-                .stream()
-                .map(car -> JudgedCarDto.of(car.getName(), car.getPosition(), winningCars.contains(car)))
-                .collect(Collectors.toList());
+    public List<Car> racingCars() {
+        return new ArrayList<>(racingCars.racingCars());
     }
+
+    public List<String> findWinningCarNames() {
+        return racingCars.findWinningCarNames();
+    }
+
 }

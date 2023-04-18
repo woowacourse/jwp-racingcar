@@ -1,24 +1,24 @@
 package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 
 import java.util.List;
-import java.util.Map;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.dto.JudgedCarDto;
+import racingcar.domain.Car;
 
 @SpringBootTest
 class CarsDaoTest {
 
-    private static final List<JudgedCarDto> FIXTURE_CARS = List.of(
-            JudgedCarDto.of("도이", 1, false),
-            JudgedCarDto.of("연어", 3, false),
-            JudgedCarDto.of("브리", 4, true)
+    private static final int FIRST_INSERT_ID = 1;
+    private static final List<Car> FIXTURE_CARS_ID_NULL = List.of(
+            new Car("도이", 1),
+            new Car("연어", 3),
+            new Car("브리", 4)
     );
 
     @Autowired
@@ -28,33 +28,52 @@ class CarsDaoTest {
 
     @BeforeEach
     void setUp() {
-        playRecordsDao.clear();
         playRecordsDao.insert(5);
+    }
+
+    @AfterEach
+    void clear() {
+        playRecordsDao.clear();
     }
 
     @DisplayName("DB: 게임 아이디에 따른 자동차 저장 테스트")
     @Test
     void insert() {
-        long id = playRecordsDao.getLastId();
+        carsDao.insert(1, List.of(
+                        new Car("도이", 1),
+                        new Car("연어", 3),
+                        new Car("브리", 4)
+                )
+        );
+        System.out.println(carsDao.find(FIRST_INSERT_ID));
 
-        carsDao.insert(id, FIXTURE_CARS);
-
-        assertThat(carsDao.find(id))
-                .containsExactlyInAnyOrderElementsOf(FIXTURE_CARS);
+        assertThat(carsDao.find(FIRST_INSERT_ID))
+                .containsExactlyInAnyOrder(
+                        new Car(1, "도이", 1),
+                        new Car(1, "연어", 3),
+                        new Car(1, "브리", 4)
+                );
     }
 
     @DisplayName("DB: 모든 게임 별 자동차 정보 최신순 조회 테스트")
     @Test
     void findAllCarsById() {
         long id1 = playRecordsDao.getLastId();
-        carsDao.insert(id1, FIXTURE_CARS);
+        carsDao.insert(id1, FIXTURE_CARS_ID_NULL);
         playRecordsDao.insert(5);
         long id2 = playRecordsDao.getLastId();
-        carsDao.insert(id2, FIXTURE_CARS);
+        carsDao.insert(id2, FIXTURE_CARS_ID_NULL);
 
-        Map<Long, List<JudgedCarDto>> allCars = carsDao.findAllCarsByPlayId();
+        final List<Car> allCars = carsDao.findAllCarsByPlayId();
 
-        assertThat(allCars).containsExactly(entry(id2, FIXTURE_CARS), entry(id1, FIXTURE_CARS));
+        assertThat(allCars).containsExactly(
+                new Car(id2, "도이", 1),
+                new Car(id2, "연어", 3),
+                new Car(id2, "브리", 4),
+                new Car(id1, "도이", 1),
+                new Car(id1, "연어", 3),
+                new Car(id1, "브리", 4)
+        );
     }
 
 }

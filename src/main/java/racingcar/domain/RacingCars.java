@@ -18,12 +18,13 @@ public class RacingCars {
         racingCars.forEach(car -> car.moveOrStayByPower(powerValueGenerator.generate()));
     }
 
-    public List<Car> findWinningCars() {
+    public List<String> findWinningCarNames() {
         final List<Car> sortedCars = new ArrayList<>(racingCars);
         sortedCars.sort(Collections.reverseOrder());
 
         return racingCars.stream()
                 .filter(racingCar -> racingCar.hasSamePosition(sortedCars.get(SORTED_CARS_HEAD_INDEX)))
+                .map(Car::getName)
                 .collect(Collectors.toList());
     }
 

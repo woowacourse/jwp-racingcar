@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarsDao;
 import racingcar.dao.PlayRecordsDao;
+import racingcar.domain.Car;
 import racingcar.domain.RacingCarNames;
 import racingcar.domain.RacingGame;
-import racingcar.dto.JudgedCarDto;
 import racingcar.dto.PlayResponseDto;
 import racingcar.dto.PlayResponseDtoConverter;
 
@@ -27,23 +27,29 @@ public class RacingCarService {
 
     @Transactional
     public PlayResponseDto playGame(final int count, final RacingCarNames carNames) {
-        final List<JudgedCarDto> judgedCars = new RacingGame().play(count, carNames);
-        saveGame(count, judgedCars);
-        return PlayResponseDtoConverter.from(judgedCars);
+        RacingGame racingGame = RacingGame.of(carNames.createCars());
+        racingGame.play(count);
+        List<Car> cars = racingGame.racingCars();
+        saveGame(count, cars);
+        return PlayResponseDtoConverter.from(cars, racingGame.findWinningCarNames());
     }
 
-    private void saveGame(final int count, final List<JudgedCarDto> judgedCars) {
+    private void saveGame(final int count, final List<Car> cars) {
         playRecordsDao.insert(count);
         long savedId = playRecordsDao.getLastId();
-        carsDao.insert(savedId, judgedCars);
+        carsDao.insert(savedId, cars);
     }
 
     public List<PlayResponseDto> findAllPlayRecords() {
-        final Map<Long, List<JudgedCarDto>> judgedCarsByPlayId = carsDao.findAllCarsByPlayId();
-        return judgedCarsByPlayId.values()
+        List<Car> allCars = carsDao.findAllCarsByPlayId();
+        // TODO 이렇게 map 으로 꺼내는 방법 뿐일까? repository 클래스로 책임 분리?
+        Map<Long, List<Car>> carsById = allCars.stream()
+                .collect(Collectors.groupingBy(Car::getPlayId));
+        return carsById.values()
                 .stream()
-                .map(PlayResponseDtoConverter::from)
+                .map(RacingGame::of)
+                .map(racingGame ->
+                        PlayResponseDtoConverter.from(racingGame.racingCars(), racingGame.findWinningCarNames()))
                 .collect(Collectors.toList());
     }
-
 }

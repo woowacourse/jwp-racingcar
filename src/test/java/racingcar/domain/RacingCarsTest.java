@@ -49,7 +49,7 @@ class RacingCarsTest {
 
         racingCars.process(new TestNumberGenerator(new LinkedList<>(List.of(0, 4, 9))));
 
-        assertThat(racingCars.findWinningCars()).containsOnly(new Car("b", 1), new Car("c", 1));
+        assertThat(racingCars.findWinningCarNames()).containsOnly("b", "c");
     }
 
     private static class TestNumberGenerator implements NumberGenerator {
