@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 public class GamePlayRequestDto {
-    @NotEmpty(message = "참가자를 입력해주세요.")
+    @NotEmpty(message = "차 이름을 입력해주세요.")
     private final List<String> names;
 
     @Range(min = 1, max = 10000, message = "{min}이상, {max}이하의 시도 횟수를 입력해주세요.")
