@@ -34,4 +34,19 @@ class PlayerDaoTest {
         // when, then
         Assertions.assertThatNoException().isThrownBy(() -> jdbcPlayerDao.insert(gameId, cars));
     }
+
+    @Test
+    void findTest() {
+        // given
+        int gameId = jdbcGameDao.insert("pobi", 6);
+        List<Car> cars = List.of(new Car("jena", 1), new Car("odo", 2), new Car("jena", 0));
+
+        jdbcPlayerDao.insert(gameId, cars);
+
+        // when
+        List<Car> results = jdbcPlayerDao.find(gameId);
+
+        // then
+        Assertions.assertThat(results).isEqualTo(cars);
+    }
 }

@@ -60,7 +60,7 @@ public class RacingGameService {
     public List<PlayResultResponseDto> getPlayHistory() {
         List<PlayResultResponseDto> playResultResponseDtos = new ArrayList<>();
 
-        int lastGameId = gameDao.findLastId();
+        int lastGameId = gameDao.findLastId().orElseThrow(() -> new IllegalStateException("존재하는 게임 정보가 없습니다"));
         for (int index = 1; index < lastGameId + 1; index++) {
             String winnerNames = gameDao.findWinners(index);
             Winner winner = new Winner(Arrays.asList(winnerNames.split(",")));
