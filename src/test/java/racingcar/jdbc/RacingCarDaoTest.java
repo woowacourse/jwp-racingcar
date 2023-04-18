@@ -17,7 +17,7 @@ class RacingCarDaoTest {
 	void setUp() {
 		JdbcTemplate jdbcTemplate = racingCarDao.getJdbcTemplate();
 
-		jdbcTemplate.execute("CREATE TABLE games\n"
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS games\n"
 			+ "(\n"
 			+ "`gameId`        INT          NOT NULL AUTO_INCREMENT,\n"
 			+ "`count`         INT          NOT NULL,\n"
@@ -25,7 +25,7 @@ class RacingCarDaoTest {
 			+ "`timeStamp`    TIMESTAMP     NOT NULL,\n"
 			+ "PRIMARY KEY (`gameId`)\n"
 			+ ");\n"
-			+ "CREATE TABLE cars\n"
+			+ "CREATE TABLE IF NOT EXISTS cars\n"
 			+ "(\n"
 			+ "`name`       VARCHAR(20) NOT NULL,\n"
 			+ "`position`     INT       NOT NULL,\n"
