@@ -8,9 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dao.GameDao;
-import racingcar.dao.GameLogDao;
 import racingcar.dto.GameRequestDto;
 
 @DisplayName("Http Method")
