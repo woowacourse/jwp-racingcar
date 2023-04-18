@@ -1,12 +1,13 @@
 package racingcar.domain;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CarTest {
 
@@ -23,7 +24,7 @@ class CarTest {
     @DisplayName("자동차 이름이 5글자 초과인 경우")
     void wrongCarNameLengthTest(String carName) {
 
-        Assertions.assertThatThrownBy(() -> new Car(carName, 0))
+        assertThatThrownBy(() -> new Car(carName, 0))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -32,7 +33,7 @@ class CarTest {
     void carNameBlankTest() {
         String carName = "";
 
-        Assertions.assertThatThrownBy(() -> new Car(carName, 0))
+        assertThatThrownBy(() -> new Car(carName, 0))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -42,7 +43,7 @@ class CarTest {
         int beforePosition = car.getPosition();
         car.move(3);
 
-        Assertions.assertThat(car.getPosition()).isEqualTo(beforePosition);
+        assertThat(car.getPosition()).isEqualTo(beforePosition);
     }
 
     @Test
@@ -51,7 +52,7 @@ class CarTest {
         int beforePosition = car.getPosition();
         car.move(4);
 
-        Assertions.assertThat(car.getPosition()).isEqualTo(beforePosition + 1);
+        assertThat(car.getPosition()).isEqualTo(beforePosition + 1);
     }
 
     @Test
@@ -59,7 +60,7 @@ class CarTest {
     void getLargerCarTest() {
         compareCar = new Car("car", 5);
 
-        Assertions.assertThat(car.compareTo(compareCar)).isLessThan(0);
+        assertThat(car.compareTo(compareCar)).isLessThan(0);
     }
 
     @Test
@@ -67,7 +68,7 @@ class CarTest {
     void getSamePositionCarExistTest() {
         compareCar = new Car("car", 0);
 
-        Assertions.assertThat(car.isSamePositionCar(compareCar)).isTrue();
+        assertThat(car.isSamePositionCar(compareCar)).isTrue();
     }
 
     @Test
@@ -75,6 +76,6 @@ class CarTest {
     void getSamePositionCarNotExistTest() {
         compareCar = new Car("car", 5);
 
-        Assertions.assertThat(car.isSamePositionCar(compareCar)).isFalse();
+        assertThat(car.isSamePositionCar(compareCar)).isFalse();
     }
 }

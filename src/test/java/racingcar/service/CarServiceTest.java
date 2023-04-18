@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import racingcar.dao.car.CarDao;
 import racingcar.domain.RacingCars;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

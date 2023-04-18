@@ -9,9 +9,9 @@ CREATE TABLE RACE_RESULT
 
 CREATE TABLE CAR
 (
-    id             BIGINT         NOT NULL AUTO_INCREMENT,
+    id             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     name           VARCHAR(50) NOT NULL,
     position       INT         NOT NULL,
-    race_result_id BIGINT         NOT NULL,
+    race_result_id BIGINT      NOT NULL,
     PRIMARY KEY (id)
 );

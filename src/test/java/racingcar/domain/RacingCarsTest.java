@@ -1,12 +1,10 @@
 package racingcar.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class RacingCarsTest {
 
@@ -19,8 +17,8 @@ class RacingCarsTest {
         final Car test1 = racingCars.getCars().get(0);
         test1.move(4);
 
-        Assertions.assertThat(racingCars.getWinners().size()).isEqualTo(1);
-        Assertions.assertThat(racingCars.getWinners()).containsExactly(test1);
+        assertThat(racingCars.getWinners().size()).isEqualTo(1);
+        assertThat(racingCars.getWinners()).containsExactly(test1);
     }
 
     @Test
@@ -36,8 +34,8 @@ class RacingCarsTest {
         test2.move(4);
         test3.move(4);
 
-        Assertions.assertThat(racingCars.getWinners().size()).isEqualTo(3);
-        Assertions.assertThat(racingCars.getWinners()).containsOnly(test1, test2, test3);
+        assertThat(racingCars.getWinners().size()).isEqualTo(3);
+        assertThat(racingCars.getWinners()).containsOnly(test1, test2, test3);
     }
 
 
@@ -58,8 +56,8 @@ class RacingCarsTest {
         test4.move(4);
         test5.move(4);
 
-        Assertions.assertThat(racingCars.getWinners().size()).isEqualTo(5);
-        Assertions.assertThat(racingCars.getWinners()).containsOnly(test1, test2, test3, test4, test5);
+        assertThat(racingCars.getWinners().size()).isEqualTo(5);
+        assertThat(racingCars.getWinners()).containsOnly(test1, test2, test3, test4, test5);
     }
 
     @Test
@@ -67,7 +65,7 @@ class RacingCarsTest {
     void splitCarNamesDuplicateTest() {
         String carNames = "성하,성하,이오";
 
-        Assertions.assertThatThrownBy(() -> RacingCars.makeCars(carNames))
-                  .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> RacingCars.makeCars(carNames))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

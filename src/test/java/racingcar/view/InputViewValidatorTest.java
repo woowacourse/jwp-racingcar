@@ -1,11 +1,12 @@
 package racingcar.view;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class InputViewValidatorTest {
 
@@ -20,7 +21,7 @@ class InputViewValidatorTest {
         void carNamesBlankTest() {
             String carNames = "";
 
-            Assertions.assertThatThrownBy(() -> inputViewValidator.validateCarNames(carNames))
+            assertThatThrownBy(() -> inputViewValidator.validateCarNames(carNames))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -34,7 +35,7 @@ class InputViewValidatorTest {
         void splitCarNamesDuplicateTest() {
             String[] carNames = new String[]{"성하", "성하", "이오"};
 
-            Assertions.assertThatThrownBy(() -> inputViewValidator.validateSplitCarNames(carNames))
+            assertThatThrownBy(() -> inputViewValidator.validateSplitCarNames(carNames))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -48,7 +49,7 @@ class InputViewValidatorTest {
         void tryNumBlankTest() {
             String tryNum = "";
 
-            Assertions.assertThatThrownBy(() -> inputViewValidator.validateTryNum(tryNum))
+            assertThatThrownBy(() -> inputViewValidator.validateTryNum(tryNum))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -57,7 +58,7 @@ class InputViewValidatorTest {
         @DisplayName("시도할 횟수가 정수가 아닌 경우 예외 처리")
         void tryNumIntegerTest(String tryNum) {
 
-            Assertions.assertThatThrownBy(() -> inputViewValidator.validateTryNum(tryNum))
+            assertThatThrownBy(() -> inputViewValidator.validateTryNum(tryNum))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -66,7 +67,7 @@ class InputViewValidatorTest {
         @DisplayName("시도할 횟수가 0 이하인 경우 예외 테스트")
         void readTryNumNotPositiveTest(String tryNum) {
 
-            Assertions.assertThatThrownBy(() -> inputViewValidator.validateTryNum(tryNum))
+            assertThatThrownBy(() -> inputViewValidator.validateTryNum(tryNum))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

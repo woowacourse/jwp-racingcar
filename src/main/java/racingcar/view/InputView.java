@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 public class InputView {
 
-    private static final String CAR_NAMES_DELIMITER = ",";
-
     private final InputViewValidator inputViewValidator = new InputViewValidator();
 
     public String readCarNames() {
