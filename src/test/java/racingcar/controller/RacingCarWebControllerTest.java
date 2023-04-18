@@ -17,6 +17,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.TableTruncator;
 import racingcar.dto.RequestDto;
 
+import static org.hamcrest.core.Is.is;
+
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -39,16 +41,31 @@ class RacingCarWebControllerTest {
     }
 
     @Test
-    void 이름과_시도_횟수를_요청했을_때_() {
+    void 이름과_시도_횟수를_요청했을_때() {
         final String names = "브리,토미,브라운";
         final int count = 10;
         final RequestDto requestDto = new RequestDto(names, count);
 
         RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(requestDto)
-                .when().post("/plays")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(requestDto)
+            .when().post("/plays")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 참가자_이름_제한_초과로_IllegalArgumentException이_발생했을_때() {
+        final String names = "abcd, abcde";
+        final int count = 10;
+        final RequestDto requestDto = new RequestDto(names, count);
+
+        RestAssured.given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(requestDto)
+            .when().post("/plays")
+            .then().log().all()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body(is("IllegalArgumentException"));
     }
 }
