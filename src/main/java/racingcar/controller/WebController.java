@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GameInformationDto;
 import racingcar.dto.RequestDto;
 import racingcar.dto.ResponseDto;
-import racingcar.services.GameService;
+import racingcar.services.RacingGameService;
 import racingcar.util.ValueEditor;
 
 import java.util.List;
@@ -16,23 +16,23 @@ import java.util.List;
 @RestController
 public class WebController {
 
-    private final GameService gameService;
+    private final RacingGameService racingGameService;
 
-    public WebController(GameService gameService) {
-        this.gameService = gameService;
+    public WebController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<ResponseDto> play(@RequestBody RequestDto requestDto) {
         List<String> names = ValueEditor.splitByComma(requestDto.getNames());
         String count = requestDto.getCount();
-        ResponseDto responseDto = gameService.play(new GameInformationDto(names, count));
+        ResponseDto responseDto = racingGameService.play(new GameInformationDto(names, count));
         return ResponseEntity.ok().body(responseDto);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<ResponseDto>> queryHistory() {
-        List<ResponseDto> responseDto = gameService.queryHistory();
+        List<ResponseDto> responseDto = racingGameService.queryHistory();
         return ResponseEntity.ok().body(responseDto);
     }
 

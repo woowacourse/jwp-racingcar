@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class GameService {
+public class RacingGameService {
 
     private final RacingGameRepository racingGameRepository;
 
-    public GameService(RacingGameRepository racingGameRepository) {
+    public RacingGameService(RacingGameRepository racingGameRepository) {
         this.racingGameRepository = racingGameRepository;
     }
 
