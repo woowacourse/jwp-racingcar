@@ -29,6 +29,11 @@ public class StubRacingGameRepository implements RacingGameRepository {
         return racingGameWithId;
     }
 
+    public void setGameIdToRacingGame(final Map<Integer, RacingGame> gameIdToRacingGame) {
+        this.gameIdToRacingGame.clear();
+        this.gameIdToRacingGame.putAll(gameIdToRacingGame);
+    }
+
     @Override
     public List<RacingGame> findAll() {
         return new ArrayList<>(gameIdToRacingGame.values());
