@@ -23,7 +23,7 @@ public class RacingGameConsoleController {
         init();
         racingGame = new RacingGame(cars, tryCount, this.numberGenerator);
         racingGame.run();
-        printResult(cars, tryCount);
+        Output.printWinner(racingGame.getWinner());
     }
 
     private void init() {
@@ -32,10 +32,5 @@ public class RacingGameConsoleController {
         Output.printMessage("시도할 회수는 몇회인가요?");
         this.tryCount = Input.getTryCount(Input.getInput());
         this.cars = carGenerator.generateCars(carNames);
-    }
-
-    private void printResult(List<Car> cars, int tryCount) {
-        Output.printEachCarResult(cars, tryCount);
-        Output.printWinner(racingGame.getWinner());
     }
 }
