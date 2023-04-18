@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import racingcar.controller.TrackResponse;
 import racingcar.model.car.Cars;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,8 +21,8 @@ class RacingServiceTest {
         String names = "그레이,호이,로건";
         String trialTimes = "10";
 
-        final Cars finishedCars = racingService.play(names, trialTimes);
+        TrackResponse trackResponse = racingService.play(names, trialTimes);
 
-        assertThat(finishedCars.getCarsCurrentInfo().size()).isEqualTo(names.split(",").length);
+        assertThat(trackResponse.getRacingCars().size()).isEqualTo(names.split(",").length);
     }
 }
