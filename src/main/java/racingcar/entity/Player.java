@@ -7,18 +7,18 @@ public class Player {
     private final String name;
     private final int position;
     private final boolean isWinner;
-    private final int game_id;
+    private final int gameId;
 
-    public Player(final Integer id, final String name, final int position, final boolean isWinner, final int game_id) {
+    public Player(final Integer id, final String name, final int position, final boolean isWinner, final int gameId) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.isWinner = isWinner;
-        this.game_id = game_id;
+        this.gameId = gameId;
     }
 
-    public Player (final Car player, final boolean isWinner, final int game_id) {
-        this(null, player.getName(), player.getPosition(), isWinner, game_id);
+    public Player (final Car player, final boolean isWinner, final int gameId) {
+        this(null, player.getName(), player.getPosition(), isWinner, gameId);
     }
 
     public int getId() {
@@ -37,7 +37,7 @@ public class Player {
         return isWinner;
     }
 
-    public int getGame_id() {
-        return game_id;
+    public int getGameId() {
+        return gameId;
     }
 }

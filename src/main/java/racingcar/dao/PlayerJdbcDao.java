@@ -32,7 +32,7 @@ public class PlayerJdbcDao implements PlayerDao {
     public void saveAll(final List<Player> players) {
         final MapSqlParameterSource[] batch = players.stream().map(player ->
                 new MapSqlParameterSource()
-                        .addValue("game_id", player.getGame_id())
+                        .addValue("game_id", player.getGameId())
                         .addValue("name", player.getName())
                         .addValue("position", player.getPosition())
                         .addValue("is_winner", player.isWinner())
@@ -42,9 +42,9 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
-    public List<Player> findByGameId(final int gameId) {
-        final String sql = "SELECT * FROM player where game_id =?";
+    public List<Player> findAll() {
+        final String sql = "SELECT * FROM player";
 
-        return jdbcTemplate.query(sql, actorRowMapper, gameId);
+        return jdbcTemplate.query(sql, actorRowMapper);
     }
 }

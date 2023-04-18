@@ -7,5 +7,5 @@ import java.util.List;
 public interface PlayerDao {
     void saveAll(final List<Player> players);
 
-    List<Player> findByGameId(final int gameId);
+    List<Player> findAll();
 }
