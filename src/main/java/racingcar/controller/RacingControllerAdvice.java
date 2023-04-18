@@ -1,7 +1,5 @@
 package racingcar.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,9 +16,7 @@ public class RacingControllerAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionResponseDto sendDefaultExceptionMessage(RuntimeException e) {
-        Logger logger = LoggerFactory.getLogger(getClass());
-        logger.error("{} : {}", e.getClass(), e.getMessage(), e);
+    public ExceptionResponseDto sendDefaultExceptionMessage() {
         return new ExceptionResponseDto("서버가 응답하지 않습니다.");
     }
 }
