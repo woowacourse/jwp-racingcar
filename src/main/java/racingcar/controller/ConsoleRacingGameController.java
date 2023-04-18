@@ -3,6 +3,7 @@ package racingcar.controller;
 import racingcar.domain.CarRandomNumberGenerator;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
+import racingcar.dto.response.CarGameResponse;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -20,11 +21,7 @@ public class ConsoleRacingGameController {
 
     public void run() {
         OutputView.printBeforeRacing();
-        while (!racingGame.isEnd()) {
-            racingGame.play();
-            Cars cars = racingGame.getCars();
-            OutputView.printRacing(cars.getUnmodifiableCars());
-        }
-        OutputView.printWinners(racingGame.decideWinners());
+        CarGameResponse carGameResult = racingGame.play();
+        OutputView.printCarGameResult(carGameResult);
     }
 }

@@ -1,12 +1,15 @@
 package racingcar.domain;
 
+import racingcar.dto.response.CarGameResponse;
+import racingcar.dto.response.CarResponse;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RacingGame {
-
+    public static final String WINNER_DELIMITER = ",";
     private final RandomNumberGenerator numberGenerator;
     private final Cars cars;
     private final TryCount tryCount;
@@ -19,7 +22,15 @@ public class RacingGame {
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public void play() {
+    public CarGameResponse play() {
+        while (!isEnd()) {
+            playTurn();
+        }
+        String winnerName = String.join(WINNER_DELIMITER, decideWinners());
+        return new CarGameResponse(winnerName, getCarResults());
+    }
+
+    public void playTurn() {
         cars.moveAll(numberGenerator);
         tryCount.decreaseCount();
     }
@@ -28,6 +39,13 @@ public class RacingGame {
         return cars.decideWinners().stream()
                 .map(Car::getName)
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    private List<CarResponse> getCarResults() {
+        return cars.getUnmodifiableCars()
+                .stream()
+                .map(CarResponse::new)
+                .collect(Collectors.toList());
     }
 
     public boolean isEnd() {

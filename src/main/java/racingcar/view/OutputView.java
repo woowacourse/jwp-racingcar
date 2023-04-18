@@ -1,6 +1,8 @@
 package racingcar.view;
 
 import racingcar.domain.Car;
+import racingcar.dto.response.CarGameResponse;
+import racingcar.dto.response.CarResponse;
 
 import java.util.List;
 
@@ -17,8 +19,18 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printWinners(final List<String> winnersName) {
-        String refined = String.join(", ", winnersName);
-        System.out.printf("%s가 최종 우승했습니다.\n", refined);
+    public static void printCarGameResult(final CarGameResponse carGameResponse) {
+        printWinners(carGameResponse.getWinners());
+        printCarResults(carGameResponse.getCars());
+    }
+
+    public static void printWinners(final String winnersName) {
+        System.out.println(String.format("%s가 최종 우승했습니다.", winnersName));
+    }
+
+    private static void printCarResults(List<CarResponse> cars) {
+        for (CarResponse carResult : cars) {
+            System.out.println(String.format("%s의 최종 포지션 : %d", carResult.getName(), carResult.getPosition()));
+        }
     }
 }
