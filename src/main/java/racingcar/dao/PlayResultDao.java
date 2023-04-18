@@ -26,7 +26,7 @@ public class PlayResultDao {
 
     private final RowMapper<PlayResult> entityRowMapper = (resultSet, rowNum) ->
             PlayResult.of(
-                    resultSet.getLong("id"),
+                    resultSet.getInt("id"),
                     resultSet.getInt("trial_count"),
                     resultSet.getString("winners"),
                     resultSet.getTimestamp("created_at")
