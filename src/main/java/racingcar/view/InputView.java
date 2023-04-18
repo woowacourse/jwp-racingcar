@@ -1,9 +1,8 @@
 package racingcar.view;
 
+import java.util.Scanner;
 import racingcar.exception.CarNameLengthException;
 import racingcar.exception.TryCountException;
-
-import java.util.Scanner;
 
 public class InputView {
     private static final int MIN_COUNT_SIZE = 0;
@@ -13,9 +12,9 @@ public class InputView {
     private static final int MIN_CAR_NAME_LENGTH = 1;
 
 
-    public String[] inputCarName() {
-        String[] inputCars = scanner.nextLine().split(DIVISION_CHAR);
-        validateInputCarNames(inputCars);
+    public String inputCarName() {
+        String inputCars = scanner.nextLine();
+        validateInputCarNames(inputCars.split(DIVISION_CHAR));
         return inputCars;
     }
 
