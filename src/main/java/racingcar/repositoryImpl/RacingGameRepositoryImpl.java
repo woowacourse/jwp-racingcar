@@ -36,4 +36,11 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
         winnerDao.insertAll(winnerEntities);
         return savedRacingGame;
     }
+
+    @Override
+    public List<RacingGame> findAll() {
+        final List<GameEntity> gameEntities = gamesDao.findAll();
+        final List<CarEntity> carEntities = carDao.findAll();
+        return RacingGameMapper.toDomain(gameEntities, carEntities);
+    }
 }

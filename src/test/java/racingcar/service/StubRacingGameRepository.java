@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,5 +27,10 @@ public class StubRacingGameRepository implements RacingGameRepository {
                 racingGame.getCount().getTargetCount());
         gameIdToRacingGame.put(maxGameId, racingGameWithId);
         return racingGameWithId;
+    }
+
+    @Override
+    public List<RacingGame> findAll() {
+        return new ArrayList<>(gameIdToRacingGame.values());
     }
 }

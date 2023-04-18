@@ -22,4 +22,8 @@ public class CarDao {
         insertCarDao.insertAll(carEntities);
         return selectCarDao.findAllByGameId(gameId);
     }
+
+    public List<CarEntity> findAll() {
+        return selectCarDao.findAll();
+    }
 }

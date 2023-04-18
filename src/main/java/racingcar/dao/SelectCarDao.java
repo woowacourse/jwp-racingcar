@@ -24,4 +24,10 @@ public class SelectCarDao {
 
         return jdbcTemplate.query(sql, actorRowMapper, gameId);
     }
+
+    public List<CarEntity> findAll() {
+        final String sql = "SELECT car_id, name,game_id, position FROM CAR";
+
+        return jdbcTemplate.query(sql, actorRowMapper);
+    }
 }
