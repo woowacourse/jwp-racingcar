@@ -17,12 +17,12 @@ import racingcar.exception.CarsException;
 import racingcar.service.RacingCarService;
 
 @RestController
-public class WebController {
+public class WebRacingCarController {
     private static final String DELIMITER = ",";
 
     private final RacingCarService racingCarService;
 
-    public WebController(final RacingCarService racingCarService) {
+    public WebRacingCarController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 

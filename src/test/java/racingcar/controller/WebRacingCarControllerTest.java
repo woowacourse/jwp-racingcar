@@ -17,7 +17,7 @@ import static org.hamcrest.core.Is.is;
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class WebControllerTest {
+class WebRacingCarControllerTest {
 
     @LocalServerPort
     int port;

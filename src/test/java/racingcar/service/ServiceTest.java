@@ -4,6 +4,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.dao.ConsoleCarDao;
 import racingcar.dao.ConsoleGameDao;
 
@@ -19,6 +20,7 @@ import racingcar.request.RacingGameRequest;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ServiceTest {
 
     private RacingCarService racingCarService = new RacingCarService(new ConsoleGameDao(), new ConsoleCarDao());
