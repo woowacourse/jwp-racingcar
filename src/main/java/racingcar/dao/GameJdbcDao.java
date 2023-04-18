@@ -7,6 +7,7 @@ import racingcar.entity.Game;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class GameJdbcDao implements GameDao {
@@ -20,12 +21,12 @@ public class GameJdbcDao implements GameDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public int saveAndGetId(final Game game) {
+    public Optional<Integer> saveAndGetId(final Game game) {
         final Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("trial", game.getTrial());
         parameters.put("created_at", game.getCreatedAt());
 
-        return (int) insertActor.executeAndReturnKey(parameters).longValue();
+        return Optional.of(insertActor.executeAndReturnKey(parameters).intValue());
     }
 }

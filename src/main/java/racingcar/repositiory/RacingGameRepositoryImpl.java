@@ -24,7 +24,9 @@ public class RacingGameRepositoryImpl implements RacingGameRepository{
 
     @Override
     public void save(final RacingGame racingGame) {
-        final int gameId = gameDao.saveAndGetId(new Game(racingGame.getCount()));
+        int gameId = gameDao.saveAndGetId(new Game(racingGame.getCount()))
+                .orElseThrow(() -> new IllegalArgumentException("게임 저장에 실패하였습니다."));
+
         final Set<String> winners = new HashSet<>(racingGame.findWinners());
         final List<Player> players = fromPlayers(racingGame, gameId, winners);
 

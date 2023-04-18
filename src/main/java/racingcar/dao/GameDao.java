@@ -2,6 +2,8 @@ package racingcar.dao;
 
 import racingcar.entity.Game;
 
+import java.util.Optional;
+
 public interface GameDao {
-    int saveAndGetId(final Game game);
+    Optional<Integer> saveAndGetId(final Game game);
 }
