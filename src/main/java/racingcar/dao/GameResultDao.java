@@ -1,12 +1,5 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -15,6 +8,14 @@ import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameResultResponseDto;
 import racingcar.dto.PlayerHistoryDto;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 public class GameResultDao {
@@ -50,7 +51,7 @@ public class GameResultDao {
         return savePlayersStatus(cars, gameId);
     }
 
-    public Long saveGameHistory(final TryCount tryCount) {
+    private Long saveGameHistory(final TryCount tryCount) {
         String sql = "INSERT INTO game (trialCount, dateTime) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -64,7 +65,7 @@ public class GameResultDao {
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
-    private GameResultResponseDto savePlayersStatus(final Cars cars, final long gameId) {
+    private GameResultResponseDto savePlayersStatus(final Cars cars, final Long gameId) {
         String sql = "INSERT INTO player (game_id, name, position, isWinner) VALUES (?, ?, ?, ?)";
 
         cars.getCars()
