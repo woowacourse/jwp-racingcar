@@ -26,7 +26,10 @@ public class RacingGameServiceImpl implements RacingGameService {
     private final NumberGenerator numberGenerator;
     private final RacingGameRepository racingGameRepository;
 
-    public RacingGameServiceImpl(final NumberGenerator numberGenerator, final RacingGameRepository racingGameRepository) {
+    public RacingGameServiceImpl(
+            final NumberGenerator numberGenerator,
+            final RacingGameRepository racingGameRepository
+    ) {
         this.numberGenerator = numberGenerator;
         this.racingGameRepository = racingGameRepository;
     }
@@ -35,7 +38,7 @@ public class RacingGameServiceImpl implements RacingGameService {
         final Cars cars = new Cars(names.stream()
                 .map(Car::new)
                 .collect(Collectors.toList()));
-        final GameTime time = new GameTime(String.valueOf(gameTime));
+        final GameTime time = new GameTime(gameTime);
         final RacingGame racingGame = new RacingGame(cars, time);
         racingGame.play(numberGenerator);
         racingGameRepository.save(racingGame);
@@ -60,7 +63,6 @@ public class RacingGameServiceImpl implements RacingGameService {
             List<WinnerEntity> winnerEntities = allWinners.get(key);
 
             List<Car> cars = toCars(carEntities);
-
             List<Winner> winners = toWinners(winnerEntities);
 
             gameResultDtos.add(new GameResultDto(cars, new Winners(winners)));
