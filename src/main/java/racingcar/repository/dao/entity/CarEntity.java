@@ -1,4 +1,4 @@
-package racingcar.dao.entity;
+package racingcar.repository.dao.entity;
 
 import java.util.Objects;
 

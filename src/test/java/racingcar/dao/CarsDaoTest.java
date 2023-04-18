@@ -1,15 +1,19 @@
 package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.dao.entity.CarEntity;
+import racingcar.repository.dao.CarsDao;
+import racingcar.repository.dao.PlayRecordsDao;
+import racingcar.repository.dao.entity.CarEntity;
 
 @SpringBootTest
 class CarsDaoTest {
@@ -64,15 +68,19 @@ class CarsDaoTest {
         long id2 = playRecordsDao.getLastId();
         carsDao.insert(id2, FIXTURE_CARS_ID_NULL);
 
-        final List<CarEntity> allCars = carsDao.findAllCarsByPlayId();
+        Map<Long, List<CarEntity>> allCarsByPlayId = carsDao.findAllCarsByPlayId();
 
-        assertThat(allCars).containsExactly(
-                new CarEntity(id2, "도이", 1),
-                new CarEntity(id2, "연어", 3),
-                new CarEntity(id2, "브리", 4),
-                new CarEntity(id1, "도이", 1),
-                new CarEntity(id1, "연어", 3),
-                new CarEntity(id1, "브리", 4)
+        assertThat(allCarsByPlayId).containsExactly(
+                entry(id2, List.of(
+                        new CarEntity(id2, "도이", 1),
+                        new CarEntity(id2, "연어", 3),
+                        new CarEntity(id2, "브리", 4)
+                )),
+                entry(id1, List.of(
+                        new CarEntity(id1, "도이", 1),
+                        new CarEntity(id1, "연어", 3),
+                        new CarEntity(id1, "브리", 4)
+                ))
         );
     }
 

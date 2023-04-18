@@ -1,9 +1,9 @@
-package racingcar.dao;
+package racingcar.repository.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 public class PlayRecordsDao {
 
     private final JdbcTemplate jdbcTemplate;

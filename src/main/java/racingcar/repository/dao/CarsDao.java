@@ -1,15 +1,19 @@
-package racingcar.dao;
+package racingcar.repository.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-import racingcar.dao.entity.CarEntity;
+import org.springframework.stereotype.Component;
+import racingcar.repository.dao.entity.CarEntity;
 
-@Repository
+@Component
 public class CarsDao {
 
     private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> {
@@ -19,6 +23,16 @@ public class CarsDao {
                 resultSet.getInt("position")
         );
         return car;
+    };
+    private final ResultSetExtractor<Map<Long, List<CarEntity>>> actorResultSetExtractor = resultSet -> {
+        final Map<Long, List<CarEntity>> result = new LinkedHashMap<>();
+        while (resultSet.next()) {
+            final long id = resultSet.getLong("play_id");
+            final List<CarEntity> found = result.getOrDefault(id, new ArrayList<>());
+            found.add(actorRowMapper.mapRow(resultSet, resultSet.getRow()));
+            result.put(id, found);
+        }
+        return result;
     };
 
     private final JdbcTemplate jdbcTemplate;
@@ -52,11 +66,11 @@ public class CarsDao {
     }
 
     // TODO 다른 테이블과 조인하는 쿼리를 해당 Dao에서 쓰는 게 맞을까?
-    public List<CarEntity> findAllCarsByPlayId() {
+    public Map<Long, List<CarEntity>> findAllCarsByPlayId() {
         return jdbcTemplate.query(
                 "SELECT play_id, name, position FROM cars, play_records "
                         + "WHERE cars.play_id = play_records.id "
                         + "ORDER BY play_records.created_at DESC",
-                actorRowMapper);
+                actorResultSetExtractor);
     }
 }

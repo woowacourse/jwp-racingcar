@@ -147,4 +147,5 @@ Content-Type: application/json
     - [ ] 필요 시 Dto에 Validation 추가
     - [ ] Lombok 라이브러리 사용해 생성자, getter 메서드 코드 단순화
 - [ ] 서비스에서 Dao 구현체가 아닌 인터페이스에 의존하도록 변경 (DB 교체 용이하게)
-    - [ ] 여러 개의 Dao를 사용하여 
+    - [ ] 각 Dao를 여러 DB를 적용할 수 있게 인터페이스로 추상화
+    - [x] 여러 개의 Dao에 대한 로직을 Repository 클래스로 추상화

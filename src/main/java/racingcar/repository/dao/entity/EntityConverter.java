@@ -1,4 +1,4 @@
-package racingcar.dao.entity;
+package racingcar.repository.dao.entity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +17,12 @@ public class EntityConverter {
     public static List<CarEntity> toDaoEntities(List<Car> cars) {
         return cars.stream()
                 .map(EntityConverter::toDaoEntity)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Car> toDomainEntities(final List<CarEntity> cars) {
+        return cars.stream()
+                .map(EntityConverter::toDomainEntity)
                 .collect(Collectors.toList());
     }
 }
