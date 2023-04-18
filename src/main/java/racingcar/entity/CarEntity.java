@@ -9,9 +9,6 @@ public class CarEntity {
     private boolean winner;
     private Integer gameId;
 
-    public CarEntity() {
-    }
-
     public CarEntity(final String name, final int position, final boolean winner, final Integer gameId) {
         this(null, name, position, winner, gameId);
     }
