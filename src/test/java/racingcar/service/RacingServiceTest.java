@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.controller.CarResponse;
 import racingcar.controller.TrackResponse;
-import racingcar.model.car.Cars;
 
 import java.util.List;
 

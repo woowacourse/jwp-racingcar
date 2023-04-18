@@ -10,7 +10,6 @@ import racingcar.model.car.Car;
 import racingcar.model.car.strategy.RandomMovingStrategy;
 
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -34,8 +34,6 @@ public abstract class OutputView {
         errorMessageTable.put(errorNumber, errorMessage);
     }
 
-    ;
-
     public void printErrorMessage(int errorNumber) {
         System.out.println(errorMessageTable.get(errorNumber));
     }
