@@ -41,7 +41,10 @@ public class RacingCarsService {
     }
 
     private RaceDto toRaceDto(final RacingGame racingGame) {
-        return new RaceDto(racingGame.getGameId(), toDto(racingGame.findResult()), toDto(racingGame.findWinner()));
+        final List<CarPositionDto> carPositionDtos = toDto(racingGame.findResult());
+        final List<CarPositionDto> winners = toDto(racingGame.findWinner());
+        final Integer gameId = racingGame.getGameId();
+        return new RaceDto(gameId, carPositionDtos, winners);
     }
 
     private List<CarPositionDto> toDto(final List<Car> cars) {

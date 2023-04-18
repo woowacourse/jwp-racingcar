@@ -1,30 +1,30 @@
 package racingcar;
 
-import racingcar.domain.Cars;
-import racingcar.domain.Count;
+import java.util.List;
+import java.util.stream.Collectors;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.RandomNumberPicker;
-import racingcar.util.Repeat;
+import racingcar.dto.CarPositionDto;
+import racingcar.dto.RaceDto;
+import racingcar.repositoryImpl.DefaultRacingGameRepository;
+import racingcar.service.RacingCarsService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarConsoleApplication {
 
     public static void main(final String[] args) {
-        final Cars cars = Repeat.repeatIfError(() -> Cars.from(InputView.inputCarName()),
-                OutputView::printErrorMessage);
-        final Count count = Repeat.repeatIfError(() -> new Count(InputView.inputTryCount()),
-                OutputView::printErrorMessage);
-        race(cars, count);
-        OutputView.printWinner(cars.findWinnerName());
-    }
+        final List<String> names = InputView.inputCarName();
+        final int targetCount = InputView.inputTryCount();
+        final RacingCarsService racingCarsService = new RacingCarsService(numberPicker(),
+                new DefaultRacingGameRepository());
+        final RaceDto raceResult = racingCarsService.race(names, targetCount);
 
-    private static void race(final Cars cars, final Count tryCount) {
-        while (!tryCount.isFinished()) {
-            cars.moveCars(numberPicker());
-            OutputView.printStatus(cars.toDto());
-            tryCount.next();
-        }
+        final List<String> winnerNames = raceResult.getWinners()
+                .stream()
+                .map(CarPositionDto::getCarName)
+                .collect(Collectors.toList());
+        OutputView.printWinner(winnerNames);
     }
 
     private static NumberPicker numberPicker() {
