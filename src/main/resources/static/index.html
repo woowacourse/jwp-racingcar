@@ -38,7 +38,7 @@
     const names = document.getElementById("names").value;
     const count = document.getElementById("count").value;
     const data = {
-      names: names.salt(","),
+      names: names.split(","),
       count: count
     };
     fetch("/plays", {
