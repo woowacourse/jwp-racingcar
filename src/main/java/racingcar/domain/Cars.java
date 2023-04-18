@@ -27,11 +27,12 @@ public class Cars {
         return new GamePlayResponseDto(findWinnerNames(winner), findPlayers());
     }
 
-    private List<String> findWinnerNames(Car winner) {
-        return cars.stream()
+    private String findWinnerNames(Car winner) {
+        final List<String> winners = cars.stream()
                 .filter(car -> car.isSamePosition(winner))
                 .map(Car::getName)
                 .collect(Collectors.toList());
+        return String.join(",", winners);
     }
 
     private List<CarDto> findPlayers() {
