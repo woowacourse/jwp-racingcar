@@ -26,24 +26,14 @@ public class RacingGameController {
 
     private RacingGameResponseDto play() {
         try {
-            List<String> names = readCars();
-            TryCount tries = readTries();
+            List<String> names = InputView.inputCarNames();
+            TryCount tries = new TryCount(InputView.inputTries());
             RacingGameResponseDto result = racingGameService.runWithoutDb(names, tries.getTries());
             return result;
         } catch (IllegalArgumentException e) {
             OutputView.printError(e.getMessage());
             return play();
         }
-    }
-
-    private List<String> readCars() {
-        List<String> names = InputView.inputCarNames();
-        return names;
-    }
-
-    private TryCount readTries() {
-        int tries = InputView.inputTries();
-        return new TryCount(tries);
     }
 
     private void showFinalResult(RacingGameResponseDto result) {
