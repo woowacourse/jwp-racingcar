@@ -45,12 +45,6 @@ class RacingGameServiceTest {
 
         given(racingGameDao.save(jeomoon, trial)).willReturn(racingGameId);
         given(playerDao.save(carGroup, racingGameId)).willReturn(true);
-        given(playerDao.findAllById(racingGameId)).willReturn(
-                List.of(
-                        new PlayerDtoMapper(1, jeomoon, 6),
-                        new PlayerDtoMapper(2, hyena, 5)
-                )
-        );
 
         // when
         RacingGameResponse racingGameResponse = racingGameService.race(carGroup, trial);
