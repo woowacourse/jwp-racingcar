@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.domain.RacingCar;
@@ -32,6 +33,7 @@ public class RacingGameService {
         this.carDao = carDao;
     }
 
+    @Transactional
     public GameResponseDto play(final String carNames, final int count) {
         List<String> validCarNames = getValidCarNames(carNames);
         RacingGame racingGame = initializeGame(validCarNames);
