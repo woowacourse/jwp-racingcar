@@ -31,6 +31,7 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
+    @Transactional
     public ResultDTO play(final List<String> names, final int count) {
         final GameSystem gameSystem = new GameSystem(count, new GameRecorder(new ArrayList<>()));
         final Long gameId = gameDao.insert(GameEntity.create(count));
