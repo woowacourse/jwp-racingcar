@@ -11,7 +11,7 @@ public class PlayerInMemoryDao implements PlayerDao {
 
     private List<PlayerDtoMapper> players = new ArrayList<>();
 
-    private int id = 0;
+    private int id = 1;
 
     @Override
     public boolean save(CarGroup carGroup, int racingGameId) {

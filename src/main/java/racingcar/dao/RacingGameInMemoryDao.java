@@ -11,7 +11,7 @@ public class RacingGameInMemoryDao implements RacingGameDao {
 
     private final List<RacingGameDtoMapper> racingGames = new ArrayList<>();
 
-    private int id = 0;
+    private int id = 1;
 
     @Override
     public int save(String winners, int count) {
