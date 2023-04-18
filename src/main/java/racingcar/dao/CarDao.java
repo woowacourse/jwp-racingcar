@@ -17,7 +17,6 @@ public class CarDao {
     }
 
     public List<CarEntity> insertAll(final List<CarEntity> carEntities) {
-        //batch insert 시에 id 를 조회할 방법이 없어서, carEntities 는 모두 같은 gameId 를 가질 것이라고 가정했습니다
         final Integer gameId = carEntities.get(0).getGameId();
         insertCarDao.insertAll(carEntities);
         return selectCarDao.findAllByGameId(gameId);
