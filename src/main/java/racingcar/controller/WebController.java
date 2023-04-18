@@ -8,6 +8,8 @@ import racingcar.dto.RequestDTO;
 import racingcar.dto.ResponseDTO;
 import racingcar.service.RacingCarService;
 
+import javax.validation.Valid;
+
 @RestController
 public class WebController {
 
@@ -18,8 +20,8 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity createGameAndPlay(@RequestBody RequestDTO requestDTO) {
+    public ResponseEntity<ResponseDTO> createGameAndPlay(@Valid @RequestBody RequestDTO requestDTO) {
         ResponseDTO responseDTO = racingCarService.play(requestDTO.getNames(), requestDTO.getCount());
-        return ResponseEntity.ok().body(responseDTO);
+        return ResponseEntity.ok(responseDTO);
     }
 }
