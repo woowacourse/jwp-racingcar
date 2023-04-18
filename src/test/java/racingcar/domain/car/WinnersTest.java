@@ -8,22 +8,12 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.race.NumberPicker;
 import racingcar.domain.race.RacingCars;
+import racingcar.domain.race.TestNumberPicker;
 
 class WinnersTest {
 
     private RacingCars racingCars;
-
-    static class TestNumberPicker implements NumberPicker {
-        private List<Integer> numbers = List.of(4, 9, 3);
-        int count = 0;
-
-        @Override
-        public int pickNumber() {
-            return numbers.get(count++);
-        }
-    }
 
     @BeforeEach
     void setUp() {

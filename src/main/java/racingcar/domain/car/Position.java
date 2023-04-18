@@ -14,8 +14,8 @@ public class Position {
         this.value = step;
     }
 
-    public void add(int step) {
-        this.value += step;
+    public Position add(Position other) {
+        return new Position(this.value + other.getValue());
     }
 
     public int getValue() {

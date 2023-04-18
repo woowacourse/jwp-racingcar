@@ -1,8 +1,7 @@
-package racingcar.domain;
+package racingcar.domain.car;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Queue;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -10,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import racingcar.domain.car.Car;
-import racingcar.domain.race.NumberPicker;
 
 public class CarTest {
     @Nested
@@ -38,23 +35,22 @@ public class CarTest {
         @DisplayName("1회 이동했을 때, 위치가 정상적으로 증가하는지 테스트")
         @CsvSource(value = {"1:0", "2:0", "3:0", "4:1", "5:1"}, delimiter = ':')
         void moveOneStep(int pickedNumber, int expectedPosition) {
-            Car car = new Car("hong", new TestNumberPicker(pickedNumber));
+            Car car = new Car("hong");
             car.moveDependingOn(pickedNumber);
-            Assertions.assertThat(car).extracting("position")
-                    .isEqualTo(expectedPosition);
+            assertThat(car.getPosition()).isEqualTo(expectedPosition);
         }
     }
-}
 
-class TestNumberPicker implements NumberPicker {
-    final Queue<Integer> numbers;
-
-    public TestNumberPicker(Integer... numbers) {
-        this.numbers = new ArrayDeque<>(List.of(numbers));
-    }
-
-    @Override
-    public int pickNumber() {
-        return numbers.remove();
+    @DisplayName("같은 위치에 있는 차를 확인할 수 있다.")
+    @ParameterizedTest(name = "위치가 {0}, {1} 일 때 두 위치 동일 여부는 {2}이다.")
+    @CsvSource(value = {"3:3:true", "3:1:false"}, delimiter = ':')
+    void checkCarInSamePosition(int targetPositionValue, int carPositionValue, boolean isSame) {
+        //given
+        Position position = new Position(targetPositionValue);
+        Car car = new Car("브리", carPositionValue);
+        //when
+        boolean isInSamePosition = car.isInSamePosition(position);
+        //then
+        assertThat(isInSamePosition).isEqualTo(isSame);
     }
 }
