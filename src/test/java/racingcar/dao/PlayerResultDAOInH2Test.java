@@ -1,4 +1,3 @@
-
 package racingcar.dao;
 
 import org.assertj.core.api.Assertions;

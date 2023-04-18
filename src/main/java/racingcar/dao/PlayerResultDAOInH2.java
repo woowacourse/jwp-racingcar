@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
-public class PlayerResultDAOInH2 implements PlayerResultDAO{
+public class PlayerResultDAOInH2 implements PlayerResultDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -41,7 +41,7 @@ public class PlayerResultDAOInH2 implements PlayerResultDAO{
                 });
     }
 
-    public List<PlayerResultEntity> findAll(){
+    public List<PlayerResultEntity> findAll() {
         String sql = "select * from PLAYER_RESULT";
 
         return jdbcTemplate.query(sql, rowMapper);

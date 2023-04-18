@@ -13,8 +13,8 @@ public class GameResultEntity {
         this.createdAt = createdAt;
     }
 
-    public static GameResultEntity of(int id, int trialCount, LocalTime createdAt){
-        return new GameResultEntity(id,trialCount,createdAt);
+    public static GameResultEntity of(int id, int trialCount, LocalTime createdAt) {
+        return new GameResultEntity(id, trialCount, createdAt);
     }
 
     public int getId() {

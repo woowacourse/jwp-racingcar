@@ -4,7 +4,8 @@ public class GameRequestDto {
     private String names;
     private int count;
 
-    public GameRequestDto() {}
+    public GameRequestDto() {
+    }
 
     public GameRequestDto(String names, int count) {
         this.names = names;

@@ -10,6 +10,7 @@ public class ConsoleApplication {
         RacingGameService racingGameService = new RacingGameService(
                 new GameResultDAOInMemory(), new PlayerResultDAOInMemory()
         );
+
         ConsoleRacingGameController manager = new ConsoleRacingGameController(racingGameService);
 
         manager.run();

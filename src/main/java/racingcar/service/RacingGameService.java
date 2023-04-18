@@ -52,7 +52,6 @@ public class RacingGameService {
         }
     }
 
-
     private String decideWinners(List<CarDto> carDtos) {
         int maxPosition = carDtos.stream()
                 .map(CarDto::getPosition)

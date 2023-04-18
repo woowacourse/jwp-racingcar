@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 public class WebRacingGameController {
+    private static final String DELIMITER = ",";
     private final RacingGameService racingGameService;
 
     @Autowired
@@ -34,7 +35,7 @@ public class WebRacingGameController {
     }
 
     private Names convertToNames(String names) {
-        return Names.from(List.of(names.split(",")));
+        return Names.from(List.of(names.split(DELIMITER)));
     }
 
     @GetMapping("/plays")
