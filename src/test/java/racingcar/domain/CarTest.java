@@ -32,6 +32,6 @@ class CarTest {
     @CsvSource(value = {"1:0", "4:1", "9:1"}, delimiter = ':')
     void moveTest(int number, int expected) {
         car.move(number);
-        assertEquals(expected, car.getPosition());
+        assertEquals(expected, car.position());
     }
 }

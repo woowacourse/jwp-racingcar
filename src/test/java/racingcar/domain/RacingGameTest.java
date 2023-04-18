@@ -27,8 +27,8 @@ class RacingGameTest {
     @DisplayName("차들의 위치 값을 비교해 최종 우승자들을 구한다.")
     @Test
     void getWinnersTest() {
-        List<String> actual = racingGame.getWinners().stream()
-                .map(Car::getName)
+        List<String> actual = racingGame.winners().stream()
+                .map(Car::name)
                 .collect(Collectors.toList());
 
         assertThat(actual).containsExactly("joy", "pobi");

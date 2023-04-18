@@ -14,8 +14,7 @@ public class GameRequest {
     @Min(value = 1, message = "시도 횟수는 1이상으로 입력해야 합니다.")
     private Integer count;
 
-    private GameRequest() {
-    }
+    private GameRequest() {}
 
     public GameRequest(final String names, final Integer count) {
         this.names = names;

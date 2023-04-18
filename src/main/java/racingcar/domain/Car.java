@@ -1,9 +1,6 @@
 package racingcar.domain;
 
 
-import static racingcar.utils.ErrorMessage.WRONG_NAME_CONTAINS_BLANK;
-import static racingcar.utils.ErrorMessage.WRONG_NAME_LENGTH;
-
 public class Car {
 
     private final int MOVING_STANDARD_NUM = 4;
@@ -31,41 +28,13 @@ public class Car {
         return number >= MOVING_STANDARD_NUM;
     }
 
-    public int getPosition() {
+    public int position() {
         return position;
     }
 
-    public String getName() {
-        return name.getName();
+    public String name() {
+        return name.name();
     }
 
-    private static class Name {
 
-        private final int MIN_NAME_SIZE = 0;
-        private final int MAX_NAME_SIZE = 5;
-
-        private final String name;
-
-        private Name(String name) {
-            validateContainsBlank(name);
-            validateCarNameLength(name.length());
-            this.name = name;
-        }
-
-        private void validateCarNameLength(int length) {
-            if (length <= MIN_NAME_SIZE || length > MAX_NAME_SIZE) {
-                throw new IllegalArgumentException(WRONG_NAME_LENGTH.of());
-            }
-        }
-
-        private void validateContainsBlank(String carNames) {
-            if (carNames.contains(" ")) {
-                throw new IllegalArgumentException(WRONG_NAME_CONTAINS_BLANK.of());
-            }
-        }
-
-        private String getName() {
-            return name;
-        }
-    }
 }

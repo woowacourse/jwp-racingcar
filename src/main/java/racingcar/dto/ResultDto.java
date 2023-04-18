@@ -1,7 +1,9 @@
 package racingcar.dto;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.Car;
 import racingcar.domain.Result;
 
 public class ResultDto {
@@ -15,26 +17,21 @@ public class ResultDto {
     }
 
     public static ResultDto from(final Result result) {
-        List<CarDto> winners = result.getWinners().stream()
-                .map(CarDto::from)
-                .collect(Collectors.toList());
-
-        List<CarDto> cars = result.getCars().stream()
-                .map(CarDto::from)
-                .collect(Collectors.toList());
-
-        return new ResultDto(winners, cars);
+        return new ResultDto(convertCarDtos(result.winners()),
+                convertCarDtos(result.cars()));
     }
 
-    public static ResultDto of(final List<CarDto> winners, final List<CarDto> cars) {
-        return new ResultDto(winners, cars);
+    private static List<CarDto> convertCarDtos(final List<Car> result) {
+        return result.stream()
+                .map(CarDto::from)
+                .collect(Collectors.toList());
     }
 
     public List<CarDto> getWinners() {
-        return winners;
+        return Collections.unmodifiableList(winners);
     }
 
     public List<CarDto> getCars() {
-        return cars;
+        return Collections.unmodifiableList(cars);
     }
 }

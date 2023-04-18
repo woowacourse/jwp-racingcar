@@ -31,8 +31,8 @@ public class CarDao {
 
     public int insertCar(final Car car, final int gameId) {
         Map<String, Object> parameters = new HashMap<>(4);
-        parameters.put("name", car.getName());
-        parameters.put("position", car.getPosition());
+        parameters.put("name", car.name());
+        parameters.put("position", car.position());
         parameters.put("is_winner", 0);
         parameters.put("game_id", gameId);
 
@@ -41,7 +41,7 @@ public class CarDao {
 
     public void updatePosition(final Car car, final int gameId) {
         String sql = "UPDATE car SET position = ? WHERE game_id = ? AND name = ?";
-        jdbcTemplate.update(sql, car.getPosition(), gameId, car.getName());
+        jdbcTemplate.update(sql, car.position(), gameId, car.name());
     }
 
     public void updateWinner(final String name, final int gameId) {

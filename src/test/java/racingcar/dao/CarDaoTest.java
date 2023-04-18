@@ -57,8 +57,8 @@ class CarDaoTest {
         List<Car> cars = carDao.findCars(gameId);
         Car car = cars.get(0);
         assertAll(
-                () -> assertThat(car.getName()).isEqualTo("밀리"),
-                () -> assertThat(car.getPosition()).isEqualTo(5)
+                () -> assertThat(car.name()).isEqualTo("밀리"),
+                () -> assertThat(car.position()).isEqualTo(5)
         );
     }
 
@@ -68,7 +68,7 @@ class CarDaoTest {
         carDao.updateWinner("밀리", gameId);
         Car winner = carDao.findWinners(gameId).get(0);
 
-        assertThat(winner.getName()).isEqualTo("밀리");
+        assertThat(winner.name()).isEqualTo("밀리");
     }
 
     @Test
@@ -85,8 +85,8 @@ class CarDaoTest {
     void findCars() {
         Car car = carDao.findCars(gameId).get(0);
         assertAll(
-                () -> assertThat(car.getName()).isEqualTo("밀리"),
-                () -> assertThat(car.getPosition()).isEqualTo(1)
+                () -> assertThat(car.name()).isEqualTo("밀리"),
+                () -> assertThat(car.position()).isEqualTo(1)
         );
     }
 }

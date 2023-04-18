@@ -17,19 +17,19 @@ public class RacingGame {
 
     public void race(final int tryCount) {
         for (int i = 0; i < tryCount; i++) {
-            cars.moveCars(movingStrategy);
+            cars.move(movingStrategy);
         }
     }
 
-    public List<Car> getWinners() {
+    public List<Car> winners() {
         return cars.findWinners();
     }
 
-    public int getId() {
+    public int id() {
         return id;
     }
 
-    public List<Car> getCars() {
-        return cars.getCars();
+    public List<Car> cars() {
+        return cars.cars();
     }
 }

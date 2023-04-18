@@ -1,14 +1,14 @@
 package racingcar.view;
 
-import static racingcar.utils.ErrorMessage.WRONG_TRY_TIMES_RANGE;
-import static racingcar.utils.ErrorMessage.WRONG_TRY_TIMES_TYPE;
+import static racingcar.utils.ErrorMessage.WRONG_TRIAL_COUNT_RANGE;
+import static racingcar.utils.ErrorMessage.WRONG_TRIAL_COUNT_TYPE;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
-    private final int MIN_TRY_TIMES = 1;
+    private final int MIN_TRIAL_COUNT = 1;
     private final String CAR_NAME_DELIMITER = ",";
 
     private final Scanner scanner = new Scanner(System.in);
@@ -18,28 +18,28 @@ public class InputView {
         return List.of(carNames.split(CAR_NAME_DELIMITER));
     }
 
-    public int inputTryTimes() {
-        return validateTryTimes(scanner.nextLine());
+    public int inputTrialCount() {
+        return validateTrialCount(scanner.nextLine());
     }
 
-    protected int validateTryTimes(String input) {
-        int tryTimes = validateTryTimesType(input);
-        validateTryTimesRange(tryTimes);
+    protected int validateTrialCount(String input) {
+        int trialCount = validateTrialCountType(input);
+        validateTrialCountRange(trialCount);
 
-        return tryTimes;
+        return trialCount;
     }
 
-    private int validateTryTimesType(String tryTimes) {
+    private int validateTrialCountType(String trialCount) {
         try {
-            return Integer.parseInt(tryTimes);
+            return Integer.parseInt(trialCount);
         } catch (Exception e) {
-            throw new IllegalArgumentException(WRONG_TRY_TIMES_TYPE.of());
+            throw new IllegalArgumentException(WRONG_TRIAL_COUNT_TYPE.of());
         }
     }
 
-    private void validateTryTimesRange(int tryTimes) {
-        if (tryTimes < MIN_TRY_TIMES) {
-            throw new IllegalArgumentException(WRONG_TRY_TIMES_RANGE.of());
+    private void validateTrialCountRange(int trialCount) {
+        if (trialCount < MIN_TRIAL_COUNT) {
+            throw new IllegalArgumentException(WRONG_TRIAL_COUNT_RANGE.of());
         }
     }
 }

@@ -18,6 +18,8 @@ import racingcar.service.RacingCarService;
 @RequestMapping("/plays")
 public class RacingGameWebController {
 
+    private static final String DELIMITER = ",";
+
     private final RacingCarService racingCarService;
 
     public RacingGameWebController(final RacingCarService racingCarService) {
@@ -26,14 +28,17 @@ public class RacingGameWebController {
 
     @PostMapping
     public GameResponse play(@Valid @RequestBody GameRequest gameRequest) {
-        ResultDto resultDto = racingCarService.play(gameRequest);
+        ResultDto resultDto = racingCarService.play(splitNames(gameRequest.getNames()), gameRequest.getCount());
         return GameResponse.from(resultDto);
+    }
+
+    private List<String> splitNames(final String names) {
+        return List.of(names.split(DELIMITER));
     }
 
     @GetMapping
     public ResponseEntity<List<GameResponse>> getAllGames() {
         List<ResultDto> results = racingCarService.findAllResults();
-
         List<GameResponse> gameResponses = results.stream()
                 .map(GameResponse::from)
                 .collect(Collectors.toList());

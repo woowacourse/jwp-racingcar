@@ -14,7 +14,7 @@ class InputViewTest {
     @ValueSource(strings = {"a", " "})
     void validateTryTimesTypeTest(String tryTimes) {
         Assertions.assertThatThrownBy(
-            () -> inputView.validateTryTimes(tryTimes)
+            () -> inputView.validateTrialCount(tryTimes)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -23,7 +23,7 @@ class InputViewTest {
     @ValueSource(strings = {"-1", "0"})
     void validateTryTimesRangeTest(String tryTimes) {
         Assertions.assertThatThrownBy(
-            () -> inputView.validateTryTimes(tryTimes)
+            () -> inputView.validateTrialCount(tryTimes)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 }

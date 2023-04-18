@@ -9,36 +9,33 @@ import racingcar.strategy.MovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class RacingGameController {
+public class RacingGameConsoleController {
 
     private final InputView inputView;
-
     private final OutputView outputView;
-
     private final MovingStrategy movingStrategy;
 
-    public RacingGameController(InputView inputView, OutputView outputView,
-        MovingStrategy movingStrategy) {
+    public RacingGameConsoleController(InputView inputView, OutputView outputView, MovingStrategy movingStrategy) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.movingStrategy = movingStrategy;
     }
 
     public void execute() {
-        List<String> carNames = getCarNames();
-        int tryTimes = getTryTimes();
+        List<String> carNames = inputCarNames();
+        int trialCount = inputTrialCount();
         RacingGame racingGame = new RacingGame(1, CarFactory.buildCars(carNames), movingStrategy);
-        racingGame.race(tryTimes);
-        outputView.printResult(ResultDto.from(new Result(racingGame.getWinners(), racingGame.getCars())));
+        racingGame.race(trialCount);
+        outputView.printResult(ResultDto.from(new Result(racingGame.winners(), racingGame.cars())));
     }
 
-    private List<String> getCarNames() {
+    private List<String> inputCarNames() {
         outputView.printInputCarNamesNotice();
         return inputView.inputCarNames();
     }
 
-    private int getTryTimes() {
+    private int inputTrialCount() {
         outputView.printInputTryTimesNotice();
-        return inputView.inputTryTimes();
+        return inputView.inputTrialCount();
     }
 }
