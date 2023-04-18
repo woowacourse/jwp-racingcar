@@ -7,7 +7,7 @@ import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.CarData;
 import racingcar.dto.GameResultResponse;
 import racingcar.dto.RacingGameRequest;
-import racingcar.repository.RacingGameRepository;
+import racingcar.repository.GameRepository;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 @Service
 public final class RacingGameService {
 
-    private final RacingGameRepository racingGameRepository;
+    private final GameRepository racingGameRepository;
 
-    public RacingGameService(final RacingGameRepository racingGameRepository) {
-        this.racingGameRepository = racingGameRepository;
+    public RacingGameService(final GameRepository gameRepository) {
+        this.racingGameRepository = gameRepository;
     }
 
     public GameResultResponse playRacingGame(final RacingGameRequest racingGameRequest) {

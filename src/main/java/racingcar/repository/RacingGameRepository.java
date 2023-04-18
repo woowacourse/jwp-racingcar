@@ -6,7 +6,7 @@ import racingcar.dto.GameResultResponse;
 import java.util.List;
 
 @Repository
-public class RacingGameRepository {
+public class RacingGameRepository implements GameRepository {
 
     private final GameResultDao gameResultDao;
     private final PlayerResultDao playerResultDao;
