@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,10 +13,10 @@ import org.springframework.stereotype.Component;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarsDto;
 import racingcar.dto.TryCountDto;
+import racingcar.dto.WinnersDto;
 
 @Component
 public class RacingCarDao {
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
@@ -56,5 +57,24 @@ public class RacingCarDao {
 
     private String concat(final List<String> names) {
         return String.join(",", names);
+    }
+
+    public List<WinnersDto> selectWinners() {
+        final String sql = "SELECT id, winners FROM PLAY_RESULT";
+
+        return jdbcTemplate.query(sql,
+            (resultSet, rowNum) -> new WinnersDto(
+                resultSet.getInt("id"),
+                Arrays.asList(resultSet.getString("winners").split(","))));
+    }
+
+    public List<RacingCarDto> selectRace(int gameId) {
+        final String sql = "SELECT name, move FROM MOVE_LOG WHERE game_id = ?";
+
+        return jdbcTemplate.query(sql,
+            (resultSet, rowNum) -> new RacingCarDto(
+                resultSet.getString("name"),
+                resultSet.getInt("move")),
+            gameId);
     }
 }

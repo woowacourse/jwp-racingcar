@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 import racingcar.dto.RacingCarRequestDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingGameControllerTest {
+class RacingCarControllerTest {
 
     @LocalServerPort
     int port;

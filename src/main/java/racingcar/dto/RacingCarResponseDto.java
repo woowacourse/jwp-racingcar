@@ -12,6 +12,11 @@ public final class RacingCarResponseDto {
         this.racingCars = racingCarsDto.getRacingCarDtos();
     }
 
+    public RacingCarResponseDto(final WinnersDto winnersDto, List<RacingCarDto> racingCarDtos) {
+        winners = winnersDto.getWinners();
+        racingCars = racingCarDtos;
+    }
+
     public List<String> getWinners() {
         return Collections.unmodifiableList(winners);
     }

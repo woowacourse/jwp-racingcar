@@ -11,6 +11,11 @@ public final class RacingCarDto {
         this.position = racingCar.getPosition();
     }
 
+    public RacingCarDto(final String name, final int position) {
+        this.name = name;
+        this.position = position;
+    }
+
     public String getName() {
         return name;
     }
