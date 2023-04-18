@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -21,6 +22,19 @@ public class RacingDao {
     public void save(final CarDto carDto) {
         String query = "INSERT INTO CAR(name, position, is_winner, track_id) values (?, ?, ?, ?)";
         jdbcTemplate.update(query, carDto.getName(), carDto.getPosition(), carDto.getIsWinner(), carDto.getTrackId());
+    }
+
+    public void saveWithBatch(final List<CarDto> carDtos) {
+        String query = "INSERT INTO CAR(name, position, is_winner, track_id) values (?, ?, ?, ?)";
+        jdbcTemplate.batchUpdate(query,
+                carDtos,
+                100,
+                (PreparedStatement ps, CarDto carDto) -> {
+                    ps.setString(1, carDto.getName());
+                    ps.setInt(2, carDto.getPosition());
+                    ps.setBoolean(3, carDto.getIsWinner());
+                    ps.setInt(4, carDto.getTrackId());
+                });
     }
 
     public Integer save(final TrackDto trackDto) {

@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.TrackResponse;
@@ -31,7 +32,6 @@ public class RacingService {
 
         final Cars finishedCars = startRace(track);
         saveCars(trackId, finishedCars);
-
         return TrackResponse.of(finishedCars);
     }
 
@@ -55,12 +55,15 @@ public class RacingService {
         return racingDao.save(new TrackDto(track.getTrialTimes()));
     }
 
+
     private void saveCars(final Integer trackId, final Cars finishedCars) {
         final List<Car> winnerCars = finishedCars.getWinnerCars();
         final List<Car> carsCurrentInfo = finishedCars.getCarsCurrentInfo();
 
-        for (final Car car : carsCurrentInfo) {
-            racingDao.save(new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId));
-        }
+        List<CarDto> carDtos = carsCurrentInfo.stream()
+                .map(car -> new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId))
+                .collect(Collectors.toList());
+
+        racingDao.saveWithBatch(carDtos);
     }
 }
