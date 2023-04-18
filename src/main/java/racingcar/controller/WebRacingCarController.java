@@ -14,7 +14,6 @@ import racingcar.domain.RacingGame;
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.ResultDto;
 import racingcar.jdbc.RacingCarDao;
-import view.OutputView;
 
 @RestController
 public class WebRacingCarController {
@@ -37,7 +36,7 @@ public class WebRacingCarController {
 		Cars cars = racingGame.getCars();
 		racingCarDao.insertCar(cars, count);
 		resultDto = toResultDto(cars);
-		OutputView.printResult(resultDto.getWinners(), resultDto.getRacingCars());
+
 		return resultDto;
 	}
 
