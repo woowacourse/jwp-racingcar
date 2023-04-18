@@ -11,9 +11,9 @@ class CarTest {
     @DisplayName("4 이상일 경우 전진한다.")
     @Test
     public void moveForwardTest() {
-        car = Car.of(Name.from("쥬니"), () -> true);
+        car = Car.from(Name.from("쥬니"));
 
-        car.tryMove();
+        car.tryMove(() -> true);
 
         Position position = Position.create();
         position.move();
@@ -25,9 +25,9 @@ class CarTest {
     @DisplayName("3 이하일 경우 전진하지 않는다.")
     @Test
     public void notMoveForwardTest() {
-        car = Car.of(Name.from("쥬니"), () -> false);
+        car = Car.from(Name.from("쥬니"));
 
-        car.tryMove();
+        car.tryMove(() -> false);
 
         Position position = Position.create();
 

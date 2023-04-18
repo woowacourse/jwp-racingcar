@@ -5,19 +5,17 @@ import racingcar.domain.engine.Engine;
 public class Car {
     private final Name name;
     private final Position position;
-    private final Engine engine;
 
-    private Car(Name name, Position position, Engine engine) {
+    private Car(Name name, Position position) {
         this.name = name;
         this.position = position;
-        this.engine = engine;
     }
 
-    public static Car of(Name name, Engine engine) {
-        return new Car(name, Position.create(), engine);
+    public static Car from(Name name) {
+        return new Car(name, Position.create());
     }
 
-    public void tryMove() {
+    public void tryMove(Engine engine) {
         if (engine.isMovable()) {
             position.move();
         }
