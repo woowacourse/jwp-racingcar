@@ -10,16 +10,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingDaoTest {
+class RacingWebDaoTest {
 
     @Autowired
-    RacingDao racingDao;
+    RacingWebDao racingWebDao;
 
     @Test
     void createTrack() {
         final TrackDto trackDto = new TrackDto(5);
 
-        final Integer savedId = racingDao.save(trackDto);
+        final Integer savedId = racingWebDao.saveTrack(trackDto);
 
         assertThat(savedId).isNotNull();
     }
@@ -27,10 +27,10 @@ class RacingDaoTest {
     @Test
     void createCar() {
         final TrackDto trackDto = new TrackDto(5);
-        final Integer savedId = racingDao.save(trackDto);
+        final Integer savedId = racingWebDao.saveTrack(trackDto);
 
         final CarDto carDto = new CarDto("pobi", 5, true, savedId);
 
-        assertDoesNotThrow(() -> racingDao.save(carDto));
+        assertDoesNotThrow(() -> racingWebDao.saveCar(carDto));
     }
 }

@@ -49,12 +49,11 @@ public class RacingService {
         while (track.runnable()) {
             track.race();
         }
-
         return track.getCars();
     }
 
     private Integer saveTrack(final Track track) {
-        return racingDao.save(new TrackDto(track.getTrialTimes()));
+        return racingDao.saveTrack(new TrackDto(track.getTrialTimes()));
     }
 
     private void saveCars(final Integer trackId, final Cars finishedCars) {

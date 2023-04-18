@@ -10,7 +10,7 @@ public class TrackResponse {
     private final String winners;
     private final List<CarResponse> racingCars;
 
-    private TrackResponse(final String winners, final List<CarResponse> racingCars) {
+    public TrackResponse(final String winners, final List<CarResponse> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

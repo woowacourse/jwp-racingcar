@@ -1,17 +1,20 @@
 package racingcar.view.outputview;
 
-import racingcar.exception.*;
-import racingcar.model.car.Car;
-import racingcar.model.car.Cars;
-
+import java.util.List;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
+import racingcar.controller.CarResponse;
+import racingcar.exception.DuplicateCarNamesException;
+import racingcar.exception.ExceedCarNameLengthException;
+import racingcar.exception.HasBlankCarNameException;
+import racingcar.exception.InvalidCarNameFormatException;
+import racingcar.exception.InvalidRangeTrialTimesException;
+import racingcar.exception.InvalidTrialTimesFormatException;
+import racingcar.exception.NotExistCarsException;
 
 public class KoreanOutputView extends OutputView {
     public static final String POSITION_CAR_FORMAT_SYMBOL = "-";
     public static final String POSITION_CAR_STATE_FORMAT = "%s : %s";
     private static final String WINNER_MESSAGE = "%s가 최종 우승했습니다.";
-    private static final String CAR_SEPARATOR = ", ";
     private static final String LINE_BREAK = "\n";
 
     private static final String NOT_EXIST_CARS_ERROR_MESSAGE = "[ERROR] 게임에 참여한 자동차가 없습니다.";
@@ -56,23 +59,19 @@ public class KoreanOutputView extends OutputView {
     }
 
     @Override
-    public void printCurrentCarsPosition(final Cars cars) {
+    public void printCurrentCarsPosition(final List<CarResponse> carResponses) {
         StringJoiner stringJoiner = new StringJoiner(LINE_BREAK);
 
-        cars.getCarsCurrentInfo().forEach(car -> {
+        carResponses.forEach(carResponse -> {
             stringJoiner.add(String.format(POSITION_CAR_STATE_FORMAT,
-                    car.getCarName(),
-                    POSITION_CAR_FORMAT_SYMBOL.repeat(car.getPosition())));
+                    carResponse.getName(),
+                    POSITION_CAR_FORMAT_SYMBOL.repeat(carResponse.getPosition())));
         });
         System.out.println(stringJoiner + LINE_BREAK);
     }
 
     @Override
-    public void printWinnerCars(final Cars cars) {
-        String winnerCarsFormat = cars.getWinnerCars().stream()
-                .map(Car::getCarName)
-                .collect(Collectors.joining(CAR_SEPARATOR));
-
-        System.out.println(String.format(WINNER_MESSAGE, winnerCarsFormat));
+    public void printWinnerCars(final String carNames) {
+        System.out.println(String.format(WINNER_MESSAGE, carNames));
     }
 }
