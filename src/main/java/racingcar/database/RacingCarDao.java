@@ -12,8 +12,8 @@ public class RacingCarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(final Car car, final int gameId) {
-        final String sql = "INSERT INTO racing_car(name,position,racing_game_id) VALUES (?,?,?)";
-        this.jdbcTemplate.update(sql, car.getName(), car.getPosition(), gameId);
+    public void insert(final Car car, final int gameId, final boolean isWinner) {
+        final String sql = "INSERT INTO racing_car(name,position,racing_game_id,is_winner) VALUES (?,?,?,?)";
+        this.jdbcTemplate.update(sql, car.getName(), car.getPosition(), gameId, isWinner);
     }
 }

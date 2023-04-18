@@ -16,12 +16,11 @@ public class RacingGameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(final int trialCount, final String winners) {
-        final String sql = "INSERT INTO racing_game(trial_count,winners) VALUES (?,?)";
+    public void insert(final int trialCount) {
+        final String sql = "INSERT INTO racing_game(trial_count) VALUES (?)";
         this.jdbcTemplate.update(con -> {
             final PreparedStatement preparedStatement = con.prepareStatement(sql, new String[]{"id"});
             preparedStatement.setInt(1, trialCount);
-            preparedStatement.setString(2, winners);
             return preparedStatement;
         }, keyHolder);
     }

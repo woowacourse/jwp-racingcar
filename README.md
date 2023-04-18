@@ -30,10 +30,10 @@
 
 ### ✔️ 1단게 추가 수정사항
 
-- [ ]  DAO 빈(Bean) 적용
-- [ ]  데이터베이스 구조 변경
-    - [ ]  racing_game - winners column 삭제
-    - [ ]  racing_car - isWinner column 추가
+- [x]  DAO 빈(Bean) 적용
+- [x]  데이터베이스 구조 변경
+    - [x]  racing_game - winners column 삭제
+    - [x]  racing_car - isWinner column 추가
 
 ### ✔️ 2단계 요구사항
 

@@ -19,9 +19,6 @@ class RacingGameDaoTest {
 
     @Test
     void gameInsert() {
-        final int trialCount = 10;
-        final String winners = "io,echo";
-
-        Assertions.assertDoesNotThrow(() -> racingGameDao.insert(trialCount, winners));
+        Assertions.assertDoesNotThrow(() -> racingGameDao.insert(10));
     }
 }

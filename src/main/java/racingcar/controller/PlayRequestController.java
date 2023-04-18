@@ -36,12 +36,13 @@ public class PlayRequestController {
         final RacingCars racingCars = generateRacingCars(names);
         race(count, racingCars);
 
-        final String winners = generateWinners(racingCars);
-        racingGameDao.insert(count, winners);
-        final int gameId = racingGameDao.getGameId();
-        racingCars.getCars().forEach(car -> racingCarDao.insert(car, gameId));
+        final List<Car> winners = racingCars.getWinners();
 
-        return ResponseEntity.ok().body(generateResponse(winners, racingCars));
+        racingGameDao.insert(count);
+        final int gameId = racingGameDao.getGameId();
+        racingCars.getCars().forEach(car -> racingCarDao.insert(car, gameId, winners.contains(car)));
+
+        return ResponseEntity.ok().body(generateResponse(racingCars));
     }
 
     private RacingCars generateRacingCars(final List<String> names) {
@@ -58,13 +59,11 @@ public class PlayRequestController {
         }
     }
 
-    private static String generateWinners(final RacingCars racingCars) {
-        return racingCars.getWinners().stream()
+    private PlayResponse generateResponse(final RacingCars racingCars) {
+        final String winners = racingCars.getWinners().stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(DELIMITER));
-    }
 
-    private PlayResponse generateResponse(final String winners, final RacingCars racingCars) {
         return new PlayResponse(winners, racingCars.getCars());
     }
 }
