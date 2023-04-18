@@ -3,8 +3,8 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayerDao;
-import racingcar.dto.GameInfo;
-import racingcar.dto.WinnerCarDto;
+import racingcar.dto.GamePlayRequestDto;
+import racingcar.dto.GamePlayResponseDto;
 import racingcar.exception.DuplicateCarNameException;
 import racingcar.model.Car;
 import racingcar.model.Cars;
@@ -28,34 +28,34 @@ public class CarService {
         this.playResultDao = playResultDao;
     }
 
-    public WinnerCarDto playGame(GameInfo gameInfo) {
-        final Cars cars = setUpGame(gameInfo);
-        final WinnerCarDto winner = cars.getWinner();
-        save(gameInfo, winner);
+    public GamePlayResponseDto playGame(GamePlayRequestDto gamePlayRequestDto) {
+        final Cars cars = setUpGame(gamePlayRequestDto);
+        final GamePlayResponseDto winner = cars.getWinner();
+        save(gamePlayRequestDto, winner);
         return winner;
     }
 
-    private void save(final GameInfo gameInfo, final WinnerCarDto winner) {
-        final long id = insertPlayResult(gameInfo, winner);
+    private void save(final GamePlayRequestDto gamePlayRequestDto, final GamePlayResponseDto winner) {
+        final long id = insertPlayResult(gamePlayRequestDto, winner);
         insertPlayers(winner, id);
     }
 
-    private Cars setUpGame(final GameInfo gameInfo) {
-        final Cars cars = generateCars(gameInfo.getNames());
-        Round round = new Round(gameInfo.getCount());
+    private Cars setUpGame(final GamePlayRequestDto gamePlayRequestDto) {
+        final Cars cars = generateCars(gamePlayRequestDto.getNames());
+        Round round = new Round(gamePlayRequestDto.getCount());
 
         race(cars, round);
         return cars;
     }
 
-    private void insertPlayers(final WinnerCarDto winner, final long id) {
+    private void insertPlayers(final GamePlayResponseDto winner, final long id) {
         winner.getRacingCars()
                 .forEach((carDto -> playerDao.insert(carDto.getName(), carDto.getPosition(), id)));
     }
 
-    private long insertPlayResult(final GameInfo gameInfo, final WinnerCarDto winner) {
+    private long insertPlayResult(final GamePlayRequestDto gamePlayRequestDto, final GamePlayResponseDto winner) {
         final String winners = String.join(",", winner.getWinners());
-        final int trialCount = Integer.parseInt(gameInfo.getCount());
+        final int trialCount = Integer.parseInt(gamePlayRequestDto.getCount());
         return playResultDao.insert(winners, trialCount);
     }
 

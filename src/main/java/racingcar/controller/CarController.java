@@ -3,8 +3,8 @@ package racingcar.controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.GameInfo;
-import racingcar.dto.WinnerCarDto;
+import racingcar.dto.GamePlayRequestDto;
+import racingcar.dto.GamePlayResponseDto;
 import racingcar.service.CarService;
 
 @RestController
@@ -17,8 +17,8 @@ public class CarController {
     }
 
     @PostMapping("/plays")
-    public WinnerCarDto playGame(@RequestBody GameInfo gameInfo) {
-        return carService.playGame(gameInfo);
+    public GamePlayResponseDto playGame(@RequestBody GamePlayRequestDto gamePlayRequestDto) {
+        return carService.playGame(gamePlayRequestDto);
     }
 
 }

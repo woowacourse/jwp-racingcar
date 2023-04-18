@@ -16,19 +16,19 @@ public class Car {
         position.move(generator);
     }
 
-    public String getName() {
-        return name.getName();
-    }
-
-    public int getPosition() {
-        return position.getPosition();
-    }
-
     public int compareTo(Car otherCar) {
         return this.position.compareTo(otherCar.position);
     }
 
     public boolean isSamePosition(Car otherCar) {
         return this.position.isSamePosition(otherCar.position);
+    }
+
+    public String getName() {
+        return name.getName();
+    }
+
+    public int getPosition() {
+        return position.getPosition();
     }
 }

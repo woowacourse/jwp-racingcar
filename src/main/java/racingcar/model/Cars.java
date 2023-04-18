@@ -1,7 +1,7 @@
 package racingcar.model;
 
 import racingcar.dto.CarDto;
-import racingcar.dto.WinnerCarDto;
+import racingcar.dto.GamePlayResponseDto;
 import racingcar.utils.RacingNumberGenerator;
 
 import java.util.List;
@@ -19,12 +19,12 @@ public class Cars {
         cars.forEach(car -> car.race(generator));
     }
 
-    public WinnerCarDto getWinner() {
+    public GamePlayResponseDto getWinner() {
         Car winner = cars.stream()
                 .max(Car::compareTo)
                 .orElse(null);
 
-        return new WinnerCarDto(findWinnerNames(winner), findPlayers());
+        return new GamePlayResponseDto(findWinnerNames(winner), findPlayers());
     }
 
     private List<String> findWinnerNames(Car winner) {
