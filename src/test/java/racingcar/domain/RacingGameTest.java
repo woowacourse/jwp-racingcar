@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.config.FixedMovingStrategy;
+import racingcar.strategy.FixedMovingStrategy;
 import racingcar.strategy.MovingStrategy;
 
 class RacingGameTest {

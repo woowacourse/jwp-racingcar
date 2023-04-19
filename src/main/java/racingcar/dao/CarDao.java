@@ -13,7 +13,6 @@ import racingcar.domain.Car;
 @Repository
 public class CarDao {
 
-    private static final int IS_WINNER = 1;
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertActor;
 
@@ -50,8 +49,8 @@ public class CarDao {
     }
 
     public List<Car> findWinners(int gameId) {
-        String sql = "SELECT name, position FROM car WHERE game_id = ? AND is_winner = ?";
-        return jdbcTemplate.query(sql, carRowMapper, gameId, IS_WINNER);
+        String sql = "SELECT name, position FROM car WHERE game_id = ? AND is_winner = 1";
+        return jdbcTemplate.query(sql, carRowMapper, gameId);
     }
 
     public List<Car> findCars(int gameId) {

@@ -10,17 +10,15 @@ import racingcar.domain.CarFactory;
 import racingcar.domain.RacingGame;
 import racingcar.domain.Result;
 import racingcar.dto.ResultDto;
-import racingcar.strategy.MovingStrategy;
+import racingcar.strategy.RandomMovingStrategy;
 
 @Service
 public class RacingCarService {
 
-    private final MovingStrategy movingStrategy;
     private final GameDao gameDao;
     private final CarDao carDao;
 
-    public RacingCarService(final MovingStrategy movingStrategy, final GameDao gameDao, final CarDao carDao) {
-        this.movingStrategy = movingStrategy;
+    public RacingCarService(final GameDao gameDao, final CarDao carDao) {
         this.gameDao = gameDao;
         this.carDao = carDao;
     }
@@ -35,7 +33,7 @@ public class RacingCarService {
 
     private RacingGame createGame(final List<String> carNames, final int tryTimes) {
         int gameId = gameDao.insertGame(tryTimes);
-        RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), movingStrategy);
+        RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), new RandomMovingStrategy());
         List<Car> cars = game.cars();
         cars.forEach(car -> carDao.insertCar(car, gameId));
 
