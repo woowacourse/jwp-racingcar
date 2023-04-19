@@ -1,9 +1,9 @@
 package racingcar.controller;
 
-import java.io.IOException;
 import java.util.List;
 import racingcar.domain.AttemptNumber;
 import racingcar.domain.Cars;
+import racingcar.domain.RacingCarGame;
 import racingcar.dto.CarDto;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
@@ -18,14 +18,13 @@ public class RacingCarController {
         this.numberGenerator = new RandomNumberGenerator();
     }
 
-    public void run() throws IOException {
-        Cars cars = getCars();
-        AttemptNumber attemptNumber = getAttemptNumber();
-        race(cars, attemptNumber);
-        printWinners(cars);
+    public void run() {
+        final RacingCarGame racingCarGame = new RacingCarGame(getCars(), getAttemptNumber(), numberGenerator);
+        racingCarGame.play();
+        printResult(racingCarGame);
     }
 
-    private Cars getCars() throws IOException {
+    private Cars getCars() {
         List<String> carNames = InputView.readCarNames();
         try {
             return Cars.from(carNames);
@@ -35,7 +34,7 @@ public class RacingCarController {
         }
     }
 
-    private AttemptNumber getAttemptNumber() throws IOException {
+    private AttemptNumber getAttemptNumber() {
         try {
             int number = InputView.readAttemptNumber();
             return new AttemptNumber(number);
@@ -45,23 +44,9 @@ public class RacingCarController {
         }
     }
 
-    private void race(final Cars cars, final AttemptNumber attemptNumber) throws IOException {
-        OutputView.printResult();
-        while (attemptNumber.isRemain()) {
-            attemptNumber.decrease();
-            cars.moveAll(numberGenerator);
-            printStatus(cars);
-        }
-    }
-
-    private void printStatus(final Cars cars) {
-        List<CarDto> carDtos = CarDto.getInstances(cars);
-        OutputView.printStatus(carDtos);
-    }
-
-    private void printWinners(final Cars cars) {
-        Cars winnerCars = cars.findWinners();
-        List<CarDto> winnerCarDtos = CarDto.getInstances(winnerCars);
-        OutputView.printWinners(winnerCarDtos);
+    private void printResult(final RacingCarGame racingCarGame) {
+        final List<CarDto> cars = CarDto.getInstances(new Cars(racingCarGame.getCars()));
+        final List<String> winners = racingCarGame.findWinners();
+        OutputView.printResult(cars, winners);
     }
 }
