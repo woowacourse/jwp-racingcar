@@ -56,12 +56,11 @@ public class CarEntity {
         }
         final CarEntity otherCarEntity = (CarEntity) other;
 
-        if (id == null && otherCarEntity.id == null) {
+        if (id == null || otherCarEntity.id == null) {
             return false;
         }
 
-        return Objects.equals(id, otherCarEntity.id) &&
-                Objects.equals(gameId, otherCarEntity.gameId) &&
+        return Objects.equals(gameId, otherCarEntity.gameId) &&
                 Objects.equals(name, otherCarEntity.name) &&
                 Objects.equals(position, otherCarEntity.position) &&
                 Objects.equals(isWin, otherCarEntity.isWin);

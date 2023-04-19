@@ -52,12 +52,11 @@ public class RacingGameEntity {
         }
         final RacingGameEntity otherEntity = (RacingGameEntity) other;
 
-        if (id == null && otherEntity.id == null) {
+        if (id == null || otherEntity.id == null) {
             return false;
         }
 
-        return Objects.equals(id, otherEntity.id) &&
-                Objects.equals(carEntities, otherEntity.carEntities) &&
+        return Objects.equals(carEntities, otherEntity.carEntities) &&
                 Objects.equals(count, otherEntity.count) &&
                 Objects.equals(createdAt, otherEntity.createdAt);
     }
