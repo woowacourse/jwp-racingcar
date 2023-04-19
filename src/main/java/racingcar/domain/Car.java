@@ -39,6 +39,10 @@ public class Car {
         return number >= MINIMUM_NUMBER_TO_MOVE;
     }
 
+    public void setCarId(final Integer carId) {
+        this.carId = carId;
+    }
+
     public Integer getCarId() {
         return carId;
     }
