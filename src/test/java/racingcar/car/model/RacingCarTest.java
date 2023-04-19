@@ -2,6 +2,7 @@ package racingcar.car.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,5 +47,16 @@ class RacingCarTest {
         final Car car = RacingCar.create(name, position);
         final Car compareCar = RacingCar.create(name, position + 1);
         assertEquals(-1, car.compareTo(compareCar));
+    }
+    
+    @Test
+    @DisplayName("RacingCar 위치 비교 테스트 - 같은 위치")
+    void compareSamePosition() {
+        final String name = "echo";
+        final int position1 = 5;
+        final int position2 = 5;
+        final Car car = RacingCar.create(name, position1);
+        final Car compareCar = RacingCar.create(name, position2);
+        assertTrue(car.isSamePositionTo(compareCar));
     }
 }
