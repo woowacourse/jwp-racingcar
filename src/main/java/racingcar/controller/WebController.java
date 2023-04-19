@@ -24,7 +24,7 @@ public class WebController {
 
     @PostMapping("/plays")
     public RacingResultResponse run(@RequestBody RacingRequest dto) {
-        Cars cars = Cars.initialize(dto.getNames(), RandomNumberGenerator.makeInstance());
+        Cars cars = new Cars(dto.getNames(), RandomNumberGenerator.makeInstance());
         Trial trial = Trial.of(Converter.convertStringToInt(dto.getCount()));
         Cars movedCars = racingService.run(cars, trial);
         return new RacingResultResponse(movedCars.getWinnerNames(), movedCars.getCarDtos());

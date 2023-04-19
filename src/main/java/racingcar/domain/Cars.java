@@ -23,16 +23,16 @@ public class Cars {
         this.numberGenerator = numberGenerator;
     }
 
-    public static Cars initialize(String names, NumberGenerator numberGenerator) {
+    public Cars(String names, NumberGenerator numberGenerator) {
         List<CarName> carNames = getCarNames(names);
         validateDuplication(carNames);
 
-        List<Car> cars = carNames.stream().map(Car::of)
+        this.cars = carNames.stream().map(Car::of)
             .collect(Collectors.toList());
-        return new Cars(cars, numberGenerator);
+        this.numberGenerator = numberGenerator;
     }
 
-    private static List<CarName> getCarNames(String names) {
+    private List<CarName> getCarNames(String names) {
         List<CarName> carNames = CarName.of(
             Arrays.asList(names.split(","))
         );
@@ -41,24 +41,24 @@ public class Cars {
         return carNames;
     }
 
-    private static void validateCarNames(List<CarName> carNames) {
+    private void validateCarNames(List<CarName> carNames) {
         validateNamesLength(carNames);
-        carNames.forEach(Cars::validateNameBlank);
+        carNames.forEach(this::validateNameBlank);
     }
 
-    private static void validateNamesLength(List<CarName> carNames) {
+    private void validateNamesLength(List<CarName> carNames) {
         if (carNames.size() == 0) {
             throw new IllegalArgumentException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
     }
 
-    private static void validateNameBlank(CarName carName) {
+    private void validateNameBlank(CarName carName) {
         if (carName.isBlank()) {
             throw new IllegalArgumentException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
     }
 
-    private static void validateDuplication(List<CarName> names) {
+    private void validateDuplication(List<CarName> names) {
         Set<CarName> namesWithoutDuplication = new HashSet<>(names);
         if (names.size() != namesWithoutDuplication.size()) {
             throw new IllegalArgumentException("중복된 이름은 사용할 수 없습니다.");
@@ -86,12 +86,7 @@ public class Cars {
             .collect(Collectors.toUnmodifiableList());
     }
 
-    public List<CarResponse> getCarsDto() {
-        return cars.stream().map((car) -> new CarResponse(car.getName(), car.getPosition()))
-            .collect(Collectors.toList());
-    }
-
-    private static boolean hasHighestPosition(int highestPosition, Car car) {
+    private boolean hasHighestPosition(int highestPosition, Car car) {
         return car.hasPosition(highestPosition);
     }
 

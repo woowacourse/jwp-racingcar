@@ -19,7 +19,7 @@ public class ConsoleController {
     public ConsoleController(OutputView outputView, InputView inputView, ConsoleService service) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.service=service;
+        this.service = service;
     }
 
     public void run() {
@@ -32,7 +32,7 @@ public class ConsoleController {
     private Cars initializeCars() {
         try {
             String input = inputView.getCarNames();
-            return Cars.initialize(input, RandomNumberGenerator.makeInstance());
+            return new Cars(input, RandomNumberGenerator.makeInstance());
         } catch (IllegalArgumentException exception) {
             outputView.printErrorMessage(exception.getMessage());
             return initializeCars();
