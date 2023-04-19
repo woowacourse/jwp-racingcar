@@ -1,5 +1,6 @@
 package racingcar.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -13,6 +14,7 @@ public class PlayerResultRepository {
 
     private final SimpleJdbcInsert insertPlayerResult;
 
+    @Autowired
     public PlayerResultRepository(final DataSource dataSource) {
         this.insertPlayerResult = new SimpleJdbcInsert(dataSource)
                 .withTableName("player_result")
