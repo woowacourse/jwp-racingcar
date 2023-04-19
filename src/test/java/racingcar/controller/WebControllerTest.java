@@ -10,7 +10,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.TestPropertySource;
 import racingcar.dto.GameDto;
 import racingcar.model.Car;
 import racingcar.repository.GameDao;
@@ -18,7 +17,6 @@ import racingcar.repository.RecordDao;
 
 import static org.hamcrest.core.Is.is;
 
-@TestPropertySource(locations = "/application.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class WebControllerTest {
 

@@ -6,13 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.TestPropertySource;
 import racingcar.model.Car;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@TestPropertySource(locations = "/application.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class RecordDaoTest {
 

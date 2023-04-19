@@ -32,6 +32,6 @@ class GameRecordServiceTest {
                 new RecordEntity("b", 2, 7, true)
         ));
 
-        assertThat(gameRecordService.findRecords().size()).isEqualTo(2);
+        assertThat(gameRecordService.findRecords()).hasSize(2);
     }
 }
