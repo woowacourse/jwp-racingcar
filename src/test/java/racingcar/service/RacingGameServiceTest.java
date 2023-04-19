@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -58,6 +59,18 @@ class RacingGameServiceTest {
                 () -> assertThat(result.getWinners()).containsExactly("브리"),
                 () -> assertThat(result.getRacingCars()).hasSize(3)
         );
+    }
+
+    @Test
+    void play_메서드_저장_후_빈_아이디를_반환받는_경우_IllegalStateException을_던진다() {
+        // given
+        final GamePlayRequestDto request = new GamePlayRequestDto(List.of("브리", "비버", "허브"), 1);
+        given(gameDao.saveAndGetId(any())).willReturn(Optional.empty());
+
+        // expect
+        assertThatThrownBy(() -> racingGameService.play(request))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("게임 저장에 실패하였습니다.");
     }
 
     @Test

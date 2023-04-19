@@ -38,7 +38,7 @@ public class RacingGameService {
 
         final GameEntity gameEntity = racingGameMapper.toGameEntity(gameRequest.getCount());
         final int gameId = gameDao.saveAndGetId(gameEntity)
-                .orElseThrow(() -> new IllegalArgumentException("게임 저장에 실패하였습니다."));
+                .orElseThrow(() -> new IllegalStateException("게임 저장에 실패하였습니다."));
 
         final List<CarEntity> carEntities = racingGameMapper.toCarEntities(game, gameId);
         carDao.saveAll(carEntities);
