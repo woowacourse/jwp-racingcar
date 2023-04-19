@@ -74,7 +74,7 @@ class ParticipantJdbcTemplateDaoTest {
         //given
         String preSql = "INSERT INTO GAME(trial_count) VALUES(10)";
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> connection.prepareStatement(preSql, new String[] {"id"}), generatedKeyHolder);
+        jdbcTemplate.update(connection -> connection.prepareStatement(preSql, new String[]{"id"}), generatedKeyHolder);
         Long gameId = (Long) generatedKeyHolder.getKey();
         ParticipantEntity mangoDto = new ParticipantEntity(gameId, mangoId, 10, true);
         ParticipantEntity lucaDto = new ParticipantEntity(gameId, lucaId, 3, false);

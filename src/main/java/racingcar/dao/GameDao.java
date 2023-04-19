@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface GameDao {
     List<GameEntity> findAll();
+
     Long save(final int trialCount);
 }

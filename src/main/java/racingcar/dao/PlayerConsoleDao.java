@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class PlayerConsoleDao implements  PlayerDao {
+public class PlayerConsoleDao implements PlayerDao {
     @Override
     public Long save(final String name) {
         return null;

@@ -8,7 +8,7 @@ import java.util.List;
 public class GameConsoleDao implements GameDao {
     @Override
     public List<GameEntity> findAll() {
-         return Collections.emptyList();
+        return Collections.emptyList();
     }
 
     @Override

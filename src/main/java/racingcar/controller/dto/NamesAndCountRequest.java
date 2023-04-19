@@ -4,7 +4,8 @@ public class NamesAndCountRequest {
     private String names;
     private int count;
 
-    public NamesAndCountRequest() {}
+    public NamesAndCountRequest() {
+    }
 
     public NamesAndCountRequest(final String names, final int count) {
         this.names = names;
