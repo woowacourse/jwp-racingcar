@@ -40,12 +40,12 @@ public class RacingGameWebController {
                 .body(racingCarService.startRace(cars, tryCount));
     }
 
-    public Cars makeCars(final String input) {
+    private Cars makeCars(final String input) {
         List<String> carNames = List.of(input.split(CAR_NAME_DELIMITER));
         return Cars.from(carNames);
     }
 
-    public TryCount makeTryCount(final int input) {
+    private TryCount makeTryCount(final int input) {
         return new TryCount(input);
     }
 }
