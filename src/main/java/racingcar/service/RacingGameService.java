@@ -10,11 +10,9 @@ import racingcar.dto.RacingGameResponseDto;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.GameEntity;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class RacingGameService {
@@ -54,7 +52,7 @@ public class RacingGameService {
     private void saveCars(RacingGame racingGame, final int gameId) {
         List<CarEntity> carEntities = new ArrayList<>();
         for (Car car : racingGame.getCars()) {
-            carEntities.add(new CarEntity(car.getName(), car.getCurrentPosition(), gameId));
+            carEntities.add(new CarEntity(car.getName(), car.getPosition(), gameId));
         }
         carDao.saveAll(carEntities);
     }
@@ -62,7 +60,7 @@ public class RacingGameService {
     private RacingGameResponseDto createResult(final RacingGame racingGame) {
         List<String> winnerCars = racingGame.pickWinnerCarNames();
         List<CarStatusDto> carStatuses = racingGame.getCars().stream()
-                .map(car -> new CarStatusDto(car.getName(), car.getCurrentPosition()))
+                .map(car -> new CarStatusDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
 
         return new RacingGameResponseDto(winnerCars, carStatuses);
@@ -72,7 +70,7 @@ public class RacingGameService {
     //to remove
     private void saveCars1(final RacingGame racingGame, final int gameId) {
         for (Car car : racingGame.getCars()) {
-            CarEntity carEntity = new CarEntity(car.getName(), car.getCurrentPosition(), gameId);
+            CarEntity carEntity = new CarEntity(car.getName(), car.getPosition(), gameId);
             carDao.save(carEntity);
         }
     }

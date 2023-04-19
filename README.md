@@ -15,11 +15,11 @@
 - [x] RacingGame 객체 생성
 - [x] RacingGame 객체 생성에 따른 서비스 객체 수정
 - [x] localtime 생성시간을, racingGame 객체 생성되는 순간으로 하기
-- [] car 객체 수정
+- [x] car 객체 수정
 - [] winner 객체 생성 
 
 테이블 변경하기
 - [] winner 테이블 생성
-- unsigned 추가하기?
+- [] unsigned 추가하기?
 
 [] jdbcTemplate 객체 사용하기

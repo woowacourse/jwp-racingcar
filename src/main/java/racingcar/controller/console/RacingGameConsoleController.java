@@ -58,7 +58,7 @@ public class RacingGameConsoleController {
 
     private List<CarStatus> showRaceResult(RacingCars racingCars) {
         return racingCars.getCars().stream()
-                .map(car -> new CarStatus(car.getName(), car.getCurrentPosition()))
+                .map(car -> new CarStatus(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
