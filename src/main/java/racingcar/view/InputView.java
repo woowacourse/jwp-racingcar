@@ -1,8 +1,8 @@
 package racingcar.view;
 
 import java.util.Scanner;
-import racingcar.exception.CarNameLengthException;
-import racingcar.exception.TryCountException;
+import racingcar.exception.invalidinput.CarNameLengthException;
+import racingcar.exception.invalidinput.TryCountException;
 
 public class InputView {
     private static final int MIN_COUNT_SIZE = 0;

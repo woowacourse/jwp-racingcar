@@ -1,6 +1,6 @@
-package racingcar.exception;
+package racingcar.exception.invalidinput;
 
-public class CarNameLengthException extends RuntimeException {
+public class CarNameLengthException extends InvalidInputException {
     private static final String CAR_NAME_LENGTH_EXCEPTION_MESSAGE = "[ERROR] 공백을 제외한 이름의 길이가 1이상 5자 이하이어야 합니다";
 
     public CarNameLengthException() {

@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.CarNameLengthException;
+import racingcar.exception.invalidinput.CarNameLengthException;
 
 public class Car {
     private static final int INIT_POSITION = 0;
