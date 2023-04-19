@@ -15,25 +15,25 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @Transactional
-class PlayResultDaoTest {
+class WebPlayResultDaoTest {
     private final JdbcTemplate jdbcTemplate;
-    private PlayResultDao playResultDao;
+    private WebPlayResultDao webPlayResultDao;
 
     @Autowired
-    public PlayResultDaoTest(JdbcTemplate jdbcTemplate) {
+    public WebPlayResultDaoTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @BeforeEach
     public void setUp() {
-        this.playResultDao = new PlayResultDao(jdbcTemplate);
+        this.webPlayResultDao = new WebPlayResultDao(jdbcTemplate);
     }
 
     @Test
     void savePlayResult() {
         PlayResult playResult = PlayResult.of(10, "hongo", Timestamp.valueOf(LocalDateTime.now()));
-        Integer id = playResultDao.save(playResult);
-        PlayResult result = playResultDao.findById(id);
+        Integer id = webPlayResultDao.save(playResult);
+        PlayResult result = webPlayResultDao.findById(id);
         assertThat(result).isNotNull();
     }
 }

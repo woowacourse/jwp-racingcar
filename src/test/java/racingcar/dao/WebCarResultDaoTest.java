@@ -16,30 +16,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class CarResultDaoTest {
+class WebCarResultDaoTest {
     private final JdbcTemplate jdbcTemplate;
-    private PlayResultDao playResultDao;
+    private WebPlayResultDao webPlayResultDao;
 
-    private CarResultDao carResultDao;
+    private WebCarResultDao webCarResultDao;
 
     @Autowired
-    public CarResultDaoTest(JdbcTemplate jdbcTemplate) {
+    public WebCarResultDaoTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @BeforeEach
     void setUp() {
-        playResultDao = new PlayResultDao(jdbcTemplate);
-        carResultDao = new CarResultDao(jdbcTemplate);
+        webPlayResultDao = new WebPlayResultDao(jdbcTemplate);
+        webCarResultDao = new WebCarResultDao(jdbcTemplate);
     }
 
     @Test
     void saveCarResult() {
         PlayResult playResult = PlayResult.of(10, "juno", Timestamp.valueOf(LocalDateTime.now()));
-        Integer playResultId = playResultDao.save(playResult);
+        Integer playResultId = webPlayResultDao.save(playResult);
         CarResult carResult = CarResult.of(playResultId, "juno", 3);
-        int carId = carResultDao.save(carResult);
-        CarResult result = carResultDao.findById(carId);
+        int carId = webCarResultDao.save(carResult);
+        CarResult result = webCarResultDao.findById(carId);
         assertThat(result).isNotNull();
     }
 }
