@@ -3,8 +3,7 @@ package racingcar.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racingcar.dao.InsertingDAO;
-import racingcar.dao.QueryingDAO;
+import racingcar.dao.RacingDAO;
 import racingcar.domain.Cars;
 import racingcar.domain.vo.Trial;
 import racingcar.entity.CarInfoEntity;
@@ -12,14 +11,12 @@ import racingcar.dto.CarResponse;
 import racingcar.dto.RacingResultResponse;
 
 @Service
-public class WebService implements RacingService{
+public class WebService implements RacingService {
 
-    final private InsertingDAO insertingDAO;
-    final private QueryingDAO queryingDAO;
+    final private RacingDAO racingDAO;
 
-    public WebService(InsertingDAO insertingDAO, QueryingDAO queryingDAO) {
-        this.insertingDAO = insertingDAO;
-        this.queryingDAO = queryingDAO;
+    public WebService(RacingDAO racingDAO) {
+        this.racingDAO = racingDAO;
     }
 
     @Override
@@ -32,20 +29,20 @@ public class WebService implements RacingService{
     }
 
     private void save(Cars cars) {
-        final int racingId = insertingDAO.insert();
+        final int racingId = racingDAO.insert();
 
         for (CarResponse car : cars.getCarDtos()) {
             String name = car.getName();
-            insertingDAO.insert(
+            racingDAO.insert(
                 new CarInfoEntity(0, racingId, name, car.getPosition(),
                     cars.getWinnerNames().contains(name)));
         }
     }
 
     public List<RacingResultResponse> loadHistory() {
-        return queryingDAO.findRacingIds().stream().map((id) ->
-            new RacingResultResponse(queryingDAO.findWinnersByRacingId(id),
-                queryingDAO.findCarsById(id).getCarDtos())
+        return racingDAO.findRacingIds().stream().map((id) ->
+            new RacingResultResponse(racingDAO.findWinnersByRacingId(id),
+                racingDAO.findCarsById(id).getCarDtos())
         ).collect(Collectors.toList());
     }
 
