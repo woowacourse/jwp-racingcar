@@ -8,18 +8,11 @@ import java.util.stream.Collectors;
 public class OutputView {
 
     private static final String RESULT_MESSAGE = "\n실행 결과";
-    private static final String CAR_RESULT_FORMAT = "%s : %s";
-    private static final String WINNER_MESSAGE_FORMAT = "가 최종 우승했습니다.";
+    private static final String WINNER_MESSAGE_FORMAT = "가 최종 우승했습니다.\n";
+    public static final String DISTANCE_RESULT_FORMAT = "Name: %s, Position: %s\n";
 
     public void printResultMessage() {
         System.out.println(RESULT_MESSAGE);
-    }
-
-    public void printRoundResult(List<Car> cars) {
-        for (Car car : cars) {
-            System.out.println(String.format(CAR_RESULT_FORMAT, car.getName(), numberToBars(car.getPosition())));
-        }
-        System.out.println();
     }
 
     public void printFinalResult(List<Car> winners) {
@@ -30,11 +23,9 @@ public class OutputView {
         System.out.print(winnerNames + WINNER_MESSAGE_FORMAT);
     }
 
-    private String numberToBars(int number) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < number; i++) {
-            stringBuilder.append("-");
+    public void printDistanceResult(List<Car> cars) {
+        for (Car car : cars) {
+            System.out.printf(DISTANCE_RESULT_FORMAT, car.getName(), car.getPosition());
         }
-        return stringBuilder.toString();
     }
 }

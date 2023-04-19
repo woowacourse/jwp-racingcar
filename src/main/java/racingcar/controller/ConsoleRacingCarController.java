@@ -40,8 +40,9 @@ public class ConsoleRacingCarController {
         RacingGame racingGame = new RacingGame(cars, round);
         outputView.printResultMessage();
         while (!racingGame.isGameEnded()) {
-            outputView.printRoundResult(racingGame.playOneRound());
+            racingGame.playOneRound();
         }
         outputView.printFinalResult(racingGame.findWinnerCars());
+        outputView.printDistanceResult(racingGame.getCars());
     }
 }
