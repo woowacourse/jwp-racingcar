@@ -38,6 +38,6 @@ public class GameJdbcDaoTest {
         final Optional<Integer> gameId = gameDao.saveAndGetId(game);
 
         // then
-        assertThat(gameId.isPresent()).isTrue();
+        assertThat(gameId).isPresent();
     }
 }

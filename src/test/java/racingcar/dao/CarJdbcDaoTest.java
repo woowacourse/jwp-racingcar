@@ -59,7 +59,7 @@ public class CarJdbcDaoTest {
 
         // when
         final List<CarEntity> result = carDao.findAll();
-        
+
         // then
         final CarEntity carEntity = result.get(0);
         assertAll(
@@ -67,7 +67,7 @@ public class CarJdbcDaoTest {
                 () -> assertThat(carEntity.getId()).isPositive(),
                 () -> assertThat(carEntity.getName()).isEqualTo("car1"),
                 () -> assertThat(carEntity.getPosition()).isEqualTo(1),
-                () -> assertThat(carEntity.isWinner()).isEqualTo(false),
+                () -> assertThat(carEntity.isWinner()).isFalse(),
                 () -> assertThat(carEntity.getGameId()).isEqualTo(gameId)
         );
     }
