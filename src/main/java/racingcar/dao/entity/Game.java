@@ -1,8 +1,7 @@
 package racingcar.dao.entity;
 
-import racingcar.dto.RacingGameDto;
-
 import java.util.Optional;
+import racingcar.dto.RacingGameDto;
 
 public class Game {
 

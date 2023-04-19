@@ -2,11 +2,9 @@ package racingcar.repository;
 
 import java.util.List;
 import org.springframework.stereotype.Repository;
-import racingcar.dao.game.RacingCarGameDao;
-import racingcar.dao.player.PlayerDBDao;
-import racingcar.dao.game.RacingCarGameDBDao;
 import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Player;
+import racingcar.dao.game.RacingCarGameDao;
 import racingcar.dao.player.PlayerDao;
 import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingGameDto;
