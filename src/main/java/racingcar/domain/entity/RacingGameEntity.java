@@ -5,23 +5,23 @@ import java.util.List;
 
 public class RacingGameEntity {
 
-    private int id;
+    private Integer id;
     private List<CarEntity> carEntities;
-    private int count;
+    private Integer count;
     private LocalDateTime createdAt;
 
-    public RacingGameEntity(final List<CarEntity> carEntities, final int count) {
+    public RacingGameEntity(final List<CarEntity> carEntities, final Integer count) {
         this.carEntities = carEntities;
         this.count = count;
     }
 
-    public RacingGameEntity(final int id, final int count, final LocalDateTime createdAt) {
+    public RacingGameEntity(final Integer id, final Integer count, final LocalDateTime createdAt) {
         this.id = id;
         this.count = count;
         this.createdAt = createdAt;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -33,7 +33,11 @@ public class RacingGameEntity {
         this.carEntities = carEntities;
     }
 
-    public int getCount() {
+    public Integer getCount() {
         return count;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

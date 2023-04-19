@@ -2,19 +2,20 @@ package racingcar.domain.entity;
 
 public class CarEntity {
 
-    private int id;
-    private int gameId;
+    private Integer id;
+    private Integer gameId;
     private final String name;
-    private final int position;
-    private final boolean isWin;
+    private final Integer position;
+    private final Boolean isWin;
 
-    public CarEntity(String name, int position, boolean isWin) {
+    public CarEntity(final String name, final Integer position, final Boolean isWin) {
         this.name = name;
         this.position = position;
         this.isWin = isWin;
     }
 
-    public CarEntity(final int id, final int gameId, final String name, final int position, final boolean isWin) {
+    public CarEntity(final Integer id, final Integer gameId, final String name, final Integer position,
+                     final Boolean isWin) {
         this.id = id;
         this.gameId = gameId;
         this.name = name;
@@ -22,7 +23,11 @@ public class CarEntity {
         this.isWin = isWin;
     }
 
-    public int getGameId() {
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getGameId() {
         return gameId;
     }
 
@@ -30,11 +35,11 @@ public class CarEntity {
         return name;
     }
 
-    public int getPosition() {
+    public Integer getPosition() {
         return position;
     }
 
-    public boolean isWin() {
+    public Boolean isWin() {
         return isWin;
     }
 }
