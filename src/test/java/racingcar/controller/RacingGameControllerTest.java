@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(RacingGameController.class)
 @DisplayName("RacingGameControllerTest 은")
-class RacingGameConsoleApplicationTest {
+class RacingGameControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -84,6 +84,7 @@ class RacingGameConsoleApplicationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath(namePath, containsInAnyOrder("a", "b", "c", "d")))
                 .andExpect(jsonPath(deepPositionPath, containsInAnyOrder(3, 4, 5, 6)))
-                .andExpect(jsonPath(firstGameCarsPositionPath, containsInAnyOrder(4, 6)));
+                .andExpect(jsonPath(firstGameCarsPositionPath, containsInAnyOrder(4, 6)))
+                .andDo(print());
     }
 }
