@@ -1,6 +1,7 @@
 package racingcar.infrastructure.persistence.entity;
 
 import racingcar.domain.Car;
+import racingcar.dto.CarDto;
 
 public class CarEntity {
 
@@ -17,6 +18,12 @@ public class CarEntity {
     public CarEntity(final String name, final int position, final Long gameId) {
         this.name = name;
         this.position = position;
+        this.gameId = gameId;
+    }
+
+    public CarEntity(final CarDto carDto, final Long gameId) {
+        this.name = carDto.getName();
+        this.position = carDto.getPosition();
         this.gameId = gameId;
     }
 

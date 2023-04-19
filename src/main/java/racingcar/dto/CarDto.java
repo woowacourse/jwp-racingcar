@@ -1,7 +1,6 @@
 package racingcar.dto;
 
 import racingcar.domain.Car;
-import racingcar.infrastructure.persistence.entity.CarEntity;
 
 public final class CarDto {
 
@@ -15,10 +14,6 @@ public final class CarDto {
 
     public static CarDto from(final Car car) {
         return new CarDto(car.getCarName(), car.getPosition());
-    }
-
-    public static CarDto createByEntity(final CarEntity carEntity) {
-        return new CarDto(carEntity.getName(), carEntity.getPosition());
     }
 
     public String getName() {

@@ -5,6 +5,7 @@ import racingcar.dto.GameResultDto;
 import racingcar.infrastructure.persistence.entity.CarEntity;
 import racingcar.infrastructure.persistence.entity.WinnerEntity;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +40,27 @@ public final class MemoryRacingGameRepository implements RacingGameRepository {
 
     @Override
     public Map<Long, List<CarEntity>> findAllCars() {
-        return null;
+        final Map<Long, List<CarEntity>> entitiesById = new HashMap<>();
+        for (final Map.Entry<Long, GameResultDto> entry : gameSaved.entrySet()) {
+            final var id = entry.getKey();
+            final var carEntities = entry.getValue().getRacingCars().stream()
+                    .map(carDto -> new CarEntity(carDto, id))
+                    .collect(Collectors.toList());
+            entitiesById.put(id, carEntities);
+        }
+        return entitiesById;
     }
 
     @Override
     public Map<Long, List<WinnerEntity>> findAllWinners() {
-        return null;
+        final Map<Long, List<WinnerEntity>> entitiesById = new HashMap<>();
+        for (final Map.Entry<Long, GameResultDto> entry : gameSaved.entrySet()) {
+            final var id = entry.getKey();
+            final var winnerEntities = Arrays.stream(entry.getValue().getWinners().split(","))
+                    .map(name -> new WinnerEntity(name, id))
+                    .collect(Collectors.toList());
+            entitiesById.put(id, winnerEntities);
+        }
+        return entitiesById;
     }
 }
