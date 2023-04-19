@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RacingGame {
-    public static final String WINNER_DELIMITER = ",";
     private final RandomNumberGenerator numberGenerator;
     private final Cars cars;
     private final TryCount tryCount;
@@ -49,8 +48,8 @@ public class RacingGame {
                 .collect(Collectors.toList());
     }
 
-    public Cars getCars() {
-        return this.cars;
+    public List<Car> getCars() {
+        return this.cars.getUnmodifiableCars();
     }
 
     public int getTryCount() {

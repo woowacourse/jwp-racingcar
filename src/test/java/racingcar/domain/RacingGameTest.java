@@ -19,9 +19,9 @@ class RacingGameTest {
         RacingGame game = new RacingGame(new AlwaysMoveGenerator(), Cars.from(carNames), tryCount);
         game.play();
 
-        Cars result = game.getCars();
+        List<Car> result = game.getCars();
 
-        List<Integer> positions = result.getUnmodifiableCars().stream()
+        List<Integer> positions = result.stream()
                 .map(Car::getPosition)
                 .collect(Collectors.toList());
 
@@ -36,9 +36,9 @@ class RacingGameTest {
         RacingGame game = new RacingGame(new NeverMoveGenerator(), Cars.from(carNames), tryCount);
         game.play();
 
-        Cars result = game.getCars();
+        List<Car> result = game.getCars();
 
-        List<Integer> positions = result.getUnmodifiableCars().stream()
+        List<Integer> positions = result.stream()
                 .map(Car::getPosition)
                 .collect(Collectors.toList());
 
