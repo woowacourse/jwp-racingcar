@@ -5,9 +5,6 @@ import java.util.stream.Collectors;
 import racingcar.domain.cars.RacingCar;
 
 public class OutputView {
-    public static void printErrorMessage(String message) {
-        System.out.println(message);
-    }
 
     public void printResultTitle() {
         System.out.println("실행 결과");
