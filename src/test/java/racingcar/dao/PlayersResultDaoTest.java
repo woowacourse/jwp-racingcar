@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.PlayerResultDto;
+import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
 
 import java.util.List;
@@ -13,6 +13,8 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+/*@JdbcTest
+@Sql({"test_data.sql"})*/
 public class PlayersResultDaoTest {
     @Autowired
     private PlayResultDao playResultDao;
@@ -40,8 +42,8 @@ public class PlayersResultDaoTest {
     @Test
     void insertWithMapAndCount() {
         final RacingGameDto racingGameDto = new RacingGameDto("포비", 10,
-                List.of(new PlayerResultDto("포비", 10),
-                        new PlayerResultDto("브라운", 5), new PlayerResultDto("구구", 8)));
+                List.of(new CarDto("포비", 10),
+                        new CarDto("브라운", 5), new CarDto("구구", 8)));
 
         final int newId = playResultDao.insertResult(racingGameDto);
         playersResultDao.insertResult(racingGameDto.getRacingCars(), newId);

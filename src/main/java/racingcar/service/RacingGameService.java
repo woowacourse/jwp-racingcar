@@ -1,6 +1,5 @@
 package racingcar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayersResultDao;
@@ -19,11 +18,14 @@ import java.util.List;
 
 @Service
 public class RacingGameService {
-    @Autowired
     private PlayResultDao playResultDao;
 
-    @Autowired
     private PlayersResultDao playersResultDao;
+
+    public RacingGameService(final PlayResultDao playResultDao, final PlayersResultDao playersResultDao) {
+        this.playResultDao = playResultDao;
+        this.playersResultDao = playersResultDao;
+    }
 
     public RacingGameResultDto play(final RacingGameInputDto racingGameInputDto) {
         RacingGame racingGame = new RacingGame(InputUtil.splitNames(racingGameInputDto.getNames()),

@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import racingcar.dto.RacingGameInputDto;
@@ -11,8 +10,11 @@ import java.util.List;
 
 @RestController
 public class RacingGameController {
-    @Autowired
     private RacingGameService racingGameService;
+
+    public RacingGameController(final RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
 
     @PostMapping(path = "/plays", consumes = "application/json")
     public ResponseEntity<RacingGameResultDto> play(@RequestBody final RacingGameInputDto racingGameInputDto) {
