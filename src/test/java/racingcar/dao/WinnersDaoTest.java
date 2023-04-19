@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -33,5 +34,12 @@ public class WinnersDaoTest {
     @Test
     void insert() {
         assertThatNoException().isThrownBy(() -> winnersDAO.insert(5, "달리"));
+    }
+
+    @Test
+    void load(){
+        winnersDAO.insert(1,"달리");
+        winnersDAO.insert(1,"디노");
+        assertThat(winnersDAO.load(1).size()).isEqualTo(2);
     }
 }

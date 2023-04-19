@@ -25,7 +25,7 @@ public class GameDaoTest {
         jdbcTemplate.execute("DROP TABLE game IF EXISTS");
         jdbcTemplate.execute("create table game\n" +
                 "(\n" +
-                "    game_number Integer auto_increment,\n" +
+                "    game_number bigint auto_increment,\n" +
                 "    created_at  DATETIME default current_timestamp,\n" +
                 "    trial_count Integer\n" +
                 ") ;");
@@ -36,5 +36,14 @@ public class GameDaoTest {
         int trialCount = 10;
         assertThat(gameDao.saveGame(trialCount)).isEqualTo(1);
         assertThat(gameDao.saveGame(trialCount)).isEqualTo(2);
+    }
+
+    @Test
+    void load(){
+        gameDao.saveGame(10);
+        gameDao.saveGame(10);
+        gameDao.saveGame(10);
+
+        assertThat(gameDao.load().size()).isEqualTo(3);
     }
 }
