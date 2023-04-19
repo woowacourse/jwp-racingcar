@@ -5,7 +5,7 @@ import racingcar.entity.CarEntity;
 
 public class ConsoleCarDao implements CarDao {
     @Override
-    public void saveAll(final List<CarEntity> players) {
+    public void saveAll(final List<CarEntity> cars) {
     }
 
     @Override
