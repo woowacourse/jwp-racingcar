@@ -1,13 +1,26 @@
 package racingcar;
 
-import racingcar.controller.RacingGameConsoleController;
-import racingcar.service.RacingGameMemoryService;
-import racingcar.service.RacingGameService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import racingcar.controller.console.RacingGameConsoleController;
 
-public class RacingCarConsoleApplication {
+@SpringBootApplication
+public class RacingCarConsoleApplication implements CommandLineRunner {
     public static void main(String[] args) {
-        final RacingGameService racingGameMemoryService = new RacingGameMemoryService();
-        final RacingGameConsoleController racingGameConsoleController = new RacingGameConsoleController(racingGameMemoryService);
-        racingGameConsoleController.run();
+        SpringApplication.run(RacingCarConsoleApplication.class, args);
+    }
+
+    private final RacingGameConsoleController consoleController;
+
+    public RacingCarConsoleApplication(final RacingGameConsoleController consoleController) {
+        this.consoleController = consoleController;
+    }
+
+    @Override
+    public void run(final String... args) throws Exception {
+        while (consoleController.run()) {
+            /* RUN UNTIL THROW EXCEPTION */
+        }
     }
 }
