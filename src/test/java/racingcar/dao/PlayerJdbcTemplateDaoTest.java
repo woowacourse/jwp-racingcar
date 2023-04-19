@@ -17,14 +17,14 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-class PlayerDaoTest {
+class PlayerJdbcTemplateDaoTest {
 
-    private final PlayerDao playerDao;
+    private final PlayerJdbcTemplateDao playerJdbcTemplateDao;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PlayerDaoTest(final JdbcTemplate jdbcTemplate) {
-        this.playerDao = new PlayerDao(jdbcTemplate);
+    public PlayerJdbcTemplateDaoTest(final JdbcTemplate jdbcTemplate) {
+        this.playerJdbcTemplateDao = new PlayerJdbcTemplateDao(jdbcTemplate);
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -33,7 +33,7 @@ class PlayerDaoTest {
     @ValueSource(strings = {"루카", "망고", "소니", "현구막"})
     void save(final String name) {
         //when
-        Long id = playerDao.save(name);
+        Long id = playerJdbcTemplateDao.save(name);
         //then
         String sql = "SELECT name FROM PLAYER WHERE id = ?";
         assertThat(jdbcTemplate.queryForObject(sql, String.class, id)).isEqualTo(name);
@@ -44,9 +44,9 @@ class PlayerDaoTest {
     void findByName() {
         //given
         String name = "포비";
-        playerDao.save(name);
+        playerJdbcTemplateDao.save(name);
         //when
-        PlayerEntity playerEntity = playerDao.findByName(name).orElseThrow();
+        PlayerEntity playerEntity = playerJdbcTemplateDao.findByName(name).orElseThrow();
         //then
         assertThat(playerEntity.getId()).isNotNull();
         assertThat(playerEntity.getName()).isEqualTo(name);
@@ -59,7 +59,7 @@ class PlayerDaoTest {
         //given
         String name = "네오";
         //when
-        Optional<PlayerEntity> playerDto = playerDao.findByName(name);
+        Optional<PlayerEntity> playerDto = playerJdbcTemplateDao.findByName(name);
         //then
         assertThat(playerDto).isEmpty();
     }
@@ -78,7 +78,7 @@ class PlayerDaoTest {
         }, generatedKeyHolder);
         Long id = (Long) generatedKeyHolder.getKey();
         //when
-        PlayerEntity playerEntity = playerDao.findById(id).orElseThrow();
+        PlayerEntity playerEntity = playerJdbcTemplateDao.findById(id).orElseThrow();
         //then
         assertThat(playerEntity.getId()).isEqualTo(id);
         assertThat(playerEntity.getName()).isEqualTo(name);
@@ -89,7 +89,7 @@ class PlayerDaoTest {
     @Test
     void findByIdWhenEmpty() {
         //when
-        Optional<PlayerEntity> playerDto = playerDao.findById(1_000_000L);
+        Optional<PlayerEntity> playerDto = playerJdbcTemplateDao.findById(1_000_000L);
         //then
         assertThat(playerDto).isEmpty();
     }

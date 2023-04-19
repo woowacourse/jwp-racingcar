@@ -7,9 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.dao.GameDao;
-import racingcar.dao.ParticipantDao;
-import racingcar.dao.PlayerDao;
+import racingcar.dao.GameJdbcTemplateDao;
+import racingcar.dao.ParticipantJdbcTemplateDao;
+import racingcar.dao.PlayerJdbcTemplateDao;
 import racingcar.controller.dto.NamesAndCountRequest;
 import racingcar.controller.dto.RacingCarResponse;
 import racingcar.controller.dto.ResultResponse;
@@ -26,11 +26,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RacingCarServiceTest {
 
     @Mock
-    private GameDao gameDao;
+    private GameJdbcTemplateDao gameJdbcTemplateDao;
     @Mock
-    private PlayerDao playerDao;
+    private PlayerJdbcTemplateDao playerJdbcTemplateDao;
     @Mock
-    private ParticipantDao participantDao;
+    private ParticipantJdbcTemplateDao participantJdbcTemplateDao;
     @InjectMocks
     private RacingCarService racingCarService;
 
@@ -38,16 +38,16 @@ class RacingCarServiceTest {
     @Test
     void searchAllGame() {
         //mocking -> DAO에서 조회되는 값 제어
-        Mockito.when(gameDao.findAll()).thenReturn(List.of(
+        Mockito.when(gameJdbcTemplateDao.findAll()).thenReturn(List.of(
                 new GameEntity(1L, 10),
                 new GameEntity(2L, 20)));
-        Mockito.when(playerDao.findAll()).thenReturn(List.of(
+        Mockito.when(playerJdbcTemplateDao.findAll()).thenReturn(List.of(
                 new PlayerEntity(1L, "망고"),
                 new PlayerEntity(2L, "루카"),
                 new PlayerEntity(3L, "소니"),
                 new PlayerEntity(4L, "현구막")));
 
-        Mockito.when(participantDao.findAll()).thenReturn(List.of(
+        Mockito.when(participantJdbcTemplateDao.findAll()).thenReturn(List.of(
                 new ParticipantEntity(1L, 1L, 10, true),
                 new ParticipantEntity(1L, 2L, 5, false),
                 new ParticipantEntity(2L, 3L, 20, true),
@@ -77,9 +77,9 @@ class RacingCarServiceTest {
         //given
         NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest("망고,루카,소니,현구막", 10);
         //mocking
-        Mockito.when(gameDao.save(Mockito.anyInt())).thenReturn(1L);
-        Mockito.when(playerDao.save(Mockito.any())).thenReturn(1L, 2L, 3L, 4L);
-        Mockito.doNothing().when(participantDao).save(Mockito.any());
+        Mockito.when(gameJdbcTemplateDao.save(Mockito.anyInt())).thenReturn(1L);
+        Mockito.when(playerJdbcTemplateDao.save(Mockito.any())).thenReturn(1L, 2L, 3L, 4L);
+        Mockito.doNothing().when(participantJdbcTemplateDao).save(Mockito.any());
         //when
         ResultResponse resultResponse = racingCarService.playGame(namesAndCountRequest);
         //then

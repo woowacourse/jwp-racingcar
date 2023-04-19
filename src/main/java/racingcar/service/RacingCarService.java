@@ -2,9 +2,7 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dao.GameDao;
-import racingcar.dao.ParticipantDao;
-import racingcar.dao.PlayerDao;
+import racingcar.dao.*;
 import racingcar.domain.*;
 import racingcar.controller.dto.NamesAndCountRequest;
 import racingcar.controller.dto.RacingCarResponse;
@@ -108,8 +106,9 @@ public class RacingCarService {
         gameManager.run();
 
         List<Car> allCars = gameManager.getAllCars();
+        System.out.println(allCars);
         List<Car> winnerCars = gameManager.getWinnerCars();
-
+        System.out.println(winnerCars);
         saveGameAndPlayerAndParticipates(namesAndCount.getCount(), allCars, winnerCars);
         return ResultResponse.from(allCars, winnerCars);
     }

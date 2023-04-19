@@ -16,9 +16,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-class ParticipantDaoTest {
+class ParticipantJdbcTemplateDaoTest {
 
-    private final ParticipantDao participantDao;
+    private final ParticipantJdbcTemplateDao participantJdbcTemplateDao;
     private final JdbcTemplate jdbcTemplate;
 
     private Long firstGameId;
@@ -27,19 +27,19 @@ class ParticipantDaoTest {
     private Long lucaId;
 
     @Autowired
-    public ParticipantDaoTest(final JdbcTemplate jdbcTemplate) {
-        this.participantDao = new ParticipantDao(jdbcTemplate);
+    public ParticipantJdbcTemplateDaoTest(final JdbcTemplate jdbcTemplate) {
+        this.participantJdbcTemplateDao = new ParticipantJdbcTemplateDao(jdbcTemplate);
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @BeforeEach
     void setUp() {
-        final GameDao gameDao = new GameDao(jdbcTemplate);
-        final PlayerDao playerDao = new PlayerDao(jdbcTemplate);
-        firstGameId = gameDao.save(10);
-        secondGameId = gameDao.save(20);
-        mangoId = playerDao.save("망고");
-        lucaId = playerDao.save("루카");
+        final GameJdbcTemplateDao gameJdbcTemplateDao = new GameJdbcTemplateDao(jdbcTemplate);
+        final PlayerJdbcTemplateDao playerJdbcTemplateDao = new PlayerJdbcTemplateDao(jdbcTemplate);
+        firstGameId = gameJdbcTemplateDao.save(10);
+        secondGameId = gameJdbcTemplateDao.save(20);
+        mangoId = playerJdbcTemplateDao.save("망고");
+        lucaId = playerJdbcTemplateDao.save("루카");
         final String sql = "INSERT INTO PARTICIPANT(game_id, player_id, position, is_winner) VALUES(?, ?, ?, ?) ";
         jdbcTemplate.update(sql, firstGameId, mangoId, 7, true);
         jdbcTemplate.update(sql, firstGameId, lucaId, 5, false);
@@ -52,7 +52,7 @@ class ParticipantDaoTest {
     @Order(1)
     void findAll() {
         //when
-        List<ParticipantEntity> allParticipant = participantDao.findAll();
+        List<ParticipantEntity> allParticipant = participantJdbcTemplateDao.findAll();
         //then
         assertThat(allParticipant).hasSize(4);
     }
@@ -62,7 +62,7 @@ class ParticipantDaoTest {
     @Order(2)
     void findByGameId() {
         //when
-        List<ParticipantEntity> allParticipant = participantDao.findByGameId(firstGameId);
+        List<ParticipantEntity> allParticipant = participantJdbcTemplateDao.findByGameId(firstGameId);
         //then
         assertThat(allParticipant).hasSize(2);
     }
@@ -79,8 +79,8 @@ class ParticipantDaoTest {
         ParticipantEntity mangoDto = new ParticipantEntity(gameId, mangoId, 10, true);
         ParticipantEntity lucaDto = new ParticipantEntity(gameId, lucaId, 3, false);
         //when
-        participantDao.save(mangoDto);
-        participantDao.save(lucaDto);
+        participantJdbcTemplateDao.save(mangoDto);
+        participantJdbcTemplateDao.save(lucaDto);
         //then
         String sql = "SELECT position FROM PARTICIPANT WHERE game_id = ? and player_id = ?";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class, gameId, mangoId)).isEqualTo(10);

@@ -14,14 +14,14 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-class GameDaoTest {
+class GameJdbcTemplateDaoTest {
 
-    private final GameDao gameDao;
+    private final GameJdbcTemplateDao gameJdbcTemplateDao;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GameDaoTest(final JdbcTemplate jdbcTemplate) {
-        this.gameDao = new GameDao(jdbcTemplate);
+    public GameJdbcTemplateDaoTest(final JdbcTemplate jdbcTemplate) {
+        this.gameJdbcTemplateDao = new GameJdbcTemplateDao(jdbcTemplate);
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -35,7 +35,7 @@ class GameDaoTest {
             jdbcTemplate.update(preSql, trialCount);
         }
         //when
-        List<GameEntity> allGame = gameDao.findAll();
+        List<GameEntity> allGame = gameJdbcTemplateDao.findAll();
         //then
         assertThat(allGame).hasSize(3);
     }
@@ -45,7 +45,7 @@ class GameDaoTest {
     @ValueSource(ints = {10, 15, 5, 30})
     void save(final int trialCount) {
         //when
-        Long id = gameDao.save(trialCount);
+        Long id = gameJdbcTemplateDao.save(trialCount);
         //then
         String sql = "SELECT trial_count FROM GAME WHERE id = ?";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class, id)).isEqualTo(trialCount);
