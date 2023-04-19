@@ -1,14 +1,15 @@
 package racingcar.controller;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
 import racingcar.domain.Name;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class RacingGameConsoleController {
 
@@ -50,7 +51,6 @@ public class RacingGameConsoleController {
         while (canProceed()) {
             racingCars.moveAll();
             tryCount.deduct();
-            OutputView.printScoreBoard(racingCars);
         }
 
         OutputView.printWinner(racingCars);
