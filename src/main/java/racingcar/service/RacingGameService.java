@@ -5,10 +5,8 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
@@ -20,7 +18,6 @@ import racingcar.dto.GameResponseDto;
 import racingcar.dto.HistoryResponseDto;
 import racingcar.dto.RacingCarDto;
 import racingcar.entity.RacingCarEntity;
-import racingcar.validator.Validator;
 
 @Service
 public class RacingGameService {
@@ -33,14 +30,12 @@ public class RacingGameService {
     }
 
     @Transactional
-    public GameResponseDto play(final String carNames, final int count) {
-        List<String> validCarNames = getValidCarNames(carNames);
-        RacingGame racingGame = initializeGame(validCarNames);
-        int validTryCount = getValidTryCount(count);
+    public GameResponseDto play(final List<String> carNames, final int count) {
+        RacingGame racingGame = initializeGame(carNames);
 
-        racingGame.runRound(validTryCount);
+        racingGame.runRound(count);
 
-        long gameId = gameDao.save(validTryCount);
+        long gameId = gameDao.save(count);
 
         List<RacingCarEntity> results = calculateResults(racingGame, gameId);
         carDao.saveAll(results);
@@ -63,19 +58,6 @@ public class RacingGameService {
                 .filter(RacingCarEntity::getIsWin)
                 .map(RacingCarEntity::getName)
                 .collect(toUnmodifiableList());
-    }
-
-    private List<String> getValidCarNames(final String carNames) {
-        List<String> parsedCarNames = Arrays.stream(carNames.split(","))
-                .map(String::trim)
-                .collect(Collectors.toUnmodifiableList());
-        Validator.validateNames(parsedCarNames);
-        return parsedCarNames;
-    }
-
-    private int getValidTryCount(final int tryCount) {
-        Validator.validateTryCount(tryCount);
-        return tryCount;
     }
 
     private List<RacingCarEntity> calculateResults(final RacingGame racingGame, final long gameId) {
