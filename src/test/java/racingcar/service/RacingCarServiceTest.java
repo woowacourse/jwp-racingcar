@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.NumberGenerator;
 import racingcar.dto.response.RacingGameResponse;
-import racingcar.repository.RacingCarRepository;
+import racingcar.repository.RacingCarJdbcRepository;
 import racingcar.utils.TestNumberGenerator;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class RacingCarServiceTest {
 
     @Autowired
-    private RacingCarRepository racingCarRepository;
+    private RacingCarJdbcRepository racingCarJdbcRepository;
 
     private RacingCarService racingCarService;
 
@@ -32,7 +32,7 @@ class RacingCarServiceTest {
         final NumberGenerator numberGenerator = new TestNumberGenerator(
                 new ArrayList<>(Arrays.asList(8, 6, 5, 6, 3, 6, 8, 6, 5, 6, 3, 6))
         );
-        racingCarService = new RacingCarService(racingCarRepository, numberGenerator);
+        racingCarService = new RacingCarService(racingCarJdbcRepository, numberGenerator);
     }
 
     @DisplayName("게임결과를 반환한다.")

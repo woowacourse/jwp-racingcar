@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @Import(value = {RacingGameDao.class, RacingCarDao.class, RacingWinnerDao.class})
 @JdbcTest
-class RacingCarRepositoryTest {
+class RacingCarJdbcRepositoryTest {
 
     @Autowired
     private RacingGameDao racingGameDao;
@@ -49,19 +49,19 @@ class RacingCarRepositoryTest {
     @DisplayName("자동차 경주 게임 도메인을 저장한다.")
     @Test
     void save() {
-        final RacingCarRepository racingCarRepository = new RacingCarRepository(racingGameDao, racingCarDao, racingWinnerDao);
+        final RacingCarJdbcRepository racingCarJdbcRepository = new RacingCarJdbcRepository(racingGameDao, racingCarDao, racingWinnerDao);
 
         assertThatNoException()
-                .isThrownBy(() -> racingCarRepository.save(racingGame, trialCount));
+                .isThrownBy(() -> racingCarJdbcRepository.save(racingGame, trialCount));
     }
 
     @DisplayName("자동차 경주 게임 도메인 목록을 조회한다.")
     @Test
     void findAll() {
-        final RacingCarRepository racingCarRepository = new RacingCarRepository(racingGameDao, racingCarDao, racingWinnerDao);
-        racingCarRepository.save(racingGame, trialCount);
+        final RacingCarJdbcRepository racingCarJdbcRepository = new RacingCarJdbcRepository(racingGameDao, racingCarDao, racingWinnerDao);
+        racingCarJdbcRepository.save(racingGame, trialCount);
 
-        final List<RacingGame> racingGames = racingCarRepository.findAll();
+        final List<RacingGame> racingGames = racingCarJdbcRepository.findAll();
 
         assertThat(racingGames).hasSize(1);
     }

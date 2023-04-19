@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.*;
 import racingcar.dto.response.RacingGameResponse;
-import racingcar.repository.RacingCarRepository;
+import racingcar.repository.RacingCarJdbcRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class RacingCarService {
 
-    private final RacingCarRepository racingCarRepository;
+    private final RacingCarJdbcRepository racingCarJdbcRepository;
     private final NumberGenerator numberGenerator;
 
-    public RacingCarService(final RacingCarRepository racingCarRepository, final NumberGenerator numberGenerator) {
-        this.racingCarRepository = racingCarRepository;
+    public RacingCarService(final RacingCarJdbcRepository racingCarJdbcRepository, final NumberGenerator numberGenerator) {
+        this.racingCarJdbcRepository = racingCarJdbcRepository;
         this.numberGenerator = numberGenerator;
     }
 
@@ -29,7 +29,7 @@ public class RacingCarService {
         final RacingGame racingGame = new RacingGame(numberGenerator, new Cars(createCars(names)), new Count(count));
         final int trialCount = racingGame.getCount();
         playGame(racingGame);
-        racingCarRepository.save(racingGame, trialCount);
+        racingCarJdbcRepository.save(racingGame, trialCount);
         return RacingGameResponse.of(racingGame.findWinners(), racingGame.getCurrentResult());
     }
 
@@ -46,7 +46,7 @@ public class RacingCarService {
     }
 
     public List<RacingGameResponse> findPlays() {
-        final List<RacingGame> racingGames = racingCarRepository.findAll();
+        final List<RacingGame> racingGames = racingCarJdbcRepository.findAll();
         return racingGames.stream()
                 .map(racingGame -> RacingGameResponse.of(racingGame.findWinners(), racingGame.getCurrentResult()))
                 .collect(Collectors.toList());
