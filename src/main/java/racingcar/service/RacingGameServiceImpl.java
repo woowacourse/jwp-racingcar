@@ -38,12 +38,12 @@ public class RacingGameServiceImpl implements RacingGameService {
         final Cars cars = new Cars(names.stream()
                 .map(Car::new)
                 .collect(Collectors.toList()));
-        final GameTime time = new GameTime(gameTime);
-        final RacingGame racingGame = new RacingGame(cars, time);
+        final var time = new GameTime(gameTime);
+        final var racingGame = new RacingGame(cars, time);
         racingGame.play(numberGenerator);
         racingGameRepository.save(racingGame);
-        final Winners result = racingGame.winners();
-        return new GameResultDto(racingGame.getCars(), result);
+        final var winners = racingGame.winners();
+        return new GameResultDto(racingGame.getCars(), winners);
     }
 
     public List<GameResultDto> findAllResult() {
