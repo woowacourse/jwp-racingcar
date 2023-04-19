@@ -8,8 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.dto.GameResultResponseDto;
-import racingcar.dto.PlayerHistoryDto;
+import racingcar.dto.car.GameResultResponseDto;
+import racingcar.dto.car.PlayerHistoryDto;
 
 import java.util.List;
 

@@ -1,10 +1,11 @@
 package racingcar.view;
 
+import racingcar.dto.car.CarStatusResponseDto;
+import racingcar.dto.car.GameHistoriesResponseDto;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import racingcar.dto.CarStatusResponseDto;
-import racingcar.dto.GameHistoriesResponseDto;
 
 public class OutputView {
 

@@ -2,8 +2,8 @@ package racingcar.controller;
 
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.dto.CarStatusResponseDto;
-import racingcar.dto.GameHistoriesResponseDto;
+import racingcar.dto.car.CarStatusResponseDto;
+import racingcar.dto.car.GameHistoriesResponseDto;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;

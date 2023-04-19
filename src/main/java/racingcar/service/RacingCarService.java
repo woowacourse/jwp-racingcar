@@ -1,19 +1,20 @@
 package racingcar.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameResultDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.dto.CarStatusResponseDto;
-import racingcar.dto.GameHistoriesResponseDto;
-import racingcar.dto.GameResultResponseDto;
-import racingcar.dto.PlayerHistoryDto;
+import racingcar.dto.car.CarStatusResponseDto;
+import racingcar.dto.car.GameHistoriesResponseDto;
+import racingcar.dto.car.GameResultResponseDto;
+import racingcar.dto.car.PlayerHistoryDto;
 import racingcar.utils.RandomPowerGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RacingCarService {

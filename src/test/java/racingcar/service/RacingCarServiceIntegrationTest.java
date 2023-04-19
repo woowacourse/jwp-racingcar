@@ -11,9 +11,9 @@ import racingcar.dao.GameResultDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.dto.CarStatusResponseDto;
-import racingcar.dto.GameHistoriesResponseDto;
-import racingcar.dto.GameResultResponseDto;
+import racingcar.dto.car.CarStatusResponseDto;
+import racingcar.dto.car.GameHistoriesResponseDto;
+import racingcar.dto.car.GameResultResponseDto;
 import racingcar.utils.RandomPowerGenerator;
 
 import java.util.List;

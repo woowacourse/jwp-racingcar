@@ -1,8 +1,9 @@
-package racingcar.dto;
+package racingcar.dto.car;
+
+import racingcar.domain.Cars;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.domain.Cars;
 
 public class GameResultResponseDto {
 

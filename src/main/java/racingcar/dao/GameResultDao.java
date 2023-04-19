@@ -6,8 +6,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.dto.GameResultResponseDto;
-import racingcar.dto.PlayerHistoryDto;
+import racingcar.dto.car.GameResultResponseDto;
+import racingcar.dto.car.PlayerHistoryDto;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;

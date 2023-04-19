@@ -11,10 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.dto.CarStatusResponseDto;
-import racingcar.dto.GameHistoriesResponseDto;
-import racingcar.dto.GameResultResponseDto;
-import racingcar.dto.StartGameRequestDto;
+import racingcar.dto.car.CarStatusResponseDto;
+import racingcar.dto.car.GameHistoriesResponseDto;
+import racingcar.dto.car.GameResultResponseDto;
+import racingcar.dto.car.StartGameRequestDto;
 import racingcar.service.RacingCarService;
 
 import java.util.List;
