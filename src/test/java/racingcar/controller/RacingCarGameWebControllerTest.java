@@ -10,11 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.game.model.PlayRequest;
+import racingcar.game.dto.GameRequestDTO;
 
 @DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PlayRequestControllerTest {
+class RacingCarGameWebControllerTest {
     
     @LocalServerPort
     int port;
@@ -27,11 +27,11 @@ class PlayRequestControllerTest {
     @DisplayName("Http Method - POST")
     @Test
     void playRacingCarGameTest() {
-        final PlayRequest playRequest = new PlayRequest("echo,io", 10);
+        final GameRequestDTO gameRequestDTO = new GameRequestDTO("echo,io", 10);
         
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(playRequest)
+                .body(gameRequestDTO)
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
