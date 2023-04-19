@@ -1,22 +1,24 @@
 package racingcar.view;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
+import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingCarGameResultDto;
 
 public class OutputView {
-    public void printWinners(List<String> winnerNames) {
-        System.out.println(System.lineSeparator() + "실행 결과");
-        System.out.println(winnerNames.stream()
-                .map(String::valueOf)
-                .collect(Collectors.joining(", "))
-                + "가 최종 우승했습니다." + System.lineSeparator());
+    public void printAllGameResult(List<RacingCarGameResultDto> gameResult) {
+        for (RacingCarGameResultDto racingCarGameResult : gameResult) {
+            printGameResult(racingCarGameResult);
+        }
     }
 
-    public void printGameResult(Map<String, Integer> racingCars) {
-        for (Entry<String, Integer> racingCar : racingCars.entrySet()) {
-            System.out.println(racingCar.getKey() + ": " + racingCar.getValue());
+    public void printGameResult(RacingCarGameResultDto racingCarGameResultDto) {
+        System.out.println(System.lineSeparator() + "실행 결과");
+        System.out.println(racingCarGameResultDto.getWinners()
+                + "가 최종 우승했습니다."
+                + System.lineSeparator());
+        List<RacingCarDto> racingCars = racingCarGameResultDto.getRacingCars();
+        for (RacingCarDto racingCarDto : racingCars) {
+            System.out.println(racingCarDto.getName() + " : " + racingCarDto.getPosition());
         }
     }
 }

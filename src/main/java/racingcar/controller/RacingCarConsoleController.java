@@ -1,43 +1,32 @@
 package racingcar.controller;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.dto.RacingCarGameResultDto;
+import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarConsoleController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final RacingCarService racingCarService;
 
-    public RacingCarConsoleController(InputView inputView, OutputView outputView) {
+    public RacingCarConsoleController(InputView inputView, OutputView outputView, RacingCarService racingCarService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.racingCarService = racingCarService;
     }
 
     public void run() {
         Cars cars = new Cars(inputView.readCarNames());
         TryCount tryCount = new TryCount(inputView.readTryCount());
-        playRound(cars, tryCount);
-        printGameResult(cars);
-    }
 
-    private void playRound(Cars cars, TryCount tryCount) {
-        for (int i = 0; i < tryCount.getValue(); i++) {
-            cars.runRound();
-        }
-    }
+        racingCarService.playRound(cars, tryCount);
+        racingCarService.saveGameResult(cars, tryCount);
 
-    private void printGameResult(Cars cars) {
-        outputView.printWinners(cars.getWinner());
-        Map<String, Integer> racingCars = new LinkedHashMap<>();
-        List<Car> cars1 = cars.getCars();
-        for (Car car : cars1) {
-            racingCars.put(car.getName().getValue(), car.getPosition().getValue());
-        }
-        outputView.printGameResult(racingCars);
+        List<RacingCarGameResultDto> gameResult = racingCarService.getGameResult();
+        outputView.printAllGameResult(gameResult);
     }
 }

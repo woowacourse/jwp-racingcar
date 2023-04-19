@@ -11,6 +11,7 @@ public class Cars {
     private static final String DELIMITER = ",";
     private static final Random random = new Random();
 
+    private List<String> winners;
     private final List<Car> cars;
 
     public Cars(String carNames) {
@@ -32,10 +33,11 @@ public class Cars {
 
     public List<String> getWinner() {
         int maxPosition = findMaxPosition();
-        return cars.stream().filter(car -> car.isSamePosition(maxPosition))
+        winners = cars.stream().filter(car -> car.isSamePosition(maxPosition))
                 .map(Car::getName)
                 .map(Name::getValue)
                 .collect(Collectors.toList());
+        return Collections.unmodifiableList(winners);
     }
 
     private int findMaxPosition() {

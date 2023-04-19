@@ -33,9 +33,15 @@ public class RacingCarService {
         List<RacingCarGameResultDto> gameResults = new ArrayList<>();
         List<PlayResultDto> playResult = playResultDao.selectAll();
         for (PlayResultDto playResultDto : playResult) {
-            List<RacingCarDto> racingCar = racingCarDao.select(playResultDto.getId());
+            List<RacingCarDto> racingCar = racingCarDao.selectByGameId(playResultDto.getId());
             gameResults.add(new RacingCarGameResultDto(playResultDto.getWinners(), racingCar));
         }
         return gameResults;
+    }
+
+    public void playRound(Cars cars, TryCount tryCount) {
+        for (int i = 0; i < tryCount.getValue(); i++) {
+            cars.runRound();
+        }
     }
 }

@@ -103,5 +103,5 @@
   - [x] console application에서 플레이의 중간 과정을 출력하는 로직을 제거
   - [x] console application에서 web application과 동일하게 우승자와 player 별 최종 이동거리를 출력하도록 수정
 
-- [ ] 리팩터링 - 중복 코드 제거
-  - [ ] 두 application의 비즈니스 로직에서 새로운 객체를 도출 하여 중복 제거
+- [x] 리팩터링 - 중복 코드 제거
+  - [x] 두 application의 비즈니스 로직에서 새로운 객체를 도출 하여 중복 제거

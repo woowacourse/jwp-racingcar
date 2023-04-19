@@ -28,7 +28,7 @@ public class RacingCarWebController {
     public RacingCarGameResultDto run(@RequestBody GameInitializeDto gameInitializeDto) {
         Cars cars = new Cars(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
-        playRound(cars, tryCount);
+        racingCarService.playRound(cars, tryCount);
         racingCarService.saveGameResult(cars, tryCount);
         return new RacingCarGameResultDto(String.join(",", cars.getWinner()), makeCarDtos(cars));
     }
@@ -38,12 +38,6 @@ public class RacingCarWebController {
     public ResponseEntity<List<RacingCarGameResultDto>> showGameResult() {
         List<RacingCarGameResultDto> gameResult = racingCarService.getGameResult();
         return ResponseEntity.ok().body(gameResult);
-    }
-
-    private void playRound(Cars cars, TryCount tryCount) {
-        for (int i = 0; i < tryCount.getValue(); i++) {
-            cars.runRound();
-        }
     }
 
     private List<RacingCarDto> makeCarDtos(Cars cars) {

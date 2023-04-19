@@ -11,8 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @JdbcTest
-class PlayResultDaoTest {
-    private PlayResultDao playResultDao;
+class H2PlayResultDaoTest {
+    private H2PlayResultDao h2PlayResultDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -21,13 +21,13 @@ class PlayResultDaoTest {
     @BeforeEach
     void setUp() {
         jdbcTemplate.update("DELETE FROM game");
-        playResultDao = new PlayResultDao(jdbcTemplate);
+        h2PlayResultDao = new H2PlayResultDao(jdbcTemplate);
     }
 
     @DisplayName("게임 결과가 저장되면 id를 반환하는 기능 테스트")
     @Test
     void Should_ReturnGameId_When_InsertPlayResult() {
-        Long gameId = playResultDao.insertWithKeyHolder(10, List.of("tori", "hong"));
+        Long gameId = h2PlayResultDao.insertWithKeyHolder(10, List.of("tori", "hong"));
         assertThat(gameId).isEqualTo(1);
     }
 }
