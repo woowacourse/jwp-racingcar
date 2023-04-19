@@ -8,44 +8,53 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.jdbc.Sql;
+import racingcar.car.interfaces.Car;
+import racingcar.car.interfaces.CarDAO;
+import racingcar.car.model.CarName;
+import racingcar.car.model.CarPosition;
 import racingcar.car.model.RacingCar;
-import racingcar.car.repository.RacingCarDao;
+import racingcar.car.repository.RacingCarDAO;
 
 @JdbcTest
+@Import(RacingCarDAO.class)
 @Sql(scripts = {"classpath:data.sql"})
-class RacingCarDaoTest {
+class RacingCarDAOTest {
     
-    private final RowMapper<RacingCar> actorRowMapper = (resultSet, rowNum) -> {
-        return new RacingCar(
-                resultSet.getString("name"),
-                resultSet.getInt("position")
-        );
-    };
+    private final RowMapper<Car> actorRowMapper = (resultSet, rowNum) -> new RacingCar(
+            CarName.create(resultSet.getString("name")),
+            CarPosition.create(resultSet.getInt("position"))
+    );
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private RacingCarDao carDao;
+    @Autowired
+    private CarDAO racingCarDAO;
     
     @BeforeEach
     void setUp() {
-        this.carDao = new RacingCarDao(this.jdbcTemplate);
         //create dummy game data
         final String sql = "INSERT INTO racing_game(trial_count, winners) VALUES (?,?)";
         this.jdbcTemplate.update(sql, 5, "io");
+        
     }
-    
     
     @Test
     @DisplayName("insert - 자동차 객체와 게임 아이디를 받아서 DB에 저장한다.")
     void insertCarTest() {
-        final RacingCar car = new RacingCar("echo", 5);
+        //given
+        final Car car = RacingCar.create("io", 5);
         final int gameId = 1;
         
-        this.carDao.insert(car, gameId);
+        //when
+        this.racingCarDAO.insert(car, gameId);
+        
+        //then
         final String sql = "SELECT * FROM racing_car WHERE racing_game_id = ? AND name = ?";
-        final RacingCar carFromDB = this.jdbcTemplate.queryForObject(sql, this.actorRowMapper, gameId, car.getName());
+        final Car carFromDB = this.jdbcTemplate.queryForObject(sql, this.actorRowMapper, gameId,
+                car.getName().getValue());
         assertThat(carFromDB.getName()).isEqualTo(car.getName());
         
     }
@@ -53,13 +62,18 @@ class RacingCarDaoTest {
     @Test
     @DisplayName("isert - 여러 자동차 객체와 게임 아이디를 받아서 DB에 저장한다.")
     void findCarsByGameIdTest() {
+        //given
         final int gameId = 1;
-        final RacingCar car = new RacingCar("io", 5);
-        this.carDao.insert(car, gameId);
-        final RacingCar car2 = new RacingCar("echo", 5);
-        this.carDao.insert(car2, gameId);
+        final Car car = RacingCar.create("io", 5);
+        final Car car2 = RacingCar.create("echo", 5);
+        
+        //when
+        this.racingCarDAO.insert(car, gameId);
+        this.racingCarDAO.insert(car2, gameId);
+        
+        //then
         final String sql = "SELECT * FROM racing_car WHERE racing_game_id = ?";
-        final List<RacingCar> cars = this.jdbcTemplate.query(sql, this.actorRowMapper, gameId);
+        final List<Car> cars = this.jdbcTemplate.query(sql, this.actorRowMapper, gameId);
         assertThat(cars.size()).isEqualTo(2);
     }
     

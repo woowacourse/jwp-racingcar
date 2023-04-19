@@ -1,5 +1,6 @@
 package racingcar.car.model;
 
+import java.util.Objects;
 import racingcar.car.interfaces.Name;
 
 public final class CarName implements Name {
@@ -21,6 +22,23 @@ public final class CarName implements Name {
         if (name.length() > MIN_NAME_LENGTH) {
             throw new IllegalArgumentException(CAR_NAME_CANNOT_EXCEED_FIVE_LETTERS);
         }
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
+    }
+    
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final CarName carName = (CarName) o;
+        return this.value.equals(carName.value);
     }
     
     @Override
