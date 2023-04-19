@@ -37,9 +37,9 @@ public class WinnersDaoTest {
     }
 
     @Test
-    void load(){
-        winnersDAO.insert(1,"달리");
-        winnersDAO.insert(1,"디노");
+    void load() {
+        winnersDAO.insert(1, "달리");
+        winnersDAO.insert(1, "디노");
         assertThat(winnersDAO.load(1).size()).isEqualTo(2);
     }
 }

@@ -3,7 +3,6 @@ package racingcar.dto;
 import racingcar.domain.Car;
 
 import java.util.List;
-import java.util.Map;
 
 public class ServiceControllerDto {
     private final List<Car> gameLog;

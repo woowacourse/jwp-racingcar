@@ -5,7 +5,8 @@ import racingcar.domain.Car;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static racingcar.option.Option.*;
+import static racingcar.option.Option.CAR_INFIX;
+import static racingcar.option.Option.WINNER_DELIMITER;
 
 public class OutputView {
     public static void noticeResult() {

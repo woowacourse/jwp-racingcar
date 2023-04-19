@@ -1,6 +1,5 @@
 package racingcar.dto;
 
-import org.springframework.web.bind.annotation.ResponseBody;
 import racingcar.domain.Car;
 
 import java.util.List;

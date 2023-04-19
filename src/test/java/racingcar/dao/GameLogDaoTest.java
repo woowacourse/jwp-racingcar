@@ -39,10 +39,10 @@ public class GameLogDaoTest {
     }
 
     @Test
-    void load(){
-        gameLogDao.insert(1,"달리",10);
-        gameLogDao.insert(1,"달",9);
-        gameLogDao.insert(1,"물빠진떡",10);
+    void load() {
+        gameLogDao.insert(1, "달리", 10);
+        gameLogDao.insert(1, "달", 9);
+        gameLogDao.insert(1, "물빠진떡", 10);
 
         assertThat(gameLogDao.load(1).size()).isEqualTo(3);
     }

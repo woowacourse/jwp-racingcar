@@ -39,7 +39,7 @@ public class GameDaoTest {
     }
 
     @Test
-    void load(){
+    void load() {
         gameDao.saveGame(10);
         gameDao.saveGame(10);
         gameDao.saveGame(10);

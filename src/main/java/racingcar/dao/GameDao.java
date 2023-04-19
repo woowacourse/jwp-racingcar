@@ -3,7 +3,6 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -14,6 +13,7 @@ import java.util.Map;
 public class GameDao {
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
+
     public GameDao(final DataSource dataSource) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
@@ -27,11 +27,11 @@ public class GameDao {
         return (long) simpleJdbcInsert.executeAndReturnKeyHolder(parameters).getKeys().get("game_number");
     }
 
-    public List<Long> load(){
+    public List<Long> load() {
         final String sql = "select game_number from game";
         return jdbcTemplate.query(
                 sql,
-                (resultSet,rowNum)-> resultSet.getLong("game_number")
+                (resultSet, rowNum) -> resultSet.getLong("game_number")
         );
     }
 }

@@ -9,7 +9,9 @@ import racingcar.domain.MoveChance;
 import racingcar.domain.RandomMoveChance;
 import racingcar.dto.ServiceControllerDto;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,7 +27,7 @@ public class GameService {
 
     public GameService(final GameDao gameDAO, final GameLogDao gameLogDAO, final WinnersDao winnersDAO) {
         this.gameDAO = gameDAO;
-        this.gameLogDAO =gameLogDAO;
+        this.gameLogDAO = gameLogDAO;
         this.winnersDAO = winnersDAO;
         this.moveChance = new RandomMoveChance();
     }
@@ -79,26 +81,26 @@ public class GameService {
         }
     }
 
-    public List<ServiceControllerDto> mappingEachGame(){
+    public List<ServiceControllerDto> mappingEachGame() {
         List<ServiceControllerDto> gameLog = new ArrayList<>();
-        for (Long gameNumber : gameDAO.load()){
-            gameLog.add(new ServiceControllerDto(makeGameLogList(gameNumber),makeWinnersList(gameNumber)));
+        for (Long gameNumber : gameDAO.load()) {
+            gameLog.add(new ServiceControllerDto(makeGameLogList(gameNumber), makeWinnersList(gameNumber)));
         }
         return gameLog;
     }
 
-    private List<Car> makeGameLogList(final Long gameNumber){
+    private List<Car> makeGameLogList(final Long gameNumber) {
         return gameLogDAO.load(gameNumber)
                 .stream()
-                .map(gameLogEntity -> new Car(gameLogEntity.getPlayerName(),gameLogEntity.getResultPosition()))
+                .map(gameLogEntity -> new Car(gameLogEntity.getPlayerName(), gameLogEntity.getResultPosition()))
                 .collect(Collectors.toList());
     }
 
-    private List<Car> makeWinnersList(final long gameNumber){
+    private List<Car> makeWinnersList(final long gameNumber) {
         return winnersDAO
                 .load(gameNumber)
                 .stream()
-                .map(winnerEntity-> new Car(winnerEntity.getWinner()))
+                .map(winnerEntity -> new Car(winnerEntity.getWinner()))
                 .collect(Collectors.toList());
     }
 
