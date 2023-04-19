@@ -3,11 +3,11 @@ package racingcar.dto;
 import racingcar.domain.CarName;
 import racingcar.domain.Position;
 
-public class CarStatus {
+public class CarStatusDto {
     private final String name;
     private final int currentPosition;
 
-    public CarStatus(final CarName carName, final Position currentPosition) {
+    public CarStatusDto(final CarName carName, final Position currentPosition) {
         this.name = carName.getName();
         this.currentPosition = currentPosition.getPosition();
     }

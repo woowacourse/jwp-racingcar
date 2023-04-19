@@ -1,7 +1,7 @@
 package racingcar.controller;
 
 import racingcar.domain.*;
-import racingcar.dto.CarStatus;
+import racingcar.dto.CarStatusDto;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -56,22 +56,22 @@ public class RacingCarController {
         while (!lap.isFinish()) {
             cars.moveCars(numberGenerator);
             List<Car> movedCars = cars.getLatestResult();
-            List<CarStatus> carStatuses = mapCarsToCarStatuses(movedCars);
+            List<CarStatusDto> carStatusDtos = mapCarsToCarStatuses(movedCars);
             lap.reduce();
-            OutputView.printCarStatus(carStatuses);
+            OutputView.printCarStatus(carStatusDtos);
         }
     }
 
-    private List<CarStatus> mapCarsToCarStatuses(List<Car> cars) {
+    private List<CarStatusDto> mapCarsToCarStatuses(List<Car> cars) {
         return cars.stream()
-                .map(car -> new CarStatus(car.getCarName(), car.getCurrentPosition()))
+                .map(car -> new CarStatusDto(car.getCarName(), car.getCurrentPosition()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
     private void showFinalStatus(Cars cars) {
         List<Car> latestResult = cars.getLatestResult();
-        List<CarStatus> carStatuses = mapCarsToCarStatuses(latestResult);
-        OutputView.printCarStatus(carStatuses);
+        List<CarStatusDto> carStatusDtos = mapCarsToCarStatuses(latestResult);
+        OutputView.printCarStatus(carStatusDtos);
     }
 
     private void prizeWinner(Cars cars) {

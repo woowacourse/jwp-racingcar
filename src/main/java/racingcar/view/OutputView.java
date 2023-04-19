@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import racingcar.dto.CarStatus;
+import racingcar.dto.CarStatusDto;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ public class OutputView {
         System.out.println("실행 결과");
     }
 
-    public static void printCarStatus(List<CarStatus> carStatuses) {
-        carStatuses.forEach(carStatus -> {
-            int moveCount = carStatus.getCurrentPosition();
-            System.out.println(carStatus.getName() + DELIMITER + MOVING_SYMBOL.repeat(moveCount));
+    public static void printCarStatus(List<CarStatusDto> carStatusDtos) {
+        carStatusDtos.forEach(carStatusDto -> {
+            int moveCount = carStatusDto.getCurrentPosition();
+            System.out.println(carStatusDto.getName() + DELIMITER + MOVING_SYMBOL.repeat(moveCount));
         });
 
         System.out.println();
