@@ -1,6 +1,5 @@
 package racingcar.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import racingcar.dao.CarsDao;
 import racingcar.dao.GameStatesDao;
-import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.GameStateDto;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
@@ -25,18 +23,9 @@ public class GameRepository {
     }
 
     public List<Game> findAll() {
-        List<Game> games = new ArrayList<>();
-        List<GameStateDto> gameStates = gameStatesDao.selectAll();
-        for (GameStateDto gameState : gameStates) {
-            List<CarDto> carDtos = carsDao.selectAllBy(gameState.getId());
-            Game game = new Game(
-                    createCarsWith(carDtos),
-                    gameState.getInitialTrialCount(),
-                    gameState.getRemainingTrialCount()
-            );
-            games.add(game);
-        }
-        return games;
+        return gameStatesDao.selectAll().stream()
+                .map(this::createGameWith)
+                .collect(Collectors.toList());
     }
 
     public void save(Game game) {
@@ -46,8 +35,17 @@ public class GameRepository {
         }
     }
 
-    private List<Car> createCarsWith(List<CarDto> carDtos) {
-        return carDtos.stream()
+    private Game createGameWith(GameStateDto gameState) {
+        return new Game(
+                findCarsBy(gameState.getId()),
+                gameState.getInitialTrialCount(),
+                gameState.getRemainingTrialCount()
+        );
+    }
+
+    private List<Car> findCarsBy(Integer gameId) {
+        return carsDao.selectAllBy(gameId)
+                .stream()
                 .map(it -> new Car(it.getName(), it.getPosition()))
                 .collect(Collectors.toList());
     }
