@@ -7,9 +7,9 @@ import racingcar.dao.WinnersDao;
 import racingcar.domain.Car;
 import racingcar.domain.MoveChance;
 import racingcar.domain.RandomMoveChance;
+import racingcar.dto.ServiceControllerDto;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,5 +83,28 @@ public class WebService {
         for (int i = 0; i < trialCount; i++) {
             playOnce();
         }
+    }
+
+    public List<ServiceControllerDto> mappingEachGame(){
+        List<ServiceControllerDto> gameLog = new ArrayList<>();
+        for (Long gameNumber : gameDAO.load()){
+            gameLog.add(new ServiceControllerDto(makeGameLogList(gameNumber),makeWinnersList(gameNumber)));
+        }
+        return gameLog;
+    }
+
+    private List<Car> makeGameLogList(final Long gameNumber){
+        return gameLogDAO.load(gameNumber)
+                .stream()
+                .map(gameLogEntity -> new Car(gameLogEntity.getPlayerName(),gameLogEntity.getResultPosition()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Car> makeWinnersList(final long gameNumber){
+        return winnersDAO
+                .load(gameNumber)
+                .stream()
+                .map(winner-> new Car(winner.getWinner()))
+                .collect(Collectors.toList());
     }
 }

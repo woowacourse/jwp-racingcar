@@ -5,7 +5,7 @@ import racingcar.domain.Car;
 
 import java.util.List;
 import java.util.stream.Collectors;
-@ResponseBody
+
 public class ResponseDto {
     private final List<Car> winners;
     private final List<Car> racingCars;

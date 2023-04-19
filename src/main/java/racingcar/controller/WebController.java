@@ -1,11 +1,15 @@
 package racingcar.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import racingcar.dto.ServiceControllerDto;
 import racingcar.service.WebService;
 import racingcar.dto.RequestDto;
 import racingcar.dto.ResponseDto;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class WebController {
@@ -20,4 +24,19 @@ public class WebController {
         ResponseDto responseDto = new ResponseDto(webService.findWinners(), webService.getCars());
         return responseDto;
     }
+
+    @GetMapping("/plays")
+    public ResponseEntity getWinners(){
+
+        return ResponseEntity.ok()
+                .body(getGameLogResponseDtos());
+    }
+
+    private List<ResponseDto> getGameLogResponseDtos() {
+        return webService.mappingEachGame()
+                .stream()
+                .map(dto->new ResponseDto(dto.getWinners(),dto.getGameLog()))
+                .collect(Collectors.toList());
+    }
+
 }
