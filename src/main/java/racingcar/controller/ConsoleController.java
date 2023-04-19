@@ -6,6 +6,7 @@ import racingcar.domain.movingstrategy.MovingStrategy;
 import racingcar.dto.request.UserRequestDto;
 import racingcar.dto.response.GameResultResponseDto;
 import racingcar.service.RacingGameService;
+import racingcar.utils.DtoMapper;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -25,8 +26,8 @@ public final class ConsoleController {
     public void run(final MovingStrategy movingStrategy) {
         final Names carNames = new Names(inputView.readCarNames());
         final TryCount tryCount = new TryCount(inputView.readTryCount());
-        final UserRequestDto inputDto = new UserRequestDto(carNames.getJoinedValue(), tryCount.getCount());
-        final GameResultResponseDto resultDto = racingGameService.getResult(inputDto);
+        final UserRequestDto userRequestDto = DtoMapper.mapToUserRequestDto(carNames, tryCount);
+        final GameResultResponseDto resultDto = racingGameService.getResult(userRequestDto);
         outputView.printTotalMovingStatus(resultDto);
     }
 }

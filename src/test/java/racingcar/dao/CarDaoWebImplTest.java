@@ -36,7 +36,7 @@ class CarDaoWebImplTest {
         assertThat(1L).isEqualTo(gameResultId);
 
         Car car = new Car("헙크", 3, true);
-        Long carId = carDaoWebImpl.save(DtoMapper.toCarDto(gameResultId, car));
+        Long carId = carDaoWebImpl.save(DtoMapper.mapToCarDto(gameResultId, car));
         assertThat(1L).isEqualTo(carId);
     }
 }

@@ -24,10 +24,4 @@ public final class Names {
     public List<Name> getNames() {
         return new ArrayList<>(names);
     }
-
-    public String getJoinedValue() {
-        return names.stream()
-                .map(Name::getName)
-                .collect(Collectors.joining(","));
-    }
 }

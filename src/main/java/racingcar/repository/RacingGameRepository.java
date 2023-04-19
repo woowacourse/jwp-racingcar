@@ -23,7 +23,7 @@ public class RacingGameRepository {
 
     public Long save(final RacingGame racingGame) {
         final Long gameId = gameResultDaoWebImpl.save(DtoMapper.toRacingGameDto(racingGame));
-        carDaoWebImpl.saveAll(DtoMapper.toCarsDto(gameId, racingGame));
+        carDaoWebImpl.saveAll(DtoMapper.mapToCarsDto(gameId, racingGame));
         return gameId;
     }
 
