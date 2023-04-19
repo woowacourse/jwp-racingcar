@@ -1,7 +1,9 @@
 package racingcar.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +25,7 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<PlayResponseDto> play(@RequestBody PlayRequestDto playRequestDto) {
+    public ResponseEntity<PlayResponseDto> play(@Valid @RequestBody PlayRequestDto playRequestDto) {
         final int count = playRequestDto.getCount();
         final List<String> carNames = TextParser.parseByDelimiter(playRequestDto.getNames(), CAR_NAMES_DELIMITER);
 
@@ -36,6 +38,12 @@ public class RacingCarController {
     public ResponseEntity<List<PlayResponseDto>> records() {
         final List<PlayResponseDto> records = racingCarService.findAllPlayRecords();
         return ResponseEntity.ok(records);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handle(MethodArgumentNotValidException exception) {
+        String bindingErrorMessage = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return ResponseEntity.badRequest().body(bindingErrorMessage);
     }
 
     @ExceptionHandler(Exception.class)

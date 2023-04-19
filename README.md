@@ -151,7 +151,9 @@ Content-Type: application/json
 - Spring 제공 기능 적용하기
     - [x] 예외 처리 : ExceptionHandler 사용, 예외 발생 정보를 응답 객체에 담아 전달하기
         - [ ] 어떤 예외까지 핸들링할 것인가? Exception을 모두 받는 게 맞나?
-    - [ ] 필요 시 Dto에 Validation 추가
+    - [x] Dto에 Validation 어노테이션 추가
+        - 도메인 검증 로직 이전에 일찍 검증할 수 있는 장점이 있다.
+        - [ ] 예외 메시지는 도메인 검증 로직과 동일하게 작성해야 할까? 구분할 필요가 있을까?
     - [ ] Lombok 라이브러리 사용해 생성자, getter 메서드 코드 단순화
 - [x] Dao 구현체가 아닌 인터페이스에 의존하도록 변경 (DB 교체 용이하게)
     - [x] 각 Dao를 여러 DB를 적용할 수 있게 인터페이스로 추상화
