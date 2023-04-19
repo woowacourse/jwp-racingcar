@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class ResultDao {
@@ -27,5 +28,10 @@ public class ResultDao {
         }, keyHolder);
 
         return keyHolder.getKey().longValue();
+    }
+
+    public List<Long> findAllId() {
+        String sql = "select id from results";
+        return jdbcTemplate.queryForList(sql, Long.class);
     }
 }
