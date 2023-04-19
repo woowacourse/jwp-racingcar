@@ -5,26 +5,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.Cars;
-import racingcar.domain.RacingGame;
+import racingcar.domain.vo.Trial;
 import racingcar.dto.*;
-import racingcar.service.RacingService;
+import racingcar.service.WebService;
 
 import java.util.List;
+import racingcar.utils.Converter;
+import racingcar.utils.RandomNumberGenerator;
 
 @RestController
 public class WebController {
 
-    final private RacingService racingService;
+    final private WebService racingService;
 
-    public WebController(RacingService racingService) {
-        this.racingService = racingService;
+    public WebController(WebService webService) {
+        this.racingService = webService;
     }
 
     @PostMapping("/plays")
     public RacingResultResponse run(@RequestBody RacingRequest dto) {
-        Cars updatedCars = RacingGame.run(dto);
-        racingService.save(updatedCars);
-        return new RacingResultResponse(updatedCars.getWinnerNames(), updatedCars.getCarDtos());
+        Cars cars = Cars.initialize(dto.getNames(), RandomNumberGenerator.makeInstance());
+        Trial trial = Trial.of(Converter.convertStringToInt(dto.getCount()));
+        Cars movedCars = racingService.run(cars, trial);
+        return new RacingResultResponse(movedCars.getWinnerNames(), movedCars.getCarDtos());
     }
 
     @GetMapping("/plays")
