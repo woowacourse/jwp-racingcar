@@ -2,9 +2,10 @@ package racingcar.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dao.RacingCarDao;
 import racingcar.dao.ResultDao;
 import racingcar.domain.GameInforamtionDto;
@@ -13,7 +14,7 @@ import racingcar.util.NumberGenerator;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-@JdbcTest
+@ExtendWith(MockitoExtension.class)
 class RacingCarServiceTest {
 
     @Mock
