@@ -7,8 +7,8 @@ import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class ConsoleController {
-    private final InputView inputView;//입력
-    private final OutputView outputView;//출력
+    private final InputView inputView;
+    private final OutputView outputView;
     private final RacingCarService racingCarService;
 
     public ConsoleController(final InputView inputView, final OutputView outputView, final RacingCarService racingCarService) {
@@ -22,6 +22,6 @@ public class ConsoleController {
         int count = inputView.inputGameRound();
         NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest(names, count);
         ResultResponse resultResponse = racingCarService.playGame(namesAndCountRequest);
-        outputView.printResultMessage();
+        outputView.printRoundResult(resultResponse);
     }
 }
