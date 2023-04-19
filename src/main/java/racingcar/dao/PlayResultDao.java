@@ -17,9 +17,9 @@ public class PlayResultDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public PlayResultDao(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public PlayResultDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("play_result")
                 .usingGeneratedKeyColumns("id");
     }
@@ -39,13 +39,18 @@ public class PlayResultDao {
                 .intValue();
     }
 
-    public PlayResult findById(long id) {
+    public PlayResult findById(int id) {
         String sql = "SELECT * FROM play_result WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
     }
 
-    public List<Integer> findAllId() {
-        String sql = "SELECT id FROM play_result";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getInt("id"));
+    public List<PlayResult> findAll() {
+        String sql = "SELECT * FROM play_result";
+        return jdbcTemplate.query(sql, entityRowMapper);
+    }
+
+    public void deleteAll() {
+        String sql = "DELETE FROM play_result";
+        jdbcTemplate.update(sql);
     }
 }

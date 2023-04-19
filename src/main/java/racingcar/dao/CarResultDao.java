@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -8,7 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.CarResult;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -23,9 +23,10 @@ public class CarResultDao {
             resultSet.getInt("position")
     );
 
-    public CarResultDao(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    @Autowired
+    public CarResultDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("car_result")
                 .usingGeneratedKeyColumns("id");
     }
