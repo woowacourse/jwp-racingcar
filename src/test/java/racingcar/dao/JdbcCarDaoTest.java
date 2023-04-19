@@ -81,6 +81,20 @@ public class JdbcCarDaoTest {
         assertThat(carNameDTOS).hasSize(2).containsExactly(new CarNameDTO("gavi"), new CarNameDTO("kyle"));
     }
 
+    @Test
+    void 모든_자동차의_이름과_위치_정보를_찾는다() {
+        //given
+        carDao.insert("huchu", 0, gameId, false);
+        carDao.insert("gavi", 1, gameId, true);
+        carDao.insert("kyle", 1, gameId, true);
+
+        //when
+        final List<CarNamePositionDTO> allCars = carDao.findAllCarNamesAndPositions(gameId);
+
+        //then
+        assertThat(allCars).hasSize(3).containsExactly(new CarNamePositionDTO("huchu", 0), new CarNamePositionDTO("gavi", 1), new CarNamePositionDTO("kyle", 1));
+    }
+
     @AfterEach
     void tearDown() {
         carDao.deleteAll();

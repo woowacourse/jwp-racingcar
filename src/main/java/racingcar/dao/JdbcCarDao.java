@@ -41,4 +41,15 @@ public class JdbcCarDao implements CarDao {
     private RowMapper<CarNameDTO> getCarNameDTORowMapper() {
         return (resultSet, rowNum) -> new CarNameDTO(resultSet.getString("name"));
     }
+
+    @Override
+    public List<CarNamePositionDTO> findAllCarNamesAndPositions(final Long gameId) {
+        final String sql = "select name, position from car where game_id = ?";
+        return jdbcTemplate.query(sql, getCarNamePositionDTORowMapper(), gameId);
+    }
+
+    private RowMapper<CarNamePositionDTO> getCarNamePositionDTORowMapper() {
+        return (resultSet, rowNum) -> new CarNamePositionDTO(resultSet.getString("name"), resultSet.getInt("position"));
+    }
+
 }

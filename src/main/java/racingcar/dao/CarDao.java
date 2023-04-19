@@ -11,4 +11,6 @@ public interface CarDao {
     void deleteAll();
 
     List<CarNameDTO> findWinners(final Long gameId);
+
+    List<CarNamePositionDTO> findAllCarNamesAndPositions(final Long gameId);
 }
