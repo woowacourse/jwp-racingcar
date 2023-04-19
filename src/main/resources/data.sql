@@ -1,31 +1,31 @@
-CREATE TABLE users
+CREATE TABLE player
 (
-    id   BIGINT      NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id)
+    user_id BIGINT      NOT NULL AUTO_INCREMENT,
+    name    VARCHAR(50) NOT NULL,
+    PRIMARY KEY (user_id)
 );
 
 CREATE TABLE game
 (
-    id          BIGINT   NOT NULL AUTO_INCREMENT,
+    game_id     BIGINT   NOT NULL AUTO_INCREMENT,
     trial_count INT      NOT NULL,
     created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    PRIMARY KEY (game_id)
 );
 
-CREATE TABLE position
+CREATE TABLE player_position
 (
-    id       BIGINT NOT NULL AUTO_INCREMENT,
-    game_id  BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-    position INT    NOT NULL,
-    PRIMARY KEY (id)
+    player_position_id BIGINT NOT NULL AUTO_INCREMENT,
+    game_id            BIGINT NOT NULL,
+    user_id            BIGINT NOT NULL,
+    position           INT    NOT NULL,
+    PRIMARY KEY (player_position_id)
 );
 
-CREATE TABLE winner
+CREATE TABLE game_winner
 (
-    id       BIGINT NOT NULL AUTO_INCREMENT,
-    game_id  BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-    PRIMARY KEY (id)
+    game_winner_id BIGINT NOT NULL AUTO_INCREMENT,
+    game_id        BIGINT NOT NULL,
+    user_id        BIGINT NOT NULL,
+    PRIMARY KEY (game_winner_id)
 );

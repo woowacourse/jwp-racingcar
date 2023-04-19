@@ -17,7 +17,7 @@ public class JdbcGameDao implements GameDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<GameEntity> actorRowMapper = (resultSet, rowNum) -> new GameEntity(
-            resultSet.getLong("id"),
+            resultSet.getLong("game_id"),
             resultSet.getInt("trial_count"),
             resultSet.getString("created_at")
     );
@@ -38,12 +38,12 @@ public class JdbcGameDao implements GameDao {
             return preparedStatement;
         }, keyHolder);
 
-        return (long) Objects.requireNonNull(keyHolder.getKeys()).get("ID");
+        return (long) Objects.requireNonNull(keyHolder.getKeys()).get("GAME_ID");
     }
 
     @Override
     public List<GameEntity> findAll() {
-        final String sql = "SELECT id, trial_count, created_at FROM game";
+        final String sql = "SELECT game_id, trial_count, created_at FROM game";
         return jdbcTemplate.query(sql, actorRowMapper);
     }
 }
