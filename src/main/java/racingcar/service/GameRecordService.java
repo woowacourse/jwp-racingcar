@@ -35,24 +35,24 @@ public class GameRecordService {
 
         return groupingRecords.entrySet()
                 .stream()
-                .map(this::findRecord)
+                .map(this::recordRowToRecordDto)
                 .collect(Collectors.toList());
     }
 
-    private RecordDto findRecord(Map.Entry<Integer, List<RecordEntity>> records) {
-        return new RecordDto(recordsToWinner(records), recordsToDto(records));
+    private RecordDto recordRowToRecordDto(Map.Entry<Integer, List<RecordEntity>> recordRow) {
+        return new RecordDto(recordsToWinner(recordRow), recordRowToListOfCarDto(recordRow));
     }
 
-    private String recordsToWinner(Map.Entry<Integer, List<RecordEntity>> records) {
-        return records.getValue()
+    private String recordsToWinner(Map.Entry<Integer, List<RecordEntity>> recordRow) {
+        return recordRow.getValue()
                 .stream()
                 .filter(RecordEntity::isWinner)
                 .map(RecordEntity::getPlayerName)
                 .collect(Collectors.joining(","));
     }
 
-    private List<CarDto> recordsToDto(Map.Entry<Integer, List<RecordEntity>> records) {
-        return records.getValue()
+    private List<CarDto> recordRowToListOfCarDto(Map.Entry<Integer, List<RecordEntity>> recordRow) {
+        return recordRow.getValue()
                 .stream()
                 .map(record -> new CarDto(record.getPlayerName(), record.getPosition()))
                 .collect(Collectors.toList());

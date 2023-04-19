@@ -23,6 +23,6 @@ public class ConsoleController {
         GameDto gameDto = new GameDto(inputView.getCarNames(), inputView.getTryCount());
         Cars cars = racingGameService.play(gameDto);
 
-        outputView.result(new RecordDto(cars.getWinner(), racingGameService.carsToDto(cars)));
+        outputView.result(new RecordDto(cars.getWinner(), racingGameService.carsToListOfCarDto(cars)));
     }
 }

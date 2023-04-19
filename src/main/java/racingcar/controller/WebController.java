@@ -29,7 +29,7 @@ public class WebController {
 
         gameRecordService.saveGameRecord(gameDto.getCount(), cars);
 
-        return new RecordDto(cars.getWinner(), racingGameService.carsToDto(cars));
+        return new RecordDto(cars.getWinner(), racingGameService.carsToListOfCarDto(cars));
     }
 
     @GetMapping("/plays")

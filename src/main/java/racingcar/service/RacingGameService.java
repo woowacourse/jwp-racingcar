@@ -38,7 +38,7 @@ public class RacingGameService {
                 .collect(Collectors.toUnmodifiableList()));
     }
 
-    public List<CarDto> carsToDto(Cars cars){
+    public List<CarDto> carsToListOfCarDto(Cars cars){
         return cars.getCars().stream()
                 .map(car -> new CarDto(car.getName(), car.getDistance()))
                 .collect(Collectors.toList());
