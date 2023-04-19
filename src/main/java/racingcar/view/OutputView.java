@@ -1,7 +1,7 @@
 package racingcar.view;
 
 import racingcar.dto.CarDTO;
-import racingcar.response.RacingGameResponse;
+import racingcar.dto.response.RacingGameResponse;
 import racingcar.view.message.Message;
 
 public class OutputView {

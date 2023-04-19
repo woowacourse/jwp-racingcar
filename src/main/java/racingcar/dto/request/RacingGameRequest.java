@@ -1,4 +1,4 @@
-package racingcar.request;
+package racingcar.dto.request;
 
 public class RacingGameRequest {
 
