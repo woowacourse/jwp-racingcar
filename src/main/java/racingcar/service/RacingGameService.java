@@ -32,11 +32,12 @@ public class RacingGameService {
     }
 
     public RacingGameResponseDto run(RacingGameRequestDto racingGameRequestDto) {
+        LocalTime gameCreatedAt = LocalTime.now();
         RacingCars racingCars = createRacingCars(racingGameRequestDto);
         int tryCount = new TryCount(racingGameRequestDto.getCount()).getTries();
         raceCars(racingCars, tryCount);
 
-        int gameId = saveGame(racingCars, tryCount);
+        int gameId = saveGame(racingCars, tryCount, gameCreatedAt);
         saveCars(racingCars, gameId);
 
         return createResult(racingCars);
@@ -60,9 +61,10 @@ public class RacingGameService {
                 .forEach(ignored -> racingCars.moveCars(numberGenerator));
     }
 
-    private int saveGame(final RacingCars racingCars, final int tryCount) {
+    //비즈니스 로직과 분리된 entity의 생성 책임은 gameDao에 있다고 생각한다
+    private int saveGame(final RacingCars racingCars, final int tryCount, final LocalTime gameCreatedAt) {
         String winnerCars = String.join(",", racingCars.pickWinnerCarNames());
-        return gameDao.save(new GameDto(winnerCars, tryCount, LocalTime.now()));
+        return gameDao.save(new GameDto(winnerCars, tryCount, gameCreatedAt));
     }
 
     private RacingGameResponseDto createResult(final RacingCars racingCars) {
