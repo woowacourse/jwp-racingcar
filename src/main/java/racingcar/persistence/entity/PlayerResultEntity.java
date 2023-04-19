@@ -1,4 +1,4 @@
-package racingcar.entity;
+package racingcar.persistence.entity;
 
 public class PlayerResultEntity {
 

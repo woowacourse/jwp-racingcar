@@ -2,8 +2,8 @@ package racingcar.persistence.repository;
 
 import racingcar.dto.CarData;
 import racingcar.dto.GameResultResponse;
-import racingcar.entity.GameResultEntity;
-import racingcar.entity.PlayerResultEntity;
+import racingcar.persistence.entity.GameResultEntity;
+import racingcar.persistence.entity.PlayerResultEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
