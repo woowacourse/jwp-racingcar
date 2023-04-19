@@ -6,5 +6,5 @@ public interface PlayerDao {
 
     void saveAllPlayers(final Long id, final List<Player> players);
 
-    List<Player> findAll(final Long gameId);
+    List<Player> findAll();
 }

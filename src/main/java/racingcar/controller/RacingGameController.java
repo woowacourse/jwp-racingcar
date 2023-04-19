@@ -1,13 +1,16 @@
 package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import racingcar.dao.Player;
 import racingcar.domain.RacingCars;
 import racingcar.service.RacingGameService;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
+@RequestMapping("/plays")
 public class RacingGameController {
 
     private final RacingGameService racingGameService;
@@ -18,10 +21,16 @@ public class RacingGameController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/plays")
+    @PostMapping
     public ResponseEntity<GameResponse> doGame(@RequestBody final GameRequest gameRequest) {
         final RacingCars racingCars = racingGameService.run(gameRequest.getNames(), gameRequest.getCount());
 
         return ResponseEntity.ok(mapper.toGameResponse(racingCars));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GameResponse>> findResult() {
+        final Map<Long, List<Player>> results = racingGameService.findAll();
+        return ResponseEntity.ok(mapper.toGameResponses(results));
     }
 }

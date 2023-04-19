@@ -1,14 +1,13 @@
 package racingcar.dao;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class PlayerDaoImpl implements PlayerDao {
@@ -31,21 +30,19 @@ public class PlayerDaoImpl implements PlayerDao {
         jdbcTemplate.batchUpdate(sql, params);
     }
 
-    @Override
-    public List<Player> findAll(final Long gameId) {
-        final String sql = "select name, position, is_winner as isWinner from player "
-                + "where game_id = :gameId";
-
-        final Map<String, Long> params = Collections.singletonMap("gameId", gameId);
-        final RowMapper<Player> rowMapper = BeanPropertyRowMapper.newInstance(Player.class);
-        return jdbcTemplate.query(sql, params, rowMapper);
-    }
-
     private static MapSqlParameterSource createParams(final Long id, final Player dto) {
         return new MapSqlParameterSource()
                 .addValue("gameId", id)
                 .addValue("name", dto.getName())
                 .addValue("position", dto.getPosition())
                 .addValue("isWinner", dto.getIsWinner());
+    }
+
+    @Override
+    public List<Player> findAll() {
+        final String sql = "select id, game_id as gameId, name, position, is_winner as isWinner from player";
+
+        final RowMapper<Player> rowMapper = BeanPropertyRowMapper.newInstance(Player.class);
+        return jdbcTemplate.query(sql, rowMapper);
     }
 }
