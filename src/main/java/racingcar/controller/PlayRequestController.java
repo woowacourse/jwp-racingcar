@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,7 @@ public class PlayRequestController {
         race(count, racingCars);
 
         final List<Car> winners = racingCars.getWinners();
-        
+
         final int gameId = racingGameDao.insert(count);
         racingCars.getCars().forEach(car -> racingCarDao.insert(car, gameId, winners.contains(car)));
 
@@ -64,5 +65,18 @@ public class PlayRequestController {
                 .collect(Collectors.joining(DELIMITER));
 
         return new PlayResponse(winners, racingCars.getCars());
+    }
+
+    @GetMapping(path = "/plays")
+    public List<RacingGameLog> getLog() {
+        final List<Integer> gameIds = racingGameDao.selectGameIds();
+
+        return gameIds.stream()
+                .map(this::generateLog)
+                .collect(Collectors.toList());
+    }
+
+    private RacingGameLog generateLog(final int gameId) {
+        return new RacingGameLog(String.join(",", racingCarDao.selectWinners(gameId)), racingCarDao.selectAllCars(gameId));
     }
 }
