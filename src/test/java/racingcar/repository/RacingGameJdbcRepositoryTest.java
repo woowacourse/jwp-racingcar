@@ -50,7 +50,7 @@ class RacingGameJdbcRepositoryTest {
 
         // when
         final List<RacingGameMapper> findRacingGameMappers = repository.findAll();
-        final RacingGameMapper findRacingGameMapper = findRacingGameMappers.get(0);
+        final RacingGameMapper findRacingGameMapper = findRacingGameMappers.get(findRacingGameMappers.size() - 1);
 
         // then
         assertAll(

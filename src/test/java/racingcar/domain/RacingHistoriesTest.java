@@ -4,14 +4,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 
-class RacingResultTest {
+class RacingHistoriesTest {
     @DisplayName("레이싱 게임 결과를 생성한다.")
     @Test
     void create() {
@@ -19,7 +17,7 @@ class RacingResultTest {
         final List<Car> cars = List.of(new Car("헤나"), new Car("찰리"));
 
         // expect
-        Assertions.assertDoesNotThrow(() -> new RacingResult(cars));
+        Assertions.assertDoesNotThrow(() -> new RacingHistories(cars));
     }
 
     @DisplayName("한 명의 레이싱 게임 승리자를 조회한다.")
@@ -29,8 +27,8 @@ class RacingResultTest {
         final List<Car> cars = List.of(new Car("헤나"));
 
         // when
-        final RacingResult racingResult = new RacingResult(cars);
-        final List<String> nameValues = racingResult.pickWinner()
+        final RacingHistories racingHistories = new RacingHistories(cars);
+        final List<String> nameValues = racingHistories.pickWinner()
                 .stream()
                 .map(Name::getValue)
                 .collect(Collectors.toList());
@@ -46,8 +44,8 @@ class RacingResultTest {
         final List<Car> cars = List.of(new Car("헤나"), new Car("찰리"), new Car("저문"));
 
         // when
-        final RacingResult racingResult = new RacingResult(cars);
-        final List<String> nameValues = racingResult.pickWinner()
+        final RacingHistories racingHistories = new RacingHistories(cars);
+        final List<String> nameValues = racingHistories.pickWinner()
                 .stream()
                 .map(Name::getValue)
                 .collect(Collectors.toList());
@@ -63,14 +61,16 @@ class RacingResultTest {
         final List<Car> cars = List.of(new Car("헤나"), new Car("찰리"), new Car("저문"));
 
         // when
-        final RacingResult racingResult = new RacingResult(cars);
-        final LinkedHashMap<Name, Position> history = racingResult.getHistory();
+        final RacingHistories racingHistories = new RacingHistories(cars);
+        final List<History> histories = racingHistories.getHistories();
 
         // then
-        assertThat(history).containsExactly(
-                entry(new Name("헤나"), Position.ZERO),
-                entry(new Name("찰리"), Position.ZERO),
-                entry(new Name("저문"), Position.ZERO)
-        );
+        assertThat(histories)
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactly(
+                        new History(new Name("헤나"), Position.ZERO),
+                        new History(new Name("찰리"), Position.ZERO),
+                        new History(new Name("저문"), Position.ZERO)
+                );
     }
 }

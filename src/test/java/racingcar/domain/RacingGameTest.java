@@ -3,11 +3,9 @@ package racingcar.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.entry;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class RacingGameTest {
@@ -30,13 +28,15 @@ class RacingGameTest {
 
         // when
         racingGame.raceTimesBy(10);
-        final RacingResult racingResult = racingGame.createRacingResult();
-        final LinkedHashMap<Name, Position> history = racingResult.getHistory();
+        final RacingHistories racingHistories = racingGame.createRacingResult();
+        final List<History> histories = racingHistories.getHistories();
 
         // then
-        assertThat(history).containsExactly(
-                entry(new Name("헤나"), new Position(10)),
-                entry(new Name("찰리"), new Position(10))
-        );
+        assertThat(histories)
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactly(
+                        new History(new Name("헤나"), new Position(10)),
+                        new History(new Name("찰리"), new Position(10))
+                );
     }
 }

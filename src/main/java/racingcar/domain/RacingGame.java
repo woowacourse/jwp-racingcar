@@ -15,7 +15,7 @@ public final class RacingGame {
         }
     }
 
-    public RacingResult createRacingResult() {
-        return new RacingResult(cars.getRacingCars());
+    public RacingHistories createRacingResult() {
+        return new RacingHistories(cars.getRacingCars());
     }
 }
