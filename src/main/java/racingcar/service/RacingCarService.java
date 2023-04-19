@@ -3,28 +3,35 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.PlayerInfoDAO;
 import racingcar.dao.PlayerResultDAO;
-import racingcar.dao.PlayersInfoDAO;
 import racingcar.domain.CarFactory;
 import racingcar.domain.Cars;
+import racingcar.dto.CarDto;
 import racingcar.dto.MoveRequestDto;
 import racingcar.dto.MoveResponseDto;
+import racingcar.dto.PlayResponseDto;
+import racingcar.entity.PlayerResult;
 import racingcar.genertor.NumberGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RacingCarService {
 
     private final PlayerResultDAO playerResultDAO;
-    private final PlayersInfoDAO playersInfoDAO;
+    private final PlayerInfoDAO playerInfoDAO;
     private final NumberGenerator randomNumberGenerator;
 
-    public RacingCarService(PlayerResultDAO playerResultDAO, PlayersInfoDAO playersInfoDAO, NumberGenerator numberGenerator) {
+    public RacingCarService(PlayerResultDAO playerResultDAO, PlayerInfoDAO playerInfoDAO, NumberGenerator numberGenerator) {
         this.playerResultDAO = playerResultDAO;
-        this.playersInfoDAO = playersInfoDAO;
+        this.playerInfoDAO = playerInfoDAO;
         this.randomNumberGenerator = numberGenerator;
     }
 
-    public MoveResponseDto moveCar(MoveRequestDto moveRequestDto){
+    public MoveResponseDto moveCar(MoveRequestDto moveRequestDto) {
         Cars cars = new Cars(CarFactory.buildCars(moveRequestDto.getNames()));
         play(cars, moveRequestDto.getCount(), randomNumberGenerator);
         saveCarResult(cars, moveRequestDto.getCount());
@@ -34,7 +41,7 @@ public class RacingCarService {
     @Transactional
     public void saveCarResult(Cars cars, int trialCount) {
         int tableId = playerResultDAO.returnTableIdAfterInsert(trialCount, cars.findWinners());
-        playersInfoDAO.insert(tableId, cars.getCars());
+        playerInfoDAO.insert(tableId, cars.getCars());
     }
 
     public void play(Cars cars, int count, NumberGenerator numberGenerator) {
@@ -43,5 +50,18 @@ public class RacingCarService {
         }
     }
 
+    @Transactional
+    public List<PlayResponseDto> findAllGameHistory() {
+        final ArrayList<PlayResponseDto> playResponseDtos = new ArrayList<>();
+        for (PlayerResult playerResult : playerResultDAO.findAll()) {
+            playResponseDtos.add(new PlayResponseDto(playerResult.getWinners(), makeCarDto(playerResult)));
+        }
+        return playResponseDtos;
+    }
 
+    private List<CarDto> makeCarDto(final PlayerResult playerResult) {
+        return playerInfoDAO.findPlayerByResultId(playerResult.getId()).stream()
+                .map((playerInfo) -> new CarDto(playerInfo.getName(), playerInfo.getPosition()))
+                .collect(Collectors.toList());
+    }
 }

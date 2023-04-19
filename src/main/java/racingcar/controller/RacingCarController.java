@@ -2,14 +2,15 @@ package racingcar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.CarDto;
 import racingcar.dto.MoveRequestDto;
+import racingcar.dto.MoveResponseDto;
 import racingcar.dto.PlayRequestDto;
 import racingcar.dto.PlayResponseDto;
-import racingcar.dto.MoveResponseDto;
 import racingcar.genertor.NumberGenerator;
 import racingcar.service.RacingCarService;
 
@@ -17,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 public class RacingCarController {
     private final RacingCarService racingCarService;
     private final NumberGenerator numberGenerator;
@@ -46,4 +47,8 @@ public class RacingCarController {
         return new MoveRequestDto(names, playRequestDto.getCount());
     }
 
+    @GetMapping("/plays")
+    public ResponseEntity<List<PlayResponseDto>> getPlayHistory() {
+        return ResponseEntity.ok().body(racingCarService.findAllGameHistory());
+    }
 }
