@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 public final class RacingGameResponse {
 
     private final String winners;
-    private final List<CarDto> racingCars;
+    private final List<CarResponse> racingCars;
 
-    public RacingGameResponse(final String winners, final List<CarDto> racingCars) {
+    public RacingGameResponse(final String winners, final List<CarResponse> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
@@ -17,14 +17,17 @@ public final class RacingGameResponse {
         String winners = gameResultDto.getWinners().stream()
                 .map(CarDto::getName)
                 .collect(Collectors.joining(","));
-        return new RacingGameResponse(winners, gameResultDto.getRacingCars());
+        List<CarResponse> carResponses = gameResultDto.getRacingCars().stream()
+                .map(carDto -> new CarResponse(carDto.getName(), carDto.getPosition()))
+                .collect(Collectors.toList());
+        return new RacingGameResponse(winners, carResponses);
     }
 
     public String getWinners() {
         return this.winners;
     }
 
-    public List<CarDto> getRacingCars() {
+    public List<CarResponse> getRacingCars() {
         return this.racingCars;
     }
 }
