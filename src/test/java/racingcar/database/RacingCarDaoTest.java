@@ -24,8 +24,7 @@ class RacingCarDaoTest {
     @Test
     void carInsert() {
         final Car car = new Car("echo", 5);
-        racingGameDao.insert(10);
-        final int gameId = racingGameDao.getGameId();
+        final int gameId = racingGameDao.insert(10);
 
         Assertions.assertDoesNotThrow(() -> racingCarDao.insert(car, gameId, true));
     }
