@@ -1,6 +1,5 @@
 package racingcar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
@@ -27,7 +26,6 @@ public class GameService {
     private final GameDao gameDao;
     private final PlayerResultDao playerResultDao;
 
-    @Autowired
     public GameService(GameDao gameDao, PlayerResultDao playerResultDao) {
         this.gameDao = gameDao;
         this.playerResultDao = playerResultDao;

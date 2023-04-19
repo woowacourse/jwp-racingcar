@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,6 @@ public class ApiController {
 
     private final GameService gameService;
 
-    @Autowired
     public ApiController(final GameService gameService) {
         this.gameService = gameService;
     }
