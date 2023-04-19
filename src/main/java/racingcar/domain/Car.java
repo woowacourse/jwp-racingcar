@@ -10,13 +10,13 @@ public class Car {
     private final CarName name;
     private Position position;
 
-    private Car(CarName name) {
-        this.name = name;
-        this.position = Position.of(ZERO_POSITION);
-    }
     public Car(CarName name, Position position) {
         this.name = name;
         this.position = position;
+    }
+
+    private Car(CarName name) {
+        this(name, Position.of(ZERO_POSITION));
     }
 
     public static Car of(CarName name) {
