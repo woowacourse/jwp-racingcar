@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.springframework.stereotype.Service;
 import racingcar.dao.GameDao;
 import racingcar.dao.GameLogDao;
 import racingcar.dao.WinnersDao;
@@ -14,15 +15,15 @@ import java.util.stream.Stream;
 
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
-@org.springframework.stereotype.Service
-public class Service {
+@Service
+public class GameService {
     private List<Car> cars;
     private final MoveChance moveChance;
     private final GameDao gameDAO;
     private final GameLogDao gameLogDAO;
     private final WinnersDao winnersDAO;
 
-    public Service(final GameDao gameDAO, final GameLogDao gameLogDAO, final WinnersDao winnersDAO) {
+    public GameService(final GameDao gameDAO, final GameLogDao gameLogDAO, final WinnersDao winnersDAO) {
         this.gameDAO = gameDAO;
         this.gameLogDAO =gameLogDAO;
         this.winnersDAO = winnersDAO;
