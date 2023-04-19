@@ -2,18 +2,25 @@ package racingcar.view.inputview;
 
 import java.util.Scanner;
 
-public abstract class InputView {
-    private Scanner scanner;
+public class InputView {
+    private static final String GET_CAR_NAME_MESSAGE = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
+    private static final String GET_TRY_TIME_MESSAGE = "시도할 횟수는 몇회인가요?";
 
-    public InputView(Scanner scanner) {
-        this.scanner = scanner;
+    private static Scanner scanner = new Scanner(System.in);
+
+    private InputView() {}
+
+    public static String inputCarNames() {
+        System.out.println(GET_CAR_NAME_MESSAGE);
+        return nextLine();
     }
 
-    protected String nextLine() {
+    private static String nextLine() {
         return scanner.nextLine();
     }
 
-    public abstract String inputCarNames();
-
-    public abstract String inputTrialTimes();
+    public static String inputTrialTimes() {
+        System.out.println(GET_TRY_TIME_MESSAGE);
+        return nextLine();
+    }
 }
