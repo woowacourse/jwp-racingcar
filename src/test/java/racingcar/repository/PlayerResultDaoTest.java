@@ -24,7 +24,7 @@ class PlayerResultDaoTest {
         final GameDao gameDao = new GameDao(dataSource);
         final PlayerResultDao playerResultDao = new PlayerResultDao(dataSource);
         final Game game = gameDao.save(new Game(10, "디투"));
-        final PlayerResult playerResult = new PlayerResult("디투", 8, game.getId());
+        final PlayerResult playerResult = new PlayerResult("디투", 8, game);
 
         // when
         final PlayerResult savedPlayerResult = playerResultDao.save(playerResult);
@@ -32,7 +32,7 @@ class PlayerResultDaoTest {
         // then
         assertThat(savedPlayerResult.getName()).isEqualTo(playerResult.getName());
         assertThat(savedPlayerResult.getFinalPosition()).isEqualTo(playerResult.getFinalPosition());
-        assertThat(savedPlayerResult.getGameId()).isEqualTo(playerResult.getGameId());
+        assertThat(savedPlayerResult.getGame().getId()).isEqualTo(playerResult.getGame().getId());
         assertThat(savedPlayerResult.getId()).isNotNull();
     }
 }

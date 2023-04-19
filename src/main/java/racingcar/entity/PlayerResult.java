@@ -5,19 +5,19 @@ public class PlayerResult {
     private long id;
     private final String name;
     private final int finalPosition;
-    private final long gameId;
+    private final Game game;
 
-    public PlayerResult(final String name, final int finalPosition, final long gameId) {
+    public PlayerResult(final String name, final int finalPosition, final Game game) {
         this.name = name;
         this.finalPosition = finalPosition;
-        this.gameId = gameId;
+        this.game = game;
     }
 
     public PlayerResult(final long id, final PlayerResult playerResult) {
         this.id = id;
         this.name = playerResult.name;
         this.finalPosition = playerResult.finalPosition;
-        this.gameId = playerResult.gameId;
+        this.game = playerResult.game;
     }
 
     public long getId() {
@@ -32,7 +32,7 @@ public class PlayerResult {
         return finalPosition;
     }
 
-    public long getGameId() {
-        return gameId;
+    public Game getGame() {
+        return game;
     }
 }

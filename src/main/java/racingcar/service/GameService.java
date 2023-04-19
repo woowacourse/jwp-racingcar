@@ -67,7 +67,7 @@ public class GameService {
         final List<PlayerResult> playerResults = new ArrayList<>();
         for (Car car : cars.getLatestResult()) {
             final PlayerResult playerResult = new PlayerResult(
-                    car.getCarName().getName(), car.getCurrentPosition().getPosition(), game.getId());
+                    car.getCarName().getName(), car.getCurrentPosition().getPosition(), game);
             playerResults.add(playerResultDao.save(playerResult));
         }
         return playerResults;

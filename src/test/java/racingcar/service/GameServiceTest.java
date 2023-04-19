@@ -38,9 +38,9 @@ public class GameServiceTest {
         given(gameDao.save(any()))
                 .willReturn(game);
         given(playerResultDao.save(any()))
-                .willReturn(new PlayerResult(1, new PlayerResult("ditoo", 5, 1)));
+                .willReturn(new PlayerResult(1, new PlayerResult("ditoo", 5, game)));
         given(playerResultDao.save(any()))
-                .willReturn(new PlayerResult(2, new PlayerResult("leo", 3, 1)));
+                .willReturn(new PlayerResult(2, new PlayerResult("leo", 3, game)));
 
         // when
         GameResponseDto gameResponseDto = gameService.playGame(requestDto);
