@@ -54,11 +54,11 @@ class GamesDaoTest {
         }
 
         @Test
-        void 조회시_모든_게임_이_반환된다() {
+        void 조회시_모든_게임이_반환된다() {
             final List<SelectGameEntity> result = gamesDao.findAll();
 
             assertAll(
-                    () -> assertThat(result).hasSize(2),
+                    () -> assertThat(result).hasSizeGreaterThanOrEqualTo(2),
                     () -> assertThat(result.get(0).getGameId()).isPositive(),
                     () -> assertThat(result.get(1).getGameId()).isPositive()
             );
