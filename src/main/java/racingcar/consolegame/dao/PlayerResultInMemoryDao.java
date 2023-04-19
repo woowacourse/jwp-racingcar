@@ -10,7 +10,7 @@ import racingcar.dao.PlayerResultDao;
  * @version 1.0.0
  * @since by 우가 on 2023/04/18
  */
-public class PlayerResultConsoleDaoImpl implements PlayerResultDao {
+public class PlayerResultInMemoryDao implements PlayerResultDao {
 
     private final List<PlayerResult> playerResults = new ArrayList<>();
     private int id = 1;
