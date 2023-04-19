@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import racingcar.service.GameService;
 import racingcar.dto.RequestDto;
 import racingcar.dto.ResponseDto;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,5 +37,16 @@ public class GameController {
                 .stream()
                 .map(dto->new ResponseDto(dto.getWinners(),dto.getGameLog()))
                 .collect(Collectors.toList());
+    }
+    public void play() {
+        gameService.setUpGame(InputView.inputCarNames());
+        gameService.playMultipleTimes(InputView.inputTrialCount());
+        OutputView.noticeResult();
+        showResult();
+    }
+
+    public void showResult() {
+        OutputView.printCars(gameService.getCars());
+        OutputView.printWinners(gameService.findWinners());
     }
 }

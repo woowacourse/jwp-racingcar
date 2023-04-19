@@ -79,12 +79,6 @@ public class GameService {
         }
     }
 
-    private void playMultipleTimes(int trialCount) {
-        for (int i = 0; i < trialCount; i++) {
-            playOnce();
-        }
-    }
-
     public List<ServiceControllerDto> mappingEachGame(){
         List<ServiceControllerDto> gameLog = new ArrayList<>();
         for (Long gameNumber : gameDAO.load()){
@@ -106,5 +100,11 @@ public class GameService {
                 .stream()
                 .map(winnerEntity-> new Car(winnerEntity.getWinner()))
                 .collect(Collectors.toList());
+    }
+
+    public void playMultipleTimes(final int trialCount) {
+        for (int i = 0; i < trialCount; i++) {
+            playOnce();
+        }
     }
 }
