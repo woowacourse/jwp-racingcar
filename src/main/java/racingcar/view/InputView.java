@@ -1,7 +1,5 @@
 package racingcar.view;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,10 +19,9 @@ public class InputView {
         this.scanner = scanner;
     }
 
-    public List<String> readCarNames() {
+    public String readCarNames() {
         System.out.println(READ_CARS_NAME_MESSAGE);
-
-        return Arrays.asList(scanner.nextLine().trim().split(","));
+        return scanner.nextLine();
     }
 
     public int readRacingRound() {
@@ -43,5 +40,4 @@ public class InputView {
             throw new IllegalArgumentException(ROUND_NUMBER_ERROR);
         }
     }
-
 }
