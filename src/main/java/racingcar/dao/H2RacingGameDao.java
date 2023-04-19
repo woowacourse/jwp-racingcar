@@ -2,15 +2,12 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.RacingGameEntity;
-import racingcar.utils.ConnectionProvider;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -30,23 +27,13 @@ public class H2RacingGameDao implements RacingGameDao {
     @Override
     public int save(RacingGameEntity racingGameEntity) {
         String sql = "INSERT INTO RACING_GAME(count) VALUES (?)";
-
-        try (Connection connection = ConnectionProvider.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+        this.jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setInt(1, racingGameEntity.getCount());
-            ps.executeUpdate();
-
-            ResultSet rs = ps.getGeneratedKeys();
-
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-
-            throw new IllegalStateException();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return ps;
+        }, generatedKeyHolder);
+        return (int) generatedKeyHolder.getKey();
     }
 
     @Override
