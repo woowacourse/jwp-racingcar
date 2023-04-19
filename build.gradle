@@ -15,6 +15,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'com.h2database:h2'
+	testImplementation 'io.rest-assured:rest-assured:4.4.0'
 }
 
 tasks.named('test') {
