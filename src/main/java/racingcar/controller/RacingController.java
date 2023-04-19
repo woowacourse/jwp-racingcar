@@ -2,62 +2,36 @@ package racingcar.controller;
 
 import racingcar.exception.CustomException;
 import racingcar.model.car.Cars;
-import racingcar.model.car.strategy.MovingStrategy;
-import racingcar.model.track.Track;
+import racingcar.service.RacingService;
 import racingcar.view.inputview.InputView;
 import racingcar.view.outputview.OutputView;
 
 public class RacingController {
-    private final InputView inputView;
-    private final OutputView outputView;
 
-    public RacingController(final InputView inputView, final OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
+    private final RacingService racingService;
+
+    public RacingController(RacingService racingService) {
+        this.racingService = racingService;
     }
 
-    public void start(final MovingStrategy movingStrategy) {
-        Cars cars = makeCars(movingStrategy);
-        String trialTimes = inputView.inputTrialTimes();
-        Track track = makeTrack(cars, trialTimes);
-
-        outputView.printCurrentCarsPosition(cars);
-        startRace(track);
-        concludeWinner(track);
+    public void start() {
+        Cars finishedCars = play();
+        OutputView.printWinnerCars(finishedCars);
+        OutputView.printCurrentCarsPosition(finishedCars);
     }
 
-    private Cars makeCars(final MovingStrategy movingStrategy) {
+    private Cars play() {
         try {
-            return new Cars(inputView.inputCarNames(), movingStrategy);
+            String carNames = InputView.inputCarNames();
+            String trialTimes = InputView.inputTrialTimes();
+            return racingService.play(carNames, trialTimes);
         } catch (CustomException customException) {
             terminated(customException);
+            return play();
         }
-
-        return makeCars(movingStrategy);
-    }
-
-    private Track makeTrack(final Cars cars, final String trialTimes) {
-        try {
-            return new Track(cars, trialTimes);
-        } catch (CustomException customException) {
-            terminated(customException);
-        }
-
-        return makeTrack(cars, trialTimes);
-    }
-
-    public void startRace(final Track track) {
-        while (track.runnable()) {
-            Cars cars = track.race();
-            outputView.printCurrentCarsPosition(cars);
-        }
-    }
-
-    public void concludeWinner(final Track track) {
-        outputView.printWinnerCars(track.getCars());
     }
 
     public void terminated(final CustomException customException) {
-        outputView.printErrorMessage(customException.getErrorNumber());
+        OutputView.printErrorMessage(customException);
     }
 }
