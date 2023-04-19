@@ -10,5 +10,5 @@ public interface CarsDao {
 
     List<CarEntity> find(long id);
 
-    Map<Long, List<CarEntity>> findAllByPlayerId();
+    Map<Long, List<CarEntity>> findAllCarsOrderByPlayCreatedAtDesc();
 }

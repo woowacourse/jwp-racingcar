@@ -20,7 +20,7 @@ public class InMemoryCarsDao implements CarsDao {
     }
 
     @Override
-    public Map<Long, List<CarEntity>> findAllByPlayerId() {
+    public Map<Long, List<CarEntity>> findAllCarsOrderByPlayCreatedAtDesc() {
         return new LinkedHashMap<>(carsByPlayId);
     }
 }

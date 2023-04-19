@@ -68,7 +68,7 @@ class JdbcCarsDaoTest {
         long id2 = playRecordsDao.getLastId();
         carsDao.insert(id2, FIXTURE_CARS_ID_NULL);
 
-        Map<Long, List<CarEntity>> allCarsByPlayId = carsDao.findAllByPlayerId();
+        Map<Long, List<CarEntity>> allCarsByPlayId = carsDao.findAllCarsOrderByPlayCreatedAtDesc();
 
         assertThat(allCarsByPlayId).containsExactly(
                 entry(id2, List.of(

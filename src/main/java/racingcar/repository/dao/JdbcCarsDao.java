@@ -67,9 +67,8 @@ public class JdbcCarsDao implements CarsDao {
         );
     }
 
-    // TODO 다른 테이블과 조인하는 쿼리를 해당 Dao에서 쓰는 게 맞을까?
     @Override
-    public Map<Long, List<CarEntity>> findAllByPlayerId() {
+    public Map<Long, List<CarEntity>> findAllCarsOrderByPlayCreatedAtDesc() {
         return jdbcTemplate.query(
                 "SELECT play_id, name, position FROM cars, play_records "
                         + "WHERE cars.play_id = play_records.id "

@@ -139,7 +139,10 @@ Content-Type: application/json
     - [ ] [DB 테스트 격리 보장](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
 
 - 2단계 피드백
-    - [ ] [Dao 클래스 분리 기준 정하기](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167774162)
+    - [x] [Dao 클래스 분리 기준 정하기](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167774162)
+        - [x] join을 하더라도 핵심적으로 관여하는 객체에 대한 Dao 클래스가 책임을 가짐
+        - [x] join 해서 조회 vs join이 필요한 부분을 비즈니스 로직에서 처리
+            - join이 필요한 부분에 대한 로직은 최대한 DB에서 가져가는 게 책임 분리의 관점에서 좋다고 판단함
     - [x] [Dto 사용방식 검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167789126)
     - [x] [도메인 관점에서 테이블 설계 재검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167795949)
 
