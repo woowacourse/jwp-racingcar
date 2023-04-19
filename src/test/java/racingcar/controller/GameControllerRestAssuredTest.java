@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 
@@ -55,5 +56,20 @@ class GameControllerRestAssuredTest {
                 .post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("get(/plays) 테스트")
+    void get_plays() {
+        post_plays();
+        RestAssured.given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(ContentType.JSON)
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("[0].winners", contains("aa"))
+                .body("[0].racingCars.size()", is(1));
+
     }
 }
