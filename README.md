@@ -19,7 +19,11 @@
 - [] winner 객체 생성 
 
 테이블 변경하기
-- [] winner 테이블 생성
+- [x] winner 테이블 생성
+- [x] winnerEntity 생성 
+- [x] winnerDao 생성
+- [x] GameEntity 수정
+- [] winner테이블 생성에 따른 서비스 객체 수정
 - [] unsigned 추가하기?
 
 [] jdbcTemplate 객체 사용하기
