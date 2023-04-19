@@ -32,7 +32,7 @@ public class RacingcarController {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handler(IllegalArgumentException exception) {
         return new ErrorMessage(exception.getMessage());
     }
