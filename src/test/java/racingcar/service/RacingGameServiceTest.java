@@ -9,9 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.RandomNumberGenerator;
 import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.CarGameResponse;
-import racingcar.mapper.H2CarResultMapper;
-import racingcar.mapper.H2PlayResultMapper;
+import racingcar.dto.response.GameResponse;
+import racingcar.mapper.h2.H2CarMapper;
+import racingcar.mapper.h2.H2GameMapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -20,10 +20,10 @@ import static org.mockito.ArgumentMatchers.any;
 class RacingGameServiceTest {
 
     @Mock
-    H2CarResultMapper h2CarResultMapper;
+    H2CarMapper h2CarResultMapper;
 
     @Mock
-    H2PlayResultMapper h2PlayResultMapper;
+    H2GameMapper h2PlayResultMapper;
 
     @Mock
     RandomNumberGenerator numberGenerator;
@@ -40,12 +40,12 @@ class RacingGameServiceTest {
                 .thenReturn(4, 3);
 
         Mockito.when(h2CarResultMapper.save(any()))
-                .thenReturn(1L);
+                .thenReturn(any());
 
         Mockito.when(h2PlayResultMapper.save(any()))
-                .thenReturn(1L);
+                .thenReturn(any());
 
-        CarGameResponse result = racingGameService.play(request);
+        GameResponse result = racingGameService.play(request);
 
         Assertions.assertThat(result.getWinners())
                 .isEqualTo("juno");

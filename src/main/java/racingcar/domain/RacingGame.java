@@ -3,7 +3,6 @@ package racingcar.domain;
 import racingcar.RandomNumberGenerator;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RacingGame {
 
@@ -24,18 +23,16 @@ public class RacingGame {
         }
     }
 
-    public List<String> decideWinners() {
-        return cars.decideWinners().stream()
-                .map(Car::getName)
-                .collect(Collectors.toUnmodifiableList());
+    public List<Car> decideWinners() {
+        return cars.decideWinners();
     }
 
     public boolean isEnd() {
         return tryCount.isEnd();
     }
 
-    public Cars getCars() {
-        return this.cars;
+    public List<Car> getCars() {
+        return cars.getUnmodifiableCars();
     }
 
     public int getTryCount() {

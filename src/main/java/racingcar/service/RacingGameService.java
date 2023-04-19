@@ -2,64 +2,90 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import racingcar.RandomNumberGenerator;
+import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.CarGameResponse;
 import racingcar.dto.response.CarResponse;
-import racingcar.entity.CarResultEntity;
-import racingcar.entity.PlayResultEntity;
-import racingcar.mapper.CarResultMapper;
-import racingcar.mapper.PlayResultMapper;
+import racingcar.dto.response.GameResponse;
+import racingcar.entity.CarEntity;
+import racingcar.entity.GameEntity;
+import racingcar.mapper.CarMapper;
+import racingcar.mapper.GameMapper;
+import racingcar.mapper.WinnerMapper;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
-
-    private final CarResultMapper h2CarResultMapper;
-    private final PlayResultMapper h2PlayResultMapper;
+    private final CarMapper carMapper;
+    private final GameMapper gameMapper;
+    private final WinnerMapper winnerMapper;
     private final RandomNumberGenerator numberGenerator;
 
-    public RacingGameService(CarResultMapper h2CarResultMapper, PlayResultMapper h2PlayResultMapper, RandomNumberGenerator numberGenerator) {
-        this.h2CarResultMapper = h2CarResultMapper;
-        this.h2PlayResultMapper = h2PlayResultMapper;
+    public RacingGameService(CarMapper carMapper, GameMapper gameMapper, WinnerMapper winnerMapper, RandomNumberGenerator numberGenerator) {
+        this.carMapper = carMapper;
+        this.gameMapper = gameMapper;
+        this.winnerMapper = winnerMapper;
         this.numberGenerator = numberGenerator;
     }
 
-    public CarGameResponse play(CarGameRequest request) {
-
-        List<String> names = Arrays.stream(request.getNames().split(",", -1))
-                .collect(Collectors.toList());
-
-        RacingGame game = new RacingGame(numberGenerator, new Cars(names), request.getCount());
-
+    public GameResponse play(CarGameRequest request) {
+        RacingGame game = new RacingGame(numberGenerator, Cars.from(request), request.getCount());
         int tryCount = game.getTryCount();
+
         progress(game);
-        Cars cars = game.getCars();
-        String winners = String.join(",", game.decideWinners());
+        saveGame(game, tryCount);
 
-        saveCarResult(tryCount, cars, winners);
-        List<CarResponse> carResponses = getCarResponses(cars);
+        List<CarResponse> cars = getCars(game);
+        String winners = getWinners(game);
+        return GameResponse.of(winners, cars);
+    }
 
-        return CarGameResponse.of(winners, carResponses);
+    private List<CarResponse> getCars(RacingGame game) {
+        return game.getCars().stream()
+                .map(CarResponse::from)
+                .collect(Collectors.toList());
+    }
+
+    private String getWinners(RacingGame game) {
+        return game.decideWinners().stream()
+                .map(Car::getName)
+                .collect(Collectors.joining(","));
+    }
+
+    private void saveGame(RacingGame game, int tryCount) {
+        GameEntity save = gameMapper.save(GameEntity.from(tryCount));
+
+        List<CarEntity> collect = game.getCars().stream().map(car -> carMapper.save(
+                CarEntity.of(save.getId(), car.getName(), car.getPosition()))
+        ).collect(Collectors.toList());
+
+        saveWinners(collect);
+    }
+
+    private void saveWinners(List<CarEntity> collect) {
+        List<CarEntity> winners = getWinners(collect);
+        winners.forEach(winnerMapper::save);
+    }
+
+    private static List<CarEntity> getWinners(List<CarEntity> collect) {
+        int maxPosition = collect.stream()
+                .mapToInt(CarEntity::getPosition)
+                .max()
+                .orElseThrow();
+
+        return collect.stream()
+                .filter(car -> car.getPosition() == maxPosition)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private static List<CarResponse> getCarResponses(Cars cars) {
         return cars.getUnmodifiableCars()
                 .stream()
-                .map(CarResponse::new)
+                .map(CarResponse::from)
                 .collect(Collectors.toList());
-    }
-
-    private void saveCarResult(int tryCount, Cars cars, String winners) {
-        long resultId = h2PlayResultMapper.save(PlayResultEntity.of(tryCount, winners));
-        cars.getUnmodifiableCars()
-                .stream()
-                .map(car -> CarResultEntity.of(resultId, car.getName(), car.getPosition()))
-                .forEach(h2CarResultMapper::save);
     }
 
     private void progress(RacingGame game) {
@@ -68,18 +94,13 @@ public class RacingGameService {
         }
     }
 
-    public List<CarGameResponse> findAllGame() {
-        List<PlayResultEntity> entities = h2PlayResultMapper.findAll();
-
-        return entities.stream()
-                .map(playResultEntity -> CarGameResponse.of(playResultEntity.getWinners(), getAllByPlayResultId(playResultEntity.getId())))
-                .collect(Collectors.toList());
-    }
-
-    private List<CarResponse> getAllByPlayResultId(Long id) {
-        List<CarResultEntity> carEntities = h2CarResultMapper.findAllByPlayResultId(id);
-        return carEntities.stream()
-                .map(CarResponse::new)
+    public List<GameResponse> findAllGame() {
+        return gameMapper.findAll().stream()
+                .map(game -> {
+                    List<CarEntity> winners = carMapper.findWinnersByGameId(game.getId());
+                    List<CarEntity> cars = carMapper.findAllByGameId(game.getId());
+                    return GameResponse.of(winners, cars);
+                })
                 .collect(Collectors.toList());
     }
 }

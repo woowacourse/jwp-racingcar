@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
 import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.CarGameResponse;
 import racingcar.dto.response.CarResponse;
+import racingcar.dto.response.GameResponse;
 import racingcar.service.RacingGameService;
 
 import java.util.List;
@@ -37,7 +37,7 @@ class WebRacingCarControllerTest {
     @Test
     void 컨트롤러_테스트() throws Exception {
         CarGameRequest request = new CarGameRequest("glen,juno", 5);
-        CarGameResponse response = CarGameResponse.of("glen", List.of(new CarResponse(new Car("glen"))));
+        GameResponse response = GameResponse.of("glen", List.of(new CarResponse(new Car("glen"))));
 
         Mockito.when(service.play(any(CarGameRequest.class)))
                 .thenReturn(response);

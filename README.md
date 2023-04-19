@@ -31,7 +31,7 @@
 # DDL
 
 ```sql
-CREATE TABLE PLAY_RESULT
+CREATE TABLE GAME
 (
     id          INT         NOT NULL AUTO_INCREMENT,
     winners     VARCHAR(50) NOT NULL,
@@ -40,14 +40,14 @@ CREATE TABLE PLAY_RESULT
     PRIMARY KEY (id)
 );
 
-CREATE TABLE CAR_RESULT
+CREATE TABLE car
 (
     id             INT         NOT NULL AUTO_INCREMENT,
-    play_result_id INT         NOT NULL,
+    game_id_id INT         NOT NULL,
     name           VARCHAR(50) NOT NULL,
     position       INT         NOT NULL,
     PRIMARY KEY (id),
-    foreign key (play_result_id) references PLAY_RESULT (id)
+    foreign key (game_id_id) references game_id (id)
 );
 
 ```
@@ -56,16 +56,16 @@ CREATE TABLE CAR_RESULT
 
 ```mermaid
 erDiagram
-    PLAY_RESULT ||--o{ CAR_RESULT: play_result_id
-    PLAY_RESULT {
+    GAME ||--o{ car: GAME_id
+    GAME {
         int id
         varchar winners
         int trial_count
         DATETIME created_at
     }
-    CAR_RESULT {
+    car {
         int id
-        int play_result_id
+        int game_id
         int name
         int position
     }

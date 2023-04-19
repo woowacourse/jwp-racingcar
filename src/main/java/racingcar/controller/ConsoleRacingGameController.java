@@ -1,7 +1,7 @@
 package racingcar.controller;
 
 import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.CarGameResponse;
+import racingcar.dto.response.GameResponse;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -20,7 +20,7 @@ public class ConsoleRacingGameController {
         int tryCount = InputView.inputTryCount();
 
         CarGameRequest request = new CarGameRequest(carNames, tryCount);
-        CarGameResponse response = service.play(request);
+        GameResponse response = service.play(request);
         OutputView.printResult(response);
     }
 }
