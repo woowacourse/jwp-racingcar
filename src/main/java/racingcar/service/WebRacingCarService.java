@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
+import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.domain.entity.CarEntity;
 import racingcar.domain.entity.RacingGameEntity;
@@ -16,14 +17,16 @@ import racingcar.repository.RacingCarRepository;
 public class WebRacingCarService {
 
     private final RacingCarRepository racingCarRepository;
+    private final NumberGenerator numberGenerator;
 
-    public WebRacingCarService(final RacingCarRepository racingCarRepository) {
+    public WebRacingCarService(final RacingCarRepository racingCarRepository, final NumberGenerator numberGenerator) {
         this.racingCarRepository = racingCarRepository;
+        this.numberGenerator = numberGenerator;
     }
 
     public RacingGameResponse play(final RacingGameRequest racingGameRequest) {
         final RacingGame racingGame = racingGameRequest.toEntity();
-        racingGame.play();
+        racingGame.play(numberGenerator);
         racingCarRepository.save(createRacingGameEntity(racingGame));
 
         return RacingGameResponse.createByCars(racingGame.getCars(), racingGame.findWinnerCars());

@@ -4,6 +4,7 @@ import java.util.Scanner;
 import racingcar.controller.ConsoleRacingCarController;
 import racingcar.dao.LocalCarDao;
 import racingcar.dao.LocalRacingGameDao;
+import racingcar.domain.RandomNumberGenerator;
 import racingcar.repository.RacingCarRepository;
 import racingcar.repository.WebRacingCarRepository;
 import racingcar.service.WebRacingCarService;
@@ -20,7 +21,7 @@ public class ConsoleRacingCarApplication {
     }
 
     private static WebRacingCarService initWebRacingCarService() {
-        return new WebRacingCarService(initWebRacingCarRepository());
+        return new WebRacingCarService(initWebRacingCarRepository(), new RandomNumberGenerator());
     }
 
     private static RacingCarRepository initWebRacingCarRepository() {

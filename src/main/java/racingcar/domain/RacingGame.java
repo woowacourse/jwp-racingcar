@@ -9,7 +9,6 @@ public class RacingGame {
 
     private final Cars cars;
     private final int totalRound;
-    private final NumberGenerator numberGenerator = new RandomNumberGenerator();
 
     public RacingGame(final Cars cars, final int totalRound) {
         validateRound(totalRound);
@@ -23,7 +22,7 @@ public class RacingGame {
         }
     }
 
-    public void play() {
+    public void play(final NumberGenerator numberGenerator) {
         for (int i = 0; i < totalRound; i++) {
             cars.move(numberGenerator);
         }

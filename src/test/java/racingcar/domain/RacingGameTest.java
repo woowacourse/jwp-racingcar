@@ -28,7 +28,7 @@ class RacingGameTest {
         final RacingGame racingGame = new RacingGame(cars, 1);
 
         //when
-        racingGame.play();
+        racingGame.play(numberGenerator);
         final List<Car> actual = racingGame.findWinnerCars();
 
         //then

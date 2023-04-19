@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import racingcar.domain.RandomNumberGenerator;
+import racingcar.domain.TestNumberGenerator;
 import racingcar.domain.entity.CarEntity;
 import racingcar.domain.entity.RacingGameEntity;
 import racingcar.dto.request.RacingGameRequest;
@@ -19,13 +21,14 @@ class WebRacingCarServiceTest {
     @Test
     void play_and_return() {
         //given
-        racingCarService = new WebRacingCarService(new TestRacingCarRepository(null));
+        final TestNumberGenerator testNumberGenerator = new TestNumberGenerator(List.of(1, 10, 10));
+        racingCarService = new WebRacingCarService(new TestRacingCarRepository(null), testNumberGenerator);
         final RacingGameRequest given = new RacingGameRequest("포비,현서,참치", 1);
         //when
         final RacingGameResponse racingGameResponse = racingCarService.play(given);
         //then
         assertThat(racingGameResponse.getCarResponses().size()).isEqualTo(3);
-        assertThat(racingGameResponse.getWinners()).isNotEmpty();
+        assertThat(racingGameResponse.getWinners()).isEqualTo("현서,참치");
     }
 
     @DisplayName("저장된 모든 Entity를 가져와 양식에 맞는 Response로 변환한다.")
@@ -39,7 +42,8 @@ class WebRacingCarServiceTest {
         List<RacingGameEntity> racingGameEntities = List.of(new RacingGameEntity(carEntities, 10));
 
         final WebRacingCarService webRacingCarService = new WebRacingCarService(
-                new TestRacingCarRepository(racingGameEntities));
+                new TestRacingCarRepository(racingGameEntities), new RandomNumberGenerator());
+
         //when
         final List<RacingGameResponse> actualList = webRacingCarService.findGameResults();
         final RacingGameResponse actual = actualList.get(0);
