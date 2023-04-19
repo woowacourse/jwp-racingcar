@@ -5,15 +5,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.CarFactory;
-import racingcar.domain.Cars;
+import racingcar.dto.CarDto;
 import racingcar.dto.MoveRequestDto;
+import racingcar.dto.PlayRequestDto;
+import racingcar.dto.PlayResponseDto;
 import racingcar.dto.MoveResponseDto;
 import racingcar.genertor.NumberGenerator;
 import racingcar.service.RacingCarService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class RacingCarController {
@@ -27,18 +29,21 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<MoveResponseDto> play(@RequestBody MoveRequestDto moveRequestDto) {
-        List<String> carNames = Arrays.asList(moveRequestDto.getNames().split(","));
-        Cars cars = new Cars(CarFactory.buildCars(carNames));
-        play(cars, moveRequestDto.getCount(), numberGenerator);
-        MoveResponseDto moveResponseDto = new MoveResponseDto(cars.findWinners(), cars.getCars());
-        racingCarService.saveResult(moveRequestDto.getCount(), cars);
-        return ResponseEntity.ok().body(moveResponseDto);
+    public ResponseEntity<PlayResponseDto> play(@RequestBody PlayRequestDto playRequestDto) {
+        final MoveResponseDto moveResponseDto = racingCarService.moveCar(makeMoveRequestDto(playRequestDto));
+        return ResponseEntity.ok().body(makePlayResponseDto(moveResponseDto));
     }
 
-    public void play(Cars cars, int count, NumberGenerator numberGenerator) {
-        while (count-- > 0) {
-            cars.moveCars(numberGenerator);
-        }
+    private PlayResponseDto makePlayResponseDto(final MoveResponseDto moveResponseDto) {
+        final String winners = moveResponseDto.getWinners().stream()
+                .map(CarDto::getName)
+                .collect(Collectors.joining(","));
+        return new PlayResponseDto(winners, moveResponseDto.getRacingCars());
     }
+
+    private MoveRequestDto makeMoveRequestDto(PlayRequestDto playRequestDto) {
+        final List<String> names = Arrays.asList(playRequestDto.getNames().split(","));
+        return new MoveRequestDto(names, playRequestDto.getCount());
+    }
+
 }

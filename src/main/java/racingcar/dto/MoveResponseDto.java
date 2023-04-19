@@ -6,19 +6,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MoveResponseDto {
-    private final String winners;
+    private final List<CarDto> winners;
     private final List<CarDto> racingCars;
 
     public MoveResponseDto(List<Car> winners, List<Car> racingCars) {
         this.winners = winners.stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(","));
+                .map(CarDto::createCarDto)
+                .collect(Collectors.toList());
         this.racingCars = racingCars.stream()
                 .map(CarDto::createCarDto)
                 .collect(Collectors.toList());
     }
 
-    public String getWinners() {
+    public List<CarDto> getWinners() {
         return winners;
     }
 
