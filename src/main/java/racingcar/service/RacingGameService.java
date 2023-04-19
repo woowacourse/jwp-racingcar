@@ -25,18 +25,18 @@ public class RacingGameService {
     public CarGameResponse play(CarGameRequest carGameRequest) {
         RacingGame racingGame = createRacingGame(carGameRequest);
         racingGame.play();
-        saveResult(racingGame);
+        saveResult(racingGame, carGameRequest.getCount());
         return racingGame.getCarGameResult();
-    }
-
-    private void saveResult(RacingGame racingGame) {
-        int playResultId = savePlayResult(racingGame.getTryCount(), racingGame, racingGame.getWinnerNames());
-        saveCarResult(racingGame.getCars(), playResultId);
     }
 
     private static RacingGame createRacingGame(CarGameRequest carGameRequest) {
         Cars cars = Cars.from(carGameRequest.getNames());
         return new RacingGame(new CarRandomNumberGenerator(), cars, carGameRequest.getCount());
+    }
+
+    private void saveResult(RacingGame racingGame, int tryCount) {
+        int playResultId = savePlayResult(tryCount, racingGame, racingGame.getWinnerNames());
+        saveCarResult(racingGame.getCars(), playResultId);
     }
 
     private int savePlayResult(int tryCount, RacingGame racingGame, String winners) {
@@ -52,9 +52,8 @@ public class RacingGameService {
 
     public List<CarGameResponse> findAllCarGame() {
         List<CarGameResponse> carGameResponses = new ArrayList<>();
-        for (Integer playResultId : playResultDao.findAllId()) {
-            PlayResult playResult = playResultDao.findById(playResultId);
-            List<CarResult> carResults = carResultDao.findAllByPlayResultId(playResultId);
+        for (PlayResult playResult : playResultDao.findAll()) {
+            List<CarResult> carResults = carResultDao.findAllByPlayResultId(playResult.getId());
             List<CarResponse> carResponses = carResults.stream()
                     .map(CarResponse::fromCarResult)
                     .collect(Collectors.toList());

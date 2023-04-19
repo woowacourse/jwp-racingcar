@@ -23,12 +23,13 @@ public class RacingGame {
     }
 
     public void play() {
-        for (int count = 0; count < getTryCount(); count++) {
+        while(tryCount.canTry()) {
             playTurn();
+            tryCount.decrease();
         }
     }
 
-    public void playTurn() {
+    private void playTurn() {
         cars.moveAll(numberGenerator);
     }
 
@@ -37,10 +38,8 @@ public class RacingGame {
     }
 
     public String getWinnerNames() {
-        List<String> names = cars.getMaxPositionCars().stream()
-                .map(Car::getName)
-                .collect(Collectors.toUnmodifiableList());
-        return String.join(WINNER_DELIMITER, names);
+        Cars maxPositionCars = new Cars(cars.getMaxPositionCars());
+        return maxPositionCars.getCombinedNames();
     }
 
     private List<CarResponse> getCarResults() {

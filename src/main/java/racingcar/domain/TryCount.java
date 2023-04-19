@@ -3,18 +3,35 @@ package racingcar.domain;
 import java.util.Objects;
 
 public class TryCount {
+    private static final int INIT_MIN_SIZE = 1;
+    private static final int MIN_SIZE = 0;
 
     private int count;
 
     public TryCount(int count) {
-        validateCount(count);
+        validateInitSize(count);
         this.count = count;
     }
 
-    private void validateCount(final int tryCount) {
-        if (tryCount <= 0) {
-            throw new IllegalArgumentException("실행 횟수 보다 많이 실행할 수 없습니다.");
+    private void validateInitSize(final int tryCount) {
+        if (tryCount < INIT_MIN_SIZE) {
+            throw new IllegalArgumentException(INIT_MIN_SIZE + "보다 큰 시도 횟수만 만들 수 있습니다.");
         }
+    }
+
+    public void decrease() {
+        if (isEnd()) {
+            throw new IllegalArgumentException("시도 횟수를 감소시킬 수 없습니다.");
+        }
+        this.count--;
+    }
+
+    public boolean canTry() {
+        return count > MIN_SIZE;
+    }
+
+    private boolean isEnd() {
+        return count <= MIN_SIZE;
     }
 
     public int getCount() {
