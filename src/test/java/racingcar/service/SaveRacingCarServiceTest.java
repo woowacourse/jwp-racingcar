@@ -16,13 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.repository.dao.GameDao;
-import racingcar.repository.dao.PlayerPositionDao;
-import racingcar.repository.dao.PlayerDao;
 import racingcar.repository.dao.GameWinnerDao;
+import racingcar.repository.dao.PlayerDao;
+import racingcar.repository.dao.PlayerPositionDao;
 import racingcar.repository.entity.GameEntity;
-import racingcar.repository.entity.PlayerPositionEntity;
-import racingcar.repository.entity.PlayerEntity;
 import racingcar.repository.entity.GameWinnerEntity;
+import racingcar.repository.entity.PlayerEntity;
+import racingcar.repository.entity.PlayerPositionEntity;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
