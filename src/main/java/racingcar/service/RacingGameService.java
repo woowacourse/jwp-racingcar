@@ -43,6 +43,7 @@ public class RacingGameService {
 
         int gameId = gameDao.save(GameEntity.of(racingGame.getTryCount(), racingGame.getCreated_at()));;
         saveCars(racingGame, gameId);
+        saveWinners(racingGame);
 
         return createResult(racingGame);
     }
@@ -54,6 +55,13 @@ public class RacingGameService {
             int carId = carDao.save(carEntity);
             car.setCarId(carId);
         }
+    }
+
+    private void saveWinners(RacingGame racingGame) {
+        List<WinnerEntity> winnerEntities = racingGame.pickWinningCars().stream()
+                        .map(car -> new WinnerEntity(car.getCarId(), car.getGameId()))
+                        .collect(Collectors.toList());
+        winnerDao.saveAll(winnerEntities);
     }
 
     private RacingGameResponseDto createResult(final RacingGame racingGame) {

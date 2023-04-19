@@ -23,7 +23,13 @@
 - [x] winnerEntity 생성 
 - [x] winnerDao 생성
 - [x] GameEntity 수정
-- [] winner테이블 생성에 따른 서비스 객체 수정
+- [x] winner테이블 생성에 따른 서비스 객체 수정
 - [] unsigned 추가하기?
+
+
+테이블/ entity 변경하기 2
+- 현재 car, RacingGame객체 캡쳐
+- car과 RacingGame에 의존하는 entity객체 만들기
+- 혹은, 
 
 [] jdbcTemplate 객체 사용하기
