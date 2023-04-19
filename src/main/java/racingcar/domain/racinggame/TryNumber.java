@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 public class TryNumber {
-    private static final int MIN_TRU_NUMBER = 1;
+    private static final int MIN_TRU_NUMBER = 0;
     private static final int MAX_TRY_NUMBER = 1_000_000;
     
     private final int number;
@@ -21,6 +21,10 @@ public class TryNumber {
     }
     
     public TryNumber decrease() {
-        return new TryNumber(number - 1);
+        return new TryNumber(this.number - 1);
+    }
+    
+    public boolean isFinished() {
+        return this.number == 0;
     }
 }
