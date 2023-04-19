@@ -1,4 +1,7 @@
 -- TODO: 기능 구현에 필요한 내용을 추가하거나 수정하세요.
+drop table if exists player_result;
+drop table if exists game;
+
 create table game
 (
     id          bigint auto_increment
