@@ -21,7 +21,7 @@ public class InMemoryCarDao implements CarDao {
 
     @Override
     public void saveAll(int gameId, List<Car> cars) {
-        String sql = "insert into CAR_RESULT (play_result_id, car_name, car_position) values (?, ?, ?)";
+        String sql = "insert into CAR_RESULT (play_result_id, name, position) values (?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
@@ -44,8 +44,8 @@ public class InMemoryCarDao implements CarDao {
 
         return jdbcTemplate.query(sql, (result, id) ->
                         new CarEntity(result.getInt("play_result_id"),
-                                result.getString("car_name"),
-                                result.getInt("car_position"))
+                                result.getString("name"),
+                                result.getInt("position"))
                 , gameId);
     }
 }
