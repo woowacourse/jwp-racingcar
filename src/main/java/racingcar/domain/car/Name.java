@@ -10,12 +10,8 @@ public class Name {
     private final String name;
     
     public Name(String name) {
-        isValid(name);
-        this.name = name;
-    }
-    
-    private void isValid(String name) {
         validateOutOfRange(name);
+        this.name = name;
     }
     
     private void validateOutOfRange(String name) {
