@@ -1,4 +1,4 @@
-package racingcar.dto.request;
+package racingcar.service.dto;
 
 public class GameRequestDto {
     private final String names;

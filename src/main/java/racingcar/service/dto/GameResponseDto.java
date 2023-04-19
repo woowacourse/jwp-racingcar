@@ -1,4 +1,4 @@
-package racingcar.dto.response;
+package racingcar.service.dto;
 
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;

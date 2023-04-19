@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.dto.request.GameRequestDto;
+import racingcar.service.dto.GameRequestDto;
 
 @SpringBootTest
 public class ApiControllerTest {
