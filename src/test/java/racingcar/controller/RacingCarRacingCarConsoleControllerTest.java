@@ -20,7 +20,7 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarControllerTest {
+class RacingCarRacingCarConsoleControllerTest {
 
     @TestConfiguration
     static class TestSpringConfig {
