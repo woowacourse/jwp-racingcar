@@ -13,18 +13,18 @@ import java.util.stream.Collectors;
 public class Cars {
     private final List<Car> cars;
     
-    public Cars(String names) {
+    public Cars(final String names) {
         this.cars = initCars(names);
     }
     
-    private List<Car> initCars(String names) {
+    private List<Car> initCars(final String names) {
         return Arrays.stream(names.split(","))
                 .map(Name::new)
                 .map(Car::new)
                 .collect(Collectors.toList());
     }
     
-    public void move(MoveStrategy moveStrategy) {
+    public void move(final MoveStrategy moveStrategy) {
         for (Car car : cars) {
             int index = cars.indexOf(car);
             Car movedCar = car.move(moveStrategy);

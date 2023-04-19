@@ -9,12 +9,12 @@ public class TryNumber {
     
     private final int number;
     
-    public TryNumber(int number) {
+    public TryNumber(final int number) {
         validateOutOfRange(number);
         this.number = number;
     }
     
-    private void validateOutOfRange(int tryNumber) {
+    private void validateOutOfRange(final int tryNumber) {
         if (tryNumber < MIN_TRU_NUMBER || tryNumber > MAX_TRY_NUMBER) {
             throw new IllegalArgumentException("시도 횟수 범위를 벗어났습니다. 다시 입력해주세요. 입력된 tryNumber : " + tryNumber);
         }

@@ -16,31 +16,29 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class InputViewTest {
-    
     private InputStream inputStream;
-    private BufferedReader reader;
     
     @ParameterizedTest(name = "{displayName} : names = {0}")
     @ValueSource(strings = {"abel,스플릿", "asd,asdf"})
     void 자동차_이름_입력_시_영어와_한글과_쉼표만_포함된_경우_예외가_발생하지_않는다(String names) {
         // given
         inputStream = new ByteArrayInputStream(names.getBytes());
-        reader = new BufferedReader(new InputStreamReader(inputStream));
+        System.setIn(inputStream);
         
         // when, then
         assertThatNoException()
-                .isThrownBy(() -> new InputView(reader).inputCarNames());
+                .isThrownBy(() -> new InputView().inputCarNames());
     }
     
     @Test
     void 자동차_이름_입력_시_null일_때_예외가_발생한다() {
         // given
         inputStream = new SystemInMock(true);
-        reader = new BufferedReader(new InputStreamReader(inputStream));
+        System.setIn(inputStream);
         
         // when, then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new InputView(reader).inputCarNames())
+                .isThrownBy(() -> new InputView().inputCarNames())
                 .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : null");
     }
     
@@ -48,30 +46,29 @@ class InputViewTest {
     void 자동차_이름_입력_시_empty일_때_예외가_발생한다() {
         // given
         inputStream = new ByteArrayInputStream("\n".getBytes());
-        reader = new BufferedReader(new InputStreamReader(inputStream));
+        System.setIn(inputStream);
         
         // when, then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new InputView(reader).inputCarNames())
+                .isThrownBy(() -> new InputView().inputCarNames())
                 .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : ");
     }
     
-//    @ParameterizedTest(name = "{displayName} : names = {0}")
-//    @ValueSource(strings = {"abel, 스플릿", "ab@", "abel.스플릿"})
-//    void 자동차_이름_입력_시_영어와_한글과_쉼표_외의_문자가_포함된_경우_예외가_발생한다(String names) {
-//        // given
-//        InputStream inputStream = new ByteArrayInputStream(names.getBytes());
-//
-//        // when, then
-//        assertThatIllegalArgumentException()
-//                .isThrownBy(() -> new InputView(new BufferedReader(new InputStreamReader(inputStream))).inputCarNames())
-//                .withMessage("차 이름은 쉼표로 구분해서 영어와 한글로만 입력할 수 있습니다. 다시 입력해주세요.");
-//    }
-    
+    @ParameterizedTest(name = "{displayName} : names = {0}")
+    @ValueSource(strings = {"abel, 스플릿", "ab@", "abel.스플릿"})
+    void 자동차_이름_입력_시_영어와_한글과_쉼표_외의_문자가_포함된_경우_예외가_발생한다(String names) {
+        // given
+        inputStream = new ByteArrayInputStream(names.getBytes());
+        System.setIn(inputStream);
+
+        // when, then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new InputView().inputCarNames())
+                .withMessage("차 이름은 쉼표로 구분해서 영어와 한글로만 입력할 수 있습니다. 다시 입력해주세요. 입력된 names : " + names);
+    }
     
     @AfterEach
     void tearDown() throws IOException {
         inputStream.close();
-        reader.close();
     }
 }

@@ -12,16 +12,16 @@ public class Car {
     private final Name name;
     private final Position position;
     
-    public Car(Name name) {
+    public Car(final Name name) {
         this(name, new Position(0));
     }
     
-    private Car(Name name, Position position) {
+    private Car(final Name name, final Position position) {
         this.name = name;
         this.position = position;
     }
     
-    public Car move(MoveStrategy moveStrategy) {
+    public Car move(final MoveStrategy moveStrategy) {
         if (moveStrategy.isMovable()) {
             return new Car(this.name, this.position.increase());
         }
