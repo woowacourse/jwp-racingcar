@@ -2,58 +2,31 @@
 
 # 요구사항
 
-- [x] 자동차 경주 코드 가져오기
+## 입력
+- [ ] 자동차 이름 입력
+  - [ ] 쉼표 구분자로 이름 나누기
+  - [ ] [예외 처리] Null or Empty
+  - [ ] [예외 처리] 영어, 한글, 쉼표가 아닌 문자가 포함
 
----
+- [ ] 경주 횟수 입력
+    - [ ] [예외 처리] Null or Empty
+    - [ ] [예외 처리] 숫자가 아닌 문자 포함
 
-- [x] 웹을 통해 요청받기
-    - [x] 자동차 이름 (name)
-    - [x] 시도할 횟수 (count)
+## 출력
+- [ ] 최종 결과 출력
+  - [ ] 우승자 출력 (여러명일 수 있다)
+  - [ ] 각 자동차의 현 상황 출력
 
----
+## 도메인
+- [ ] 자동차
+    - [ ] 이름
+      - [ ] [예외 처리] 이름 길이 1~5자
 
-- [x] JSON으로 응답하기
-    - [x] 우승자 ( winners )
-    - [x] 자동차 ( racingCars )
-        - [x] 이름 (name)
-        - [x] 위치 (position)
+- [ ] 레이싱 게임
+  - [ ] 경주
+    - [ ] 시도 횟수 (TryNumber)
+      - [ ] [예외 처리] 
+    - [ ] 이동 여부 결정 (RandomBasedMoveStrategy - 0 ~ 9중 랜덤 숫자 생성)
+      - [ ] 무브 : 랜덤 숫자 4이상
+      - [ ] 스탑 : 랜덤 숫자 3이하
 
----
-
-- [x] DB 연동하기
-    - [x] H2 DB 연동
-    - [x] 플레이 이력 저장
-        - [x] 플레이 횟수 (trialCount)
-        - [x] 플레이어 별 최종 이동 거리
-            - [x] 이름 (name)
-            - [x] 최종 위치 (position)
-        - [x] 우승자 (winners)
-        - [x] 플레이한 날짜/시간 (time)
-        - [x] 플레이 횟수 (play_count)
-
-- [x] DB 테이블
-    - [x] Race
-        - [x] id (pk) : SERIAL
-        - [x] 플레이한 날짜/시간 (time) : DATETIME DEFAULT NOW()
-        - [x] 플레이 횟수 (play_count)
-
-    - [x] Winner
-        - [x] id (pk) : SERIAL
-        - [x] race_id (fk) : INT
-        - [x] player_id (fk) : INT
-
-    - [x] Player
-        - [x] id (pk) : SERIAL
-        - [x] 이름 (name) : VARCHAR(255)
-        - [x] 최종 위치 (position) : INT
-        - [x] race_id (fk) : INT
-
-- [x] 게임 플레이 이력 조회 API 구현
-  - [x] 모든 Race_id를 찾기
-  - [x] player_id들로 Car를 찾기
-  - [x] race_id로 Car를 찾기
-  - [x] race_id로 player_id 찾기
-  - [x] 모든 게임 결과 정보를 가져오기
-  - [x] 모든 게임 결과 정보를 Json으로 반환하기
-- [x] 기존 기능 수정 - 출력 방식 수정
-- [x] 리팩터링 - 중복 코드 제거
