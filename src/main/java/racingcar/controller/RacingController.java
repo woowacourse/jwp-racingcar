@@ -3,6 +3,7 @@ package racingcar.controller;
 
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
+import racingcar.exception.invalidinput.InvalidInputException;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -35,7 +36,7 @@ public class RacingController {
         try {
             outputView.printStartMessage();
             return inputView.inputCarName();
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidInputException e) {
             System.out.println(e.getMessage());
             return inputCarNames();
         }
@@ -45,7 +46,7 @@ public class RacingController {
         try {
             outputView.printCountMessage();
             return inputView.inputCount();
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidInputException e) {
             System.out.println(e.getMessage());
             return inputTryCount();
         }
