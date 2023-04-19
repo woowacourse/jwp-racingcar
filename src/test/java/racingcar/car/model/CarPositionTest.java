@@ -34,4 +34,13 @@ class CarPositionTest {
         assertEquals(position + addPosition, addedCarPosition.getValue());
     }
     
+    @Test
+    @DisplayName("자동차 위치 비교 테스트")
+    void compare() {
+        final int position = 0;
+        final int comparePosition = 1;
+        final Position carPosition = CarPosition.create(position);
+        final Position compareCarPosition = CarPosition.create(comparePosition);
+        assertEquals(-1, carPosition.compareTo(compareCarPosition));
+    }
 }
