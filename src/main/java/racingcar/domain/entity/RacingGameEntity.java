@@ -2,6 +2,7 @@ package racingcar.domain.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class RacingGameEntity {
 
@@ -39,5 +40,30 @@ public class RacingGameEntity {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        final RacingGameEntity otherEntity = (RacingGameEntity) other;
+
+        if (id == null && otherEntity.id == null) {
+            return false;
+        }
+
+        return Objects.equals(id, otherEntity.id) &&
+                Objects.equals(carEntities, otherEntity.carEntities) &&
+                Objects.equals(count, otherEntity.count) &&
+                Objects.equals(createdAt, otherEntity.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, carEntities, count, createdAt);
     }
 }
