@@ -23,7 +23,7 @@ public class InputView {
             validateCarNames(inputCarNames);
             return inputCarNames;
         } catch (IOException e) {
-            return inputCarNames();
+            throw new IllegalArgumentException("잘못된 입력입니다. 다시 입력해주세요. Error Message : " + e.getMessage());
         }
     }
     
@@ -42,6 +42,14 @@ public class InputView {
         final Matcher matcher = PATTERN.matcher(inputCarNames);
         if (matcher.find()) {
             throw new IllegalArgumentException("차 이름은 쉼표로 구분해서 영어와 한글로만 입력할 수 있습니다. 다시 입력해주세요. 입력된 names : " + inputCarNames);
+        }
+    }
+    
+    public int inputTryNumber() {
+        try {
+            return Integer.parseInt(reader.readLine());
+        } catch (IOException | NumberFormatException e) {
+            throw new IllegalArgumentException("잘못된 입력입니다. 다시 입력해주세요. Error Message : " + e.getMessage());
         }
     }
 }

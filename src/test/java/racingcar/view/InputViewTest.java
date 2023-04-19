@@ -8,10 +8,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import racingcar.mock.SystemInMock;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -20,14 +21,16 @@ class InputViewTest {
     
     @ParameterizedTest(name = "{displayName} : names = {0}")
     @ValueSource(strings = {"abel,스플릿", "asd,asdf"})
-    void 자동차_이름_입력_시_영어와_한글과_쉼표만_포함된_경우_예외가_발생하지_않는다(String names) {
+    void 자동차_이름_입력_시_영어와_한글과_쉼표만_포함된_경우_입력_값을_그대로_반환한다(String names) {
         // given
         inputStream = new ByteArrayInputStream(names.getBytes());
         System.setIn(inputStream);
         
-        // when, then
-        assertThatNoException()
-                .isThrownBy(() -> new InputView().inputCarNames());
+        // when
+        final String inputCarNames = new InputView().inputCarNames();
+        
+        // then
+        assertThat(inputCarNames).isEqualTo(names);
     }
     
     @Test
@@ -65,6 +68,20 @@ class InputViewTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputCarNames())
                 .withMessage("차 이름은 쉼표로 구분해서 영어와 한글로만 입력할 수 있습니다. 다시 입력해주세요. 입력된 names : " + names);
+    }
+    
+    @ParameterizedTest(name = "{displayName} : names = {0}")
+    @ValueSource(strings = {"0", "1", "999999", "1000000"})
+    void 시도_횟수_입력_시_숫자만_포함된_경우_입력_값을_그대로_반환한다(String tryNumber) {
+        // given
+        inputStream = new ByteArrayInputStream(tryNumber.getBytes());
+        System.setIn(inputStream);
+        
+        // when
+        final int inputTryNumber = new InputView().inputTryNumber();
+        
+        // then
+        assertThat(inputTryNumber).isEqualTo(Integer.parseInt(tryNumber));
     }
     
     @AfterEach
