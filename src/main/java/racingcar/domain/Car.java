@@ -12,6 +12,11 @@ public class Car {
         this.position = position;
     }
 
+    public Car(String name) {
+        validateNameLength(name.length());
+        this.name = name;
+    }
+
     public void move(int number) {
         if (isAllowedToMove(number)) {
             this.position += 1;
