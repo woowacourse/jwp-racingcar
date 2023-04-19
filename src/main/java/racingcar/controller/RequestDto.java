@@ -1,8 +1,11 @@
 package racingcar.controller;
 
 public class RequestDto {
-    private final String names;
-    private final Integer count;
+    private String names;
+    private Integer count;
+
+    public RequestDto() {
+    }
 
     public RequestDto(String names, Integer count) {
         this.names = names;
