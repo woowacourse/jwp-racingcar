@@ -8,6 +8,7 @@ import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
 import racingcar.service.RacingGameService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class WebRacingGameController {
     }
 
     @PostMapping("/plays")
-    public GameResponse plays(@RequestBody final GameRequest gameRequest) {
+    public GameResponse plays(@RequestBody @Valid final GameRequest gameRequest) {
         return racingGameService.play(gameRequest);
     }
 
