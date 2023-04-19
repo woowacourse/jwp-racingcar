@@ -7,6 +7,10 @@ import racingcar.dao.RacingGameDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.dto.response.RacingGameResponseDto;
+import racingcar.dto.response.RacingGameWinnersDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RacingCarService {
@@ -47,5 +51,17 @@ public class RacingCarService {
         for (final Car car : racingGame.getCurrentResult()) {
             racingCarDao.save(gameId, car);
         }
+    }
+
+    public List<RacingGameResponseDto> findAllHistories() {
+        List<RacingGameResponseDto> racingGameResponseDtos = new ArrayList<>();
+        for (RacingGameWinnersDto racingGameWinnersDto : racingGameDao.findAllWinners()) {
+            racingGameResponseDtos.add(
+                    new RacingGameResponseDto(
+                            racingGameWinnersDto.getWinners(), racingCarDao.findCars(racingGameWinnersDto.getId())
+                    )
+            );
+        }
+        return racingGameResponseDtos;
     }
 }
