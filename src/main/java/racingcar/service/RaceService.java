@@ -4,7 +4,7 @@ import racingcar.controller.dto.GameInfoRequest;
 import racingcar.domain.RacingCars;
 import racingcar.util.NumberGenerator;
 
-public abstract class RaceService {
+public class RaceService {
 
     private final NumberGenerator numberGenerator;
 
