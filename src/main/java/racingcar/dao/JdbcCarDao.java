@@ -51,5 +51,4 @@ public class JdbcCarDao implements CarDao {
     private RowMapper<CarNamePositionDTO> getCarNamePositionDTORowMapper() {
         return (resultSet, rowNum) -> new CarNamePositionDTO(resultSet.getString("name"), resultSet.getInt("position"));
     }
-
 }
