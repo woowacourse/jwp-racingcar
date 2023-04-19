@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -35,5 +36,35 @@ public class JdbcGameDaoTest {
 
         // then
         assertThat(id).isNotNull();
+    }
+
+    @Test
+    void 데이터_행의_개수를_센다() {
+        //given
+        gameDao.insert(5);
+
+        //when
+        final int rowCount = gameDao.countRows();
+
+        //then
+        assertThat(rowCount).isEqualTo(1);
+    }
+
+    @Test
+    void 모든_데이터를_삭제한다() {
+        //given
+        gameDao.insert(5);
+
+        //when
+        gameDao.deleteAll();
+        final int rowCount = gameDao.countRows();
+
+        //then
+        assertThat(rowCount).isEqualTo(0);
+    }
+
+    @AfterEach
+    void tearDown() {
+        gameDao.deleteAll();
     }
 }
