@@ -34,12 +34,18 @@ public class RacingGameService {
         this.gameQueryDao = gameQueryDao;
     }
 
-    public void save(final RacingGame racingGame) {
+    public RacingGame playAndSave(final String names, final Integer count, final NumberGenerator numberGenerator) {
+        RacingGame racingGame = play(names, count, numberGenerator);
+        save(racingGame);
+        return racingGame;
+    }
+
+    private void save(final RacingGame racingGame) {
         int gameId = gameInsertDao.insertGame(racingGame.getTryCount());
         playerInsertDao.insertPlayers(gameId, racingGame.getCars(), racingGame.getWinner().getWinnerNames());
     }
 
-    public RacingGame play(final String names, final Integer count, final NumberGenerator numberGenerator) {
+    private RacingGame play(final String names, final Integer count, final NumberGenerator numberGenerator) {
         List<Car> cars = generateCars(names);
         RacingGame racingGame = new RacingGame(cars, count, numberGenerator);
         racingGame.run();

@@ -36,8 +36,7 @@ public class RacingGameController {
         String names = requestDto.getNames();
         Integer count = requestDto.getCount();
 
-        RacingGame racingGame = racingGameService.play(names, count, new RandomNumberGenerator());
-        racingGameService.save(racingGame);
+        RacingGame racingGame = racingGameService.playAndSave(names, count, new RandomNumberGenerator());
 
         return new ResponseDto(getWinners(racingGame), racingGame.getCars());
     }

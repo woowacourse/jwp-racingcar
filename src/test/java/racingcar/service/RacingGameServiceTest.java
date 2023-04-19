@@ -22,7 +22,7 @@ class RacingGameServiceTest {
     @Test
     void play() {
         String names = "odo,jena";
-        RacingGame racingGame = racingGameService.play(
+        RacingGame racingGame = racingGameService.playAndSave(
                 names,
                 3,
                 new MockNumberGenerator(Lists.newArrayList(3, 3, 3, 4, 4, 4))
@@ -40,12 +40,11 @@ class RacingGameServiceTest {
     @Test
     void getGameResponseDtos() {
         String names = "odo,jena";
-        RacingGame racingGame = racingGameService.play(
+        racingGameService.playAndSave(
                 names,
                 3,
                 new MockNumberGenerator(Lists.newArrayList(3, 3, 3, 4, 4, 4))
         );
-        racingGameService.save(racingGame);
 
         List<GameResponseDto> gameResponseDtos = racingGameService.getGameResponseDtos();
         GameResponseDto gameResponseDto = gameResponseDtos.get(gameResponseDtos.size() - 1);
