@@ -11,6 +11,7 @@ import racingcar.entity.Game;
 import racingcar.entity.Player;
 import racingcar.utils.NumberGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +36,11 @@ public class RacingCarService {
 
         List<Car> winners = race.findWinners();
         List<Car> participants = race.getParticipants();
+        List<String> winnerNames = winners.stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
 
-        Game game = Game.of(winners, playsRequest.getCount());
+        Game game = Game.of(null, winnerNames, playsRequest.getCount());
         Long gameId = gameDao.insert(game);
 
         List<Player> players = participants.stream()
@@ -45,5 +49,34 @@ public class RacingCarService {
         playerDao.insert(players);
 
         return PlaysResponse.of(winners, participants);
+    }
+//
+//    public PlaysResponses getGamesAll() {
+//        //TODO: request -> entity -> dao -> service -> response -> controller
+//        List<PlaysResponse> playsResponses = new ArrayList<>();
+//
+//        List<Game> games = gameDao.selectAll();
+//        for (Game game : games) {
+//            List<Player> players = playerDao.selectAllByGameId(game.getId());
+//            String winners = game.getWinners();
+//            playsResponses.add(PlaysResponse.of(winners, players));
+//        }
+//
+//        return new PlaysResponses(playsResponses);
+//    }
+
+
+    public List<PlaysResponse> getGamesAll() {
+        //TODO: request -> entity -> dao -> service -> response -> controller
+        List<PlaysResponse> playsResponses = new ArrayList<>();
+
+        List<Game> games = gameDao.selectAll();
+        for (Game game : games) {
+            List<Player> players = playerDao.selectAllByGameId(game.getId());
+            String winners = game.getWinners();
+            playsResponses.add(PlaysResponse.of(winners, players));
+        }
+
+        return playsResponses;
     }
 }

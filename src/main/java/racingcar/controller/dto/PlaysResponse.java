@@ -1,7 +1,9 @@
 package racingcar.controller.dto;
 
 import racingcar.domain.Car;
+import racingcar.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +20,7 @@ public class PlaysResponse {
         this.racingCars = racingCars;
     }
 
+
     public static PlaysResponse of(List<Car> winners, List<Car> racingCars) {
         List<String> winnerNames = winners.stream()
                 .map(Car::getName)
@@ -29,6 +32,15 @@ public class PlaysResponse {
                 .collect(Collectors.toList());
 
         return new PlaysResponse(winnerResponse, carResponses);
+    }
+
+    public static PlaysResponse of(String winners, List<Player> players) {
+        List<CarResponse> carResponses = new ArrayList<>();
+        for (Player player : players) {
+            carResponses.add(CarResponse.of(player.getName(), player.getPosition()));
+        }
+
+        return new PlaysResponse(winners, carResponses);
     }
 
     public String getWinners() {
