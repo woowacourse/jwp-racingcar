@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import racingcar.dto.RacingGameRequest;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class RacingcarControllerTest {
@@ -26,7 +27,7 @@ class RacingcarControllerTest {
 
     @DisplayName("/plays post 요청 정상동작 확인")
     @Test
-    void plays(){
+    void plays() {
 
         RacingGameRequest request = new RacingGameRequest("name1, name2", "10");
 

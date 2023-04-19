@@ -1,27 +1,29 @@
 package racingcar.service;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racingcar.controller.RacingResponse;
-import racingcar.dao.PlayResult;
-import racingcar.dao.PlayResultDao;
-import racingcar.dao.PlayerResult;
-import racingcar.dao.PlayerResultDao;
+import racingcar.dao.CarDao;
+import racingcar.dao.RacingGameDao;
+import racingcar.dto.CarDto;
+import racingcar.dto.RacingGameDto;
+import racingcar.dto.RacingResponse;
 import racingcar.model.Car;
+import racingcar.model.RacingGame;
 
 @Service
 public class RacingcarService {
 
     private static final int MINIMUM_PARTICIPANT = 2;
 
-    private final PlayResultDao playResultDao;
-    private final PlayerResultDao playerResultDao;
+    private final RacingGameDao racingGameDao;
+    private final CarDao carDao;
 
-    public RacingcarService(final PlayResultDao playResultDao, final PlayerResultDao playerResultDao) {
-        this.playResultDao = playResultDao;
-        this.playerResultDao = playerResultDao;
+    public RacingcarService(final RacingGameDao racingGameDao, final CarDao carDao) {
+        this.racingGameDao = racingGameDao;
+        this.carDao = carDao;
     }
 
     public RacingResponse move(final List<String> carNames, final int count) {
@@ -30,21 +32,28 @@ public class RacingcarService {
         for (int i = 1; i <= count; i++) {
             moveAllCars(cars);
         }
+        List<Car> winners = findWinners(cars);
 
-        String winners = findWinners(cars);
+        RacingGame racingGame = insertRacingGame(count);
 
-        int playResultId = playResultDao.insertPlayResult(new PlayResult(winners, count));
-        List<PlayerResult> playerResults = insertPlayerResults(cars, playResultId);
-        return new RacingResponse(winners, playerResults);
+        insertCar(cars, racingGame);
+
+        List<CarDto> winnerCarsDtos = makeCarsDtos(winners);
+        List<CarDto> carsDtos = makeCarsDtos(cars);
+
+        return new RacingResponse(winnerCarsDtos, carsDtos);
     }
 
-    private List<PlayerResult> insertPlayerResults(final List<Car> cars, final int playResultId) {
-        List<PlayerResult> playerResults = cars.stream()
-                .map(car -> new PlayerResult(playResultId, car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
+    private RacingGame insertRacingGame(final int count) {
+        RacingGameDto racingGameDto = racingGameDao.insertRacingGame(RacingGameDto.from(count));
+        return new RacingGame(racingGameDto.getId(), count);
+    }
 
-        playerResults.forEach(playerResultDao::insertPlayerResult);
-        return playerResults;
+    private void insertCar(final List<Car> cars, final RacingGame racingGame) {
+        for (Car car : cars) {
+            CarDto carDto = makeCarDto(car);
+            carDao.insertCar(carDto, racingGame.getId());
+        }
     }
 
     private void moveAllCars(final List<Car> cars) {
@@ -53,23 +62,19 @@ public class RacingcarService {
         }
     }
 
-    private static List<Car> getCars(final List<String> carNames) {
+    private List<Car> getCars(final List<String> carNames) {
         if (carNames.size() < MINIMUM_PARTICIPANT) {
             throw new IllegalArgumentException("[ERROR] 경주는 최소 " + MINIMUM_PARTICIPANT + "명이 필요해요.");
         }
         return CarFactory.makeCars(carNames);
     }
 
-    private String findWinners(final List<Car> cars) {
+    private List<Car> findWinners(final List<Car> cars) {
         int winnerPosition = findPosition(cars);
 
-        List<Car> winnersCars = cars.stream()
+        return cars.stream()
                 .filter(car -> car.isPosition(winnerPosition))
                 .collect(Collectors.toUnmodifiableList());
-
-        return winnersCars.stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(", "));
     }
 
     private int findPosition(final List<Car> cars) {
@@ -83,23 +88,40 @@ public class RacingcarService {
     }
 
     public List<RacingResponse> allResults() {
-        List<PlayResult> playResults = playResultDao.selectAllResults();
-        List<List<PlayerResult>> playerResults = selectPlayerResultListsByPlayResultIds(playResults);
-
-        List<RacingResponse> racingResponses = new ArrayList<>();
-        for (int i = 0; i < playerResults.size(); i++) {
-            racingResponses.add(new RacingResponse(playResults.get(i).getWinners(), playerResults.get(i)));
+        Map<Integer, List<CarDto>> results = new LinkedHashMap<>();
+        List<RacingGameDto> racingGameDtos = racingGameDao.selectAllResults();
+        for (RacingGameDto racingGameDto : racingGameDtos) {
+            results.put(racingGameDto.getId(), carDao.findCarsByRacingGameId(racingGameDto.getId()));
         }
-        return racingResponses;
+        return makeRacingResponses(results);
     }
 
-    private List<List<PlayerResult>> selectPlayerResultListsByPlayResultIds(final List<PlayResult> playResults) {
-        List<List<PlayerResult>> playerResults = new ArrayList<>();
-        for (PlayResult playResult : playResults) {
-            int playResultId = playResult.getId();
-            playerResults.add(playerResultDao.selectPlayerResult(playResultId));
-        }
-        return playerResults;
+    private List<RacingResponse> makeRacingResponses(final Map<Integer, List<CarDto>> results) {
+        return results.values().stream()
+                .map(carDtos -> {
+                    List<Car> findCars = carDtos.stream()
+                            .map(this::makeCar)
+                            .collect(Collectors.toList());
+                    List<Car> winners = findWinners(findCars);
+                    List<CarDto> findWinnerCarsDtos = makeCarsDtos(winners);
+                    List<CarDto> findCarsDtos = makeCarsDtos(findCars);
+                    return new RacingResponse(findWinnerCarsDtos, findCarsDtos);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private Car makeCar(final CarDto carDto) {
+        return new Car(carDto.getName(), carDto.getPosition());
+    }
+
+    private CarDto makeCarDto(final Car car) {
+        return CarDto.of(car.getName(), car.getPosition());
+    }
+
+    private List<CarDto> makeCarsDtos(final List<Car> cars) {
+        return cars.stream()
+                .map(this::makeCarDto)
+                .collect(Collectors.toList());
     }
 
 }

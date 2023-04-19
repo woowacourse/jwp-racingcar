@@ -1,12 +1,15 @@
 package racingcar.consolegame;
 
+//import racingcar.consolegame.dao.CarInMemoryDao;
+
+
 import java.util.List;
 import java.util.Scanner;
-import racingcar.consolegame.dao.PlayResultInMemoryDao;
-import racingcar.consolegame.dao.PlayerResultInMemoryDao;
+import racingcar.consolegame.dao.CarInMemoryDao;
+import racingcar.consolegame.dao.RacingGameInMemoryDao;
 import racingcar.consolegame.ui.InputView;
 import racingcar.consolegame.ui.OutputView;
-import racingcar.controller.RacingResponse;
+import racingcar.dto.RacingResponse;
 import racingcar.service.RacingcarService;
 
 /**
@@ -27,8 +30,8 @@ public class RacingCarConsoleApplication {
             int tryCount = inputView.tryCount();
 
             RacingcarService racingcarService = new RacingcarService(
-                    new PlayResultInMemoryDao(),
-                    new PlayerResultInMemoryDao()
+                    new RacingGameInMemoryDao(),
+                    new CarInMemoryDao()
             );
 
             RacingResponse movedCars = racingcarService.move(carNames, tryCount);
