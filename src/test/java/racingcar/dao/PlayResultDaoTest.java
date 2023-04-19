@@ -1,57 +1,39 @@
 package racingcar.dao;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.PlayResult;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest
+@Transactional
 class PlayResultDaoTest {
-
-    private final PlayResultDao mapper;
-
     private final JdbcTemplate jdbcTemplate;
+    private PlayResultDao playResultDao;
 
     @Autowired
-    public PlayResultDaoTest(PlayResultDao playResultDao, JdbcTemplate jdbcTemplate){
-        this.mapper = playResultDao;
+    public PlayResultDaoTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @BeforeEach
-    void setUp() {
-        jdbcTemplate.execute("DROP TABLE CAR_RESULT IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE PLAY_RESULT IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS PLAY_RESULT" +
-                "(" +
-                "    id         INT         NOT NULL AUTO_INCREMENT," +
-                "    trial_count INT         NOT NULL," +
-                "    winners    VARCHAR(120) NOT NULL," +
-                "    created_at DATETIME    NOT NULL," +
-                "    PRIMARY KEY (id)" +
-                ");");
-    }
-
-    @AfterEach
-    void deleteTable() {
-        jdbcTemplate.execute("DROP TABLE CAR_RESULT IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE PLAY_RESULT IF EXISTS");
+    public void setUp() {
+        this.playResultDao = new PlayResultDao(jdbcTemplate);
     }
 
     @Test
-    void key() {
-        PlayResult entity = PlayResult.of(10, "aa", Timestamp.valueOf(LocalDateTime.now()));
-        Integer id = mapper.save(entity);;
-        PlayResult result = mapper.findById(id);
-        System.out.println(result);
+    void savePlayResult() {
+        PlayResult playResult = PlayResult.of(10, "hongo", Timestamp.valueOf(LocalDateTime.now()));
+        Integer id = playResultDao.save(playResult);
+        PlayResult result = playResultDao.findById(id);
         assertThat(result).isNotNull();
     }
 }
