@@ -4,36 +4,30 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Cars {
-
     private static final int MAX_SIZE = 20;
+    public static final String NAME_DELIMITER = ",";
     private final List<Car> cars;
 
-    private Cars(final List<String> cars) {
+    public Cars(final List<Car> cars) {
         validateCars(cars);
-        validateSize(cars);
-        this.cars = cars.stream()
+        this.cars = cars;
+    }
+
+    public static Cars from(final List<String> carNames) {
+        validateDuplicatedName(carNames);
+        List<Car> cars = carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
+        return new Cars(cars);
     }
 
     public static Cars from(final String carNames) {
-        return new Cars(Arrays.stream(carNames.split(","))
-                .collect(Collectors.toList()));
+        List<String> seperatedCarNames = Arrays.stream(carNames.split(NAME_DELIMITER))
+                .collect(Collectors.toList());
+        return from(seperatedCarNames);
     }
 
-    private void validateCars(final List<String> cars) {
-
-        validateDuplicatedName(cars);
-        validateEmpty(cars);
-    }
-
-    private void validateEmpty(final List<String> cars) {
-        if (cars.isEmpty()) {
-            throw new IllegalArgumentException("최소 하나 이상의 Car 객체가 존재해야합니다.");
-        }
-    }
-
-    private void validateDuplicatedName(final List<String> cars) {
+    private static void validateDuplicatedName(final List<String> cars) {
         Set<String> refined = new HashSet<>(cars);
 
         if (refined.size() != cars.size()) {
@@ -41,7 +35,18 @@ public class Cars {
         }
     }
 
-    private void validateSize(final List<String> cars) {
+    private void validateCars(final List<Car> cars) {
+        validateEmpty(cars);
+        validateSize(cars);
+    }
+
+    private void validateEmpty(final List<Car> cars) {
+        if (cars.isEmpty()) {
+            throw new IllegalArgumentException("최소 하나 이상의 Car 객체가 존재해야합니다.");
+        }
+    }
+
+    private void validateSize(final List<Car> cars) {
         if (cars.size() > MAX_SIZE) {
             throw new IllegalArgumentException("경주 게임을 진행할 자동차는 최대 20개까지 생성할 수 있습니다.");
         }
@@ -67,6 +72,13 @@ public class Cars {
                 .mapToInt(Car::getPosition)
                 .max()
                 .orElse(Car.MIN_POSITION);
+    }
+
+    public String getCombinedNames() {
+        List<String> names = cars.stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+        return String.join(NAME_DELIMITER, names);
     }
 
     public List<Car> getUnmodifiableCars() {
