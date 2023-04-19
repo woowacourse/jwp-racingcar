@@ -38,6 +38,9 @@ public class RacingGame {
                 .forEach(ignored -> racingCars.moveCars(numberGenerator));
     }
 
+    public List<Car> pickWinningCars() {
+        return racingCars.pickWinningCars();
+    }
     public List<String> pickWinnerCarNames() {
         return racingCars.pickWinnerCarNames();
     }
