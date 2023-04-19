@@ -34,7 +34,7 @@ public class Game {
         remainingTrialCount = remainingTrialCount.decrease();
     }
 
-    public boolean isNotDone() {
+    public boolean isInProgress() {
         return remainingTrialCount.isLeft();
     }
 

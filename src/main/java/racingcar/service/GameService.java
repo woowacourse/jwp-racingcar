@@ -27,7 +27,7 @@ public class GameService {
 
     public ResultDto playWith(List<String> names, int trialCount) {
         Game game = createGameWith(names, trialCount);
-        while (game.isNotDone()) {
+        while (game.isInProgress()) {
             game.playOnceWith(moveChance);
         }
 
