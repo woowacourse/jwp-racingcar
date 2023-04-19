@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
-import racingcar.entity.PlayerResult;
+import racingcar.entity.PlayerResultEntity;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -38,20 +38,20 @@ public class PlayerResultDAO {
                 .collect(Collectors.joining(","));
     }
 
-    public List<PlayerResult> findAll() {
+    public List<PlayerResultEntity> findAll() {
         String sql = "select * from play_result";
 
         return jdbcTemplate.query(sql, playerResultRowMapper());
     }
 
-    private RowMapper<PlayerResult> playerResultRowMapper() {
+    private RowMapper<PlayerResultEntity> playerResultRowMapper() {
         return (result, columnRow) -> {
-            final PlayerResult playerResult = new PlayerResult();
-            playerResult.setId(result.getInt("id"));
-            playerResult.setCount(result.getInt("count"));
-            playerResult.setWinners(result.getString("winners"));
-            playerResult.setDateTime(result.getTimestamp("created_at"));
-            return playerResult;
+            final PlayerResultEntity playerResultEntity = new PlayerResultEntity();
+            playerResultEntity.setId(result.getInt("id"));
+            playerResultEntity.setCount(result.getInt("count"));
+            playerResultEntity.setWinners(result.getString("winners"));
+            playerResultEntity.setDateTime(result.getTimestamp("created_at"));
+            return playerResultEntity;
         };
     }
 }

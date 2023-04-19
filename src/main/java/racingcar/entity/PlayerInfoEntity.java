@@ -1,8 +1,6 @@
 package racingcar.entity;
 
-import java.sql.Timestamp;
-
-public class PlayerInfo {
+public class PlayerInfoEntity {
     Integer id;
     String name;
     Integer position;

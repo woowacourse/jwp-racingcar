@@ -3,7 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
-import racingcar.entity.PlayerInfo;
+import racingcar.entity.PlayerInfoEntity;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -30,15 +30,15 @@ public class PlayerInfoDAO {
 
     }
 
-    public List<PlayerInfo> findPlayerByResultId(Integer play_result_id) {
+    public List<PlayerInfoEntity> findPlayerByResultId(Integer play_result_id) {
         String sql = "select * from player_info where play_result_id = ?";
         return jdbcTemplate.query(sql, (result, column) -> {
-                    final PlayerInfo playerInfo = new PlayerInfo();
-                    playerInfo.setId(result.getInt("id"));
-                    playerInfo.setName(result.getString("name"));
-                    playerInfo.setPosition(result.getInt("position"));
-                    playerInfo.setPlayResultId(result.getInt("play_result_id"));
-                    return playerInfo;
+                    final PlayerInfoEntity playerInfoEntity = new PlayerInfoEntity();
+                    playerInfoEntity.setId(result.getInt("id"));
+                    playerInfoEntity.setName(result.getString("name"));
+                    playerInfoEntity.setPosition(result.getInt("position"));
+                    playerInfoEntity.setPlayResultId(result.getInt("play_result_id"));
+                    return playerInfoEntity;
                 },
                 play_result_id
         );

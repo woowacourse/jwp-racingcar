@@ -2,7 +2,7 @@ package racingcar.entity;
 
 import java.sql.Timestamp;
 
-public class PlayerResult {
+public class PlayerResultEntity {
     Integer id;
     Integer count;
     String winners;

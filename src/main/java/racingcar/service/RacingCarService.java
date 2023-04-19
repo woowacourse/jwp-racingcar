@@ -11,7 +11,7 @@ import racingcar.dto.CarDto;
 import racingcar.dto.MoveRequestDto;
 import racingcar.dto.MoveResponseDto;
 import racingcar.dto.PlayResponseDto;
-import racingcar.entity.PlayerResult;
+import racingcar.entity.PlayerResultEntity;
 import racingcar.genertor.NumberGenerator;
 
 import java.util.ArrayList;
@@ -53,14 +53,14 @@ public class RacingCarService {
     @Transactional
     public List<PlayResponseDto> findAllGameHistory() {
         final ArrayList<PlayResponseDto> playResponseDtos = new ArrayList<>();
-        for (PlayerResult playerResult : playerResultDAO.findAll()) {
-            playResponseDtos.add(new PlayResponseDto(playerResult.getWinners(), makeCarDto(playerResult)));
+        for (PlayerResultEntity playerResultEntity : playerResultDAO.findAll()) {
+            playResponseDtos.add(new PlayResponseDto(playerResultEntity.getWinners(), makeCarDto(playerResultEntity)));
         }
         return playResponseDtos;
     }
 
-    private List<CarDto> makeCarDto(final PlayerResult playerResult) {
-        return playerInfoDAO.findPlayerByResultId(playerResult.getId()).stream()
+    private List<CarDto> makeCarDto(final PlayerResultEntity playerResultEntity) {
+        return playerInfoDAO.findPlayerByResultId(playerResultEntity.getId()).stream()
                 .map((playerInfo) -> new CarDto(playerInfo.getName(), playerInfo.getPosition()))
                 .collect(Collectors.toList());
     }
