@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @JdbcTest
-class RacingGameDaoImplTest {
+class RacingGameJdbcDaoTest {
 
     private RacingGameDao racingGameDao;
 
@@ -19,7 +19,7 @@ class RacingGameDaoImplTest {
 
     @BeforeEach
     void setUp() {
-        racingGameDao = new RacingGameDaoImpl(jdbcTemplate);
+        racingGameDao = new RacingGameJdbcDao(jdbcTemplate);
     }
 
     @Test

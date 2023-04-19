@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -7,14 +8,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class PlayerDaoImpl implements PlayerDao {
+public class PlayerJdbcDao implements PlayerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public PlayerDaoImpl(final NamedParameterJdbcTemplate jdbcTemplate) {
+    public PlayerJdbcDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

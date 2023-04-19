@@ -8,11 +8,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RacingGameDaoImpl implements RacingGameDao {
+public class RacingGameJdbcDao implements RacingGameDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public RacingGameDaoImpl(final NamedParameterJdbcTemplate jdbcTemplate) {
+    public RacingGameJdbcDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

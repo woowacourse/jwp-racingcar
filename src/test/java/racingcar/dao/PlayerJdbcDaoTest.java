@@ -1,5 +1,10 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,18 +13,12 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 @JdbcTest
-public class PlayerDaoImplTest {
+public class PlayerJdbcDaoTest {
 
     private static final long GAME_ID = 10L;
 
-    private PlayerDaoImpl playerDao;
+    private PlayerJdbcDao playerDao;
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -29,7 +28,7 @@ public class PlayerDaoImplTest {
 
     @BeforeEach
     void setUp() {
-        playerDao = new PlayerDaoImpl(namedParameterJdbcTemplate);
+        playerDao = new PlayerJdbcDao(namedParameterJdbcTemplate);
         jdbcTemplate.execute("SET REFERENTIAL_INTEGRITY FALSE");
     }
 
