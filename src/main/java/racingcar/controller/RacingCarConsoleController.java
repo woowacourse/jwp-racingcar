@@ -1,8 +1,8 @@
 package racingcar.controller;
 
+import racingcar.model.Car;
 import racingcar.model.CarNumberGenerator;
 import racingcar.model.CarRandomNumberGenerator;
-import racingcar.model.Car;
 import racingcar.model.RacingCars;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -17,15 +17,15 @@ public class RacingCarConsoleController {
 
     private static final int START_POSITION = 0;
     private final CarNumberGenerator carNumberGenerator = new CarRandomNumberGenerator();
-    private OutputView outputView = OutputView.getInstance();
-    private InputView inputView = InputView.getInstance();
+    private final OutputView outputView = OutputView.getInstance();
+    private final InputView inputView = InputView.getInstance();
     private RacingCars racingCars;
 
 
     public void run() {
-        List<Car> cars = generateCars();
+        final List<Car> cars = generateCars();
         racingCars = new RacingCars(cars);
-        int tryNum = getTryNum();
+        final int tryNum = getTryNum();
 
         race(tryNum);
         showWinners();
@@ -33,9 +33,9 @@ public class RacingCarConsoleController {
 
     private List<Car> generateCars() {
         outputView.printReadCarNamesMessage();
-        String[] carNames = inputView.readCarNames();
-        List<Car> cars = new ArrayList<>();
-        for (String carName : carNames) {
+        final String[] carNames = inputView.readCarNames();
+        final List<Car> cars = new ArrayList<>();
+        for (final String carName : carNames) {
             cars.add(new Car(carName, START_POSITION));
         }
         return cars;
@@ -46,29 +46,29 @@ public class RacingCarConsoleController {
         return inputView.readTryNum();
     }
 
-    private void race(int tryNum) {
-        outputView.printRacingResultMessage();
+    private void race(final int tryNum) {
         for (int repeatIndex = 0; repeatIndex < tryNum; repeatIndex++) {
-            List<Car> currentCars = racingCars.getCars();
             racingCars.tryOneTime(carNumberGenerator);
-            outputView.printCurrentRacingCarsPosition(convertRacingCarsResultForPrint(currentCars));
         }
+
+        outputView.printRacingResultMessage();
+        outputView.printCurrentRacingCarsPosition(convertRacingCarsResultForPrint(racingCars.getCars()));
     }
 
-    private Map<String, Integer> convertRacingCarsResultForPrint(List<Car> currentCars) {
-        Map<String, Integer> racingCarsResult = new HashMap<>();
-        for (Car currentCar : currentCars) {
+    private void showWinners() {
+        final List<String> winners = convertWinnersNameForPrint(racingCars.getWinners());
+        outputView.printWinners(winners);
+    }
+
+    private Map<String, Integer> convertRacingCarsResultForPrint(final List<Car> currentCars) {
+        final Map<String, Integer> racingCarsResult = new HashMap<>();
+        for (final Car currentCar : currentCars) {
             racingCarsResult.put(currentCar.getName(), currentCar.getPosition());
         }
         return racingCarsResult;
     }
 
-    private void showWinners() {
-        List<String> winners = convertWinnersNameForPrint(racingCars.getWinners());
-        outputView.printWinners(winners);
-    }
-
-    private List<String> convertWinnersNameForPrint(List<Car> winners) {
+    private List<String> convertWinnersNameForPrint(final List<Car> winners) {
         return winners.stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
