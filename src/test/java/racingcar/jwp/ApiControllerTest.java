@@ -1,42 +1,28 @@
 package racingcar.jwp;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import racingcar.controller.RacingCarController;
 import racingcar.dto.request.GameRequestDto;
-import racingcar.service.GameService;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.doReturn;
-
-@WebMvcTest(RacingCarController.class)
+@SpringBootTest
 public class ApiControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
-    @DisplayName("게임 실행 테스트")
-    void postTest() throws Exception {
+    @DisplayName("게임 저장 테스트")
+    void postTest() {
         final GameRequestDto gameRequestDto = new GameRequestDto("ditoo,leo", 10);
 
-        mvc.perform(MockMvcRequestBuilders.post("/plays")
-                        .content(objectMapper.writeValueAsString(gameRequestDto))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/plays"));
+        RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(gameRequestDto)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value())
+                .header("Location", "/plays");
     }
 }
