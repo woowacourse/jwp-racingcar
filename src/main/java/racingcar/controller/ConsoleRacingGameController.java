@@ -1,26 +1,25 @@
 package racingcar.controller;
 
-import racingcar.domain.CarRandomNumberGenerator;
-import racingcar.domain.Cars;
-import racingcar.domain.RacingGame;
+import racingcar.dto.request.CarGameRequest;
 import racingcar.dto.response.CarGameResponse;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class ConsoleRacingGameController {
+    private final RacingGameService racingGameService;
 
-    private final RacingGame racingGame;
-
-    public ConsoleRacingGameController() {
-        String carNames = InputView.inputCarNames();
-        int tryCount = InputView.inputTryCount();
-        racingGame = new RacingGame(new CarRandomNumberGenerator(), Cars.from(carNames), tryCount);
+    public ConsoleRacingGameController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
     }
 
-    public void run() {
-        OutputView.printBeforeRacing();
-        racingGame.play();
-        CarGameResponse carGameResult = racingGame.getCarGameResult();
-        OutputView.printCarGameResult(carGameResult);
+    public void play() {
+        String names = InputView.inputCarNames();
+        int count = InputView.inputTryCount();
+
+        CarGameRequest carGameRequest = new CarGameRequest(names, count);
+        CarGameResponse carGameResponse = racingGameService.play(carGameRequest);
+
+        OutputView.printCarGameResult(carGameResponse);
     }
 }
