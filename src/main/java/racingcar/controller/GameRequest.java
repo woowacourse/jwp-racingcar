@@ -1,14 +1,17 @@
 package racingcar.controller;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GameRequest {
 
-    private String names;
-    private int count;
+    @JsonProperty("names")
+    private final String names;
+    @JsonProperty("count")
+    private final int count;
 
-    public GameRequest() {
-    }
-
-    public GameRequest(String names, int count) {
+    @JsonCreator
+    public GameRequest(@JsonProperty("names") String names,@JsonProperty("count") int count) {
         this.names = names;
         this.count = count;
     }
