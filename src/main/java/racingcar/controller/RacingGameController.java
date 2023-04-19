@@ -24,7 +24,7 @@ public class RacingGameController {
     }
 
     @PostMapping("/plays")
-    ResponseEntity<PlayGameResponse> play(
+    public ResponseEntity<PlayGameResponse> play(
             @RequestBody final PlayGameRequest playGameRequest
     ) {
         final Long id = racingGameService.play(playGameRequest.getNames(), playGameRequest.getCount());
@@ -33,7 +33,7 @@ public class RacingGameController {
     }
 
     @GetMapping("/plays")
-    ResponseEntity<List<PlayGameResponse>> findAll() {
+    public ResponseEntity<List<PlayGameResponse>> findAll() {
         return ResponseEntity.ok(racingGameService.findAll().stream()
                 .map(PlayGameResponse::from)
                 .collect(Collectors.toList()));
@@ -42,6 +42,14 @@ public class RacingGameController {
     public static class PlayGameRequest {
         private String names;
         private int count;
+
+        public PlayGameRequest() {
+        }
+
+        public PlayGameRequest(final String names, final int count) {
+            this.names = names;
+            this.count = count;
+        }
 
         public List<String> getNames() {
             return Arrays.asList(names.split(","));

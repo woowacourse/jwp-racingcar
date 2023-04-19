@@ -8,17 +8,24 @@ import static racingcar.view.OutputConstant.INPUT_TRY_COUNT;
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final String DELIMITER = ",";
 
-    public String[] inputCarName() {
+    public static String inputCarName() {
         System.out.println(INPUT_CAR_NAME);
-        String input = scanner.nextLine();
-        return input.split(DELIMITER);
+        return scanner.nextLine();
     }
 
-    public String inputGameTime() {
+    public static int inputGameTime() {
         System.out.println(INPUT_TRY_COUNT);
-        String input = scanner.nextLine();
-        return input;
+        final String input = scanner.nextLine();
+        validateInt(input);
+        return Integer.parseInt(input);
+    }
+
+    private static void validateInt(final String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("[ERROR] 숫자만 입력해주세요");
+        }
     }
 }
