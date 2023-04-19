@@ -3,9 +3,12 @@ package racingcar.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
@@ -82,5 +85,35 @@ public class RacingGameWebControllerTest {
                 .andExpect(jsonPath("$.racingCars[0].name").value("jay"))
                 .andExpect(jsonPath("$.racingCars[1].name").value("turtle"))
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("게임을 시작할 때, 이름에 공백이 들어간 경우 예외를 발생시킨다.")
+    void throws_exception_when_name_is_empty() throws Exception {
+        // given
+        StartGameRequestDto req = new StartGameRequestDto(null, 3);
+
+        // when
+        mockMvc.perform(post("/plays")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req))
+                ).andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.message").value("이름을 입력해주세요."));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 11})
+    @DisplayName(value = "게임을 시작할 때 잘못된 숫자를 입력하면 예외를 발생시킨다.")
+    void throws_exception_when_try_count_invalid(final int tryCount) throws Exception {
+        // given
+        StartGameRequestDto req = new StartGameRequestDto(null, tryCount);
+
+        // when
+        mockMvc.perform(post("/plays")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req))
+                ).andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()));
     }
 }
