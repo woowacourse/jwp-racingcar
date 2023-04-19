@@ -1,8 +1,12 @@
-package racingcar.domain;
+package racingcar.domain.car;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class Name {
     private static final int MIN_LENGTH_OF_NAME = 1;
     private static final int MAX_LENGTH_OF_NAME = 5;
+    
     private final String name;
     
     public Name(String name) {
