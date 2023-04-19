@@ -34,4 +34,9 @@ public class ResultDao {
         String sql = "select id from results";
         return jdbcTemplate.queryForList(sql, Long.class);
     }
+
+    public String findWinnerBy(long id) {
+        String sql = "select winners from results where id = ?";
+        return jdbcTemplate.queryForObject(sql, String.class, id);
+    }
 }
