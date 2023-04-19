@@ -36,8 +36,13 @@ class ParticipantDaoTest {
     @DisplayName("위치와 최종 승패를 입력받아 저장한다.")
     @Test
     void save() {
-        ParticipateDto mangoDto = new ParticipateDto(1L, 1L, 10, true);
-        ParticipateDto lucaDto = new ParticipateDto(1L, 2L, 3, false);
+        //given
+        String preSql = "INSERT INTO GAME(trial_count) VALUES(10)";
+        KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> connection.prepareStatement(preSql, new String[] {"id"}), generatedKeyHolder);
+        Long gameId = (Long) generatedKeyHolder.getKey();
+        ParticipantEntity mangoDto = new ParticipantEntity(gameId, mangoId, 10, true);
+        ParticipantEntity lucaDto = new ParticipantEntity(gameId, lucaId, 3, false);
         //when
         participantDao.save(mangoDto);
         participantDao.save(lucaDto);

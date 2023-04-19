@@ -6,7 +6,9 @@ import racingcar.dao.GameDao;
 import racingcar.dao.ParticipantDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.*;
-import racingcar.dto.*;
+import racingcar.dto.NamesAndCountRequest;
+import racingcar.dto.RacingCarResponse;
+import racingcar.dto.ResultResponse;
 import racingcar.entity.GameEntity;
 import racingcar.entity.ParticipantEntity;
 import racingcar.entity.PlayerEntity;
@@ -83,8 +85,8 @@ public class RacingCarService {
             String carName = car.getName();
             int carPosition = car.getPosition();
             Long playerId = findOrSavePlayer(carName);
-            ParticipateDto participateDto = new ParticipateDto(gameId, playerId, carPosition, isWinner(winnerCars, car));
-            participantDao.save(participateDto);
+            ParticipantEntity participantEntity = new ParticipantEntity(gameId, playerId, carPosition, isWinner(winnerCars, car));
+            participantDao.save(participantEntity);
         }
     }
 
