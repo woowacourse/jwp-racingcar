@@ -1,10 +1,10 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.repository.entity.CarEntity;
+import racingcar.dao.entity.CarEntity;
 
 @Repository
 public class CarDao {
@@ -17,8 +17,12 @@ public class CarDao {
         selectCarDao = new SelectCarDao(jdbcTemplate);
     }
 
-    public List<CarEntity> saveAll(final List<CarEntity> carEntities, final int gameId) {
-        insertCarDao.saveAll(carEntities, gameId);
+    public List<CarEntity> insertAll(final List<CarEntity> carEntities, final int gameId) {
+        insertCarDao.insertAll(carEntities, gameId);
+        return findAllByGameId(gameId);
+    }
+
+    public List<CarEntity> findAllByGameId(final int gameId) {
         return selectCarDao.findAllByGameId(gameId);
     }
 }

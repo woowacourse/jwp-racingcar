@@ -1,4 +1,4 @@
-package racingcar.repository.entity;
+package racingcar.dao.entity;
 
 import racingcar.domain.Car;
 
@@ -20,6 +20,14 @@ public class CarEntity {
 
     public static CarEntity fromDomain(final Car car) {
         return new CarEntity(car.getCarName(), car.getPosition());
+    }
+
+    public Car toDomain() {
+        return new Car(name, position);
+    }
+
+    public boolean matchesById(int id) {
+        return this.id == id;
     }
 
     public String getName() {

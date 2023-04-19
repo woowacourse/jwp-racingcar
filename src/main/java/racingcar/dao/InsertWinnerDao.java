@@ -1,10 +1,10 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import racingcar.repository.entity.CarEntity;
+import racingcar.dao.entity.CarEntity;
 
 public class InsertWinnerDao {
 
@@ -16,7 +16,7 @@ public class InsertWinnerDao {
                 .usingGeneratedKeyColumns("winner_id");
     }
 
-    public void saveAll(final List<CarEntity> winners, final int gameId) {
+    public void insertAll(final List<CarEntity> winners, final int gameId) {
         final MapSqlParameterSource[] batch = winners.stream().map(winner ->
                 new MapSqlParameterSource()
                         .addValue("game_id", gameId)

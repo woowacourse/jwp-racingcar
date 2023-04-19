@@ -2,6 +2,10 @@ package racingcar.repository;
 
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.CarDao;
+import racingcar.dao.GamesDao;
+import racingcar.dao.InsertCarDao;
+import racingcar.dao.WinnerDao;
 
 public final class RepositoryFactory {
 
@@ -17,7 +21,7 @@ public final class RepositoryFactory {
         return new WinnerDao(dataSource, jdbcTemplate);
     }
 
-    public static GamesDao gamesDao(final DataSource dataSource) {
-        return new GamesDao(dataSource);
+    public static GamesDao gamesDao(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
+        return new GamesDao(dataSource, jdbcTemplate);
     }
 }
