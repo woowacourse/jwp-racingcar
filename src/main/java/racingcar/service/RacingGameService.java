@@ -46,7 +46,7 @@ public class RacingGameService {
         return GamePlayResponseDto.of(game.findWinners(), game.getCars());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<GamePlayResponseDto> findAll() {
         final List<CarEntity> result = carDao.findAll();
         return racingGameMapper.toGamePlayResponseDtos(result);
