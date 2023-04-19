@@ -22,13 +22,13 @@ public class JdbcCarDaoTest {
     private JdbcTemplate jdbcTemplate;
 
     private CarDao carDao;
+    private GameDao gameDao;
     private Long gameId;
 
     @BeforeEach
     void setUp() {
         carDao = new JdbcCarDao(jdbcTemplate);
-
-        final GameDao gameDao = new JdbcGameDao(jdbcTemplate);
+        gameDao = new JdbcGameDao(jdbcTemplate);
         gameId = gameDao.insert(2);
     }
 
@@ -98,5 +98,6 @@ public class JdbcCarDaoTest {
     @AfterEach
     void tearDown() {
         carDao.deleteAll();
+        gameDao.deleteAll();
     }
 }
