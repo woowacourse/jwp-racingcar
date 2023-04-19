@@ -3,7 +3,9 @@ package racingcar;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,7 +25,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import racingcar.domain.RacingGameService;
+import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.RacingGame;
+import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
 import racingcar.web.RacingGameRequest;
 import racingcar.web.RacingGameController;
@@ -39,6 +43,8 @@ class RacingGameControllerTest {
 
     @InjectMocks
     RacingGameController racingGameController;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Nested
     class SuccessTest {
@@ -58,7 +64,7 @@ class RacingGameControllerTest {
         @Test
         void testPlay() throws Exception {
             //given
-            ObjectMapper objectMapper = new ObjectMapper();
+
             RacingGameRequest racingGameRequest = new RacingGameRequest("브리,로지,바론", 10);
             String requestAsString = objectMapper.writeValueAsString(racingGameRequest);
             String responseAsString = objectMapper.writeValueAsString(mockResponse);
@@ -104,4 +110,38 @@ class RacingGameControllerTest {
         }
 
     }
+
+    @Nested
+    class GetPlaysSuccessTest {
+        @BeforeEach
+        void setUp() {
+            MockitoAnnotations.openMocks(this);
+            mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
+        }
+        @DisplayName("게임 이력을 올바른 형태로 반환한다.")
+        @Test
+        void testReadHistory() throws Exception {
+            RacingGameDto mockRacingGameDto = mock(RacingGameDto.class);
+            given(mockRacingGameDto.getWinnerNames()).willReturn(List.of("오리", "엔초"));
+            given(mockRacingGameDto.getRacingCars()).willReturn(List.of(
+                    RacingCarDto.from(new RacingCar("오리", 10)),
+                    RacingCarDto.from(new RacingCar("엔초", 10)),
+                    RacingCarDto.from(new RacingCar("로지", 7))
+            ));
+            given(racingGameService.readGameHistory()).willReturn(List.of(mockRacingGameDto));
+
+            //when
+            //then
+
+            List<RacingGameResponse> expected = List.of(RacingGameResponse.from(mockRacingGameDto));
+            mockMvc.perform(get("/plays")
+                            .accept(MediaType.APPLICATION_JSON_VALUE)
+                            .contentType(MediaType.APPLICATION_JSON_VALUE))
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(objectMapper.writeValueAsString(expected)))
+                    .andDo(MockMvcResultHandlers.print());
+        }
+    }
+
+
 }
