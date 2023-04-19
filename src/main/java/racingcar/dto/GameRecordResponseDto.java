@@ -11,11 +11,11 @@ public class GameRecordResponseDto {
     private final List<CarEntity> racingCars;
 
     public GameRecordResponseDto(List<CarEntity> winners, List<CarEntity> racingCars) {
-        this.winners = NameFormatConverter.joinNameWithDelimiter(convert(winners));
+        this.winners = NameFormatConverter.joinNameWithDelimiter(convertWinnersName(winners));
         this.racingCars = racingCars;
     }
 
-    private List<String> convert(List<CarEntity> winners) {
+    private List<String> convertWinnersName(List<CarEntity> winners) {
         List<String> result = new ArrayList<>();
         for(CarEntity car : winners){
             result.add(car.getName());
