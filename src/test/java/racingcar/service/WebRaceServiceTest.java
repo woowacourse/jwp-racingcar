@@ -14,10 +14,10 @@ import racingcar.controller.dto.RaceResultResponse;
 
 @Transactional
 @SpringBootTest
-class RaceServiceTest {
+class WebRaceServiceTest {
 
     @Autowired
-    private RaceService raceService;
+    private WebRaceService webRaceService;
 
     @Test
     @DisplayName("게임 정보를 받아서 게임 결과를 저장한다.")
@@ -26,7 +26,7 @@ class RaceServiceTest {
         GameInfoRequest gameInfoRequest = new GameInfoRequest("성하,이오,코코닥", 5);
 
         // when
-        int savedResultId = raceService.saveRaceResult(gameInfoRequest);
+        int savedResultId = webRaceService.saveRaceResult(gameInfoRequest);
 
         // then
         assertThat(savedResultId).isNotNull();
@@ -37,10 +37,10 @@ class RaceServiceTest {
     void createRaceResult() {
         // given
         GameInfoRequest gameInfoRequest = new GameInfoRequest("성하,이오,코코닥", 5);
-        int playResultId = raceService.saveRaceResult(gameInfoRequest);
+        int playResultId = webRaceService.saveRaceResult(gameInfoRequest);
 
         // when
-        RaceResultResponse raceResultResponse = raceService.createRaceResult(playResultId);
+        RaceResultResponse raceResultResponse = webRaceService.createRaceResult(playResultId);
 
         // then
         assertThat(raceResultResponse.getRacingCars()).isNotNull();
@@ -53,11 +53,11 @@ class RaceServiceTest {
         // given
         GameInfoRequest gameInfoRequest1 = new GameInfoRequest("성하,이오,코코닥", 5);
         GameInfoRequest gameInfoRequest2 = new GameInfoRequest("a,b,c", 5);
-        raceService.saveRaceResult(gameInfoRequest1);
-        raceService.saveRaceResult(gameInfoRequest2);
+        webRaceService.saveRaceResult(gameInfoRequest1);
+        webRaceService.saveRaceResult(gameInfoRequest2);
 
         // when
-        List<RaceResultResponse> raceResultResponses = raceService.searchAllRaceResult();
+        List<RaceResultResponse> raceResultResponses = webRaceService.searchAllRaceResult();
 
         // then
         assertThat(raceResultResponses.size()).isEqualTo(2);

@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import racingcar.controller.dto.GameInfoRequest;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
-import racingcar.util.NumberGenerator;
+import racingcar.service.ConsoleRaceService;
+import racingcar.service.RaceService;
+import racingcar.util.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -15,43 +18,42 @@ public class ConsoleRacingCarController {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final NumberGenerator numberGenerator;
+    private final RaceService raceService;
 
-    public ConsoleRacingCarController(final NumberGenerator numberGenerator) {
+    public ConsoleRacingCarController() {
         this.outputView = new OutputView();
         this.inputView = new InputView();
-        this.numberGenerator = numberGenerator;
+        this.raceService = new ConsoleRaceService(new RandomNumberGenerator());
     }
 
     public void run() {
         String[] carNames = readCarNamesStep();
-        RacingCars racingCars = RacingCars.makeCars(String.join(",", carNames));
         int tryNum = readTryNumStep();
-        race(tryNum, racingCars);
-        showWinners(racingCars);
+        RacingCars carsAfterRace = race(carNames, tryNum);
+        showWinners(carsAfterRace);
     }
 
     private String[] readCarNamesStep() {
         outputView.printReadCarNamesMessage();
-        String[] carNames = inputView.readCarNames();
-        return carNames;
-    }
-
-    private void showWinners(RacingCars racingCars) {
-        List<String> winners = convertWinnersNameForPrint(racingCars.getWinners());
-        outputView.printWinners(winners);
-    }
-
-    private void race(int tryNum, RacingCars racingCars) {
-        outputView.printRacingResultMessage();
-        racingCars.moveAllCars(tryNum, numberGenerator);
-        List<Car> currentCars = racingCars.getCars();
-        outputView.printPlayResult(convertRacingCarsResultForPrint(currentCars));
+        return inputView.readCarNames();
     }
 
     private int readTryNumStep() {
         outputView.printReadTryNumMessage();
         return inputView.readTryNum();
+    }
+
+    private RacingCars race(String[] names, int tryNum) {
+        RacingCars carsAfterRace = raceService.race(new GameInfoRequest(String.join(",", names), tryNum));
+        outputView.printRacingResultMessage();
+        List<Car> cars = carsAfterRace.getCars();
+        outputView.printPlayResult(convertRacingCarsResultForPrint(cars));
+        return carsAfterRace;
+    }
+
+    private void showWinners(RacingCars racingCars) {
+        List<String> winners = convertWinnersNameForPrint(racingCars.getWinners());
+        outputView.printWinners(winners);
     }
 
     private Map<String, Integer> convertRacingCarsResultForPrint(List<Car> currentCars) {

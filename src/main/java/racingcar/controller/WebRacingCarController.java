@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.GameInfoRequest;
 import racingcar.controller.dto.RaceResultResponse;
-import racingcar.service.RaceService;
+import racingcar.service.WebRaceService;
 
 @RestController
 public class WebRacingCarController {
 
-    private final RaceService raceService;
+    private final WebRaceService webRaceService;
 
-    public WebRacingCarController(final RaceService raceService) {
-        this.raceService = raceService;
+    public WebRacingCarController(final WebRaceService webRaceService) {
+        this.webRaceService = webRaceService;
     }
 
     @PostMapping("/plays")
     public RaceResultResponse registerRaceResult(@Valid  @RequestBody final GameInfoRequest gameInfoRequest) {
-        int savedRaceResultId = raceService.saveRaceResult(gameInfoRequest);
-        return raceService.createRaceResult(savedRaceResultId);
+        int savedRaceResultId = webRaceService.saveRaceResult(gameInfoRequest);
+        return webRaceService.createRaceResult(savedRaceResultId);
     }
 
     @GetMapping("/plays")
     public List<RaceResultResponse> searchAllRaceResult() {
-        return raceService.searchAllRaceResult();
+        return webRaceService.searchAllRaceResult();
     }
 }
