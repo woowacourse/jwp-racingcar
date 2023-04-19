@@ -22,7 +22,7 @@ public final class MemoryRacingGameRepository implements RacingGameRepository {
     @Override
     public Long save(final RacingGame racingGame) {
         final var gameResultDto = new GameResultDto(racingGame.getCars(), racingGame.winners());
-        gameSaved.put(serial++, gameResultDto);
+        gameSaved.put(++serial, gameResultDto);
         gameTimeSaved.put(serial, racingGame.getGameTimeValue());
         return serial;
     }
@@ -62,5 +62,13 @@ public final class MemoryRacingGameRepository implements RacingGameRepository {
             entitiesById.put(id, winnerEntities);
         }
         return entitiesById;
+    }
+
+    public Map<Long, GameResultDto> getGameSaved() {
+        return gameSaved;
+    }
+
+    public Map<Long, Integer> getGameTimeSaved() {
+        return gameTimeSaved;
     }
 }
