@@ -3,17 +3,17 @@ package racingcar.dto;
 import java.util.List;
 import racingcar.domain.Car;
 
-public class gameResultResponse {
+public class GameResultResponse {
 
     private final String winners;
     private final List<Car> racingCars;
 
-    public gameResultResponse(final String winners, final List<Car> racingCars) {
+    public GameResultResponse(final String winners, final List<Car> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public gameResultResponse(final List<String> winners, final List<Car> racingCars) {
+    public GameResultResponse(final List<String> winners, final List<Car> racingCars) {
         this(String.join(",", winners), racingCars);
     }
 

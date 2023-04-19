@@ -3,8 +3,8 @@ package racingcar.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dto.gameInitializationRequest;
-import racingcar.dto.gameResultResponse;
+import racingcar.dto.GameInitializationRequest;
+import racingcar.dto.GameResultResponse;
 
 @Service
 public class MainRacingCarService {
@@ -19,13 +19,13 @@ public class MainRacingCarService {
         this.saveRacingCarService = saveRacingCarService;
     }
 
-    public gameResultResponse raceCar(final gameInitializationRequest gameInitializationRequest) {
+    public GameResultResponse raceCar(final GameInitializationRequest gameInitializationRequest) {
         final List<String> names = List.of(gameInitializationRequest.getNames().split(","));
         final int count = gameInitializationRequest.getCount();
 
         final RacingCarResult racingCarResult = playRacingCarService.playRacingCar(names, count);
         saveRacingCarService.saveRacingCarResult(racingCarResult);
 
-        return new gameResultResponse(racingCarResult.getWinners(), racingCarResult.getCars());
+        return new GameResultResponse(racingCarResult.getWinners(), racingCarResult.getCars());
     }
 }

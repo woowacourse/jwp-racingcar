@@ -1,11 +1,11 @@
 package racingcar.dto;
 
-public class gameInitializationRequest {
+public class GameInitializationRequest {
 
     private String names;
     private int count;
 
-    public gameInitializationRequest(final String names, final int count) {
+    public GameInitializationRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }
