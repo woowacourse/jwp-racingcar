@@ -7,6 +7,7 @@ import racingcar.dao.PlayerInfoDAO;
 import racingcar.dao.PlayerResultDAO;
 import racingcar.domain.CarFactory;
 import racingcar.domain.Cars;
+import racingcar.domain.TryCount;
 import racingcar.dto.CarDto;
 import racingcar.dto.MoveRequestDto;
 import racingcar.dto.MoveResponseDto;
@@ -33,21 +34,23 @@ public class RacingCarService {
 
     public MoveResponseDto moveCar(MoveRequestDto moveRequestDto) {
         Cars cars = new Cars(CarFactory.buildCars(moveRequestDto.getNames()));
-        play(cars, moveRequestDto.getCount(), randomNumberGenerator);
+        TryCount tryCount = new TryCount(moveRequestDto.getCount());
+        play(cars, tryCount, randomNumberGenerator);
         saveCarResult(cars, moveRequestDto.getCount());
         return new MoveResponseDto(cars.findWinners(), cars.getCars());
+    }
+
+    private void play(Cars cars, TryCount tryCount, NumberGenerator numberGenerator) {
+        int count = tryCount.getCount();
+        while (count-- > 0) {
+            cars.moveCars(numberGenerator);
+        }
     }
 
     @Transactional
     public void saveCarResult(Cars cars, int trialCount) {
         int tableId = playerResultDAO.returnTableIdAfterInsert(trialCount, cars.findWinners());
         playerInfoDAO.insert(tableId, cars.getCars());
-    }
-
-    public void play(Cars cars, int count, NumberGenerator numberGenerator) {
-        while (count-- > 0) {
-            cars.moveCars(numberGenerator);
-        }
     }
 
     @Transactional
