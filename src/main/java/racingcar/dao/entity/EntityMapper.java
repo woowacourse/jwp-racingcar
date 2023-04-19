@@ -12,7 +12,7 @@ public class EntityMapper {
         return new RacingGameEntity(racingGame.getTotalRound());
     }
 
-    public static List<CarEntity> toCarEntities(int gameId, RacingGame racingGame) {
+    public static List<CarEntity> toCarEntities(Integer gameId, RacingGame racingGame) {
         List<CarEntity> carEntities = new ArrayList<>();
         List<Car> cars = racingGame.getCars();
 

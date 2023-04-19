@@ -5,16 +5,16 @@ public class CarEntity {
     private final Integer id;
     private final Integer gameId;
     private final String name;
-    private final int position;
+    private final Integer position;
 
-    public CarEntity(Integer gameId, String name, int position) {
+    public CarEntity(Integer gameId, String name, Integer position) {
         this.id = null;
         this.gameId = gameId;
         this.name = name;
         this.position = position;
     }
 
-    public CarEntity(Integer id, Integer gameId, String name, int position) {
+    public CarEntity(Integer id, Integer gameId, String name, Integer position) {
         this.id = id;
         this.gameId = gameId;
         this.name = name;
@@ -33,7 +33,7 @@ public class CarEntity {
         return name;
     }
 
-    public int getPosition() {
+    public Integer getPosition() {
         return position;
     }
 }

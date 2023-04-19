@@ -5,9 +5,9 @@ import racingcar.domain.Car;
 public class RacingCarResponse {
 
     private final String name;
-    private final int position;
+    private final Integer position;
 
-    private RacingCarResponse(String name, int position) {
+    private RacingCarResponse(String name, Integer position) {
         this.name = name;
         this.position = position;
     }
@@ -20,7 +20,7 @@ public class RacingCarResponse {
         return name;
     }
 
-    public int getPosition() {
+    public Integer getPosition() {
         return position;
     }
 }

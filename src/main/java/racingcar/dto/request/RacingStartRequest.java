@@ -1,15 +1,21 @@
 package racingcar.dto.request;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class RacingStartRequest {
 
     private final List<String> names;
-    private final int count;
+    private final Integer count;
 
-    public RacingStartRequest(String names, int count) {
+    public RacingStartRequest(String names, Integer count) {
         this.names = Arrays.asList(names.trim().split(","));
+        this.count = count;
+    }
+
+    public RacingStartRequest(List<String> names, Integer count) {
+        this.names = new ArrayList<>(names);
         this.count = count;
     }
 
