@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import racingcar.entity.PlayerEntity;
 
 import java.sql.PreparedStatement;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -56,6 +58,15 @@ public class PlayerDao {
             return Optional.ofNullable(playerEntity);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
+        }
+    }
+
+    public List<PlayerEntity> findAll() {
+        final String sql = "SELECT * FROM PLAYER ";
+        try {
+            return jdbcTemplate.query(sql, actorRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return Collections.emptyList();
         }
     }
 }

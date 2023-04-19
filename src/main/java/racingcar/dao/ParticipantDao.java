@@ -30,7 +30,19 @@ public class ParticipantDao {
         return jdbcTemplate.query(sql, participantEntityRowMapper, gameId);
     }
 
-    public void save(final ParticipateDto participateDto) {
+    public List<ParticipantEntity> findAll() {
+        final String sql = "SELECT * FROM PARTICIPANT ";
+        RowMapper<ParticipantEntity> participantEntityRowMapper = (resultSet, rowNum) ->
+                new ParticipantEntity(
+                        resultSet.getLong("game_id"),
+                        resultSet.getLong("player_id"),
+                        resultSet.getInt("position"),
+                        resultSet.getBoolean("is_winner")
+                );
+        return jdbcTemplate.query(sql, participantEntityRowMapper);
+    }
+
+    public void save(final ParticipantEntity participantEntity) {
         final String sql = "INSERT INTO PARTICIPANT(game_id, player_id, position, is_winner) VALUES(?, ?, ?, ?) ";
         jdbcTemplate.update(sql,
                 participantEntity.getGameId(),

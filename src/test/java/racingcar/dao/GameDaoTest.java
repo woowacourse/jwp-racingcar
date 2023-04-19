@@ -1,25 +1,43 @@
 package racingcar.dao;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.entity.GameEntity;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@JdbcTest
 class GameDaoTest {
 
     private final GameDao gameDao;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GameDaoTest(final GameDao gameDao, final JdbcTemplate jdbcTemplate) {
-        this.gameDao = gameDao;
+    public GameDaoTest(final JdbcTemplate jdbcTemplate) {
+        this.gameDao = new GameDao(jdbcTemplate);
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @DisplayName("전체 게임을 조회한다.")
+    @Test
+    void findAll() {
+        //given
+        final String preSql = "INSERT INTO GAME(trial_count) VALUES(?)";
+        List<Integer> trialCounts = List.of(10, 15, 20);
+        for (Integer trialCount : trialCounts) {
+            jdbcTemplate.update(preSql, trialCount);
+        }
+        //when
+        List<GameEntity> allGame = gameDao.findAll();
+        //then
+        assertThat(allGame).hasSize(3);
     }
 
     @DisplayName("시도 횟수를 입력받아 저장한다.")

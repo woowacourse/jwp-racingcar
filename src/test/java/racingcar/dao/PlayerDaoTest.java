@@ -5,23 +5,26 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import racingcar.entity.PlayerEntity;
 
+import java.sql.PreparedStatement;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@JdbcTest
 class PlayerDaoTest {
 
     private final PlayerDao playerDao;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PlayerDaoTest(final PlayerDao playerDao, final JdbcTemplate jdbcTemplate) {
-        this.playerDao = playerDao;
+    public PlayerDaoTest(final JdbcTemplate jdbcTemplate) {
+        this.playerDao = new PlayerDao(jdbcTemplate);
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -57,6 +60,36 @@ class PlayerDaoTest {
         String name = "네오";
         //when
         Optional<PlayerEntity> playerDto = playerDao.findByName(name);
+        //then
+        assertThat(playerDto).isEmpty();
+    }
+
+    @DisplayName("id를 입력받아 조회한다.")
+    @Test
+    void findById() {
+        //given
+        String name = "포비";
+        String preSql = "INSERT INTO PLAYER(name) VALUES(?) ";
+        KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(preSql, new String[]{"id"});
+            preparedStatement.setString(1, name);
+            return preparedStatement;
+        }, generatedKeyHolder);
+        Long id = (Long) generatedKeyHolder.getKey();
+        //when
+        PlayerEntity playerEntity = playerDao.findById(id).orElseThrow();
+        //then
+        assertThat(playerEntity.getId()).isEqualTo(id);
+        assertThat(playerEntity.getName()).isEqualTo(name);
+    }
+
+
+    @DisplayName("id을 입력받아 조회한 결과가 없을 때, empty를 반환한다.")
+    @Test
+    void findByIdWhenEmpty() {
+        //when
+        Optional<PlayerEntity> playerDto = playerDao.findById(1_000_000L);
         //then
         assertThat(playerDto).isEmpty();
     }
