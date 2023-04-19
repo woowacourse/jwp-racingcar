@@ -54,7 +54,8 @@ public class Cars {
 
     private void validateCarCount(final int size) {
         if (size < MINIMUM_CAR_COUNT) {
-            throw new IllegalArgumentException("자동차 수는 2대 이상이어야 합니다.");
+            String errorMessage = String.format("자동차 수는 %d대 이상이어야 합니다.", MINIMUM_CAR_COUNT);
+            throw new IllegalArgumentException(errorMessage);
         }
     }
 
