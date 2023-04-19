@@ -3,11 +3,11 @@ package racingcar.entity;
 import racingcar.domain.Car;
 
 public class CarEntity {
-    private Integer id;
-    private String name;
-    private int position;
-    private boolean winner;
-    private Integer gameId;
+    private final Integer id;
+    private final String name;
+    private final int position;
+    private final boolean winner;
+    private final Integer gameId;
 
     public CarEntity(final String name, final int position, final boolean winner, final Integer gameId) {
         this(null, name, position, winner, gameId);
