@@ -58,6 +58,10 @@ public class RacingGameService {
     private void saveGame(RacingGame game, int tryCount) {
         GameEntity save = gameRepository.save(GameEntity.from(tryCount));
 
+        if (save == null) {
+            return;
+        }
+
         List<CarEntity> collect = game.getCars().stream().map(car -> carRepository.save(
                 CarEntity.of(save.getId(), car.getName(), car.getPosition()))
         ).collect(Collectors.toList());
