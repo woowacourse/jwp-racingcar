@@ -1,12 +1,12 @@
 package racingcar;
 
-import racingcar.controller.RacingCarController;
+import racingcar.controller.ConsoleRacingCarController;
 import racingcar.util.RandomNumberGenerator;
 
 public class ConsoleRacingCarApplication {
 
     public static void main(String[] args) {
-        RacingCarController racingCarController = new RacingCarController(new RandomNumberGenerator());
-        racingCarController.run();
+        ConsoleRacingCarController consoleRacingCarController = new ConsoleRacingCarController(new RandomNumberGenerator());
+        consoleRacingCarController.run();
     }
 }

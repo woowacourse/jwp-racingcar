@@ -13,11 +13,11 @@ import racingcar.controller.dto.RaceResultResponse;
 import racingcar.service.RaceService;
 
 @RestController
-public class RacingCarWebController {
+public class WebRacingCarController {
 
     private final RaceService raceService;
 
-    public RacingCarWebController(final RaceService raceService) {
+    public WebRacingCarController(final RaceService raceService) {
         this.raceService = raceService;
     }
 

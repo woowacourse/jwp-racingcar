@@ -18,7 +18,7 @@ import racingcar.util.TruncateUtil;
 
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarWebControllerTest {
+class WebConsoleRacingCarControllerTest {
 
     @Autowired
     private TruncateUtil truncateUtil;

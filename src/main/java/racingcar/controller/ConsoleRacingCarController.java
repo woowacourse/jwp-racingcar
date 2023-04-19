@@ -11,13 +11,13 @@ import racingcar.util.NumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class RacingCarController {
+public class ConsoleRacingCarController {
 
     private final OutputView outputView;
     private final InputView inputView;
     private final NumberGenerator numberGenerator;
 
-    public RacingCarController(final NumberGenerator numberGenerator) {
+    public ConsoleRacingCarController(final NumberGenerator numberGenerator) {
         this.outputView = new OutputView();
         this.inputView = new InputView();
         this.numberGenerator = numberGenerator;
