@@ -22,6 +22,10 @@ public class CarEntity {
         return new CarEntity(car.getCarName(), car.getPosition());
     }
 
+    public Car toDomain() {
+        return new Car(name, position);
+    }
+
     public String getName() {
         return name;
     }
