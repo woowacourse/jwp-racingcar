@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 public class RacingGameController {
-    private RacingGameService racingGameService;
+    private final RacingGameService racingGameService;
 
     public RacingGameController(RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
