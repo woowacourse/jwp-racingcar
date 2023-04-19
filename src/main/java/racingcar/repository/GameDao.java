@@ -10,12 +10,12 @@ import racingcar.entity.Game;
 import javax.sql.DataSource;
 
 @Repository
-public class GameRepository {
+public class GameDao {
 
     private final SimpleJdbcInsert insertGame;
 
     @Autowired
-    public GameRepository(final DataSource dataSource) {
+    public GameDao(final DataSource dataSource) {
         this.insertGame = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingGeneratedKeyColumns("id");

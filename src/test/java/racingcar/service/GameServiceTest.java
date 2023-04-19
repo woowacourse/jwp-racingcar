@@ -10,8 +10,8 @@ import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
-import racingcar.repository.GameRepository;
-import racingcar.repository.PlayerResultRepository;
+import racingcar.repository.GameDao;
+import racingcar.repository.PlayerResultDao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,10 +21,10 @@ import static org.mockito.BDDMockito.given;
 public class GameServiceTest {
 
     @Mock
-    GameRepository gameRepository;
+    GameDao gameDao;
 
     @Mock
-    PlayerResultRepository playerResultRepository;
+    PlayerResultDao playerResultDao;
 
     @InjectMocks
     GameService gameService;
@@ -35,11 +35,11 @@ public class GameServiceTest {
         // given
         GameRequestDto requestDto = new GameRequestDto("ditoo,leo", 10);
         Game game = new Game(requestDto.getCount(), "ditoo");
-        given(gameRepository.save(any()))
+        given(gameDao.save(any()))
                 .willReturn(game);
-        given(playerResultRepository.save(any()))
+        given(playerResultDao.save(any()))
                 .willReturn(new PlayerResult(1, new PlayerResult("ditoo", 5, 1)));
-        given(playerResultRepository.save(any()))
+        given(playerResultDao.save(any()))
                 .willReturn(new PlayerResult(2, new PlayerResult("leo", 3, 1)));
 
         // when

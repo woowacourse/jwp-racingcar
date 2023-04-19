@@ -13,8 +13,8 @@ import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
-import racingcar.repository.GameRepository;
-import racingcar.repository.PlayerResultRepository;
+import racingcar.repository.GameDao;
+import racingcar.repository.PlayerResultDao;
 import racingcar.util.ListJoiner;
 
 import java.util.ArrayList;
@@ -26,13 +26,13 @@ public class GameService {
     private static final int MINIMUM_RANDOM_NUMBER = 0;
     private static final int MAXIMUM_RANDOM_NUMBER = 9;
 
-    private final GameRepository gameRepository;
-    private final PlayerResultRepository playerResultRepository;
+    private final GameDao gameDao;
+    private final PlayerResultDao playerResultDao;
 
     @Autowired
-    public GameService(final GameRepository gameRepository, final PlayerResultRepository playerResultRepository) {
-        this.gameRepository = gameRepository;
-        this.playerResultRepository = playerResultRepository;
+    public GameService(final GameDao gameDao, final PlayerResultDao playerResultDao) {
+        this.gameDao = gameDao;
+        this.playerResultDao = playerResultDao;
     }
 
     @Transactional
@@ -60,7 +60,7 @@ public class GameService {
 
     private Game saveGame(final List<String> winners, final int trialCount) {
         final Game game = new Game(trialCount, ListJoiner.join(winners));
-        return gameRepository.save(game);
+        return gameDao.save(game);
     }
 
     private List<PlayerResult> savePlayerResults(final Cars cars, final Game game) {
@@ -68,7 +68,7 @@ public class GameService {
         for (Car car : cars.getLatestResult()) {
             final PlayerResult playerResult = new PlayerResult(
                     car.getCarName().getName(), car.getCurrentPosition().getPosition(), game.getId());
-            playerResults.add(playerResultRepository.save(playerResult));
+            playerResults.add(playerResultDao.save(playerResult));
         }
         return playerResults;
     }
