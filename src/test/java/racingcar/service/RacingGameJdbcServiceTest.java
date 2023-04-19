@@ -8,7 +8,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.controller.dto.CarDto;
 import racingcar.controller.dto.RacingGameResponse;
 import racingcar.domain.Car;
-import racingcar.domain.Cars;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ class RacingGameJdbcServiceTest {
         when(racingGameService.race(any(), anyInt())).thenReturn(response);
 
         // when
-        final RacingGameResponse racingGameResponse = racingGameService.race(new Cars(List.of("헤나", "찰리")), 10);
+        final RacingGameResponse racingGameResponse = racingGameService.race(List.of("헤나", "찰리"), 10);
 
         // then
         assertThat(racingGameResponse)

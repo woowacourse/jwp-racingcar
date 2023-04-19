@@ -25,9 +25,9 @@ public class RacingGameJdbcService implements RacingGameService {
         this.playerRepository = playerRepository;
     }
 
-    @Transactional
     @Override
-    public RacingGameResponse race(final Cars cars, final int trial) {
+    public RacingGameResponse race(final List<String> nameValues, final int trial) {
+        final Cars cars = new Cars(nameValues);
         final RacingGame racingGame = new RacingGame(cars, new RandomNumberGenerator());
         racingGame.raceTimesBy(trial);
         final String winners = createWinners(racingGame);

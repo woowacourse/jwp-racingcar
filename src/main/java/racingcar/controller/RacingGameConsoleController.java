@@ -1,7 +1,6 @@
 package racingcar.controller;
 
 import racingcar.controller.dto.RacingGameResponse;
-import racingcar.domain.Cars;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -20,17 +19,16 @@ public class RacingGameConsoleController {
     }
 
     public void run() {
-        final RacingGameResponse racingGameResponse = racingGameService.race(readCars(), readTrial());
+        final RacingGameResponse racingGameResponse = racingGameService.race(readCarNames(), readTrial());
         outputView.printRacingResult(racingGameResponse);
     }
 
-    private Cars readCars() {
+    private List<String> readCarNames() {
         try {
-            final List<String> nameValues = List.of(inputView.readCarNames().split(","));
-            return new Cars(nameValues);
+            return List.of(inputView.readCarNames().split(","));
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return readCars();
+            return readCarNames();
         }
     }
 
