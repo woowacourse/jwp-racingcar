@@ -34,7 +34,7 @@ class RacingGameJdbcServiceTest {
         when(racingGameService.race(any(), anyInt())).thenReturn(response);
 
         // when
-        final RacingGameResponse racingGameResponse = racingGameService.race(new Cars("헤나,찰리"), 10);
+        final RacingGameResponse racingGameResponse = racingGameService.race(new Cars(List.of("헤나", "찰리")), 10);
 
         // then
         assertThat(racingGameResponse)

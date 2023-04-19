@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.entry;
@@ -14,7 +15,7 @@ class RacingGameTest {
     @Test
     void create() {
         // given
-        final Cars cars = new Cars("헤나,찰리");
+        final Cars cars = new Cars(List.of("헤나", "찰리"));
         final MovableNumberGenerator movableNumberGenerator = new MovableNumberGenerator();
 
         // expect
@@ -25,7 +26,7 @@ class RacingGameTest {
     @Test
     void raceTimesByTrialThenReturnRacingResult() {
         // given
-        final RacingGame racingGame = new RacingGame(new Cars("헤나,찰리"), new MovableNumberGenerator());
+        final RacingGame racingGame = new RacingGame(new Cars(List.of("헤나", "찰리")), new MovableNumberGenerator());
 
         // when
         racingGame.raceTimesBy(10);

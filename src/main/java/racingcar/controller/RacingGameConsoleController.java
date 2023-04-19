@@ -6,6 +6,8 @@ import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
+import java.util.List;
+
 public class RacingGameConsoleController {
     private final InputView inputView;
     private final OutputView outputView;
@@ -24,7 +26,8 @@ public class RacingGameConsoleController {
 
     private Cars readCars() {
         try {
-            return new Cars(inputView.readCarNames());
+            final List<String> nameValues = List.of(inputView.readCarNames().split(","));
+            return new Cars(nameValues);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return readCars();

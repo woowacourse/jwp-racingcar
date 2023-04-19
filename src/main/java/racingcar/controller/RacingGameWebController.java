@@ -22,7 +22,8 @@ public class RacingGameWebController {
 
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponse> playRacingGame(@RequestBody RacingGameRequest request) {
-        final Cars cars = new Cars(request.getNames());
+        final List<String> nameValues = List.of(request.getNames().split(","));
+        final Cars cars = new Cars(nameValues);
         final RacingGameResponse response = racingGameService.race(cars, request.getCount());
 
         return ResponseEntity.ok(response);

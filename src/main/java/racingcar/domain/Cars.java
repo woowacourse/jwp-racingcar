@@ -10,10 +10,9 @@ public final class Cars {
 
     private final List<Car> racingCars;
 
-    public Cars(final String inputName) {
-        final List<String> names = List.of(inputName.split(","));
-        validate(names);
-        this.racingCars = createBy(names);
+    public Cars(final List<String> nameValues) {
+        validate(nameValues);
+        this.racingCars = createBy(nameValues);
     }
 
     private void validate(final List<String> names) {

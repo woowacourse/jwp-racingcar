@@ -19,9 +19,9 @@ class CarsTest {
     @ValueSource(ints = {1, 2, 3, 4, 5, 49})
     void create(final int namesSize) {
         // given
-        final String nameValuesBetween1And50 = IntStream.rangeClosed(0, namesSize)
+        final List<String> nameValuesBetween1And50 = IntStream.rangeClosed(0, namesSize)
                 .mapToObj(String::valueOf)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
 
         // expect
         assertDoesNotThrow(() -> new Cars(nameValuesBetween1And50));
@@ -30,7 +30,7 @@ class CarsTest {
     @DisplayName("Cars의 size가 1일 경우 예외가 발생한다.")
     @Test
     void throwExceptionWhenCarsSizeIsOne() {
-        assertThatThrownBy(() -> new Cars("헤나"))
+        assertThatThrownBy(() -> new Cars(List.of("헤나")))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -39,9 +39,9 @@ class CarsTest {
     @ValueSource(ints = {51, 52, 53, 54, 55, 100, 1000})
     void throwExceptionWhenCarsSizeIsOver50(final int namesSize) {
         // given
-        final String nameValuesOver50 = IntStream.rangeClosed(1, namesSize)
+        final List<String> nameValuesOver50 = IntStream.rangeClosed(1, namesSize)
                 .mapToObj(String::valueOf)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
 
         // expect
         assertThatThrownBy(() -> new Cars(nameValuesOver50))
@@ -49,10 +49,9 @@ class CarsTest {
     }
 
     @DisplayName("자동차 이름이 중복될 경우 예외가 발생한다.")
-    @ParameterizedTest
-    @ValueSource(strings = {"헤나,헤나", "헤나,헤나,찰리", "헤나,헤나,헤나", "헤나,헤나,찰리,헤찰,리찰,나헤"})
-    void throwExceptionWhenCarNameIsDuplicated(final String nameValues) {
-        assertThatThrownBy(() -> new Cars(nameValues))
+    @Test
+    void throwExceptionWhenCarNameIsDuplicated() {
+        assertThatThrownBy(() -> new Cars(List.of("1", "2", "3", "1")))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -60,7 +59,7 @@ class CarsTest {
     @Test
     void race() {
         // given
-        final Cars cars = new Cars("헤나,찰리");
+        final Cars cars = new Cars(List.of("헤나", "찰리"));
         final NumberGenerator movableNumberGenerator = new MovableNumberGenerator();
 
         // when

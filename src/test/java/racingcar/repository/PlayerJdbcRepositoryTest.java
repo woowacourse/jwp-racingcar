@@ -28,7 +28,7 @@ class PlayerJdbcRepositoryTest {
     void save() {
         // given
         final int savedGameId = racingGameJdbcRepository.save("저문,헤나", 10);
-        final Cars cars = new Cars("저문,헤나");
+        final Cars cars = new Cars(List.of("저문", "헤나"));
 
         // when
         final boolean isSaved = playerJdbcRepository.save(cars, savedGameId);
@@ -42,7 +42,7 @@ class PlayerJdbcRepositoryTest {
     void findBy() {
         // given
         final int savedGameId = racingGameJdbcRepository.save("헤나,찰리", 10);
-        playerJdbcRepository.save(new Cars("헤나,찰리"), savedGameId);
+        playerJdbcRepository.save(new Cars(List.of("헤나", "찰리")), savedGameId);
 
         // when
         final List<PlayerMapper> findPlayerMappers = playerJdbcRepository.findBy(savedGameId);
