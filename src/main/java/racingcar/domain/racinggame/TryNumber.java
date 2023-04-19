@@ -16,7 +16,7 @@ public class TryNumber {
     
     private void validateOutOfRange(int tryNumber) {
         if (tryNumber < MIN_TRU_NUMBER || tryNumber > MAX_TRY_NUMBER) {
-            throw new IllegalArgumentException("시도 횟수 범위를 벗어났습니다. 다시 입력해주세요.");
+            throw new IllegalArgumentException("시도 횟수 범위를 벗어났습니다. 다시 입력해주세요. 입력된 tryNumber : " + tryNumber);
         }
     }
     

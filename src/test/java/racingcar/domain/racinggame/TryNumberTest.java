@@ -24,7 +24,7 @@ class TryNumberTest {
     void 숫자가_1미만_또는_100만_초과인_경우_예외가_발생한다(int tryNumber) {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new TryNumber(tryNumber))
-                .withMessage("시도 횟수 범위를 벗어났습니다. 다시 입력해주세요.");
+                .withMessage("시도 횟수 범위를 벗어났습니다. 다시 입력해주세요. 입력된 tryNumber : " + tryNumber);
     }
     
     @Test

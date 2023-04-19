@@ -24,6 +24,6 @@ class NameTest {
     void 길이가_1이상_5이하가_아닌_이름은_예외가_발생한다(String name) {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new Name(name))
-                .withMessage("이름의 길이를 벗어났습니다. 다시 입력해주세요.");
+                .withMessage("이름의 길이를 벗어났습니다. 다시 입력해주세요. 입력된 name : " + name);
     }
 }
