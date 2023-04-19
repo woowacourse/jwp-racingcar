@@ -7,7 +7,7 @@ import racingcar.dao.InsertingDAO;
 import racingcar.dao.QueryingDAO;
 import racingcar.domain.Cars;
 import racingcar.domain.vo.Trial;
-import racingcar.dto.CarInfoEntity;
+import racingcar.entity.CarInfoEntity;
 import racingcar.dto.CarResponse;
 import racingcar.dto.RacingResultResponse;
 
@@ -37,7 +37,7 @@ public class WebService implements RacingService{
         for (CarResponse car : cars.getCarDtos()) {
             String name = car.getName();
             insertingDAO.insert(
-                new CarInfoEntity(racingId, name, car.getPosition(),
+                new CarInfoEntity(0, racingId, name, car.getPosition(),
                     cars.getWinnerNames().contains(name)));
         }
     }
