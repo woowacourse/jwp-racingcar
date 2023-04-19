@@ -44,6 +44,10 @@ public class RacingGame {
         return racingCars.isWinner(racingCar);
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public List<RacingCar> getRacingCars() {
         return racingCars.getCars();
     }

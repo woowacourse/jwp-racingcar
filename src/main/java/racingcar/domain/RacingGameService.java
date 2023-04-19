@@ -30,7 +30,7 @@ public class RacingGameService {
     public RacingGameDto play(int trialCount, List<String> names) {
         RacingGame game = createGame(trialCount, names);
         game.play(trialCount, numberGenerator);
-
+        insertCars(game);
         return RacingGameDto.from(game);
     }
 
@@ -38,13 +38,12 @@ public class RacingGameService {
         RacingGame game = RacingGame.from(names);
         Long historyId = racingGameHistoryDao.insert(trialCount, LocalDateTime.now());
         game.setId(historyId);
-        insertCars(game, historyId);
         return game;
     }
 
-    private void insertCars(RacingGame game, long historyId) {
+    private void insertCars(RacingGame game) {
         for (RacingCar racingCar : game.getRacingCars()) {
-            Long savedId = racingCarRecordDao.insert(historyId, racingCar, game.isWinner(racingCar));
+            Long savedId = racingCarRecordDao.insert(game.getId(), racingCar, game.isWinner(racingCar));
             racingCar.setId(savedId);
         }
     }
