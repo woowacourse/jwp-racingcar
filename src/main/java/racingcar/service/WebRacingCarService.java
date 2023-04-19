@@ -9,22 +9,21 @@ import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.request.RacingStartRequest;
 import racingcar.dto.response.RacingCarResponse;
 import racingcar.dto.response.RacingResultResponse;
-import racingcar.repository.RacingCarRepository;
+import racingcar.repository.WebRacingCarRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class WebRacingCarService implements RacingCarService {
+public class WebRacingCarService {
 
-    private final RacingCarRepository racingCarRepository;
+    private final WebRacingCarRepository webRacingCarRepository;
 
-    public WebRacingCarService(RacingCarRepository racingCarRepository) {
-        this.racingCarRepository = racingCarRepository;
+    public WebRacingCarService(WebRacingCarRepository webRacingCarRepository) {
+        this.webRacingCarRepository = webRacingCarRepository;
     }
 
-    @Override
     public RacingResultResponse play(RacingStartRequest racingStartRequest) {
         Cars cars = generateCars(racingStartRequest.getNames());
         return playGame(cars, racingStartRequest.getCount());
@@ -41,7 +40,6 @@ public class WebRacingCarService implements RacingCarService {
 
     private RacingResultResponse playGame(Cars cars, int round) {
         RacingGame racingGame = new RacingGame(cars, round);
-        // Todo : 중간 과정 출력을 위한 로직 제거 => racingGame안에서 전체 게임 진행을 할 수 있도록 구현 가능할 듯
         while (!racingGame.isGameEnded()) {
             racingGame.playOneRound();
         }
@@ -52,14 +50,31 @@ public class WebRacingCarService implements RacingCarService {
     }
 
     private void saveGameResult(RacingGame racingGame) {
-        racingCarRepository.saveRacingGame(racingGame);
+        webRacingCarRepository.saveRacingGame(racingGame);
     }
 
     private RacingResultResponse createRacingResultResponse(RacingGame racingGame) {
-        List<RacingCarResponse> racingCarResponses = getRacingCarResponses(racingGame);
         String winners = getWinners(racingGame);
+        List<RacingCarResponse> racingCarResponses = getRacingCarResponses(racingGame);
 
-        return new RacingResultResponse(racingCarResponses, winners);
+        return new RacingResultResponse(winners, racingCarResponses);
+    }
+
+    public List<RacingResultResponse> inquireHistory() {
+        List<RacingResultResponse> racingResultResponses = new ArrayList<>();
+
+        for (RacingGame racingGame : webRacingCarRepository.findAllEndedRacingGame()) {
+            racingResultResponses.add(new RacingResultResponse(
+                    getWinners(racingGame),
+                    getRacingCarResponses(racingGame)));
+        }
+        return racingResultResponses;
+    }
+
+    private String getWinners(RacingGame racingGame) {
+        return racingGame.findWinnerCars().stream()
+                .map(Car::getName)
+                .collect(Collectors.joining(", "));
     }
 
     private List<RacingCarResponse> getRacingCarResponses(RacingGame racingGame) {
@@ -69,11 +84,5 @@ public class WebRacingCarService implements RacingCarService {
             racingCarResponses.add(RacingCarResponse.from(car));
         }
         return racingCarResponses;
-    }
-
-    private String getWinners(RacingGame racingGame) {
-        return racingGame.findWinnerCars().stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(", "));
     }
 }

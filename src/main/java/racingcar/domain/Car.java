@@ -21,6 +21,11 @@ public class Car implements Comparable<Car> {
         this.numberGenerator = numberGenerator;
     }
 
+    public Car(String name, int position) {
+        this.name = name;
+        this.position = position;
+    }
+
     public void goForward() {
         if (numberGenerator.generate() >= MOVABLE_MIN_NUMBER) {
             position++;

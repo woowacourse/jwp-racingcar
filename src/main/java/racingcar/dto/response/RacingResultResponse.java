@@ -4,19 +4,19 @@ import java.util.List;
 
 public class RacingResultResponse {
 
-    private final List<RacingCarResponse> racingCars;
     private final String winners;
+    private final List<RacingCarResponse> racingCars;
 
-    public RacingResultResponse(List<RacingCarResponse> racingCars, String winners) {
-        this.racingCars = racingCars;
+    public RacingResultResponse(String winners, List<RacingCarResponse> racingCars) {
         this.winners = winners;
-    }
-
-    public List<RacingCarResponse> getRacingCars() {
-        return racingCars;
+        this.racingCars = racingCars;
     }
 
     public String getWinners() {
         return winners;
+    }
+
+    public List<RacingCarResponse> getRacingCars() {
+        return racingCars;
     }
 }
