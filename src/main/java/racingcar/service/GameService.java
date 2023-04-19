@@ -53,7 +53,7 @@ public class GameService {
         return maxPosition;
     }
 
-    public void playOnce() {
+    private void playOnce() {
         for (Car car : cars) {
             car.move(moveChance);
         }
@@ -104,7 +104,7 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public void playMultipleTimes(final int trialCount) {
+    private void playMultipleTimes(final int trialCount) {
         for (int i = 0; i < trialCount; i++) {
             playOnce();
         }

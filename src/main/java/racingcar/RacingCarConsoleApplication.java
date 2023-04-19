@@ -1,6 +1,5 @@
 package racingcar;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,7 +9,6 @@ import racingcar.controller.GameController;
 
 @SpringBootApplication
 public class RacingCarConsoleApplication {
-    @Autowired
     private GameController gameController;
 
     RacingCarConsoleApplication(GameController gameController) {
@@ -26,6 +24,5 @@ public class RacingCarConsoleApplication {
     @EventListener(ApplicationReadyEvent.class)
     public void start() {
         gameController.play();
-        gameController.showResult();
     }
 }

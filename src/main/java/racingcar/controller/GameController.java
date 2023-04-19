@@ -46,12 +46,8 @@ public class GameController {
 
     public void play() {
         gameService.setUpGame(InputView.inputCarNames());
-        gameService.playMultipleTimes(InputView.inputTrialCount());
+        gameService.play(InputView.inputTrialCount());
         OutputView.noticeResult();
-        showResult();
-    }
-
-    public void showResult() {
         OutputView.printCars(gameService.getCars());
         OutputView.printWinners(gameService.findWinners());
     }
