@@ -14,7 +14,7 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingGameControllerTest {
+class RacingGameWebControllerTest {
     @LocalServerPort
     int port;
 

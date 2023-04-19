@@ -13,10 +13,10 @@ import racingcar.service.RacingGameService;
 import java.util.List;
 
 @RestController
-public class RacingGameController {
+public class RacingGameWebController {
     private final RacingGameService racingGameService;
 
-    public RacingGameController(final RacingGameService racingGameService) {
+    public RacingGameWebController(final RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }
 
