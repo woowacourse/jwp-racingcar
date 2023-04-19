@@ -1,13 +1,13 @@
 package racingcar.repository.dao;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import racingcar.repository.dao.entity.CarEntity;
 
 public class InMemoryCarsDao implements CarsDao {
 
-    private final Map<Long, List<CarEntity>> carsByPlayId = new HashMap<>();
+    private final Map<Long, List<CarEntity>> carsByPlayId = new LinkedHashMap<>();
 
     @Override
     public void insert(final long id, final List<CarEntity> cars) {
@@ -21,6 +21,6 @@ public class InMemoryCarsDao implements CarsDao {
 
     @Override
     public Map<Long, List<CarEntity>> findAllByPlayerId() {
-        return new HashMap<>(carsByPlayId);
+        return new LinkedHashMap<>(carsByPlayId);
     }
 }

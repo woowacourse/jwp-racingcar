@@ -18,7 +18,7 @@ public class InMemoryPlayRecordsDao implements PlayRecordsDao {
 
     @Override
     public long getLastId() {
-        return ID_START_VALUE;
+        return id;
     }
 
     @Override
