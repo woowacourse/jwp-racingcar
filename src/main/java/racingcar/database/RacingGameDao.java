@@ -5,6 +5,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class RacingGameDao {
@@ -26,5 +27,13 @@ public class RacingGameDao {
         }, keyHolder);
 
         return keyHolder.getKey().intValue();
+    }
+
+    public List<Integer> selectGameIds() {
+        final String sql = "SELECT id FROM racing_game";
+        return jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) -> resultSet.getInt("id")
+        );
     }
 }
