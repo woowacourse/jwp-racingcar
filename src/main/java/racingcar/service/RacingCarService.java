@@ -12,7 +12,7 @@ import racingcar.domain.record.GameRecorder;
 import racingcar.domain.result.GameResultOfCar;
 import racingcar.domain.system.GameSystem;
 import racingcar.dto.CarDTO;
-import racingcar.dto.ResponseDTO;
+import racingcar.dto.RacingResultDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
-    public ResponseDTO play(final String names, final int count) {
+    public RacingResultDTO play(final String names, final int count) {
         final GameSystem gameSystem = createGameSystem(count);
         final Long gameId = gameDao.insert(count);
 
@@ -71,10 +71,10 @@ public class RacingCarService {
                 .collect(Collectors.toList());
     }
 
-    private ResponseDTO createResponseDTO(final int count, final GameSystem gameSystem) {
+    private RacingResultDTO createResponseDTO(final int count, final GameSystem gameSystem) {
         final String winners = String.join(DELIMITER, getWinners(gameSystem));
         final List<CarDTO> carDTOs = getCarDTOs(count, gameSystem);
-        return new ResponseDTO(winners, carDTOs);
+        return new RacingResultDTO(winners, carDTOs);
     }
 
     private List<CarDTO> getCarDTOs(final int count, final GameSystem gameSystem) {

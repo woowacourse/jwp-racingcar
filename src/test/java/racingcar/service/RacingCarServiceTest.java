@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
-import racingcar.dto.ResponseDTO;
+import racingcar.dto.RacingResultDTO;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
@@ -32,13 +32,13 @@ class RacingCarServiceTest {
     @Test
     void 게임을_진행한다() {
         //given
-        final ResponseDTO responseDTO = racingCarService.play("huchu,gavi", 5);
+        final RacingResultDTO racingResultDTO = racingCarService.play("huchu,gavi", 5);
 
         //when
         //then
         assertSoftly(softly -> {
-            softly.assertThat(responseDTO.getWinners()).isNotNull();
-            softly.assertThat(responseDTO.getRacingCars()).isNotNull();
+            softly.assertThat(racingResultDTO.getWinners()).isNotNull();
+            softly.assertThat(racingResultDTO.getRacingCars()).isNotNull();
         });
     }
 }

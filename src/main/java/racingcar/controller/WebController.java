@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.RequestDTO;
-import racingcar.dto.ResponseDTO;
+import racingcar.dto.RacingResultDTO;
+import racingcar.dto.RacingStartDTO;
 import racingcar.service.RacingCarService;
 
 import javax.validation.Valid;
@@ -20,8 +20,8 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResponseDTO> createGameAndPlay(@Valid @RequestBody RequestDTO requestDTO) {
-        ResponseDTO responseDTO = racingCarService.play(requestDTO.getNames(), requestDTO.getCount());
-        return ResponseEntity.ok(responseDTO);
+    public ResponseEntity<RacingResultDTO> createGameAndPlay(@Valid @RequestBody RacingStartDTO racingStartDTO) {
+        RacingResultDTO racingResultDTO = racingCarService.play(racingStartDTO.getNames(), racingStartDTO.getCount());
+        return ResponseEntity.ok(racingResultDTO);
     }
 }

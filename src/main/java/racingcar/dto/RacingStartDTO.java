@@ -3,7 +3,7 @@ package racingcar.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class RequestDTO {
+public class RacingStartDTO {
 
     @NotBlank(message = "이름을 입력해야 합니다.")
     private String names;
@@ -11,10 +11,10 @@ public class RequestDTO {
     @NotNull(message = "횟수를 입력해야 합니다.")
     private Integer count;
 
-    public RequestDTO() {
+    public RacingStartDTO() {
     }
 
-    public RequestDTO(final String names, final Integer count) {
+    public RacingStartDTO(final String names, final Integer count) {
         this.names = names;
         this.count = count;
     }

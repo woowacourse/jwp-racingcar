@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.dto.RequestDTO;
+import racingcar.dto.RacingStartDTO;
 
 import static org.hamcrest.core.IsNull.notNullValue;
 
@@ -29,13 +29,13 @@ class WebControllerTest {
     @Test
     void 게임을_생성_및_실행한다() {
         //given
-        final RequestDTO requestDTO = new RequestDTO("huchu,gavi", 5);
+        final RacingStartDTO racingStartDTO = new RacingStartDTO("huchu,gavi", 5);
 
         //when
         //then
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(requestDTO)
+                .body(racingStartDTO)
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
