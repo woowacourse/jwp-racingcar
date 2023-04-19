@@ -57,7 +57,7 @@ class RacingHistoriesTest {
     @DisplayName("레이싱 게임 결과 히스토리를 조회한다.")
     @Test
     void getHistory() {
-        // given
+        // given       정
         final List<Car> cars = List.of(new Car("헤나"), new Car("찰리"), new Car("저문"));
 
         // when

@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RacingGameJdbcServiceTest {
+class RacingGameDatabaseServiceTest {
     @Mock
     RacingGameService racingGameService;
 

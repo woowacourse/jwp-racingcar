@@ -6,7 +6,7 @@ import racingcar.domain.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RacingGameConsoleService implements RacingGameService {
+public class RacingGameMemoryService implements RacingGameService {
     @Override
     public RacingGameResponse race(final List<String> nameValues, final int trial) {
         final Cars cars = new Cars(nameValues);
