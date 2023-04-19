@@ -8,7 +8,7 @@ import racingcar.dto.RaceDto;
 import racingcar.domain.Car;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.RacingGame;
-import racingcar.domain.RacingGameResult;
+import racingcar.dto.RacingGameDto;
 import racingcar.dto.CarPositionDto;
 import racingcar.repository.RacingGameRepository;
 
@@ -29,16 +29,16 @@ public class WebRacingGameService {
 
         racingGame.race(numberPicker);
 
-        final RacingGameResult racingGameResult = racingGame.findResult();
+        final RacingGameDto racingGameDto = racingGame.findResult();
 
-        final RacingGameResult savedRacingGameResult = racingGameRepository.save(racingGameResult);
+        final RacingGameDto savedRacingGameDto = racingGameRepository.save(racingGameDto);
 
-        return new RaceDto(toDto(savedRacingGameResult.getTotalCars()), toDto(savedRacingGameResult.getWinners()));
+        return new RaceDto(toDto(savedRacingGameDto.getTotalCars()), toDto(savedRacingGameDto.getWinners()));
     }
 
     @Transactional(readOnly = true)
     public List<RaceDto> findTotalGameHistory() {
-        final List<RacingGameResult> history = racingGameRepository.findAll();
+        final List<RacingGameDto> history = racingGameRepository.findAll();
 
         return history.stream()
                 .map(racingGameResult ->

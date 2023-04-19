@@ -1,11 +1,11 @@
 package racingcar.repository;
 
 import java.util.List;
-import racingcar.domain.RacingGameResult;
+import racingcar.dto.RacingGameDto;
 
 public interface RacingGameRepository {
 
-    RacingGameResult save(RacingGameResult racingGameResult);
+    RacingGameDto save(RacingGameDto racingGameDto);
 
-    List<RacingGameResult> findAll();
+    List<RacingGameDto> findAll();
 }

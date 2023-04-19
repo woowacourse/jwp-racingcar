@@ -1,35 +1,35 @@
 package racingcar.dao.entity;
 
-import racingcar.domain.RacingGameResult;
+import racingcar.dto.RacingGameDto;
 
 public class InsertGameEntity {
 
     private final Integer gameId;
-    private final RacingGameResult racingGameResult;
+    private final RacingGameDto racingGameDto;
 
-    public InsertGameEntity(final Integer gameId, final RacingGameResult racingGameResult) {
+    public InsertGameEntity(final Integer gameId, final RacingGameDto racingGameDto) {
         this.gameId = gameId;
-        this.racingGameResult = racingGameResult;
+        this.racingGameDto = racingGameDto;
     }
 
     public InsertGameEntity(final Integer gameId, final InsertGameEntity insertGameEntity) {
         this.gameId = gameId;
-        racingGameResult = insertGameEntity.racingGameResult;
+        racingGameDto = insertGameEntity.racingGameDto;
     }
 
-    public static InsertGameEntity fromDomain(final RacingGameResult racingGameResult) {
-        return new InsertGameEntity(null, racingGameResult);
+    public static InsertGameEntity fromDomain(final RacingGameDto racingGameDto) {
+        return new InsertGameEntity(null, racingGameDto);
     }
 
     public int getGameId() {
         return gameId;
     }
 
-    public RacingGameResult getRacingGameResult() {
-        return racingGameResult;
+    public RacingGameDto getRacingGameResult() {
+        return racingGameDto;
     }
 
     public int getCount() {
-        return racingGameResult.getCount().getTargetCount();
+        return racingGameDto.getCount().getTargetCount();
     }
 }

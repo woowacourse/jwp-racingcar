@@ -1,14 +1,16 @@
-package racingcar.domain;
+package racingcar.dto;
 
 import java.util.List;
+import racingcar.domain.Car;
+import racingcar.domain.Count;
 
-public class RacingGameResult {
+public class RacingGameDto {
 
     private final List<Car> totalCars;
     private final List<Car> winners;
     private final Count count;
 
-    public RacingGameResult(final List<Car> totalCars, final List<Car> winners, final Count count) {
+    public RacingGameDto(final List<Car> totalCars, final List<Car> winners, final Count count) {
         this.totalCars = totalCars;
         this.winners = winners;
         this.count = count;

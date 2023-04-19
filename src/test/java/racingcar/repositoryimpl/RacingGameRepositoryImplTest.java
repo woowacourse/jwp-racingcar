@@ -18,7 +18,7 @@ import racingcar.dao.GamesDao;
 import racingcar.dao.WinnerDao;
 import racingcar.domain.Car;
 import racingcar.domain.Count;
-import racingcar.domain.RacingGameResult;
+import racingcar.dto.RacingGameDto;
 import racingcar.repository.RacingGameRepository;
 import racingcar.repository.RepositoryFactory;
 
@@ -41,9 +41,9 @@ class RacingGameRepositoryImplTest {
     @Test
     void 게임_저장() {
         final List<Car> cars = List.of(new Car("브리", 9));
-        final RacingGameResult racingGameResult = new RacingGameResult(cars, cars, new Count(10));
+        final RacingGameDto racingGameDto = new RacingGameDto(cars, cars, new Count(10));
 
-        final RacingGameResult result = racingGameRepository.save(racingGameResult);
+        final RacingGameDto result = racingGameRepository.save(racingGameDto);
 
         assertAll(
                 () -> assertThat(result.getTotalCars()).hasSize(1),
@@ -58,14 +58,14 @@ class RacingGameRepositoryImplTest {
         @BeforeEach
         void setUp() {
             final List<Car> cars = List.of(new Car("브리", 9));
-            final RacingGameResult racingGameResult = new RacingGameResult(cars, cars, new Count(10));
+            final RacingGameDto racingGameDto = new RacingGameDto(cars, cars, new Count(10));
 
-            racingGameRepository.save(racingGameResult);
+            racingGameRepository.save(racingGameDto);
         }
 
         @Test
         void 게임_전체_이력_조회() {
-            final List<RacingGameResult> result = racingGameRepository.findAll();
+            final List<RacingGameDto> result = racingGameRepository.findAll();
 
             assertThat(result).hasSizeGreaterThan(0);
         }

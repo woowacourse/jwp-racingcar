@@ -13,7 +13,7 @@ import racingcar.dao.entity.SelectGameEntity;
 import racingcar.dao.entity.WinnerEntity;
 import racingcar.domain.Car;
 import racingcar.domain.Count;
-import racingcar.domain.RacingGameResult;
+import racingcar.dto.RacingGameDto;
 import racingcar.repository.RacingGameRepository;
 
 @Repository
@@ -30,12 +30,12 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     }
 
     @Override
-    public RacingGameResult save(final RacingGameResult racingGameResult) {
-        final InsertGameEntity insertGameEntity = gamesDao.insert(InsertGameEntity.fromDomain(racingGameResult));
-        final List<CarEntity> carEntities = fromCarsToEntity(racingGameResult.getTotalCars());
+    public RacingGameDto save(final RacingGameDto racingGameDto) {
+        final InsertGameEntity insertGameEntity = gamesDao.insert(InsertGameEntity.fromDomain(racingGameDto));
+        final List<CarEntity> carEntities = fromCarsToEntity(racingGameDto.getTotalCars());
         final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities, insertGameEntity.getGameId());
         final List<CarEntity> winnerCarEntities = findWinnerCarEntities(savedCarEntities,
-                racingGameResult.getWinners());
+                racingGameDto.getWinners());
 
         winnerDao.saveAll(winnerCarEntities, insertGameEntity.getGameId());
         return insertGameEntity.getRacingGameResult();
@@ -56,25 +56,25 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     }
 
     @Override
-    public List<RacingGameResult> findAll() {
+    public List<RacingGameDto> findAll() {
         final List<SelectGameEntity> selectGameEntities = gamesDao.findAll();
 
         return mapToRacingGameResults(selectGameEntities);
     }
 
-    private List<RacingGameResult> mapToRacingGameResults(final List<SelectGameEntity> selectGameEntities) {
-        final List<RacingGameResult> racingGameResults = new ArrayList<>();
+    private List<RacingGameDto> mapToRacingGameResults(final List<SelectGameEntity> selectGameEntities) {
+        final List<RacingGameDto> racingGameDtos = new ArrayList<>();
         for (SelectGameEntity selectGameEntity : selectGameEntities) {
             final int gameId = selectGameEntity.getGameId();
             final List<CarEntity> carEntities = carDao.findAllByGameId(gameId);
             final List<WinnerEntity> winnerEntities = winnerDao.findAllByGameId(gameId);
 
-            racingGameResults.add(fromEntity(selectGameEntity, carEntities, winnerEntities));
+            racingGameDtos.add(fromEntity(selectGameEntity, carEntities, winnerEntities));
         }
-        return racingGameResults;
+        return racingGameDtos;
     }
 
-    private RacingGameResult fromEntity(final SelectGameEntity selectGameEntity, final List<CarEntity> carEntities,
+    private RacingGameDto fromEntity(final SelectGameEntity selectGameEntity, final List<CarEntity> carEntities,
             final List<WinnerEntity> winnerEntities) {
         final List<Car> winners = new ArrayList<>();
         final List<Car> totalCars = new ArrayList<>();
@@ -84,7 +84,7 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
             totalCars.add(carEntity.toDomain());
         }
 
-        return new RacingGameResult(totalCars, winners, new Count(selectGameEntity.getTryCount()));
+        return new RacingGameDto(totalCars, winners, new Count(selectGameEntity.getTryCount()));
     }
 
     private void processWinnersCar(final List<WinnerEntity> winnerEntities, final List<Car> winners,
