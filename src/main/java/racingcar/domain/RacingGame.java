@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 import java.util.List;
-import racingcar.dto.RacingGameDto;
 
 public class RacingGame {
 
@@ -17,8 +16,12 @@ public class RacingGame {
         cars.race(count, numberPicker);
     }
 
-    public RacingGameDto findResult() {
-        return new RacingGameDto(cars.getCars(), cars.findWinner(), count);
+    public List<Car> findWinner() {
+        return cars.findWinner();
+    }
+
+    public List<Car> findResult() {
+        return cars.getCars();
     }
 
     public Count getCount() {

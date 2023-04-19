@@ -16,7 +16,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dao.GamesDao;
 import racingcar.dao.entity.InsertGameEntity;
 import racingcar.dao.entity.SelectGameEntity;
-import racingcar.domain.RacingGame;
+import racingcar.domain.Car;
+import racingcar.domain.Count;
 import racingcar.dto.RacingGameDto;
 import racingcar.repository.RepositoryFactory;
 
@@ -34,7 +35,8 @@ class GamesDaoTest {
 
     @Test
     void 저장시_게임_id_가_반환된다() {
-        final RacingGameDto racingGameDto = new RacingGame(List.of("브리"), 5).findResult();
+        final List<Car> cars = List.of(new Car("브리", 3));
+        final RacingGameDto racingGameDto = new RacingGameDto(cars, cars, new Count(5));
         final InsertGameEntity insertGameEntity = new InsertGameEntity(null, racingGameDto);
         final InsertGameEntity result = gamesDao.insert(insertGameEntity);
 
@@ -46,7 +48,8 @@ class GamesDaoTest {
 
         @BeforeEach
         void setUp() {
-            final RacingGameDto racingGameDto = new RacingGame(List.of("브리"), 5).findResult();
+            final List<Car> cars = List.of(new Car("브리", 3));
+            final RacingGameDto racingGameDto = new RacingGameDto(cars, cars, new Count(5));
             final InsertGameEntity insertGameEntity = new InsertGameEntity(null, racingGameDto);
 
             gamesDao.insert(insertGameEntity);

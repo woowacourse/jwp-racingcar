@@ -29,8 +29,8 @@ public class WebRacingGameService {
 
         racingGame.race(numberPicker);
 
-        final RacingGameDto racingGameDto = racingGame.findResult();
-
+        final RacingGameDto racingGameDto = new RacingGameDto(racingGame.findResult(), racingGame.findWinner(),
+                racingGame.getCount());
         final RacingGameDto savedRacingGameDto = racingGameRepository.save(racingGameDto);
 
         return new RaceDto(toDto(savedRacingGameDto.getTotalCars()), toDto(savedRacingGameDto.getWinners()));

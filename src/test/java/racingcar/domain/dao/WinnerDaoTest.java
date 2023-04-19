@@ -15,7 +15,8 @@ import racingcar.dao.WinnerDao;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.InsertGameEntity;
 import racingcar.dao.entity.WinnerEntity;
-import racingcar.domain.RacingGame;
+import racingcar.domain.Car;
+import racingcar.domain.Count;
 import racingcar.dto.RacingGameDto;
 import racingcar.repository.RepositoryFactory;
 
@@ -30,7 +31,8 @@ class WinnerDaoTest {
 
     @Autowired
     void setUp(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
-        final RacingGameDto racingGameDto = new RacingGame(List.of("브리"), 5).findResult();
+        final List<Car> cars = List.of(new Car("브리", 3));
+        final RacingGameDto racingGameDto = new RacingGameDto(cars, cars, new Count(5));
         final InsertGameEntity insertGameEntity = new InsertGameEntity(null, racingGameDto);
 
         gameId = RepositoryFactory.gamesDao(dataSource, jdbcTemplate).insert(insertGameEntity).getGameId();
