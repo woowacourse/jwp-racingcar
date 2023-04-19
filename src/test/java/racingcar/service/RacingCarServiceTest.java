@@ -10,6 +10,9 @@ import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.dto.RacingResultDTO;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -40,5 +43,18 @@ class RacingCarServiceTest {
             softly.assertThat(racingResultDTO.getWinners()).isNotNull();
             softly.assertThat(racingResultDTO.getRacingCars()).isNotNull();
         });
+    }
+
+    @Test
+    void 게임_결과를_조회한다() {
+        //given
+        final RacingResultDTO playedResult = racingCarService.play("huchu,gavi", 5);
+
+        //when
+        final List<RacingResultDTO> showedResults = racingCarService.showGameResults();
+        final RacingResultDTO showedResult = showedResults.get(0);
+
+        //then
+        assertThat(showedResult).isEqualTo(playedResult);
     }
 }
