@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class WebController {
     @GetMapping("/plays")
     public ResponseEntity<List<ResultResponse>> searchAllHistories() {
         List<ResultResponse> allHistories = racingCarService.searchAllGame();
-        return ResponseEntity.ok()
+        return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(allHistories);
     }
@@ -33,7 +34,7 @@ public class WebController {
     @PostMapping("/plays")
     public ResponseEntity<ResultResponse> play(@RequestBody final NamesAndCountRequest namesAndCount) {
         ResultResponse resultResponse = racingCarService.playGame(namesAndCount);
-        return ResponseEntity.ok()
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(resultResponse);
     }

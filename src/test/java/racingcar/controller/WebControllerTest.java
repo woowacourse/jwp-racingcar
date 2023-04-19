@@ -70,7 +70,7 @@ class WebControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(namesAndCountRequest)))
-                .andExpect(MockMvcResultMatchers.status().isOk()) // 200
+                .andExpect(MockMvcResultMatchers.status().isCreated()) // 200
                 .andExpect(MockMvcResultMatchers.jsonPath("$.winners").value("망고"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.racingCars[0].name").value("망고"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.racingCars[0].position").value(7))
