@@ -45,7 +45,7 @@ public class ConsoleRacingCarApplication {
                 final String names = InputView.inputCarName();
                 final int time = InputView.inputGameTime();
                 final ResponseEntity<PlayGameResponse> play = controller.play(new PlayGameRequest(names, time));
-                OutputView.printWinners(Objects.requireNonNull(play.getBody()).getWinners());
+                OutputView.printWinners(Objects.requireNonNull(play.getBody()));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 run(args);
