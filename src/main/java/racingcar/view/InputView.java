@@ -1,7 +1,5 @@
 package racingcar.view;
 
-import racingcar.dto.CarNamesRequest;
-import racingcar.dto.GameRoundRequest;
 import racingcar.validator.CarValidator;
 import racingcar.validator.DefaultCarValidator;
 import racingcar.validator.DefaultGameRoundValidator;
@@ -23,7 +21,7 @@ public class InputView {
 
     private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-    public CarNamesRequest inputCarName() {
+    public String inputCarName() {
         System.out.println(CAR_NAMES_INPUT_MESSAGE);
         String input = readLine();
 
@@ -32,17 +30,17 @@ public class InputView {
         CarValidator carValidator = new DefaultCarValidator();
         carValidator.validateCarNames(carNames);
 
-        return new CarNamesRequest(carNames);
+        return input;
     }
 
-    public GameRoundRequest inputGameRound() {
+    public int inputGameRound() {
         System.out.println(GAME_ROUND_INPUT_MESSAGE);
         String inputGameRound = readLine();
 
         GameRoundValidator gameRoundValidator = new DefaultGameRoundValidator();
         gameRoundValidator.validateGameRoundInput(inputGameRound);
 
-        return new GameRoundRequest(stringToIntConverter(inputGameRound));
+        return stringToIntConverter(inputGameRound);
     }
 
     private String readLine() {

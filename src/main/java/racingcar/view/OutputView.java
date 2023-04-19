@@ -1,7 +1,7 @@
 package racingcar.view;
 
-import racingcar.dto.CarStatusResponse;
-import racingcar.dto.GameResultResponse;
+import racingcar.dto.RacingCarResponse;
+import racingcar.dto.ResultResponse;
 
 import java.util.List;
 
@@ -16,20 +16,13 @@ public class OutputView {
         System.out.println(RESULT_MESSAGE);
     }
 
-    public void printRoundResult(List<CarStatusResponse> carNameAndPositions) {
-        StringBuilder resultBuilder = new StringBuilder();
-        for (CarStatusResponse carNameAndPosition : carNameAndPositions) {
-            resultBuilder.append(carNameAndPosition.getCarName())
-                    .append(RESULT_SEPARATOR)
-                    .append(PATH.repeat(carNameAndPosition.getCarPosition()))
-                    .append(System.lineSeparator());
+    public void printRoundResult(ResultResponse resultResponse) {
+        System.out.println(RESULT_MESSAGE);
+        List<RacingCarResponse> racingCars = resultResponse.getRacingCars();
+        for (RacingCarResponse racingCar : racingCars) {
+            System.out.println(racingCar.getName() + RESULT_SEPARATOR + PATH.repeat(racingCar.getPosition()));
         }
-        System.out.println(resultBuilder);
-    }
-
-    public void printEndGameResult(GameResultResponse gameResult) {
-        String winnerNames = String.join(RESULT_NAME_DELIMITER, gameResult.getWinnerNames());
-        System.out.println(winnerNames + GAME_RESULT_MESSAGE);
+        System.out.println(resultResponse.getWinners());
     }
 
     public void printErrorMessage(String message) {
