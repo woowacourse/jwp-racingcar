@@ -1,5 +1,7 @@
 package racingcar.dao;
 
+import racingcar.dto.PlayerSaveDto;
+
 import java.util.List;
 
 public interface RacingGameDao {

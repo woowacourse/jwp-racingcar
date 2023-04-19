@@ -1,7 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.PlayerSaveDto;
+import racingcar.dto.PlayerSaveDto;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.*;
 
@@ -20,7 +20,7 @@ public class RacingGameService {
 
     public RacingCars run(final List<String> inputNames, final int inputCount) {
         final List<Name> names = sliceNames(inputNames);
-        RacingGame racingGame = new RacingGame(new RacingCars(createRacingCar(names)), new TryCount(inputCount));
+        RacingGame racingGame = new RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(inputCount));
         RacingCars racingCars = racingGame.moveCars();
 
         saveRacingCars(inputCount, racingCars);
@@ -33,7 +33,7 @@ public class RacingGameService {
                 .collect(toList());
     }
 
-    private List<RacingCar> createRacingCar(final List<Name> names) {
+    private List<RacingCar> generateRacingCars(final List<Name> names) {
         return names.stream()
                 .map(RacingCar::createRandomMoveRacingCar)
                 .collect(toList());
@@ -47,7 +47,7 @@ public class RacingGameService {
         racingGameDao.save(tryCount, playerSaveDtos);
     }
 
-    private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
+    private PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
         return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 }
