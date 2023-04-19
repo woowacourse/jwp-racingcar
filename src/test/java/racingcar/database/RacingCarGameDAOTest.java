@@ -13,21 +13,21 @@ import org.springframework.test.context.jdbc.Sql;
 import racingcar.car.interfaces.Car;
 import racingcar.car.model.RacingCar;
 import racingcar.game.model.RacingCarGameResult;
-import racingcar.game.repository.RacingGameDAO;
+import racingcar.game.repository.RacingCarGameDAO;
 
 @JdbcTest
-@Import(RacingGameDAO.class)
+@Import(RacingCarGameDAO.class)
 @Sql(scripts = {"classpath:data.sql"})
-class RacingGameDAOTest {
+class RacingCarGameDAOTest {
     
     @Autowired
-    private RacingGameDAO gameDao;
+    private RacingCarGameDAO gameDao;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
     @BeforeEach
     void setUp() {
-        this.gameDao = new RacingGameDAO(this.jdbcTemplate);
+        this.gameDao = new RacingCarGameDAO(this.jdbcTemplate);
     }
     
     @Test

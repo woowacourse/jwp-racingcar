@@ -9,11 +9,11 @@ import racingcar.game.dto.GameResponseDTO;
 import racingcar.game.service.RacingCarGameService;
 
 @RestController
-public class RacingGameWebController {
+public class WebController {
     
     private final RacingCarGameService racingCarGameService;
     
-    public RacingGameWebController(final RacingCarGameService racingCarGameService) {
+    public WebController(final RacingCarGameService racingCarGameService) {
         this.racingCarGameService = racingCarGameService;
     }
     

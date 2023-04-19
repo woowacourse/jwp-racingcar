@@ -10,11 +10,8 @@ public class OutputView {
     private static final String PRINT_RACING_RESULT_MESSAGE = "\n실행 결과";
     private static final String PRINT_WINNERS_MESSAGE = "가 최종 우승했습니다.";
     
-    public void printRacingResultMessage() {
-        System.out.println(PRINT_RACING_RESULT_MESSAGE);
-    }
-    
     public void printCarPositionResult(final GameResponseDTO gameResponseDTO) {
+        System.out.println(PRINT_RACING_RESULT_MESSAGE);
         gameResponseDTO.getRacingCars()
                 .forEach(car -> System.out.println(car.getName().getValue() + " : " + car.getPosition().getValue()));
         System.out.println(gameResponseDTO.getWinners() + PRINT_WINNERS_MESSAGE);

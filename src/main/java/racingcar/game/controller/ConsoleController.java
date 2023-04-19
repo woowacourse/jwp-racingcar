@@ -1,13 +1,13 @@
 package racingcar.game.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import racingcar.game.dto.GameRequestDTO;
 import racingcar.game.dto.GameResponseDTO;
 import racingcar.game.service.RacingCarGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-@Controller
+@Component
 public class ConsoleController {
     
     private final RacingCarGameService racingCarGameService;
@@ -25,7 +25,6 @@ public class ConsoleController {
         final int count = this.inputView.readCount();
         final GameRequestDTO gameRequestDTO = GameRequestDTO.create(namesLiteral, count);
         final GameResponseDTO gameResponseDTO = this.racingCarGameService.createGame(gameRequestDTO);
-        this.outputView.printRacingResultMessage();
         this.outputView.printCarPositionResult(gameResponseDTO);
     }
     

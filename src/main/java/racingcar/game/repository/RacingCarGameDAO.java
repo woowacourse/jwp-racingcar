@@ -10,12 +10,12 @@ import racingcar.game.interfaces.GameDAO;
 import racingcar.game.interfaces.GameResult;
 
 @Repository
-public class RacingGameDAO implements GameDAO {
+public class RacingCarGameDAO implements GameDAO {
     
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
     
-    public RacingGameDAO(final JdbcTemplate jdbcTemplate) {
+    public RacingCarGameDAO(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(this.jdbcTemplate)
                 .withTableName("racing_game")
