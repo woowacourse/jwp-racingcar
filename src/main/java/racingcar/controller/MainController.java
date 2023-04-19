@@ -19,7 +19,7 @@ public class MainController {
             Cars cars = new Cars(inputView.inputCarName());
             GameTime gameTime = new GameTime(inputView.inputGameTime());
 
-            runGame(outputView, cars, gameTime);
+            runGame(cars, gameTime);
 
             Winners winners = new Winners(cars);
             outputView.printWinners(winners);
@@ -28,16 +28,11 @@ public class MainController {
         }
     }
 
-    private static void runGame(OutputView outputView, Cars cars, GameTime gameTime) {
+    private static void runGame(Cars cars, GameTime gameTime) {
         NumberGenerator numberGenerator = new RandomNumberGenerator();
 
         while (gameTime.isPlayable()) {
             cars.moveCars(numberGenerator);
-            cars.getCars()
-                    .forEach(
-                            car -> outputView.printPosition(car.getCarName(), car.getPosition())
-                    );
-            System.out.println();
             gameTime.runOnce();
         }
     }
