@@ -6,9 +6,10 @@ import java.util.List;
 
 public class OutputView {
 
-    private static final String WINNER_INFO_FORMAT = "%s가 최종 우승했습니다.%n";
+    private static final String WINNER_INFO_FORMAT = "우승자 : %s %n";
     private static final String RESULT_MESSAGE = "실행 결과";
     private static final String WINNER_INFO_DELIMITER = ", ";
+    private static final String PLAYER_RESULT = "  ㄴ이름 : %s%n  ㄴ이동거리 : %s%n";
 
     public static void printResultMessage() {
         System.out.println(System.lineSeparator() + RESULT_MESSAGE);
@@ -16,6 +17,8 @@ public class OutputView {
 
     public static void printWinner(final RacingCars racingCars) {
         System.out.printf(WINNER_INFO_FORMAT, makeWinnerInfo(racingCars.getWinnerNames()));
+        racingCars.getRacingCars()
+                .forEach(racingCar -> System.out.printf(PLAYER_RESULT, racingCar.getName(), racingCar.getPosition()));
     }
 
     private static String makeWinnerInfo(List<String> winners) {
