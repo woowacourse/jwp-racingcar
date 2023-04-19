@@ -5,11 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.dto.GameHistoriesResponseDto;
-import racingcar.dto.GameResultResponseDto;
-import racingcar.dto.StartGameRequestDto;
+import racingcar.dto.car.GameHistoriesResponseDto;
+import racingcar.dto.car.GameResultResponseDto;
+import racingcar.dto.car.StartGameRequestDto;
 import racingcar.service.RacingCarService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/plays")
@@ -31,7 +32,7 @@ public class RacingGameWebController {
     }
 
     @PostMapping
-    public ResponseEntity<GameResultResponseDto> startGame(@RequestBody final StartGameRequestDto request) {
+    public ResponseEntity<GameResultResponseDto> startGame(@Valid @RequestBody final StartGameRequestDto request) {
         Cars cars = makeCars(request.getNames());
         TryCount tryCount = makeTryCount(request.getCount());
 
