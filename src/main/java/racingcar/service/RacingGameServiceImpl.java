@@ -1,7 +1,6 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.GameTime;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Transactional
 @Service
 public class RacingGameServiceImpl implements RacingGameService {
 

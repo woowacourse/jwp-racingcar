@@ -1,6 +1,7 @@
 package racingcar.infrastructure.persistence.repository;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.GameTime;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
+@Transactional
 @Repository
 public class JdbcRacingGameRepository implements RacingGameRepository {
 

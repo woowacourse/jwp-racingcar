@@ -1,7 +1,6 @@
 package racingcar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,7 +12,7 @@ import racingcar.domain.Winner;
 import racingcar.domain.Winners;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayRequestDto;
-import racingcar.service.RacingGameServiceImpl;
+import racingcar.service.RacingGameService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RacingGameController.class)
-@DisplayName("RacingGameControllerTest 은")
 class RacingGameControllerTest {
 
     @Autowired
@@ -41,7 +39,7 @@ class RacingGameControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private RacingGameServiceImpl racingGameService;
+    private RacingGameService racingGameService;
 
     @Test
     void playTest() throws Exception {
