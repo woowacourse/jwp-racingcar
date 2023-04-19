@@ -2,18 +2,18 @@ package racingcar;
 
 import racingcar.controller.ConsoleRacingGameController;
 import racingcar.domain.CarRandomNumberGenerator;
-import racingcar.mapper.console.ConsoleCarMapper;
-import racingcar.mapper.console.ConsoleGameMapper;
-import racingcar.mapper.console.ConsoleWinnerMapper;
+import racingcar.repository.console.ConsoleCarRepository;
+import racingcar.repository.console.ConsoleGameRepository;
+import racingcar.repository.console.ConsoleWinnerRepository;
 import racingcar.service.RacingGameService;
 
 public class ConsoleApplication {
     public static void main(String[] args) {
         ConsoleRacingGameController controller = new ConsoleRacingGameController(
                 new RacingGameService(
-                        new ConsoleCarMapper(),
-                        new ConsoleGameMapper(),
-                        new ConsoleWinnerMapper(),
+                        new ConsoleCarRepository(),
+                        new ConsoleGameRepository(),
+                        new ConsoleWinnerRepository(),
                         new CarRandomNumberGenerator()
                 ));
         controller.run();

@@ -1,4 +1,4 @@
-package racingcar.mapper;
+package racingcar.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,24 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.entity.GameEntity;
-import racingcar.mapper.h2.H2GameMapper;
+import racingcar.repository.h2.H2GameRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-class H2GameMapperTest {
+class H2GameRepositoryTest {
 
     private final JdbcTemplate jdbcTemplate;
-    private H2GameMapper gameMapper;
+    private H2GameRepository gameMapper;
 
     @Autowired
-    H2GameMapperTest(JdbcTemplate jdbcTemplate) {
+    H2GameRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @BeforeEach
     void setUp() {
-        this.gameMapper = new H2GameMapper(jdbcTemplate);
+        this.gameMapper = new H2GameRepository(jdbcTemplate);
     }
 
     @Test

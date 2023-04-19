@@ -37,7 +37,7 @@ class WebRacingCarControllerTest {
     @Test
     void 컨트롤러_테스트() throws Exception {
         CarGameRequest request = new CarGameRequest("glen,juno", 5);
-        GameResponse response = GameResponse.of("glen", List.of(new CarResponse(new Car("glen"))));
+        GameResponse response = GameResponse.of("glen", List.of(CarResponse.from(new Car("glen"))));
 
         Mockito.when(service.play(any(CarGameRequest.class)))
                 .thenReturn(response);

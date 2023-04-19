@@ -1,4 +1,4 @@
-package racingcar.mapper.h2;
+package racingcar.repository.h2;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.entity.CarEntity;
-import racingcar.mapper.CarMapper;
+import racingcar.repository.CarRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +16,12 @@ import java.util.Map;
 
 @Repository
 @Transactional
-public class H2CarMapper implements CarMapper {
+public class H2CarRepository implements CarRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public H2CarMapper(JdbcTemplate jdbcTemplate) {
+    public H2CarRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("car")

@@ -1,11 +1,11 @@
-package racingcar.mapper.console;
+package racingcar.repository.console;
 
 import racingcar.entity.CarEntity;
-import racingcar.mapper.CarMapper;
+import racingcar.repository.CarRepository;
 
 import java.util.List;
 
-public class ConsoleCarMapper implements CarMapper {
+public class ConsoleCarRepository implements CarRepository {
     @Override
     public CarEntity save(CarEntity entity) {
         return null;

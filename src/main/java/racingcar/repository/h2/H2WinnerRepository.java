@@ -1,21 +1,21 @@
-package racingcar.mapper.h2;
+package racingcar.repository.h2;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.CarEntity;
-import racingcar.mapper.WinnerMapper;
+import racingcar.repository.WinnerRepository;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class H2WinnerMapper implements WinnerMapper {
+public class H2WinnerRepository implements WinnerRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public H2WinnerMapper(JdbcTemplate jdbcTemplate) {
+    public H2WinnerRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("winner")

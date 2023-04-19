@@ -10,24 +10,24 @@ import racingcar.dto.response.CarResponse;
 import racingcar.dto.response.GameResponse;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
-import racingcar.mapper.CarMapper;
-import racingcar.mapper.GameMapper;
-import racingcar.mapper.WinnerMapper;
+import racingcar.repository.CarRepository;
+import racingcar.repository.GameRepository;
+import racingcar.repository.WinnerRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
-    private final CarMapper carMapper;
-    private final GameMapper gameMapper;
-    private final WinnerMapper winnerMapper;
+    private final CarRepository carRepository;
+    private final GameRepository gameRepository;
+    private final WinnerRepository winnerRepository;
     private final RandomNumberGenerator numberGenerator;
 
-    public RacingGameService(CarMapper carMapper, GameMapper gameMapper, WinnerMapper winnerMapper, RandomNumberGenerator numberGenerator) {
-        this.carMapper = carMapper;
-        this.gameMapper = gameMapper;
-        this.winnerMapper = winnerMapper;
+    public RacingGameService(CarRepository carRepository, GameRepository gameRepository, WinnerRepository winnerRepository, RandomNumberGenerator numberGenerator) {
+        this.carRepository = carRepository;
+        this.gameRepository = gameRepository;
+        this.winnerRepository = winnerRepository;
         this.numberGenerator = numberGenerator;
     }
 
@@ -56,9 +56,9 @@ public class RacingGameService {
     }
 
     private void saveGame(RacingGame game, int tryCount) {
-        GameEntity save = gameMapper.save(GameEntity.from(tryCount));
+        GameEntity save = gameRepository.save(GameEntity.from(tryCount));
 
-        List<CarEntity> collect = game.getCars().stream().map(car -> carMapper.save(
+        List<CarEntity> collect = game.getCars().stream().map(car -> carRepository.save(
                 CarEntity.of(save.getId(), car.getName(), car.getPosition()))
         ).collect(Collectors.toList());
 
@@ -67,7 +67,7 @@ public class RacingGameService {
 
     private void saveWinners(List<CarEntity> collect) {
         List<CarEntity> winners = getWinners(collect);
-        winners.forEach(winnerMapper::save);
+        winners.forEach(winnerRepository::save);
     }
 
     private static List<CarEntity> getWinners(List<CarEntity> collect) {
@@ -95,10 +95,10 @@ public class RacingGameService {
     }
 
     public List<GameResponse> findAllGame() {
-        return gameMapper.findAll().stream()
+        return gameRepository.findAll().stream()
                 .map(game -> {
-                    List<CarEntity> winners = carMapper.findWinnersByGameId(game.getId());
-                    List<CarEntity> cars = carMapper.findAllByGameId(game.getId());
+                    List<CarEntity> winners = carRepository.findWinnersByGameId(game.getId());
+                    List<CarEntity> cars = carRepository.findAllByGameId(game.getId());
                     return GameResponse.of(winners, cars);
                 })
                 .collect(Collectors.toList());
