@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import racingcar.car.interfaces.Car;
 import racingcar.car.model.RacingCar;
 import racingcar.game.interfaces.Game;
+import racingcar.game.interfaces.GameResult;
 
 class RacingCarGameTest {
     
@@ -61,5 +62,22 @@ class RacingCarGameTest {
         assertEquals(count, movedRacingCarGame.getCars().get(1).getPosition().getValue());
     }
     
+    @Test
+    @DisplayName("RacingCarGame 객체 calculateResult 테스트 - 비길 경우")
+    void calculateResult() {
+        //given
+        final Car echo = RacingCar.create("echo", 0);
+        final Car io = RacingCar.create("io", 0);
+        final List<Car> cars = List.of(echo, io);
+        final Game racingCarGame = RacingCarGame.create(new FixedNumberGenerator(), cars);
+        final int count = 5;
+        final Game movedRacingCarGame = racingCarGame.race(5);
+        
+        //when
+        final GameResult gameResult = movedRacingCarGame.calculateResult();
+        
+        //then
+        assertEquals("echo,io", gameResult.getWinners());
+    }
     
 }
