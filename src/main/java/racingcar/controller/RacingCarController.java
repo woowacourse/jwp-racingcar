@@ -13,6 +13,7 @@ import racingcar.dto.PlayRequestDto;
 import racingcar.dto.PlayResponseDto;
 import racingcar.genertor.NumberGenerator;
 import racingcar.service.RacingCarService;
+import racingcar.view.OutputView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +33,9 @@ public class RacingCarController {
     @PostMapping("/plays")
     public ResponseEntity<PlayResponseDto> play(@RequestBody PlayRequestDto playRequestDto) {
         final MoveResponseDto moveResponseDto = racingCarService.moveCar(makeMoveRequestDto(playRequestDto));
-        return ResponseEntity.ok().body(makePlayResponseDto(moveResponseDto));
+        final PlayResponseDto playResponse = makePlayResponseDto(moveResponseDto);
+        OutputView.printWinner(playResponse);
+        return ResponseEntity.ok().body(playResponse);
     }
 
     private PlayResponseDto makePlayResponseDto(final MoveResponseDto moveResponseDto) {
