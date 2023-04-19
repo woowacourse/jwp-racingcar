@@ -9,7 +9,6 @@ import racingcar.dao.entity.GameEntity;
 import racingcar.dto.GameRecordResponseDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
-import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.model.RacingGame;
 import racingcar.util.NameFormatConverter;
@@ -40,9 +39,8 @@ public class GameService {
         RacingGame racingGame = new RacingGame(cars, tryCount);
         racingGame.race(numberGenerator);
 
-        List<Car> winners = cars.getWinners();
         int gameId = gameDao.save(tryCount);
-        carDao.saveAll(gameId, cars.getCars(), winners);
+        carDao.saveAll(gameId, cars.getCars());
 
         return new RacingGameResponseDto(cars.getWinners(), cars.getCars());
     }

@@ -6,7 +6,7 @@ import racingcar.model.Car;
 import java.util.List;
 
 public interface CarDao {
-    void saveAll(int gameId, List<Car> cars, List<Car> winners);
+    void saveAll(int gameId, List<Car> cars);
 
     List<CarEntity> findAllById(int gameId);
 }
