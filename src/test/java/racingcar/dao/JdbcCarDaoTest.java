@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.GameEntity;
+import racingcar.domain.car.Car;
 import racingcar.dto.CarDTO;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -54,16 +55,16 @@ public class JdbcCarDaoTest {
     void 한_경주에_참여한_모든_자동차를_반환한다() {
         // given
         carDao.batchInsert(List.of(
-                CarEntity.create("제이온", 8, gameId, true),
-                CarEntity.create("가비", 6, gameId, false),
-                CarEntity.create("후추", 4, gameId, true)
+                CarEntity.create("jayon", 8, gameId, true),
+                CarEntity.create("gavi", 6, gameId, false),
+                CarEntity.create("huchu", 4, gameId, true)
         ));
 
         // when
-        List<CarDTO> carDTOs = carDao.selectAll((int) gameId);
+        List<Car> cars = carDao.selectAll((int) gameId);
 
         // then
-        assertThat(carDTOs).hasSize(3);
+        assertThat(cars).hasSize(3);
     }
 
     @Test

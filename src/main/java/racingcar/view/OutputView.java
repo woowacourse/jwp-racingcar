@@ -20,7 +20,7 @@ public class OutputView {
     public void printResult(final RacingGameResponse racingGameResponse) {
         System.out.println(Message.WINNER.getMessage() + racingGameResponse.getWinners() + ENTER_LINE);
         System.out.println(Message.GAME_RESULT_GUIDE.getMessage());
-        for (CarDTO carDTO : racingGameResponse.getRacingCarDTOs()) {
+        for (CarDTO carDTO : racingGameResponse.getRacingCars()) {
             System.out.println("이름: " + carDTO.getName());
             System.out.println("최종 결과: " + carDTO.getPosition());
         }

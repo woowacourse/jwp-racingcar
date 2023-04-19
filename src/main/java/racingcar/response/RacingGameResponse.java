@@ -20,7 +20,7 @@ public class RacingGameResponse {
         return winners;
     }
 
-    public List<CarDTO> getRacingCarDTOs() {
+    public List<CarDTO> getRacingCars() {
         return racingCars;
     }
 }

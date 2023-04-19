@@ -1,16 +1,15 @@
 package racingcar.dao;
 
 
-import static racingcar.dao.ObjectMapper.carDTOMapper;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.CarEntity;
-import racingcar.dto.CarDTO;
+import racingcar.domain.car.Car;
 
 @Repository
 public class JdbcCarDao implements CarDao {
@@ -20,6 +19,13 @@ public class JdbcCarDao implements CarDao {
     public JdbcCarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    private RowMapper<Car> carMapper = (resultSet, rowNum) -> {
+        return new Car(
+                resultSet.getString("name"),
+                resultSet.getInt("position")
+        );
+    };
 
     @Override
     public void batchInsert(final List<CarEntity> carEntities) {
@@ -33,6 +39,7 @@ public class JdbcCarDao implements CarDao {
                 ps.setLong(3, carEntity.getGameId());
                 ps.setBoolean(4, carEntity.getIsWin());
             }
+
             @Override
             public int getBatchSize() {
                 return carEntities.size();
@@ -42,13 +49,13 @@ public class JdbcCarDao implements CarDao {
 
 
     @Override
-    public List<CarDTO> selectAll(final int gameId) {
+    public List<Car> selectAll(final int gameId) {
         final String sql = "SELECT name, position FROM car where game_id = ?";
-        return jdbcTemplate.query(sql, carDTOMapper, gameId);
+        return jdbcTemplate.query(sql, carMapper, gameId);
     }
 
     @Override
-    public List<String> selectWinners(final int gameId){
+    public List<String> selectWinners(final int gameId) {
         final String sql = "SELECT name FROM car where game_id = ? and is_win = TRUE";
         return jdbcTemplate.queryForList(sql, String.class, gameId);
     }

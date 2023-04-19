@@ -84,12 +84,14 @@ public class RacingCarService {
 
         final int games = gameDao.countGames();
         for (int gameId = INITIAL_GAME_ID; gameId <= games; gameId++) {
-            final List<CarDTO> carDTO = carDao.selectAll(gameId);
             final List<String> winnerNames = carDao.selectWinners(gameId);
+            final List<Car> cars = carDao.selectAll(gameId);
+            final List<CarDTO> carDTOs = cars.stream()
+                    .map(car -> new CarDTO(car.getName(), car.getPosition()))
+                    .collect(Collectors.toList());
 
-            playingCars.add(new ResultDTO(winnerNames, carDTO));
+            playingCars.add(new ResultDTO(winnerNames, carDTOs));
         }
-
         return new ArrayList<>(playingCars);
     }
 }

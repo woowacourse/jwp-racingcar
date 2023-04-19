@@ -2,7 +2,7 @@ package racingcar.dao;
 
 import java.util.List;
 import racingcar.dao.entity.CarEntity;
-import racingcar.dto.CarDTO;
+import racingcar.domain.car.Car;
 
 public class ConsoleCarDao implements CarDao {
 
@@ -11,7 +11,7 @@ public class ConsoleCarDao implements CarDao {
     }
 
     @Override
-    public List<CarDTO> selectAll(final int gameId) {
+    public List<Car> selectAll(final int gameId) {
         return null;
     }
 
