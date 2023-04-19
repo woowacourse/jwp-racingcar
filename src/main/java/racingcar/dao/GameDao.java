@@ -1,9 +1,13 @@
 package racingcar.dao;
 
+import java.util.List;
+
 public interface GameDao {
     Long insert(final int count);
 
     int countRows();
 
     void deleteAll();
+
+    List<GameIdDTO> findAllGameIds();
 }

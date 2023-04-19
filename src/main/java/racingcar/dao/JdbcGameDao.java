@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class JdbcGameDao implements GameDao {
@@ -48,4 +50,13 @@ public class JdbcGameDao implements GameDao {
         jdbcTemplate.update("DELETE FROM GAME");
     }
 
+    @Override
+    public List<GameIdDTO> findAllGameIds() {
+        final String sql = "SELECT id FROM GAME";
+        return jdbcTemplate.query(sql, getGameIdRowMapper());
+    }
+
+    private RowMapper<GameIdDTO> getGameIdRowMapper() {
+        return (resultSet, rowNum) -> new GameIdDTO(resultSet.getLong("id"));
+    }
 }

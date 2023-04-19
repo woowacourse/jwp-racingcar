@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -61,6 +63,20 @@ public class JdbcGameDaoTest {
 
         //then
         assertThat(rowCount).isEqualTo(0);
+    }
+
+    @Test
+    void 모든_게임_아이디들을_찾는다() {
+        //given
+        final Long firstId = gameDao.insert(5);
+        final Long secondId = gameDao.insert(5);
+
+        //when
+        final List<GameIdDTO> allGameIdDTOS = gameDao.findAllGameIds();
+
+        //then
+        assertThat(allGameIdDTOS).hasSize(2).containsExactly(new GameIdDTO(firstId), new GameIdDTO(secondId));
+        System.out.println(allGameIdDTOS);
     }
 
     @AfterEach
