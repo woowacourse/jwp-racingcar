@@ -1,4 +1,4 @@
-package racingcar.controller;
+package racingcar.controller.console;
 
 import racingcar.domain.*;
 import racingcar.dto.CarStatus;

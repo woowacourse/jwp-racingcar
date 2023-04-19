@@ -33,45 +33,35 @@ public class RacingGameService {
     }
 
     public RacingGameResponseDto run(RacingGameRequestDto racingGameRequestDto) {
-        LocalTime gameCreatedAt = LocalTime.now();
-        RacingCars racingCars = createRacingCars(racingGameRequestDto);
-        int tryCount = new TryCount(racingGameRequestDto.getCount()).getTries();
-        raceCars(racingCars, tryCount);
+        //todo 2 : String으로 넘어온 자동차 이름들을 구분자(,)를 기준으로 리스트로 변환 후에, 넘겨주는 게 맞을까? RacingGame에 String을 넘기는 것이 맞을까?
+        //뷰에서 넘어오는 구분자의 기준이 뭐가 될지 모른다. 따라서 컨트롤러에서 하는 게 맞는 것 같다 -- 추후 리팩터링 할것
+        List<String> carNames = List.of(racingGameRequestDto.getNames().split(DELIMITER));
+        RacingGame racingGame = RacingGame.of(carNames, racingGameRequestDto.getCount());
+        racingGame.race(numberGenerator);
 
-        int gameId = saveGame(racingCars, tryCount, gameCreatedAt);
-        saveCars(racingCars, gameId);
+        int gameId = saveGame(racingGame);
+        saveCars(racingGame, gameId);
 
-        return createResult(racingCars);
+        return createResult(racingGame);
     }
 
-    private void saveCars(final RacingCars racingCars, final int gameId) {
+    //비즈니스 로직과 분리된 entity의 생성 책임은 gameDao에 있다고 생각한다
+    private int saveGame(final RacingGame racingGame) {
+        String winnerCars = String.join(",", racingGame.pickWinnerCarNames());
+        return gameDao.save(new GameEntity(winnerCars, racingGame.getTryCount(), racingGame.getCreated_at()));
+    }
+
+    private void saveCars(RacingGame racingGame, final int gameId) {
         List<CarEntity> carEntities = new ArrayList<>();
-        for (Car car : racingCars.getCars()) {
+        for (Car car : racingGame.getCars()) {
             carEntities.add(new CarEntity(car.getName(), car.getCurrentPosition(), gameId));
         }
         carDao.saveAll(carEntities);
     }
 
-    private RacingCars createRacingCars(final RacingGameRequestDto racingGameRequestDto) {
-        List<String> carNames = List.of(racingGameRequestDto.getNames().split(DELIMITER));
-        List<Car> cars = CarFactory.generate(carNames, RACE_START_POINT);
-        return new RacingCars(cars);
-    }
-
-    private void raceCars(final RacingCars racingCars, final int tryCount) {
-        IntStream.range(0, tryCount)
-                .forEach(ignored -> racingCars.moveCars(numberGenerator));
-    }
-
-    //비즈니스 로직과 분리된 entity의 생성 책임은 gameDao에 있다고 생각한다
-    private int saveGame(final RacingCars racingCars, final int tryCount, final LocalTime gameCreatedAt) {
-        String winnerCars = String.join(",", racingCars.pickWinnerCarNames());
-        return gameDao.save(new GameEntity(winnerCars, tryCount, gameCreatedAt));
-    }
-
-    private RacingGameResponseDto createResult(final RacingCars racingCars) {
-        List<String> winnerCars = racingCars.pickWinnerCarNames();
-        List<CarStatusDto> carStatuses = racingCars.getCars().stream()
+    private RacingGameResponseDto createResult(final RacingGame racingGame) {
+        List<String> winnerCars = racingGame.pickWinnerCarNames();
+        List<CarStatusDto> carStatuses = racingGame.getCars().stream()
                 .map(car -> new CarStatusDto(car.getName(), car.getCurrentPosition()))
                 .collect(Collectors.toUnmodifiableList());
 
@@ -80,8 +70,8 @@ public class RacingGameService {
 
 
     //to remove
-    private void saveCars1(final RacingCars racingCars, final int gameId) {
-        for (Car car : racingCars.getCars()) {
+    private void saveCars1(final RacingGame racingGame, final int gameId) {
+        for (Car car : racingGame.getCars()) {
             CarEntity carEntity = new CarEntity(car.getName(), car.getCurrentPosition(), gameId);
             carDao.save(carEntity);
         }

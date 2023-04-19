@@ -12,12 +12,14 @@
 도메인 리팩터링
 - [] 컨트롤러 재귀함수의 사용 수정하기
 - [] 컨트롤러 i 수정
-- [] 레이싱 게임 객체 생성
-- [] localtime 생성시간을, racingGame 객체 생성되는 순간으로 하기
+- [x] RacingGame 객체 생성
+- [x] RacingGame 객체 생성에 따른 서비스 객체 수정
+- [x] localtime 생성시간을, racingGame 객체 생성되는 순간으로 하기
 - [] car 객체 수정
 - [] winner 객체 생성 
 
 테이블 변경하기
 - [] winner 테이블 생성
+- unsigned 추가하기?
 
 [] jdbcTemplate 객체 사용하기
