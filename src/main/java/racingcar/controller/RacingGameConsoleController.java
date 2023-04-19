@@ -1,62 +1,23 @@
 package racingcar.controller;
 
-import racingcar.domain.Name;
-import racingcar.domain.RacingCar;
+import racingcar.dao.PlayerConsoleDao;
+import racingcar.dao.RacingGameConsoleDao;
 import racingcar.domain.RacingCars;
-import racingcar.domain.TryCount;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-
 public class RacingGameConsoleController {
 
-    private RacingCars racingCars;
-    private TryCount tryCount;
+    public void play() {
+        final RacingGameService racingGameService = new RacingGameService(new RacingGameConsoleDao(), new PlayerConsoleDao());
 
-    public void start() {
-        setUpGame();
-        playGame();
+        final String names = InputView.requestCarName();
+        final int tryCount = InputView.requestTryCount();
+
+        final RacingCars racingCars = racingGameService.run(names, tryCount);
+
+        OutputView.printResult(racingCars);
     }
 
-    private void setUpGame() {
-        racingCars = createRacingCar();
-        tryCount = requestTryCount();
-    }
-
-    private RacingCars createRacingCar() {
-        final List<Name> names = inputCarNames();
-        return new RacingCars(createRacingCar(names));
-    }
-
-    private List<Name> inputCarNames() {
-        return InputView.requestCarName();
-    }
-
-    private List<RacingCar> createRacingCar(final List<Name> names) {
-        return names.stream()
-                .map(RacingCar::createRandomMoveRacingCar)
-                .collect(toList());
-    }
-
-    private TryCount requestTryCount() {
-        return InputView.requestTryCount();
-    }
-
-    private void playGame() {
-        OutputView.printResultMessage();
-
-        while (canProceed()) {
-            racingCars.moveAll();
-            tryCount.deduct();
-        }
-
-        OutputView.printWinner(racingCars);
-    }
-
-    private boolean canProceed() {
-        return !tryCount.isZero();
-    }
 }
