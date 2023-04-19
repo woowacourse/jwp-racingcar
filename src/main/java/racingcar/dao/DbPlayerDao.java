@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.ResultDto;
 
 @Repository
-public final class DbPlayerDao implements PlayerDao {
+public class DbPlayerDao implements PlayerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 

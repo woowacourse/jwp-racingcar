@@ -3,6 +3,7 @@ package racingcar;
 import racingcar.controller.ConsoleController;
 import racingcar.dao.ConsoleGameDao;
 import racingcar.dao.ConsolePlayerDao;
+import racingcar.service.GameService;
 import racingcar.view.RacingCarView;
 import racingcar.view.RacingCarViewImpl;
 

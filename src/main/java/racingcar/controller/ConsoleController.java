@@ -1,12 +1,12 @@
 package racingcar.controller;
 
 import java.util.List;
-import racingcar.GameDto;
-import racingcar.GameResultDto;
-import racingcar.GameService;
+import racingcar.dto.GameDto;
+import racingcar.dto.GameResultDto;
 import racingcar.dto.NamesDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.TryCountDto;
+import racingcar.service.GameService;
 import racingcar.view.RacingCarView;
 
 public class ConsoleController {

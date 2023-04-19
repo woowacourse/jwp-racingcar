@@ -9,16 +9,16 @@ import org.springframework.stereotype.Repository;
 import racingcar.domain.TryCount;
 
 @Repository
-public final class DbGameDao implements GameDao {
+public class DbGameDao implements GameDao {
     private final SimpleJdbcInsert insertGame;
     private final JdbcTemplate jdbcTemplate;
 
-    public DbGameDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+    public DbGameDao(DataSource dataSource) {
         this.insertGame = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingColumns("trial_count")
                 .usingGeneratedKeyColumns("id");
-        this.jdbcTemplate = jdbcTemplate;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public Number insertGame(TryCount tryCount) {

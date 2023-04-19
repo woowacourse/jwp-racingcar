@@ -1,7 +1,6 @@
-package racingcar;
+package racingcar.dto;
 
 import java.util.List;
-import racingcar.dto.NamesDto;
 
 public class GameDto {
 
@@ -13,8 +12,8 @@ public class GameDto {
         this.trialCount = trialCount;
     }
 
-    public GameDto(final PlayRequestDto playRequestDto) {
-        this(NamesDto.of(playRequestDto.getNames()).getNames(), playRequestDto.getCount());
+    public GameDto(final GameRequestDto gameRequestDto) {
+        this(NamesDto.of(gameRequestDto.getNames()).getNames(), gameRequestDto.getCount());
     }
 
     public List<String> getNames() {

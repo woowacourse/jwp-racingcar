@@ -1,8 +1,6 @@
-package racingcar;
+package racingcar.dto;
 
 import java.util.List;
-import racingcar.dto.ResultDto;
-import racingcar.dto.WinnerDto;
 
 public class GameResultDto {
     private final String winners;
