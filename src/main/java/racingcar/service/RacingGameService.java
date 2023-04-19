@@ -3,16 +3,10 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import racingcar.dao.PlayerSaveDto;
 import racingcar.dao.RacingGameDao;
-import racingcar.domain.Name;
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
-import racingcar.domain.TryCount;
-import racingcar.exception.CommaNotFoundException;
+import racingcar.domain.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Collections.addAll;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -26,10 +20,8 @@ public class RacingGameService {
 
     public RacingCars run(final List<String> inputNames, final int inputCount) {
         final List<Name> names = sliceNames(inputNames);
-        final RacingCars racingCars = new RacingCars(createRacingCar(names));
-        final TryCount tryCount = new TryCount(inputCount);
-
-        moveCars(racingCars, tryCount);
+        RacingGame racingGame = new RacingGame(new RacingCars(createRacingCar(names)), new TryCount(inputCount));
+        RacingCars racingCars = racingGame.moveCars();
 
         saveRacingCars(inputCount, racingCars);
         return racingCars;
@@ -45,17 +37,6 @@ public class RacingGameService {
         return names.stream()
                 .map(RacingCar::createRandomMoveRacingCar)
                 .collect(toList());
-    }
-
-    private void moveCars(final RacingCars racingCars, final TryCount tryCount) {
-        while (canProceed(tryCount)) {
-            racingCars.moveAll();
-            tryCount.deduct();
-        }
-    }
-
-    private boolean canProceed(final TryCount tryCount) {
-        return !tryCount.isZero();
     }
 
     private void saveRacingCars(final int tryCount, final RacingCars racingCars) {
