@@ -1,13 +1,11 @@
 package racingcar.view;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 public enum Command {
 
     NEW("n"),
-    EXIT("x"),
-    NOT_FOUND("");
+    EXIT("x");
 
     private final String input;
 
@@ -15,19 +13,14 @@ public enum Command {
         this.input = input;
     }
 
-    private static final Map<String, Command> CACHE = new HashMap<>();
-
-    static {
-        for (Command command : values()) {
-            CACHE.put(command.input, command);
-        }
+    public static Command of(String input) {
+        return Arrays.stream(values())
+                .filter(it -> it.inputMatches(input))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어입니다"));
     }
 
-    public static Command of(String input) {
-        Command command = CACHE.getOrDefault(input, NOT_FOUND);
-        if (command == NOT_FOUND) {
-            throw new IllegalArgumentException("잘못된 명령어입니다");
-        }
-        return command;
+    private boolean inputMatches(String input) {
+        return this.input.equals(input);
     }
 }
