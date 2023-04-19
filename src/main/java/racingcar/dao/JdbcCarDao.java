@@ -1,7 +1,10 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class JdbcCarDao implements CarDao {
@@ -18,7 +21,6 @@ public class JdbcCarDao implements CarDao {
         return jdbcTemplate.update(sql, name, position, gameId, isWin);
     }
 
-
     @Override
     public int countRows() {
         final String sql = "select count(*) from car";
@@ -28,5 +30,15 @@ public class JdbcCarDao implements CarDao {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM car");
+    }
+
+    @Override
+    public List<CarNameDTO> findWinners(final Long gameId) {
+        final String sql = "select name from car where game_id = ? and is_win = true";
+        return jdbcTemplate.query(sql, getCarNameDTORowMapper(), gameId);
+    }
+
+    private RowMapper<CarNameDTO> getCarNameDTORowMapper() {
+        return (resultSet, rowNum) -> new CarNameDTO(resultSet.getString("name"));
     }
 }

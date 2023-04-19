@@ -1,5 +1,7 @@
 package racingcar.dao;
 
+import java.util.List;
+
 public interface CarDao {
 
     int insert(final String name, final int position, final Long gameId, final boolean isWin);
@@ -7,4 +9,6 @@ public interface CarDao {
     int countRows();
 
     void deleteAll();
+
+    List<CarNameDTO> findWinners(final Long gameId);
 }
