@@ -1,9 +1,8 @@
 package racingcar.exception;
 
 public class InvalidCarNameFormatException extends CustomException {
-    private static final int ERROR_NUMBER = 103;
 
     public InvalidCarNameFormatException() {
-        super(ERROR_NUMBER);
+        super("자동차 이름은 문자와 숫자만 가능합니다.");
     }
 }

@@ -1,9 +1,8 @@
 package racingcar.exception;
 
 public class NotExistCarsException extends CustomException {
-    private static final int ERROR_NUMBER = 106;
 
     public NotExistCarsException() {
-        super(ERROR_NUMBER);
+        super("게임에 참여한 자동차가 없습니다.");
     }
 }

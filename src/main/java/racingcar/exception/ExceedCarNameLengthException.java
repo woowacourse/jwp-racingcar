@@ -1,9 +1,8 @@
 package racingcar.exception;
 
 public class ExceedCarNameLengthException extends CustomException {
-    private static final int ERROR_NUMBER = 101;
 
     public ExceedCarNameLengthException() {
-        super(ERROR_NUMBER);
+        super("자동차 이름은 다섯 글자 이하여야 합니다.");
     }
 }
