@@ -50,21 +50,6 @@ public class RacingCarService {
 
         return PlaysResponse.of(winners, participants);
     }
-//
-//    public PlaysResponses getGamesAll() {
-//        //TODO: request -> entity -> dao -> service -> response -> controller
-//        List<PlaysResponse> playsResponses = new ArrayList<>();
-//
-//        List<Game> games = gameDao.selectAll();
-//        for (Game game : games) {
-//            List<Player> players = playerDao.selectAllByGameId(game.getId());
-//            String winners = game.getWinners();
-//            playsResponses.add(PlaysResponse.of(winners, players));
-//        }
-//
-//        return new PlaysResponses(playsResponses);
-//    }
-
 
     public List<PlaysResponse> getGamesAll() {
         //TODO: request -> entity -> dao -> service -> response -> controller
