@@ -27,4 +27,9 @@ public class CarDao {
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(carEntity);
         return insertActor.executeAndReturnKey(sqlParameterSource).intValue();
     }
+
+    public int[] saveAll(List<CarEntity> carEntities) {
+        SqlParameterSource[] sqlParameterSource = SqlParameterSourceUtils.createBatch(carEntities);
+        return insertActor.executeBatch(sqlParameterSource);
+    }
 }

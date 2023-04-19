@@ -45,10 +45,11 @@ public class RacingGameService {
     }
 
     private void saveCars(final RacingCars racingCars, final int gameId) {
+        List<CarEntity> carEntities = new ArrayList<>();
         for (Car car : racingCars.getCars()) {
-            CarEntity carEntity = new CarEntity(car.getName(), car.getCurrentPosition(), gameId);
-            carDao.save(carEntity);
+            carEntities.add(new CarEntity(car.getName(), car.getCurrentPosition(), gameId));
         }
+        carDao.saveAll(carEntities);
     }
 
     private RacingCars createRacingCars(final RacingGameRequestDto racingGameRequestDto) {
@@ -75,5 +76,14 @@ public class RacingGameService {
                 .collect(Collectors.toUnmodifiableList());
 
         return new RacingGameResponseDto(winnerCars, carStatuses);
+    }
+
+
+    //to remove
+    private void saveCars1(final RacingCars racingCars, final int gameId) {
+        for (Car car : racingCars.getCars()) {
+            CarEntity carEntity = new CarEntity(car.getName(), car.getCurrentPosition(), gameId);
+            carDao.save(carEntity);
+        }
     }
 }

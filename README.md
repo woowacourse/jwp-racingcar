@@ -6,7 +6,8 @@
 - [x] 컨트롤러 패키징하기
 - [x] localtime 생성시간을, 서비스에서 run()메서드가 호출되는 순간으로 하기
 - [x] 스프링빈 수동 등록하는 config 폴더 만들기
-- [] car, game dto를 entity 객체로 수정 및 dao 패키지 산하로 이동
+- [x] car, game dto를 entity 객체로 수정 및 dao 패키지 산하로 이동
+- [x] carDao에 여러 데이터 한번에 insert하는 기능 추가
 
 도메인 리팩터링
 - [] 컨트롤러 재귀함수의 사용 수정하기
