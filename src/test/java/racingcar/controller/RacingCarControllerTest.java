@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 
 import io.restassured.RestAssured;
@@ -40,6 +41,22 @@ class RacingCarControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", is(2))
                 .body("racingCars.size()", is(carNames.size()));
+    }
+
+    @DisplayName("/plays POST 요청 예외 테스트")
+    @Test
+    void playHandlingException() throws JSONException {
+        List<String> carNames = List.of("123456", "a", "b");
+        int count = 5;
+        String requestJSON = requestJSON(carNames, count).toString();
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(requestJSON)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body(equalTo("자동차 이름은 5자 이하여야 합니다."));
     }
 
     private JSONObject requestJSON(List<String> carNames, int count) throws JSONException {

@@ -149,7 +149,8 @@ Content-Type: application/json
 ### 리팩터링 목록
 
 - Spring 제공 기능 적용하기
-    - [ ] 예외 처리 : ExceptionHandler 사용, 예외 발생 정보를 응답 객체에 담아 전달하기
+    - [x] 예외 처리 : ExceptionHandler 사용, 예외 발생 정보를 응답 객체에 담아 전달하기
+        - [ ] 어떤 예외까지 핸들링할 것인가? Exception을 모두 받는 게 맞나?
     - [ ] 필요 시 Dto에 Validation 추가
     - [ ] Lombok 라이브러리 사용해 생성자, getter 메서드 코드 단순화
 - [x] Dao 구현체가 아닌 인터페이스에 의존하도록 변경 (DB 교체 용이하게)

@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,5 +36,10 @@ public class RacingCarController {
     public ResponseEntity<List<PlayResponseDto>> records() {
         final List<PlayResponseDto> records = racingCarService.findAllPlayRecords();
         return ResponseEntity.ok(records);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handle(Exception exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 }
