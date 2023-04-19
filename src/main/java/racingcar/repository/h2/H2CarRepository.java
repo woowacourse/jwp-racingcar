@@ -17,7 +17,6 @@ import java.util.Map;
 @Repository
 @Transactional
 public class H2CarRepository implements CarRepository {
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 

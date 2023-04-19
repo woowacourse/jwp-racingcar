@@ -7,7 +7,6 @@ import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class ConsoleRacingGameController {
-
     private final RacingGameService service;
 
     public ConsoleRacingGameController(RacingGameService service) {

@@ -5,7 +5,6 @@ import racingcar.RandomNumberGenerator;
 
 @Component
 public class CarRandomNumberGenerator implements RandomNumberGenerator {
-
     private static final int BOUND = 10;
 
     @Override

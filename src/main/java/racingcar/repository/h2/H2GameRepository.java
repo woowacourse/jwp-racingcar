@@ -15,7 +15,6 @@ import java.util.Map;
 @Repository
 @Transactional
 public class H2GameRepository implements GameRepository {
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 

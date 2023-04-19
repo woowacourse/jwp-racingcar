@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 public class WebRacingCarController {
-
     private final RacingGameService service;
 
     public WebRacingCarController(RacingGameService service) {

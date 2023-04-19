@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
+    private final RandomNumberGenerator numberGenerator;
     private final CarRepository carRepository;
     private final GameRepository gameRepository;
     private final WinnerRepository winnerRepository;
-    private final RandomNumberGenerator numberGenerator;
 
     public RacingGameService(CarRepository carRepository, GameRepository gameRepository, WinnerRepository winnerRepository, RandomNumberGenerator numberGenerator) {
         this.carRepository = carRepository;

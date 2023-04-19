@@ -1,7 +1,6 @@
 package racingcar.entity;
 
 public class CarEntity {
-
     private final Long id;
     private final Long gameId;
     private final String name;

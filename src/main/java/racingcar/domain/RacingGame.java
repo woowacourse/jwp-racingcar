@@ -5,7 +5,6 @@ import racingcar.RandomNumberGenerator;
 import java.util.List;
 
 public class RacingGame {
-
     private final RandomNumberGenerator numberGenerator;
     private final Cars cars;
     private final TryCount tryCount;

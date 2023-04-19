@@ -11,7 +11,6 @@ import java.util.Map;
 
 @Repository
 public class H2WinnerRepository implements WinnerRepository {
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
