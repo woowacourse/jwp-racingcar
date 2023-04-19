@@ -26,10 +26,10 @@ public class RacingGameService {
         RacingGame racingGame = createRacingGame(carGameRequest);
         racingGame.play();
         saveResult(racingGame, carGameRequest.getCount());
-        return racingGame.getCarGameResult();
+        return CarGameResponse.of(racingGame.getWinnerNames(), racingGame.getCars());
     }
 
-    private static RacingGame createRacingGame(CarGameRequest carGameRequest) {
+    private RacingGame createRacingGame(CarGameRequest carGameRequest) {
         Cars cars = Cars.from(carGameRequest.getNames());
         return new RacingGame(new CarRandomNumberGenerator(), cars, carGameRequest.getCount());
     }
@@ -43,9 +43,8 @@ public class RacingGameService {
         return playResultDao.save(PlayResult.of(tryCount, winners, racingGame.getCreatedAt()));
     }
 
-    private void saveCarResult(Cars cars, int playResultId) {
-        cars.getUnmodifiableCars()
-                .stream()
+    private void saveCarResult(List<Car> cars, int playResultId) {
+        cars.stream()
                 .map(car -> CarResult.of(playResultId, car.getName(), car.getPosition()))
                 .forEach(carResultDao::save);
     }
