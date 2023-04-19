@@ -28,9 +28,11 @@
 - ID (id)
 - 이름 (name)
 - 최종 위치 (position)
-
-### Winners
-
-- ID (id)
 - Game ID (game_id)
-- Player ID (player_id)
+- 우승 여부 (is_winner)
+
+## 리팩터링 사항
+- [ ] DAO의 불필요한 분리 -> 합치자!
+- [ ] 어떤 이유에서 현재의 DB 구조가 나왔는지 잘 생각해보자!
+- 커밋 이름에 조금 더 신경쓰자! 어떤 일을 왜 했는지에 대해서...
+- [ ] 
