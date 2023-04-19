@@ -16,7 +16,10 @@ public class ResponseDto {
     }
 
     public List<String> getWinners() {
-        return winners.stream().map(winner -> winner.getName()).collect(Collectors.toList());
+        return winners
+                .stream()
+                .map(winner -> winner.getName())
+                .collect(Collectors.toList());
     }
 
     public List<Car> getRacingCars() {
