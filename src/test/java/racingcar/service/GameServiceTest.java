@@ -40,7 +40,7 @@ class GameServiceTest {
         final String sql = "select remaining_trial_count from gamestates where id = ?";
         final Integer trialCount = jdbcTemplate.queryForObject(sql, Integer.class, getGreatestGameId());
 
-        assertThat(trialCount).isEqualTo(0);
+        assertThat(trialCount).isZero();
     }
 
     @Test
