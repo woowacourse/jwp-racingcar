@@ -21,21 +21,10 @@ class GameManagerTest {
         gameManager = new GameManager(() -> 4, cars, gameRound);
     }
 
-    @DisplayName("모든 라운드 진행 후 끝났는지 확인하는 테스트")
-    @Test
-    void isEndTest() {
-        for (int round = 0; round < 5; round++) {
-            gameManager.playGameRound();
-        }
-        assertThat(gameManager.isEnd()).isTrue();
-    }
-
     @DisplayName("같은 숫자를 계속 반환하여  모두가 우승자인 테스트")
     @Test
     void decideWinnerTest() {
-        for (int round = 0; round < 5; round++) {
-            gameManager.playGameRound();
-        }
+        gameManager.run();
         List<Car> winnerCars = gameManager.getWinnerCars();
         List<String> winnerNames = winnerCars.stream()
                 .map(Car::getName)

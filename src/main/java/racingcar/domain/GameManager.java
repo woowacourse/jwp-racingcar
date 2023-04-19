@@ -1,5 +1,7 @@
 package racingcar.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -14,7 +16,13 @@ public class GameManager {
         this.gameRound = gameRound;
     }
 
-    public void playGameRound() {
+    public void run() {
+        while (!isEnd()) {
+            playGameRound();
+        }
+    }
+
+    private void playGameRound() {
         List<Car> currentCars = cars.getCars();
         for (Car car : currentCars) {
             car.move(numberGenerator.generateNumber());
@@ -22,7 +30,7 @@ public class GameManager {
         gameRound.increaseRound();
     }
 
-    public boolean isEnd() {
+    private boolean isEnd() {
         return gameRound.isEnd();
     }
 

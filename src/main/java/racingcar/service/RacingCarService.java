@@ -104,11 +104,8 @@ public class RacingCarService {
         final NumberGenerator numberGenerator = new RandomNumberGenerator();
         final Cars cars = Cars.from(List.of(namesAndCount.getNames().split(SEPARATOR)));
         final GameRound gameRound = new GameRound(namesAndCount.getCount());
-
         final GameManager gameManager = new GameManager(numberGenerator, cars, gameRound);
-        while (!gameManager.isEnd()) {
-            gameManager.playGameRound();
-        }
+        gameManager.run();
 
         List<Car> allCars = gameManager.getAllCars();
         List<Car> winnerCars = gameManager.getWinnerCars();
