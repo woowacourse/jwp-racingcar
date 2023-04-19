@@ -4,8 +4,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.RacingGameDto;
+import racingcar.dto.PlayResultDto;
 import racingcar.entity.PlayResultEntity;
+import racingcar.utils.mapper.EntityToMap;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
@@ -36,12 +37,16 @@ public class PlayResultDao {
         return playResultEntity;
     };
 
-    public int insertResult(final RacingGameDto racingGameDto) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("winners", racingGameDto.getWinners());
-        params.put("play_count", racingGameDto.getPlayCount());
-        params.put("created_at", LocalDateTime.now());
-        return insertRacingGame.executeAndReturnKey(params).intValue();
+    public int insertResult(final PlayResultDto playResultDto) {
+        return insertRacingGame.executeAndReturnKey(
+                EntityToMap.convert(dto -> {
+                            Map<String, Object> params = new HashMap<>();
+                            params.put("winners", playResultDto.getWinners());
+                            params.put("play_count", playResultDto.getPlayCount());
+                            params.put("created_at", LocalDateTime.now());
+                            return params;
+                        }
+                        , playResultDto)).intValue();
     }
 
     public List<PlayResultEntity> getResult() {

@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 
-import racingcar.dto.PlayerResultDto;
 import racingcar.utils.Validator;
 
 public class Car {
@@ -29,9 +28,5 @@ public class Car {
 
     public String getName() {
         return name;
-    }
-
-    public PlayerResultDto convertToDto() {
-        return new PlayerResultDto(name, position);
     }
 }

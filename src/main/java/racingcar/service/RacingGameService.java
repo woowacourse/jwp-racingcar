@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayersResultDao;
 import racingcar.domain.RacingGame;
-import racingcar.dto.PlayerResultDto;
-import racingcar.dto.RacingGameInputDto;
+import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
+import racingcar.dto.RacingGameInputDto;
 import racingcar.dto.RacingGameResultDto;
 import racingcar.entity.PlayResultEntity;
 import racingcar.entity.PlayerResultEntity;
@@ -30,11 +30,11 @@ public class RacingGameService {
                 racingGameInputDto.getCount());
         racingGame.start();
 
-        RacingGameDto racingGameDto = racingGame.convertToDto();
-        int resultId = playResultDao.insertResult(racingGame.convertToDto());
+        RacingGameDto racingGameDto = new RacingGameDto(racingGame);
+        int resultId = playResultDao.insertResult(racingGameDto);
         playersResultDao.insertResult(racingGameDto.getRacingCars(), resultId);
 
-        RacingGameResultDto racingGameResultDto = racingGame.convertToResultDto();
+        RacingGameResultDto racingGameResultDto = new RacingGameResultDto(racingGame);
         OutputView.printResult(racingGameResultDto);
         return racingGameResultDto;
     }
@@ -51,10 +51,10 @@ public class RacingGameService {
 
     private RacingGameResultDto requestRacingGameResult(final int resultId, final String winners) {
         List<PlayerResultEntity> playerResultEntities = playersResultDao.getResultByResultId(resultId);
-        List<PlayerResultDto> playerResultDtos = new ArrayList<>();
+        List<CarDto> carDtos = new ArrayList<>();
         for (PlayerResultEntity playerResultEntity : playerResultEntities) {
-            playerResultDtos.add(new PlayerResultDto(playerResultEntity.getName(), playerResultEntity.getPosition()));
+            carDtos.add(new CarDto(playerResultEntity.getName(), playerResultEntity.getPosition()));
         }
-        return new RacingGameResultDto(winners, playerResultDtos);
+        return new RacingGameResultDto(winners, carDtos);
     }
 }

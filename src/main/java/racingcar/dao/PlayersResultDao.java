@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.PlayerResultDto;
 import racingcar.entity.PlayerResultEntity;
+import racingcar.utils.mapper.EntityToMap;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -35,13 +36,15 @@ public class PlayersResultDao {
         return playerResultEntity;
     };
 
-    public void insertResult(final List<PlayerResultDto> playerResultDtos, final int resultId) {
+    public void insertResult(final List<? extends PlayerResultDto> playerResultDtos, final int resultId) {
         for (final PlayerResultDto playerResultDto : playerResultDtos) {
-            final Map<String, Object> params = new HashMap<>();
-            params.put("name", playerResultDto.getName());
-            params.put("position", playerResultDto.getPosition());
-            params.put("result_id", resultId);
-            insertActor.execute(params);
+            insertActor.execute(EntityToMap.convert(dto -> {
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("name", dto.getName());
+                        params.put("position", dto.getPosition());
+                        return params;
+                    }
+                    , playerResultDto, resultId));
         }
     }
 

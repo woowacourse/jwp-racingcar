@@ -1,8 +1,5 @@
 package racingcar.domain;
 
-import racingcar.dto.PlayerResultDto;
-import racingcar.dto.RacingGameDto;
-import racingcar.dto.RacingGameResultDto;
 import racingcar.utils.Validator;
 import racingcar.utils.powerGenerator.PowerGenerator;
 import racingcar.utils.powerGenerator.RandomPowerGenerator;
@@ -62,25 +59,11 @@ public class RacingGame {
                 .max().orElse(0);
     }
 
-    public RacingGameDto convertToDto() {
-        final List<PlayerResultDto> playerResultDtos = cars.stream()
-                .map(Car::convertToDto)
-                .collect(Collectors.toList());
-        final String names = getWinners().stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(","));
-
-        return new RacingGameDto(names, playCount, playerResultDtos);
+    public int getPlayCount() {
+        return playCount;
     }
 
-    public RacingGameResultDto convertToResultDto() {
-        final List<PlayerResultDto> playerResultDtos = cars.stream()
-                .map(Car::convertToDto)
-                .collect(Collectors.toList());
-        final String names = getWinners().stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(","));
-
-        return new RacingGameResultDto(names, playerResultDtos);
+    public List<Car> getCars() {
+        return cars;
     }
 }
