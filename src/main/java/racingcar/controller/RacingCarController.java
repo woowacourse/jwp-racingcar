@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ import racingcar.service.RacingCarService;
 import racingcar.view.OutputView;
 
 @RestController
+@RequestMapping(value = "/plays")
 public class RacingCarController {
     private final RacingCarService racingCarService;
 
@@ -25,7 +27,7 @@ public class RacingCarController {
         this.racingCarService = racingCarService;
     }
 
-    @PostMapping(value = "/plays", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<RacingCarResponseDto> raceAdd(@RequestBody final RacingCarRequestDto racingCarRequestDto) {
         RacingCarResponseDto racingCarResponseDto = racingCarService.addRace(racingCarRequestDto);
@@ -33,7 +35,7 @@ public class RacingCarController {
         return ResponseEntity.ok().body(racingCarResponseDto);
     }
 
-    @GetMapping(value = "/plays", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RacingCarResponseDto>> raceList() {
         return ResponseEntity.ok().body(racingCarService.findRace());
     }
