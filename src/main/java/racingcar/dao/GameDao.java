@@ -3,7 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.GameDto;
+import racingcar.entity.GameEntity;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -30,14 +30,14 @@ public class GameDao {
         return keyHolder.getKey().longValue();
     }
 
-    public List<GameDto> findAllWinners() {
+    public List<GameEntity> findAllWinners() {
         final String sql = "SELECT * FROM GAME";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             final long id = rs.getLong("id");
             final String winners = rs.getString("winners");
 
-            return new GameDto(id, winners);
+            return new GameEntity(id, winners);
         });
     }
 }

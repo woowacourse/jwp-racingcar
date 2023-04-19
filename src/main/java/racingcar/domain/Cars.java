@@ -1,7 +1,7 @@
 package racingcar.domain;
 
-import racingcar.exception.DuplicateCarNameException;
-import racingcar.utils.RacingNumberGenerator;
+import racingcar.exception.BadRequestException;
+import racingcar.strategy.RacingNumberGenerator;
 
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +38,7 @@ public class Cars {
     private static void checkDuplication(final List<String> carNames) {
         final int uniqueCarNameCount = new HashSet<>(carNames).size();
         if (uniqueCarNameCount != carNames.size()) {
-            throw new DuplicateCarNameException();
+            throw new BadRequestException("이름은 중복될 수 없습니다.");
         }
     }
 

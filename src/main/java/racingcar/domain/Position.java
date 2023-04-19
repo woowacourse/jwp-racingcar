@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.utils.RacingNumberGenerator;
+import racingcar.strategy.RacingNumberGenerator;
 
 public class Position implements Comparable<Position> {
 

@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.utils.RacingNumberGenerator;
+import racingcar.strategy.RacingNumberGenerator;
 
 import java.util.LinkedList;
 import java.util.List;

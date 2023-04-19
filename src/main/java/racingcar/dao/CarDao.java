@@ -2,7 +2,7 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarDto;
+import racingcar.entity.CarEntity;
 
 import java.util.List;
 
@@ -20,14 +20,14 @@ public class CarDao {
         jdbcTemplate.update(sql, name, position, playResultId);
     }
 
-    public List<CarDto> findRacingCarByGameId(final long gameId) {
+    public List<CarEntity> findRacingCarByGameId(final long gameId) {
         final String sql = "SELECT name, position FROM CAR where game_id = ?";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             final String name = rs.getString("name");
             final int position = rs.getInt("position");
 
-            return new CarDto(name, position);
+            return new CarEntity(name, position);
         }, gameId);
     }
 }

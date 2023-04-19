@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.WrongRoundException;
+import racingcar.exception.BadRequestException;
 
 public class Round {
 
@@ -23,13 +23,13 @@ public class Round {
         try {
             return Integer.parseInt(inputRound);
         } catch (NumberFormatException exception) {
-            throw new WrongRoundException();
+            throw new BadRequestException("올바른(1 이상의 숫자) 라운드를 입력해주세요.");
         }
     }
 
     private static void validateRound(int round) {
         if (round < MIN_VALUE) {
-            throw new WrongRoundException();
+            throw new BadRequestException("올바른(1 이상의 숫자) 라운드를 입력해주세요.");
         }
     }
 

@@ -1,11 +1,11 @@
-package racingcar.dto;
+package racingcar.entity;
 
-public class GameDto {
+public class GameEntity {
 
     private final Long id;
     private final String winners;
 
-    public GameDto(final Long id, final String winners) {
+    public GameEntity(final Long id, final String winners) {
         this.id = id;
         this.winners = winners;
     }

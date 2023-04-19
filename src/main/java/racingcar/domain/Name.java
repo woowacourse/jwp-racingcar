@@ -1,7 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.BlankNameException;
-import racingcar.exception.WrongNameLengthException;
+import racingcar.exception.BadRequestException;
 
 public class Name {
 
@@ -17,10 +16,10 @@ public class Name {
 
     private void validateName(String name) {
         if (!validateBlank(name)) {
-            throw new BlankNameException();
+            throw new BadRequestException("이름은 공백일 수 없습니다.");
         }
         if (!validateLength(name)) {
-            throw new WrongNameLengthException();
+            throw new BadRequestException("1 ~ 5글자 사이의 이름을 입력해주세요.");
         }
     }
 
