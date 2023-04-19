@@ -21,7 +21,7 @@ public class OutputView {
 
     public static void printCarGameResult(final CarGameResponse carGameResponse) {
         printWinners(carGameResponse.getWinners());
-        printCarResults(carGameResponse.getCars());
+        printCarResults(carGameResponse.getRacingCars());
     }
 
     public static void printWinners(final String winnersName) {

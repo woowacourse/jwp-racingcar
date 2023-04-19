@@ -4,18 +4,18 @@ import java.util.List;
 
 public class CarGameResponse {
     private final String winners;
-    private final List<CarResponse> cars;
+    private final List<CarResponse> racingCars;
 
-    public CarGameResponse(String winners, List<CarResponse> cars) {
+    public CarGameResponse(String winners, List<CarResponse> racingCars) {
         this.winners = winners;
-        this.cars = cars;
+        this.racingCars = racingCars;
     }
 
     public String getWinners() {
         return winners;
     }
 
-    public List<CarResponse> getCars() {
-        return cars;
+    public List<CarResponse> getRacingCars() {
+        return racingCars;
     }
 }
