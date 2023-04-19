@@ -15,8 +15,14 @@ public class GlobalRacingGameExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ExceptionResponse> handle(MethodArgumentNotValidException e) {
+    public ResponseEntity<ExceptionResponse> invalid(MethodArgumentNotValidException e) {
         String defaultMessage = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return new ResponseEntity<>(new ExceptionResponse(defaultMessage), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponse> handle(Exception e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
