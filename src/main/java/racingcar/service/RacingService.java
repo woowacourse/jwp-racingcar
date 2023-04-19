@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.CarResponse;
 import racingcar.controller.TrackResponse;
-import racingcar.dao.RacingDao;
+import racingcar.dao.SimpleDao;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
 import racingcar.model.car.Car;
@@ -19,10 +19,10 @@ import racingcar.model.track.Track;
 @Service
 public class RacingService {
 
-    private final RacingDao racingDao;
+    private final SimpleDao racingDao;
     private final MovingStrategy movingStrategy = new RandomMovingStrategy();
 
-    public RacingService(final RacingDao racingDao) {
+    public RacingService(final SimpleDao racingDao) {
         this.racingDao = racingDao;
     }
 
