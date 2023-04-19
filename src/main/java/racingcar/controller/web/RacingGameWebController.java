@@ -1,4 +1,4 @@
-package racingcar.controller;
+package racingcar.controller.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

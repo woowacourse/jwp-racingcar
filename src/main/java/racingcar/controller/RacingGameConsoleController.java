@@ -8,7 +8,7 @@ import racingcar.view.OutputView;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RacingGameController {
+public class RacingGameConsoleController {
 
     private static final int RACE_START_POINT = 0;
     private static final int MINIMUM_RANDOM_NUMBER = 0;
