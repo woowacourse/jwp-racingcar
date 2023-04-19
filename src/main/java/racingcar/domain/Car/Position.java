@@ -1,9 +1,11 @@
-package racingcar.domain;
+package racingcar.domain.Car;
 
 import java.util.Objects;
 
 public class Position {
+
     private static final int DISTANCE_TO_MOVE = 1;
+
     private int position;
 
     public Position(int startPoint) {

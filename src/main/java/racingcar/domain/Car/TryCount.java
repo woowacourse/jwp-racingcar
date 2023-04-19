@@ -1,16 +1,14 @@
-package racingcar.domain;
+package racingcar.domain.Car;
 
 public class TryCount {
+
     private static final int MINIMUM_TRY_COUNT = 0;
+
     private final int tries;
 
     public TryCount(int tries) {
         validateTryCount(tries);
         this.tries = tries;
-    }
-
-    public int getTries() {
-        return tries;
     }
 
     private void validateTryCount(int tries) {
@@ -19,4 +17,7 @@ public class TryCount {
         }
     }
 
+    public int getTries() {
+        return tries;
+    }
 }

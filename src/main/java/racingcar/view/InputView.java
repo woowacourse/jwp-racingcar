@@ -20,6 +20,12 @@ public class InputView {
         return splitInputByDelimiter(input);
     }
 
+    private static List<String> splitInputByDelimiter(String input) {
+        return Arrays.stream(input.split(CAR_NAME_DELIMITER))
+                .map(String::trim)
+                .collect(Collectors.toList());
+    }
+
     public static int inputTries() {
         try {
             System.out.println(TRIES_INPUT_MESSAGE);
@@ -28,12 +34,4 @@ public class InputView {
             throw new IllegalArgumentException("숫자를 입력해주세요.");
         }
     }
-
-    private static List<String> splitInputByDelimiter(String input) {
-        return Arrays.stream(input.split(CAR_NAME_DELIMITER))
-                .map(String::trim)
-                .collect(Collectors.toList());
-
-    }
-    
 }
