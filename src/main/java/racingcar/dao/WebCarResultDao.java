@@ -12,8 +12,7 @@ import racingcar.domain.CarResult;
 import java.util.List;
 
 @Repository
-public class WebCarResultDao implements CarResultDao{
-
+public class WebCarResultDao implements CarResultDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> CarResult.of(

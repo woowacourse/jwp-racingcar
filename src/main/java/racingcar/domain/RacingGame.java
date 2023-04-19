@@ -22,7 +22,7 @@ public class RacingGame {
     }
 
     public void play() {
-        while(tryCount.canTry()) {
+        while (tryCount.canTry()) {
             playTurn();
             tryCount.decrease();
         }

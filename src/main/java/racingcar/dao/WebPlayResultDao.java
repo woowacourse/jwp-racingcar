@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public class WebPlayResultDao implements PlayResultDao {
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 

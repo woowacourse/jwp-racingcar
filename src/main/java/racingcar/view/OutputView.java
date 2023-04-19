@@ -7,7 +7,6 @@ import racingcar.dto.response.CarResponse;
 import java.util.List;
 
 public class OutputView {
-
     public static void printBeforeRacing() {
         System.out.println("실행 결과");
     }

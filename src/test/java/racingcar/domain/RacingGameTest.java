@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class RacingGameTest {
-
     private final String carNames = "박스터,포르쉐,소나타";
 
     @Test

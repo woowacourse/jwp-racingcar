@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CarTest {
-
     @ParameterizedTest
     @ValueSource(strings = {"123456", "123456789"})
     void 생성_실패_이름_5글자_초과(String name) {
