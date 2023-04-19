@@ -76,14 +76,26 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
 
     private RacingGameResult fromEntity(final SelectGameEntity selectGameEntity, final List<CarEntity> carEntities,
             final List<WinnerEntity> winnerEntities) {
-        final List<Car> winners = carEntities.stream().filter(carEntity -> winnerEntities.stream()
-                        .anyMatch(winnerEntity -> winnerEntity.getWinnerCarId() == carEntity.getId()))
-                .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition()))
-                .collect(Collectors.toList());
-        final List<Car> totalCars = carEntities.stream()
-                .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition()))
-                .collect(Collectors.toList());
+        final List<Car> winners = new ArrayList<>();
+        final List<Car> totalCars = new ArrayList<>();
+
+        for (CarEntity carEntity : carEntities) {
+            processWinnersCar(winnerEntities, winners, carEntity);
+            totalCars.add(carEntity.toDomain());
+        }
 
         return new RacingGameResult(totalCars, winners, new Count(selectGameEntity.getTryCount()));
+    }
+
+    private void processWinnersCar(final List<WinnerEntity> winnerEntities, final List<Car> winners,
+            final CarEntity carEntity) {
+        if (matchesByCarId(carEntity, winnerEntities)) {
+            winners.add(carEntity.toDomain());
+        }
+    }
+
+    private boolean matchesByCarId(final CarEntity carEntity, final List<WinnerEntity> winnerEntities) {
+        return winnerEntities.stream()
+                .anyMatch(winnerEntity -> carEntity.matchesById(winnerEntity.getWinnerCarId()));
     }
 }
