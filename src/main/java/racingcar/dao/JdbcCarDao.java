@@ -19,7 +19,7 @@ public class JdbcCarDao implements CarDao {
     }
 
     @Override
-    public void saveAll(int gameId, List<CarEntity> carEntities) {
+    public void saveAll(final int gameId, final List<CarEntity> carEntities) {
         final String sql = "INSERT INTO CAR(racing_game_id, name, position, is_win) VALUES (?,?,?,?)";
         final BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
 

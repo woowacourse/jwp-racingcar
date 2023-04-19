@@ -20,7 +20,7 @@ public class RacingGameResponse {
         this.winners = winners;
     }
 
-    public static RacingGameResponse createByCars(List<Car> cars, List<Car> winningCars) {
+    public static RacingGameResponse createByCars(final List<Car> cars, final List<Car> winningCars) {
         List<CarResponse> carResponses = cars.stream()
                 .map(CarResponse::new)
                 .collect(toList());
@@ -31,7 +31,7 @@ public class RacingGameResponse {
         return new RacingGameResponse(carResponses, winners);
     }
 
-    public static RacingGameResponse createByEntity(List<CarEntity> carEntities) {
+    public static RacingGameResponse createByEntity(final List<CarEntity> carEntities) {
         List<CarResponse> carResponses = carEntities.stream()
                 .map(CarResponse::new)
                 .collect(toList());

@@ -8,12 +8,12 @@ public class CarResponse {
     private final String name;
     private final int position;
 
-    public CarResponse(Car car) {
+    public CarResponse(final Car car) {
         this.name = car.getName();
         this.position = car.getPosition();
     }
 
-    public CarResponse(CarEntity carEntity) {
+    public CarResponse(final CarEntity carEntity) {
         this.name = carEntity.getName();
         this.position = carEntity.getPosition();
     }

@@ -20,7 +20,7 @@ public class JdbcRacingGameDao implements RacingGameDao {
     }
 
     @Override
-    public int save(int count) {
+    public int save(final int count) {
         String sql = "INSERT INTO RACING_GAME(count) VALUES (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 

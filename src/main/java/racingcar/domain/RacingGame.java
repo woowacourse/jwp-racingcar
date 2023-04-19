@@ -11,13 +11,13 @@ public class RacingGame {
     private final int totalRound;
     private final NumberGenerator numberGenerator = new RandomNumberGenerator();
 
-    public RacingGame(final Cars cars, int totalRound) {
+    public RacingGame(final Cars cars, final int totalRound) {
         validateRound(totalRound);
         this.cars = cars;
         this.totalRound = totalRound;
     }
 
-    private void validateRound(int totalRound) {
+    private void validateRound(final int totalRound) {
         if (totalRound < ROUND_MIN_NUM) {
             throw new IllegalArgumentException(ROUND_NUMBER_ERROR);
         }

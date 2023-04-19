@@ -9,7 +9,7 @@ import racingcar.domain.entity.RacingGameEntity;
 
 public class LocalRacingGameDao implements RacingGameDao {
 
-    Map<Integer, RacingGameEntity> localDb = new HashMap<>();
+    private final Map<Integer, RacingGameEntity> localDb = new HashMap<>();
     private int id = 1;
 
 

@@ -21,7 +21,7 @@ public class WebRacingCarService {
         this.racingCarRepository = racingCarRepository;
     }
 
-    public RacingGameResponse play(RacingGameRequest racingGameRequest) {
+    public RacingGameResponse play(final RacingGameRequest racingGameRequest) {
         final RacingGame racingGame = racingGameRequest.toEntity();
         racingGame.play();
         racingCarRepository.save(createRacingGameEntity(racingGame));
@@ -29,7 +29,7 @@ public class WebRacingCarService {
         return RacingGameResponse.createByCars(racingGame.getCars(), racingGame.findWinnerCars());
     }
 
-    private RacingGameEntity createRacingGameEntity(RacingGame racingGame) {
+    private RacingGameEntity createRacingGameEntity(final RacingGame racingGame) {
         List<Car> winnerCars = racingGame.findWinnerCars();
 
         final List<CarEntity> carEntities = racingGame.getCars().stream()

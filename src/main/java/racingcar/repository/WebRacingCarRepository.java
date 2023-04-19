@@ -15,13 +15,13 @@ public class WebRacingCarRepository implements RacingCarRepository {
     private final RacingGameDao racingGameDao;
     private final CarDao carDao;
 
-    public WebRacingCarRepository(RacingGameDao racingGameDao, CarDao carDao) {
+    public WebRacingCarRepository(final RacingGameDao racingGameDao, final CarDao carDao) {
         this.racingGameDao = racingGameDao;
         this.carDao = carDao;
     }
 
     @Override
-    public void save(RacingGameEntity racingGameEntity) {
+    public void save(final RacingGameEntity racingGameEntity) {
         int gameId = racingGameDao.save(racingGameEntity.getCount());
         carDao.saveAll(gameId, racingGameEntity.getCarEntities());
     }

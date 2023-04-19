@@ -10,14 +10,14 @@ public class Cars {
     private static final int CARS_MIN_SIZE = 2;
     private static final String CARS_SIZE_ERROR = "자동차 대수는 2 이상이어야 합니다.";
 
-    private List<Car> cars;
+    private final List<Car> cars;
 
-    public Cars(List<Car> cars) {
+    public Cars(final List<Car> cars) {
         validate(cars);
         this.cars = new ArrayList<>(cars);
     }
 
-    private void validate(List<Car> cars) {
+    private void validate(final List<Car> cars) {
         if (cars.size() < CARS_MIN_SIZE) {
             throw new IllegalArgumentException(CARS_SIZE_ERROR);
         }
@@ -34,7 +34,7 @@ public class Cars {
         return carNames.size() != new HashSet<>(carNames).size();
     }
 
-    public void move(NumberGenerator numberGenerator) {
+    public void move(final NumberGenerator numberGenerator) {
         for (Car car : cars) {
             car.move(numberGenerator.generate());
         }
@@ -51,7 +51,7 @@ public class Cars {
                 .orElseThrow(() -> new IllegalArgumentException("Cars가 비어있습니다."));
     }
 
-    private List<Car> findSamePositionCars(Car maxPositionCar) {
+    private List<Car> findSamePositionCars(final Car maxPositionCar) {
         return cars.stream()
                 .filter(car -> car.isSamePosition(maxPositionCar))
                 .collect(Collectors.toList());

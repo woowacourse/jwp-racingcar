@@ -18,7 +18,7 @@ public class RacingGameRequest {
     @NotNull(message = "횟수를 입력해주세요.")
     private final Integer count;
 
-    public RacingGameRequest(String names, Integer count) {
+    public RacingGameRequest(final String names, final Integer count) {
         this.names = names;
         this.count = count;
     }

@@ -8,7 +8,7 @@ public class RacingGameEntity {
 
     private Integer id;
     private List<CarEntity> carEntities;
-    private Integer count;
+    private final Integer count;
     private LocalDateTime createdAt;
 
     public RacingGameEntity(final List<CarEntity> carEntities, final Integer count) {

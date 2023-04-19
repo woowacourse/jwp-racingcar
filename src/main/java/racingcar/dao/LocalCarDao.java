@@ -8,7 +8,7 @@ import racingcar.domain.entity.CarEntity;
 
 public class LocalCarDao implements CarDao {
 
-    Map<Integer, CarEntity> localDb = new HashMap<>();
+    private final Map<Integer, CarEntity> localDb = new HashMap<>();
     private int id = 1;
 
     @Override

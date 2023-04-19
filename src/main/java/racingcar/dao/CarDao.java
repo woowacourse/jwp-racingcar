@@ -5,7 +5,7 @@ import racingcar.domain.entity.CarEntity;
 
 public interface CarDao {
 
-    void saveAll(int gameId, List<CarEntity> carEntities);
+    void saveAll(final int gameId, final List<CarEntity> carEntities);
 
     List<CarEntity> findAll();
 }

@@ -5,7 +5,7 @@ import racingcar.domain.entity.RacingGameEntity;
 
 public interface RacingGameDao {
 
-    int save(int count);
+    int save(final int count);
 
     List<RacingGameEntity> findAll();
 }
