@@ -44,4 +44,15 @@ public class RacingCarService {
                 .map(car -> new PlayerDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public List<ResultResponseDto> getAllRacingGameHistory() {
+        return racingGames.getAllRacingGames().stream()
+                .map(racingGame ->
+                        new ResultResponseDto(racingGame.getWinners(),
+                        mapToPlayerDtos(racingGame.getCars())
+                        )
+                )
+                .collect(Collectors.toList());
+    }
 }
