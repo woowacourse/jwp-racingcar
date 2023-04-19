@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest
 class ResultDaoTest {
 
     @Autowired
@@ -17,6 +17,7 @@ class ResultDaoTest {
     @DisplayName("결과 추가 시 id가 반환되는지 확인")
     void insert() {
         long id = resultDao.insert(4, "roy");
+        System.out.println(id);
 
         assertThat(id).isEqualTo(1);
     }
