@@ -26,7 +26,7 @@
 
 - [ ] 레이싱 게임
   - [ ] 경주
-    - [ ] 시도 횟수 (TryNumber)
+    - [ ] 시도 횟수만큼 이동을 시도한다 (TryNumber)
 
   - [x] 이동 여부 결정 (RandomBasedMoveStrategy - 0 ~ 9중 랜덤 숫자 생성)
     - [x] 무브 : 랜덤 숫자 4이상
