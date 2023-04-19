@@ -1,71 +1,84 @@
 package racingcar.domain;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingGameResultDto;
-import racingcar.utils.powerGenerator.PowerGenerator;
-import racingcar.utils.powerGenerator.RandomPowerGenerator;
+import racingcar.dto.GameResultDto;
+import racingcar.dto.PlayerDto;
+import racingcar.utils.PowerGenerator;
+import racingcar.utils.RandomPowerGenerator;
 
 public class RacingGame {
+    private static final int MIN_TRY_COUNT = 1;
+    private static final int MAX_TRY_COUNT = 100;
+    private static final int DEFAULT_POSITION = 0;
+
     private final List<Car> cars;
     private final PowerGenerator powerGenerator;
     private final int playCount;
 
-    public RacingGame(final String[] carNames, final int tryCount) {
-        this.powerGenerator = new RandomPowerGenerator();
-        this.cars = generateCars(carNames);
+    public RacingGame(final List<String> names, final int tryCount) {
+        validateNames(names);
+        validateTryCount(tryCount);
+        this.cars = generateCars(names);
         this.playCount = tryCount;
+        this.powerGenerator = new RandomPowerGenerator();
     }
 
-    public void start() {
-        int tryCount = playCount;
-        while (!isEnd(tryCount--)) {
+    private static void validateTryCount(final int tryCount) {
+        if (tryCount < MIN_TRY_COUNT || tryCount > MAX_TRY_COUNT) {
+            throw new IllegalArgumentException("1이상 100이하의 시도 횟수를 입력해 주세요.");
+        }
+    }
+
+    private static void validateNames(final List<String> names) {
+        if (names.isEmpty() || names.stream().anyMatch(String::isBlank)) {
+            throw new IllegalArgumentException("빈 이름은 입력할 수 없습니다.");
+        }
+        final Set<String> set = new HashSet<>(names);
+        if (set.size() != names.size()) {
+            throw new IllegalArgumentException("중복된 이름은 사용할 수 없습니다.");
+        }
+    }
+
+    public GameResultDto play() {
+        for (int i = 0; i < playCount; i++) {
             moveCars();
         }
+        updateWinner();
+        return getResult();
     }
 
-    public List<Car> getWinners() {
-        final int maxPosition = getMaxPosition();
-        return cars.stream()
-                .filter(car -> car.getPosition() == maxPosition)
+    public GameResultDto getResult() {
+        final List<PlayerDto> players = cars.stream()
+                .map(Car::getPlayer)
                 .collect(Collectors.toList());
+        return new GameResultDto(playCount, players);
     }
 
-    private List<Car> generateCars(final String[] carNames) {
-        final List<Car> cars = new ArrayList<>();
-        for (final String carName : carNames) {
-            cars.add(new Car(carName));
-        }
-        return cars;
+    private void updateWinner() {
+        final int maxPosition = findMaxPosition();
+        final Predicate<Car> maxPredicate = car -> car.getPosition() == maxPosition;
+        cars.stream()
+                .filter(maxPredicate)
+                .forEach(Car::win);
     }
 
-    private boolean isEnd(final int tryCount) {
-        return tryCount <= 0;
+    private List<Car> generateCars(final List<String> names) {
+        return names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
     }
 
     private void moveCars() {
-        for (final Car car : cars) {
-            final int power = powerGenerator.generate();
-            car.move(power);
-        }
+        cars.forEach(car -> car.move(powerGenerator.generate()));
     }
 
-    private int getMaxPosition() {
+    private int findMaxPosition() {
         return cars.stream()
                 .mapToInt(Car::getPosition)
-                .max().orElse(0);
-    }
-
-    public RacingGameResultDto convertToDto() {
-        final List<RacingCarDto> racingCarDtos = cars.stream()
-                .map(Car::convertToDto)
-                .collect(Collectors.toList());
-        final String names = getWinners().stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(","));
-
-        return new RacingGameResultDto(names, playCount, racingCarDtos);
+                .max().orElse(DEFAULT_POSITION);
     }
 }

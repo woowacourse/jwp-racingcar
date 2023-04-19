@@ -1,5 +1,6 @@
-package racingcar.utils.powerGenerator;
+package racingcar.utils;
 
 public interface PowerGenerator {
+
     int generate();
 }
