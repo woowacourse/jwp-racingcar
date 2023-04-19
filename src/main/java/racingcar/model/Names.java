@@ -1,16 +1,18 @@
 package racingcar.model;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import racingcar.util.NameFormatConverter;
 
 public class Names {
+    private static final String NAME_DELIMITER = ",";
+
     private final List<String> names;
 
     public Names(final String namesWithDelimiter) {
-        final List<String> carNames = NameFormatConverter.splitNameByDelimiter(namesWithDelimiter);
+        final List<String> carNames = Arrays.asList(namesWithDelimiter.split(NAME_DELIMITER));
         final List<String> trimmedCarNames = trim(carNames);
         validateNameDuplication(trimmedCarNames);
         this.names = trimmedCarNames;
