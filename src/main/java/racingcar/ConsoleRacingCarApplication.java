@@ -3,7 +3,7 @@ package racingcar;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import racingcar.controller.RacingGameController;
@@ -17,7 +17,7 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 import static racingcar.controller.RacingGameController.PlayGameRequest;
 import static racingcar.controller.RacingGameController.PlayGameResponse;
 
-@SpringBootApplication
+@EnableAutoConfiguration
 @ComponentScan(
         includeFilters = @ComponentScan.Filter(type = ANNOTATION, classes = Console.class),
         excludeFilters = @ComponentScan.Filter(type = ASSIGNABLE_TYPE, classes = WebRacingCarApplication.class)
