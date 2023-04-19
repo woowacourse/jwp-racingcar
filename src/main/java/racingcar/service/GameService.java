@@ -1,88 +1,68 @@
 package racingcar.service;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toUnmodifiableList;
+import static java.util.Collections.unmodifiableList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.PlayResponse;
-import racingcar.dto.VehicleDto;
-import racingcar.model.Car;
-import racingcar.model.Cars;
-import racingcar.model.TrialCount;
-import racingcar.model.Vehicle;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.RacingGame;
+import racingcar.domain.TrialCount;
+import racingcar.dto.RecordDto;
 import racingcar.repository.GameDao;
-import racingcar.util.CarNameValidator;
-import java.util.Arrays;
+import racingcar.repository.RecordDao;
+import racingcar.response.PlayResponse;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GameService {
 
-    private static final String DELIMITER = ",";
+    private static final int MIN_GAME_ID = 1;
 
-    private final CarNameValidator carNameValidator;
-    private final RecordService recordService;
+    private final RacingGame racingGame;
     private final GameDao gameDao;
+    private final RecordDao recordDao;
 
     @Autowired
-    public GameService(final CarNameValidator carNameValidator, final RecordService recordService, final GameDao gameDao) {
-        this.carNameValidator = carNameValidator;
-        this.recordService = recordService;
+    public GameService(final RacingGame racingGame, final GameDao gameDao, final RecordDao recordDao) {
+        this.racingGame = racingGame;
         this.gameDao = gameDao;
+        this.recordDao = recordDao;
     }
 
     @Transactional
     public PlayResponse playRacing(final String names, final int count) {
-        Cars cars = createCars(names);
-        TrialCount trialCount = new TrialCount(count);
+        Cars cars = racingGame.createCars(names);
+        TrialCount trialCount = racingGame.createTrialCount(count);
 
-        long gameId = saveGame(trialCount);
+        racingGame.playRacing(cars, trialCount);
 
-        play(trialCount, cars);
-        recordService.saveResults(gameId, cars);
+        long savedGameId = gameDao.insert(trialCount.getValue());
+        saveResults(savedGameId, cars);
 
-        return new PlayResponse(findWinnerNames(cars), toVehicleDto(cars));
+        return PlayResponse.from(cars);
     }
 
-    private Cars createCars(final String names) {
-        List<String> carNames = splitNames(names);
+    private void saveResults(final long gameId, final Cars cars) {
+        List<String> winnerNames = cars.winnerNames();
 
-        carNameValidator.validate(carNames);
-
-        return new Cars(carNames.stream()
-                .map(Car::new)
-                .collect(toUnmodifiableList()));
-    }
-
-    private List<String> splitNames(final String names) {
-        return Arrays.stream(names.split(DELIMITER, -1))
-                .map(String::trim)
-                .collect(toList());
-    }
-
-    private long saveGame(final TrialCount trialCount) {
-        return gameDao.insert(trialCount.getTrialCount());
-    }
-
-    private void play(final TrialCount trialCount, final Cars cars) {
-        for (int i = 0; i < trialCount.getTrialCount(); i++) {
-            cars.moveAll();
+        for (final Car car : cars.getCars()) {
+            recordDao.insert(gameId, winnerNames.contains(car.getName()), car);
         }
     }
 
-    private List<String> findWinnerNames(final Cars cars) {
-        return cars.getWinner().stream()
-                .map(Vehicle::getName)
-                .collect(Collectors.toList());
-    }
+    public List<PlayResponse> showGameHistory() {
+        List<PlayResponse> playResponses = new ArrayList<>();
 
-    private List<VehicleDto> toVehicleDto(final Cars cars) {
-        return cars.getCars()
-                .stream()
-                .map(car -> new VehicleDto(car.getName(), car.getDistance()))
-                .collect(Collectors.toList());
+        int count = gameDao.countAll();
+        for (int gameId = MIN_GAME_ID; gameId <= count; gameId++) {
+            List<RecordDto> recordsByGameId = recordDao.findAllByGameId(gameId);
+
+            playResponses.add(PlayResponse.from(recordsByGameId));
+        }
+
+        return unmodifiableList(playResponses);
     }
 }
