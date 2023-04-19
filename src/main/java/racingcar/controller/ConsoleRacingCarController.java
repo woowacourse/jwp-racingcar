@@ -19,7 +19,7 @@ public class ConsoleRacingCarController {
         List<String> carNames = requestCarNames();
         int roundCount = requestRoundCount();
         int gameId = racingCarService.playRacingGame(carNames, roundCount);
-        String winners = racingCarService.findWinners(gameId);
+        List<String> winners = racingCarService.findWinners(gameId);
         List<RacingCarDto> racingCars = racingCarService.findRacingCars(gameId);
         OutputView.printRoundState(racingCars);
         OutputView.printRacingResult(winners);

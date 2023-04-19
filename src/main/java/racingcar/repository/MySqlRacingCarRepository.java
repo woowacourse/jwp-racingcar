@@ -1,22 +1,18 @@
 package racingcar.repository;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingResultResponse;
-import racingcar.utils.RacingCarDtoMapper;
 
 @Repository
 public class MySqlRacingCarRepository implements RacingCarRepository {
-    private static final String RACING_CARS_RESULT_DELIMITER = ",";
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
@@ -56,11 +52,14 @@ public class MySqlRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public String findWinners(int gameId) {
-        String sql = "SELECT GROUP_CONCAT(winner) FROM WINNER_RESULT WHERE game_id = ?";
+    public List<String> findWinners(int gameId) {
+        String sql = "SELECT winner FROM WINNER_RESULT WHERE game_id = ?";
         return jdbcTemplate.query(sql, ps -> ps.setInt(1, gameId), rs -> {
-            rs.next();
-            return rs.getString(1);
+            List<String> winners = new ArrayList<>();
+            while (rs.next()) {
+                winners.add(rs.getString(1));
+            }
+            return winners;
         });
     }
 
@@ -79,26 +78,30 @@ public class MySqlRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public List<RacingResultResponse> findAllGameResults() {
-        String sql = "SELECT GROUP_CONCAT(DISTINCT CONCAT(PR.name,':',PR.position)), GROUP_CONCAT(DISTINCT WR.winner) "
-                + "FROM GAME_RESULT AS GR "
-                + "JOIN PLAYER_RESULT PR ON GR.id = PR.game_id "
-                + "JOIN WINNER_RESULT WR ON GR.id = WR.game_id "
-                + "GROUP BY GR.id";
+    public Map<Integer, List<RacingCarDto>> findAllRacingCars() {
+        String sql = "SELECT GR.id, PR.name, PR.position FROM PLAYER_RESULT as PR INNER JOIN GAME_RESULT GR on GR.id = PR.game_id";
         return jdbcTemplate.query(sql, rs -> {
-            ArrayList<RacingResultResponse> results = new ArrayList<>();
+            Map<Integer, List<RacingCarDto>> result = new HashMap<>();
             while (rs.next()) {
-                String racingCarsResults = rs.getString(1);
-                String winners = rs.getString(2);
-                results.add(new RacingResultResponse(winners, mapToRacingCarDtos(racingCarsResults)));
+                Integer gameId = rs.getInt(1);
+                List<RacingCarDto> racingCarDtos = result.computeIfAbsent(gameId, ignore -> new ArrayList<>());
+                racingCarDtos.add(new RacingCarDto(rs.getString(2), rs.getInt(3)));
             }
-            return results;
+            return result;
         });
     }
 
-    private List<RacingCarDto> mapToRacingCarDtos(String racingCarsResults) {
-        return Arrays.stream(racingCarsResults.split(RACING_CARS_RESULT_DELIMITER))
-                .map(RacingCarDtoMapper::fromString)
-                .collect(toList());
+    @Override
+    public Map<Integer, List<String>> findAllWinners() {
+        String sql = "SELECT GR.id, WR.winner FROM WINNER_RESULT as WR INNER JOIN GAME_RESULT GR on GR.id = WR.game_id";
+        return jdbcTemplate.query(sql, rs -> {
+            Map<Integer, List<String>> result = new HashMap<>();
+            while (rs.next()) {
+                Integer gameId = rs.getInt(1);
+                List<String> winners = result.computeIfAbsent(gameId, ignore -> new ArrayList<>());
+                winners.add(rs.getString(2));
+            }
+            return result;
+        });
     }
 }

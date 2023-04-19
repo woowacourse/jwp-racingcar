@@ -45,7 +45,7 @@ class WebRacingCarControllerTest {
                 .willReturn(1);
 
         given(racingCarService.findWinners(1))
-                .willReturn("raon");
+                .willReturn(List.of("raon"));
 
         given(racingCarService.findRacingCars(1))
                 .willReturn(List.of(
@@ -67,10 +67,10 @@ class WebRacingCarControllerTest {
     void racingGameGetAllGameResults() throws Exception {
         // given
         List<RacingResultResponse> response = List.of(
-                new RacingResultResponse("glen", List.of(
+                new RacingResultResponse(List.of("glen"), List.of(
                         new RacingCarDto("glen", 6),
                         new RacingCarDto("raon", 5))),
-                new RacingResultResponse("raon", List.of(
+                new RacingResultResponse(List.of("raon"), List.of(
                         new RacingCarDto("glen", 3),
                         new RacingCarDto("raon", 6))));
 

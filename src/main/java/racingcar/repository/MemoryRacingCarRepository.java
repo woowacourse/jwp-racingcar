@@ -1,17 +1,17 @@
 package racingcar.repository;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
+import java.util.Map.Entry;
 import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingResultResponse;
 
 public class MemoryRacingCarRepository implements RacingCarRepository {
-    private static final String WINNER_DELIMITER = ",";
     private int gameId = 1;
     private final Map<Integer, List<Car>> playerTable = new HashMap<>();
     private final Map<Integer, List<String>> winnerTable = new HashMap<>();
@@ -32,8 +32,8 @@ public class MemoryRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public String findWinners(int gameId) {
-        return String.join(WINNER_DELIMITER, winnerTable.get(gameId));
+    public List<String> findWinners(int gameId) {
+        return winnerTable.get(gameId);
     }
 
     @Override
@@ -44,9 +44,20 @@ public class MemoryRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public List<RacingResultResponse> findAllGameResults() {
-        return IntStream.rangeClosed(1, gameId)
-                .mapToObj(id -> new RacingResultResponse(findWinners(id), findRacingCars(id)))
+    public Map<Integer, List<RacingCarDto>> findAllRacingCars() {
+        return playerTable.entrySet().stream()
+                .collect(toMap(Entry::getKey, entry -> mapToRacingCarDto(entry.getValue())));
+    }
+
+    private List<RacingCarDto> mapToRacingCarDto(List<Car> cars) {
+        return cars.stream()
+                .map(car -> new RacingCarDto(car.getName(), car.getPosition()))
                 .collect(toList());
     }
+
+    @Override
+    public Map<Integer, List<String>> findAllWinners() {
+        return Collections.unmodifiableMap(winnerTable);
+    }
+
 }

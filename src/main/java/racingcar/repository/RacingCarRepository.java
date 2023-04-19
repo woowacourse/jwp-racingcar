@@ -1,9 +1,9 @@
 package racingcar.repository;
 
 import java.util.List;
+import java.util.Map;
 import racingcar.domain.Car;
 import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingResultResponse;
 
 public interface RacingCarRepository {
     void saveWinner(int gameId, List<String> winners);
@@ -12,9 +12,11 @@ public interface RacingCarRepository {
 
     int saveGame(int count);
 
-    String findWinners(int gameId);
+    List<String> findWinners(int gameId);
 
     List<RacingCarDto> findRacingCars(int gameId);
 
-    List<RacingResultResponse> findAllGameResults();
+    Map<Integer, List<RacingCarDto>> findAllRacingCars();
+
+    Map<Integer, List<String>> findAllWinners();
 }

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,8 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
+import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarRequest;
-import racingcar.dto.RacingResultResponse;
 import racingcar.repository.MySqlRacingCarRepository;
 
 @SpringBootTest
@@ -48,11 +49,9 @@ class WebIntegrationTest {
                 .andExpect(status().isOk());
 
         // then
-        List<RacingResultResponse> result = mySqlRacingCarRepository.findAllGameResults();
-        assertThat(result)
+        Map<Integer, List<RacingCarDto>> racingCars = mySqlRacingCarRepository.findAllRacingCars();
+        assertThat(racingCars)
                 .hasSize(1);
-        assertThat(result.get(0).getRacingCars())
-                .hasSize(2);
     }
 
     @Test

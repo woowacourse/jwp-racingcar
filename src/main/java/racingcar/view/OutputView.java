@@ -33,8 +33,8 @@ public class OutputView {
         return racingCarDto.getName() + " : " + POSITION_DELIMITER.repeat(racingCarDto.getPosition());
     }
 
-    public static void printRacingResult(String winners) {
-        System.out.println(winners + RACING_RESULT_SUFFIX);
+    public static void printRacingResult(List<String> winners) {
+        System.out.println(String.join(",", winners) + RACING_RESULT_SUFFIX);
     }
 
     public static void printException(Exception e) {
