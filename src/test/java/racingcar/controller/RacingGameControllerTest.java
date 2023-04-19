@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.RacingCarApplication;
@@ -20,11 +20,8 @@ import racingcar.RacingCarApplication;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RacingCarApplication.class)
 public class RacingGameControllerTest {
 
-    @LocalServerPort
-    int port;
-
     @BeforeEach
-    void setUp() {
+    void setUp(@LocalServerPort final int port) {
         RestAssured.port = port;
     }
 
