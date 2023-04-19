@@ -22,17 +22,16 @@ public class RacingCarGame {
         this.numberGenerator = numberGenerator;
     }
 
-    public List<String> findWinners() {
-        play();
-        final Cars winners = cars.findWinners();
-        return getWinnerNames(winners);
-    }
-
-    private void play() {
+    public void play() {
         while (attemptNumber.isRemain()) {
             attemptNumber.decrease();
             cars.moveAll(numberGenerator);
         }
+    }
+
+    public List<String> findWinners() {
+        final Cars winners = cars.findWinners();
+        return getWinnerNames(winners);
     }
 
     private List<String> getWinnerNames(final Cars winners) {
