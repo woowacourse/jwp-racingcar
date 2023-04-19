@@ -24,19 +24,16 @@ public class PlayerInsertDao {
         cars.forEach(car -> insertPlayer(gameId, car, isWinner(winnerNames, car.getName())));
     }
 
-    private int isWinner(List<String> winnerNames, String name) {
-        if (winnerNames.contains(name)) {
-            return 1;
-        }
-        return 0;
+    private boolean isWinner(List<String> winnerNames, String name) {
+        return winnerNames.contains(name);
     }
 
-    private void insertPlayer(int gameId, Car car, int isWinner) {
+    private void insertPlayer(int gameId, Car car, boolean isWinner) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("game_id", gameId);
         parameters.put("name", car.getName());
         parameters.put("position", car.getDistance());
-        parameters.put("isWinner", isWinner);
+        parameters.put("is_winner", isWinner);
         insertPlayerActor.execute(parameters);
     }
 }

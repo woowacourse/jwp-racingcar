@@ -36,7 +36,7 @@ public class GameQueryDao {
     }
 
     public List<String> getWinners(final int id) {
-        final String sql = "select name from PLAYER where game_id = ? and isWinner = 1";
+        final String sql = "select name from PLAYER where game_id = ? and is_winner = true";
         return jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> resultSet.getString("name"),
