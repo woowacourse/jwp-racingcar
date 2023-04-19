@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class RacingCarController {
+public class RacingCarConsoleController {
 
     private static final int START_POSITION = 0;
     private final CarNumberGenerator carNumberGenerator = new CarRandomNumberGenerator();

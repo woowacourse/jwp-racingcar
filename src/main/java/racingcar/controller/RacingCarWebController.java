@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class PlayRequestController {
+public class RacingCarWebController {
 
     private static final String DELIMITER = ",";
     private static final int START_POSITION = 0;
@@ -24,7 +24,7 @@ public class PlayRequestController {
     private final RacingCarDao racingCarDao;
 
     @Autowired
-    public PlayRequestController(final RacingGameDao racingGameDao, final RacingCarDao racingCarDao) {
+    public RacingCarWebController(final RacingGameDao racingGameDao, final RacingCarDao racingCarDao) {
         this.racingGameDao = racingGameDao;
         this.racingCarDao = racingCarDao;
     }

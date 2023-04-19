@@ -14,7 +14,7 @@ import static org.hamcrest.core.Is.is;
 
 @DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PlayRequestControllerTest {
+class RacingCarWebControllerTest {
 
     @BeforeEach
     void setUp(@LocalServerPort final int port) {
