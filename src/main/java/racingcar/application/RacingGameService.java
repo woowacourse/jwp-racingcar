@@ -48,6 +48,13 @@ public class RacingGameService {
         return new GameResult(racingGame.getCars(), racingGame.winners());
     }
 
+    public List<GameResult> findAll() {
+        return racingGameRepository.findAll()
+                .stream()
+                .map(it -> new GameResult(it.getCars(), it.winners()))
+                .collect(Collectors.toList());
+    }
+
     public static class GameResult {
         private final List<String> winners;
         private final List<CarDto> racingCars;

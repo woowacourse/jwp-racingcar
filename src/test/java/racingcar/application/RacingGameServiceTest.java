@@ -14,6 +14,7 @@ import racingcar.domain.numbergenerator.NumberGenerator;
 
 import javax.annotation.Priority;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,5 +53,21 @@ class RacingGameServiceTest {
         final GameResult gameResult = racingGameService.findResultById(id);
         assertThat(gameResult.getWinners()).containsExactly("브리");
         assertThat(gameResult.getRacingCars().size()).isEqualTo(3);
+    }
+
+    @Test
+    void 전체_게임을_조회한다() {
+        // given
+        IntStream.range(0, 10)
+                .forEach(it -> racingGameService.play(
+                        List.of("브리", "토미", "브라운"),
+                        10)
+                );
+
+        // when
+        final List<GameResult> results = racingGameService.findAll();
+
+        // then
+        assertThat(results.size()).isEqualTo(10);
     }
 }
