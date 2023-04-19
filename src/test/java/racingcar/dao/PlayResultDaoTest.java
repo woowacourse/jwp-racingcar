@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.repository.dao.PlayResultDao;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @JdbcTest
