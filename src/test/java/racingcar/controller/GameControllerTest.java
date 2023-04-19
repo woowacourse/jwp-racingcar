@@ -81,4 +81,32 @@ class GameControllerTest {
                 .andExpect(content().string("test"))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("get(/plays) 테스트")
+    void get_plays() throws Exception {
+        final List<CarDto> cars = List.of(
+                new CarDto("땡칠", 1),
+                new CarDto("필립", 2)
+        );
+        given(gameService.getAllResults())
+                .willReturn(List.of(
+                        new ResultDto(List.of("필립"), cars))
+                );
+
+        String expectedResponse = objectMapper.writeValueAsString(
+                List.of(
+                        new ResultDto(List.of("필립"), cars)
+                )
+        );
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/plays")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedResponse))
+                .andDo(print());
+    }
 }
