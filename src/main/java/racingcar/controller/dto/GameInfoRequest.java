@@ -5,7 +5,10 @@ import javax.validation.constraints.NotBlank;
 
 public class GameInfoRequest {
 
+    @NotBlank
     private String names;
+
+    @Min(1)
     private int count;
 
     private GameInfoRequest() {
@@ -16,12 +19,10 @@ public class GameInfoRequest {
         this.count = count;
     }
 
-    @NotBlank
     public String getNames() {
         return names;
     }
 
-    @Min(1)
     public int getCount() {
         return count;
     }
