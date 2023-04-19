@@ -84,6 +84,30 @@ class InputViewTest {
         assertThat(inputTryNumber).isEqualTo(Integer.parseInt(tryNumber));
     }
     
+    @Test
+    void 시도_횟수_입력_시_null일_때_예외가_발생한다() {
+        // given
+        inputStream = new SystemInMock(true);
+        System.setIn(inputStream);
+        
+        // when, then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new InputView().inputTryNumber())
+                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : null");
+    }
+    
+    @Test
+    void 시도_횟수_입력_시_empty일_때_예외가_발생한다() {
+        // given
+        inputStream = new ByteArrayInputStream("\n".getBytes());
+        System.setIn(inputStream);
+        
+        // when, then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new InputView().inputTryNumber())
+                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : ");
+    }
+    
     @AfterEach
     void tearDown() throws IOException {
         inputStream.close();

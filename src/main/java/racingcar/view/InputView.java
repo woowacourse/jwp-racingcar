@@ -47,9 +47,15 @@ public class InputView {
     
     public int inputTryNumber() {
         try {
-            return Integer.parseInt(reader.readLine());
+            final String inputTryNumber = reader.readLine();
+            validateTryNumber(inputTryNumber);
+            return Integer.parseInt(inputTryNumber);
         } catch (IOException | NumberFormatException e) {
             throw new IllegalArgumentException("잘못된 입력입니다. 다시 입력해주세요. Error Message : " + e.getMessage());
         }
+    }
+    
+    private void validateTryNumber(final String inputTryNumber) {
+        validateNullOrEmpty(inputTryNumber);
     }
 }
