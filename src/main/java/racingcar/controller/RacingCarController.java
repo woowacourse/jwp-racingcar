@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +14,12 @@ import java.util.List;
 @RestController
 public class RacingCarController {
 
-    private final RacingCarService racingCarService;
+    private RacingCarService racingCarService;
 
+    public RacingCarController() {
+    }
+
+    @Autowired
     public RacingCarController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }

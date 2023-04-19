@@ -1,59 +1,50 @@
 package racingcar.controller;
 
 import racingcar.domain.Cars;
+import racingcar.service.RacingCarService;
 import racingcar.util.RandomNumberGenerator;
 import racingcar.validation.Validation;
 import racingcar.view.InputView;
 import racingcar.view.MessageView;
 import racingcar.view.OutputView;
 
+
 public class Controller {
 
     private final Validation validation = new Validation();
-    private final InputView inputView = new InputView();
-    private final MessageView messageView = new MessageView();
-    private final OutputView outputView = new OutputView();
-    private final RandomNumberGenerator randomNumberGenerator
-            = new RandomNumberGenerator();
+    private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
+
+    private final RacingCarService racingCarService = new RacingCarService();
 
     public void runGame() {
-        Cars cars = initCarData();
-        movePerRounds(cars, setTryCount());
-        outputView.printWinner(cars.getWinners());
+        Cars cars = initCars();
+        racingCarService.playRacing(cars, setTryCount(), randomNumberGenerator);
+        OutputView.printResult(cars);
     }
 
-    private Cars initCarData() {
-        messageView.printCarNameMessage();
+    private Cars initCars() {
+        MessageView.printCarNameMessage();
 
         try {
-            String carNames = inputView.inputCarNames();
+            String carNames = InputView.inputCarNames();
             validation.validateCarNames(carNames);
-            return new Cars(carNames);
+            return racingCarService.makeCars(carNames);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return initCarData();
-        }
-    }
-
-    private void movePerRounds(Cars cars, int tryCount) {
-        messageView.printResultMessage();
-
-        for (int count = 0; count < tryCount; count++) {
-            cars.moveForRound(randomNumberGenerator);
-            outputView.printResult(cars);
+            return initCars();
         }
     }
 
     private int setTryCount() {
-        messageView.printTryCountMessage();
+        MessageView.printTryCountMessage();
 
         try {
-            int tryCount = inputView.inputTryCount();
+            int tryCount = InputView.inputTryCount();
             validation.validateTryCount(tryCount);
             return tryCount;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return setTryCount();
         }
+        return setTryCount();
     }
 }

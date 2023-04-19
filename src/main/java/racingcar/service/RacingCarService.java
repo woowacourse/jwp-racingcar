@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.controller.dto.GameInformationDto;
 import racingcar.controller.dto.RacingCarDto;
@@ -17,10 +18,15 @@ import java.util.List;
 @Service
 public class RacingCarService {
 
-    private final ResultDao resultDao;
-    private final RacingCarDao racingCarDao;
-    private final GameRecordDao gameRecordDao;
+    private ResultDao resultDao;
+    private RacingCarDao racingCarDao;
+    private GameRecordDao gameRecordDao;
 
+
+    public RacingCarService() {
+    }
+
+    @Autowired
     public RacingCarService(ResultDao resultDao, RacingCarDao racingCarDao, GameRecordDao gameRecordDao) {
         this.resultDao = resultDao;
         this.racingCarDao = racingCarDao;
@@ -28,8 +34,8 @@ public class RacingCarService {
     }
 
     public GameResultDto runGame(GameInformationDto gameInformationDto) {
-        Cars cars = makeCars(gameInformationDto);
-        int trialCount = getTrialCounts(gameInformationDto);
+        Cars cars = makeCars(gameInformationDto.getNames());
+        int trialCount = gameInformationDto.getCount();
 
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         playRacing(cars, trialCount, numberGenerator);
@@ -43,21 +49,17 @@ public class RacingCarService {
         return new GameResultDto(cars.getWinnerCars(), makeRacingCarsDto(cars));
     }
 
-    private static Cars makeCars(GameInformationDto gameInformationDto) {
-        return new Cars(gameInformationDto.getNames());
+    public Cars makeCars(String carNames) {
+        return new Cars(carNames);
     }
 
-    private static int getTrialCounts(GameInformationDto gameInformationDto) {
-        return gameInformationDto.getCount();
-    }
-
-    private static void playRacing(Cars cars, int trialCount, NumberGenerator numberGenerator) {
+    public void playRacing(Cars cars, int trialCount, NumberGenerator numberGenerator) {
         for (int count = 0; count < trialCount; count++) {
             cars.moveForRound(numberGenerator);
         }
     }
 
-    private static List<RacingCarDto> makeRacingCarsDto(Cars cars) {
+    private List<RacingCarDto> makeRacingCarsDto(Cars cars) {
         List<RacingCarDto> racingCarsDto = new ArrayList<>();
         for (Car car : cars.getCars()) {
             racingCarsDto.add(new RacingCarDto(car.getName(), car.getLocation()));
