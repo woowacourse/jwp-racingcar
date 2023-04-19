@@ -14,13 +14,14 @@ class CarTest {
     @Test
     void 무브가_확정된_경우_Car의_Position이_1_증가한다() {
         // given
-        Car car = new Car(new Name("Abel"), new Position(3));
+        Car car = new Car(new Name("Abel"));
         
         // when
         Car movedCar = car.move(() -> true);
-        Car expectedCar = new Car(new Name("Abel"), new Position(4));
+        movedCar = movedCar.move(() -> true);
+        movedCar = movedCar.move(() -> true);
         
         // then
-        assertThat(movedCar).isEqualTo(expectedCar);
+        assertThat(movedCar.getPosition()).isEqualTo(new Position(3));
     }
 }

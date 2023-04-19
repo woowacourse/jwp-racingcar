@@ -12,7 +12,13 @@ import static org.assertj.core.api.Assertions.*;
 class PositionTest {
     @Test
     void 포지션이_1_증가한다() {
+        // given
         Position position = new Position(3);
-        assertThat(position.increase()).isEqualTo(new Position(4));
+        
+        // when
+        Position increasedPosition = position.increase();
+        
+        // then
+        assertThat(increasedPosition).isEqualTo(new Position(4));
     }
 }

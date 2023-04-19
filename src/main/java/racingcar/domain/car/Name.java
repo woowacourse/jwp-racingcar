@@ -1,8 +1,10 @@
 package racingcar.domain.car;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @EqualsAndHashCode
+@ToString
 public class Name {
     private static final int MIN_LENGTH_OF_NAME = 1;
     private static final int MAX_LENGTH_OF_NAME = 5;

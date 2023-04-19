@@ -29,14 +29,22 @@ class TryNumberTest {
     
     @Test
     void tryNumber가_1_감소한다() {
+        // given
         TryNumber tryNumber = new TryNumber(3);
-        assertThat(tryNumber.decrease()).isEqualTo(new TryNumber(2));
+        
+        // when
+        TryNumber decreasedTryNumber = tryNumber.decrease();
+        
+        // then
+        assertThat(decreasedTryNumber).isEqualTo(new TryNumber(2));
     }
     
     @Test
     void tryNumber가_0이_되면_isFinished는_true를_반환한다() {
+        // given
         TryNumber tryNumber = new TryNumber(1);
         
+        // when, then
         assertAll(
                 () -> assertThat(tryNumber.isFinished()).isFalse(),
                 () -> assertThat(tryNumber.decrease().isFinished()).isTrue()
