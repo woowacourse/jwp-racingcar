@@ -23,7 +23,7 @@ public class RacingCarDto {
         return this.name;
     }
 
-    public Integer getPosition() {
+    public int getPosition() {
         return position;
     }
 }
