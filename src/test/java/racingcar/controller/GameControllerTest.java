@@ -40,13 +40,18 @@ class GameControllerTest {
     @Test
     @DisplayName("post(/plays) 테스트")
     void post_plays() throws Exception {
-        final List<CarDto> cars = List.of(new CarDto("aa", 1));
+        final List<CarDto> cars = List.of(
+                new CarDto("땡칠", 1),
+                new CarDto("필립", 2)
+        );
         given(gameService.playWith(any(), anyInt()))
-                .willReturn(new ResultDto(List.of("aa"), cars));
+                .willReturn(new ResultDto(List.of("필립"), cars));
 
-        String request = objectMapper.writeValueAsString(new PlayRequest("aa", 1));
+        String request = objectMapper.writeValueAsString(new PlayRequest("땡칠,필립", 2));
+        String expectedResponse = objectMapper.writeValueAsString(
+                new ResultDto(List.of("필립"), cars)
+        );
 
-        String expectedResponse = objectMapper.writeValueAsString(new ResultDto(List.of("aa"), cars));
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/plays")
                                 .content(request)
@@ -56,7 +61,6 @@ class GameControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedResponse))
                 .andDo(print());
-
     }
 
     @Test
