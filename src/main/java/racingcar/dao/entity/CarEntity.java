@@ -26,6 +26,10 @@ public class CarEntity {
         return new Car(name, position);
     }
 
+    public boolean matchesById(int id) {
+        return this.id == id;
+    }
+
     public String getName() {
         return name;
     }
