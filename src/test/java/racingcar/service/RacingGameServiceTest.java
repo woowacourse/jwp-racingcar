@@ -9,11 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.MockNumberGenerator;
+import racingcar.RacingCarApplication;
 import racingcar.controller.GameResponseDto;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RacingCarApplication.class)
 class RacingGameServiceTest {
 
     @Autowired

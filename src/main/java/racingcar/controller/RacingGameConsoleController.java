@@ -1,41 +1,38 @@
 package racingcar.controller;
 
-import java.util.List;
-
-import racingcar.domain.Car;
-import racingcar.domain.CarGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import racingcar.domain.RacingGame;
+import racingcar.service.RacingGameService;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.Input;
 import racingcar.view.Output;
 
+@Controller
 public class RacingGameConsoleController {
 
-    private static final NumberGenerator numberGenerator = new RandomNumberGenerator();
-    private static final CarGenerator carGenerator = new CarGenerator();
+    private final RacingGameService racingGameService;
 
-    private int tryCount;
-    private RacingGame racingGame;
-    private List<Car> cars;
+    @Autowired
+    public RacingGameConsoleController(final RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
 
     public void run() {
-        init();
-        racingGame = new RacingGame(cars, tryCount, numberGenerator);
-        racingGame.run();
-        printResult(cars);
+        NumberGenerator numberGenerator = new RandomNumberGenerator();
+        while (true) {
+            Output.printMessage("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
+            String names = Input.getInput();
+            Output.printMessage("시도할 회수는 몇회인가요?");
+            int tryCount = Input.getTryCount(Input.getInput());
+            RacingGame racingGame = racingGameService.playAndSave(names, tryCount, numberGenerator);
+            printResult(racingGame);
+        }
     }
 
-    private void init() {
-        Output.printMessage("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
-        String[] carNames = Input.getCarNames(Input.getInput());
-        Output.printMessage("시도할 회수는 몇회인가요?");
-        this.tryCount = Input.getTryCount(Input.getInput());
-        this.cars = carGenerator.generateCars(carNames);
-    }
-
-    private void printResult(List<Car> cars) {
-        Output.printCarsResult(cars);
+    private void printResult(final RacingGame racingGame) {
+        Output.printCarsResult(racingGame.getCars());
         Output.printWinner(racingGame.getWinner());
     }
 }
