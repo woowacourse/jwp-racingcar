@@ -12,28 +12,24 @@ import java.util.stream.Collectors;
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
 public class ConsoleController {
-
-    private static final InputView inputView = new InputView();
-    private static final OutputView outputView = new OutputView();
-
     private final ConsoleService consoleService;
     private final int trialCount;
 
     public ConsoleController() {
-        List<String> carNames = List.of(inputView.inputCarNames());
+        List<String> carNames = List.of(InputView.inputCarNames());
         consoleService = new ConsoleService(makeCarsWith(carNames), new RandomMoveChance());
-        trialCount = inputView.inputTrialCount();
+        trialCount = InputView.inputTrialCount();
         validateNotNegativeInteger(trialCount);
     }
 
     public void play() {
-        outputView.noticeResult();
+        OutputView.noticeResult();
         playMultipleTimes();
     }
 
     public void showResult() {
-        outputView.printCars(consoleService.getCars());
-        outputView.printWinners(consoleService.findWinners());
+        OutputView.printCars(consoleService.getCars());
+        OutputView.printWinners(consoleService.findWinners());
     }
 
     private List<Car> makeCarsWith(List<String> carNames) {

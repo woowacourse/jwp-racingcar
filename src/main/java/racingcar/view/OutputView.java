@@ -8,29 +8,29 @@ import java.util.stream.Collectors;
 import static racingcar.option.Option.*;
 
 public class OutputView {
-    public void noticeResult() {
+    public static void noticeResult() {
         System.out.println("\n실행 결과");
     }
 
-    public void printCars(List<Car> cars) {
+    public static void printCars(List<Car> cars) {
         for (Car car : cars) {
             printCar(car);
         }
         System.out.println();
     }
 
-    private void printCar(Car car) {
+    private static void printCar(Car car) {
         System.out.print(car.getName() + CAR_INFIX + car.getPosition());
         System.out.println();
     }
 
-    public void printWinners(List<Car> winners) {
+    public static void printWinners(List<Car> winners) {
         List<String> winnerNames = getCarNamesOf(winners);
         String joinedNames = String.join(WINNER_DELIMITER, winnerNames);
         System.out.println(joinedNames + "가 최종 우승했습니다.");
     }
 
-    private List<String> getCarNamesOf(List<Car> cars) {
+    private static List<String> getCarNamesOf(List<Car> cars) {
         return cars.stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
