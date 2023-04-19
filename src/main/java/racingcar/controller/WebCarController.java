@@ -8,6 +8,7 @@ import racingcar.dto.GamePlayRequestDto;
 import racingcar.dto.GamePlayResponseDto;
 import racingcar.service.CarService;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -20,8 +21,9 @@ public class WebCarController {
     }
 
     @PostMapping("/plays")
-    public GamePlayResponseDto playGame(@RequestBody GamePlayRequestDto gamePlayRequestDto) {
-        return carService.playGame(gamePlayRequestDto);
+    public GamePlayResponseDto plays(@RequestBody GamePlayRequestDto gamePlayRequestDto) {
+        final List<String> carNames = Arrays.asList(gamePlayRequestDto.getNames().split(","));
+        return carService.playGame(carNames, gamePlayRequestDto.getCount());
     }
 
     @GetMapping("/plays")

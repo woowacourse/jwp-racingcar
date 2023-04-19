@@ -1,9 +1,9 @@
 package racingcar.domain;
 
-import racingcar.dto.CarDto;
-import racingcar.dto.GamePlayResponseDto;
+import racingcar.exception.DuplicateCarNameException;
 import racingcar.utils.RacingNumberGenerator;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,33 +11,51 @@ public class Cars {
 
     private final List<Car> cars;
 
-    public Cars(List<Car> cars) {
+    private Cars(List<Car> cars) {
         this.cars = cars;
+    }
+
+    public static Cars from(final List<String> carNames) {
+        checkDuplication(carNames);
+        final List<Car> cars = generateCars(carNames);
+
+        return new Cars(cars);
     }
 
     public void race(RacingNumberGenerator generator) {
         cars.forEach(car -> car.race(generator));
     }
 
-    public GamePlayResponseDto getWinner() {
-        Car winner = cars.stream()
-                .max(Car::compareTo)
-                .orElse(null);
+    public String findWinnerNames() {
+        final Car winner = findWinner();
 
-        return new GamePlayResponseDto(findWinnerNames(winner), findPlayers());
-    }
-
-    private String findWinnerNames(Car winner) {
-        final List<String> winners = cars.stream()
+        return cars.stream()
                 .filter(car -> car.isSamePosition(winner))
                 .map(Car::getName)
-                .collect(Collectors.toList());
-        return String.join(",", winners);
+                .collect(Collectors.joining(","));
     }
 
-    private List<CarDto> findPlayers() {
-        return cars.stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
+    private static void checkDuplication(final List<String> carNames) {
+        final int uniqueCarNameCount = new HashSet<>(carNames).size();
+        if (uniqueCarNameCount != carNames.size()) {
+            throw new DuplicateCarNameException();
+        }
+    }
+
+    private static List<Car> generateCars(final List<String> carNames) {
+        return carNames.stream()
+                .map(Car::new)
                 .collect(Collectors.toList());
     }
+
+    private Car findWinner() {
+        return cars.stream()
+                .max(Car::compareTo)
+                .orElse(null);
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
 }

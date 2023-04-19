@@ -8,14 +8,18 @@ public class Round {
 
     private final int round;
 
-    public Round(String inputRound) {
-        int round = mapToRound(inputRound);
-
-        validateRound(round);
+    private Round(final int round) {
         this.round = round;
     }
 
-    private int mapToRound(String inputRound) {
+    public static Round from(final String inputRound) {
+        int round = mapToRound(inputRound);
+        validateRound(round);
+
+        return new Round(round);
+    }
+
+    private static int mapToRound(String inputRound) {
         try {
             return Integer.parseInt(inputRound);
         } catch (NumberFormatException exception) {
@@ -23,7 +27,7 @@ public class Round {
         }
     }
 
-    private void validateRound(int round) {
+    private static void validateRound(int round) {
         if (round < MIN_VALUE) {
             throw new WrongRoundException();
         }

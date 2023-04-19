@@ -7,7 +7,7 @@ public class GamePlayResponseDto {
     private final String winners;
     private final List<CarDto> racingCars;
 
-    public GamePlayResponseDto(String winners, final List<CarDto> racingCars) {
+    public GamePlayResponseDto(final String winners, final List<CarDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

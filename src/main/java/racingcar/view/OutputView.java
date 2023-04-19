@@ -1,48 +1,30 @@
 package racingcar.view;
 
 import racingcar.dto.CarDto;
+import racingcar.dto.GamePlayResponseDto;
 
 import java.util.List;
 
 public class OutputView {
 
-    private static final String ERROR_FORMAT = "[Error] ";
-    private static final String POSITION_STATE = "-";
-    private static final String ROUND_FORMAT = "%s : %s";
-    private static final String WINNER_FORMAT = "%s가 최종 우승했습니다.";
-    private static final String LINE_FEED = "";
-    private static final String RACE_START_MESSAGE = "실행 결과";
-    private static final String DELIMITER = ", ";
+    private static final String WINNER_FORMAT = "우승자: %s";
+    private static final String RESULT_FORMAT = "Name: %s, Position: %s";
 
-    public static void printRoundStartMessage() {
-        print(LINE_FEED);
-        print(RACE_START_MESSAGE);
-    }
+    public static void printResult(final GamePlayResponseDto gamePlayResponseDto) {
+        String winners = gamePlayResponseDto.getWinners();
+        final List<CarDto> racingCars = gamePlayResponseDto.getRacingCars();
 
-    public static void printRound(List<CarDto> carsDto) {
-        carsDto.forEach(dto -> print(String.format(ROUND_FORMAT, dto.getName(),
-                getCarPositionState(dto.getPosition()))));
-        print(LINE_FEED);
-    }
-
-    private static String getCarPositionState(int position) {
-        return POSITION_STATE.repeat(Math.max(0, position));
-    }
-
-//    public static void printWinner(List<WinnerCarDto> winnersDto) {
-//        String winners = winnersDto.stream()
-//                .map(WinnerCarDto::getWinners)
-//
-//                .collect(joining(DELIMITER));
-//
-//        print(String.format(WINNER_FORMAT, winners));
-//    }
-
-    private static void print(String message) {
-        System.out.println(message);
+        System.out.printf((WINNER_FORMAT) + "%n", winners);
+        System.out.println("\n결과");
+        racingCars.forEach(OutputView::convertResult);
     }
 
     public static void printExceptionMessage(String message) {
-        print(ERROR_FORMAT + message);
+        System.out.printf("[Error] %s%n", message);
+    }
+
+    private static void convertResult(final CarDto carDto) {
+        final String format = String.format(RESULT_FORMAT, carDto.getName(), carDto.getPosition());
+        System.out.println(format);
     }
 }
