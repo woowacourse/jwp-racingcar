@@ -24,4 +24,14 @@ class CarPositionTest {
         assertThrows(IllegalArgumentException.class, () -> CarPosition.create(position));
     }
     
+    @Test
+    @DisplayName("자동차 위치 추가 테스트")
+    void add() {
+        final int position = 0;
+        final int addPosition = 1;
+        final Position carPosition = CarPosition.create(position);
+        final Position addedCarPosition = carPosition.add(addPosition);
+        assertEquals(position + addPosition, addedCarPosition.getValue());
+    }
+    
 }
