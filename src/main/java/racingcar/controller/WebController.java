@@ -40,7 +40,7 @@ public class WebController {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handle() {
-        return ResponseEntity.badRequest().body("요청이 올바르지 않습니다.");
+    public ResponseEntity<String> handle(Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
