@@ -6,10 +6,11 @@ import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import racingcar.game.interfaces.GameDAO;
 import racingcar.game.interfaces.GameResult;
 
 @Repository
-public class RacingGameDAO {
+public class RacingGameDAO implements GameDAO {
     
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
@@ -21,9 +22,9 @@ public class RacingGameDAO {
                 .usingGeneratedKeyColumns("id");
     }
     
-    public int insert(final int trialCount, final GameResult gameResult) {
+    public int insert(final int count, final GameResult gameResult) {
         final Map<String, Object> parameters = new HashMap<>();
-        parameters.put("trial_count", trialCount);
+        parameters.put("trial_count", count);
         parameters.put("winners", gameResult.getWinners());
         parameters.put("created_at", new Timestamp(gameResult.getCreatedAt()));
         return this.simpleJdbcInsert.executeAndReturnKey(parameters).intValue();

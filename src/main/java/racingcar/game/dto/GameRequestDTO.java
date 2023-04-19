@@ -10,6 +10,10 @@ public class GameRequestDTO {
         this.count = count;
     }
     
+    public static GameRequestDTO create(final String names, final int count) {
+        return new GameRequestDTO(names, count);
+    }
+    
     public int getCount() {
         return this.count;
     }

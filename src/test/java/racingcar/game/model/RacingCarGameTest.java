@@ -70,7 +70,6 @@ class RacingCarGameTest {
         final Car io = RacingCar.create("io", 0);
         final List<Car> cars = List.of(echo, io);
         final Game racingCarGame = RacingCarGame.create(new FixedNumberGenerator(), cars);
-        final int count = 5;
         final Game movedRacingCarGame = racingCarGame.race(5);
         
         //when
