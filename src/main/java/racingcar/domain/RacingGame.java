@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.dto.response.CarGameResponse;
+import racingcar.dto.response.GameResponse;
 import racingcar.dto.response.CarResponse;
 
 import java.sql.Timestamp;
@@ -32,8 +32,8 @@ public class RacingGame {
         cars.moveAll(numberGenerator);
     }
 
-    public CarGameResponse getCarGameResult() {
-        return new CarGameResponse(getWinnerNames(), getCarResults());
+    public GameResponse getCarGameResult() {
+        return new GameResponse(getWinnerNames(), getCarResults());
     }
 
     public String getWinnerNames() {

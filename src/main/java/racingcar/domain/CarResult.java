@@ -4,13 +4,13 @@ import java.util.Objects;
 
 public class CarResult {
     private final Integer id;
-    private final int playResultId;
+    private final int gameResultId;
     private final String name;
     private final int position;
 
-    private CarResult(Integer id, int playResultId, String name, int position) {
+    private CarResult(Integer id, int gameResultId, String name, int position) {
         this.id = id;
-        this.playResultId = playResultId;
+        this.gameResultId = gameResultId;
         this.name = name;
         this.position = position;
     }
@@ -27,8 +27,8 @@ public class CarResult {
         return id;
     }
 
-    public long getPlayResultId() {
-        return playResultId;
+    public long getGameResultId() {
+        return gameResultId;
     }
 
     public String getName() {
@@ -49,6 +49,6 @@ public class CarResult {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, playResultId);
+        return Objects.hash(id, name, gameResultId);
     }
 }

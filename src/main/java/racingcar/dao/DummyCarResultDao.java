@@ -4,7 +4,7 @@ import racingcar.domain.CarResult;
 
 import java.util.List;
 
-public class ConsoleCarResultDao implements CarResultDao {
+public class DummyCarResultDao implements CarResultDao {
     @Override
     public int save(CarResult carResult) {
         return 0;

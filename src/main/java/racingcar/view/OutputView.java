@@ -1,7 +1,7 @@
 package racingcar.view;
 
 import racingcar.domain.Car;
-import racingcar.dto.response.CarGameResponse;
+import racingcar.dto.response.GameResponse;
 import racingcar.dto.response.CarResponse;
 
 import java.util.List;
@@ -18,9 +18,9 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printCarGameResult(final CarGameResponse carGameResponse) {
-        printWinners(carGameResponse.getWinners());
-        printCarResults(carGameResponse.getRacingCars());
+    public static void printCarGameResult(final GameResponse gameResponse) {
+        printWinners(gameResponse.getWinners());
+        printCarResults(gameResponse.getRacingCars());
     }
 
     public static void printWinners(final String winnersName) {

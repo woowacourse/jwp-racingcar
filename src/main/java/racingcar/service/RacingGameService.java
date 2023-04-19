@@ -2,10 +2,10 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarResultDao;
-import racingcar.dao.PlayResultDao;
+import racingcar.dao.GameResultDao;
 import racingcar.domain.*;
 import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.CarGameResponse;
+import racingcar.dto.response.GameResponse;
 import racingcar.dto.response.CarResponse;
 
 import java.util.ArrayList;
@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 @Service
 public class RacingGameService {
     private final CarResultDao carResultDao;
-    private final PlayResultDao playResultDao;
+    private final GameResultDao gameResultDao;
 
-    public RacingGameService(CarResultDao carResultDao, PlayResultDao playResultDao) {
+    public RacingGameService(CarResultDao carResultDao, GameResultDao gameResultDao) {
         this.carResultDao = carResultDao;
-        this.playResultDao = playResultDao;
+        this.gameResultDao = gameResultDao;
     }
 
-    public CarGameResponse play(CarGameRequest carGameRequest) {
+    public GameResponse play(CarGameRequest carGameRequest) {
         RacingGame racingGame = createRacingGame(carGameRequest);
         racingGame.play();
         saveResult(racingGame, carGameRequest.getCount());
-        return CarGameResponse.of(racingGame.getWinnerNames(), racingGame.getCars());
+        return GameResponse.of(racingGame.getWinnerNames(), racingGame.getCars());
     }
 
     private RacingGame createRacingGame(CarGameRequest carGameRequest) {
@@ -40,7 +40,7 @@ public class RacingGameService {
     }
 
     private int savePlayResult(int tryCount, RacingGame racingGame, String winners) {
-        return playResultDao.save(PlayResult.of(tryCount, winners, racingGame.getCreatedAt()));
+        return gameResultDao.save(GameResult.of(tryCount, winners, racingGame.getCreatedAt()));
     }
 
     private void saveCarResult(List<Car> cars, int playResultId) {
@@ -49,15 +49,15 @@ public class RacingGameService {
                 .forEach(carResultDao::save);
     }
 
-    public List<CarGameResponse> findAllCarGame() {
-        List<CarGameResponse> carGameResponses = new ArrayList<>();
-        for (PlayResult playResult : playResultDao.findAll()) {
-            List<CarResult> carResults = carResultDao.findAllByPlayResultId(playResult.getId());
-            List<CarResponse> carResponses = carResults.stream()
+    public List<GameResponse> findAllCarGame() {
+        List<GameResponse> gameResultRespons = new ArrayList<>();
+        for (GameResult gameResult : gameResultDao.findAll()) {
+            List<CarResult> carResults = carResultDao.findAllByPlayResultId(gameResult.getId());
+            List<CarResponse> carResultRespons = carResults.stream()
                     .map(CarResponse::fromCarResult)
                     .collect(Collectors.toList());
-            carGameResponses.add(new CarGameResponse(playResult.getWinners(), carResponses));
+            gameResultRespons.add(new GameResponse(gameResult.getWinners(), carResultRespons));
         }
-        return carGameResponses;
+        return gameResultRespons;
     }
 }

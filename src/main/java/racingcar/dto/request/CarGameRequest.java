@@ -2,6 +2,9 @@ package racingcar.dto.request;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CarGameRequest {
     @NotEmpty

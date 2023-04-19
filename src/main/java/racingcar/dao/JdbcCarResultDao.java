@@ -12,18 +12,18 @@ import racingcar.domain.CarResult;
 import java.util.List;
 
 @Repository
-public class WebCarResultDao implements CarResultDao {
+public class JdbcCarResultDao implements CarResultDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> CarResult.of(
             resultSet.getInt("id"),
-            resultSet.getInt("play_result_id"),
+            resultSet.getInt("game_result_id"),
             resultSet.getString("name"),
             resultSet.getInt("position")
     );
 
     @Autowired
-    public WebCarResultDao(JdbcTemplate jdbcTemplate) {
+    public JdbcCarResultDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("car_result")
@@ -40,8 +40,8 @@ public class WebCarResultDao implements CarResultDao {
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
     }
 
-    public List<CarResult> findAllByPlayResultId(int playResultId) {
-        String sql = "SELECT * FROM car_result WHERE play_result_id = ?";
-        return jdbcTemplate.query(sql, entityRowMapper, playResultId);
+    public List<CarResult> findAllByPlayResultId(int gameResultId) {
+        String sql = "SELECT * FROM car_result WHERE game_result_id = ?";
+        return jdbcTemplate.query(sql, entityRowMapper, gameResultId);
     }
 }
