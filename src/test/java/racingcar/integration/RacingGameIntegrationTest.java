@@ -35,7 +35,7 @@ import racingcar.entity.GameEntity;
 @Transactional
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-public class RacingGameTest {
+public class RacingGameIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
