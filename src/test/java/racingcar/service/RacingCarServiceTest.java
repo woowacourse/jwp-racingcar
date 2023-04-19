@@ -18,7 +18,6 @@ import racingcar.entity.ParticipantEntity;
 import racingcar.entity.PlayerEntity;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,20 +41,18 @@ class RacingCarServiceTest {
         Mockito.when(gameDao.findAll()).thenReturn(List.of(
                 new GameEntity(1L, 10),
                 new GameEntity(2L, 20)));
+        Mockito.when(playerDao.findAll()).thenReturn(List.of(
+                new PlayerEntity(1L, "망고"),
+                new PlayerEntity(2L, "루카"),
+                new PlayerEntity(3L, "소니"),
+                new PlayerEntity(4L, "현구막")));
 
-        Mockito.when(playerDao.findById(1L)).thenReturn(Optional.of(new PlayerEntity(1L, "망고")));
-        Mockito.when(playerDao.findById(2L)).thenReturn(Optional.of(new PlayerEntity(2L, "루카")));
-        Mockito.when(playerDao.findById(3L)).thenReturn(Optional.of(new PlayerEntity(3L, "소니")));
-        Mockito.when(playerDao.findById(4L)).thenReturn(Optional.of(new PlayerEntity(4L, "현구막")));
+        Mockito.when(participantDao.findAll()).thenReturn(List.of(
+                new ParticipantEntity(1L, 1L, 10, true),
+                new ParticipantEntity(1L, 2L, 5, false),
+                new ParticipantEntity(2L, 3L, 20, true),
+                new ParticipantEntity(2L, 4L, 15, false)));
 
-        Mockito.when(participantDao.findByGameId(1L)).thenReturn(
-                List.of(
-                        new ParticipantEntity(1L, 1L, 10, true),
-                        new ParticipantEntity(1L, 2L, 5, false)));
-        Mockito.when(participantDao.findByGameId(2L)).thenReturn(
-                List.of(
-                        new ParticipantEntity(2L, 3L, 20, true),
-                        new ParticipantEntity(2L, 4L, 15, false)));
         //when
         List<ResultResponse> resultResponses = racingCarService.searchAllGame();
         ResultResponse mangoAndLuca = resultResponses.get(0);

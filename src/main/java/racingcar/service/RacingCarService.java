@@ -16,6 +16,7 @@ import racingcar.entity.PlayerEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RacingCarService {
@@ -34,32 +35,69 @@ public class RacingCarService {
     }
 
     public List<ResultResponse> searchAllGame() {
-        List<GameEntity> allGame = gameDao.findAll();
-        List<ResultResponse> allHistories = new ArrayList<>();
-        for (GameEntity gameEntity : allGame) {
-            Long gameId = gameEntity.getId();
-            List<ParticipantEntity> participants = participantDao.findByGameId(gameId);
-            List<String> winners = new ArrayList<>();
-            List<RacingCarResponse> racingCarResponses = new ArrayList<>();
-            for (ParticipantEntity participant : participants) {
-                Long playerId = participant.getPlayerId();
-                PlayerEntity player = playerDao.findById(playerId).orElseThrow();
-                RacingCarResponse racingCarResponse = new RacingCarResponse(
-                        player.getName(),
-                        participant.getPosition()
-                );
-                racingCarResponses.add(racingCarResponse);
-                if (participant.getWinner()) {
-                    winners.add(player.getName());
-                }
-            }
-            ResultResponse resultResponse = new ResultResponse(
-                    String.join(",", winners),
-                    racingCarResponses
-            );
-            allHistories.add(resultResponse);
+        List<GameEntity> allGames = gameDao.findAll();
+        List<PlayerEntity> allPlayers = playerDao.findAll();
+        List<ParticipantEntity> allParticipants = participantDao.findAll();
+
+        return joinGameAndParticipantAndPlayer(allGames, allPlayers, allParticipants);
+    }
+
+    private List<ResultResponse> joinGameAndParticipantAndPlayer(
+            final List<GameEntity> allGames,
+            final List<PlayerEntity> allPlayers,
+            final List<ParticipantEntity> allParticipants
+    ) {
+        List<ResultResponse> resultResponses = new ArrayList<>();
+        for (GameEntity game : allGames) {
+            List<ParticipantEntity> participantsPerGame = joinGameAndParticipant(allParticipants, game);
+            ResultResponse resultResponse = joinPlayerAndParticipant(allPlayers, participantsPerGame);
+            resultResponses.add(resultResponse);
         }
-        return allHistories;
+        return resultResponses;
+    }
+
+    private List<ParticipantEntity> joinGameAndParticipant(
+            final List<ParticipantEntity> allParticipants,
+            final GameEntity game
+    ) {
+        return allParticipants.stream()
+                .filter(participant -> participant.getGameId().equals(game.getId()))
+                .collect(Collectors.toList());
+    }
+
+    private ResultResponse joinPlayerAndParticipant(
+            final List<PlayerEntity> allPlayers,
+            final List<ParticipantEntity> participantsPerGame
+    ) {
+        String winners = getWinner(allPlayers, participantsPerGame);
+        List<RacingCarResponse> racingCarResponses = getRacingCarResponses(allPlayers, participantsPerGame);
+        return new ResultResponse(winners, racingCarResponses);
+    }
+
+    private List<RacingCarResponse> getRacingCarResponses(
+            final List<PlayerEntity> allPlayers,
+            final List<ParticipantEntity> participantsPerGame
+    ) {
+        return participantsPerGame.stream()
+                .map(participant -> new RacingCarResponse(
+                        getName(allPlayers, participant.getPlayerId()),
+                        participant.getPosition()))
+                .collect(Collectors.toList());
+    }
+
+    private String getWinner(final List<PlayerEntity> allPlayers, final List<ParticipantEntity> participantsPerGame) {
+        return participantsPerGame.stream()
+                .filter(ParticipantEntity::getWinner)
+                .map(participant -> getName(allPlayers, participant.getPlayerId()))
+                .collect(Collectors.joining(SEPARATOR));
+    }
+
+    private String getName(final List<PlayerEntity> allPlayers, final Long playerId) {
+        return allPlayers.stream()
+                .filter(player -> player.getId().equals(playerId))
+                .findFirst()
+                .orElseThrow()
+                .getName();
     }
 
     public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
