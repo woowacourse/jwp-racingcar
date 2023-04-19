@@ -1,18 +1,19 @@
 package racingcar.view;
 
 import java.util.List;
-import racingcar.dto.NamesDto;
-import racingcar.dto.ResultDto;
-import racingcar.dto.TryCountDto;
+import racingcar.dto.RacingCarNamesRequest;
+import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.TryCountRequest;
 
 public interface RacingCarView {
-    NamesDto receiveCarNames();
+    RacingCarNamesRequest receiveCarNames();
 
-    TryCountDto receiveTryCount();
+    TryCountRequest receiveTryCount();
 
-    void printRacingProgress(List<ResultDto> responses);
+    void printRacingProgress(List<RacingCarStatusResponse> responses);
 
-    void printWinners(String response);
+    void printWinners(RacingCarWinnerResponse response);
 
     void printStartMessage();
 

@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.service;
 
 public class CustomMoveStrategy extends MoveStrategy {
     private static final int STOP_BOUNDARY = 3;

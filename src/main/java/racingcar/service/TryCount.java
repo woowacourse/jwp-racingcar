@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.service;
 
 import static racingcar.exception.ExceptionMessage.ILLEGAL_TRY_COUNT;
 

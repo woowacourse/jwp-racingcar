@@ -1,32 +1,33 @@
 package racingcar.view;
 
 import java.util.List;
-import racingcar.dto.NamesDto;
-import racingcar.dto.ResultDto;
-import racingcar.dto.TryCountDto;
+import racingcar.dto.RacingCarNamesRequest;
+import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarWinnerResponse;
+import racingcar.dto.TryCountRequest;
 
 public class RacingCarViewImpl implements RacingCarView {
 
     @Override
-    public NamesDto receiveCarNames() {
-        return NamesDto.of(InputView.readCarNames());
+    public RacingCarNamesRequest receiveCarNames() {
+        return RacingCarNamesRequest.of(InputView.readCarNames());
     }
 
     @Override
-    public TryCountDto receiveTryCount() {
-        return TryCountDto.of(InputView.readTryCount());
+    public TryCountRequest receiveTryCount() {
+        return TryCountRequest.of(InputView.readTryCount());
     }
 
     @Override
-    public void printRacingProgress(List<ResultDto> responses) {
-        for (ResultDto response : responses) {
+    public void printRacingProgress(List<RacingCarStatusResponse> responses) {
+        for (RacingCarStatusResponse response : responses) {
             OutputView.printRacingProgress(response);
         }
         System.out.println();
     }
 
     @Override
-    public void printWinners(String response) {
+    public void printWinners(RacingCarWinnerResponse response) {
         OutputView.printWinners(response);
     }
 

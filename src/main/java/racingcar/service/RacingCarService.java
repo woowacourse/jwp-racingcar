@@ -1,23 +1,22 @@
-package racingcar.domain;
+package racingcar.service;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static racingcar.exception.ExceptionMessage.EMPTY_CARS;
 
 import java.util.List;
-import racingcar.dto.NamesDto;
-import racingcar.dto.ResultDto;
-import racingcar.dto.WinnerDto;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.Position;
+import racingcar.dto.RacingCarNamesRequest;
+import racingcar.dto.RacingCarStatusResponse;
+import racingcar.dto.RacingCarWinnerResponse;
 
-public class Game {
+public class RacingCarService {
     private Cars cars;
 
-    public void createCars(NamesDto request) {
+    public void createCars(RacingCarNamesRequest request) {
         this.cars = new Cars(request.getNames());
-    }
-
-    public void createCars(List<String> names) {
-        this.cars = new Cars(names);
     }
 
     public void moveCars(MoveStrategy moveStrategy) {
@@ -39,21 +38,21 @@ public class Game {
         }
     }
 
-    public List<ResultDto> getCarStatuses() {
+    public List<RacingCarStatusResponse> getCarStatuses() {
         validateEmptyCars();
         return cars.getCars()
                 .stream()
-                .map(ResultDto::of)
+                .map(RacingCarStatusResponse::of)
                 .collect(toList());
     }
 
-    public WinnerDto findWinners() {
+    public RacingCarWinnerResponse findWinners() {
         Position maxPosition = getMaxPosition();
         List<Car> winners = cars.getCars()
                 .stream()
                 .filter(car -> car.isSamePosition(maxPosition))
                 .collect(toList());
-        return WinnerDto.of(winners);
+        return RacingCarWinnerResponse.of(winners);
     }
 
     private Position getMaxPosition() {

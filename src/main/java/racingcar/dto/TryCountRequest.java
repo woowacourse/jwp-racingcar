@@ -2,16 +2,16 @@ package racingcar.dto;
 
 import static racingcar.exception.ExceptionMessage.ILLEGAL_TRY_COUNT;
 
-public class TryCountDto {
+public class TryCountRequest {
     private final int tryCount;
 
-    private TryCountDto(int tryCount) {
+    private TryCountRequest(int tryCount) {
         this.tryCount = tryCount;
     }
 
-    public static TryCountDto of(String input) {
+    public static TryCountRequest of(String input) {
         int tryCount = stringToInt(input);
-        return new TryCountDto(tryCount);
+        return new TryCountRequest(tryCount);
     }
 
     private static int stringToInt(String input) {

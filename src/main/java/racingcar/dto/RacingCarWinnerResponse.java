@@ -6,19 +6,19 @@ import java.util.List;
 import racingcar.domain.Car;
 import racingcar.domain.Name;
 
-public class WinnerDto {
+public class RacingCarWinnerResponse {
     private final List<String> winners;
 
-    public WinnerDto(List<String> winners) {
+    public RacingCarWinnerResponse(List<String> winners) {
         this.winners = winners;
     }
 
-    public static WinnerDto of(List<Car> winners) {
+    public static RacingCarWinnerResponse of(List<Car> winners) {
         List<String> names = winners.stream()
                 .map(Car::getName)
                 .map(Name::getName)
                 .collect(toList());
-        return new WinnerDto(names);
+        return new RacingCarWinnerResponse(names);
     }
 
     public List<String> getWinners() {

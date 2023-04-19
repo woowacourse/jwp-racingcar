@@ -8,11 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.dto.GameRequestDto;
+
 
 @DisplayName("POST test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class WebControllerTest {
+class RacingCarControllerTest {
 
     @LocalServerPort
     int port;
@@ -28,11 +28,11 @@ class WebControllerTest {
     @DisplayName("게임 정보를 입력하면 최종 결과를 반환한다.")
     @Test
     void play() {
-        GameRequestDto gameRequestDto = new GameRequestDto("브리,토미,브라운", 10);
+        PlayRequest playRequest = new PlayRequest("브리,토미,브라운", 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(gameRequestDto)
+                .body(playRequest)
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());

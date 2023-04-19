@@ -1,24 +1,20 @@
-package racingcar.dao;
+package racingcar;
 
 import java.util.HashMap;
-import java.util.List;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.TryCount;
+import racingcar.service.TryCount;
 
 @Repository
-public class DbGameDao implements GameDao {
+public class GameInsertDao {
     private final SimpleJdbcInsert insertGame;
-    private final JdbcTemplate jdbcTemplate;
 
-    public DbGameDao(DataSource dataSource) {
+    public GameInsertDao(DataSource dataSource) {
         this.insertGame = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
                 .usingColumns("trial_count")
                 .usingGeneratedKeyColumns("id");
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public Number insertGame(TryCount tryCount) {
@@ -26,10 +22,5 @@ public class DbGameDao implements GameDao {
         int trialCount = tryCount.getCount();
         parameters.put("trial_count", trialCount);
         return insertGame.executeAndReturnKey(parameters);
-    }
-
-    public List<Integer> selectGameIds() {
-        final String sql = "SELECT (id) from GAME";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getInt("id"));
     }
 }
