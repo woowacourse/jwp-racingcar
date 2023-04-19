@@ -16,11 +16,11 @@ import racingcar.service.MainRacingCarService;
 
 @Controller
 @RequestMapping("/plays")
-public class RacingCarWebController {
+public class WebRacingCarController {
 
     private final MainRacingCarService mainRacingCarService;
 
-    public RacingCarWebController(final MainRacingCarService mainRacingCarService) {
+    public WebRacingCarController(final MainRacingCarService mainRacingCarService) {
         this.mainRacingCarService = mainRacingCarService;
     }
 

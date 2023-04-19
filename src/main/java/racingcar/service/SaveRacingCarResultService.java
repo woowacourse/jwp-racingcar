@@ -5,11 +5,11 @@ import static java.util.stream.Collectors.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import racingcar.domain.Car;
 import racingcar.repository.dao.GameDao;
@@ -29,35 +29,41 @@ public class SaveRacingCarResultService {
     private final PositionDao positionDao;
     private final WinnerDao winnerDao;
 
-    public SaveRacingCarResultService(final UserDao userDao,
-                                      final GameDao gameDao,
-                                      final PositionDao positionDao,
-                                      final WinnerDao winnerDao) {
+    public SaveRacingCarResultService(
+        final UserDao userDao,
+        final GameDao gameDao,
+        final PositionDao positionDao,
+        final WinnerDao winnerDao
+    ) {
         this.userDao = userDao;
         this.gameDao = gameDao;
         this.positionDao = positionDao;
         this.winnerDao = winnerDao;
     }
 
+    @Transactional
     public void saveRacingCarResult(final RacingCarResult racingCarResult) {
         final Set<String> winners = new HashSet<>(racingCarResult.getWinners());
         final List<Car> cars = racingCarResult.getCars();
         final int attempt = racingCarResult.getAttempt();
 
         final List<UserEntity> userEntities = saveUsers(cars);
+        if (isUserSaved(userEntities)) {
+            return;
+        }
         final GameEntity gameEntity = saveGame(attempt);
-        savePosition(gameEntity, mapPositionByUsersEntity(cars, userEntities));
+        savePosition(gameEntity, mapToPositionByUserEntity(cars, userEntities));
         saveWinners(winners, userEntities, gameEntity);
     }
 
     private List<UserEntity> saveUsers(final List<Car> cars) {
         List<UserEntity> userEntities = cars.stream()
-                .map(car -> new UserEntity(car.getName()))
-                .collect(toList());
+            .map(car -> new UserEntity(car.getName()))
+            .collect(toList());
 
         return userEntities.stream()
-                .map(this::getSavedUsersEntity)
-                .collect(toList());
+            .map(this::getSavedUsersEntity)
+            .collect(toList());
     }
 
     private UserEntity getSavedUsersEntity(final UserEntity userEntity) {
@@ -69,39 +75,43 @@ public class SaveRacingCarResultService {
         }
     }
 
+    private boolean isUserSaved(final List<UserEntity> userEntities) {
+        return userEntities.get(0).getId() == null;
+    }
+
     private GameEntity saveGame(final int attempt) {
         GameEntity gameEntity = new GameEntity(attempt);
         final long gameId = gameDao.save(gameEntity);
         return new GameEntity(gameId, gameEntity.getTrialCount(), gameEntity.getLastModifiedTime());
     }
 
-    private Map<UserEntity, Integer> mapPositionByUsersEntity(final List<Car> cars,
-                                                              final List<UserEntity> usersEntities) {
+    private Map<UserEntity, Integer> mapToPositionByUserEntity(final List<Car> cars,
+        final List<UserEntity> usersEntities) {
         final Map<String, Integer> positionByName = cars.stream()
-                .collect(toMap(Car::getName, Car::getPosition));
+            .collect(toMap(Car::getName, Car::getPosition));
 
         return usersEntities.stream()
-                .collect(toMap(userEntity -> userEntity, userEntity -> positionByName.get(userEntity.getName())));
+            .collect(toMap(userEntity -> userEntity, userEntity -> positionByName.get(userEntity.getName())));
     }
 
     private void savePosition(final GameEntity gameEntity, final Map<UserEntity, Integer> positionByUsersEntity) {
         positionByUsersEntity.entrySet().stream()
-                .map(entry -> getPositionEntity(gameEntity, entry))
-                .forEach(positionDao::save);
+            .map(entry -> getPositionEntity(gameEntity, entry))
+            .forEach(positionDao::save);
     }
 
-    private PositionEntity getPositionEntity(final GameEntity gameEntity, final Entry<UserEntity, Integer> entry) {
+    private PositionEntity getPositionEntity(final GameEntity gameEntity, final Map.Entry<UserEntity, Integer> entry) {
         final UserEntity userEntity = entry.getKey();
         final int position = entry.getValue();
         return new PositionEntity(gameEntity.getId(), userEntity.getId(), position);
     }
 
     private void saveWinners(final Set<String> winners,
-                                  final List<UserEntity> usersEntities,
-                                  final GameEntity gameEntity) {
+        final List<UserEntity> usersEntities,
+        final GameEntity gameEntity) {
         usersEntities.stream()
-                .filter(userEntity -> winners.contains(userEntity.getName()))
-                .map(userEntity -> new WinnerEntity(gameEntity.getId(), userEntity.getId()))
-                .forEach(winnerDao::save);
+            .filter(userEntity -> winners.contains(userEntity.getName()))
+            .map(userEntity -> new WinnerEntity(gameEntity.getId(), userEntity.getId()))
+            .forEach(winnerDao::save);
     }
 }

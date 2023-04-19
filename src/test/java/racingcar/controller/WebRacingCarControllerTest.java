@@ -22,7 +22,7 @@ import static org.hamcrest.core.Is.is;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class RacingCarWebControllerTest {
+class WebRacingCarControllerTest {
 
     @LocalServerPort
     int port;

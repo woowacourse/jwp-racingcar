@@ -14,7 +14,7 @@ public class UserEntity {
         this(null, name);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
