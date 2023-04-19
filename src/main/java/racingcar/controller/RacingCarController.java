@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +8,10 @@ import java.util.stream.Collectors;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.util.NumberGenerator;
-import racingcar.util.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarController {
-
-    private static final int START_POSITION = 0;
 
     private final OutputView outputView;
     private final InputView inputView;
