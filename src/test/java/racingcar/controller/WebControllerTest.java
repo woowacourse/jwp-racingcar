@@ -41,13 +41,13 @@ class WebControllerTest {
 
         recordDao = new RecordDao(jdbcTemplate);
 
-        gameDao.insert(10);
-        recordDao.insert(1, false, new Car("a"));
-        recordDao.insert(1, true, new Car("b"));
+        long gameId1 = gameDao.insert(10);
+        recordDao.insert(gameId1, false, new Car("a"));
+        recordDao.insert(gameId1, true, new Car("b"));
 
-        gameDao.insert(20);
-        recordDao.insert(2, false, new Car("a"));
-        recordDao.insert(2, true, new Car("b"));
+        long gameId2 = gameDao.insert(20);
+        recordDao.insert(gameId2, false, new Car("a"));
+        recordDao.insert(gameId2, true, new Car("b"));
     }
 
     @DisplayName("게임 플레이 테스트")
