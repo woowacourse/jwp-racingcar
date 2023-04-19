@@ -8,8 +8,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.RandomNumberGenerator;
-import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.GameResponse;
+import racingcar.api.dto.request.CarGameRequest;
+import racingcar.api.dto.response.GameResponse;
 import racingcar.repository.h2.H2CarRepository;
 import racingcar.repository.h2.H2GameRepository;
 

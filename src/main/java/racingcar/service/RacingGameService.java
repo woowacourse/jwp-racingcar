@@ -2,12 +2,12 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import racingcar.RandomNumberGenerator;
+import racingcar.api.dto.request.CarGameRequest;
+import racingcar.api.dto.response.CarResponse;
+import racingcar.api.dto.response.GameResponse;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
-import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.CarResponse;
-import racingcar.dto.response.GameResponse;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 import racingcar.repository.CarRepository;

@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.GameResponse;
+import racingcar.api.dto.request.CarGameRequest;
+import racingcar.api.dto.response.GameResponse;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;

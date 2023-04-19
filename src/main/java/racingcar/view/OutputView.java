@@ -1,8 +1,8 @@
 package racingcar.view;
 
+import racingcar.api.dto.response.CarResponse;
+import racingcar.api.dto.response.GameResponse;
 import racingcar.domain.Car;
-import racingcar.dto.response.CarResponse;
-import racingcar.dto.response.GameResponse;
 
 import java.util.List;
 

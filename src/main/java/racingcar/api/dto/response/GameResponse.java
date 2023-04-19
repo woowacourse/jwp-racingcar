@@ -1,4 +1,4 @@
-package racingcar.dto.response;
+package racingcar.api.dto.response;
 
 import racingcar.entity.CarEntity;
 

@@ -8,10 +8,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import racingcar.api.dto.request.CarGameRequest;
+import racingcar.api.dto.response.CarResponse;
+import racingcar.api.dto.response.GameResponse;
 import racingcar.domain.Car;
-import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.CarResponse;
-import racingcar.dto.response.GameResponse;
 import racingcar.service.RacingGameService;
 
 import java.util.List;
