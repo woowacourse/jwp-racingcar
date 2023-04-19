@@ -52,8 +52,8 @@
         - racingCars
             - name
             - position
-- [ ] Console Application 출력 변경
-    - [ ] 플레이의 중간 과정 출력 로직 제거
-    - [ ] 우승자와 player 별 최종 이동거리를 출력하도록 수정
-- [ ] 중복 코드 제거
-    -[ ] 새로운 객체를 도출하여 두 application의 비즈니스 로직 중복 제거
+- [x] Console Application 출력 변경
+    - [x] 플레이의 중간 과정 출력 로직 제거
+    - [x] 우승자와 player 별 최종 이동거리를 출력하도록 수정
+- [x] 중복 코드 제거
+    -[x] 새로운 객체를 도출하여 두 application의 비즈니스 로직 중복 제거
