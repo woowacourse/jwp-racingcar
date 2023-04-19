@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.GameDto;
+import racingcar.dao.entity.GameEntity;
 
 @Repository
 public class GameDao {
@@ -18,8 +18,8 @@ public class GameDao {
                 .usingGeneratedKeyColumns("game_id");
     }
 
-    public int save(GameDto gameDto) {
-        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(gameDto);
+    public int save(GameEntity gameEntity) {
+        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(gameEntity);
         return insertActor.executeAndReturnKey(sqlParameterSource).intValue();
     }
 

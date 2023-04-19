@@ -7,10 +7,11 @@ import racingcar.domain.*;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
-import racingcar.dto.CarDto;
-import racingcar.dto.GameDto;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.GameEntity;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -45,8 +46,8 @@ public class RacingGameService {
 
     private void saveCars(final RacingCars racingCars, final int gameId) {
         for (Car car : racingCars.getCars()) {
-            CarDto carDto = new CarDto(car.getName(), car.getCurrentPosition(), gameId);
-            carDao.save(carDto);
+            CarEntity carEntity = new CarEntity(car.getName(), car.getCurrentPosition(), gameId);
+            carDao.save(carEntity);
         }
     }
 
@@ -64,7 +65,7 @@ public class RacingGameService {
     //비즈니스 로직과 분리된 entity의 생성 책임은 gameDao에 있다고 생각한다
     private int saveGame(final RacingCars racingCars, final int tryCount, final LocalTime gameCreatedAt) {
         String winnerCars = String.join(",", racingCars.pickWinnerCarNames());
-        return gameDao.save(new GameDto(winnerCars, tryCount, gameCreatedAt));
+        return gameDao.save(new GameEntity(winnerCars, tryCount, gameCreatedAt));
     }
 
     private RacingGameResponseDto createResult(final RacingCars racingCars) {
