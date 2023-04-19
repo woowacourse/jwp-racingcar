@@ -9,7 +9,7 @@ import static racingcar.option.Option.*;
 
 public class OutputView {
     public void noticeResult() {
-        System.out.println("실행 결과");
+        System.out.println("\n실행 결과");
     }
 
     public void printCars(List<Car> cars) {
@@ -20,10 +20,7 @@ public class OutputView {
     }
 
     private void printCar(Car car) {
-        System.out.print(car.getName() + CAR_INFIX);
-        for (int i = 0; i < car.getPosition(); i++) {
-            System.out.print(POSITION_CHARACTER);
-        }
+        System.out.print(car.getName() + CAR_INFIX + car.getPosition());
         System.out.println();
     }
 
