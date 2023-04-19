@@ -1,5 +1,7 @@
 package racingcar.car.model;
 
+import racingcar.car.interfaces.Name;
+
 public final class CarName implements Name {
     
     public static final int MIN_NAME_LENGTH = 5;

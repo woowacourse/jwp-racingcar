@@ -1,4 +1,4 @@
-package racingcar.car.model;
+package racingcar.car.interfaces;
 
 public interface Car extends Comparable<Car> {
     

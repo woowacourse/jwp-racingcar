@@ -1,6 +1,5 @@
-package racingcar.car.model;
+package racingcar.car.interfaces;
 
-@FunctionalInterface
 public interface NumberGenerator {
     
     int generate();

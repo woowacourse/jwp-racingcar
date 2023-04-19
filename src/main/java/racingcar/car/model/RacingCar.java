@@ -1,5 +1,9 @@
 package racingcar.car.model;
 
+import racingcar.car.interfaces.Car;
+import racingcar.car.interfaces.Name;
+import racingcar.car.interfaces.Position;
+
 public class RacingCar implements Car {
     
     public static final int MOVE_DISTANCE = 1;
