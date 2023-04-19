@@ -42,7 +42,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputCarNames())
-                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : null");
+                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : null");
     }
     
     @Test
@@ -54,7 +54,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputCarNames())
-                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : ");
+                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : ");
     }
     
     @ParameterizedTest(name = "{displayName} : names = {0}")
@@ -93,7 +93,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputTryNumber())
-                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : null");
+                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : null");
     }
     
     @Test
@@ -105,7 +105,20 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputTryNumber())
-                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : ");
+                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : ");
+    }
+    
+    @ParameterizedTest(name = "{displayName} : names = {0}")
+    @ValueSource(strings = {"a", "z", "!", ",", ".", "아"})
+    void 시도_횟수_입력_시_영어와_한글과_쉼표_외의_문자가_포함된_경우_예외가_발생한다(String tryNumber) {
+        // given
+        inputStream = new ByteArrayInputStream(tryNumber.getBytes());
+        System.setIn(inputStream);
+        
+        // when, then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new InputView().inputTryNumber())
+                .withMessageStartingWith("시도 횟수는 숫자만 입력할 수 있습니다. 다시 입력해주세요. Error message : ");
     }
     
     @AfterEach

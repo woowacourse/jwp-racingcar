@@ -23,7 +23,7 @@ public class InputView {
             validateCarNames(inputCarNames);
             return inputCarNames;
         } catch (IOException e) {
-            throw new IllegalArgumentException("잘못된 입력입니다. 다시 입력해주세요. Error Message : " + e.getMessage());
+            throw new IllegalArgumentException("잘못된 입력입니다. 다시 입력해주세요. Error message : " + e.getMessage());
         }
     }
     
@@ -34,7 +34,7 @@ public class InputView {
     
     private void validateNullOrEmpty(final String inputCarNames) {
         if (Objects.isNull(inputCarNames) || inputCarNames.isBlank()) {
-            throw new IllegalArgumentException("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 names : " + inputCarNames);
+            throw new IllegalArgumentException("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : " + inputCarNames);
         }
     }
     
@@ -48,14 +48,10 @@ public class InputView {
     public int inputTryNumber() {
         try {
             final String inputTryNumber = reader.readLine();
-            validateTryNumber(inputTryNumber);
+            validateNullOrEmpty(inputTryNumber);
             return Integer.parseInt(inputTryNumber);
         } catch (IOException | NumberFormatException e) {
-            throw new IllegalArgumentException("잘못된 입력입니다. 다시 입력해주세요. Error Message : " + e.getMessage());
+            throw new IllegalArgumentException("시도 횟수는 숫자만 입력할 수 있습니다. 다시 입력해주세요. Error message : " + e.getMessage());
         }
-    }
-    
-    private void validateTryNumber(final String inputTryNumber) {
-        validateNullOrEmpty(inputTryNumber);
     }
 }
