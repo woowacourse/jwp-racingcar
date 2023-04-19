@@ -1,4 +1,4 @@
-package racingcar.entity;
+package racingcar.dao.entity;
 
 public class PlayerEntity {
     private final Long id;

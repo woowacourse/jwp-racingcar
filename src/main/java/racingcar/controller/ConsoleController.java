@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.dto.NamesAndCountRequest;
-import racingcar.dto.ResultResponse;
+import racingcar.controller.dto.NamesAndCountRequest;
+import racingcar.controller.dto.ResultResponse;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;

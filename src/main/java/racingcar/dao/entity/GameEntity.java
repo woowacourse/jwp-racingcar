@@ -1,4 +1,4 @@
-package racingcar.entity;
+package racingcar.dao.entity;
 
 public class GameEntity {
 

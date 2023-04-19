@@ -6,12 +6,12 @@ import racingcar.dao.GameDao;
 import racingcar.dao.ParticipantDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.*;
-import racingcar.dto.NamesAndCountRequest;
-import racingcar.dto.RacingCarResponse;
-import racingcar.dto.ResultResponse;
-import racingcar.entity.GameEntity;
-import racingcar.entity.ParticipantEntity;
-import racingcar.entity.PlayerEntity;
+import racingcar.controller.dto.NamesAndCountRequest;
+import racingcar.controller.dto.RacingCarResponse;
+import racingcar.controller.dto.ResultResponse;
+import racingcar.dao.entity.GameEntity;
+import racingcar.dao.entity.ParticipantEntity;
+import racingcar.dao.entity.PlayerEntity;
 
 import java.util.ArrayList;
 import java.util.List;

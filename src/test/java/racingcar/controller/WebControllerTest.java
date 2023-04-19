@@ -11,9 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import racingcar.dto.NamesAndCountRequest;
-import racingcar.dto.RacingCarResponse;
-import racingcar.dto.ResultResponse;
+import racingcar.controller.dto.NamesAndCountRequest;
+import racingcar.controller.dto.RacingCarResponse;
+import racingcar.controller.dto.ResultResponse;
 import racingcar.service.RacingCarService;
 
 import java.util.List;

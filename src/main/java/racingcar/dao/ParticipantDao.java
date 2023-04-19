@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import racingcar.entity.ParticipantEntity;
+import racingcar.dao.entity.ParticipantEntity;
 
 import java.util.List;
 

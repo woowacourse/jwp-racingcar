@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.controller.dto;
 
 public class NamesAndCountRequest {
     private String names;

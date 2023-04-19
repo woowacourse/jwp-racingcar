@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import racingcar.dto.NamesAndCountRequest;
-import racingcar.dto.ResultResponse;
+import racingcar.controller.dto.NamesAndCountRequest;
+import racingcar.controller.dto.ResultResponse;
 import racingcar.service.RacingCarService;
 
 import java.util.List;
