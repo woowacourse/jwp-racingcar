@@ -4,23 +4,26 @@ import java.time.LocalTime;
 
 public class GameEntity {
 
-    private int gameId;
-    private String winners;
-    private int tryCount;
+
+    private static final Integer DEFAULT_ID = null;
+
+    private Integer gameId;
+    private Integer tryCount;
     private LocalTime createdAt;
 
-    public GameEntity(final String winners, final int tryCount, final LocalTime createdAt) {
-        this.winners = winners;
+
+    public GameEntity(final Integer gameId, final Integer tryCount, final LocalTime createdAt) {
+        this.gameId = gameId;
         this.tryCount = tryCount;
         this.createdAt = createdAt;
     }
 
-    public int getGameId() {
-        return gameId;
+    public static GameEntity of (final int tryCount, final LocalTime createdAt) {
+        return new GameEntity(DEFAULT_ID, tryCount, createdAt);
     }
 
-    public String getWinners() {
-        return winners;
+    public int getGameId() {
+        return gameId;
     }
 
     public int getTryCount() {

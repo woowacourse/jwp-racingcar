@@ -3,6 +3,8 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.WinnerDao;
+import racingcar.dao.entity.WinnerEntity;
 import racingcar.domain.*;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RacingGameRequestDto;
@@ -22,11 +24,13 @@ public class RacingGameService {
 
     private final GameDao gameDao;
     private final CarDao carDao;
+    private final WinnerDao winnerDao;
     private final NumberGenerator numberGenerator;
 
-    public RacingGameService(final GameDao gameDao, final CarDao carDao, final NumberGenerator numberGenerator) {
+    public RacingGameService(final GameDao gameDao, final CarDao carDao, final WinnerDao winnerDao, final NumberGenerator numberGenerator) {
         this.gameDao = gameDao;
         this.carDao = carDao;
+        this.winnerDao = winnerDao;
         this.numberGenerator = numberGenerator;
     }
 
@@ -37,24 +41,19 @@ public class RacingGameService {
         RacingGame racingGame = RacingGame.of(carNames, racingGameRequestDto.getCount());
         racingGame.race(numberGenerator);
 
-        int gameId = saveGame(racingGame);
+        int gameId = gameDao.save(GameEntity.of(racingGame.getTryCount(), racingGame.getCreated_at()));;
         saveCars(racingGame, gameId);
 
         return createResult(racingGame);
     }
 
-    //비즈니스 로직과 분리된 entity의 생성 책임은 gameDao에 있다고 생각한다
-    private int saveGame(final RacingGame racingGame) {
-        String winnerCars = String.join(",", racingGame.pickWinnerCarNames());
-        return gameDao.save(new GameEntity(winnerCars, racingGame.getTryCount(), racingGame.getCreated_at()));
-    }
 
-    private void saveCars(RacingGame racingGame, final int gameId) {
-        List<CarEntity> carEntities = new ArrayList<>();
+    private void saveCars(final RacingGame racingGame, final int gameId) {
         for (Car car : racingGame.getCars()) {
-            carEntities.add(new CarEntity(car.getName(), car.getPosition(), gameId));
+            CarEntity carEntity = CarEntity.of(car.getName(), car.getPosition(), gameId);
+            int carId = carDao.save(carEntity);
+            car.setCarId(carId);
         }
-        carDao.saveAll(carEntities);
     }
 
     private RacingGameResponseDto createResult(final RacingGame racingGame) {
@@ -66,12 +65,20 @@ public class RacingGameService {
         return new RacingGameResponseDto(winnerCars, carStatuses);
     }
 
-
     //to remove
-    private void saveCars1(final RacingGame racingGame, final int gameId) {
+
+    private void saveCars2(RacingGame racingGame, final int gameId) {
+        List<CarEntity> carEntities = new ArrayList<>();
         for (Car car : racingGame.getCars()) {
-            CarEntity carEntity = new CarEntity(car.getName(), car.getPosition(), gameId);
-            carDao.save(carEntity);
+            carEntities.add(CarEntity.of(car.getName(), car.getPosition(), gameId));
         }
+        carDao.saveAll(carEntities);
+    }
+
+
+    //비즈니스 로직과 분리된 entity의 생성 책임은 gameDao에 있다고 생각한다
+    private int saveGame1(final RacingGame racingGame) {
+        String winnerCars = String.join(",", racingGame.pickWinnerCarNames());
+        return gameDao.save(GameEntity.of(racingGame.getTryCount(), racingGame.getCreated_at()));
     }
 }
