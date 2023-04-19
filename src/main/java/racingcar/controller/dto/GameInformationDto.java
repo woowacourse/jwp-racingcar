@@ -2,8 +2,11 @@ package racingcar.controller.dto;
 
 public class GameInformationDto {
 
-    private final String names;
-    private final int count;
+    private String names;
+    private int count;
+
+    public GameInformationDto() {
+    }
 
     public GameInformationDto(String names, int count) {
         this.names = names;
