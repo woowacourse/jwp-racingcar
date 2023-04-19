@@ -26,11 +26,11 @@ public class Cars {
     }
 
     public List<Car> getWinners() {
-        return cars.stream().filter(car -> car.checkLocationEqual(getMaxLocation()))
+        return cars.stream().filter(car -> car.checkPositionEqual(getMaxPosition()))
                 .collect(Collectors.toList());
     }
 
-    private Car getMaxLocation() {
+    private Car getMaxPosition() {
         return cars.stream()
                 .max(Car::compareTo)
                 .orElseThrow();

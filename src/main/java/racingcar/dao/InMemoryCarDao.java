@@ -28,7 +28,7 @@ public class InMemoryCarDao implements CarDao {
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 ps.setInt(1, gameId);
                 ps.setString(2, cars.get(i).getName());
-                ps.setInt(3, cars.get(i).getLocation());
+                ps.setInt(3, cars.get(i).getPosition());
             }
 
             @Override

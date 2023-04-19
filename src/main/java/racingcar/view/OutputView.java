@@ -4,7 +4,7 @@ import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameResponseDto;
 
 public class OutputView {
-    private final static String PRINT_CAR_LOCATION = "%s : %d" + System.lineSeparator();
+    private final static String PRINT_CAR_POSITION = "%s : %d" + System.lineSeparator();
     private final static String PRINT_WINNER = "%s가 최종 우승했습니다." + System.lineSeparator();
     private final static String PRINT_REQUEST_CAR_NAME
             = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
@@ -13,7 +13,7 @@ public class OutputView {
     public void printResult(RacingGameResponseDto racingGameResponseDto) {
         System.out.printf(PRINT_WINNER, racingGameResponseDto.getWinners());
         for (CarDto car : racingGameResponseDto.getRacingCars()) {
-            System.out.printf(PRINT_CAR_LOCATION, car.getName(), car.getPosition());
+            System.out.printf(PRINT_CAR_POSITION, car.getName(), car.getPosition());
         }
     }
 
