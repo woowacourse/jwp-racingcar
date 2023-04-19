@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import racingcar.dto.RacingGameResponseDto;
 import racingcar.model.Cars;
 import racingcar.model.RacingGame;
 import racingcar.util.NumberGenerator;
@@ -16,8 +17,7 @@ public class ConsoleController {
         Cars cars = setCars();
         RacingGame racingGame = new RacingGame(cars, setTryCount());
         racingGame.race(numberGenerator);
-        outputView.printWinner(cars.getWinners());
-        outputView.printResult(cars);
+        outputView.printResult(new RacingGameResponseDto(cars.getWinners(),cars.getCars()));
     }
 
     private Cars setCars() {

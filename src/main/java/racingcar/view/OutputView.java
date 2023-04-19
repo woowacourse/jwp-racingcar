@@ -1,11 +1,7 @@
 package racingcar.view;
 
-import racingcar.model.Car;
-import racingcar.model.Cars;
-import racingcar.util.NameFormatConverter;
-
-import java.util.ArrayList;
-import java.util.List;
+import racingcar.dto.CarDto;
+import racingcar.dto.RacingGameResponseDto;
 
 public class OutputView {
     private final static String PRINT_CAR_LOCATION = "%s : %d" + System.lineSeparator();
@@ -14,19 +10,11 @@ public class OutputView {
             = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
     private final static String PRINT_REQUEST_TRY_COUNT = "시도할 회수는 몇회인가요?";
 
-    public void printResult(Cars cars) {
-        for (Car car : cars.getCars()) {
-            System.out.printf(PRINT_CAR_LOCATION, car.getName(), car.getLocation());
+    public void printResult(RacingGameResponseDto racingGameResponseDto) {
+        System.out.printf(PRINT_WINNER, racingGameResponseDto.getWinners());
+        for (CarDto car : racingGameResponseDto.getRacingCars()) {
+            System.out.printf(PRINT_CAR_LOCATION, car.getName(), car.getPosition());
         }
-        System.out.println();
-    }
-
-    public void printWinner(List<Car> winner) {
-        List<String> winners = new ArrayList<>();
-        for(Car car : winner){
-            winners.add(car.getName());
-        }
-        System.out.printf(PRINT_WINNER, NameFormatConverter.joinNameWithDelimiter(winners));
     }
 
     public void printRequestCarName() {
