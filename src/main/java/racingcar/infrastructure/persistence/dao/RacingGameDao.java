@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import racingcar.infrastructure.persistence.entity.RacingGameEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -33,8 +34,17 @@ public class RacingGameDao {
         return Optional.ofNullable(
                 template.queryForObject("SELECT * FROM PLAY_RESULT WHERE id = ?",
                         (rs, rowNum) -> new RacingGameEntity(
+                                rs.getLong("id"),
                                 rs.getInt("trial_count")
                         ), id)
         );
+    }
+
+    public List<RacingGameEntity> findAll() {
+        return template.query("SELECT * FROM PLAY_RESULT",
+                (rs, rowNum) -> new RacingGameEntity(
+                        rs.getLong("id"),
+                        rs.getInt("trial_count")
+                ));
     }
 }

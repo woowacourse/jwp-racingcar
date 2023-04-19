@@ -15,7 +15,8 @@ import racingcar.infrastructure.persistence.entity.WinnerEntity;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 public class JdbcRacingGameRepository implements RacingGameRepository {
@@ -61,11 +62,18 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
                 .map(it -> toRacingGame(id, it));
     }
 
+    @Override
+    public List<RacingGame> findAll() {
+        return racingGameDao.findAll().stream()
+                .map(it -> toRacingGame(it.getId(), it))
+                .collect(toList());
+    }
+
     private RacingGame toRacingGame(final Long id, final RacingGameEntity racingGameEntity) {
         final List<Car> cars = carDao.findByGameId(id)
                 .stream()
                 .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition()))
-                .collect(Collectors.toList());
+                .collect(toList());
         return new RacingGame(
                 new Cars(cars),
                 new GameTime(racingGameEntity.getTrialCount()));
