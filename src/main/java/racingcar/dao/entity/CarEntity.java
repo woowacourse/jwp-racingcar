@@ -1,18 +1,18 @@
 package racingcar.dao.entity;
 
 public class CarEntity {
-    private final int play_result_id;
+    private final int playResultId;
     private final String name;
     private final int position;
 
-    public CarEntity(int play_result_id, String name, int position) {
-        this.play_result_id = play_result_id;
+    public CarEntity(int playResultId, String name, int position) {
+        this.playResultId = playResultId;
         this.name = name;
         this.position = position;
     }
 
-    public int getPlay_result_id() {
-        return play_result_id;
+    public int getPlayResultId() {
+        return playResultId;
     }
 
     public String getName() {
