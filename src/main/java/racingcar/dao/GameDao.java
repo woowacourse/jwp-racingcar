@@ -1,5 +1,5 @@
 package racingcar.dao;
 
 public interface GameDao {
-    int save(int trialCount);
+    int save(int tryCount);
 }

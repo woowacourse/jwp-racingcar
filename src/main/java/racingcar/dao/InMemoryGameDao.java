@@ -16,13 +16,13 @@ public class InMemoryGameDao implements GameDao {
     }
 
     @Override
-    public int save(int trialCount) {
+    public int save(int tryCount) {
         String sql = "insert into PLAY_RESULT (trial_Count) values (?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setInt(1, trialCount);
+            ps.setInt(1, tryCount);
             return ps;
         }, keyHolder);
 

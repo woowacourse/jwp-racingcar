@@ -10,6 +10,7 @@ import racingcar.controller.dto.GamePlayResponseDto;
 import racingcar.controller.dto.RequestDto;
 import racingcar.model.Cars;
 import racingcar.model.Names;
+import racingcar.model.TryCount;
 import racingcar.service.GameService;
 import racingcar.view.OutputView;
 
@@ -29,10 +30,7 @@ public class WebController {
         final Names carNames = new Names(requestDto.getNames());
         Cars cars = new Cars(carNames);
 
-        final int trialCount = requestDto.getCount();
-        if (trialCount < 1) {
-            throw new IllegalArgumentException("게임 시도 횟수는 0보다 커야 합니다.");
-        }
+        TryCount trialCount = new TryCount(requestDto.getCount());
         gameService.executeRacingGame(cars, trialCount);
 
         final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(cars.getWinners(), cars.getCars());
