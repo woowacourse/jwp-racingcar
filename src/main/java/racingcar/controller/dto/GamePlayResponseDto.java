@@ -5,16 +5,16 @@ import java.util.List;
 import racingcar.model.Car;
 
 public class GamePlayResponseDto {
-    private final String winners;
+    private final List<String> winners;
     private final List<CarDto> racingCars;
 
-    public GamePlayResponseDto(String winners, List<Car> racingCars) {
+    public GamePlayResponseDto(List<String> winners, List<Car> racingCars) {
         this.winners = winners;
         this.racingCars = convert(racingCars);
     }
 
-    public GamePlayResponseDto(String winners) {
-        this.winners = winners;
+    public GamePlayResponseDto() {
+        this.winners = new ArrayList<>();
         this.racingCars = new ArrayList<>();
     }
 
@@ -25,7 +25,7 @@ public class GamePlayResponseDto {
         }
         return carDtos;
     }
-    public String getWinners() {
+    public List<String> getWinners() {
         return winners;
     }
 

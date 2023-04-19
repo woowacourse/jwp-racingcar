@@ -7,7 +7,6 @@ import racingcar.controller.dto.GamePlayResponseDto;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.model.Cars;
-import racingcar.util.NameFormatConverter;
 import racingcar.util.NumberGenerator;
 
 @Service
@@ -28,13 +27,11 @@ public class GameService {
         for (int count = 0; count < tryCount; count++) {
             cars.moveResult(numberGenerator);
         }
-
-        String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
-        int gameId = gameDao.save(tryCount, winners);
-        carDao.saveAll(gameId, cars.getCars());
+        int gameId = gameDao.save(tryCount);
+        carDao.saveAll(gameId, cars.getCars(), cars.getWinners());
     }
 
     public List<GamePlayResponseDto> getGamePlayHistory() {
-        return gameDao.selectAll();
+        return carDao.selectAll();
     }
 }

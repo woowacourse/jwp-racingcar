@@ -16,9 +16,8 @@ class InMemoryGameDaoTest {
     @DisplayName("게임 정보를 저장하며 id를 반환한다.")
     @Test
     void save() {
-        String winner = "ocean";
         int trialCount = 5;
-        int gameId = gameDao.save(trialCount,winner);
+        int gameId = gameDao.save(trialCount);
 
         assertThat(gameId).isEqualTo(1);
     }

@@ -11,7 +11,6 @@ import racingcar.controller.dto.RequestDto;
 import racingcar.model.Cars;
 import racingcar.model.Names;
 import racingcar.service.GameService;
-import racingcar.util.NameFormatConverter;
 import racingcar.view.OutputView;
 
 @RestController
@@ -36,8 +35,7 @@ public class WebController {
         }
         gameService.executeRacingGame(cars, trialCount);
 
-        final String winners = NameFormatConverter.joinNameWithDelimiter(cars.getWinners());
-        final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(winners, cars.getCars());
+        final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(cars.getWinners(), cars.getCars());
 
         outputView.printResult(gamePlayResponseDto);
         return ResponseEntity.ok()
