@@ -44,7 +44,7 @@ public class WebRacingCarController {
     public ResponseEntity<ExceptionResponse> methodArgumentValidException(MethodArgumentNotValidException exception) {
         final String exceptionMessage = exception.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(System.lineSeparator()));
 
         return ResponseEntity.badRequest().body(new ExceptionResponse(exceptionMessage));
     }

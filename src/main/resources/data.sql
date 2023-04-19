@@ -1,6 +1,6 @@
 CREATE TABLE RACING_GAME
 (
-    id         INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id         INT AUTO_INCREMENT NOT NULL,
     count      INT                NOT NULL,
     created_at DATETIME           NOT NULL default current_timestamp,
     PRIMARY KEY (id)
