@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.ResultDTO;
 import racingcar.dto.request.RacingGameRequest;
@@ -27,7 +29,6 @@ public class WebRacingCarController {
     }
 
     @PostMapping("/plays")
-    @ExceptionHandler(value = {CarException.class, CarsException.class})
     public RacingGameResponse createGame(@RequestBody RacingGameRequest racingGameRequest) {
         final List<String> carNames = Arrays.stream(racingGameRequest.getNames().split(DELIMITER))
                 .collect(Collectors.toList());
