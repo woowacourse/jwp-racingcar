@@ -8,7 +8,6 @@ import racingcar.dao.GameDao;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarResultDto;
 
 @Service
@@ -21,32 +20,37 @@ public class RacingGameService {
         this.carDao = carDao;
     }
 
-    public long run(List<String> carNames, int count) {
-        RacingGame racingGame = initializeGame(carNames);
+    public List<RacingCarResultDto> run(List<String> carNames, int count) {
+        List<RacingCar> racingCars = carNames.stream().map(RacingCar::new).collect(Collectors.toUnmodifiableList());
+        RacingGame racingGame = initializeGame(racingCars);
 
         for (int i = 0; i < count; i++) {
             racingGame.runRound();
         }
         long gameId = gameDao.save(count);
+        List<RacingCarResultDto> results = calculateResults(racingGame, gameId);
+        carDao.saveAll(results);
+
+        return results;
+    }
+
+    public List<List<RacingCarResultDto>> history() {
+        List<Long> ids = gameDao.findAllId();
+        return ids.stream()
+                .map(carDao::findCarsById)
+                .collect(Collectors.toList());
+    }
+
+    private RacingGame initializeGame(List<RacingCar> cars) {
+        return new RacingGame(cars, new RandomNumberGenerator());
+    }
+
+    private static List<RacingCarResultDto> calculateResults(RacingGame racingGame, long gameId) {
         List<RacingCarResultDto> results = racingGame.calculateResult()
                 .entrySet()
                 .stream()
-                .map((e) -> RacingCarResultDto.of(e.getKey(), e.getValue().getValue(), gameId))
+                .map((e) -> RacingCarResultDto.createByDomain(e.getKey(), e.getValue().getValue(), gameId))
                 .collect(Collectors.toUnmodifiableList());
-        carDao.saveAll(results);
-        return gameId;
-    }
-
-    private RacingGame initializeGame(List<String> carNames) {
-        List<RacingCar> racingCars = carNames.stream().map(RacingCar::new).collect(Collectors.toUnmodifiableList());
-        return new RacingGame(racingCars, new RandomNumberGenerator());
-    }
-
-    public List<String> findWinnersById(long id) {
-        return carDao.findWinnersById(id);
-    }
-
-    public List<RacingCarDto> findCarsById(long id) {
-        return carDao.findCarsById(id);
+        return results;
     }
 }

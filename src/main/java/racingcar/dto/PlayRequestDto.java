@@ -1,10 +1,10 @@
 package racingcar.dto;
 
-public class GameRequestDto {
+public class PlayRequestDto {
     private final String names;
     private final int count;
 
-    public GameRequestDto(String names, int count) {
+    public PlayRequestDto(String names, int count) {
         this.names = names;
         this.count = count;
     }

@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,9 +18,9 @@ import racingcar.dto.RacingCarResultDto;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @JdbcTest
-class CarDaoTest {
-    private CarDao carDao;
-    private GameDao gameDao;
+class DbCarDaoTest {
+    private DbCarDao dbCarDao;
+    private DbGameDao dbGameDao;
 
     private List<RacingCarResultDto> cars;
 
@@ -28,37 +29,30 @@ class CarDaoTest {
 
     @BeforeEach
     void setUp() {
-        carDao = new CarDao(jdbcTemplate);
-        gameDao = new GameDao(jdbcTemplate.getJdbcTemplate().getDataSource());
+        dbCarDao = new DbCarDao(jdbcTemplate);
+        dbGameDao = new DbGameDao(jdbcTemplate.getJdbcTemplate().getDataSource());
         jdbcTemplate.getJdbcTemplate().execute("ALTER TABLE game ALTER COLUMN id RESTART WITH 1");
-        long id1 = gameDao.save(1);
-        long id2 = gameDao.save(2);
+        long id1 = dbGameDao.save(1);
+        long id2 = dbGameDao.save(2);
         cars = List.of(
-                RacingCarResultDto.of(new RacingCar("오잉"), GameResult.LOSE.getValue(), id1),
-                RacingCarResultDto.of(new RacingCar("포이"), GameResult.WIN.getValue(), id1),
-                RacingCarResultDto.of(new RacingCar("말랑"), GameResult.WIN.getValue(), id2));
+                RacingCarResultDto.createByDomain(new RacingCar("오잉"), GameResult.LOSE.getValue(), id1),
+                RacingCarResultDto.createByDomain(new RacingCar("포이"), GameResult.WIN.getValue(), id1),
+                RacingCarResultDto.createByDomain(new RacingCar("말랑"), GameResult.WIN.getValue(), id2));
     }
 
     @Test
     void 자동차_저장_테스트() {
         //given
         //when
-        carDao.saveAll(cars);
-        List<RacingCarDto> queriedCars = carDao.findCarsById(1);
+        dbCarDao.saveAll(cars);
+        List<RacingCarResultDto> queriedCars = dbCarDao.findCarsById(1);
 
         //then
-        assertThat(queriedCars).hasSize(2);
-    }
-
-    @Test
-    void 우승자_탐색_테스트() {
-        //given
-        carDao.saveAll(cars);
-
-        //when
-        List<String> winners = carDao.findWinnersById(1);
-
-        //then
-        assertThat(winners).containsExactly("포이");
+        assertThat(queriedCars).hasSize(2)
+                .extracting("name", "position")
+                .containsExactly(
+                        tuple("오잉", 1),
+                        tuple("포이", 1)
+                );
     }
 }

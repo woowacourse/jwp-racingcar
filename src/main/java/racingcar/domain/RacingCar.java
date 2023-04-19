@@ -14,6 +14,11 @@ public class RacingCar implements Comparable<RacingCar> {
         this.position = DEFAULT_POSITION;
     }
 
+    public RacingCar(String name, int position) {
+        this.name = name;
+        this.position = position;
+    }
+
     public void advance(int number) {
         if (MOVABLE_MIN_THRESHOLD <= number && number <= MOVABLE_MAX_THRESHOLD) {
             position += DEFAULT_MOVING_AMOUNT;
