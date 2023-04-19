@@ -20,7 +20,7 @@
 - [x] DB 연동하기
      ```sql
       CREATE TABLE PLAY_RESULT (
-         id          BIGINT         NOT NULL AUTO_INCREMENT,
+         id          BIGINT UNSIGNED         NOT NULL AUTO_INCREMENT,
          winners     VARCHAR(50) NOT NULL,
          trial_count INT NOT NULL,
          created_at  DATETIME    NOT NULL default current_timestamp,
@@ -28,7 +28,7 @@
       );
     
       CREATE TABLE PLAYER (
-         id              BIGINT NOT NULL AUTO_INCREMENT,
+         id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
          play_result_id  INT NOT NULL,
          name            VARCHAR(5) NOT NULL,
          position        INT NOT NULL,
@@ -57,3 +57,6 @@
     - [x] 우승자와 player 별 최종 이동거리를 출력하도록 수정
 - [x] 중복 코드 제거
     -[x] 새로운 객체를 도출하여 두 application의 비즈니스 로직 중복 제거
+
+
+질문 : 테이블 조인 등의 기술을 전혀 쓰지 않고 있는데, 서
