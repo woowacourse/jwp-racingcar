@@ -17,15 +17,15 @@ import java.sql.SQLException;
 public class ConsoleController {
 
     public static void main(String[] args) {
-        InputView inputView1 = new InputView(System.in);
-        OutputView outputView1 = new OutputView();
+        InputView inputView = new InputView(System.in);
+        OutputView outputView = new OutputView();
         try {
             JdbcTemplate jdbcTemplate = getConnection();
-            RacingCarService racingCarService1 = new RacingCarService(new RacingGameDao(jdbcTemplate), new RacingCarDao(jdbcTemplate));
-            GameResponseDto plays = racingCarService1.plays(new GameRequestDtoForPlays(inputView1.requestCarNames(), inputView1.requestNumberOfTimes()));
-            outputView1.printResult(plays);
+            RacingCarService racingCarService = new RacingCarService(new RacingGameDao(jdbcTemplate), new RacingCarDao(jdbcTemplate));
+            GameResponseDto plays = racingCarService.plays(new GameRequestDtoForPlays(inputView.requestCarNames(), inputView.requestNumberOfTimes()));
+            outputView.printResult(plays);
         } catch (Exception exception) {
-            outputView1.printErrorMessage(exception);
+            outputView.printErrorMessage(exception);
         }
     }
 

@@ -1,9 +1,9 @@
 package racingcar;
 
 import org.springframework.boot.SpringApplication;
-import racingcar.annotation.WebSpringBootApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@WebSpringBootApplication
+@SpringBootApplication
 public class RacingCarWebApplication {
 
 	public static void main(String[] args) {

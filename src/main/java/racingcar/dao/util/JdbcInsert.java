@@ -10,10 +10,13 @@ import java.sql.Statement;
 
 public class JdbcInsert {
 
-    public static int getIdAfterInsert(JdbcTemplate jdbcTemplate, String sqlForRacingGameEntity, String... sqlParameters) {
+    private JdbcInsert() {
+    }
+
+    public static int getIdAfterInsert(JdbcTemplate jdbcTemplate, String sqlForInsert, String... sqlParameters) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlForRacingGameEntity, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlForInsert, Statement.RETURN_GENERATED_KEYS);
             setSqlParameter(preparedStatement, sqlParameters);
             return preparedStatement;
         }, keyHolder);

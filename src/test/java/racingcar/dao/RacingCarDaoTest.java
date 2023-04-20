@@ -12,7 +12,7 @@ import racingcar.entity.GameEntity;
 import java.util.List;
 
 @JdbcTest
-public class RacingCarDaoTest {
+class RacingCarDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
