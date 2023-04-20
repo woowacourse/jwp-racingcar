@@ -7,8 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.dto.RacingGameDto;
+import racingcar.dto.RacingGameInputDto;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
@@ -24,16 +25,41 @@ public class RacingGameControllerTest {
 
     @Test
     void playGame() {
-        final RacingGameDto racingGameDto = new RacingGameDto("포비, 브라운, 구구", 10);
+        final RacingGameInputDto racingGameInputDto = new RacingGameInputDto("포비, 브라운, 구구", 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(racingGameDto)
+                .body(racingGameInputDto)
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("winners", notNullValue())
-                .body("playCount", notNullValue())
                 .body("racingCars.size()", is(3));
+    }
+
+    @Test
+    void exceptionHandler1() {
+        final RacingGameInputDto racingGameInputDto = new RacingGameInputDto("포비,  ,구구", 10);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(racingGameInputDto)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body(containsString("[ERROR]"));
+    }
+
+    @Test
+    void exceptionHandler2() {
+        final RacingGameInputDto racingGameInputDto = new RacingGameInputDto("포비,브라운,구구", 101);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(racingGameInputDto)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body(containsString("[ERROR]"));
     }
 }
