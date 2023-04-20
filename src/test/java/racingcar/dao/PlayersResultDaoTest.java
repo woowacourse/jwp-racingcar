@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -19,15 +18,12 @@ public class PlayersResultDaoTest {
     private PlayersResultDao playersResultDao;
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        playResultDao = new PlayResultDao(dataSource, jdbcTemplate);
-        playersResultDao = new PlayersResultDao(dataSource, jdbcTemplate);
+        playResultDao = new PlayResultDao(jdbcTemplate);
+        playersResultDao = new PlayersResultDao(jdbcTemplate);
     }
 
     @Test

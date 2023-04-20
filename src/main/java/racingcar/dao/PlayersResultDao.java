@@ -8,7 +8,6 @@ import racingcar.dto.PlayerResultDto;
 import racingcar.entity.PlayerResultEntity;
 import racingcar.utils.mapper.EntityToMap;
 
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,8 @@ public class PlayersResultDao {
     private final SimpleJdbcInsert insertPlayersResult;
     private final JdbcTemplate jdbcTemplate;
 
-    public PlayersResultDao(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
-        this.insertPlayersResult = new SimpleJdbcInsert(dataSource)
+    public PlayersResultDao(final JdbcTemplate jdbcTemplate) {
+        this.insertPlayersResult = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("players_result")
                 .usingGeneratedKeyColumns("id");
 
