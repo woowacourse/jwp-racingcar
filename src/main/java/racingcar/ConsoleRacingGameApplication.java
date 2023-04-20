@@ -1,6 +1,6 @@
 package racingcar;
 
-import racingcar.controller.ConsoleRacingGameController;
+import racingcar.presentation.ConsoleRacingGameController;
 import racingcar.view.input.InputView;
 import racingcar.view.output.ConsoleView;
 

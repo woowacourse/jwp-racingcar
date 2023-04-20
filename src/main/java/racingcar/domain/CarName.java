@@ -1,7 +1,7 @@
 package racingcar.domain;
 
-import racingcar.exception.CarNameBlankException;
-import racingcar.exception.CarNameLengthException;
+import racingcar.domain.exception.CarNameBlankException;
+import racingcar.domain.exception.CarNameLengthException;
 
 public class CarName {
 

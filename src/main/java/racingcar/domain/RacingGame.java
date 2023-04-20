@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.NoCarsExistException;
+import racingcar.domain.exception.NoCarsExistException;
 
 import java.util.Collections;
 import java.util.List;

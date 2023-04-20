@@ -1,7 +1,7 @@
-package racingcar.controller;
+package racingcar.presentation;
 
-import racingcar.controller.dto.CarData;
-import racingcar.controller.dto.GameResultResponse;
+import racingcar.presentation.dto.CarData;
+import racingcar.presentation.dto.GameResultResponse;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 

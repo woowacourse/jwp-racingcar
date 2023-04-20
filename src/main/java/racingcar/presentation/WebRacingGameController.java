@@ -1,4 +1,4 @@
-package racingcar.controller;
+package racingcar.presentation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.business.RacingGameService;
-import racingcar.controller.dto.GameResultResponse;
-import racingcar.controller.dto.RacingGameRequest;
+import racingcar.presentation.dto.GameResultResponse;
+import racingcar.presentation.dto.RacingGameRequest;
 import racingcar.domain.RacingGame;
 
 import javax.validation.Valid;

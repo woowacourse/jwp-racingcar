@@ -1,4 +1,4 @@
-package racingcar.controller.dto;
+package racingcar.presentation.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;

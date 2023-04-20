@@ -2,7 +2,7 @@ package racingcar.business;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.controller.dto.RacingGameRequest;
+import racingcar.presentation.dto.RacingGameRequest;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.persistence.repository.GameRepository;

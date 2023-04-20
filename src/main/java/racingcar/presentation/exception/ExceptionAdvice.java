@@ -1,4 +1,4 @@
-package racingcar.controller.exception;
+package racingcar.presentation.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import racingcar.controller.dto.ExceptionResponse;
+import racingcar.presentation.dto.ExceptionResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;

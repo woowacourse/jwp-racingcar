@@ -1,4 +1,4 @@
-package racingcar.controller.dto;
+package racingcar.presentation.dto;
 
 import java.util.List;
 

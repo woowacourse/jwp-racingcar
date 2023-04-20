@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.PositionInvalidException;
+import racingcar.domain.exception.PositionInvalidException;
 
 public class Position {
 

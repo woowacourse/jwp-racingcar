@@ -1,7 +1,7 @@
 package racingcar.view.output;
 
-import racingcar.controller.dto.CarData;
-import racingcar.controller.dto.GameResultResponse;
+import racingcar.presentation.dto.CarData;
+import racingcar.presentation.dto.GameResultResponse;
 
 import java.util.List;
 
