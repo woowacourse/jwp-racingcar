@@ -3,7 +3,6 @@ package racingcar.domain.car;
 import lombok.Getter;
 import racingcar.domain.strategy.move.MoveStrategy;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,10 +16,28 @@ public class Cars {
     }
     
     private List<Car> initCars(final String names) {
-        return Arrays.stream(names.split(","))
+        final List<String> splitedNames = List.of(names.split(","));
+        validateHomonymNames(splitedNames);
+        
+        return splitedNames.stream()
                 .map(Name::new)
                 .map(Car::new)
                 .collect(Collectors.toList());
+    }
+    
+    private void validateHomonymNames(final List<String> splitedNames) {
+        final long count = distinctCount(splitedNames);
+        final int size = splitedNames.size();
+        
+        if (size != count) {
+            throw new IllegalArgumentException("[ERROR] 동명이인은 불가능합니다. 현재 차 목록 : \n" + splitedNames);
+        }
+    }
+    
+    private static long distinctCount(final List<String> splitedNames) {
+        return splitedNames.stream()
+                .distinct()
+                .count();
     }
     
     public void move(final MoveStrategy moveStrategy) {
