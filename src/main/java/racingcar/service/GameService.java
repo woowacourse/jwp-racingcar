@@ -6,7 +6,6 @@ import racingcar.dao.GamesDao;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.domain.MoveChance;
-import racingcar.domain.RandomMoveChance;
 import racingcar.dto.CarDto;
 import racingcar.service.dto.GameResult;
 
@@ -22,11 +21,12 @@ public class GameService {
 
     public GameService(
             final GamesDao gamesDao,
-            final CarsDao carsDao
-            ) {
+            final CarsDao carsDao,
+            final MoveChance moveChance
+    ) {
         this.gamesDao = gamesDao;
         this.carsDao = carsDao;
-        this.moveChance = RandomMoveChance.getInstance();
+        this.moveChance = moveChance;
     }
 
     public Game createGameWith(final List<String> names, final int trialCount) {

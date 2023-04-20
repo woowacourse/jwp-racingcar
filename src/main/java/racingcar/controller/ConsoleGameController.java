@@ -3,6 +3,7 @@ package racingcar.controller;
 import racingcar.dao.CarsDao;
 import racingcar.dao.GamesDao;
 import racingcar.domain.Game;
+import racingcar.domain.MoveChance;
 import racingcar.service.GameService;
 import racingcar.service.dto.GameResult;
 import racingcar.view.InputView;
@@ -23,9 +24,10 @@ public class ConsoleGameController {
 
     public ConsoleGameController(
             final GamesDao gamesDao,
-            final CarsDao carsDao
-    ) {
-        this.gameService = new GameService(gamesDao, carsDao);
+            final CarsDao carsDao,
+            final MoveChance moveChance
+            ) {
+        this.gameService = new GameService(gamesDao, carsDao, moveChance);
     }
 
     public void play() {
