@@ -9,8 +9,8 @@ import racingcar.utils.NumberGenerator;
 
 public class Participants {
 
-    private final static int MIN_COUNT = 1;
-    private final static int MAX_COUNT = 5;
+    private static final int MIN_COUNT = 1;
+    private static final int MAX_COUNT = 5;
 
     private final List<Car> cars;
 

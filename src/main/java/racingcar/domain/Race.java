@@ -6,8 +6,8 @@ import racingcar.utils.NumberGenerator;
 
 public class Race {
 
-    private final static int MIN_COUNT = 1;
-    private final static int MAX_COUNT = 10;
+    private static final int MIN_COUNT = 1;
+    private static final int MAX_COUNT = 10;
 
     private final int totalCount;
     private final Participants participants;
@@ -24,7 +24,22 @@ public class Race {
         this.participants = new Participants(cars);
     }
 
-    public void playRound() {
+    private void validateRange(final int count) {
+        final String NOT_PROPER_COUNT = "[ERROR] 올바르지 않은 시도횟수입니다.(" + MIN_COUNT + " ~ " + MAX_COUNT + ")";
+
+        if (count < MIN_COUNT || count > MAX_COUNT) {
+            throw new IllegalArgumentException(NOT_PROPER_COUNT);
+        }
+    }
+
+    public void play() {
+        while (!isFinished()) {
+            participants.drive(numberGenerator);
+            addCount();
+        }
+    }
+
+    private void playRound() {
         participants.drive(numberGenerator);
         addCount();
     }
@@ -41,15 +56,7 @@ public class Race {
         currentCount += 1;
     }
 
-    public boolean isFinished() {
+    private boolean isFinished() {
         return totalCount == currentCount;
-    }
-
-    private void validateRange(final int count) {
-        final String NOT_PROPER_COUNT = "[ERROR] 올바르지 않은 시도횟수입니다.(" + MIN_COUNT + " ~ " + MAX_COUNT + ")";
-
-        if (count < MIN_COUNT || count > MAX_COUNT) {
-            throw new IllegalArgumentException(NOT_PROPER_COUNT);
-        }
     }
 }
