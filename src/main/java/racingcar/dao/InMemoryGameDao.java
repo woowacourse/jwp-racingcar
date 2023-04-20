@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 public class InMemoryGameDao implements GameDao {
@@ -9,8 +10,8 @@ public class InMemoryGameDao implements GameDao {
     }
 
     @Override
-    public Optional<Integer> findLastId() {
-        return Optional.empty();
+    public List<Integer> findAllIds() {
+        return null;
     }
 
     @Override

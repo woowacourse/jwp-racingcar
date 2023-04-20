@@ -5,8 +5,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Repository
 public class JdbcGameDao implements GameDao {
@@ -31,9 +31,9 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<Integer> findLastId() {
-        String sql = "SELECT MAX(game_id) FROM GAME";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, Integer.class));
+    public List<Integer> findAllIds() {
+        String sql = "SELECT game_id FROM GAME";
+        return jdbcTemplate.queryForList(sql, Integer.class);
     }
 
     @Override
