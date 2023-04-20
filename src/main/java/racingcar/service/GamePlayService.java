@@ -12,8 +12,6 @@ import racingcar.dto.request.GameRequestDto;
 import racingcar.dto.request.GameSaveDto;
 import racingcar.dto.request.PlayerResultSaveDto;
 import racingcar.dto.response.GameResponseDto;
-import racingcar.dto.response.GameResultDto;
-import racingcar.dto.response.GameWinnerDto;
 import racingcar.dto.response.PlayerResultDto;
 
 import java.util.ArrayList;
@@ -21,12 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class GameService {
+public class GamePlayService {
 
     private final GameDao gameDao;
     private final PlayerResultDao playerResultDao;
 
-    public GameService(GameDao gameDao, PlayerResultDao playerResultDao) {
+    public GamePlayService(GameDao gameDao, PlayerResultDao playerResultDao) {
         this.gameDao = gameDao;
         this.playerResultDao = playerResultDao;
     }
@@ -43,18 +41,6 @@ public class GameService {
         Long gameId = createGame(String.join(",", winners), gameRequestDto.getCount());
         List<PlayerResultDto> playerResultDtos = createPlayerResults(cars, gameId);
         return GameResponseDto.of(winners, playerResultDtos);
-    }
-
-    public List<GameResultDto> findAllGames() {
-        List<GameResultDto> gameResultDtos = new ArrayList<>();
-        List<GameWinnerDto> allGames = gameDao.findAllGames();
-
-        for (GameWinnerDto game : allGames) {
-            List<PlayerResultDto> playerResultsDto = playerResultDao.findPlayerResultsByGameId(game.getGameId());
-            gameResultDtos.add(new GameResultDto(game.getWinners(), playerResultsDto));
-        }
-
-        return gameResultDtos;
     }
 
     private Cars makeCars(List<String> carNames) {

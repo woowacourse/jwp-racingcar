@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import racingcar.controller.ApiController;
 import racingcar.dto.request.GameRequestDto;
-import racingcar.service.GameService;
+import racingcar.service.GameFindService;
 
 @WebMvcTest(ApiController.class)
 public class ApiControllerTest {
@@ -24,7 +24,7 @@ public class ApiControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GameService gameService;
+    private GameFindService gameService;
 
     @Test
     @DisplayName("게임 실행 테스트")
