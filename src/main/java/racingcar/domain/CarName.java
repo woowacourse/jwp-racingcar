@@ -12,10 +12,6 @@ public class CarName {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
     private void validateLength(final String carName) {
         if (carName.length() < MIN_CAR_NAME_LENGTH || MAX_CAR_NAME_LENGTH < carName.length()) {
             throw new IllegalArgumentException(
@@ -40,5 +36,9 @@ public class CarName {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    public String getName() {
+        return name;
     }
 }
