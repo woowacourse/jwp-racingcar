@@ -25,10 +25,10 @@ public class Cars {
         return winner;
     }
 
-    public List<Car> findWinnerCars(Car winner) {
+    public List<Car> findWinnerCars(final Car winner) {
         return cars.stream()
                 .filter(car -> car.isSamePosition(winner))
-                .map(car -> new Car(car.getName()))
+                .map(car -> new Car(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
 

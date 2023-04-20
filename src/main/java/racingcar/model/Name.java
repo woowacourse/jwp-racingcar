@@ -2,6 +2,8 @@ package racingcar.model;
 
 import racingcar.exception.BadRequestException;
 
+import java.util.Objects;
+
 public class Name {
 
     private static final int NAME_MIN_LENGTH = 1;
@@ -31,5 +33,18 @@ public class Name {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Name name1 = (Name) o;
+        return Objects.equals(name, name1.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

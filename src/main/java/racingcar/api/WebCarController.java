@@ -28,6 +28,6 @@ public class WebCarController {
 
     @GetMapping("/plays")
     public List<GameResponse> getPlayHistories() {
-        return carService.findPlaysHistory();
+        return carService.findPlayHistories();
     }
 }
