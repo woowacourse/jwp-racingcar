@@ -6,7 +6,7 @@ import racingcar.dao.*;
 import racingcar.domain.car.Car;
 import racingcar.domain.carfactory.CarFactory;
 import racingcar.domain.cars.Cars;
-import racingcar.domain.numbergenerator.RandomSingleDigitGenerator;
+import racingcar.domain.numbergenerator.NumberGenerator;
 import racingcar.domain.record.GameRecorder;
 import racingcar.domain.result.GameResultOfCar;
 import racingcar.domain.system.GameSystem;
@@ -25,10 +25,12 @@ public class RacingCarService {
 
     private final GameDao gameDao;
     private final CarDao carDao;
+    private final NumberGenerator numberGenerator;
 
-    public RacingCarService(final GameDao gameDao, final CarDao carDao) {
+    public RacingCarService(final GameDao gameDao, final CarDao carDao, final NumberGenerator numberGenerator) {
         this.gameDao = gameDao;
         this.carDao = carDao;
+        this.numberGenerator = numberGenerator;
     }
 
     public RacingResultDTO play(final String names, final int count) {
@@ -36,7 +38,7 @@ public class RacingCarService {
         final Long gameId = gameDao.insert(count);
 
         final Cars cars = makeCars(names);
-        gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
+        gameSystem.executeRace(cars, numberGenerator);
         insertCar(cars, gameId, gameSystem);
 
         return createResponseDTO(count, gameSystem);

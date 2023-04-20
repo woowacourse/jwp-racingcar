@@ -39,6 +39,9 @@
     - [ ] console application 출력 변경
         - [ ] 플레이 중간 과정 출력 로직 제거
         - [ ] 우승자와 참여자의 최종 위치 반환
+    - [x] 랜덤 값 생성 의존관계 변경
+        - [x] 의존성 주입 방법 적용
+        - [x] 랜덤 관련 테스트 변경
 
 - [ ] 중복 코드 제거
     - [ ] console application, web application 중복 제거
