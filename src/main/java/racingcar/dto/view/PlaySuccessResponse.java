@@ -1,4 +1,6 @@
-package racingcar.dto;
+package racingcar.dto.view;
+
+import racingcar.dto.CarDto;
 
 import java.util.List;
 

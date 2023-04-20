@@ -1,5 +1,7 @@
 package racingcar.dto;
 
+import racingcar.entity.CarEntity;
+
 import java.util.List;
 
 public class RacingGameDto {

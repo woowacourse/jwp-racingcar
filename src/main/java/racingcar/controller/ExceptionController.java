@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import racingcar.dto.PlayFailResponse;
+import racingcar.dto.view.PlayFailResponse;
 
 @RestControllerAdvice
 public class ExceptionController {

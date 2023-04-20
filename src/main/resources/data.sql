@@ -1,6 +1,6 @@
 CREATE TABLE `game` (
                         `id` long PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                        `trial_count` int NOT NULL,
+                        `move_count` int NOT NULL,
                         `date` datetime NOT NULL
 );
 

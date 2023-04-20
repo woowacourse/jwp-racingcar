@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class DBWinnerDao {
+public class DBWinnerDao implements WinnerDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -17,7 +17,7 @@ public class DBWinnerDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertWinner(List<String> winners, long gameId) {
+    public void insert(List<String> winners, long gameId) {
         String sql = "INSERT INTO winner (game_id,winner) VALUES (?,?)";
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override

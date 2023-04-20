@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.*;
+import racingcar.dto.view.PlayRequest;
+import racingcar.dto.view.PlaySuccessResponse;
+import racingcar.mapper.RacingGameMapper;
 import racingcar.services.RacingGameService;
 import racingcar.util.ValueEditor;
 

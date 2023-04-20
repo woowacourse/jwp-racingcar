@@ -1,5 +1,8 @@
-package racingcar.dto;
+package racingcar.mapper;
 
+import racingcar.dto.RacingGameDto;
+import racingcar.dto.view.PlaySuccessResponse;
+import racingcar.mapper.CarMapper;
 import racingcar.model.RacingGame;
 import racingcar.model.car.Car;
 
@@ -12,7 +15,7 @@ public class RacingGameMapper {
         List<String> winners = racingGame.getWinnerNames();
         List<Car> cars = racingGame.getCars();
         int moveCount = racingGame.getMoveCount();
-        return new RacingGameDto(winners, CarMapper.toCarDtos(cars), moveCount);
+        return new RacingGameDto(winners, CarMapper.mapCarsToCarDtos(cars), moveCount);
     }
 
     public static List<PlaySuccessResponse> toResponse(List<RacingGameDto> racingGameDtos) {

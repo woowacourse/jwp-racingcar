@@ -1,9 +1,11 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.entity.GameEntity;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,15 +15,21 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-public class DBGameDao {
+public class DBGameDao implements GameDao {
     private final JdbcTemplate jdbcTemplate;
 
     public DBGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public long insertGame(int moveCount) {
-        String sql = "INSERT INTO game (trial_count, date) VALUES (?, ?)";
+    private final RowMapper<GameEntity> gameEntityRowMapper = (resultSet, rowNum) -> new GameEntity(
+            resultSet.getLong("id"),
+            resultSet.getInt("move_count"),
+            resultSet.getDate("date")
+    );
+
+    public long insert(int moveCount) {
+        String sql = "INSERT INTO game (move_count, date) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -32,14 +40,9 @@ public class DBGameDao {
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
-    public List<Long> selectAllGameIds() {
-        String sql = "SELECT id FROM game";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getLong("id"));
-    }
-
-    public int selectMoveCountById(long id) {
-        String sql = "SELECT trial_count FROM game WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    public List<GameEntity> selectAll() {
+        String sql = "SELECT * FROM game";
+        return jdbcTemplate.query(sql, gameEntityRowMapper);
     }
 
 }
