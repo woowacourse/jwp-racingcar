@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.dao.entity.Game;
@@ -8,6 +9,7 @@ import racingcar.dao.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 
 @Component
 public class RacingCarGameDao {
@@ -43,5 +45,30 @@ public class RacingCarGameDao {
         String sql = "UPDATE game SET play_count = ?, winners = ? WHERE game_id = ?";
 
         jdbcTemplate.update(sql, game.getPlayCount(), game.getWinners(), game.getGameId());
+    }
+
+    public List<Game> queryAllGames() {
+        String sql = "SELECT * from game";
+
+        RowMapper<Game> gameRowMapper = (rs, rowNum) -> new Game(
+                rs.getLong("game_id"),
+                rs.getInt("play_count"),
+                rs.getString("winners")
+        );
+
+        return jdbcTemplate.query(sql, gameRowMapper);
+    }
+
+    public List<Player> findPlayersByGameId(Long gameId) {
+        String sql = "SELECT * from player WHERE game_id = ?";
+
+        RowMapper<Player> playerRowMapper = (rs, rowNum) -> new Player(
+                rs.getLong("player_id"),
+                rs.getString("name"),
+                rs.getInt("position"),
+                rs.getLong("game_id")
+        );
+
+        return jdbcTemplate.query(sql, playerRowMapper, gameId);
     }
 }
