@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
+import racingcar.model.car.Cars;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RacingWebDaoTest {
@@ -58,8 +59,8 @@ class RacingWebDaoTest {
         List<CarDto> carDtos = List.of(carDto1, carDto2, carDto3);
         racingWebDao.saveWithBatch(carDtos);
 
-        List<CarDto> carsByTrackId = racingWebDao.findAllCarsByTrackId(savedId);
+        Cars findCars = racingWebDao.findAllCarsByTrackId(savedId);
 
-        assertThat(carsByTrackId).hasSameSizeAs(carDtos);
+        assertThat(findCars.getCarsCurrentInfo()).hasSameSizeAs(carDtos);
     }
 }
