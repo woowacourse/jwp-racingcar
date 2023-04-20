@@ -9,7 +9,7 @@ public class OutputView {
     private static final String RESULT_FORMAT = "Name: %s, Position: %s";
 
     public static void printResult(WinnerCarDto winnersDto) {
-        String winners = winnersDto.joinWinnerNames();
+        String winners = winnersDto.winnerNames();
 
         print(String.format(WINNER_FORMAT, winners));
         print("\n결과");

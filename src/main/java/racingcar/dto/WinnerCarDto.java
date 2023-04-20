@@ -13,8 +13,10 @@ public class WinnerCarDto {
         this.racingCars = racingCars;
     }
 
-    public String joinWinnerNames() {
-        return winners.stream().map(CarDto::getName).collect(Collectors.joining(","));
+    public String winnerNames() {
+        return winners.stream()
+                .map(CarDto::getName)
+                .collect(Collectors.joining(","));
     }
 
     public List<CarDto> getWinners() {

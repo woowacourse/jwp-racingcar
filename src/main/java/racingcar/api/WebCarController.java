@@ -23,7 +23,7 @@ public class WebCarController {
     @PostMapping("/plays")
     public GameResponse playGame(@RequestBody final GameDto gameDto) {
         final WinnerCarDto winnerCarDto = carService.playGame(gameDto);
-        return new GameResponse(winnerCarDto.joinWinnerNames(), winnerCarDto.getRacingCars());
+        return new GameResponse(winnerCarDto.winnerNames(), winnerCarDto.getRacingCars());
     }
 
     @GetMapping("/plays")

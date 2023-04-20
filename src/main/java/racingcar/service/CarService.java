@@ -66,7 +66,7 @@ public class CarService {
     }
 
     private String joinWinnerNames(final WinnerCarDto winner) {
-        return winner.joinWinnerNames();
+        return winner.winnerNames();
     }
 
     private void race(final Cars cars, final Round round) {
