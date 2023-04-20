@@ -7,8 +7,7 @@ import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Player;
 import racingcar.dao.game.RacingCarGameDao;
 import racingcar.dao.player.PlayerDao;
-import racingcar.dto.PlayerDto;
-import racingcar.dto.RacingGameDto;
+import racingcar.domain.RacingCarGame;
 import racingcar.dto.ResultResponseDto;
 
 @Repository
@@ -22,15 +21,20 @@ public class RacingCarRepository {
         this.playerDao = playerDao;
     }
 
-    public void save(RacingGameDto racingGameDto, List<PlayerDto> playerDtos) {
-        Long gameId = racingCarGameDao.insertGameWithKeyHolder(new Game(racingGameDto));
-        List<Player> players = playerDtos.stream()
-            .map(playerDto -> new Player(playerDto.getName(), playerDto.getPosition(), gameId))
-            .collect(Collectors.toList());
+    public void save(RacingCarGame racingCarGame) {
+        Long gameId = racingCarGameDao.insertGameWithKeyHolder(Game.of(racingCarGame));
+        List<Player> players = racingCarGameToPlayers(racingCarGame, gameId);
         playerDao.insertPlayer(players);
     }
 
     public List<ResultResponseDto> readGameResultAll() {
         return racingCarGameDao.findAll();
+    }
+
+    private static List<Player> racingCarGameToPlayers(final RacingCarGame racingCarGame, final Long gameId) {
+        List<Player> players = racingCarGame.getCars().getAll().stream()
+            .map(playerDto -> new Player(playerDto.getName(), playerDto.getPosition(), gameId))
+            .collect(Collectors.toList());
+        return players;
     }
 }

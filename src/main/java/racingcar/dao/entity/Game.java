@@ -1,22 +1,27 @@
 package racingcar.dao.entity;
 
 import java.util.Optional;
-import racingcar.dto.RacingGameDto;
+import java.util.stream.Collectors;
+import racingcar.domain.Car;
+import racingcar.domain.RacingCarGame;
 
 public class Game {
 
     private final Long gameId;
-    private final int playCount;
+    private final Integer playCount;
     private final String winners;
 
-    public Game(int playCount, String winners) {
+    private Game(int playCount, String winners) {
         this.gameId = null;
         this.playCount = playCount;
         this.winners = winners;
     }
 
-    public Game(RacingGameDto racingGameDto) {
-        this(racingGameDto.getCount(), racingGameDto.getWinners());
+    public static Game of(RacingCarGame racingCarGame) {
+        String winners = racingCarGame.findWinners().getAll().stream()
+            .map(Car::getName)
+            .collect(Collectors.joining(","));
+        return new Game(racingCarGame.getCount(), winners);
     }
 
     public Optional<Long> getGameId() {

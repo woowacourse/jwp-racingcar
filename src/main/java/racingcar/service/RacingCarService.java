@@ -9,7 +9,6 @@ import racingcar.domain.Cars;
 import racingcar.domain.Count;
 import racingcar.domain.RacingCarGame;
 import racingcar.dto.PlayerDto;
-import racingcar.dto.RacingGameDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
 import racingcar.repository.RacingCarRepository;
@@ -32,10 +31,7 @@ public class RacingCarService {
         RacingCarGame racingCarGame = new RacingCarGame(cars, count);
 
         racingCarGame.play(numberGenerator);
-        racingCarRepository.save(
-            new RacingGameDto(getWinners(racingCarGame), racingCarGame.getCount()),
-            carsToPlayerDtos(racingCarGame)
-        );
+        racingCarRepository.save(racingCarGame);
 
         return new ResultResponseDto(getWinners(racingCarGame), carsToPlayerDtos(racingCarGame));
     }
@@ -50,7 +46,7 @@ public class RacingCarService {
             .collect(Collectors.toList());
     }
 
-    public String getWinners(RacingCarGame racingCarGame) {
+    private String getWinners(RacingCarGame racingCarGame) {
         return racingCarGame.findWinners().getAll().stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(","));
