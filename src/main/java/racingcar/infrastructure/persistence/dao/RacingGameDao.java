@@ -19,7 +19,7 @@ public class RacingGameDao {
     public RacingGameDao(final JdbcTemplate template) {
         this.template = template;
         this.simpleJdbcInsert = new SimpleJdbcInsert(template)
-                .withTableName("PLAY_RESULT")
+                .withTableName("RACING_GAME")
                 .usingGeneratedKeyColumns("id", "created_at");
     }
 
@@ -32,7 +32,7 @@ public class RacingGameDao {
 
     public Optional<RacingGameEntity> findById(final Long id) {
         return Optional.ofNullable(
-                template.queryForObject("SELECT * FROM PLAY_RESULT WHERE id = ?",
+                template.queryForObject("SELECT * FROM RACING_GAME WHERE id = ?",
                         (rs, rowNum) -> new RacingGameEntity(
                                 rs.getLong("id"),
                                 rs.getInt("trial_count")
@@ -41,7 +41,7 @@ public class RacingGameDao {
     }
 
     public List<RacingGameEntity> findAll() {
-        return template.query("SELECT * FROM PLAY_RESULT",
+        return template.query("SELECT * FROM RACING_GAME",
                 (rs, rowNum) -> new RacingGameEntity(
                         rs.getLong("id"),
                         rs.getInt("trial_count")

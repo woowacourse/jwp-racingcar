@@ -17,7 +17,6 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 import static racingcar.controller.RacingGameController.PlayGameRequest;
 import static racingcar.controller.RacingGameController.PlayGameResponse;
 
-@EnableAutoConfiguration
 @ComponentScan(
         includeFilters = @ComponentScan.Filter(type = ANNOTATION, classes = Console.class),
         excludeFilters = @ComponentScan.Filter(type = ASSIGNABLE_TYPE, classes = WebRacingCarApplication.class)
