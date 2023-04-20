@@ -61,6 +61,7 @@ class WebRacingGameControllerTest {
             .andDo(print());
     }
 
+    @DisplayName("/plays URL 로 GET 요청시 진행한 모든 게임의 승자와 참가 차량을 JSON으로 반환한다.")
     @Test
     void showAllGames() throws Exception {
         //given
