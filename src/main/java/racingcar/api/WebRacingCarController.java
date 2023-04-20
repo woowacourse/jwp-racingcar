@@ -14,21 +14,21 @@ import java.util.List;
 
 @RestController
 public class WebRacingCarController {
-    private final RacingGameService service;
+    private final RacingGameService racingGameService;
 
-    public WebRacingCarController(RacingGameService service) {
-        this.service = service;
+    public WebRacingCarController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<GameResponse>> getAllPlays() {
-        List<GameResponse> result = service.findAllGame();
+        List<GameResponse> result = racingGameService.findAllGame();
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponse> plays(@Valid @RequestBody CarGameRequest request) {
-        GameResponse result = service.play(request);
+        GameResponse result = racingGameService.play(request);
         return ResponseEntity.ok(result);
     }
 }
