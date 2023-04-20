@@ -1,4 +1,4 @@
-package racingcar.controller.exception;
+package racingcar.exception.handler;
 
 public class ExceptionResponse {
 

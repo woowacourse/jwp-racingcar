@@ -1,4 +1,4 @@
-package racingcar.controller.exception;
+package racingcar.exception.handler;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
