@@ -23,8 +23,7 @@ public class WebController {
     @PostMapping("/plays")
     public ResponseEntity<PlayResponseDto> play(@RequestBody PlayRequestDto playRequestDto) {
         List<String> names = ValueEditor.splitByComma(playRequestDto.getNames());
-        String count = playRequestDto.getCount();
-        RacingGameDto racingGameDto = racingGameService.play(new StartInformationDto(names, count));
+        RacingGameDto racingGameDto = racingGameService.play(new StartInformationDto(names, playRequestDto.getCount()));
         PlayResponseDto playResponseDto = RacingGameMapper.toResponseDto(racingGameDto);
         return ResponseEntity.ok().body(playResponseDto);
     }
