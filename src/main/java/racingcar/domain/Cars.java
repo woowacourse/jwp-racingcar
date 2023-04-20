@@ -81,13 +81,9 @@ public class Cars {
     public List<String> getWinnerNames() {
         int highestPosition = calculateHighestPosition();
         return cars.stream()
-            .filter(car -> hasHighestPosition(highestPosition, car))
+            .filter(car -> car.hasPosition(highestPosition))
             .map(Car::getName)
             .collect(Collectors.toUnmodifiableList());
-    }
-
-    private boolean hasHighestPosition(int highestPosition, Car car) {
-        return car.hasPosition(highestPosition);
     }
 
     private int calculateHighestPosition() {

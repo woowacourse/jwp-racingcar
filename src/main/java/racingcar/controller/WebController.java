@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,15 +24,16 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public RacingResultResponse run(@RequestBody RacingRequest dto) {
+    public ResponseEntity run(@RequestBody RacingRequest dto) {
         Cars cars = new Cars(dto.getNames(), RandomNumberGenerator.makeInstance());
         Trial trial = Trial.of(Converter.convertStringToInt(dto.getCount()));
         Cars movedCars = racingService.run(cars, trial);
-        return new RacingResultResponse(movedCars.getWinnerNames(), movedCars.getCarDtos());
+        return ResponseEntity.ok()
+            .body(new RacingResultResponse(movedCars.getWinnerNames(), movedCars.getCarDtos()));
     }
 
     @GetMapping("/plays")
-    public List<RacingResultResponse> run() {
-        return racingService.loadHistory();
+    public ResponseEntity run() {
+        return ResponseEntity.ok().body(racingService.loadHistory());
     }
 }
