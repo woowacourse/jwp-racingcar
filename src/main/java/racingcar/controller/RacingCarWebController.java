@@ -22,20 +22,20 @@ public class RacingCarWebController {
     private static final String DELIMITER = ",";
 
     private final RacingCarService racingCarService;
-
     private final RacingGameDao racingGameDao;
     private final RacingCarDao racingCarDao;
 
     @Autowired
     public RacingCarWebController(final RacingCarService racingCarService, final RacingGameDao racingGameDao, final RacingCarDao racingCarDao) {
+        this.racingCarService = racingCarService;
         this.racingGameDao = racingGameDao;
         this.racingCarDao = racingCarDao;
-        this.racingCarService = racingCarService;
     }
 
     @PostMapping(path = "/plays")
     public ResponseEntity<RacingCarResult> play(@RequestBody final RacingCarRequest request) {
-        final List<String> names = Arrays.stream(request.getNames().split(DELIMITER)).collect(Collectors.toList());
+        final List<String> names = Arrays.stream(request.getNames().split(DELIMITER))
+                .collect(Collectors.toList());
         final int count = request.getCount();
 
         final RacingCarResult racingCarResult = racingCarService.playRacingCar(names, count);
@@ -56,7 +56,7 @@ public class RacingCarWebController {
         return getRacingCarLog();
     }
 
-    public List<RacingCarResponse> getRacingCarLog() {
+    private List<RacingCarResponse> getRacingCarLog() {
         final List<Integer> gameIds = racingGameDao.selectGameIds();
 
         return gameIds.stream()
