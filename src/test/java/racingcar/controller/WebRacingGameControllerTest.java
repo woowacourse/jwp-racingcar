@@ -43,6 +43,18 @@ class WebRacingGameControllerTest {
     private RacingGameService racingGameService;
 
     @Test
+    void 잘못된_입력_실행() throws Exception {
+        //given
+        GameRequestDto gameRequest = new GameRequestDto(List.of(" "), 4);
+        final String request = objectMapper.writeValueAsString(gameRequest);
+
+        mockMvc.perform(post("/plays")
+                .content(request)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     void 게임_진행() throws Exception {
         // given
         GameRequestDto gameRequest = new GameRequestDto(List.of("허브,비버"), 4);
