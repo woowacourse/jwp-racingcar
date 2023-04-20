@@ -30,10 +30,8 @@ public class Car {
     }
 
     private void validateNumber(final int number) {
-        final String NOT_PROPER_NUMBER_RANGE = "차량 전진 판별 숫자는 0이상 9이하여야합니다.";
-
-        if (number < NUMBER_MIN_INCLUSIVE || number > NUMBER_MAX_INCLUSIVE) {
-            throw new IllegalArgumentException(NOT_PROPER_NUMBER_RANGE);
+        if (number < NUMBER_MIN_INCLUSIVE || NUMBER_MAX_INCLUSIVE < number) {
+            throw new IllegalArgumentException("차량 전진 판별 숫자는 0이상 9이하여야합니다.");
         }
     }
 
