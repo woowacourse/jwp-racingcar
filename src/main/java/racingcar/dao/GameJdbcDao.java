@@ -12,7 +12,7 @@ import java.util.Map;
 @Repository
 public class GameJdbcDao implements GameDao {
     private final SimpleJdbcInsert insertActor;
-    public final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public GameJdbcDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

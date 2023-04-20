@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ConsoleGameDao implements GameDao {
 
-    List<Game> games = new ArrayList<>();
+    private List<Game> games = new ArrayList<>();
     private int id = 0;
 
     @Override

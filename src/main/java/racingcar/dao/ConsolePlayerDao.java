@@ -5,7 +5,7 @@ import racingcar.entity.Player;
 import java.util.List;
 
 public class ConsolePlayerDao implements PlayerDao{
-    List<Player> players;
+    private List<Player> players;
 
     @Override
     public void saveAll(final List<Player> players) {
