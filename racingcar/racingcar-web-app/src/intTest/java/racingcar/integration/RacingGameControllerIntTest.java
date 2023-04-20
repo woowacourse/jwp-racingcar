@@ -38,9 +38,9 @@ public class RacingGameControllerIntTest {
 
         // then
         assertAll(
-                () -> assertThat(n번째_자동차의_이름(0, 게임_결과)).isEqualTo("브리"),
-                () -> assertThat(n번째_자동차의_이름(1, 게임_결과)).isEqualTo("토미"),
-                () -> assertThat(n번째_자동차의_이름(2, 게임_결과)).isEqualTo("브라운"),
+                () -> assertThat(N_번째_자동차의_이름(0, 게임_결과)).isEqualTo("브리"),
+                () -> assertThat(N_번째_자동차의_이름(1, 게임_결과)).isEqualTo("토미"),
+                () -> assertThat(N_번째_자동차의_이름(2, 게임_결과)).isEqualTo("브라운"),
                 () -> assertThat(게임_결과.statusCode()).isEqualTo(HttpStatus.OK.value())
         );
     }
@@ -82,7 +82,7 @@ public class RacingGameControllerIntTest {
                 .extract();
     }
 
-    private String n번째_자동차의_이름(final int index, final ExtractableResponse<Response> 게임_결과) {
+    private String N_번째_자동차의_이름(final int index, final ExtractableResponse<Response> 게임_결과) {
         return 게임_결과.jsonPath().getString("racingCars[" + index + "].name");
     }
 

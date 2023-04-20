@@ -3,24 +3,19 @@ package racingcar;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import racingcar.controller.RacingGameController;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 import java.util.Objects;
 
-import static org.springframework.context.annotation.FilterType.ANNOTATION;
-import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 import static racingcar.controller.RacingGameController.PlayGameRequest;
 import static racingcar.controller.RacingGameController.PlayGameResponse;
 
-@ComponentScan(
-        includeFilters = @ComponentScan.Filter(type = ANNOTATION, classes = Console.class),
-        excludeFilters = @ComponentScan.Filter(type = ASSIGNABLE_TYPE, classes = WebRacingCarApplication.class)
-)
+@SpringBootApplication
 public class ConsoleRacingCarApplication {
 
     public static void main(String[] args) {
@@ -29,7 +24,7 @@ public class ConsoleRacingCarApplication {
         springApplication.run(args);
     }
 
-    @Console
+    @Component
     static class GameRunner implements CommandLineRunner {
 
         private final RacingGameController controller;

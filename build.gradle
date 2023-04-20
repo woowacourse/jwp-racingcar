@@ -1,7 +1,8 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.9'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java-library'
+    id 'org.springframework.boot' version '2.7.9' apply false
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE' apply false
 }
 
 sourceCompatibility = '11'
@@ -10,42 +11,24 @@ repositories {
     mavenCentral()
 }
 
-sourceSets {
-    intTest {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
+
+def realSubProjects = subprojects.findAll { it.childProjects.isEmpty() }
+
+configure(realSubProjects) {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
     }
 }
-configurations {
-    intTestImplementation.extendsFrom testImplementation
-    intTestRuntimeOnly.extendsFrom testRuntimeOnly
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    runtimeOnly 'com.h2database:h2'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    intTestImplementation 'io.rest-assured:rest-assured:4.5.1'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-tasks.register('integrationTest', Test) {
-    description = 'Runs integration tests.'
-    group = 'verification'
-
-    testClassesDirs = sourceSets.intTest.output.classesDirs
-    classpath = sourceSets.intTest.runtimeClasspath
-    shouldRunAfter test
-
-    useJUnitPlatform()
-
-    testLogging {
-        events "passed"
-    }
-}
-
-check.dependsOn integrationTest
