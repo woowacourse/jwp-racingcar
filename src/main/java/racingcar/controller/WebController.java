@@ -12,17 +12,14 @@ import racingcar.model.Cars;
 import racingcar.model.Names;
 import racingcar.model.TryCount;
 import racingcar.service.GameService;
-import racingcar.view.OutputView;
 
 @RestController
 public class WebController {
 
     private final GameService gameService;
-    private final OutputView outputView;
 
     public WebController(GameService gameService) {
         this.gameService = gameService;
-        this.outputView = new OutputView();
     }
 
     @PostMapping("/plays")
@@ -35,7 +32,6 @@ public class WebController {
 
         final GamePlayResponseDto gamePlayResponseDto = new GamePlayResponseDto(cars.getWinners(), cars.getCars());
 
-        outputView.printResult(gamePlayResponseDto);
         return ResponseEntity.ok()
                 .body(gamePlayResponseDto);
     }

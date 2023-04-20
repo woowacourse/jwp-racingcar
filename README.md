@@ -27,6 +27,11 @@ Dto
 - [x] 잘못된 값에 대한 예외처리
 - [x] CAR_RESULT가 is_winner 컬럼을 갖도록 테이블 및 Dao 수정
   - CAR_RESULT가 is_winner 컬럼을 가짐으로써 조인이 필요 없어졌다. 게임 이력 조회의 책임 GameDao -> CarDao로 이동
+- [x] 콘솔 애플리케이션 만들기
+- [ ] Dao가 뷰에 전달할 DTO를 반환하지 않도록 수정
+  - DB 로직이 뷰를 알고 있는 것!
+- [ ] Exception.class에 대한 ExceptionHandler도 생성하기
+  - 어떤 에러 코드를 사용하면 좋을까?
 
 ## 궁금한 내용
 - [ ] CAR_RESULT와 PLAY_RESULT를 조인해서 조회하는 책임은 어떤 Dao 클래스가 가지는 것이 좋을까?
