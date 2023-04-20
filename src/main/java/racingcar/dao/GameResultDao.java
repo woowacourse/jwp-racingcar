@@ -1,16 +1,21 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
-import racingcar.dto.GameResultResponseDto;
+import racingcar.dto.car.GameResultResponseDto;
+import racingcar.dto.car.PlayerHistoryDto;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 public class GameResultDao {
@@ -21,12 +26,32 @@ public class GameResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveGame(final TryCount tryCount, final GameResultResponseDto gameResult) {
-        long gameId = saveGameHistory(tryCount);
-        savePlayersStatus(gameResult, gameId);
+    public List<Long> findAllGamesId() {
+        String sql = "SELECT id FROM game";
+        return jdbcTemplate.queryForList(sql, Long.class);
     }
 
-    public long saveGameHistory(final TryCount tryCount) {
+    public List<PlayerHistoryDto> findPlayerHistoriesByGameId(final Long gameId) {
+        String sql = "SELECT name, position, isWinner FROM player WHERE game_id = ?";
+
+        List<PlayerHistoryDto> playerHistories = new ArrayList<>();
+
+        jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setLong(1, gameId), response -> {
+            String name = response.getString("name");
+            int position = response.getInt("position");
+            boolean isWinner = response.getBoolean("isWinner");
+            playerHistories.add(PlayerHistoryDto.toDto(name, position, isWinner));
+        });
+
+        return playerHistories;
+    }
+
+    public GameResultResponseDto saveGame(final Cars cars, final TryCount tryCount) {
+        long gameId = saveGameHistory(tryCount);
+        return savePlayersStatus(cars, gameId);
+    }
+
+    private Long saveGameHistory(final TryCount tryCount) {
         String sql = "INSERT INTO game (trialCount, dateTime) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -40,16 +65,18 @@ public class GameResultDao {
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
-    private void savePlayersStatus(final GameResultResponseDto gameResult, final long gameId) {
+    private GameResultResponseDto savePlayersStatus(final Cars cars, final Long gameId) {
         String sql = "INSERT INTO player (game_id, name, position, isWinner) VALUES (?, ?, ?, ?)";
 
-        gameResult.getRacingCars()
+        cars.getCars()
                 .forEach(racingCar -> {
                     jdbcTemplate.update(sql,
                             gameId,
-                            racingCar.getName(),
-                            racingCar.getPosition(),
-                            gameResult.isWinner(racingCar.getName()));
+                            racingCar.getCarName(),
+                            racingCar.getDistance(),
+                            cars.isWinner(racingCar.getCarName()));
                 });
+
+        return GameResultResponseDto.toDto(cars);
     }
 }

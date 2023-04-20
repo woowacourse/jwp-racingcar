@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.dto.car;
 
 import racingcar.domain.Car;
 
@@ -14,6 +14,10 @@ public class CarStatusResponseDto {
 
     public static CarStatusResponseDto toDto(final Car car) {
         return new CarStatusResponseDto(car.getCarName(), car.getDistance());
+    }
+
+    public static CarStatusResponseDto toDto(final PlayerHistoryDto playerHistoryDto) {
+        return new CarStatusResponseDto(playerHistoryDto.getName(), playerHistoryDto.getPosition());
     }
 
     public String getName() {

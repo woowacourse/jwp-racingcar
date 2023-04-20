@@ -1,8 +1,9 @@
-package racingcar.dto;
+package racingcar.dto.car;
+
+import racingcar.domain.Cars;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.domain.Cars;
 
 public class GameResultResponseDto {
 
@@ -20,10 +21,6 @@ public class GameResultResponseDto {
                 .collect(Collectors.toList());
 
         return new GameResultResponseDto(cars.getWinnerNames(), carStatuses);
-    }
-
-    public boolean isWinner(final String name) {
-        return this.winners.contains(name);
     }
 
     public List<String> getWinners() {
