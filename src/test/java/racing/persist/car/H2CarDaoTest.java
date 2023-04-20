@@ -1,8 +1,7 @@
-package racing.web.repository;
+package racing.persist.car;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Comparator;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +17,12 @@ import racing.domain.Car;
 import racing.domain.CarName;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@Import(RacingGameDao.class)
+@Import(H2CarDao.class)
 @JdbcTest
-class RacingGameDaoTest {
+class H2CarDaoTest {
 
     @Autowired
-    private RacingGameDao racingGameDao;
+    private CarDao carDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -56,20 +55,8 @@ class RacingGameDaoTest {
 
     @BeforeEach
     void setUp() {
-//        racingGameDao = new RacingGameDao(jdbcTemplate);
         jdbcTemplate.execute("DELETE FROM games");
         jdbcTemplate.execute("DELETE FROM cars");
-    }
-
-    @DisplayName("시도 횟수를 통해 새로운 게임을 생성할 수 있다")
-    @Test
-    void saveGameTest() {
-        int trialCount = 5;
-
-        Long gameId = racingGameDao.saveGame(trialCount);
-
-        int gameTrialById = racingGameDao.findGameTrialById(gameId);
-        assertThat(gameTrialById).isEqualTo(trialCount);
     }
 
     @DisplayName("자동차를 저장할 수 있다.")
@@ -83,41 +70,32 @@ class RacingGameDaoTest {
                 CarEntity.of(gameId, carB, true)
         );
 
-        racingGameDao.saveCar(carEntities);
+        carDao.saveAllCar(carEntities);
 
         Integer carCount = jdbcTemplate.queryForObject("SELECT COUNT(*) from cars", Integer.class);
         assertThat(carCount).isEqualTo(2);
     }
 
-    @DisplayName("저장시간을 기준으로 최신순으로 게임 Id 조회")
-    @Test
-    void findAllGameIdOrderByRecentTest() throws InterruptedException {
-        int gameAmount = 4;
-        for (int i = 0; i < gameAmount; i++) {
-            Thread.sleep(100); // 동시간대에 저장되어 TIMESTAMP에 동일한 값이 들어가는 경우를 방지
-            racingGameDao.saveGame(1);
-        }
-
-        List<Long> allGameIds = racingGameDao.findAllGameIdOrderByRecent();
-        assertThat(allGameIds).hasSize(gameAmount);
-        assertThat(allGameIds).isSortedAccordingTo(Comparator.reverseOrder());
-    }
-
-    @DisplayName("모든 자동차 조회")
+    @DisplayName("게임 아이디로 자동차 조회")
     @Test
     void findAllCarsTest() {
         Car carA = new Car(new CarName("CarA"), 5);
         Car carB = new Car(new CarName("CarB"), 3);
-        Long gameId = 1L;
+        Car carC = new Car(new CarName("CarC"), 3);
+        Long gameAId = 1L;
+        Long gameBId = 2L;
         List<CarEntity> carEntities = List.of(
-                CarEntity.of(gameId, carA, true),
-                CarEntity.of(gameId, carB, true)
+                CarEntity.of(gameAId, carA, true),
+                CarEntity.of(gameAId, carB, false),
+                CarEntity.of(gameBId, carC, true)
         );
-        racingGameDao.saveCar(carEntities);
+        carDao.saveAllCar(carEntities);
 
-        List<CarEntity> findAllCars = racingGameDao.findCarsInGame(List.of(gameId));
+        List<CarEntity> findAllCars = carDao.findCarsInGame(gameAId);
         assertThat(findAllCars).hasSize(2);
         assertThat(findAllCars).extracting("carName")
                 .contains("CarA", "CarB");
+        assertThat(findAllCars).extracting("step")
+                .contains(5, 3);
     }
 }

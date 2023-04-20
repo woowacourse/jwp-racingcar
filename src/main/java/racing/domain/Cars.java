@@ -43,7 +43,7 @@ public class Cars {
                 .collect(Collectors.toList()));
     }
 
-    private int getMaxStep() {
+    public int getMaxStep() {
         return cars.stream()
                 .mapToInt(Car::getStep)
                 .max()

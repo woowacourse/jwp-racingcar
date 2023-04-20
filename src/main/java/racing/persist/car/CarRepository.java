@@ -1,0 +1,30 @@
+package racing.persist.car;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Repository;
+import racing.domain.Car;
+import racing.domain.Cars;
+
+@Repository
+public class CarRepository {
+
+    private final CarDao carDao;
+
+    public CarRepository(CarDao carDao) {
+        this.carDao = carDao;
+    }
+
+    public void saveCarsInGame(Cars cars, Long gameId) {
+        int winnerStep = cars.getMaxStep();
+        List<CarEntity> carEntities = cars.getCars().stream()
+                .map(car -> CarEntity.of(gameId, car, isWinner(winnerStep, car)))
+                .collect(Collectors.toList());
+
+        carDao.saveAllCar(carEntities);
+    }
+
+    private boolean isWinner(int winnerStep, Car car) {
+        return car.getStep() == winnerStep;
+    }
+}
