@@ -8,10 +8,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.PlayerSaveDto;
+import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingGameFindDto;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @JdbcTest
 @Transactional
@@ -28,8 +32,8 @@ class JdbcRacingGameRepositoryTest {
     }
 
     @Test
-    @DisplayName("saveGame을 테스트를 진행한다.")
-    void saveGame_whenCall_thenSuccess() {
+    @DisplayName("자동차 경주를 테이블에 저장할 수 있다.")
+    void save_whenCall_thenSuccess() {
         // given
         final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
         final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
@@ -37,5 +41,28 @@ class JdbcRacingGameRepositoryTest {
         // when, then
         assertThatCode(() -> racingGameRepository.save(10, List.of(kongHana, ethan)))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("저장된 자동차 경주를 조회할 수 있다.")
+    void find_whenCall_thenSuccess() {
+        // given
+        final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
+        final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
+        Long gameId = racingGameRepository.save(10, List.of(kongHana, ethan));
+
+        // when, then
+        List<RacingGameFindDto> oneGameHistoryDtos = racingGameRepository.findAll();
+        assertAll(
+                () -> assertThat(oneGameHistoryDtos.size()).isEqualTo(1),
+                () -> assertThat(oneGameHistoryDtos.get(0).getGameFindDto().getId()).isEqualTo(gameId),
+                () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().size()).isEqualTo(2),
+                () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(0).getName()).isEqualTo("콩하나"),
+                () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(0).getPosition()).isEqualTo(10),
+                () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(0).getIsWinner()).isTrue(),
+                () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(1).getName()).isEqualTo("에단"),
+                () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(1).getPosition()).isEqualTo(5),
+                () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(1).getIsWinner()).isFalse()
+                );
     }
 }
