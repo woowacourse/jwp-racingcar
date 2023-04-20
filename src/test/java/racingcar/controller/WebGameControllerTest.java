@@ -9,13 +9,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import racingcar.service.dto.GameResult;
 import racingcar.controller.dto.GamePlayRequest;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.dto.CarDto;
 import racingcar.exception.IllegalGameArgumentException;
 import racingcar.service.GameService;
+import racingcar.service.dto.GameResult;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -3,7 +3,6 @@ package racingcar.dao.h2jdbc;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.CarsDao;
@@ -17,16 +16,16 @@ public class JdbcCarsDao implements CarsDao {
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
 
+    private final RowMapper<CarDto> carDtoRowMapper = ((rs, rowNum) ->
+            new CarDto(rs.getString("name"), rs.getInt("position"))
+    );
+
     public JdbcCarsDao(final JdbcTemplate jdbcTemplate) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("cars")
                 .usingGeneratedKeyColumns("id");
         this.jdbcTemplate = jdbcTemplate;
     }
-
-    private RowMapper<CarDto> carDtoRowMapper = ((rs, rowNum) ->
-            new CarDto(rs.getString("name"), rs.getInt("position"))
-    );
 
     @Override
     public int insert(final int gameId, final CarDto carInfo, final boolean isWin) {

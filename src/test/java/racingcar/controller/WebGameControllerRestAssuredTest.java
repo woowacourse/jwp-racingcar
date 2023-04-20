@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import racingcar.TestDatabaseConfig;
 import racingcar.controller.dto.GamePlayRequest;
 
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 
 @TestDatabaseConfig

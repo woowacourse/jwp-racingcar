@@ -26,7 +26,7 @@ public class ConsoleGameController {
             final GamesDao gamesDao,
             final CarsDao carsDao,
             final MoveChance moveChance
-            ) {
+    ) {
         this.gameService = new GameService(gamesDao, carsDao, moveChance);
     }
 
