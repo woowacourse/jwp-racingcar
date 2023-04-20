@@ -39,9 +39,9 @@ class RacingCarControllerTest {
 
     @Test
     void 게임을_진행한다() throws Exception {
-        PlayResponse response = PlayResponse.of(
-                "car2",
-                List.of(new Player(1, "car1", 10, 1), new Player(2, "car2", 10, 1)));
+        PlayResponse response = PlayResponse.from(
+                List.of(new Player(1, "car1", 10, 1, false),
+                        new Player(2, "car2", 10, 1, true)));
 
         given(racingCarService.play(any(PlayRequest.class)))
                 .willReturn(response);
@@ -61,12 +61,11 @@ class RacingCarControllerTest {
     @Test
     void 이력을_조회한다() throws Exception {
         List<PlayResponse> response = List.of(
-                PlayResponse.of(
-                        "car2",
-                        List.of(new Player(1, "car1", 8, 1), new Player(2, "car2", 10, 1))),
-                PlayResponse.of(
-                        "car3",
-                        List.of(new Player(1, "car3", 10, 2)))
+                PlayResponse.from(List.of(
+                        new Player(1, "car1", 8, 1, false),
+                        new Player(2, "car2", 10, 1, true))),
+                PlayResponse.from(
+                        List.of(new Player(1, "car3", 10, 2, true)))
         );
 
         given(racingCarService.findHistory()).willReturn(response);
@@ -108,14 +107,14 @@ class RacingCarControllerTest {
         for (int i = 0; i < playerSize; i++) {
             playerNames.add(Integer.toString(i));
         }
-        PlayRequest playRequest = new PlayRequest(List.of("애쉬"), 5);
+        PlayRequest playRequest = new PlayRequest(playerNames, 5);
 
         performBadRequest(playRequest);
     }
 
     private void performBadRequest(PlayRequest playRequest) throws Exception {
         String request = objectMapper.writeValueAsString(playRequest);
-        given(racingCarService.play(any(PlayRequest.class))).willReturn(PlayResponse.of("애쉬", List.of()));
+        given(racingCarService.play(any(PlayRequest.class))).willReturn(PlayResponse.from(List.of()));
         mockMvc.perform(post("/plays")
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))

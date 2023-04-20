@@ -16,7 +16,6 @@ public class GameJdbcDao implements GameDao {
     private final RowMapper<Game> gameRowMapper = (resultSet, rowNum) ->
             new Game(
                     resultSet.getInt("id"),
-                    resultSet.getString("winners"),
                     resultSet.getInt("trial_count"),
                     resultSet.getTimestamp("created_at").toLocalDateTime()
             );
@@ -26,13 +25,12 @@ public class GameJdbcDao implements GameDao {
     }
 
     public Long insert(Game game) {
-        String sql = "insert into GAME (winners, trial_count) values(?, ?)";
+        String sql = "insert into GAME (trial_count) values(?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setString(1, game.getWinners());
-            ps.setInt(2, game.getTrialCount());
+            ps.setInt(1, game.getTrialCount());
             return ps;
         }, keyHolder);
 

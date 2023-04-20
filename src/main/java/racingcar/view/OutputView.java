@@ -13,7 +13,7 @@ public class OutputView {
         for (CarResponse car : cars) {
             System.out.println(car.getName() + delimiter + convertDistance(car.getPosition()));
         }
-        System.out.println(playResponse.getWinners() + "가 최종 우승했습니다.");
+        System.out.println(String.join(",", playResponse.getWinners()) + "가 최종 우승했습니다.");
     }
 
     private String convertDistance(int distance) {

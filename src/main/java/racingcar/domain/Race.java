@@ -46,7 +46,7 @@ public class Race {
     }
 
     private void validateRange(final int count) {
-        final String NOT_PROPER_COUNT = "[ERROR] 올바르지 않은 시도횟수입니다.(1 ~ 999,999,999)";
+        final String NOT_PROPER_COUNT = "[ERROR] 올바르지 않은 시도횟수입니다.(" + MIN_COUNT + " ~ " + MAX_COUNT + ")";
 
         if (count < MIN_COUNT || count > MAX_COUNT) {
             throw new IllegalArgumentException(NOT_PROPER_COUNT);

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.domain.Car;
 import racingcar.entity.Game;
 
 @JdbcTest
@@ -34,7 +33,7 @@ class GameDaoTest {
 
     @Test
     void 게임을_저장한다() {
-        Game game = Game.of(List.of(new Car("car1"), new Car("car2")), 10);
+        Game game = Game.from(10);
 
         Long id = gameDao.insert(game);
 
@@ -43,8 +42,8 @@ class GameDaoTest {
 
     @Test
     void 저장된_게임_정보를_불러온다() {
-        Game game1 = Game.of(List.of(new Car("car1"), new Car("car2")), 5);
-        Game game2 = Game.of(List.of(new Car("car3"), new Car("car4")), 10);
+        Game game1 = Game.from(5);
+        Game game2 = Game.from(10);
         gameDao.insert(game1);
         gameDao.insert(game2);
 

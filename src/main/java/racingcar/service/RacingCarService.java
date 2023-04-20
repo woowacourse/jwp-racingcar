@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
+import racingcar.domain.Car;
 import racingcar.domain.Race;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
@@ -33,16 +34,17 @@ public class RacingCarService {
         while (!race.isFinished()) {
             race.playRound();
         }
+        List<Car> winners = race.findWinners();
 
-        Game game = Game.of(race.findWinners(), playRequest.getCount());
+        Game game = Game.from(playRequest.getCount());
         Long gameId = gameDao.insert(game);
 
         List<Player> players = race.getParticipants().stream()
-                .map(participant -> Player.of(participant, gameId.intValue()))
+                .map(participant -> Player.of(participant, gameId.intValue(), winners.contains(participant)))
                 .collect(Collectors.toList());
         playerDao.insert(players);
 
-        return PlayResponse.of(game.getWinners(), players);
+        return PlayResponse.from(players);
     }
 
     @Transactional(readOnly = true)
@@ -55,7 +57,7 @@ public class RacingCarService {
             List<Player> gamePlayers = players.stream()
                     .filter(player -> player.getGameId() == game.getId())
                     .collect(Collectors.toList());
-            responses.add(PlayResponse.of(game.getWinners(), gamePlayers));
+            responses.add(PlayResponse.from(gamePlayers));
         }
 
         return responses;

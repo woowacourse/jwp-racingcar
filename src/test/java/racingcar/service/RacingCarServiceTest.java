@@ -36,7 +36,7 @@ public class RacingCarServiceTest {
         PlayResponse playResponse = racingCarService.play(playRequest);
 
         assertAll(
-                () -> assertThat(playResponse.getWinners()).isEqualTo("비버,허브,애쉬,박스더"),
+                () -> assertThat(playResponse.getWinners()).containsExactlyInAnyOrder("비버", "허브", "애쉬", "박스더"),
                 () -> assertThat(playResponse.getRacingCars()).hasSize(4)
         );
     }
@@ -44,24 +44,24 @@ public class RacingCarServiceTest {
     @Test
     void 이력을_조회한다() {
         given(gameDao.findAll()).willReturn(List.of(
-                new Game(1, "비버,허브", 10, LocalDateTime.now()),
-                new Game(2, "애쉬", 5, LocalDateTime.now())
+                new Game(1, 10, LocalDateTime.now()),
+                new Game(2, 5, LocalDateTime.now())
         ));
         given(playerDao.findAll()).willReturn(List.of(
-                new Player(1, "비버", 5, 1),
-                new Player(2, "허브", 5, 1),
-                new Player(3, "애쉬", 3, 1),
-                new Player(4, "애쉬", 3, 2)
+                new Player(1, "비버", 5, 1, true),
+                new Player(2, "허브", 5, 1, true),
+                new Player(3, "애쉬", 3, 1, false),
+                new Player(4, "애쉬", 3, 2, true)
         ));
 
         List<PlayResponse> responses = racingCarService.findHistory();
 
         assertAll(
                 () -> assertThat(responses).hasSize(2),
-                () -> assertThat(responses.get(0).getWinners()).isEqualTo("비버,허브"),
+                () -> assertThat(responses.get(0).getWinners()).containsExactlyInAnyOrder("비버", "허브"),
                 () -> assertThat(responses.get(0).getRacingCars()).extracting("name")
                         .containsExactlyInAnyOrder("비버", "허브", "애쉬"),
-                () -> assertThat(responses.get(1).getWinners()).isEqualTo("애쉬"),
+                () -> assertThat(responses.get(1).getWinners()).containsExactly("애쉬"),
                 () -> assertThat(responses.get(1).getRacingCars()).extracting("name")
                         .containsExactlyInAnyOrder("애쉬"));
     }

@@ -8,16 +8,18 @@ public class Player {
     private String name;
     private int position;
     private int gameId;
+    private boolean isWinner;
 
-    public Player(Integer id, String name, int position, int gameId) {
+    public Player(Integer id, String name, int position, int gameId, boolean isWinner) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.gameId = gameId;
+        this.isWinner = isWinner;
     }
 
-    public static Player of(Car car, int gameId) {
-        return new Player(null, car.getName(), car.getDrivenDistance(), gameId);
+    public static Player of(Car car, int gameId, boolean isWinner) {
+        return new Player(null, car.getName(), car.getDrivenDistance(), gameId, isWinner);
     }
 
     public Integer getId() {
@@ -34,5 +36,9 @@ public class Player {
 
     public int getGameId() {
         return gameId;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
     }
 }
