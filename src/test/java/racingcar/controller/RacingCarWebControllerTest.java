@@ -36,7 +36,7 @@ class RacingCarWebControllerTest {
     }
 
     @Test
-    @DisplayName("POST 요청이 정상적으로 처리되었는지 확인한다.")
+    @DisplayName("게임 실행 요청이 정상적으로 처리되었는지 확인한다.")
     void play() {
         GameRequest gameRequest = new GameRequest("조이,밀리", 5);
 
@@ -74,7 +74,7 @@ class RacingCarWebControllerTest {
     }
 
     @Test
-    @DisplayName("GET 요청이 정상적으로 처리되었는지 확인한다.")
+    @DisplayName("게임 목록 조회 요청이 정상적으로 처리되었는지 확인한다.")
     void getGameResult() {
         RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
