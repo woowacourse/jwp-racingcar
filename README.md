@@ -119,4 +119,21 @@
 - [ ] DAO가 하나의 테이블에 매핑되도록 변경
     - [ ] 직관적이라 좋은데, 이것이 좋은 구조인지는 고민해봐야 할 듯
 - [ ] 콘솔 어플리케이션이 웹 Service, Repository 를 재사용하도록 변경
-
+- [ ] ControllerAdvice를 역할에 따라 추가 분리
+    - [ ] 예외도 성격이 존재하기 때문에(도메인이거나, 아니거나 등) 이에 따라 분리하자는 취지
+    - [ ] `@Order` 어노테이션을 사용해 우선순위를 조정했는데, 보다 좋은 방법이 있을까? 추가 고민해보기
+    - [ ] https://velog.io/@xodud001/%ED%98%B8%EC%B6%9C%EB%90%A0-%EA%B1%B0%EB%9D%BC-%EC%98%88%EC%83%81%ED%96%88%EB%8D%98-ExceptionHandler%EA%B0%80-%EC%9D%BC%EC%9D%84-%EC%95%88-%ED%95%98%EB%84%A4
+- [ ] `@Transactional` 어노테이션 사용
+    - [ ] 여러 테이블에 접근하는 로직이 있으므로 원자성을 보장해야 함
+- [ ] 계층 간 전달되는 데이터 형식을 고정시킴
+    - [ ] Repository - DAO -> Entity
+    - [ ] Service - Repository -> Domain
+    - [ ] Controller - Service -> Domain
+    - [ ] Client - Controller -> DTO
+    - [ ] 이 과정을 통해 Layered Architecture를 따를 수 있었음
+- [ ] 계층 간 `Converter` 객체를 둘지에 대한 고민을 해봐야겠음
+- [ ] Mock을 통한 테스트 개선
+    - [ ] 추후 따로 학습이 필요함
+- [ ] Service에서 DTO가 아닌 도메인 객체를 반환하도록 수정
+    - [ ] 재사용성이 증가됨
+    - [ ] 특정한 문맥(DTO)에만 고정되지 않을 수 있음
