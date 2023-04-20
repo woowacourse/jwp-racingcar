@@ -2,8 +2,8 @@ package racingcar;
 
 import java.util.Scanner;
 import racingcar.controller.ConsoleRacingCarController;
-import racingcar.dao.LocalCarDao;
-import racingcar.dao.LocalRacingGameDao;
+import racingcar.dao.ConsoleCarDao;
+import racingcar.dao.ConsoleRacingGameDao;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.repository.DaoRacingCarRepository;
 import racingcar.repository.RacingCarRepository;
@@ -25,6 +25,6 @@ public class ConsoleRacingCarApplication {
     }
 
     private static RacingCarRepository initRacingCarRepository() {
-        return new DaoRacingCarRepository(new LocalRacingGameDao(), new LocalCarDao());
+        return new DaoRacingCarRepository(new ConsoleRacingGameDao(), new ConsoleCarDao());
     }
 }

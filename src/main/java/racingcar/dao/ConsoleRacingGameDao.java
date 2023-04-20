@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import racingcar.domain.entity.RacingGameEntity;
 
-public class LocalRacingGameDao implements RacingGameDao {
+public class ConsoleRacingGameDao implements RacingGameDao {
 
     private final Map<Integer, RacingGameEntity> localDb = new HashMap<>();
     private int id = 1;

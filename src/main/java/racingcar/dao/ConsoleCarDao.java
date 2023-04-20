@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import racingcar.domain.entity.CarEntity;
 
-public class LocalCarDao implements CarDao {
+public class ConsoleCarDao implements CarDao {
 
     private final Map<Integer, CarEntity> localDb = new HashMap<>();
     private int id = 1;

@@ -13,6 +13,15 @@ import racingcar.domain.entity.CarEntity;
 public class JdbcCarDao implements CarDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private RowMapper<CarEntity> rowMapper = (rs, rowNum) -> {
+        final int id = rs.getInt("id");
+        final int gameId = rs.getInt("racing_game_id");
+        final String name = rs.getString("name");
+        final int position = rs.getInt("position");
+        final boolean isWin = rs.getBoolean("is_win");
+
+        return new CarEntity(id, gameId, name, position, isWin);
+    };
 
     public JdbcCarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -44,18 +53,6 @@ public class JdbcCarDao implements CarDao {
     @Override
     public List<CarEntity> findAll() {
         final String sql = "SELECT * FROM CAR";
-        return jdbcTemplate.query(sql, carEntityRowMapper());
-    }
-
-    private RowMapper<CarEntity> carEntityRowMapper() {
-        return (rs, rowNum) -> {
-            final int id = rs.getInt("id");
-            final int gameId = rs.getInt("racing_game_id");
-            final String name = rs.getString("name");
-            final int position = rs.getInt("position");
-            final boolean isWin = rs.getBoolean("is_win");
-
-            return new CarEntity(id, gameId, name, position, isWin);
-        };
+        return jdbcTemplate.query(sql, rowMapper);
     }
 }

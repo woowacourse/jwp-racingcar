@@ -14,6 +14,14 @@ import racingcar.domain.entity.RacingGameEntity;
 public class JdbcRacingGameDao implements RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private RowMapper<RacingGameEntity> rowMapper = (rs, rowNum) -> {
+        final int id = rs.getInt("id");
+        final int count = rs.getInt("count");
+        final LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+
+        return new RacingGameEntity(id, count, createdAt);
+    };
+
 
     public JdbcRacingGameDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -36,16 +44,6 @@ public class JdbcRacingGameDao implements RacingGameDao {
     @Override
     public List<RacingGameEntity> findAll() {
         String sql = "SELECT * FROM RACING_GAME";
-        return jdbcTemplate.query(sql, racingGameEntityRowMapper());
-    }
-
-    private RowMapper<RacingGameEntity> racingGameEntityRowMapper() {
-        return (rs, rowNum) -> {
-            final int id = rs.getInt("id");
-            final int count = rs.getInt("count");
-            final LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-
-            return new RacingGameEntity(id, count, createdAt);
-        };
+        return jdbcTemplate.query(sql, rowMapper);
     }
 }
