@@ -16,7 +16,6 @@ import java.util.List;
 public class WebRacingGameController {
     private final RacingGameService racingGameService;
 
-    @Autowired
     public WebRacingGameController(RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }
