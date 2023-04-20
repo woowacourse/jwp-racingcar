@@ -38,9 +38,9 @@ public class RacingGameControllerIntTest {
 
         // then
         assertAll(
-                () -> assertThat(게임_결과.jsonPath().getString("racingCars[0].name")).isEqualTo("브리"),
-                () -> assertThat(게임_결과.jsonPath().getString("racingCars[1].name")).isEqualTo("토미"),
-                () -> assertThat(게임_결과.jsonPath().getString("racingCars[2].name")).isEqualTo("브라운"),
+                () -> assertThat(n번째_자동차의_이름(0, 게임_결과)).isEqualTo("브리"),
+                () -> assertThat(n번째_자동차의_이름(1, 게임_결과)).isEqualTo("토미"),
+                () -> assertThat(n번째_자동차의_이름(2, 게임_결과)).isEqualTo("브라운"),
                 () -> assertThat(게임_결과.statusCode()).isEqualTo(HttpStatus.OK.value())
         );
     }
@@ -56,8 +56,8 @@ public class RacingGameControllerIntTest {
 
         // then
         assertAll(
-                () -> assertThat(게임_결과_목록.jsonPath().getInt("$.size()")).isEqualTo(2),
-                () -> assertThat(게임_결과_목록.jsonPath().getInt("[0].racingCars.size()")).isEqualTo(3),
+                () -> assertThat(전체_게임의_수(게임_결과_목록)).isEqualTo(2),
+                () -> assertThat(n번째_게임의_자동차의_수(게임_결과_목록)).isEqualTo(3),
                 () -> assertThat(게임_결과_목록.statusCode()).isEqualTo(HttpStatus.OK.value())
         );
     }
@@ -80,5 +80,17 @@ public class RacingGameControllerIntTest {
                 .body("$.size()", equalTo(2))
                 .body("[0].racingCars.size()", equalTo(3))
                 .extract();
+    }
+
+    private String n번째_자동차의_이름(final int index, final ExtractableResponse<Response> 게임_결과) {
+        return 게임_결과.jsonPath().getString("racingCars[" + index + "].name");
+    }
+
+    private int n번째_게임의_자동차의_수(final ExtractableResponse<Response> 게임_결과_목록) {
+        return 게임_결과_목록.jsonPath().getInt("[0].racingCars.size()");
+    }
+
+    private int 전체_게임의_수(final ExtractableResponse<Response> 게임_결과_목록) {
+        return 게임_결과_목록.jsonPath().getInt("$.size()");
     }
 }
