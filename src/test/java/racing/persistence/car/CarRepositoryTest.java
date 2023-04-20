@@ -1,4 +1,4 @@
-package racing.persist.car;
+package racing.persistence.car;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,6 +16,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import racing.domain.Car;
 import racing.domain.CarName;
 import racing.domain.Cars;
+import racing.domain.repository.CarRepository;
+import racing.persistence.h2.car.CarDao;
+import racing.persistence.h2.car.CarEntity;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)

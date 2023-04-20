@@ -1,10 +1,12 @@
-package racing.persist.car;
+package racing.domain.repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import racing.domain.Car;
 import racing.domain.Cars;
+import racing.persistence.h2.car.CarDao;
+import racing.persistence.h2.car.CarEntity;
 
 @Repository
 public class CarRepository {

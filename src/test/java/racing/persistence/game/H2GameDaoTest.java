@@ -1,4 +1,4 @@
-package racing.persist.game;
+package racing.persistence.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,6 +12,9 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import racing.persistence.h2.game.H2RacingGameDao;
+import racing.persistence.h2.game.RacingGameDao;
+import racing.persistence.h2.game.RacingGameEntity;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Import(H2RacingGameDao.class)

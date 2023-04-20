@@ -1,4 +1,4 @@
-package racing.persist.game;
+package racing.domain.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 import racing.domain.Cars;
 import racing.domain.RacingCarGame;
 import racing.domain.TrialCount;
-import racing.persist.car.CarDao;
-import racing.persist.car.CarEntity;
+import racing.persistence.h2.car.CarDao;
+import racing.persistence.h2.car.CarEntity;
+import racing.persistence.h2.game.RacingGameDao;
+import racing.persistence.h2.game.RacingGameEntity;
 
 @Repository
 public class RacingGameRepository {

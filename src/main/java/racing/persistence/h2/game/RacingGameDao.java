@@ -1,4 +1,4 @@
-package racing.persist.game;
+package racing.persistence.h2.game;
 
 import java.util.List;
 

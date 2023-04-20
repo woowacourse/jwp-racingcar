@@ -1,4 +1,4 @@
-package racing.persist.car;
+package racing.persistence.car;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,6 +14,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racing.domain.Car;
 import racing.domain.CarName;
+import racing.persistence.h2.car.CarDao;
+import racing.persistence.h2.car.CarEntity;
+import racing.persistence.h2.car.H2CarDao;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Import(H2CarDao.class)

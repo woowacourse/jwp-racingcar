@@ -1,4 +1,4 @@
-package racing.persist.game;
+package racing.persistence.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +17,8 @@ import racing.domain.Car;
 import racing.domain.CarName;
 import racing.domain.Cars;
 import racing.domain.RacingCarGame;
-import racing.persist.car.CarRepository;
+import racing.domain.repository.CarRepository;
+import racing.domain.repository.RacingGameRepository;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)

@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import racing.domain.Car;
 import racing.domain.Cars;
-import racing.persist.game.RacingGameRepository;
+import racing.domain.repository.RacingGameRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

@@ -8,9 +8,9 @@ import racing.domain.CarFactory;
 import racing.domain.Cars;
 import racing.domain.RacingCarGame;
 import racing.domain.TrialCount;
+import racing.domain.repository.CarRepository;
+import racing.domain.repository.RacingGameRepository;
 import racing.domain.utils.RandomRacingCarNumberGenerator;
-import racing.persist.car.CarRepository;
-import racing.persist.game.RacingGameRepository;
 
 @Service
 public class RacingGameService {

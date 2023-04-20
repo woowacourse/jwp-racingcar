@@ -1,4 +1,4 @@
-package racing.persist.game;
+package racing.persistence.h2.game;
 
 import java.time.LocalDateTime;
 
@@ -6,10 +6,6 @@ public class RacingGameEntity {
     private Long gameId;
     private LocalDateTime createTime;
     private final int trialCount;
-
-    public RacingGameEntity(int trialCount) {
-        this.trialCount = trialCount;
-    }
 
     public RacingGameEntity(Long gameId, LocalDateTime createTime, int trialCount) {
         this.gameId = gameId;
