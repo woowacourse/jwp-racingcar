@@ -10,8 +10,6 @@ import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
 import racingcar.service.RacingCarService;
 
-import java.util.List;
-
 @RestController
 public class RacingCarWebController {
 
