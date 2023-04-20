@@ -12,7 +12,7 @@ CREATE TABLE GAME_RESULT
 CREATE TABLE CAR_RESULT
 (
     id             INT         UNSIGNED NOT NULL AUTO_INCREMENT,
-    game_result_id INT         NOT NULL,
+    game_result_id INT         UNSIGNED NOT NULL,
     name           VARCHAR(10) NOT NULL,
     position       INT         NOT NULL,
     PRIMARY KEY (id),

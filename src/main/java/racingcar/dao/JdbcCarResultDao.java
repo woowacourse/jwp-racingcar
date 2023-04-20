@@ -16,8 +16,8 @@ public class JdbcCarResultDao implements CarResultDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> new CarResult(
-            resultSet.getInt("id"),
-            resultSet.getInt("game_result_id"),
+            resultSet.getLong("id"),
+            resultSet.getLong("game_result_id"),
             resultSet.getString("name"),
             resultSet.getInt("position")
     );
@@ -30,17 +30,17 @@ public class JdbcCarResultDao implements CarResultDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public int save(CarResult carResult) {
+    public long save(CarResult carResult) {
         SqlParameterSource source = new BeanPropertySqlParameterSource(carResult);
-        return simpleJdbcInsert.executeAndReturnKey(source).intValue();
+        return simpleJdbcInsert.executeAndReturnKey(source).longValue();
     }
 
-    public CarResult findById(int id) {
+    public CarResult findById(long id) {
         String sql = "SELECT * FROM car_result WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
     }
 
-    public List<CarResult> findAllByPlayResultId(int gameResultId) {
+    public List<CarResult> findAllByPlayResultId(long gameResultId) {
         String sql = "SELECT * FROM car_result WHERE game_result_id = ?";
         return jdbcTemplate.query(sql, entityRowMapper, gameResultId);
     }

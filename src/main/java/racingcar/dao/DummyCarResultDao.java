@@ -6,17 +6,17 @@ import java.util.List;
 
 public class DummyCarResultDao implements CarResultDao {
     @Override
-    public int save(CarResult carResult) {
+    public long save(CarResult carResult) {
         return 0;
     }
 
     @Override
-    public CarResult findById(int id) {
+    public CarResult findById(long id) {
         return null;
     }
 
     @Override
-    public List<CarResult> findAllByPlayResultId(int playResultId) {
+    public List<CarResult> findAllByPlayResultId(long playResultId) {
         return null;
     }
 }

@@ -24,20 +24,20 @@ public class JdbcGameResultDao implements GameResultDao {
 
     private final RowMapper<GameResult> entityRowMapper = (resultSet, rowNum) ->
             new GameResult(
-                    resultSet.getInt("id"),
+                    resultSet.getLong("id"),
                     resultSet.getInt("trial_count"),
                     resultSet.getString("winners"),
                     resultSet.getTimestamp("created_at")
             );
 
-    public int save(GameResult gameResult) {
+    public long save(GameResult gameResult) {
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(gameResult);
         return simpleJdbcInsert
                 .executeAndReturnKey(sqlParameterSource)
-                .intValue();
+                .longValue();
     }
 
-    public GameResult findById(int id) {
+    public GameResult findById(long id) {
         String sql = "SELECT * FROM game_result WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, entityRowMapper, id);
     }

@@ -35,29 +35,29 @@ public class RacingGameService {
     }
 
     private void saveResult(RacingGame racingGame, int tryCount) {
-        int playResultId = savePlayResult(tryCount, racingGame, racingGame.getWinnerNames());
+        long playResultId = savePlayResult(tryCount, racingGame, racingGame.getWinnerNames());
         saveCarResult(racingGame.getCars(), playResultId);
     }
 
-    private int savePlayResult(int tryCount, RacingGame racingGame, String winners) {
+    private long savePlayResult(int tryCount, RacingGame racingGame, String winners) {
         return gameResultDao.save(new GameResult(tryCount, winners, racingGame.getCreatedAt()));
     }
 
-    private void saveCarResult(List<Car> cars, int playResultId) {
+    private void saveCarResult(List<Car> cars, long playResultId) {
         cars.stream()
                 .map(car -> new CarResult(playResultId, car.getName(), car.getPosition()))
                 .forEach(carResultDao::save);
     }
 
     public List<GameResponse> findAllCarGame() {
-        List<GameResponse> gameResultRespons = new ArrayList<>();
+        List<GameResponse> gameResultResponse = new ArrayList<>();
         for (GameResult gameResult : gameResultDao.findAll()) {
             List<CarResult> carResults = carResultDao.findAllByPlayResultId(gameResult.getId());
-            List<CarResponse> carResultRespons = carResults.stream()
+            List<CarResponse> carResultResponse = carResults.stream()
                     .map(CarResponse::fromCarResult)
                     .collect(Collectors.toList());
-            gameResultRespons.add(new GameResponse(gameResult.getWinners(), carResultRespons));
+            gameResultResponse.add(new GameResponse(gameResult.getWinners(), carResultResponse));
         }
-        return gameResultRespons;
+        return gameResultResponse;
     }
 }

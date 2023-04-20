@@ -3,23 +3,23 @@ package racingcar.domain;
 import java.util.Objects;
 
 public class CarResult {
-    private final Integer id;
-    private final int gameResultId;
+    private final Long id;
+    private final long gameResultId;
     private final String name;
     private final int position;
 
-    public CarResult(Integer id, int gameResultId, String name, int position) {
+    public CarResult(Long id, long gameResultId, String name, int position) {
         this.id = id;
         this.gameResultId = gameResultId;
         this.name = name;
         this.position = position;
     }
 
-    public CarResult (int resultId, String name, int position) {
+    public CarResult (long resultId, String name, int position) {
         this(null, resultId, name, position);
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

@@ -4,12 +4,12 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class GameResult {
-    private final Integer id;
+    private final Long id;
     private final int trialCount;
     private final String winners;
     private final Timestamp createdAt;
 
-    public GameResult(Integer id, int trialCount, String winners, Timestamp createdAt) {
+    public GameResult(Long id, int trialCount, String winners, Timestamp createdAt) {
         this.id = id;
         this.trialCount = trialCount;
         this.winners = winners;
@@ -20,7 +20,7 @@ public class GameResult {
         this(null, trialCount, winners, createdAt);
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

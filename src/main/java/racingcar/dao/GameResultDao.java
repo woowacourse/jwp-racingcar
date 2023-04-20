@@ -5,9 +5,9 @@ import racingcar.domain.GameResult;
 import java.util.List;
 
 public interface GameResultDao {
-    int save(GameResult gameResult);
+    long save(GameResult gameResult);
 
-    GameResult findById(int id);
+    GameResult findById(long id);
 
     List<GameResult> findAll();
 }
