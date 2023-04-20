@@ -31,7 +31,7 @@ public class GameResultDao {
             preparedStatement.setInt(2, gameResultEntity.getTrialCount());
             return preparedStatement;
         }, keyHolder);
-        return keyHolder.getKey().longValue();
+        return keyHolder.getKeyAs(Long.class);
     }
 
     public List<GameResultEntity> selectAll() {
