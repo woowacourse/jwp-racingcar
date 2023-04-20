@@ -3,21 +3,21 @@ package racingcar.domain;
 public class Coin {
 
     private final int given;
-    private int remaining;
+    private int used;
 
-    public Coin(int given) {
+    public Coin(final int given) {
         this.given = given;
-        this.remaining = given;
+        this.used = 0;
     }
 
     public void use() {
         if (isLeft()) {
-            remaining--;
+            used++;
         }
     }
 
     public boolean isLeft() {
-        return remaining > 0;
+        return used < given;
     }
 
     public int getGiven() {

@@ -1,7 +1,5 @@
 package racingcar.domain;
 
-import racingcar.domain.exception.NoCarsExistException;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +13,7 @@ public class RacingGame {
     private final NumberGenerator numberGenerator;
     private final Coin gameCoin;
 
-    public RacingGame(List<String> splitCarNames, int gameTry, NumberGenerator numberGenerator) {
+    public RacingGame(final List<String> splitCarNames, final int gameTry, final NumberGenerator numberGenerator) {
         cars = splitCarNames.stream()
                 .map(carName -> new Car(carName, DEFAULT_START_LINE))
                 .collect(Collectors.toList());
@@ -40,7 +38,7 @@ public class RacingGame {
         return gameCoin.isLeft();
     }
 
-    private void moveCar(Car car) {
+    private void moveCar(final Car car) {
         int randomNumber = numberGenerator.makeDigit();
         if (randomNumber >= MOVABLE_BOUND) {
             car.move();
@@ -59,13 +57,13 @@ public class RacingGame {
                 .collect(Collectors.toList());
     }
 
-    public Coin getGameCoin() {
-        return gameCoin;
-    }
-
     private Car getFurthestCar() {
         return cars.stream()
                 .max(Car::comparePosition)
-                .orElseThrow(NoCarsExistException::new);
+                .orElseThrow(() -> new IllegalArgumentException("자동차를 찾을 수 없습니다."));
+    }
+
+    public Coin getGameCoin() {
+        return gameCoin;
     }
 }
