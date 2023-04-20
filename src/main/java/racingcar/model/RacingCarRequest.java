@@ -1,12 +1,10 @@
 package racingcar.model;
 
 public class RacingCarRequest {
-    private final String names;
-    private final int count;
+    private String names;
+    private int count;
 
     RacingCarRequest() {
-        this.names = "";
-        this.count = 0;
     }
 
     public RacingCarRequest(final String names, final int count) {
