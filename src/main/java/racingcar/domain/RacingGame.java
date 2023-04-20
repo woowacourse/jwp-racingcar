@@ -1,11 +1,10 @@
 package racingcar.domain;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import racingcar.domain.car.Car;
 import racingcar.domain.car.Cars;
 import racingcar.domain.manager.CarMoveManager;
-import racingcar.dto.CarDto;
 import racingcar.util.ValueEditor;
 
 public class RacingGame {
@@ -44,10 +43,7 @@ public class RacingGame {
         return ValueEditor.joinWithComma(cars.getWinners());
     }
 
-    public List<CarDto> getCarMoveResults() {
-        return cars.getCurrentResult()
-                .stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toUnmodifiableList());
+    public List<Car> getCarMoveResults() {
+        return cars.getCurrentResult();
     }
 }

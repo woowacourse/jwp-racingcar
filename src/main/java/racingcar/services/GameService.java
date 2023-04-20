@@ -15,11 +15,11 @@ import racingcar.dao.entity.Winner;
 import racingcar.dao.game.GameDao;
 import racingcar.dao.winner.WinnerDao;
 import racingcar.domain.RacingGame;
+import racingcar.domain.car.Cars;
+import racingcar.domain.manager.CarMoveManager;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameInfoDto;
 import racingcar.dto.ResultDto;
-import racingcar.domain.car.Cars;
-import racingcar.domain.manager.CarMoveManager;
 import racingcar.util.ValueEditor;
 
 @Service
@@ -40,9 +40,16 @@ public class GameService {
         RacingGame racingGame = RacingGame.initialize(new Cars(new ArrayList<>()));
         racingGame.createCars(gameInfoDto.getNames());
         racingGame.moveCars(carMoveManager, gameInfoDto.getCount());
-        ResultDto resultDto = new ResultDto(racingGame.getWinner(), racingGame.getCarMoveResults());
+        ResultDto resultDto = new ResultDto(racingGame.getWinner(), createCarDtos(racingGame));
         saveResult(gameInfoDto.getCount(), resultDto);
         return resultDto;
+    }
+
+    private List<CarDto> createCarDtos(RacingGame racingGame) {
+        return racingGame.getCarMoveResults()
+                .stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private void saveResult(String countInput, ResultDto resultDto) {

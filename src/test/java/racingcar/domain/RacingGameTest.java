@@ -17,7 +17,6 @@ import racingcar.domain.car.Car;
 import racingcar.domain.car.Cars;
 import racingcar.domain.car.Name;
 import racingcar.domain.manager.CarMoveManager;
-import racingcar.dto.CarDto;
 import racingcar.services.TestMoveManager;
 
 class RacingGameTest {
@@ -80,7 +79,7 @@ class RacingGameTest {
         racingGame.createCars(nameInputs);
         racingGame.moveCars(carMoveManager, countInput);
 
-        List<CarDto> result = racingGame.getCarMoveResults();
+        List<Car> result = racingGame.getCarMoveResults();
 
         Assertions.assertAll(
                 () -> assertThat(result).hasSize(3),
