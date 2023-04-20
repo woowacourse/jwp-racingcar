@@ -15,7 +15,6 @@ public class Cars {
     }
 
     public static Cars from(final List<String> carNames) {
-        validateDuplicatedName(carNames);
         List<Car> cars = carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
@@ -28,17 +27,21 @@ public class Cars {
         return from(seperatedCarNames);
     }
 
-    private static void validateDuplicatedName(final List<String> cars) {
-        Set<String> refined = new HashSet<>(cars);
-
-        if (refined.size() != cars.size()) {
-            throw new IllegalArgumentException("자동차 이름은 중복될 수 없습니다.");
-        }
-    }
-
     private void validateCars(final List<Car> cars) {
         validateEmpty(cars);
         validateSize(cars);
+        validateDuplicatedName(cars);
+    }
+
+    private void validateDuplicatedName(final List<Car> cars) {
+        List<String> carNames = cars.stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+
+        Set<String> refined = new HashSet<>(carNames);
+        if (refined.size() != cars.size()) {
+            throw new IllegalArgumentException("자동차 이름은 중복될 수 없습니다.");
+        }
     }
 
     private void validateEmpty(final List<Car> cars) {
