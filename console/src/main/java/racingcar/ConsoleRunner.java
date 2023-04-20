@@ -1,6 +1,7 @@
 package racingcar;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,13 @@ public class ConsoleRunner {
                     .map(Car::getCarName)
                     .collect(Collectors.toList());
             OutputView.printWinner(winnerNames);
+            OutputView.printStatus(getRacingGameStatus(racingGame));
         };
+    }
+
+    private Map<String, Integer> getRacingGameStatus(final RacingGame racingGame) {
+        return racingGame.getCars()
+                .stream()
+                .collect(Collectors.toMap(Car::getCarName, Car::getPosition));
     }
 }

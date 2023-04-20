@@ -1,6 +1,7 @@
 package racingcar.view;
 
 import java.util.List;
+import java.util.Map;
 
 public class OutputView {
 
@@ -19,5 +20,15 @@ public class OutputView {
     public static void printWinner(final List<String> winners) {
         System.out.print(String.join(WINNER_DELIMITER, winners));
         System.out.println(WINNER_GUIDE_MESSAGE);
+    }
+
+    public static void printStatus(final Map<String, Integer> status) {
+        status.forEach((name, position) -> {
+            System.out.print(name + " : ");
+            for (int i = 0; i < position; i++) {
+                System.out.print("-");
+            }
+            System.out.println();
+        });
     }
 }
