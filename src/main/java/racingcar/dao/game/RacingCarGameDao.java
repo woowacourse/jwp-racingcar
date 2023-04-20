@@ -2,11 +2,11 @@ package racingcar.dao.game;
 
 import java.util.List;
 import racingcar.dao.entity.Game;
-import racingcar.dto.RacingCarGameResultResponseDto;
+import racingcar.dto.GamePlayerJoinDto;
 
 public interface RacingCarGameDao {
 
     public Long insertGameWithKeyHolder(Game game);
-    public List<RacingCarGameResultResponseDto> findAll();
+    public List<GamePlayerJoinDto> findAll();
 }
 

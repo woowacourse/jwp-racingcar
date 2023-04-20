@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import racingcar.dao.entity.Game;
-import racingcar.dto.RacingCarGameResultResponseDto;
+import racingcar.dto.GamePlayerJoinDto;
 
 public class RacingCarGameInMemoryDao implements RacingCarGameDao{
 
@@ -18,7 +18,7 @@ public class RacingCarGameInMemoryDao implements RacingCarGameDao{
     }
 
     @Override
-    public List<RacingCarGameResultResponseDto> findAll() {
+    public List<GamePlayerJoinDto> findAll() {
         return null;
     }
 }

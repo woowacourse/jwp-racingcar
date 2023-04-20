@@ -1,12 +1,16 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.domain.Cars;
 import racingcar.domain.Count;
 import racingcar.domain.RacingCarGame;
+import racingcar.dto.GamePlayerJoinDto;
+import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingCarGameRequestDto;
 import racingcar.dto.RacingCarGameResultResponseDto;
 import racingcar.repository.RacingCarRepository;
@@ -35,7 +39,20 @@ public class RacingCarService {
     }
 
     public List<RacingCarGameResultResponseDto> readGameResultAll() {
-        return racingCarRepository.readGameResultAll();
+        List<GamePlayerJoinDto> gamePlayerJoinDtos = racingCarRepository.readGameResultAll();
+        Map<Long, List<GamePlayerJoinDto>> gameIdByGamePlayerJoinDto = gamePlayerJoinDtos.stream()
+            .collect(Collectors.groupingBy(GamePlayerJoinDto::getGameId));
+
+        List<RacingCarGameResultResponseDto> result = new ArrayList<>();
+
+        for (Long gameId : gameIdByGamePlayerJoinDto.keySet()) {
+            List<GamePlayerJoinDto> sameGameData = gameIdByGamePlayerJoinDto.get(gameId);
+            String winner = sameGameData.get(0).getWinner();
+            List<PlayerDto> playerDtos = sameGameData.stream().map(data -> new PlayerDto(data.getPlayerName(), data.getPosition()))
+                .collect(Collectors.toList());
+            result.add(new RacingCarGameResultResponseDto(winner, playerDtos));
+        }
+        return result;
     }
 
     private List<String> splitNameWithComma(RacingCarGameRequestDto racingCarGameRequestDto) {

@@ -8,7 +8,7 @@ import racingcar.dao.entity.Player;
 import racingcar.dao.game.RacingCarGameDao;
 import racingcar.dao.player.PlayerDao;
 import racingcar.domain.RacingCarGame;
-import racingcar.dto.RacingCarGameResultResponseDto;
+import racingcar.dto.GamePlayerJoinDto;
 
 @Repository
 public class RacingCarRepository {
@@ -27,7 +27,7 @@ public class RacingCarRepository {
         playerDao.insertPlayer(players);
     }
 
-    public List<RacingCarGameResultResponseDto> readGameResultAll() {
+    public List<GamePlayerJoinDto> readGameResultAll() {
         return racingCarGameDao.findAll();
     }
 

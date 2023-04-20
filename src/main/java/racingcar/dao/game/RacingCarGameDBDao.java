@@ -1,8 +1,6 @@
 package racingcar.dao.game;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,11 +10,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.dao.entity.Game;
-import racingcar.dto.PlayerDto;
-import racingcar.dto.RacingCarGameResultResponseDto;
+import racingcar.dto.GamePlayerJoinDto;
 
 @Component
-public class RacingCarGameDBDao implements RacingCarGameDao{
+public class RacingCarGameDBDao implements RacingCarGameDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -38,29 +35,24 @@ public class RacingCarGameDBDao implements RacingCarGameDao{
         return Long.valueOf(String.valueOf(keyHolder.getKeys().get("game_id")));
     }
 
-    public List<RacingCarGameResultResponseDto> findAll() {
-        String sql = "SELECT g.winners, g.game_id, p.name, p.position FROM GAME as g "
+    public List<GamePlayerJoinDto> findAll() {
+        String sql = "SELECT g.winners, g.game_id, p.name, p.position, p.player_id FROM GAME as g "
             + "join player as p "
             + "on g.game_id = p.game_id ";
         return jdbcTemplate.query(sql, rs -> {
-                Map<Long, RacingCarGameResultResponseDto> history = new HashMap<>();
+                Map<Long, GamePlayerJoinDto> result = new HashMap<>();
                 while (rs.next()) {
-                    long gameId = rs.getLong("game_id");
-                    putData(rs, history, gameId);
+                    GamePlayerJoinDto gamePlayerJoinDto = new GamePlayerJoinDto(
+                        rs.getLong("game_id"),
+                        rs.getString("winners"),
+                        rs.getString("name"),
+                        rs.getInt("position"),
+                        rs.getLong("player_id")
+                    );
+                    result.put(rs.getLong("player_id"), gamePlayerJoinDto);
                 }
-                return new ArrayList<>(history.values());
+                return new ArrayList<>(result.values());
             }
         );
-    }
-
-    private void putData(final ResultSet rs, final Map<Long, RacingCarGameResultResponseDto> history, final long gameId) throws SQLException {
-        if (history.containsKey(gameId)) {
-            RacingCarGameResultResponseDto racingCarGameResultResponseDto = history.get(gameId);
-            racingCarGameResultResponseDto.getRacingCars().add(new PlayerDto(rs.getString("name"), rs.getInt("position")));
-            return;
-        }
-        List<PlayerDto> players = new ArrayList<>();
-        players.add(new PlayerDto(rs.getString("name"), rs.getInt("position")));
-        history.put(gameId, new RacingCarGameResultResponseDto(rs.getString("winners"), players));
     }
 }
