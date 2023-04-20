@@ -1,9 +1,9 @@
-package racingcar.dao;
+package racingcar.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
-import racingcar.domain.RacingCarDto;
+import racingcar.dto.RacingCarDto;
 
 import java.util.List;
 

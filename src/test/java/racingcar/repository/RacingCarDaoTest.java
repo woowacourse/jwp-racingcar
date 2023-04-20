@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.domain.Name;
-import racingcar.domain.RacingCarDto;
+import racingcar.dto.RacingCarDto;
 
 import java.util.List;
 

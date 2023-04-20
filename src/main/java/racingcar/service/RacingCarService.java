@@ -1,9 +1,13 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.RacingCarDao;
-import racingcar.dao.ResultDao;
-import racingcar.domain.*;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.dto.GameInforamtionDto;
+import racingcar.dto.GameResultDto;
+import racingcar.dto.RacingCarDto;
+import racingcar.repository.RacingCarDao;
+import racingcar.repository.ResultDao;
 import racingcar.util.NumberGenerator;
 import racingcar.validation.Validation;
 

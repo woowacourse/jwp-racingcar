@@ -6,11 +6,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.dao.RacingCarDao;
-import racingcar.dao.ResultDao;
-import racingcar.domain.GameInforamtionDto;
-import racingcar.domain.GameResultDto;
-import racingcar.domain.RacingCarDto;
+import racingcar.dto.GameInforamtionDto;
+import racingcar.dto.GameResultDto;
+import racingcar.dto.RacingCarDto;
+import racingcar.repository.RacingCarDao;
+import racingcar.repository.ResultDao;
 import racingcar.util.NumberGenerator;
 
 import java.util.List;
