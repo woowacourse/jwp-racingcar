@@ -7,25 +7,24 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import racingcar.domain.Car;
-import racingcar.domain.NumberPicker;
 import racingcar.domain.RacingGame;
+import racingcar.service.AddRaceService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 @Configuration
 public class ConsoleRunner {
 
-    private final NumberPicker numberPicker;
+    private final AddRaceService addRaceService;
 
-    public ConsoleRunner(final NumberPicker numberPicker) {
-        this.numberPicker = numberPicker;
+    public ConsoleRunner(final AddRaceService addRaceService) {
+        this.addRaceService = addRaceService;
     }
 
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            final RacingGame racingGame = new RacingGame(InputView.inputCarName(), InputView.inputTryCount());
-            racingGame.race(numberPicker);
+            final RacingGame racingGame = addRaceService.addRace(InputView.inputCarName(), InputView.inputTryCount());
             final List<String> winnerNames = racingGame.findWinner()
                     .stream()
                     .map(Car::getCarName)
