@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.game;
 
 import java.sql.PreparedStatement;
 import org.springframework.beans.factory.annotation.Autowired;
