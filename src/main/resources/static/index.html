@@ -35,7 +35,7 @@
 
 <script>
   function submitForm() {
-    const names = document.getElementById("names").value;
+    const names = document.getElementById("names").value.split(",");
     const count = document.getElementById("count").value;
     const data = {
       names: names,
