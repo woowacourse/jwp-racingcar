@@ -7,6 +7,7 @@ import racingcar.dto.PostGameRequest;
 import racingcar.dto.PostGameResponse;
 import racingcar.exception.ExceptionInformation;
 import racingcar.service.RacingGameService;
+import racingcar.utils.Parser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,19 +25,6 @@ public class RacingGameController {
 
     @PostMapping("/plays")
     public PostGameResponse doGame(@RequestBody final PostGameRequest postGameRequest) {
-        return racingGameService.run(sliceNameByComma(postGameRequest.getNames()), postGameRequest.getCount());
-    }
-
-    private List<String> sliceNameByComma(final String names) {
-        validateComma(names);
-
-        return Arrays.stream(names.split(","))
-                .collect(toList());
-    }
-
-    private void validateComma(final String names) {
-        if (!names.contains(",")) {
-            throw new IllegalArgumentException(ExceptionInformation.COMMA_NOT_FOUND_EXCEPTION.getExceptionMessage());
-        }
+        return racingGameService.run(Parser.sliceByComma(postGameRequest.getNames()), postGameRequest.getCount());
     }
 }
