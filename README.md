@@ -42,6 +42,7 @@ Dto
 - [ ] DB에 종속적이지 않은 테스트를 작성하는 방법
 - [ ] GamePlayResponseDto(View - Controller - Service 계층이 주고받는 Dto)의 생성자로 List<GameFinishedCarDto>(Service - Repository 계층이 주고받는 Dto)를 넘겨줘도 괜찮을까?
   - GamePlayResponseDto 생성자 내에 데이터를 변환하는 로직이 생기는 것에 대해 의문이 생긴다. 하지만, 서비스에 두기에는 서비스의 코드가 지저분해지는 것 같다.
+- [x] BatchUpdate 사용해보기
 
 ## 2단계 요구사항
 - [x] 게임 플레이 이력 조회 API 구현

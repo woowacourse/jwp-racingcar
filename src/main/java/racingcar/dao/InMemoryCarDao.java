@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,10 +26,16 @@ public class InMemoryCarDao implements CarDao {
     public void saveAll(int gameId, List<Car> cars, List<String> winners) {
         String sql = "insert into CAR_RESULT (play_result_id, car_name, car_position, is_winner) values (?, ?, ?, ?)";
 
-        for (Car car : cars) {
-            final boolean isWinner = winners.contains(car.getName());
-            jdbcTemplate.update(sql, gameId, car.getName(), car.getPosition(), isWinner);
-        }
+        jdbcTemplate.batchUpdate(sql,
+                cars,
+                cars.size(),
+                (PreparedStatement ps, Car car) -> {
+                    final boolean isWinner = winners.contains(car.getName());
+                    ps.setInt(1, gameId);
+                    ps.setString(2, car.getName());
+                    ps.setInt(3, car.getPosition());
+                    ps.setBoolean(4, isWinner);
+                });
     }
 
     @Override
