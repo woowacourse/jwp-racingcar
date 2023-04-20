@@ -24,7 +24,7 @@ public class RaceController {
 
     public void play() {
         readyForGame();
-        playGame();
+        race.play();
         printWinners();
         printParticipants();
     }
@@ -33,16 +33,6 @@ public class RaceController {
         List<String> carNames = repeat(inputView::readCarNames);
         int count = repeat(inputView::readCount);
         race = new Race(count, carNames, numberGenerator);
-    }
-
-    private void playGame() {
-        while (!race.isFinished()) {
-            playRound();
-        }
-    }
-
-    private void playRound() {
-        race.playRound();
     }
 
     private void printWinners() {

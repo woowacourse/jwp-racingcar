@@ -14,17 +14,24 @@ public class Race {
     private int currentCount = 0;
     private final Participants participants;
 
+
     public Race(final int totalCount, final List<String> carNames, NumberGenerator numberGenerator) {
         validateRange(totalCount);
         this.totalCount = totalCount;
         List<Car> cars = carNames.stream()
                 .map(carName -> generateCar(carName, numberGenerator))
                 .collect(Collectors.toList());
-        this.participants = new Participants(cars, numberGenerator);
+        this.participants = new Participants(cars);
     }
 
     private Car generateCar(String carName, NumberGenerator numberGenerator) {
         return new Car(carName, numberGenerator);
+    }
+
+    public void play() {
+        while (!isFinished()) {
+            playRound();
+        }
     }
 
     public void playRound() {

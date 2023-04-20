@@ -30,29 +30,42 @@ public class RacingCarService {
 
     public PlaysResponse play(PlaysRequest playsRequest) {
         Race race = new Race(playsRequest.getCount(), playsRequest.getNames(), numberGenerator);
-        while (!race.isFinished()) {
-            race.playRound();
-        }
+        race.play();
 
-        List<Car> winners = race.findWinners();
-        List<Car> participants = race.getParticipants();
-        List<String> winnerNames = winners.stream()
+        Game game = createGame(playsRequest.getCount(), race.findWinners());
+        insertDataInDao(game, race.getParticipants());
+
+        return PlaysResponse.of(race.findWinners(), race.getParticipants());
+    }
+
+    public Game createGame(int count, List<Car> winners) {
+        List<String> winnerNames = winners
+                .stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
 
-        Game game = Game.of(null, winnerNames, playsRequest.getCount());
-        Long gameId = gameDao.insert(game);
+        return Game.of(null, winnerNames, count);
+    }
 
-        List<Player> players = participants.stream()
+    public void insertDataInDao(Game game, List<Car> participants) {
+        Long gameId = insertGameData(game);
+        insertPlayersData(participants, gameId);
+    }
+
+    private Long insertGameData(Game game) {
+        Long gameId = gameDao.insert(game);
+        return gameId;
+    }
+
+    private void insertPlayersData(List<Car> participants, Long gameId) {
+        List<Player> players = participants
+                .stream()
                 .map(participant -> Player.of(participant, gameId.intValue()))
                 .collect(Collectors.toList());
         playerDao.insert(players);
-
-        return PlaysResponse.of(winners, participants);
     }
 
     public List<PlaysResponse> getGamesAll() {
-        //TODO: request -> entity -> dao -> service -> response -> controller
         List<PlaysResponse> playsResponses = new ArrayList<>();
 
         List<Game> games = gameDao.selectAll();
