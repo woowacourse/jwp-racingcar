@@ -17,7 +17,7 @@ public class PlayerInMemoryDao implements PlayerDao {
     public boolean save(CarGroup carGroup, int racingGameId) {
         for (final Car car : carGroup.getCars()) {
             final PlayerDtoMapper player =
-                    new PlayerDtoMapper(id, car.getName().getName(), car.getPosition().getPosition());
+                    new PlayerDtoMapper(car.getName().getName(), car.getPosition().getPosition());
             players.add(player);
             id++;
         }

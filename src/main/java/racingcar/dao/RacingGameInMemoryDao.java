@@ -1,6 +1,5 @@
 package racingcar.dao;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +14,7 @@ public class RacingGameInMemoryDao implements RacingGameDao {
 
     @Override
     public int save(String winners, int count) {
-        RacingGameDtoMapper racingGame = new RacingGameDtoMapper(id, winners, LocalDateTime.now(), count);
+        RacingGameDtoMapper racingGame = new RacingGameDtoMapper(id, winners);
         racingGames.add(racingGame);
 
         return id++;

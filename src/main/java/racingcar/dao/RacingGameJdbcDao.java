@@ -1,16 +1,16 @@
 package racingcar.dao;
 
+import java.sql.PreparedStatement;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.dao.mapper.RacingGameDtoMapper;
 
-import java.sql.PreparedStatement;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import racingcar.dao.mapper.RacingGameDtoMapper;
 
 @Repository
 public class RacingGameJdbcDao implements RacingGameDao {
@@ -23,9 +23,7 @@ public class RacingGameJdbcDao implements RacingGameDao {
 
     private final RowMapper<RacingGameDtoMapper> racingGameRowMapper = (resultSet, rowNum) -> new RacingGameDtoMapper(
             resultSet.getInt("id"),
-            resultSet.getString("winners"),
-            resultSet.getObject("created_at", LocalDateTime.class),
-            resultSet.getInt("trial")
+            resultSet.getString("winners")
     );
 
     @Override

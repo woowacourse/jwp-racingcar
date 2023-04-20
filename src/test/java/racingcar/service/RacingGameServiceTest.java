@@ -3,7 +3,6 @@ package racingcar.service;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.BDDMockito.given;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,22 +70,22 @@ class RacingGameServiceTest {
 
         given(racingGameDao.findAll()).willReturn(
                 List.of(
-                        new RacingGameDtoMapper(firstGameId, "헤나", LocalDateTime.now(), trial),
-                        new RacingGameDtoMapper(secondGameId, "디노,우가", LocalDateTime.now(), trial)
+                        new RacingGameDtoMapper(firstGameId, "헤나"),
+                        new RacingGameDtoMapper(secondGameId, "디노,우가")
                 )
         );
         given(playerDao.findAllById(firstGameId)).willReturn(
                 List.of(
-                        new PlayerDtoMapper(1, "저문", 3),
-                        new PlayerDtoMapper(2, "헤나", 7)
+                        new PlayerDtoMapper("저문", 3),
+                        new PlayerDtoMapper("헤나", 7)
                 )
         );
         given(playerDao.findAllById(secondGameId)).willReturn(
                 List.of(
-                        new PlayerDtoMapper(3, "저문", 6),
-                        new PlayerDtoMapper(4, "헤나", 4),
-                        new PlayerDtoMapper(5, "디노", 8),
-                        new PlayerDtoMapper(6, "우가", 8)
+                        new PlayerDtoMapper("저문", 6),
+                        new PlayerDtoMapper("헤나", 4),
+                        new PlayerDtoMapper("디노", 8),
+                        new PlayerDtoMapper("우가", 8)
                 )
         );
 

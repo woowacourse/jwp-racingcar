@@ -50,8 +50,7 @@ class RacingGameJdbcDaoTest {
         // then
         assertThat(racingGameDtoMapper)
                 .hasFieldOrPropertyWithValue("id", savedId)
-                .hasFieldOrPropertyWithValue("winners", winners)
-                .hasFieldOrPropertyWithValue("trial", trial);
+                .hasFieldOrPropertyWithValue("winners", winners);
     }
 
     @DisplayName("저장된 항목에 대한 전체 조회")

@@ -54,8 +54,7 @@ class RacingGameInMemoryDaoTest {
         // then
         assertThat(racingGameDtoMapper)
                 .hasFieldOrPropertyWithValue("id", savedId)
-                .hasFieldOrPropertyWithValue("winners", winners)
-                .hasFieldOrPropertyWithValue("trial", trial);
+                .hasFieldOrPropertyWithValue("winners", winners);
     }
 
     @DisplayName("전체 데이터를 반환한다.")
@@ -78,12 +77,10 @@ class RacingGameInMemoryDaoTest {
         assertSoftly(softly -> {
             softly.assertThat(racingGameDtoMappers.get(0))
                     .hasFieldOrPropertyWithValue("id", firstSavedId)
-                    .hasFieldOrPropertyWithValue("winners", firstWinners)
-                    .hasFieldOrPropertyWithValue("trial", firstTrial);
+                    .hasFieldOrPropertyWithValue("winners", firstWinners);
             softly.assertThat(racingGameDtoMappers.get(1))
                     .hasFieldOrPropertyWithValue("id", secondSavedId)
-                    .hasFieldOrPropertyWithValue("winners", secondWinners)
-                    .hasFieldOrPropertyWithValue("trial", secondTrial);
+                    .hasFieldOrPropertyWithValue("winners", secondWinners);
         });
     }
 }

@@ -22,7 +22,6 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     private final RowMapper<PlayerDtoMapper> playerRowMapper = (resultSet, rowNum) -> new PlayerDtoMapper(
-            resultSet.getInt("id"),
             resultSet.getString("name"),
             resultSet.getInt("position")
     );

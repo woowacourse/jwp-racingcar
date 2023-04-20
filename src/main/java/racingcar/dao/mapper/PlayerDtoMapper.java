@@ -2,12 +2,10 @@ package racingcar.dao.mapper;
 
 public class PlayerDtoMapper {
 
-    private final int id;
     private final String name;
     private final int position;
 
-    public PlayerDtoMapper(final int id, final String name, final int position) {
-        this.id = id;
+    public PlayerDtoMapper(final String name, final int position) {
         this.name = name;
         this.position = position;
     }
