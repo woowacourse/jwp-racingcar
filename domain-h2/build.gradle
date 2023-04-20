@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'racingcar'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+test {
+    useJUnitPlatform()
+}
