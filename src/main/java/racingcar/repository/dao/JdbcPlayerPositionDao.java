@@ -5,7 +5,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -23,7 +22,6 @@ public class JdbcPlayerPositionDao implements PlayerPositionDao {
             resultSet.getInt("position")
     );
 
-    @Autowired
     public JdbcPlayerPositionDao(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
