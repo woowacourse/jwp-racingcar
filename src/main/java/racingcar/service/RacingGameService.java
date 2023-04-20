@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
-    private static final String DELIMITER = ",";
 
     private final GameDao gameDao;
     private final CarDao carDao;
@@ -33,11 +32,7 @@ public class RacingGameService {
     }
 
     public RacingGameResponseDto run(RacingGameRequestDto racingGameRequestDto) {
-        //todo 2 : String으로 넘어온 자동차 이름들을 구분자(,)를 기준으로 리스트로 변환 후에, 넘겨주는 게 맞을까? RacingGame에 String을 넘기는 것이 맞을까?
-        //뷰에서 넘어오는 구분자의 기준이 뭐가 될지 모른다. 따라서 컨트롤러에서 하는 게 맞는 것 같다 -- 추후 리팩터링 할것
-        List<String> carNames = List.of(racingGameRequestDto.getNames().split(DELIMITER));
-
-        RacingGame racingGame = RacingGame.of(carNames, racingGameRequestDto.getCount());
+        RacingGame racingGame = RacingGame.of(racingGameRequestDto.getNamesList(), racingGameRequestDto.getCount());
         racingGame.race(numberGenerator);
 
         int gameId = gameDao.save(GameEntity.from(racingGame));
