@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.dto.RacingGameDto;
-import racingcar.dto.StartInformationDto;
+import racingcar.dto.RacingGameResultDto;
+import racingcar.dto.RacingGameSetUpDto;
 import racingcar.services.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -22,24 +22,24 @@ public class ConsoleController {
 
     public void play() {
         try {
-            StartInformationDto startInformationDto = createStartInformation();
-            RacingGameDto racingGameDto = racingGameService.play(startInformationDto);
+            RacingGameSetUpDto startInformationDto = createStartInformation();
+            RacingGameResultDto racingGameDto = racingGameService.play(startInformationDto);
             showGameResult(racingGameDto);
         } catch (IllegalArgumentException exception) {
             outputView.printExceptionMessage(exception.getMessage());
         }
     }
 
-    private StartInformationDto createStartInformation() {
+    private RacingGameSetUpDto createStartInformation() {
         List<String> carNames = inputView.readCarNames();
         String moveCount = inputView.readMoveCount();
-        return new StartInformationDto(carNames, moveCount);
+        return new RacingGameSetUpDto(carNames, moveCount);
     }
 
-    private void showGameResult(RacingGameDto racingGameDto) {
+    private void showGameResult(RacingGameResultDto racingGameResultDto) {
         outputView.printResultMessage();
-        outputView.printWinners(racingGameDto.getWinnerNames());
-        outputView.printResult(racingGameDto.getCars());
+        outputView.printWinners(racingGameResultDto.getWinnerNames());
+        outputView.printResult(racingGameResultDto.getCars());
     }
 
 }

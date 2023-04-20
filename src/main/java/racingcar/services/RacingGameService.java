@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.dao.WinnerDao;
-import racingcar.dto.RacingGameDto;
-import racingcar.dto.StartInformationDto;
+import racingcar.dto.RacingGameResultDto;
+import racingcar.dto.RacingGameSetUpDto;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 import racingcar.mapper.CarMapper;
@@ -33,16 +33,16 @@ public class RacingGameService {
     }
 
     @Transactional
-    public RacingGameDto play(StartInformationDto startInformationDto) {
-        RacingGame racingGame = createRacingGame(startInformationDto);
+    public RacingGameResultDto play(RacingGameSetUpDto racingGameSetUpDto) {
+        RacingGame racingGame = createRacingGame(racingGameSetUpDto);
         racingGame.play();
         save(racingGame);
-        return RacingGameMapper.toRacingGameDto(racingGame);
+        return RacingGameMapper.toRacingGameResultDto(racingGame);
     }
 
-    private RacingGame createRacingGame(StartInformationDto startInformationDto) {
-        Cars cars = Cars.from(startInformationDto.getNames());
-        MoveCount moveCount = MoveCount.from(startInformationDto.getCount());
+    private RacingGame createRacingGame(RacingGameSetUpDto racingGameSetUpDto) {
+        Cars cars = Cars.from(racingGameSetUpDto.getNames());
+        MoveCount moveCount = MoveCount.from(racingGameSetUpDto.getCount());
         return new RacingGame(new ThresholdCarMoveManager(), cars, moveCount);
     }
 
@@ -53,14 +53,14 @@ public class RacingGameService {
     }
 
     @Transactional
-    public List<RacingGameDto> queryHistory() {
-        List<RacingGameDto> racingGameDtos = new ArrayList<>();
+    public List<RacingGameResultDto> queryHistory() {
+        List<RacingGameResultDto> racingGameResultDtos = new ArrayList<>();
         for (GameEntity gameEntity : gameDao.selectAll()) {
             List<CarEntity> carEntities = carDao.selectByGameId(gameEntity.getId());
             List<String> winners = winnerDao.selectByGameId(gameEntity.getId());
-            racingGameDtos.add(new RacingGameDto(winners, CarMapper.mapCarEntitiesToCarDtos(carEntities), gameEntity.getMoveCount()));
+            racingGameResultDtos.add(new RacingGameResultDto(winners, CarMapper.mapCarEntitiesToCarDtos(carEntities), gameEntity.getMoveCount()));
         }
-        return racingGameDtos;
+        return racingGameResultDtos;
     }
 
 }
