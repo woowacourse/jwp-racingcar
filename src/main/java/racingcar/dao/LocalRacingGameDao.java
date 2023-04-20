@@ -12,7 +12,6 @@ public class LocalRacingGameDao implements RacingGameDao {
     private final Map<Integer, RacingGameEntity> localDb = new HashMap<>();
     private int id = 1;
 
-
     @Override
     public int save(final int count) {
         localDb.put(id, new RacingGameEntity(id, count, LocalDateTime.now()));

@@ -10,12 +10,12 @@ import racingcar.domain.entity.CarEntity;
 import racingcar.domain.entity.RacingGameEntity;
 
 @Repository
-public class WebRacingCarRepository implements RacingCarRepository {
+public class DaoRacingCarRepository implements RacingCarRepository {
 
     private final RacingGameDao racingGameDao;
     private final CarDao carDao;
 
-    public WebRacingCarRepository(final RacingGameDao racingGameDao, final CarDao carDao) {
+    public DaoRacingCarRepository(final RacingGameDao racingGameDao, final CarDao carDao) {
         this.racingGameDao = racingGameDao;
         this.carDao = carDao;
     }

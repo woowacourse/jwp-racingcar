@@ -5,7 +5,7 @@ import racingcar.domain.entity.RacingGameEntity;
 
 public interface RacingCarRepository {
 
-    void save(final RacingGameEntity racingGameResultDto);
+    void save(final RacingGameEntity racingGameEntity);
 
     List<RacingGameEntity> findAll();
 }

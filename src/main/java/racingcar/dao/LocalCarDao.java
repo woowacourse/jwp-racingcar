@@ -17,7 +17,6 @@ public class LocalCarDao implements CarDao {
             localDb.put(id, new CarEntity(id, gameId, carEntity.getName(), carEntity.getPosition(), carEntity.isWin()));
             id++;
         }
-
     }
 
     @Override

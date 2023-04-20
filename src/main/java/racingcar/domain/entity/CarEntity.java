@@ -16,6 +16,10 @@ public class CarEntity {
         this.isWin = isWin;
     }
 
+//    public CarEntity(final String name, final Integer position, final Boolean isWin) {
+//        this(null, null, name, position, isWin);
+//    }
+
     public CarEntity(final Integer id, final Integer gameId, final String name, final Integer position,
                      final Boolean isWin) {
         this.id = id;

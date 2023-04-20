@@ -17,14 +17,14 @@ import racingcar.domain.entity.RacingGameEntity;
 @JdbcTest
 class WebRacingCarRepositoryTest {
 
-    private WebRacingCarRepository webRacingCarRepository;
+    private DaoRacingCarRepository webRacingCarRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        webRacingCarRepository = new WebRacingCarRepository(new JdbcRacingGameDao(jdbcTemplate),
+        webRacingCarRepository = new DaoRacingCarRepository(new JdbcRacingGameDao(jdbcTemplate),
                 new JdbcCarDao(jdbcTemplate));
     }
 

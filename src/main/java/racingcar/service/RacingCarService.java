@@ -14,12 +14,12 @@ import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
 
 @Service
-public class WebRacingCarService {
+public class RacingCarService {
 
     private final RacingCarRepository racingCarRepository;
     private final NumberGenerator numberGenerator;
 
-    public WebRacingCarService(final RacingCarRepository racingCarRepository, final NumberGenerator numberGenerator) {
+    public RacingCarService(final RacingCarRepository racingCarRepository, final NumberGenerator numberGenerator) {
         this.racingCarRepository = racingCarRepository;
         this.numberGenerator = numberGenerator;
     }

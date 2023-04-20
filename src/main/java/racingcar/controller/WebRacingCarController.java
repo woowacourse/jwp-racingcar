@@ -14,17 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.ExceptionResponse;
 import racingcar.dto.response.RacingGameResponse;
-import racingcar.service.WebRacingCarService;
+import racingcar.service.RacingCarService;
 
 @RestController
 public class WebRacingCarController {
 
-    private final WebRacingCarService racingCarService;
+    private final RacingCarService racingCarService;
 
-    public WebRacingCarController(final WebRacingCarService racingCarService) {
+    public WebRacingCarController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 
+    //HTTP created 고려
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponse> play(@RequestBody @Valid final RacingGameRequest racingGameRequest) {
         return ResponseEntity.ok().body(racingCarService.play(racingGameRequest));
@@ -41,7 +42,8 @@ public class WebRacingCarController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ExceptionResponse> methodArgumentValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ExceptionResponse> handleMethodArgumentValidException(
+            MethodArgumentNotValidException exception) {
         final String exceptionMessage = exception.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(System.lineSeparator()));

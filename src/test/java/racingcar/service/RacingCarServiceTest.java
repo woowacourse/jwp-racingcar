@@ -13,16 +13,16 @@ import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
 
-class WebRacingCarServiceTest {
+class RacingCarServiceTest {
 
-    private WebRacingCarService racingCarService;
+    private RacingCarService racingCarService;
 
     @DisplayName("게임을 실행한 후 결과에 맞는 Response를 생성한다.")
     @Test
     void play_and_return() {
         //given
         final TestNumberGenerator testNumberGenerator = new TestNumberGenerator(List.of(1, 10, 10));
-        racingCarService = new WebRacingCarService(new TestRacingCarRepository(null), testNumberGenerator);
+        racingCarService = new RacingCarService(new TestRacingCarRepository(null), testNumberGenerator);
         final RacingGameRequest given = new RacingGameRequest("포비,현서,참치", 1);
         //when
         final RacingGameResponse racingGameResponse = racingCarService.play(given);
@@ -41,11 +41,11 @@ class WebRacingCarServiceTest {
                 new CarEntity("은서", 1, false));
         List<RacingGameEntity> racingGameEntities = List.of(new RacingGameEntity(carEntities, 10));
 
-        final WebRacingCarService webRacingCarService = new WebRacingCarService(
+        final RacingCarService racingCarService = new RacingCarService(
                 new TestRacingCarRepository(racingGameEntities), new RandomNumberGenerator());
 
         //when
-        final List<RacingGameResponse> actualList = webRacingCarService.findGameResults();
+        final List<RacingGameResponse> actualList = racingCarService.findGameResults();
         final RacingGameResponse actual = actualList.get(0);
         //then
         assertThat(actualList.size()).isEqualTo(1);
