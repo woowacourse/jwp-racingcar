@@ -1,6 +1,6 @@
 # jwp-racingcar
 
-## 요구사항
+## 1단계 요구사항
 ### 1. 요청/응답 구현
 - [X] `/plays`로 요청을 받는 컨트롤러 메서드 구현
 - [X] 요청/응답 DTO를 구현한다.
@@ -55,3 +55,27 @@ erDiagram
       BOOLEAN is_winner
   }
 ```
+
+---
+
+## 2단계 요구사항
+
+### 0. 1단계 피드백 반영
+- [ ] `Exception` 핸드링 기준 변경
+- [ ] restful 한 api 작성을 위해 행위와 자원을 명확하게 표현
+- [ ] Service 내부 책임 분리
+- [ ] 부정 연산자 제거
+- [ ] `@ParameterizedTest`로 테스트할 때 `@DisplayName` 삭제
+- [ ] 비즈니스 로직을 수행 중 예외가 발생할 경우 롤백하기 위해 `@Transactional` 적용
+
+### 1. 게임 플레이 이력 조회 API 구현
+- [ ] `/plays`로 GET 요청을 받는 API 구현
+
+### 2. 기존 기능 수정 - 출력 방식 수정
+- [ ] console application에 해당하는 코드 다시 가져오기
+- [ ] console application에서 플레이의 중간 과정을 출력하는 로직 제거
+- [ ] web application과 동일하게 우승자와 player 별 최종 이동거리를 출력하도록 수정
+
+### 3. 리팩터링 - 중복 코드 제거
+- [ ] 비즈니스 로직 중복 코드 제거
+- [ ] 기존 자동차 미션 코드 중 필요 없는 DTO 삭제
