@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.service.dto.CarStatusResponse;
 import racingcar.service.dto.GameInfoRequest;
 import racingcar.service.dto.RaceResultResponse;
@@ -31,6 +32,7 @@ public class RaceResultService {
         this.raceResultMapper = raceResultMapper;
     }
 
+    @Transactional
     public RaceResultResponse createRaceResult(final GameInfoRequest gameInfoRequest) {
 
         final String names = gameInfoRequest.getNames();
