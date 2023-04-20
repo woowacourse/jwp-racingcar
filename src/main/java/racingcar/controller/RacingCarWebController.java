@@ -16,7 +16,7 @@ import racingcar.dto.ResultDto;
 import racingcar.jdbc.RacingCarDao;
 
 @RestController
-public class WebRacingCarController {
+public class RacingCarWebController {
 	private final RacingCarDao racingCarDao = new RacingCarDao();
 
 	@GetMapping("/plays")

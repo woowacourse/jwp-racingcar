@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WebRacingCarApplication {
+public class RacingCarWebApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebRacingCarApplication.class, args);
+		SpringApplication.run(RacingCarWebApplication.class, args);
 	}
 }
