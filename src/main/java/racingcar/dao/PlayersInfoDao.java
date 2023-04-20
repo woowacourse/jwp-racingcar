@@ -2,14 +2,14 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import racingcar.dto.CarResponse;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-@Repository
+@Component
 public class PlayersInfoDao {
 
     private static final int FIRST_PARAM = 1;

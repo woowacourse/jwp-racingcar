@@ -2,15 +2,15 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import racingcar.dto.CarResponse;
 import racingcar.dto.PlayRecordsResponse;
 
 import java.sql.PreparedStatement;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
-@Repository
+@Component
 public class PlayResultDao {
 
     private static final int FIRST_PARAM = 1;
