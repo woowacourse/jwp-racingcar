@@ -76,13 +76,11 @@ class RacingGameServiceTest {
         List<String> players = getPlayers(gameResponseDto);
         List<String> winners = List.of(gameResponseDto.getWinners().split(","));
         int position = gameResponseDto.getRacingCars().get(0).getPosition();
+
         //then
-        assertThat(players)
-                .containsExactly("쥬니");
-        assertThat(winners)
-                .containsExactly("쥬니");
-        assertThat(position)
-                .isEqualTo(2);
+        assertThat(players).containsExactly("쥬니");
+        assertThat(winners).containsExactly("쥬니");
+        assertThat(position).isEqualTo(2);
     }
 
     private List<String> getPlayers(GameResponseDto gameResponseDto) {
