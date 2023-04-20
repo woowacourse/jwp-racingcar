@@ -5,12 +5,12 @@ public class PlayerResultEntity {
     private final int id;
     private final String name;
     private final int position;
-    private final Long gameResultId;
+    private final int gameResultId;
 
     public static PlayerResultEntity ofInward(
             final String name,
             final int position,
-            final Long gameResultId
+            final int gameResultId
     ) {
         return new PlayerResultEntity(-1, name, position, gameResultId);
     }
@@ -19,12 +19,12 @@ public class PlayerResultEntity {
             final int id,
             final String name,
             final int position,
-            final Long gameResultId
+            final int gameResultId
     ) {
         return new PlayerResultEntity(id, name, position, gameResultId);
     }
 
-    public PlayerResultEntity(final int id, final String name, final int position, final Long gameResultId) {
+    public PlayerResultEntity(final int id, final String name, final int position, final int gameResultId) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -43,7 +43,7 @@ public class PlayerResultEntity {
         return position;
     }
 
-    public Long getGameResultId() {
+    public int getGameResultId() {
         return gameResultId;
     }
 }

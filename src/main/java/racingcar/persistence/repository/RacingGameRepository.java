@@ -25,7 +25,7 @@ public class RacingGameRepository implements GameRepository {
     }
 
     public void saveGame(final RacingGame racingGame) {
-        Long gameResultKey = gameResultDao.save(toGameResultEntity(racingGame));
+        Integer gameResultKey = gameResultDao.save(toGameResultEntity(racingGame));
         playerResultDao.saveAll(toPlayerResultEntity(racingGame, gameResultKey));
     }
 
@@ -39,7 +39,7 @@ public class RacingGameRepository implements GameRepository {
         );
     }
 
-    private List<PlayerResultEntity> toPlayerResultEntity(final RacingGame racingGame, final Long gameResultId) {
+    private List<PlayerResultEntity> toPlayerResultEntity(final RacingGame racingGame, final Integer gameResultId) {
         return racingGame.getCars().stream()
                 .map(car -> PlayerResultEntity.ofInward(car.getCarName(), car.getPosition(), gameResultId))
                 .collect(Collectors.toList());

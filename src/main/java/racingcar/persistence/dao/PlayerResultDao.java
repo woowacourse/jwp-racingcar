@@ -32,7 +32,7 @@ public class PlayerResultDao {
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
                 resultSet.getInt("position"),
-                resultSet.getLong("game_result_id")
+                resultSet.getInt("game_result_id")
         ));
     }
 }
