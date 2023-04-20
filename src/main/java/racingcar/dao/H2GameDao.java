@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 import racingcar.dto.PlayResultDto;
 
 @Repository
-public class H2PlayResultDao implements PlayResultDao {
+public class H2GameDao implements GameDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public H2PlayResultDao(JdbcTemplate jdbcTemplate) {
+    public H2GameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

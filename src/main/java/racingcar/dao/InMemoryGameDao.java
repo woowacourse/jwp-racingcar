@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import racingcar.dto.PlayResultDto;
 
-public class InMemoryPlayResultDao implements PlayResultDao {
+public class InMemoryGameDao implements GameDao {
     private final List<PlayResultDto> playResultDtos = new ArrayList<>();
 
     @Override

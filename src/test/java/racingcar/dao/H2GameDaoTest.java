@@ -11,8 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @JdbcTest
-class H2PlayResultDaoTest {
-    private H2PlayResultDao h2PlayResultDao;
+class H2GameDaoTest {
+    private H2GameDao h2PlayResultDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -21,7 +21,7 @@ class H2PlayResultDaoTest {
     @BeforeEach
     void setUp() {
         jdbcTemplate.update("DELETE FROM game");
-        h2PlayResultDao = new H2PlayResultDao(jdbcTemplate);
+        h2PlayResultDao = new H2GameDao(jdbcTemplate);
     }
 
     @DisplayName("게임 결과가 저장되면 id를 반환하는 기능 테스트")

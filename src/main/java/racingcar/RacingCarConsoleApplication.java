@@ -1,7 +1,7 @@
 package racingcar;
 
 import racingcar.controller.RacingCarConsoleController;
-import racingcar.dao.InMemoryPlayResultDao;
+import racingcar.dao.InMemoryGameDao;
 import racingcar.dao.InMemoryRacingCarDao;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
@@ -14,7 +14,7 @@ public class RacingCarConsoleApplication {
                         new InputView(),
                         new OutputView(),
                         new RacingCarService(
-                                new InMemoryPlayResultDao(),
+                                new InMemoryGameDao(),
                                 new InMemoryRacingCarDao()
                         )
                 );

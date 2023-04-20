@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @JdbcTest
 class H2RacingCarDaoTest {
     private H2RacingCarDao h2RacingCarDao;
-    private H2PlayResultDao h2PlayResultDao;
+    private H2GameDao h2PlayResultDao;
     private Long gameId;
 
     @Autowired
@@ -21,9 +21,9 @@ class H2RacingCarDaoTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.update("DELETE FROM RACING_CAR");
+        jdbcTemplate.update("DELETE FROM racing_car");
 
-        h2PlayResultDao = new H2PlayResultDao(jdbcTemplate);
+        h2PlayResultDao = new H2GameDao(jdbcTemplate);
         h2RacingCarDao = new H2RacingCarDao(jdbcTemplate);
 
         gameId = h2PlayResultDao.insertWithKeyHolder(10, List.of("tori", "hong"));
