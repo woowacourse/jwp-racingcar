@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
 import racingcar.entity.Game;
+import racingcar.entity.GameId;
 import racingcar.entity.Player;
 import racingcar.utils.TestNumberGenerator;
 
@@ -44,10 +45,10 @@ public class PlayerJdbcDaoTest {
         cars.race(numberGenerator);
 
         Game game = new Game(1);
-        Game saveGame = gameDao.saveAndGetGame(game);
+        GameId saveGameId = gameDao.saveAndGetGame(game);
 
         List<Player> players = cars.getCars().stream()
-                .map(car -> new Player(car, true, saveGame.getId()))
+                .map(car -> new Player(car, true, saveGameId.getId()))
                 .collect(Collectors.toList());
         // when
         playerDao.saveAll(players);

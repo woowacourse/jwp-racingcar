@@ -5,6 +5,7 @@ import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.RacingGame;
 import racingcar.entity.Game;
+import racingcar.entity.GameId;
 import racingcar.entity.Player;
 
 import java.util.HashSet;
@@ -24,10 +25,10 @@ public class RacingGameRepositoryImpl implements RacingGameRepository{
 
     @Override
     public void save(final RacingGame racingGame) {
-        Game saveGame = gameDao.saveAndGetGame(new Game(racingGame.getCount()));
+        GameId saveGameId = gameDao.saveAndGetGame(new Game(racingGame.getCount()));
 
         final Set<String> winners = new HashSet<>(racingGame.findWinners());
-        final List<Player> players = fromPlayers(racingGame, saveGame.getId(), winners);
+        final List<Player> players = fromPlayers(racingGame, saveGameId.getId(), winners);
 
         playerDao.saveAll(players);
     }

@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.Game;
+import racingcar.entity.GameId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,12 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public Game saveAndGetGame(final Game game) {
+    public GameId saveAndGetGame(final Game game) {
         final Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("trial", game.getTrial());
         parameters.put("created_at", game.getCreatedAt());
 
-        return new Game(insertActor.executeAndReturnKey(parameters).intValue(), game.getTrial(), game.getCreatedAt());
+        return new GameId(insertActor.executeAndReturnKey(parameters).intValue());
     }
 }

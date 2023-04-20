@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.entity.Game;
+import racingcar.entity.GameId;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,9 +34,9 @@ public class GameJdbcDaoTest {
 
         Game game = new Game(trialCount);
         // when
-        Game saveGame = gameDao.saveAndGetGame(game);
+        GameId saveGameId = gameDao.saveAndGetGame(game);
 
         // then
-        assertThat(saveGame.getId()).isPositive();
+        assertThat(saveGameId.getId()).isPositive();
     }
 }
