@@ -22,13 +22,6 @@ public class Car {
         }
     }
 
-    // TODO: 지우기
-    public void move(int movingCondition) {
-        if (movingCondition >= MOVING_CONDITION) {
-            position++;
-        }
-    }
-
     public int findHigherPosition(int position) {
         return Math.max(this.position, position);
     }

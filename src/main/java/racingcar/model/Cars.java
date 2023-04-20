@@ -18,7 +18,6 @@ public class Cars {
         return new Cars(cars);
     }
 
-
     private Cars(List<Car> cars) {
         validateOverMinimumParticipant(cars);
         this.cars = cars;
@@ -53,5 +52,9 @@ public class Cars {
         return cars.stream()
             .filter(car -> car.isMaxPosition(winnerPosition))
             .collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<Car> getCars() {
+        return List.copyOf(cars);
     }
 }
