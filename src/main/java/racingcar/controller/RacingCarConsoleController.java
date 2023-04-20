@@ -16,7 +16,8 @@ public class RacingCarConsoleController {
     private final OutputView outputView;
     private final RacingCarService racingCarService;
 
-    public RacingCarConsoleController(InputView inputView, OutputView outputView, RacingCarService racingCarService) {
+    public RacingCarConsoleController(final InputView inputView, final OutputView outputView,
+                                      final RacingCarService racingCarService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.racingCarService = racingCarService;
@@ -39,7 +40,7 @@ public class RacingCarConsoleController {
         return inputView.inputTryTimes();
     }
 
-    private void printResult(GameResponse gameResponse) {
+    private void printResult(final GameResponse gameResponse) {
         Map<String, Integer> result = new HashMap<>();
         for (CarDto carDto : gameResponse.getRacingCars()) {
             result.put(carDto.getName(), carDto.getPosition());

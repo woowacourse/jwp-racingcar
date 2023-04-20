@@ -1,6 +1,5 @@
 package racingcar.strategy;
 
-
 import java.util.Random;
 
 public class RandomMovingStrategy implements MovingStrategy {

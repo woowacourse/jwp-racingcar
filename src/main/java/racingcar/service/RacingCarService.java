@@ -55,7 +55,7 @@ public class RacingCarService {
         }
     }
 
-    private void saveCars(int gameId, RacingGame game) {
+    private void saveCars(final int gameId, final RacingGame game) {
         List<Car> cars = game.getCars();
         convertToEntity(cars).forEach(car -> carDao.insertCar(car, gameId));
     }

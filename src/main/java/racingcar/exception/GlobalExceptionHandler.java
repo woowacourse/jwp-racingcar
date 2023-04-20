@@ -11,13 +11,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleArgumentNotValid(MethodArgumentNotValidException e) {
+    public ErrorResponse handleArgumentNotValid(final MethodArgumentNotValidException e) {
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleIllegalArgument(IllegalArgumentException e) {
+    public ErrorResponse handleIllegalArgument(final IllegalArgumentException e) {
         return new ErrorResponse(e.getMessage());
     }
 }

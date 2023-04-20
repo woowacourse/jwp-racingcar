@@ -10,7 +10,7 @@ public class RacingGame {
     private final Cars cars;
     private final MovingStrategy movingStrategy;
 
-    public RacingGame(int id, Cars cars, MovingStrategy movingStrategy) {
+    public RacingGame(final int id, final Cars cars, final MovingStrategy movingStrategy) {
         this.id = id;
         this.cars = cars;
         this.movingStrategy = movingStrategy;

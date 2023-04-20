@@ -7,7 +7,7 @@ public class GameDto {
     private final List<String> names;
     private final int count;
 
-    private GameDto(List<String> names, int count) {
+    private GameDto(final List<String> names, final int count) {
         this.names = names;
         this.count = count;
     }
