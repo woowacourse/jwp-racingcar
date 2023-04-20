@@ -1,11 +1,14 @@
 package racingcar.dao;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import racingcar.dao.mapper.PlayerDtoMapper;
 import racingcar.domain.CarGroup;
 
 class PlayerInMemoryDaoTest {
@@ -29,5 +32,23 @@ class PlayerInMemoryDaoTest {
 
         // then
         assertThat(isSaved).isTrue();
+    }
+
+    @DisplayName("아이디를 받아서 플레이어들을 반환한다.")
+    @Test
+    void findAllById() {
+        // given
+        CarGroup carGroup = new CarGroup("저문,헤나");
+        int racingGameId = 1;
+
+        playerInMemoryDao.save(carGroup, racingGameId);
+
+        // when
+        List<PlayerDtoMapper> foundPlayers = playerInMemoryDao.findAllById(racingGameId);
+
+        // then
+        assertThat(foundPlayers).hasSize(2);
+        assertThat(foundPlayers.get(0).getName()).isEqualTo("저문");
+        assertThat(foundPlayers.get(1).getName()).isEqualTo("헤나");
     }
 }

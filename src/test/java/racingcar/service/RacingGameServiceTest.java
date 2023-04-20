@@ -63,8 +63,6 @@ class RacingGameServiceTest {
     @Test
     void findHistory() {
         // given
-        int trial = 10;
-
         int firstGameId = 1;
         int secondGameId = 2;
 
@@ -76,16 +74,16 @@ class RacingGameServiceTest {
         );
         given(playerDao.findAllById(firstGameId)).willReturn(
                 List.of(
-                        new PlayerDtoMapper("저문", 3),
-                        new PlayerDtoMapper("헤나", 7)
+                        new PlayerDtoMapper("저문", 3, firstGameId),
+                        new PlayerDtoMapper("헤나", 7, firstGameId)
                 )
         );
         given(playerDao.findAllById(secondGameId)).willReturn(
                 List.of(
-                        new PlayerDtoMapper("저문", 6),
-                        new PlayerDtoMapper("헤나", 4),
-                        new PlayerDtoMapper("디노", 8),
-                        new PlayerDtoMapper("우가", 8)
+                        new PlayerDtoMapper("저문", 6, secondGameId),
+                        new PlayerDtoMapper("헤나", 4, secondGameId),
+                        new PlayerDtoMapper("디노", 8, secondGameId),
+                        new PlayerDtoMapper("우가", 8, secondGameId)
                 )
         );
 

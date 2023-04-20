@@ -23,7 +23,8 @@ public class PlayerJdbcDao implements PlayerDao {
 
     private final RowMapper<PlayerDtoMapper> playerRowMapper = (resultSet, rowNum) -> new PlayerDtoMapper(
             resultSet.getString("name"),
-            resultSet.getInt("position")
+            resultSet.getInt("position"),
+            resultSet.getInt("racing_game_id")
     );
 
     @Override

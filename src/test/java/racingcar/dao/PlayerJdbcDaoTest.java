@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -64,6 +64,6 @@ class PlayerJdbcDaoTest {
         List<PlayerDtoMapper> firstPlayerDtoMappers = playerJdbcDao.findAllById(firstRacingGameId);
 
         // then
-        assertThat(firstPlayerDtoMappers.size()).isEqualTo(gameCount);
+        assertThat(firstPlayerDtoMappers).hasSize(gameCount);
     }
 }
