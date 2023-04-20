@@ -6,7 +6,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.dto.GameResultResponse;
 
 class GameManagerTest {
     GameManager gameManager;
@@ -20,7 +19,6 @@ class GameManagerTest {
     @Test
     void decideWinnerTest() {
         gameManager.play();
-        GameResultResponse gameResultResponse = new GameResultResponse(gameManager.decideWinner());
-        assertThat(gameResultResponse.getWinnerNames()).containsExactly("망고", "현구막");
+        assertThat(gameManager.decideWinner()).containsExactly("망고", "현구막");
     }
 }
