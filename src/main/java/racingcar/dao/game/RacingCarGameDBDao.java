@@ -13,7 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.dao.entity.Game;
 import racingcar.dto.PlayerDto;
-import racingcar.dto.ResultResponseDto;
+import racingcar.dto.RacingCarGameResultResponseDto;
 
 @Component
 public class RacingCarGameDBDao implements RacingCarGameDao{
@@ -38,12 +38,12 @@ public class RacingCarGameDBDao implements RacingCarGameDao{
         return Long.valueOf(String.valueOf(keyHolder.getKeys().get("game_id")));
     }
 
-    public List<ResultResponseDto> findAll() {
+    public List<RacingCarGameResultResponseDto> findAll() {
         String sql = "SELECT g.winners, g.game_id, p.name, p.position FROM GAME as g "
             + "join player as p "
             + "on g.game_id = p.game_id ";
         return jdbcTemplate.query(sql, rs -> {
-                Map<Long, ResultResponseDto> history = new HashMap<>();
+                Map<Long, RacingCarGameResultResponseDto> history = new HashMap<>();
                 while (rs.next()) {
                     long gameId = rs.getLong("game_id");
                     putData(rs, history, gameId);
@@ -53,14 +53,14 @@ public class RacingCarGameDBDao implements RacingCarGameDao{
         );
     }
 
-    private void putData(final ResultSet rs, final Map<Long, ResultResponseDto> history, final long gameId) throws SQLException {
+    private void putData(final ResultSet rs, final Map<Long, RacingCarGameResultResponseDto> history, final long gameId) throws SQLException {
         if (history.containsKey(gameId)) {
-            ResultResponseDto resultResponseDto = history.get(gameId);
-            resultResponseDto.getRacingCars().add(new PlayerDto(rs.getString("name"), rs.getInt("position")));
+            RacingCarGameResultResponseDto racingCarGameResultResponseDto = history.get(gameId);
+            racingCarGameResultResponseDto.getRacingCars().add(new PlayerDto(rs.getString("name"), rs.getInt("position")));
             return;
         }
         List<PlayerDto> players = new ArrayList<>();
         players.add(new PlayerDto(rs.getString("name"), rs.getInt("position")));
-        history.put(gameId, new ResultResponseDto(rs.getString("winners"), players));
+        history.put(gameId, new RacingCarGameResultResponseDto(rs.getString("winners"), players));
     }
 }

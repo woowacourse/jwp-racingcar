@@ -1,20 +1,20 @@
 package racingcar.controller;
 
 
-import racingcar.dto.RacingGameRequestDto;
-import racingcar.dto.ResultResponseDto;
+import racingcar.dto.RacingCarGameRequestDto;
+import racingcar.dto.RacingCarGameResultResponseDto;
 import racingcar.exception.invalidinput.InvalidInputException;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-public class RacingController {
+public class RacingCarConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
     private final RacingCarService racingCarService;
 
-    public RacingController(final InputView inputView, final OutputView outputView, final RacingCarService racingCarService) {
+    public RacingCarConsoleController(final InputView inputView, final OutputView outputView, final RacingCarService racingCarService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.racingCarService = racingCarService;
@@ -23,9 +23,9 @@ public class RacingController {
     public void play() {
         String carNames = inputCarNames();
         int count = inputTryCount();
-        RacingGameRequestDto racingGameRequestDto = new RacingGameRequestDto(carNames, count);
+        RacingCarGameRequestDto racingCarGameRequestDto = new RacingCarGameRequestDto(carNames, count);
 
-        ResultResponseDto result = racingCarService.play(racingGameRequestDto);
+        RacingCarGameResultResponseDto result = racingCarService.play(racingCarGameRequestDto);
 
         outputView.resultMessage();
         outputView.printWinners(result.getWinners());

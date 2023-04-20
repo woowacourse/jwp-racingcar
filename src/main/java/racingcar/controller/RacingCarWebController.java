@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.RacingGameRequestDto;
-import racingcar.dto.ResultResponseDto;
+import racingcar.dto.RacingCarGameRequestDto;
+import racingcar.dto.RacingCarGameResultResponseDto;
 import racingcar.service.RacingCarService;
 
 @RestController
@@ -21,14 +21,14 @@ public class RacingCarWebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResultResponseDto> play(@Valid @RequestBody RacingGameRequestDto racingGameRequestDto) {
-        ResultResponseDto playResult = racingCarService.play(racingGameRequestDto);
+    public ResponseEntity<RacingCarGameResultResponseDto> play(@Valid @RequestBody RacingCarGameRequestDto racingCarGameRequestDto) {
+        RacingCarGameResultResponseDto playResult = racingCarService.play(racingCarGameRequestDto);
         return ResponseEntity.ok(playResult);
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<ResultResponseDto>> readGameResults() {
-        List<ResultResponseDto> result = racingCarService.readGameResultAll();
+    public ResponseEntity<List<RacingCarGameResultResponseDto>> readGameResults() {
+        List<RacingCarGameResultResponseDto> result = racingCarService.readGameResultAll();
         return ResponseEntity.ok(result);
     }
 }
