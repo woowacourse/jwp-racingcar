@@ -25,12 +25,13 @@ public class RacingGameService {
     private static final CarGenerator carGenerator = new CarGenerator();
     private static final String DELIMETER = ",";
 
-    @Autowired
-    ConversionService conversionService;
-    @Autowired
-    private GameDao gameDao;
-    @Autowired
-    private PlayerDao playerDao;
+    private final GameDao gameDao;
+    private final PlayerDao playerDao;
+
+    public RacingGameService(GameDao gameDao, PlayerDao playerDao) {
+        this.gameDao = gameDao;
+        this.playerDao = playerDao;
+    }
 
     public PlayResultResponseDto run(String names, Integer count) {
         RacingGame racingGame = play(names, count);
