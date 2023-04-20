@@ -4,7 +4,6 @@ import racingcar.controller.RacingGameController;
 import racingcar.dao.ConsoleGameDao;
 import racingcar.dao.ConsolePlayerDao;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.repositiory.RacingGameRepositoryImpl;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputParser;
 import racingcar.view.InputValidator;
@@ -27,7 +26,7 @@ public class RacingGameApplication {
     private static RacingGameService generateRacingGameService() {
         return new RacingGameService(
                 new RandomNumberGenerator(),
-                new RacingGameRepositoryImpl(new ConsoleGameDao(), new ConsolePlayerDao())
+                new ConsoleGameDao(), new ConsolePlayerDao()
         );
     }
 }
