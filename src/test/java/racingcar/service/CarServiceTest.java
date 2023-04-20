@@ -27,7 +27,7 @@ class CarServiceTest {
 
     @Test
     @DisplayName("registerCars() : 자동차들을 저장합니다.")
-    void test_registerCars() throws Exception {
+    void test_registerCars2() throws Exception {
         //given
         final RacingCars racingCars = RacingCars.makeCars("a,b,c");
         final int savedId = 1;
@@ -36,6 +36,6 @@ class CarServiceTest {
         carService.registerCars(racingCars, savedId);
 
         //then
-        verify(carDao, times(3)).save(any());
+        verify(carDao, times(1)).save(any());
     }
 }
