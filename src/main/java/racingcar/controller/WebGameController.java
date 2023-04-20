@@ -13,6 +13,7 @@ import racingcar.exception.GameException;
 import racingcar.service.GameService;
 import racingcar.service.dto.GameResult;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class WebGameController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResultResponse> playGame(@RequestBody final GamePlayRequest gamePlayRequest) {
+    public ResponseEntity<GameResultResponse> playGame(@Valid @RequestBody final GamePlayRequest gamePlayRequest) {
         final List<String> names = List.of(gamePlayRequest.getNames().split(CAR_NAME_SEPARATOR));
         final int playCount = gamePlayRequest.getCount();
 
