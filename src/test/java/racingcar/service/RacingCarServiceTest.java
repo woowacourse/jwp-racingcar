@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import racingcar.dao.GameDao;
-import racingcar.dao.PlayerDao;
+import racingcar.dao.GameJdbcDao;
+import racingcar.dao.PlayerJdbcDao;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
 import racingcar.entity.Game;
@@ -20,13 +20,13 @@ import racingcar.utils.DrivableNumberGenerator;
 public class RacingCarServiceTest {
 
     private RacingCarService racingCarService;
-    private GameDao gameDao;
-    private PlayerDao playerDao;
+    private GameJdbcDao gameDao;
+    private PlayerJdbcDao playerDao;
 
     @BeforeEach
     void setUp() {
-        gameDao = Mockito.mock(GameDao.class);
-        playerDao = Mockito.mock(PlayerDao.class);
+        gameDao = Mockito.mock(GameJdbcDao.class);
+        playerDao = Mockito.mock(PlayerJdbcDao.class);
         racingCarService = new RacingCarService(gameDao, playerDao, new DrivableNumberGenerator());
     }
 

@@ -19,11 +19,11 @@ class GameDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private GameDao gameDao;
+    private GameJdbcDao gameDao;
 
     @BeforeEach
     void setUp() {
-        gameDao = new GameDao(jdbcTemplate);
+        gameDao = new GameJdbcDao(jdbcTemplate);
     }
 
     @AfterEach
