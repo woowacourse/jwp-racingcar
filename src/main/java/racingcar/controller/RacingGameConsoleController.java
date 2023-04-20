@@ -46,8 +46,6 @@ public class RacingGameConsoleController {
     }
 
     private void playGame() {
-        OutputView.printResultMessage();
-
         while (canProceed()) {
             racingCars.moveAll();
             tryCount.deduct();
