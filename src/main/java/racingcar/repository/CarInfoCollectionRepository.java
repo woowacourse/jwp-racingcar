@@ -6,11 +6,10 @@ import java.util.*;
 
 public class CarInfoCollectionRepository implements CarInfoRepository {
     private final Map<Integer, List<CarInfo>> cars = new HashMap<>();
-    private int idHolder = 0;
 
     @Override
     public Optional<Integer> saveCar(CarInfo carInfo) {
-        int id = idHolder++;
+        int id = carInfo.getRacingId();
         if (id < 0) {
             return Optional.empty();
         }

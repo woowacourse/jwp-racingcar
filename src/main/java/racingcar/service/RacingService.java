@@ -2,19 +2,15 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.domain.*;
+import racingcar.domain.entity.CarInfo;
+import racingcar.domain.entity.Race;
+import racingcar.dto.CarDto;
+import racingcar.dto.RacingResultDto;
 import racingcar.exception.RepositoryOutOfSpaceException;
 import racingcar.repository.CarInfoRepository;
 import racingcar.repository.RaceRepository;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.dto.CarDto;
-import racingcar.dto.RacingResultDto;
-import racingcar.domain.entity.CarInfo;
-import racingcar.domain.entity.Race;
 import racingcar.utils.NumberGenerator;
-import racingcar.domain.Name;
-import racingcar.domain.Names;
-import racingcar.domain.Trial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,12 +32,11 @@ public class RacingService {
         this.carInfoRepository = carInfoRepository;
     }
 
-    public RacingResultDto race(String names, int count) {
+    public int race(String names, int count) {
         Cars cars = initializeCars(names);
         Trial trial = Trial.of(count);
         playGame(cars, trial);
-        saveResult(trial, cars);
-        return new RacingResultDto(cars.getWinnerNames(), cars.getCarDtos());
+        return saveResult(trial, cars);
     }
 
     private Cars initializeCars(String names) {
@@ -68,19 +63,21 @@ public class RacingService {
         return new Cars(cars, numberGenerator);
     }
 
-    private void saveResult(Trial trial, Cars cars) {
+    private int saveResult(Trial trial, Cars cars) {
         final Optional<Integer> raceId = raceRepository.saveRace(new Race(trial));
         if (raceId.isEmpty()) {
             throw new RepositoryOutOfSpaceException();
         }
+        int racingId = raceId.get();
         for (CarDto carDto : cars.getCarDtos()) {
             String name = carDto.getName();
-            CarInfo carInfo = new CarInfo(raceId.get(), name, carDto.getPosition(), cars.isWinnerContaining(name));
+            CarInfo carInfo = new CarInfo(racingId, name, carDto.getPosition(), cars.isWinnerContaining(name));
             Optional<Integer> carInfoId = carInfoRepository.saveCar(carInfo);
             if (carInfoId.isEmpty()) {
                 throw new RepositoryOutOfSpaceException();
             }
         }
+        return racingId;
     }
 
     public List<RacingResultDto> findAllResults() {
@@ -88,20 +85,27 @@ public class RacingService {
 
         List<Integer> raceIds = raceRepository.findAllId();
         for (Integer raceId : raceIds) {
-            List<CarInfo> carInfos = carInfoRepository.findAllByRaceId(raceId);
-
-            List<String> winnerNames = carInfos.stream()
-                    .filter(CarInfo::getIsWinner)
-                    .map(CarInfo::getName)
-                    .collect(Collectors.toList());
-
-            List<CarDto> carDtos = carInfos.stream()
-                    .map(CarDto::new)
-                    .collect(Collectors.toList());
-
-            racingResults.add(new RacingResultDto(winnerNames, carDtos));
+            findRaceById(raceId).ifPresent(racingResults::add);
         }
 
         return racingResults;
+    }
+
+    public Optional<RacingResultDto> findRaceById(int raceId) {
+        List<CarInfo> carInfos = carInfoRepository.findAllByRaceId(raceId);
+        if (carInfos.isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<String> winnerNames = carInfos.stream()
+                .filter(CarInfo::getIsWinner)
+                .map(CarInfo::getName)
+                .collect(Collectors.toList());
+
+        List<CarDto> carDtos = carInfos.stream()
+                .map(CarDto::new)
+                .collect(Collectors.toList());
+
+        return Optional.of(new RacingResultDto(winnerNames, carDtos));
     }
 }

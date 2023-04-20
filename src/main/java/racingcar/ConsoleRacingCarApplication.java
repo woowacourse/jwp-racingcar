@@ -1,38 +1,47 @@
 package racingcar;
 
-import racingcar.controller.RacingController;
+import racingcar.dto.RacingInfoRequestDto;
 import racingcar.dto.RacingResultDto;
+import racingcar.service.RacingService;
 import racingcar.view.ConsoleInputView;
 import racingcar.view.ConsoleOutputView;
 import racingcar.view.FindingCommand;
 import racingcar.view.ReplayCommand;
 
 import java.util.List;
-public class ConsoleRacingCarApplication {
-    private final RacingController controller;
+import java.util.Optional;
 
-    public ConsoleRacingCarApplication(RacingController controller) {
-        this.controller = controller;
+public class ConsoleRacingCarApplication {
+    private final RacingService racingService;
+
+    public ConsoleRacingCarApplication(RacingService racingService) {
+        this.racingService = racingService;
     }
 
     public void run() {
         ReplayCommand replayCommand = ReplayCommand.YES;
         while (replayCommand == ReplayCommand.YES) {
-            playRace(controller);
+            playRace();
             replayCommand = ConsoleInputView.getReplayCommand();
         }
 
-        findAllResult(controller);
+        findAllResult();
     }
 
-    private void playRace(RacingController controller) {
-        RacingResultDto racingResult = controller.playRacing(ConsoleInputView.getRacingInfoRequest());
-        ConsoleOutputView.printResult(racingResult);
+    private void playRace() {
+        RacingInfoRequestDto racingInfoRequest = ConsoleInputView.getRacingInfoRequest();
+        int raceId = racingService.race(racingInfoRequest.getNames(), racingInfoRequest.getCount());
+
+        Optional<RacingResultDto> dto = racingService.findRaceById(raceId);
+        if (dto.isEmpty()) {
+            throw new IllegalArgumentException("레이싱 정보를 식별할 수 없는 id 값입니다.");
+        }
+        ConsoleOutputView.printResult(dto.get());
     }
 
-    private void findAllResult(RacingController controller) {
+    private void findAllResult() {
         if (ConsoleInputView.getFindingCommand() == FindingCommand.YES) {
-            List<RacingResultDto> results = controller.findAllRaceResults();
+            List<RacingResultDto> results = racingService.findAllResults();
             ConsoleOutputView.printResults(results);
         }
     }

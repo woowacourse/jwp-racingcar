@@ -34,6 +34,19 @@
 </form>
 
 <script>
+    function parseData(data) {
+        console.log(data.body)
+        const resultPosition = document.createElement("div");
+        for (let index in data.racingCars) {
+            const span = document.createElement("span");
+            span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
+            resultPosition.appendChild(span);
+        }
+        document.getElementById("resultWinner").innerHTML = data.winners;
+        document.getElementById("resultPosition").innerHTML = '';
+        document.getElementById("resultPosition").appendChild(resultPosition);
+    }
+
     function submitForm() {
         const names = document.getElementById("names").value;
         const count = document.getElementById("count").value;
@@ -49,24 +62,21 @@
             body: JSON.stringify(data)
         })
             .then(response => {
-                return new Promise((resolve) => response.json()
-                    .then((json) => resolve({
+                return new Promise((resolve) => {
+                    let location = response.headers.get("location");
+                    resolve({
                         ok: response.ok,
                         status: response.status,
-                        data: json,
-                    })));
+                        location: location
+                    });
+                });
             })
-            .then(({ok, status, data}) => {
-                if (status === 200) {
-                    const resultPosition = document.createElement("div");
-                    for (let index in data.racingCars) {
-                        const span = document.createElement("span");
-                        span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
-                        resultPosition.appendChild(span);
-                    }
-                    document.getElementById("resultWinner").innerHTML = data.winners;
-                    document.getElementById("resultPosition").innerHTML = '';
-                    document.getElementById("resultPosition").appendChild(resultPosition);
+            .then(({ok, status, data, location}) => {
+                console.log(location)
+                if (status === 201) {
+                    fetch(location)
+                        .then(response => response.json())
+                        .then(response => parseData(response));
                 }
                 if (!ok) {
                     alert("ERROR: " + data.message);
