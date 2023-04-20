@@ -1,11 +1,19 @@
 package racingcar;
 
-import racingcar.controller.RacingGameManager;
+import racingcar.controller.ConsoleRacingGameController;
+import racingcar.dao.GameResultDAOInMemory;
+import racingcar.dao.PlayerResultDAOInMemory;
+import racingcar.service.RacingGameService;
 
 public class ConsoleApplication {
     public static void main(String[] args) {
-        RacingGameManager manager = new RacingGameManager();
+        RacingGameService racingGameService = new RacingGameService(
+                new GameResultDAOInMemory(), new PlayerResultDAOInMemory()
+        );
 
-        manager.run();
+        ConsoleRacingGameController consoleRacingGameController =
+                new ConsoleRacingGameController(racingGameService);
+
+        consoleRacingGameController.run();
     }
 }

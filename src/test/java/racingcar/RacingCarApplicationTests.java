@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 class RacingCarApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

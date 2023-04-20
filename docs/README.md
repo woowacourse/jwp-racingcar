@@ -27,7 +27,7 @@
 
 ### 4. 웹 연동
 
-- [X] 웹 요청 구현하기
+- [X] 웹 게임 실행 요청 구현하기
     - 자동차 이름과 시도 횟수를 Json 형식으로 요청한다.
   ```
   POST /plays HTTP/1.1
@@ -39,30 +39,52 @@
        "count": 10
    }
   ```
-- [X] 웹 응답 구현하기
+- [X] 웹 게임 결과 응답 구현하기
     - 우승자와 자동차들의 최종 위치를 Json 형식으로 응답한다.
+  - [X] 웹 게임 결과 조회 구현하기
+    - 실행한 게임들의 결과를 Json 형식으로 응답한다.
 
 ```
 HTTP/1.1 200 
+HTTP/1.1 200 
 Content-Type: application/json
 
-{
-    "winners": "브리",
-    "racingCars": [
-        {
-            "name": "브리",
-            "position": 9
-        },
-        {
-            "name": "토미",
-            "position": 7
-        },
-        {
-            "name": "브라운",
-            "position": 3
-        },
-    ]
-}
+[
+    {
+        "winners": "브리",
+        "racingCars": [
+            {
+                "name": "브리",
+                "position": 6
+            },
+            {
+                "name": "토미",
+                "position": 4
+            },
+            {
+                "name": "브라운",
+                "position": 3
+            },
+        ]
+    },
+    {
+        "winners": "브리,토미,브라운",
+        "racingCars": [
+            {
+                "name": "브리",
+                "position": 6
+            },
+            {
+                "name": "토미",
+                "position": 6
+            },
+            {
+                "name": "브라운",
+                "position": 6
+            },
+        ]
+    }
+]
 ```
 
 ### 5. DB 연동
@@ -71,5 +93,4 @@ Content-Type: application/json
     - DB 저장 목록
         - 플레이 횟수(trialCount)
         - 플레이어 별 최종 이동 거리 (이름(name), 최종 위치(position))
-        - 우승자(winners)
-        - 플레이한 날짜/시간  
+        - 플레이한 날짜/시간

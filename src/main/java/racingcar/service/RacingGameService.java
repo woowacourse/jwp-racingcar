@@ -4,24 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.dao.GameResultDAO;
 import racingcar.dao.PlayerResultDAO;
-import racingcar.domain.Car;
-import racingcar.domain.Name;
-import racingcar.domain.RacingGame;
-import racingcar.domain.TryCount;
+import racingcar.dao.entity.GameResultEntity;
+import racingcar.dao.entity.PlayerResultEntity;
+import racingcar.domain.*;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayerResultDto;
 import racingcar.dto.response.GameResponseDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class RacingGameService {
-    private static final String DELIMITER = ",";
-
     private final GameResultDAO gameResultDAO;
     private final PlayerResultDAO playerResultDAO;
+    private final RacingGameManager racingGameManager = RacingGameManager.getInstance();
 
     @Autowired
     public RacingGameService(GameResultDAO gameResultDAO, PlayerResultDAO playerResultDAO) {
@@ -29,39 +27,58 @@ public class RacingGameService {
         this.playerResultDAO = playerResultDAO;
     }
 
-    public GameResponseDto play(List<String> names, int tryCount) {
-        RacingGame racingGame = new RacingGame(convertToNames(names));
+    public GameResponseDto play(Names names, TryCount tryCount) {
+        Cars cars = Cars.createByNames(names);
 
-        racingGame.moveCars(new TryCount(tryCount));
+        racingGameManager.play(cars, tryCount);
 
-        String winners = decideWinners(racingGame);
-        List<PlayerResultDto> playerResults = getPlayerResults(racingGame);
+        Cars winningCars = racingGameManager.decideWinners(cars);
+        String winners = convertToString(winningCars);
+        List<CarDto> carDtos = CarDto.from(cars.getCars());
 
-        int savedId = gameResultDAO.save(new GameResultDto(tryCount, winners));
-        playerResultDAO.save(savedId, playerResults);
+        int savedId = gameResultDAO.save(GameResultDto.from(tryCount.getCount()));
+        playerResultDAO.saveAll(PlayerResultDto.of(carDtos, savedId));
 
-        return new GameResponseDto(winners, playerResults);
+        return new GameResponseDto(winners, carDtos);
     }
 
-    private List<Name> convertToNames(List<String> names) {
-        return names.stream()
-                .map(Name::new)
+    private String convertToString(Cars winners) {
+        return winners.getCars().stream()
+                .map(Car::getName)
+                .collect(Collectors.joining(","));
+    }
+
+    public List<GameResponseDto> findAllGameAndPlayerResults() {
+        List<GameResultEntity> gameResultEntities = gameResultDAO.findAll();
+        List<PlayerResultEntity> playerResultEntities = playerResultDAO.findAll();
+
+        List<Integer> gameIds = getGameIds(gameResultEntities);
+
+        return gameIds.stream()
+                .map(gameId -> getGameResponseDto(playerResultEntities, gameId))
                 .collect(Collectors.toList());
     }
 
-    private String decideWinners(RacingGame racingGame) {
-        return racingGame.decideWinners().getCars().stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(DELIMITER));
+    private List<Integer> getGameIds(List<GameResultEntity> gameResultEntities) {
+        return gameResultEntities.stream()
+                .map(GameResultEntity::getId)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
-    private List<PlayerResultDto> getPlayerResults(RacingGame racingGame) {
-        List<PlayerResultDto> playerResults = new ArrayList<>();
+    private GameResponseDto getGameResponseDto(List<PlayerResultEntity> playerResultEntities, Integer gameId) {
+        List<Car> carsOfGameId = playerResultEntities.stream()
+                .filter(result -> result.getGameId() == gameId)
+                .map(result -> Car.of(Name.from(result.getName()), Position.from(result.getPosition())))
+                .collect(Collectors.toList());
 
-        for (Car car : racingGame.getCars()) {
-            playerResults.add(new PlayerResultDto(car.getName(), car.getPosition()));
-        }
+        Cars winningCars = racingGameManager.decideWinners(Cars.from(carsOfGameId));
+        String winners = convertToString(winningCars);
 
-        return playerResults;
+        List<CarDto> carDtos = carsOfGameId.stream()
+                .map(car -> CarDto.of(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+
+        return new GameResponseDto(winners, carDtos);
     }
 }

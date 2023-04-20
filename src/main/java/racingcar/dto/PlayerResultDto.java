@@ -1,19 +1,25 @@
 package racingcar.dto;
 
+import java.util.List;
+
 public class PlayerResultDto {
-    private final String name;
-    private final int position;
+    private final List<CarDto> carDtos;
+    private final int gameId;
 
-    public PlayerResultDto(String name, int position) {
-        this.name = name;
-        this.position = position;
+    private PlayerResultDto(List<CarDto> carDtos, int gameId) {
+        this.carDtos = carDtos;
+        this.gameId = gameId;
     }
 
-    public String getName() {
-        return name;
+    public static PlayerResultDto of(List<CarDto> carDtos, int gameId) {
+        return new PlayerResultDto(carDtos, gameId);
     }
 
-    public int getPosition() {
-        return position;
+    public List<CarDto> getCarDtos() {
+        return carDtos;
+    }
+
+    public int getGameId() {
+        return gameId;
     }
 }

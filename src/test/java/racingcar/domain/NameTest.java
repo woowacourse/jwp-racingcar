@@ -14,14 +14,14 @@ class NameTest {
     @ParameterizedTest
     @ValueSource(strings = {"쥬", "쥬니", "쥬니헙크1"})
     void validNameLengthTest(String name) {
-        assertDoesNotThrow(() -> new Name(name));
+        assertDoesNotThrow(() -> Name.from(name));
     }
 
     @DisplayName("1자 이상, 5자 이하가 아닌 경우, 생성할 수 없다.")
     @ParameterizedTest
     @ValueSource(strings = {"", "123456"})
     void invalidNameLengthTest(String name) {
-        assertThatThrownBy(() -> new Name(name))
+        assertThatThrownBy(() -> Name.from(name))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
