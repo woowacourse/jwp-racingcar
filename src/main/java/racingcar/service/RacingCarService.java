@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.domain.Car;
@@ -31,6 +32,7 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
+    @Transactional
     public GameResponse play(final GameDto gameDto) {
         RacingGame game = createGame(gameDto.getNames(), gameDto.getCount());
         int gameId = game.getId();
@@ -59,6 +61,7 @@ public class RacingCarService {
         convertDto(cars).forEach(car -> carDao.insertCar(car, gameId));
     }
 
+    @Transactional
     public List<GameResponse> getGameResults() {
         List<GameResponse> gameResponses = new ArrayList<>();
         List<GameIdDto> allGame = gameDao.findAll();
