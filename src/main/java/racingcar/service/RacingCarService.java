@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class RacingCarService {
     private static final String DELIMITER = ",";
+    private static final int LIMIT = -1;
 
     private final GameDao gameDao;
     private final CarDao carDao;
@@ -45,7 +46,9 @@ public class RacingCarService {
     }
 
     private Cars makeCars(final String names) {
-        List<String> carNames = Arrays.stream(names.split(DELIMITER)).collect(Collectors.toList());
+        List<String> carNames = Arrays.stream(names.split(DELIMITER, LIMIT))
+                .map(String::trim)
+                .collect(Collectors.toList());
         CarFactory carFactory = new CarFactory();
         return carFactory.createCars(carNames);
     }
@@ -83,20 +86,22 @@ public class RacingCarService {
 
     public List<RacingResultDTO> showGameResults() {
         final List<GameIdDTO> gameIds = gameDao.findAllGameIds();
-        final List<RacingResultDTO> racingResultDTOs = new ArrayList<>();
-        for (GameIdDTO gameId : gameIds) {
-            final List<CarNameDTO> winnerNames = carDao.findWinners(gameId.getId());
-            final String winners = winnerNames.stream()
-                    .map(CarNameDTO::getName)
-                    .collect(Collectors.joining(DELIMITER));
+        return gameIds.stream()
+                .map(gameIdDTO -> new RacingResultDTO(getWinners(gameIdDTO), getCarDTOs(gameIdDTO)))
+                .collect(Collectors.toUnmodifiableList());
+    }
 
-            final List<CarNamePositionDTO> carNamesAndPositions = carDao.findAllCarNamesAndPositions(gameId.getId());
-            final List<CarDTO> carDTOs = carNamesAndPositions.stream()
-                    .map(carNamePositionDTO -> new CarDTO(carNamePositionDTO.getName(), carNamePositionDTO.getPosition()))
-                    .collect(Collectors.toList());
+    private List<CarDTO> getCarDTOs(final GameIdDTO gameId) {
+        final List<CarNamePositionDTO> carNamesAndPositions = carDao.findAllCarNamesAndPositions(gameId.getId());
+        return carNamesAndPositions.stream()
+                .map(carNamePositionDTO -> new CarDTO(carNamePositionDTO.getName(), carNamePositionDTO.getPosition()))
+                .collect(Collectors.toList());
+    }
 
-            racingResultDTOs.add(new RacingResultDTO(winners, carDTOs));
-        }
-        return racingResultDTOs;
+    private String getWinners(final GameIdDTO gameId) {
+        final List<CarNameDTO> winnerNames = carDao.findWinners(gameId.getId());
+        return winnerNames.stream()
+                .map(CarNameDTO::getName)
+                .collect(Collectors.joining(DELIMITER));
     }
 }
