@@ -25,7 +25,7 @@ public class RacingCarService {
     public void saveGameResult(Cars cars, TryCount tryCount) {
         Long gameId = gameDao.insertWithKeyHolder(tryCount.getValue(), cars.getWinner());
         for (Car car : cars.getCars()) {
-            racingCarDao.insert(gameId, car.getName().getValue(), car.getPosition().getValue());
+            racingCarDao.insert(gameId, car.getNameValue(), car.getPositionValue());
         }
     }
 

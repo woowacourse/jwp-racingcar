@@ -26,7 +26,7 @@ public class RacingCarWebController {
     @PostMapping("/plays")
     @ResponseBody
     public RacingCarGameResultDto run(@RequestBody GameInitializeDto gameInitializeDto) {
-        Cars cars = new Cars(gameInitializeDto.getNames());
+        Cars cars = Cars.from(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
         racingCarService.playRound(cars, tryCount);
         racingCarService.saveGameResult(cars, tryCount);
@@ -42,7 +42,7 @@ public class RacingCarWebController {
 
     private List<RacingCarDto> makeCarDtos(Cars cars) {
         return cars.getCars().stream()
-                .map(car -> new RacingCarDto(car.getName().getValue(), car.getPosition().getValue()))
+                .map(car -> new RacingCarDto(car.getNameValue(), car.getPositionValue()))
                 .collect(Collectors.toUnmodifiableList());
     }
 }

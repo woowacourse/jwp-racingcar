@@ -20,7 +20,7 @@ public class RacingCarConsoleController {
     }
 
     public void run() {
-        Cars cars = new Cars(inputView.readCarNames());
+        Cars cars = Cars.from(inputView.readCarNames());
         TryCount tryCount = new TryCount(inputView.readTryCount());
 
         racingCarService.playRound(cars, tryCount);

@@ -1,27 +1,27 @@
 package racingcar.domain;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toUnmodifiableList;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Cars {
     private static final int RANDOM_NUM_MAX_VALUE = 10;
-    private static final String DELIMITER = ",";
     private static final Random random = new Random();
 
-    private List<String> winners;
     private final List<Car> cars;
-
-    public Cars(String carNames) {
-        this(Stream.of(carNames.split(DELIMITER))
-                .map(Car::new)
-                .collect(Collectors.toList()));
-    }
 
     public Cars(List<Car> cars) {
         this.cars = cars;
+    }
+
+    public static Cars from(List<String> carNames) {
+        return carNames.stream()
+                .map(Car::from)
+                .collect(collectingAndThen(toList(), Cars::new));
     }
 
     public void runRound() {
@@ -33,16 +33,15 @@ public class Cars {
 
     public List<String> getWinner() {
         int maxPosition = findMaxPosition();
-        winners = cars.stream().filter(car -> car.isSamePosition(maxPosition))
-                .map(Car::getName)
-                .map(Name::getValue)
-                .collect(Collectors.toList());
-        return Collections.unmodifiableList(winners);
+        return cars.stream()
+                .filter(car -> car.isSamePosition(maxPosition))
+                .map(Car::getNameValue)
+                .collect(toUnmodifiableList());
     }
 
     private int findMaxPosition() {
         return cars.stream()
-                .mapToInt(car -> car.getPosition().getValue())
+                .mapToInt(Car::getPositionValue)
                 .max()
                 .orElse(-1);
     }

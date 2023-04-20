@@ -1,19 +1,19 @@
 package racingcar.domain;
 
 public class Car {
-    private static final int POSITION_DEFAULT = 0;
+    private static final int DEFAULT_POSITION = 0;
     private static final int MOVE_CRITERIA = 4;
 
     private final Name name;
     private final Position position;
 
-    public Car(String name) {
-        this(name, POSITION_DEFAULT);
+    private Car(Name name, Position position) {
+        this.name = name;
+        this.position = position;
     }
 
-    public Car(String name, int position) {
-        this.name = new Name(name);
-        this.position = new Position(position);
+    public static Car from(String name) {
+        return new Car(new Name(name), new Position(DEFAULT_POSITION));
     }
 
     public void runForward(int engine) {
@@ -22,15 +22,15 @@ public class Car {
         }
     }
 
-    public Name getName() {
-        return name;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
     public boolean isSamePosition(int otherPosition) {
         return otherPosition == position.getValue();
+    }
+
+    public String getNameValue() {
+        return name.getValue();
+    }
+
+    public int getPositionValue() {
+        return position.getValue();
     }
 }
