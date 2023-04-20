@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-public class GameDao {
+public class DBGameDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public GameDao(JdbcTemplate jdbcTemplate) {
+    public DBGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -6,26 +6,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class InMemoryRacingGameRepository implements GameRepository {
+public class InMemoryRacingRacingGameRepository implements RacingGameRepository {
 
     private RacingGameDto racingGameDto;
 
-    private InMemoryRacingGameRepository(RacingGameDto racingGameDto) {
+    private InMemoryRacingRacingGameRepository(RacingGameDto racingGameDto) {
         this.racingGameDto = racingGameDto;
     }
 
-    public static InMemoryRacingGameRepository create() {
+    public static InMemoryRacingRacingGameRepository create() {
         RacingGameDto emptyRacingGameDto = new RacingGameDto(Collections.emptyList(), Collections.emptyList(), 0);
-        return new InMemoryRacingGameRepository(emptyRacingGameDto);
+        return new InMemoryRacingRacingGameRepository(emptyRacingGameDto);
     }
 
     @Override
-    public void saveGame(RacingGameDto racingGameDto) {
+    public void save(RacingGameDto racingGameDto) {
         this.racingGameDto = racingGameDto;
     }
 
     @Override
-    public List<RacingGameDto> selectAllGames() {
+    public List<RacingGameDto> selectAll() {
         List<RacingGameDto> games = new ArrayList<>();
         games.add(racingGameDto);
         return games;

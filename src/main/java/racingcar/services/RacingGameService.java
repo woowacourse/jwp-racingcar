@@ -1,7 +1,7 @@
 package racingcar.services;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.GameRepository;
+import racingcar.dao.RacingGameRepository;
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.RacingGameMapper;
 import racingcar.dto.StartInformationDto;
@@ -15,17 +15,17 @@ import java.util.List;
 @Service
 public class RacingGameService {
 
-    private final GameRepository gameRepository;
+    private final RacingGameRepository racingGameRepository;
 
-    public RacingGameService(GameRepository gameRepository) {
-        this.gameRepository = gameRepository;
+    public RacingGameService(RacingGameRepository racingGameRepository) {
+        this.racingGameRepository = racingGameRepository;
     }
 
     public RacingGameDto play(StartInformationDto startInformationDto) {
         RacingGame racingGame = createRacingGame(startInformationDto);
         racingGame.play();
         RacingGameDto racingGameDto = RacingGameMapper.toRacingGameDto(racingGame);
-        gameRepository.saveGame(racingGameDto);
+        racingGameRepository.save(racingGameDto);
         return racingGameDto;
     }
 
@@ -36,6 +36,6 @@ public class RacingGameService {
     }
 
     public List<RacingGameDto> queryHistory() {
-        return gameRepository.selectAllGames();
+        return racingGameRepository.selectAll();
     }
 }
