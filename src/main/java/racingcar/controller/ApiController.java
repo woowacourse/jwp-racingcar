@@ -1,8 +1,11 @@
 package racingcar.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,5 +37,12 @@ public class ApiController {
     public ResponseEntity<List<GameResponseDto>> getAllGames() {
         final List<GameResponseDto> gameResponseDtos = gameService.getAll();
         return ResponseEntity.ok().body(gameResponseDtos);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handle(final IllegalArgumentException e) {
+        Logger logger = LoggerFactory.getLogger(getClass());
+        logger.warn(e.getMessage());
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

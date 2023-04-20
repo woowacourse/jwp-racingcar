@@ -1,6 +1,11 @@
 package racingcar.controller;
 
-import racingcar.domain.*;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.Lap;
+import racingcar.domain.NumberGenerator;
+import racingcar.domain.RandomNumberGenerator;
+import racingcar.domain.WinnerMaker;
 import racingcar.dto.CarStatusDto;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;

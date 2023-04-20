@@ -91,4 +91,27 @@ public class ApiControllerTest {
                 () -> assertThat((String) documentContext.read("$[1]['racingCars'][3]['name']")).isEqualTo("블랙캣")
         );
     }
+
+    @Test
+    @DisplayName("유저 실수 관련 에러가 발생하면 BadRequest를 반환한다.")
+    void userMistakeError() {
+        final GameRequestDto gameRequestDto = new GameRequestDto("디투", 10);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(gameRequestDto)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("예상치 못한 에러가 발생하면 InternalServerError를 반환한다.")
+    void notExpectedError() {
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 }
