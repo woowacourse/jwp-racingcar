@@ -28,6 +28,13 @@ public abstract class RacingGameFixtures {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> findAllPlayers() {
+        return given()
+                .when().get("/plays")
+                .then().log().all()
+                .extract();
+    }
+
     public static RequestSpecification given() {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE);

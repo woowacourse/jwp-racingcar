@@ -39,10 +39,7 @@ class RacingGameWebControllerTest extends RacingGameFixtures {
         savePlayers("준팍,에코,소니", 30);
 
         // when
-        final ExtractableResponse<Response> response = given()
-                .when().get("/plays")
-                .then().log().all()
-                .extract();
+        final ExtractableResponse<Response> response = findAllPlayers();
 
         // then
         final JsonPath result = response.jsonPath();
