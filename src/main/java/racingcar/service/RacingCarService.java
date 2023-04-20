@@ -4,11 +4,13 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingResultResponse;
 import racingcar.repository.RacingCarRepository;
 import racingcar.utils.NumberGenerator;
 
@@ -53,5 +55,13 @@ public class RacingCarService {
 
     public List<RacingCarDto> findRacingCars(int gameId) {
         return racingCarRepository.findRacingCars(gameId);
+    }
+
+    public List<RacingResultResponse> findAllGameResults() {
+        Map<Integer, List<RacingCarDto>> racingCars = racingCarRepository.findAllRacingCars();
+        Map<Integer, List<String>> winners = racingCarRepository.findAllWinners();
+        return racingCars.entrySet().stream()
+                .map(entry -> new RacingResultResponse(winners.get(entry.getKey()), entry.getValue()))
+                .collect(toList());
     }
 }

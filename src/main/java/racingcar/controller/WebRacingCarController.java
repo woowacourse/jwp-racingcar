@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import racingcar.service.RacingCarService;
 
 @RestController
 public class WebRacingCarController {
+    private static final String CAR_NAME_DELIMITER = ",";
     private final RacingCarService racingCarService;
 
     public WebRacingCarController(RacingCarService racingCarService) {
@@ -19,7 +21,7 @@ public class WebRacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingResultResponse> play(@RequestBody RacingCarRequest request) {
+    public ResponseEntity<RacingResultResponse> playGame(@RequestBody RacingCarRequest request) {
         List<String> carNames = getCarNames(request.getNames());
         int gameId = racingCarService.playRacingGame(carNames, request.getCount());
 
@@ -29,7 +31,14 @@ public class WebRacingCarController {
                 .body(new RacingResultResponse(winners, racingCars));
     }
 
+    @GetMapping("/plays")
+    public ResponseEntity<List<RacingResultResponse>> getAllGameResults() {
+        List<RacingResultResponse> results = racingCarService.findAllGameResults();
+        return ResponseEntity.ok()
+                .body(results);
+    }
+
     private List<String> getCarNames(String names) {
-        return List.of(names.split(","));
+        return List.of(names.split(CAR_NAME_DELIMITER));
     }
 }
