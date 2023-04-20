@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS games
+CREATE TABLE games
 (
 `gameId`        INT          NOT NULL AUTO_INCREMENT,
 `count`         INT          NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS games
 `timeStamp`    TIMESTAMP     NOT NULL,
 PRIMARY KEY (`gameId`)
 );
-CREATE TABLE IF NOT EXISTS cars
+CREATE TABLE cars
 (
 `name`       VARCHAR(20) NOT NULL,
 `position`     INT       NOT NULL,
