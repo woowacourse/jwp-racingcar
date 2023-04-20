@@ -26,6 +26,7 @@ class RacingGameRepositoryTest {
 
     @Autowired
     private RacingGameRepository racingGameRepository;
+
     @Autowired
     private CarRepository carRepository;
 

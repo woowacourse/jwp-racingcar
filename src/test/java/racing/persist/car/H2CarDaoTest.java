@@ -3,7 +3,6 @@ package racing.persist.car;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,32 +25,6 @@ class H2CarDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @BeforeAll
-    void setUpSchema() {
-        createCarTable();
-        createGameTable();
-    }
-
-    private void createGameTable() {
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS games (" +
-                "game_id bigint NOT NULL AUTO_INCREMENT, " +
-                "count int NOT NULL," +
-                "create_time timestamp NOT NULL," +
-                "PRIMARY KEY (game_id)" +
-                ");");
-    }
-
-    private void createCarTable() {
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS cars (" +
-                "car_id bigint NOT NULL AUTO_INCREMENT," +
-                "car_name VARCHAR(8) NOT NULL," +
-                "step int NOT NULL," +
-                "winner boolean default false," +
-                "game_id bigint not null," +
-                "PRIMARY KEY (car_id)" +
-                ");");
-    }
 
     @BeforeEach
     void setUp() {
