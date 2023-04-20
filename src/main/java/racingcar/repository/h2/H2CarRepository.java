@@ -58,13 +58,4 @@ public class H2CarRepository implements CarRepository {
         String sql = "SELECT * FROM car WHERE game_id = ?";
         return jdbcTemplate.query(sql, carRowMapper(), id);
     }
-
-    @Override
-    public List<CarEntity> findWinnersByGameId(long id) {
-        String sql = "SELECT * FROM car " +
-                "JOIN game ON game.id = car.game_id " +
-                "JOIN winner ON car.id = winner.car_id " +
-                "WHERE game.id = ?";
-        return jdbcTemplate.query(sql, carRowMapper(), id);
-    }
 }

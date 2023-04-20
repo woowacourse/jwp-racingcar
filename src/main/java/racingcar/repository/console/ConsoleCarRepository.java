@@ -20,9 +20,4 @@ public class ConsoleCarRepository implements CarRepository {
     public List<CarEntity> findAllByGameId(long id) {
         return null;
     }
-
-    @Override
-    public List<CarEntity> findWinnersByGameId(long id) {
-        return null;
-    }
 }

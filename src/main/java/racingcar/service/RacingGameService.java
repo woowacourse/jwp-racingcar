@@ -101,7 +101,7 @@ public class RacingGameService {
     public List<GameResponse> findAllGame() {
         return gameRepository.findAll().stream()
                 .map(game -> {
-                    List<CarEntity> winners = carRepository.findWinnersByGameId(game.getId());
+                    List<CarEntity> winners = winnerRepository.findWinnersByGameId(game.getId());
                     List<CarEntity> cars = carRepository.findAllByGameId(game.getId());
                     return GameResponse.of(winners, cars);
                 })

@@ -10,6 +10,4 @@ public interface CarRepository {
     CarEntity findById(long id);
 
     List<CarEntity> findAllByGameId(long id);
-
-    List<CarEntity> findWinnersByGameId(long id);
 }
