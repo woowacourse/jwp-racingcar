@@ -6,8 +6,8 @@ import racingcar.domain.strategy.MovingStrategy;
 import racingcar.domain.strategy.RandomMovingStrategy;
 
 public class RacingGame {
-	Cars cars;
-	MovingStrategy strategy;
+	private final Cars cars;
+	private final MovingStrategy strategy;
 
 	public RacingGame(String carNames) {
 		cars = new Cars(arrangeCars(carNames));
