@@ -25,7 +25,6 @@ public class RacingCarConsoleController {
             ConsoleCommand command = inputView.askCommand();
             runService(command);
         }
-
     }
 
     private void runService(ConsoleCommand command) {

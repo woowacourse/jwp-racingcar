@@ -25,8 +25,10 @@ public class RacingCarRepository {
 
     @Transactional
     public void save(final int racingCount, final List<Car> cars) {
+        // TODO PlayRecord 도 insert 하는 것 적절할까? => 이 부분은 유지하되 Repository 가 Dao를 통합해 도메인 객체를 도출하는 계층이 되도록 하기
         playRecordsDao.insert(racingCount);
         long savedId = playRecordsDao.getLastId();
+        // TODO playId를 CarEntity가 필드로 가지는 의미가 없다.
         carsDao.insert(savedId, EntityConverter.toDaoEntities(cars));
     }
 

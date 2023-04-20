@@ -14,6 +14,7 @@ public class JdbcPlayRecordsDao implements PlayRecordsDao {
 
     @Override
     public void insert(final int racingCount) {
+        // TODO Entity 받도록 바꾸고 파라미터 매핑
         jdbcTemplate.update("INSERT INTO play_records (trial_count) VALUES (?)", racingCount);
     }
 
@@ -21,7 +22,7 @@ public class JdbcPlayRecordsDao implements PlayRecordsDao {
     public long getLastId() {
         return jdbcTemplate.queryForObject("SELECT MAX(id) FROM play_records", Long.class);
     }
-    
+
     @Override
     public void clear() {
         jdbcTemplate.update("DELETE FROM play_records");
