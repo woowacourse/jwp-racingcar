@@ -32,7 +32,7 @@ import racingcar.service.RaceService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class RaceControllerTest {
+class WebRaceControllerTest {
 
     @MockBean
     private RaceService raceService;
