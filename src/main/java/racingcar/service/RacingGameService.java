@@ -26,7 +26,7 @@ public class RacingGameService {
     @Transactional
     public GameResultResponse playRacingGame(final RacingGameRequest racingGameRequest) {
         RacingGame racingGame = createRacingGame(racingGameRequest);
-        play(racingGame);
+        racingGame.start();
         GameResultResponse gameResultResponse = new GameResultResponse(
                 mapWinnerNamesTextFrom(racingGame),
                 mapCarDtosFrom(racingGame)
@@ -41,13 +41,6 @@ public class RacingGameService {
                 racingGameRequest.getCount(),
                 new RandomNumberGenerator()
         );
-    }
-
-    private void play(final RacingGame racingGame) {
-        // TODO: 검증 로직 도메인 내로 이동 (미션 요구사항에 따라 2단계에서 수정 예정)
-        while (racingGame.isGameOnGoing()) {
-            racingGame.start();
-        }
     }
 
     private List<CarData> mapCarDtosFrom(final RacingGame racingGame) {

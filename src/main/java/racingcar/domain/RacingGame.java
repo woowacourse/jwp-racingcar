@@ -24,10 +24,20 @@ public class RacingGame {
     }
 
     public void start() {
+        while (isGameOnGoing()) {
+            judgeMoveOrNot();
+        }
+    }
+
+    private void judgeMoveOrNot() {
         for (Car car : cars) {
             moveCar(car);
         }
         gameCoin.use();
+    }
+
+    private boolean isGameOnGoing() {
+        return gameCoin.isLeft();
     }
 
     private void moveCar(Car car) {
@@ -35,10 +45,6 @@ public class RacingGame {
         if (randomNumber >= MOVABLE_BOUND) {
             car.move();
         }
-    }
-
-    public boolean isGameOnGoing() {
-        return gameCoin.isLeft();
     }
 
     public List<Car> getCars() {
