@@ -41,17 +41,11 @@ public class CarService {
         final List<Car> cars = racingGame.getCars();
 
         cars.forEach(car -> playerDao.insert(id, car.getName(), car.getPosition(), winnerCars.contains(car)));
-        return new WinnerCarDto(convertCarToCarDto(winnerCars), convertCarToCarDto(cars));
+        return new WinnerCarDto(CarDto.convertCarToCarDto(winnerCars), CarDto.convertCarToCarDto(cars));
     }
 
     private long insertPlayResult() {
         return playResultDao.insert();
-    }
-
-    private List<CarDto> convertCarToCarDto(final List<Car> cars) {
-        return cars.stream().
-                map(car -> new CarDto(car.getName(), car.getPosition())).
-                collect(Collectors.toList());
     }
 
     public List<GameResponse> findPlayHistories() {
@@ -61,7 +55,7 @@ public class CarService {
 
         for (int index = 0; index < allPlayResult.size(); index++) {
             gameResponses.add(new GameResponse(getWinners(allPlayer.get(index)),
-                    convertPlayerToCarDto(allPlayer.get(index))));
+                    CarDto.convertPlayerToCarDto(allPlayer.get(index))));
         }
         return gameResponses;
     }
@@ -77,11 +71,5 @@ public class CarService {
                 .filter(Player::isWinner)
                 .map(Player::getName)
                 .collect(Collectors.joining(","));
-    }
-
-    private List<CarDto> convertPlayerToCarDto(final List<Player> allPlayer) {
-        return allPlayer.stream()
-                .map(player -> new CarDto(player.getName(), player.getPosition())).
-                collect(Collectors.toList());
     }
 }
