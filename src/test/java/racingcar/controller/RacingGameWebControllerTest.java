@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
@@ -98,22 +97,36 @@ public class RacingGameWebControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req))
                 ).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.message").value("이름을 입력해주세요."));
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {1, 11})
-    @DisplayName(value = "게임을 시작할 때 잘못된 숫자를 입력하면 예외를 발생시킨다.")
-    void throws_exception_when_try_count_invalid(final int tryCount) throws Exception {
+    @ValueSource(ints = {-1, 0, 1})
+    @DisplayName(value = "게임을 시작할 때 잘못된 숫자(2미만)를 입력하면 예외를 발생시킨다.")
+    void throws_exception_when_try_count_invalid_low_number(final int tryCount) throws Exception {
         // given
-        StartGameRequestDto req = new StartGameRequestDto(null, tryCount);
+        StartGameRequestDto req = new StartGameRequestDto("pobi,crong", tryCount);
 
         // when
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req))
                 ).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()));
+                .andExpect(jsonPath("$.message").value("최소 횟수는 2입니다."));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {11, 12})
+    @DisplayName(value = "게임을 시작할 때 잘못된 숫자(2미만)를 입력하면 예외를 발생시킨다.")
+    void throws_exception_when_try_count_invalid_high_number(final int tryCount) throws Exception {
+        // given
+        StartGameRequestDto req = new StartGameRequestDto("pobi,crong", tryCount);
+
+        // when
+        mockMvc.perform(post("/plays")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req))
+                ).andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("최대 횟수는 10입니다."));
     }
 }
