@@ -2,33 +2,31 @@ package racingcar.database;
 
 import java.util.List;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import racingcar.car.interfaces.Car;
 import racingcar.car.model.RacingCar;
+import racingcar.game.interfaces.GameDAO;
+import racingcar.game.interfaces.GameResult;
 import racingcar.game.model.RacingCarGameResult;
-import racingcar.game.repository.RacingCarGameDAO;
 
 @JdbcTest
-@Import(RacingCarGameDAO.class)
+@Import(GameTestConfiguration.class)
 @Sql(scripts = {"classpath:data.sql"})
 class RacingCarGameDAOTest {
     
     @Autowired
-    private RacingCarGameDAO gameDao;
-    @Autowired
     private JdbcTemplate jdbcTemplate;
     
-    @BeforeEach
-    void setUp() {
-        this.gameDao = new RacingCarGameDAO(this.jdbcTemplate);
-    }
+    @Qualifier("gameDAO")
+    @Autowired
+    private GameDAO gameDao;
     
     @Test
     @DisplayName("insert - 게임 횟수와 우승자 이름을 받아서 DB에 저장한다.")
@@ -66,5 +64,42 @@ class RacingCarGameDAOTest {
         
         //then
         Assertions.assertThat(secondKey - firstKey).isEqualTo(1);
+    }
+    
+    @Test
+    @DisplayName("find - 게임 아이디를 받아서 게임 결과를 반환한다.")
+    void findGameTest() {
+        //given
+        final int trialCount = 5;
+        final Car echo = RacingCar.create("echo", 1);
+        final Car io = RacingCar.create("io", 0);
+        final RacingCarGameResult gameResult = RacingCarGameResult.create(List.of(echo), List.of(echo, io));
+        final int gameId = this.gameDao.insert(trialCount, gameResult);
+        
+        //when
+        final GameResult gameResultFromDB = this.gameDao.find(gameId);
+        
+        //then
+        Assertions.assertThat(gameResultFromDB.getWinners()).isEqualTo(gameResult.getWinners());
+        Assertions.assertThat(gameResultFromDB.getWinners()).isEqualTo(gameResult.getWinners());
+    }
+    
+    
+    @Test
+    @DisplayName("findAll - 모든 게임 결과를 반환한다.")
+    void findAllGameTest() {
+        //given
+        final int trialCount = 5;
+        final Car echo = RacingCar.create("echo", 1);
+        final Car io = RacingCar.create("io", 0);
+        final RacingCarGameResult gameResult = RacingCarGameResult.create(List.of(echo), List.of(echo, io));
+        this.gameDao.insert(trialCount, gameResult);
+        this.gameDao.insert(trialCount, gameResult);
+        
+        //when
+        final List<GameResult> gameResults = this.gameDao.findAll();
+        
+        //then
+        Assertions.assertThat(gameResults.size()).isEqualTo(2);
     }
 }
