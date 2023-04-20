@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 import racingcar.domain.engine.RandomMovingEngine;
-import racingcar.dto.CarDto;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +10,7 @@ public class RacingGame {
     private final Cars cars;
 
     public RacingGame(String names) {
-        List<Name> carNames = convert2Names(names);
+        List<Name> carNames = convertToNames(names);
         this.cars = new Cars(carNames, new RandomMovingEngine());
     }
 
@@ -34,7 +33,7 @@ public class RacingGame {
         return cars.getCars();
     }
 
-    private List<Name> convert2Names(String names) {
+    private List<Name> convertToNames(String names) {
         return Arrays.stream(names.split(","))
                 .map(Name::new)
                 .collect(Collectors.toList());
