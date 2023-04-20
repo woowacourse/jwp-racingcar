@@ -1,8 +1,6 @@
 package racingcar.controller;
 
-import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.dto.CarData;
 import racingcar.dto.GameResultResponse;
 import racingcar.dto.RacingGameRequest;
 import racingcar.persistence.repository.InMemoryGameRepository;
@@ -28,31 +26,10 @@ public class ConsoleRacingGameController {
         RacingGameService racingGameService = new RacingGameService(new InMemoryGameRepository());
         racingGameService.playRacingGame(racingGameRequest);
         List<RacingGame> allGames = racingGameService.makeGameRecords();
+
         List<GameResultResponse> gameRecordResponse = allGames.stream()
-                .map(this::toGameResultResponse)
+                .map(ClientResponseConverter::toGameResultResponse)
                 .collect(Collectors.toList());
         consoleView.renderRacingGameResult(gameRecordResponse);
-    }
-
-    private GameResultResponse toGameResultResponse(final RacingGame racingGame) {
-        return new GameResultResponse(
-                toWinnerResponse(racingGame),
-                toCarDataResponse(racingGame)
-        );
-    }
-
-    private List<CarData> toCarDataResponse(final RacingGame racingGame) {
-        return racingGame.getCars()
-                .stream()
-                .map(car -> new CarData(car.getCarName(), car.getPosition()))
-                .collect(Collectors.toList());
-    }
-
-    private String toWinnerResponse(final RacingGame racingGame) {
-        return racingGame.getWinners()
-                .stream()
-                .map(Car::getCarName)
-                .reduce((o1, o2) -> o1 + "," + o2)
-                .orElseThrow();
     }
 }
