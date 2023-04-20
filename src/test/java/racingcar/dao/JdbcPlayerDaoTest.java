@@ -34,7 +34,7 @@ class JdbcPlayerDaoTest {
 
     @Test
     @DisplayName("Player 테이블에 값을 저장할 수 있다.")
-    void saveGame_whenCall_thenSuccess() {
+    void savePlayer_whenCall_thenSuccess() {
         // given
         Long gameId = gameDao.save(10);
         final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
@@ -47,7 +47,7 @@ class JdbcPlayerDaoTest {
 
     @Test
     @DisplayName("Game 테이블에 저장되지 않은 gameId를 사용하면 Player 테이블에 값을 저장할 수 없다.")
-    void saveGame_whenInvalidGameId_thenFail() {
+    void savePlayer_whenInvalidGameId_thenFail() {
         // given
         final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
         final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
@@ -82,5 +82,12 @@ class JdbcPlayerDaoTest {
                 () -> assertThat(playerFindDtos.get(1).getPosition()).isEqualTo(5),
                 () -> assertThat(playerFindDtos.get(1).getIsWinner()).isEqualTo(false)
         );
+    }
+
+    @Test
+    @DisplayName("Game 테이블에 저장되지 않은 gameId를 사용하면 비어있는 리스트가 반환된다.")
+    void findPlayer_whenInvalidGameId_thenFail() {
+        // given, when, then
+        assertThat(playerDao.findById(2)).isEmpty();
     }
 }
