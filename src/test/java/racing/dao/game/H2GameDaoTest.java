@@ -27,7 +27,7 @@ class H2GameDaoTest {
 
         //when
         final List<GameDto> games = namedParameterJdbcTemplate.query(
-            "SELECT * FROM GAME",
+            "SELECT * FROM GAME;",
             (rs, rowNum) -> {
                 final int count = rs.getInt("play_count");
                 return new GameDto(count);
@@ -43,9 +43,11 @@ class H2GameDaoTest {
     void getAllId() {
         //given
         final H2GameDao h2GameDao = new H2GameDao(namedParameterJdbcTemplate);
-        h2GameDao.insert(new Game("6"));
-        h2GameDao.insert(new Game("6"));
-
+        namedParameterJdbcTemplate.getJdbcTemplate()
+            .execute(
+                "INSERT INTO GAME(play_count) VALUES (6);"
+                    + "INSERT INTO GAME(play_count) VALUES (4);"
+            );
         //when
         final List<Integer> allId = h2GameDao.getAllGameId();
 
