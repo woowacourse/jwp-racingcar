@@ -1,16 +1,25 @@
 package racingcar.dao;
 
+import java.sql.PreparedStatement;
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.Game;
 
-import java.sql.PreparedStatement;
-
 @Repository
 public class GameDao {
+
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Game> gameRowMapper = (resultSet, rowNum) ->
+            new Game(
+                    resultSet.getInt("id"),
+                    resultSet.getString("winners"),
+                    resultSet.getInt("trial_count"),
+                    resultSet.getTimestamp("created_at").toLocalDateTime()
+            );
 
     public GameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -28,5 +37,11 @@ public class GameDao {
         }, keyHolder);
 
         return keyHolder.getKey().longValue();
+    }
+
+    public List<Game> findAll() {
+        String sql = "select * from GAME";
+
+        return jdbcTemplate.query(sql, gameRowMapper);
     }
 }

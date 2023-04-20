@@ -1,24 +1,32 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
-import racingcar.entity.Player;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+import racingcar.entity.Player;
 
 @Repository
 public class PlayerDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Player> playerRowMapper = (resultSet, rowNum) ->
+            new Player(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getInt("position"),
+                    resultSet.getInt("game_id")
+            );
 
     public PlayerDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public void insert(List<Player> players) {
+        
         String sql = "insert into PLAYER (name, position, game_id) values (?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -36,5 +44,11 @@ public class PlayerDao {
                 return players.size();
             }
         });
+    }
+
+    public List<Player> findAll() {
+        String sql = "select * from PLAYER";
+
+        return jdbcTemplate.query(sql, playerRowMapper);
     }
 }

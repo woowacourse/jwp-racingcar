@@ -9,7 +9,7 @@ public class Player {
     private int position;
     private int gameId;
 
-    private Player(Integer id, String name, int position, int gameId) {
+    public Player(Integer id, String name, int position, int gameId) {
         this.id = id;
         this.name = name;
         this.position = position;

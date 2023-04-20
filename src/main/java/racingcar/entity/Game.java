@@ -1,10 +1,9 @@
 package racingcar.entity;
 
-import racingcar.domain.Car;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.Car;
 
 public class Game {
 
@@ -13,7 +12,7 @@ public class Game {
     private int trialCount;
     private LocalDateTime createdAt;
 
-    private Game(Integer id, String winners, int trialCount, LocalDateTime createdAt) {
+    public Game(Integer id, String winners, int trialCount, LocalDateTime createdAt) {
         this.id = id;
         this.winners = winners;
         this.trialCount = trialCount;
