@@ -17,7 +17,6 @@ import racingcar.entity.RacingCarEntity;
 @JdbcTest
 class CarDaoTest {
     private CarDao carDao;
-    private GameDao gameDao;
 
     private List<RacingCarEntity> racingCarEntities;
 
@@ -27,14 +26,11 @@ class CarDaoTest {
     @BeforeEach
     void setUp() {
         carDao = new CarDao(jdbcTemplate);
-        gameDao = new GameDao(jdbcTemplate.getJdbcTemplate());
         jdbcTemplate.getJdbcTemplate().execute("ALTER TABLE game ALTER COLUMN id RESTART WITH 1");
-        long id1 = gameDao.save(1);
-        long id2 = gameDao.save(2);
         racingCarEntities = List.of(
-                new RacingCarEntity("오잉", 1, GameResult.LOSE.getValue(), id1),
-                new RacingCarEntity("포이", 1, GameResult.WIN.getValue(), id1),
-                new RacingCarEntity("말랑", 1, GameResult.WIN.getValue(), id2));
+                new RacingCarEntity("오잉", 1, GameResult.LOSE.getValue(), 1),
+                new RacingCarEntity("포이", 1, GameResult.WIN.getValue(), 1),
+                new RacingCarEntity("말랑", 1, GameResult.WIN.getValue(), 2));
     }
 
     @Test
