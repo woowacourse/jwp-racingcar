@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public final class RacingGameService {
+public class RacingGameService {
 
     private final GameRepository racingGameRepository;
 
@@ -22,6 +23,7 @@ public final class RacingGameService {
         this.racingGameRepository = gameRepository;
     }
 
+    @Transactional
     public GameResultResponse playRacingGame(final RacingGameRequest racingGameRequest) {
         RacingGame racingGame = createRacingGame(racingGameRequest);
         play(racingGame);
