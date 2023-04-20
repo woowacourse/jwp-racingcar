@@ -28,10 +28,10 @@ public class H2CarDao implements CarDao {
     }
 
     @Override
-    public List<CarEntity> findAll(final Long resultId) {
+    public List<CarEntity> findAll(final Long raceResultId) {
         final String query = "SELECT * FROM car WHERE race_result_id = ?";
         return jdbcTemplate.query(query, (result, count) ->
             new CarEntity(result.getLong("car_id"), result.getString("name"),
-                result.getInt("position")), resultId);
+                result.getInt("position")), raceResultId);
     }
 }

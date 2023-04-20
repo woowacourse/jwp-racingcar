@@ -7,5 +7,5 @@ public interface CarDao {
 
     void saveAll(final Long raceResultId, final List<CarEntity> carEntities);
 
-    List<CarEntity> findAll(final Long resultId);
+    List<CarEntity> findAll(final Long raceResultId);
 }

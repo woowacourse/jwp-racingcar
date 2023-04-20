@@ -4,9 +4,9 @@ import org.springframework.lang.Nullable;
 
 public class CarEntity {
 
-    private Long carId;
-    private String name;
-    private int position;
+    private final Long carId;
+    private final String name;
+    private final int position;
 
     public CarEntity(@Nullable final Long carId, final String name, final int position) {
         this.carId = carId;

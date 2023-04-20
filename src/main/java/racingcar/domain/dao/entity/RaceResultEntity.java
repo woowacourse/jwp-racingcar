@@ -6,10 +6,10 @@ import org.springframework.lang.Nullable;
 
 public class RaceResultEntity {
 
+    private final Long id;
     private final int trialCount;
     private final String winners;
     private final List<CarEntity> carEntities;
-    private Long id;
 
     public RaceResultEntity(@Nullable final Long id, final int trialCount, final String winners,
         final List<CarEntity> carEntities) {
@@ -21,10 +21,6 @@ public class RaceResultEntity {
 
     public void addCarEntity(final CarEntity carEntity) {
         carEntities.add(carEntity);
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public int getTrialCount() {

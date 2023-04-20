@@ -25,7 +25,7 @@ public class ConsoleRaceController {
             final RaceRequest raceRequest = inputView.getRaceRequest();
             final RaceResponse raceResponse = raceService.play(raceRequest);
             outputView.printRaceResponse(raceResponse);
-            return null;
+            return raceResponse;
         });
     }
 }
