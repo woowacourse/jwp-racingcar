@@ -1,15 +1,12 @@
-package racingcar.controller;
-
-import racingcar.model.Car;
+package racingcar.model;
 
 import java.util.List;
 
-public class RacingGameLog {
-
+public class RacingCarResult {
     private final String winners;
     private final List<Car> racingCars;
 
-    public RacingGameLog(final String winners, final List<Car> racingCars) {
+    public RacingCarResult(final String winners, final List<Car> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

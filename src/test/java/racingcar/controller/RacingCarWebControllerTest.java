@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.model.PlayRequest;
+import racingcar.model.RacingCarRequest;
 
 import static org.hamcrest.core.Is.is;
 
@@ -24,11 +24,11 @@ class RacingCarWebControllerTest {
     @DisplayName("Http Method - POST")
     @Test
     void playRacingCarGameTest() {
-        final PlayRequest playRequest = new PlayRequest("echo,io", 10);
+        final RacingCarRequest racingCarRequest = new RacingCarRequest("echo,io", 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(playRequest)
+                .body(racingCarRequest)
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
