@@ -27,7 +27,7 @@ public class WebCarController {
     }
 
     @GetMapping("/plays")
-    public List<GameResponse> getPlaysHistory() {
+    public List<GameResponse> getPlayHistories() {
         return carService.findPlaysHistory();
     }
 }
