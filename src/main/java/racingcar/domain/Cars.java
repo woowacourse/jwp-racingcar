@@ -22,6 +22,10 @@ public class Cars {
         return new Cars(cars);
     }
 
+    public static Cars of(List<Car> cars) {
+        return new Cars(cars);
+    }
+
     public List<Car> getWinners() {
         return new Cars(findWinners().stream()
                 .collect(Collectors.toUnmodifiableList())

@@ -18,7 +18,7 @@ public class GameDaoTest {
     @Test
     void saveGameTest() {
         int trialCount = 10;
-        assertThat(gameDao.saveGame(TrialCount.of(trialCount))).isEqualTo(1);
-        assertThat(gameDao.saveGame(TrialCount.of(trialCount))).isEqualTo(2);
+        assertThat(gameDao.saveGame(trialCount)).isEqualTo(1);
+        assertThat(gameDao.saveGame(trialCount)).isEqualTo(2);
     }
 }

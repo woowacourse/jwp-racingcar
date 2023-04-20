@@ -26,9 +26,9 @@ public class GameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int saveGame(TrialCount trialCount) {
+    public int saveGame(int trialCount) {
         Map<String, Integer> parameters = new HashMap<>();
-        parameters.put("trial_count", trialCount.getTrialCount());
+        parameters.put("trial_count", trialCount);
         return (int) simpleJdbcInsert.executeAndReturnKeyHolder(parameters).getKeys().get("game_number");
     }
 

@@ -49,20 +49,20 @@ public class RacingGameService {
     }
 
     public GameResponseDto play(GameRequestDto gameRequestDto) {
-        Cars cars = Cars.of(gameRequestDto.getNames());
-        TrialCount trialCount = TrialCount.of(gameRequestDto.getCount());
-
-        int gameNumber = gameDao.saveGame(trialCount);
-        playMultipleTimes(cars, trialCount);
+        int gameNumber = gameDao.saveGame(gameRequestDto.getCount());
+        Cars cars = playGame(gameRequestDto.getNames(), gameRequestDto.getCount()).getCars();
         cars.saveGameLog(gameLogDao, gameNumber);
         cars.saveGameWinner(winnersDao, gameNumber);
         return new GameResponseDto(getWinners(cars), getCars(cars));
     }
 
-    public void playMultipleTimes(Cars cars, TrialCount trialCount) {
+    public GameResponseDto playGame(String names, int count) {
+        Cars cars = Cars.of(names);
+        TrialCount trialCount = TrialCount.of(count);
         for (int i = 0; i < trialCount.getTrialCount(); i++) {
             playOnce(cars);
         }
+        return new GameResponseDto(getWinners(cars), getCars(cars));
     }
 
     public void playOnce(Cars cars) {

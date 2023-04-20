@@ -1,7 +1,6 @@
 package racingcar.controller;
 
-import racingcar.domain.Cars;
-import racingcar.domain.TrialCount;
+import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -17,17 +16,21 @@ public class ConsoleController {
         this.racingGameService = new RacingGameService();
     }
 
-    public void run() {
-        String carNames = inputView.inputCarNames();
-        Cars cars = Cars.of(carNames);
-        TrialCount trialCount = TrialCount.of(inputView.inputTrialCount());
-        racingGameService.playMultipleTimes(cars, trialCount);
-        showResults(cars);
+    public void execute() {
+        try {
+            String carNames = inputView.inputCarNames();
+            int trialCount = inputView.inputTrialCount();
+            GameResponseDto gameResponse = racingGameService.playGame(carNames, trialCount);
+            showResults(gameResponse);
+        } catch (IllegalArgumentException exception) {
+            outputView.printErrorMessage(exception.getMessage());
+            execute();
+        }
     }
 
-    private void showResults(Cars cars) {
+    private void showResults(GameResponseDto gameResponse) {
         outputView.noticeResult();
-        outputView.printCars(racingGameService.getCars(cars));
-        outputView.printWinners(racingGameService.getWinners(cars));
+        outputView.printCars(racingGameService.getCars(gameResponse.getCars()));
+        outputView.printWinners(racingGameService.getWinners(gameResponse.getCars()));
     }
 }

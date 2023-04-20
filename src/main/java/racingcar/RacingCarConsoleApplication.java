@@ -6,6 +6,6 @@ public class RacingCarConsoleApplication {
 
     public static void main(String[] args) {
         ConsoleController gameController = new ConsoleController();
-        gameController.run();
+        gameController.execute();
     }
 }

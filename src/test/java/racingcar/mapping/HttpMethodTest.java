@@ -1,6 +1,7 @@
 package racingcar.mapping;
 
 import io.restassured.RestAssured;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,19 @@ public class HttpMethodTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @DisplayName("POST 에러 - 이름이  테스트")
+    @Test
+    void postInputError() {
+        GameRequestDto gameRequestDto = new GameRequestDto("", 10);
+
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(gameRequestDto)
+                .when().post("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value()).body(Matchers.is("[ERROR] 이름이 너무 짧습니다."));
     }
 
     @DisplayName("이력 조회 GET")
