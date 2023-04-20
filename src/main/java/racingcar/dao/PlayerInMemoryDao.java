@@ -13,8 +13,8 @@ public class PlayerInMemoryDao implements PlayerDao {
     private final Map<Long, Player> memory = new HashMap<>();
 
     @Override
-    public void insert(final String name, final int position, final long playResultId) {
-        memory.put(id, new Player(id++, playResultId, name, position));
+    public void insert(final long playResultId, final String name, final int position, boolean winner) {
+        memory.put(id, new Player(id++, playResultId, name, position, winner));
     }
 
     @Override

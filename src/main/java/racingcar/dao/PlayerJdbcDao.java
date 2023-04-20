@@ -16,9 +16,9 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
-    public void insert(final String name, final int position, final long playResultId) {
-        String sql = "insert into PLAYER (name, position, play_result_id) values (?, ?, ?)";
-        jdbcTemplate.update(sql, name, position, playResultId);
+    public void insert(final long playResultId, final String name, final int position, boolean winner) {
+        String sql = "insert into PLAYER (play_result_id, name, position, winner) values (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, playResultId, name, position, winner);
     }
 
     @Override
@@ -29,9 +29,10 @@ public class PlayerJdbcDao implements PlayerDao {
                 (resultSet, rowNum) -> {
                     final Player player = new Player(
                             resultSet.getLong("id"),
-                            resultSet.getLong("play_result_id"),
+                            playResultId,
                             resultSet.getString("name"),
-                            resultSet.getInt("position")
+                            resultSet.getInt("position"),
+                            resultSet.getBoolean("winner")
                     );
                     return player;
                 }, playResultId);

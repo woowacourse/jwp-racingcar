@@ -18,14 +18,12 @@ public class PlayResultJdbcDao implements PlayResultDao {
     }
 
     @Override
-    public long insert(final String winners, final int trialCount) {
-        String sql = "insert into PLAY_RESULT (winners, trial_count) values (?, ?)";
+    public long insert() {
+        String sql = "insert into PLAY_RESULT DEFAULT VALUES";
 
         final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setString(1, winners);
-            ps.setInt(2, trialCount);
             return ps;
         }, keyHolder);
         return keyHolder.getKey().longValue();
@@ -38,10 +36,7 @@ public class PlayResultJdbcDao implements PlayResultDao {
                 sql,
                 (resultSet, rowNum) -> {
                     final PlayResult playResult = new PlayResult(
-                            resultSet.getLong("id"),
-                            resultSet.getString("winners"),
-                            resultSet.getInt("trial_count"),
-                            resultSet.getTimestamp("created_at").toLocalDateTime()
+                            resultSet.getLong("id")
                     );
                     return playResult;
                 });

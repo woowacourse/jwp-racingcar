@@ -1,6 +1,5 @@
 package racingcar.model;
 
-import racingcar.dto.CarDto;
 import racingcar.strategy.RacingNumberGenerator;
 
 import java.util.List;

@@ -13,8 +13,8 @@ public class PlayResultInMemoryDao implements PlayResultDao{
     private static Long id = 0L;
     private final Map<Long, PlayResult> memory = new HashMap<>();
     @Override
-    public long insert(final String winners, final int trialCount) {
-        memory.put(id, new PlayResult(id++, winners, trialCount, LocalDateTime.now()));
+    public long insert() {
+        memory.put(id, new PlayResult(id++));
         return id - 1;
     }
 

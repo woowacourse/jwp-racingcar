@@ -38,7 +38,7 @@ public class CarService {
         final Car winner = cars.getWinner();
         final WinnerCarDto winnerCarDto =
                 new WinnerCarDto(convertToCarDto(cars.findWinnerCars(winner)), convertToCarDto(cars.findCars()));
-        save(gameDto, winnerCarDto);
+        save(winner, winnerCarDto);
         return winnerCarDto;
     }
 
@@ -48,9 +48,9 @@ public class CarService {
                 collect(Collectors.toList());
     }
 
-    private void save(final GameDto gameDto, final WinnerCarDto winner) {
-        final long id = insertPlayResult(gameDto, winner);
-        insertPlayers(winner, id);
+    private void save(final Car winner, final WinnerCarDto winnerCarDto) {
+        final long id = insertPlayResult();
+        insertPlayers(id, winner, winnerCarDto);
     }
 
     private Cars initGame(final GameDto gameDto) {
@@ -61,19 +61,20 @@ public class CarService {
         return cars;
     }
 
-    private void insertPlayers(final WinnerCarDto winner, final long id) {
-        winner.getRacingCars()
-                .forEach((carDto -> playerDao.insert(carDto.getName(), carDto.getPosition(), id)));
+    private void insertPlayers(final long playResultId, final Car winner, final WinnerCarDto winnerCarDto) {
+        winnerCarDto.getRacingCars()
+                .forEach((carDto -> playerDao.insert(playResultId,
+                        carDto.getName(),
+                        carDto.getPosition(),
+                        isWinner(winner.getPosition(), carDto.getPosition()))));
     }
 
-    private long insertPlayResult(final GameDto gameDto, final WinnerCarDto winner) {
-        final String winners = joinWinnerNames(winner);
-        final int trialCount = Integer.parseInt(gameDto.getCount());
-        return playResultDao.insert(winners, trialCount);
+    private boolean isWinner(int winnerPosition, int comparePosition) {
+        return winnerPosition == comparePosition;
     }
 
-    private String joinWinnerNames(final WinnerCarDto winner) {
-        return winner.winnerNames();
+    private long insertPlayResult() {
+        return playResultDao.insert();
     }
 
     private void race(final Cars cars, final Round round) {
@@ -113,13 +114,20 @@ public class CarService {
         final List<List<Player>> allPlayer = findAllPlayer(allPlayResult);
 
         for (int index = 0; index < allPlayResult.size(); index++) {
-            gameResponses.add(new GameResponse(allPlayResult.get(index).getWinners(),
+            gameResponses.add(new GameResponse(getWinners(allPlayer.get(index)),
                     convertToCarDto(allPlayer, index)));
         }
         return gameResponses;
     }
 
-    private static List<CarDto> convertToCarDto(final List<List<Player>> allPlayer, final int index) {
+    private String getWinners(final List<Player> allPlayer) {
+        return allPlayer.stream()
+                .filter(Player::isWinner)
+                .map(Player::getName)
+                .collect(Collectors.joining(","));
+    }
+
+    private List<CarDto> convertToCarDto(final List<List<Player>> allPlayer, final int index) {
         return allPlayer.get(index).stream()
                 .map(player -> new CarDto(player.getName(), player.getPosition())).collect(Collectors.toList());
     }
