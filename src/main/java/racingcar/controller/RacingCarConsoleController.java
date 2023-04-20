@@ -14,9 +14,9 @@ public class RacingCarConsoleController {
     private final OutputView outputView;
     private final RacingCarService racingCarService;
 
-    public RacingCarConsoleController(final InputView inputView, final OutputView outputView, final RacingCarService racingCarService) {
-        this.inputView = inputView;
-        this.outputView = outputView;
+    public RacingCarConsoleController(final RacingCarService racingCarService) {
+        this.inputView = new InputView();
+        this.outputView = new OutputView();
         this.racingCarService = racingCarService;
     }
 

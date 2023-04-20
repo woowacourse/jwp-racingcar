@@ -14,7 +14,7 @@ public class RacingCarConsoleApplication {
     public static void main(String[] args) {
         RacingCarRepository repository = new RacingCarRepository(new RacingCarGameInMemoryDao(), new PlayerInMemoryDao());
         RacingCarService racingCarService = new RacingCarService(new RandomNumberGenerator(), repository);
-        RacingCarConsoleController racingCarConsoleController = new RacingCarConsoleController(new InputView(), new OutputView(), racingCarService);
+        RacingCarConsoleController racingCarConsoleController = new RacingCarConsoleController(racingCarService);
         racingCarConsoleController.play();
     }
 }
