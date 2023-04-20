@@ -1,11 +1,14 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.controller.dto.GamePlayResponseDto;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.dto.GameFinishedCarDto;
 import racingcar.model.Cars;
 import racingcar.model.TryCount;
 import racingcar.util.NumberGenerator;
@@ -33,6 +36,14 @@ public class GameService {
     }
 
     public List<GamePlayResponseDto> getGamePlayHistory() {
-        return carDao.selectAll();
+        final Map<Integer, List<GameFinishedCarDto>> carsByGame = carDao.selectAll();
+
+        List<GamePlayResponseDto> gameHistory = new ArrayList<>();
+        for (Integer gameId : carsByGame.keySet()) {
+            final List<GameFinishedCarDto> cars = carsByGame.get(gameId);
+            final GamePlayResponseDto gameResult = new GamePlayResponseDto(cars);
+            gameHistory.add(gameResult);
+        }
+        return gameHistory;
     }
 }

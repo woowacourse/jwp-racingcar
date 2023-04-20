@@ -2,6 +2,7 @@ package racingcar.controller.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import racingcar.dao.dto.GameFinishedCarDto;
 import racingcar.model.Car;
 
 public class GamePlayResponseDto {
@@ -13,9 +14,20 @@ public class GamePlayResponseDto {
         this.racingCars = convert(racingCars);
     }
 
-    public GamePlayResponseDto() {
+    public GamePlayResponseDto(List<GameFinishedCarDto> cars) {
         this.winners = new ArrayList<>();
         this.racingCars = new ArrayList<>();
+
+        for (GameFinishedCarDto car : cars) {
+            addCarResult(car);
+        }
+    }
+
+    private void addCarResult(final GameFinishedCarDto car) {
+        racingCars.add(new CarDto(car.getName(), car.getPosition()));
+        if (car.isWinner()) {
+            winners.add(car.getName());
+        }
     }
 
     private List<CarDto> convert(List<Car> cars){

@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
-import racingcar.controller.dto.CarDto;
-import racingcar.controller.dto.GamePlayResponseDto;
+import racingcar.dao.dto.GameFinishedCarDto;
 import racingcar.model.Car;
 
 @Repository
@@ -33,36 +32,24 @@ public class InMemoryCarDao implements CarDao {
     }
 
     @Override
-    public List<GamePlayResponseDto> selectAll() {
+    public Map<Integer, List<GameFinishedCarDto>> selectAll() {
         String sql = "SELECT play_result_id, car_name, car_position, is_winner FROM CAR_RESULT";
 
         return jdbcTemplate.query(sql, getGamePlayResponseExtractor);
     }
 
-    private final ResultSetExtractor<List<GamePlayResponseDto>> getGamePlayResponseExtractor = resultSet -> {
-        final Map<Integer, GamePlayResponseDto> historyByGame = new HashMap<>();
+    private final ResultSetExtractor<Map<Integer, List<GameFinishedCarDto>>> getGamePlayResponseExtractor = resultSet -> {
+        final Map<Integer, List<GameFinishedCarDto>> carsByGame = new HashMap<>();
         while (resultSet.next()) {
             final int gameId = resultSet.getInt("play_result_id");
             final String carName = resultSet.getString("car_name");
             final int carPosition = resultSet.getInt("car_position");
             final boolean isWinner = resultSet.getBoolean("is_winner");
-            GamePlayResponseDto gameResult = getGameResult(historyByGame, gameId);
-            if (isWinner) {
-                gameResult.getWinners().add(carName);
-            }
-            final List<CarDto> racingCars = gameResult.getRacingCars();
-            racingCars.add(new CarDto(carName, carPosition));
-        }
-        return new ArrayList<>(historyByGame.values());
-    };
 
-    private GamePlayResponseDto getGameResult(final Map<Integer, GamePlayResponseDto> resultByGameId,
-                                              final int gameId) {
-        GamePlayResponseDto gameResult = resultByGameId.get(gameId);
-        if (gameResult == null) {
-            gameResult = new GamePlayResponseDto();
-            resultByGameId.put(gameId, gameResult);
+            final List<GameFinishedCarDto> cars = carsByGame.getOrDefault(gameId, new ArrayList<>());
+            cars.add(new GameFinishedCarDto(carName, carPosition, isWinner));
+            carsByGame.put(gameId, cars);
         }
-        return gameResult;
-    }
+        return carsByGame;
+    };
 }

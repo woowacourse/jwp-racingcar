@@ -28,7 +28,7 @@ Dto
 - [x] CAR_RESULT가 is_winner 컬럼을 갖도록 테이블 및 Dao 수정
   - CAR_RESULT가 is_winner 컬럼을 가짐으로써 조인이 필요 없어졌다. 게임 이력 조회의 책임 GameDao -> CarDao로 이동
 - [x] 콘솔 애플리케이션 만들기
-- [ ] Dao가 뷰에 전달할 DTO를 반환하지 않도록 수정
+- [x] Dao가 뷰에 전달할 DTO를 반환하지 않도록 수정
   - DB 로직이 뷰를 알고 있는 것!
 - [ ] Exception.class에 대한 ExceptionHandler도 생성하기
   - 어떤 에러 코드를 사용하면 좋을까?
@@ -39,6 +39,8 @@ Dto
 - [ ] 현재는 순수 자바 코드로 작성된 도메인 객체가 있고, 해당 도메인에서 유효성 검사가 이뤄지고 있다. 보통은 어떻게 유효성 검사를 할까?
 - [x] PLAY_RESULT의 winners column 제거
 - [ ] DB에 종속적이지 않은 테스트를 작성하는 방법
+- [ ] GamePlayResponseDto(View - Controller - Service 계층이 주고받는 Dto)의 생성자로 List<GameFinishedCarDto>(Service - Repository 계층이 주고받는 Dto)를 넘겨줘도 괜찮을까?
+  - GamePlayResponseDto 생성자 내에 데이터를 변환하는 로직이 생기는 것에 대해 의문이 생긴다. 하지만, 서비스에 두기에는 서비스의 코드가 지저분해지는 것 같다.
 
 ## 2단계 요구사항
 - [x] 게임 플레이 이력 조회 API 구현
