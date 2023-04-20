@@ -23,7 +23,10 @@ class RaceResultServiceIntegrationTest {
     @DisplayName("createRaceResult() : 게임 정보를 통해 새로운 게임을 만들 수 있다.")
     void test_createRaceResult() throws Exception {
         //given
-        final GameInfoRequest gameInfoRequest = new GameInfoRequest("a,b,c,d", 4);
+        final String input = "a,b,c,d";
+        final List<String> splitInput = List.of(input.split(","));
+
+        final GameInfoRequest gameInfoRequest = new GameInfoRequest(input, splitInput.size());
 
         //when
         final RaceResultResponse raceResult = raceResultService.createRaceResult(gameInfoRequest);
@@ -31,20 +34,23 @@ class RaceResultServiceIntegrationTest {
         //then
         final List<CarStatusResponse> racingCars = raceResult.getRacingCars();
 
-        assertThat(racingCars).hasSize(4)
+        assertThat(racingCars).hasSize(splitInput.size())
                               .extracting("name")
-                              .containsExactly("a", "b", "c", "d");
+                              .containsExactlyElementsOf(splitInput);
     }
 
     @Test
     @DisplayName("searchRaceResult() : 모든 경기 결과를 조회할 수 있다.")
     void test_searchRaceResult() throws Exception {
+        //given
+        final List<String> winnerResult = List.of("빙봉", "a,b,c,d");
+
         //when
         final List<RaceResultResponse> raceResultResponses = raceResultService.searchRaceResult();
 
         //then
         assertThat(raceResultResponses).extracting("winners")
-                                       .hasSize(2)
-                                       .containsExactly("빙봉", "a,b,c,d");
+                                       .hasSize(winnerResult.size())
+                                       .containsExactlyElementsOf(winnerResult);
     }
 }

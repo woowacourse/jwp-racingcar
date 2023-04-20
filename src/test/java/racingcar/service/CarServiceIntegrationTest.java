@@ -24,9 +24,9 @@ class CarServiceIntegrationTest {
     void test_registerCars() throws Exception {
         //given
         final RacingCars racingCars = RacingCars.makeCars("a,b,c");
-        final int savedId = 1;
+        final int savedRaceResultId = 3;
 
         //when & then
-        assertDoesNotThrow(() -> carService.registerCars(racingCars, 3));
+        assertDoesNotThrow(() -> carService.registerCars(racingCars, savedRaceResultId));
     }
 }
