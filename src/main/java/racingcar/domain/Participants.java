@@ -9,11 +9,34 @@ import racingcar.utils.NumberGenerator;
 
 public class Participants {
 
+    private final static int MIN_COUNT = 1;
+    private final static int MAX_COUNT = 5;
+
     private final List<Car> cars;
 
     public Participants(List<Car> cars) {
-        validateDuplication(cars);
+        validate(cars);
         this.cars = new ArrayList<>(cars);
+    }
+
+    private void validate(final List<Car> cars) {
+        validateSize(cars);
+        validateDuplication(cars);
+    }
+
+    private void validateSize(final List<Car> cars) {
+        if (cars.size() < MIN_COUNT || MAX_COUNT < cars.size()) {
+            throw new IllegalArgumentException("[ERROR] 올바르지 않은 참여자수입니다.(" + MIN_COUNT + "~" + MAX_COUNT + ")");
+        }
+    }
+
+    private void validateDuplication(final List<Car> cars) {
+        List<String> carNames = cars.stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+        if (carNames.stream().distinct().count() != carNames.size()) {
+            throw new IllegalArgumentException("[ERROR] 자동차 이름은 중복될 수 없습니다.");
+        }
     }
 
     public List<Car> getCars() {
@@ -32,16 +55,5 @@ public class Participants {
         return cars.stream()
                 .filter(car -> car.getDrivenDistance() == maxDistance)
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    private void validateDuplication(final List<Car> cars) {
-        final String DUPLICATE_CAR_NAME = "[ERROR] 자동차 이름은 중복될 수 없습니다.";
-
-        List<String> carNames = cars.stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
-        if (carNames.stream().distinct().count() != carNames.size()) {
-            throw new IllegalArgumentException(DUPLICATE_CAR_NAME);
-        }
     }
 }

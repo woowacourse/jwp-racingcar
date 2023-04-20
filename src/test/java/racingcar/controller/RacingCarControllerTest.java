@@ -10,8 +10,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -80,6 +83,42 @@ class RacingCarControllerTest {
                 .andExpect(jsonPath("$[1].winners").value("car3"))
                 .andExpect(jsonPath("$[1].racingCars", hasSize(1)))
                 .andExpect(jsonPath("$[1].racingCars[0].name").value("car3"));
+    }
 
+    @ValueSource(strings = {"", "123456"})
+    @ParameterizedTest
+    void 잘못된_자동차_이름길이(String name) throws Exception {
+        PlayRequest playRequest = new PlayRequest(List.of(name), 4);
+
+        performBadRequest(playRequest);
+    }
+
+    @ValueSource(ints = {0, 11})
+    @ParameterizedTest
+    void 잘못된_시도횟수(int count) throws Exception {
+        PlayRequest playRequest = new PlayRequest(List.of("애쉬"), count);
+
+        performBadRequest(playRequest);
+    }
+
+    @ValueSource(ints = {0, 6})
+    @ParameterizedTest
+    void 잘못된_참여자수(int playerSize) throws Exception {
+        List<String> playerNames = new ArrayList<>();
+        for (int i = 0; i < playerSize; i++) {
+            playerNames.add(Integer.toString(i));
+        }
+        PlayRequest playRequest = new PlayRequest(List.of("애쉬"), 5);
+
+        performBadRequest(playRequest);
+    }
+
+    private void performBadRequest(PlayRequest playRequest) throws Exception {
+        String request = objectMapper.writeValueAsString(playRequest);
+        given(racingCarService.play(any(PlayRequest.class))).willReturn(PlayResponse.of("애쉬", List.of()));
+        mockMvc.perform(post("/plays")
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 }
