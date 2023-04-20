@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.business.RacingGameService;
+import racingcar.domain.RacingGame;
 import racingcar.presentation.dto.GameResultResponse;
 import racingcar.presentation.dto.RacingGameRequest;
-import racingcar.domain.RacingGame;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,7 +36,7 @@ public final class WebRacingGameController {
 
     @GetMapping(path = "/plays")
     public ResponseEntity<List<GameResultResponse>> readRecords() {
-        List<RacingGame> allGames = racingGameService.makeGameRecords();
+        List<RacingGame> allGames = racingGameService.readAllGames();
         List<GameResultResponse> gameResultResponses = allGames.stream()
                 .map(ClientResponseConverter::toGameResultResponse)
                 .collect(Collectors.toList());

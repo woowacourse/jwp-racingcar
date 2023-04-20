@@ -2,10 +2,10 @@ package racingcar.business;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.presentation.dto.RacingGameRequest;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.persistence.repository.GameRepository;
+import racingcar.presentation.dto.RacingGameRequest;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class RacingGameService {
         );
     }
 
-    public List<RacingGame> makeGameRecords() {
+    public List<RacingGame> readAllGames() {
         List<RacingGame> allGames = racingGameRepository.selectAllGames();
         allGames.forEach(RacingGame::start);
         return allGames;

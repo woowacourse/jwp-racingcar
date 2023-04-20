@@ -4,10 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import racingcar.presentation.dto.RacingGameRequest;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.persistence.repository.RacingGameRepository;
+import racingcar.presentation.dto.RacingGameRequest;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ class RacingGameServiceTest {
         racingGameService.playRacingGame(firstRacingGameRequest);
         racingGameService.playRacingGame(secondRacingGameRequest);
 
-        List<RacingGame> allRacingGames1 = racingGameService.makeGameRecords();
+        List<RacingGame> allRacingGames1 = racingGameService.readAllGames();
         assertThat(allRacingGames1.size()).isEqualTo(2);
     }
 }
