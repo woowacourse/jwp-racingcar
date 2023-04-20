@@ -1,26 +1,29 @@
 package racingcar.controller;
 
+import racingcar.domain.*;
+import racingcar.dto.PositionOfCar;
+import racingcar.service.RacingCarService;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
+
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.Count;
-import racingcar.domain.RacingGame;
-import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.PositionOfCar;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
 
 public class RacingCarConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final RacingCarService racingCarService;
 
-    public RacingCarConsoleController(final InputView inputView, final OutputView outputView) {
+    public RacingCarConsoleController(
+            final InputView inputView,
+            final OutputView outputView,
+            final RacingCarService racingCarService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.racingCarService = racingCarService;
     }
 
     public void run() {
@@ -46,11 +49,9 @@ public class RacingCarConsoleController {
 
     private void play(final RacingGame racingGame) {
         outputView.printResultMessage();
-        while (racingGame.isPlayable()) {
-            racingGame.play();
-            final List<Car> cars = racingGame.getCurrentResult();
-            outputView.printPosition(conversionPositionOfCars(cars));
-        }
+        racingCarService.play(racingGame);
+        final List<Car> cars = racingGame.getCurrentResult();
+        outputView.printPosition(conversionPositionOfCars(cars));
     }
 
     private List<PositionOfCar> conversionPositionOfCars(final List<Car> cars) {
@@ -58,7 +59,6 @@ public class RacingCarConsoleController {
                 .map(PositionOfCar::from)
                 .collect(Collectors.toList());
     }
-
 
     private void findWinners(final RacingGame racingGame) {
         final List<String> winners = racingGame.findWinners();
