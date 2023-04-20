@@ -1,12 +1,12 @@
 package racingcar.controller;
 
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Lap;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.domain.WinnerMaker;
-import racingcar.dto.CarStatusDto;
+import racingcar.service.GameRunner;
+import racingcar.service.dto.GameResponseDto;
+import racingcar.service.dto.PlayerResultResponseDto;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -27,8 +27,8 @@ public class ConsoleRacingCarController {
         final Cars cars = initCars();
         final Lap lap = initTryCount();
         OutputView.printResultMessage();
-        race(cars, lap, numberGenerator);
-        prizeWinner(cars);
+        final GameResponseDto result = GameRunner.race(cars, lap, numberGenerator);
+        prizeWinner(result.getWinners());
         showFinalStatus(cars);
     }
 
@@ -57,28 +57,14 @@ public class ConsoleRacingCarController {
         }
     }
 
-    private void race(final Cars cars, final Lap lap, final NumberGenerator numberGenerator) {
-        while (!lap.isFinish()) {
-            cars.moveCars(numberGenerator);
-            lap.reduce();
-        }
-    }
-
-    private void prizeWinner(final Cars cars) {
-        final WinnerMaker winnerMaker = new WinnerMaker();
-        final List<String> winners = winnerMaker.getWinnerCarsName(cars.getLatestResult());
+    private void prizeWinner(final String winners) {
         OutputView.printFinalResult(winners);
     }
 
     private void showFinalStatus(final Cars cars) {
-        final List<Car> latestResult = cars.getLatestResult();
-        final List<CarStatusDto> carStatusDtos = mapCarsToCarStatuses(latestResult);
-        OutputView.printCarStatus(carStatusDtos);
-    }
-
-    private List<CarStatusDto> mapCarsToCarStatuses(final List<Car> cars) {
-        return cars.stream()
-                .map(car -> new CarStatusDto(car.getCarName(), car.getCurrentPosition()))
+        final List<PlayerResultResponseDto> playerResultResponseDtos = cars.getLatestResult().stream()
+                .map(PlayerResultResponseDto::createByDomain)
                 .collect(Collectors.toUnmodifiableList());
+        OutputView.printCarStatus(playerResultResponseDtos);
     }
 }

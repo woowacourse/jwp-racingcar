@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.service.GameService;
 import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
-import racingcar.service.GameService;
 
 import java.net.URI;
 import java.util.List;
@@ -29,7 +29,7 @@ public class WebRacingCarController {
 
     @PostMapping(value = "/plays", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GameResponseDto> playGame(@RequestBody GameRequestDto request) {
-        final GameResponseDto gameResponseDto = gameService.playGame(request);
+        final GameResponseDto gameResponseDto = gameService.createGameResult(request);
         return ResponseEntity.created(URI.create("/plays")).body(gameResponseDto);
     }
 

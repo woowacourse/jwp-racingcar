@@ -47,7 +47,7 @@ public class GameServiceTest {
                 .willReturn(new PlayerResult(2, new PlayerResult("leo", 3, game.getId())));
 
         // when
-        GameResponseDto gameResponseDto = gameService.playGame(requestDto);
+        GameResponseDto gameResponseDto = gameService.createGameResult(requestDto);
 
         // then
         assertThat(gameResponseDto.getWinners()).isEqualTo(game.getWinners());

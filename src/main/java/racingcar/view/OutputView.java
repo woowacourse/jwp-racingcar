@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import racingcar.dto.CarStatusDto;
+import racingcar.service.dto.PlayerResultResponseDto;
 
 import java.util.List;
 
@@ -16,17 +16,16 @@ public class OutputView {
         System.out.println("실행 결과");
     }
 
-    public static void printFinalResult(List<String> winnersName) {
-        String winnersResult = String.join(DELIMITER, winnersName);
-        System.out.println(WINNER + winnersResult);
+    public static void printFinalResult(String winners) {
+        System.out.println(WINNER + winners);
         System.out.println();
     }
 
-    public static void printCarStatus(List<CarStatusDto> carStatusDtos) {
+    public static void printCarStatus(List<PlayerResultResponseDto> playerResultResponseDtos) {
         System.out.println(RESULT);
-        carStatusDtos.forEach(carStatusDto -> {
-            final String name = carStatusDto.getName();
-            final int position = carStatusDto.getCurrentPosition();
+        playerResultResponseDtos.forEach(playerResultResponseDto -> {
+            final String name = playerResultResponseDto.getName();
+            final int position = playerResultResponseDto.getPosition();
             System.out.println(NAME + name + DELIMITER + POSITION + position);
         });
         System.out.println();

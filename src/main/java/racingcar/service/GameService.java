@@ -3,20 +3,17 @@ package racingcar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Lap;
-import racingcar.domain.NumberGenerator;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.domain.WinnerMaker;
-import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
-import racingcar.service.dto.GameRequestDto;
-import racingcar.service.dto.GameResponseDto;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
 import racingcar.repository.GameDao;
 import racingcar.repository.PlayerResultDao;
-import racingcar.util.ListJoiner;
+import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
+import racingcar.service.dto.GameRequestDto;
+import racingcar.service.dto.GameResponseDto;
+import racingcar.service.dto.PlayerResultResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,38 +36,33 @@ public class GameService {
     }
 
     @Transactional
-    public GameResponseDto playGame(final GameRequestDto request) {
+    public GameResponseDto createGameResult(final GameRequestDto request) {
+        final GameResponseDto response = playGame(request);
+        saveGameResult(request.getCount(), response);
+        return response;
+    }
+
+    private GameResponseDto playGame(final GameRequestDto request) {
         final Cars cars = new Cars(request.getNames());
         final Lap lap = new Lap(request.getCount());
-        race(cars, lap, new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER));
-        final List<String> winners = makeWinners(cars);
-        final Game game = saveGame(winners, request.getCount());
-        final List<PlayerResult> playerResults = savePlayerResults(cars, game);
-        return GameResponseDto.createByPlayerResult(game.getWinners(), playerResults);
+        return GameRunner.race(cars, lap, new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER));
     }
 
-    private void race(final Cars cars, final Lap lap, final NumberGenerator numberGenerator) {
-        while (!lap.isFinish()) {
-            cars.moveCars(numberGenerator);
-            lap.reduce();
-        }
+    private void saveGameResult(final int tryCount, final GameResponseDto response) {
+        final Game game = saveGame(response.getWinners(), tryCount);
+        final List<PlayerResult> playerResults = savePlayerResults(response, game.getId());
     }
 
-    private List<String> makeWinners(final Cars cars) {
-        final WinnerMaker winnerMaker = new WinnerMaker();
-        return winnerMaker.getWinnerCarsName(cars.getLatestResult());
-    }
-
-    private Game saveGame(final List<String> winners, final int trialCount) {
-        final Game game = new Game(trialCount, ListJoiner.join(winners));
+    private Game saveGame(final String winners, final int trialCount) {
+        final Game game = new Game(trialCount, winners);
         return gameDao.save(game);
     }
 
-    private List<PlayerResult> savePlayerResults(final Cars cars, final Game game) {
+    private List<PlayerResult> savePlayerResults(final GameResponseDto gameResponse, final long gameId) {
         final List<PlayerResult> playerResults = new ArrayList<>();
-        for (Car car : cars.getLatestResult()) {
+        for (PlayerResultResponseDto playerResultResponse : gameResponse.getRacingCars()) {
             final PlayerResult playerResult = new PlayerResult(
-                    car.getCarName().getName(), car.getCurrentPosition().getPosition(), game.getId());
+                    playerResultResponse.getName(), playerResultResponse.getPosition(), gameId);
             playerResults.add(playerResultDao.save(playerResult));
         }
         return playerResults;
