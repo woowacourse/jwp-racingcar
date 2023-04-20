@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest
-@Transactional
+@JdbcTest
 class GameDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -49,14 +48,13 @@ class GameDaoTest {
     @Test
     void findWinnersTest() {
         // given
-        jdbcGameDao.insert("jena2", 3);
-        jdbcGameDao.insert("odo3", 6);
+        int gameId = jdbcGameDao.insert("jena3", 3);
 
         // when
-        String winners = jdbcGameDao.findWinners(2);
+        String winners = jdbcGameDao.findWinners(gameId);
 
         // then
-        assertThat(winners).isEqualTo("odo3");
+        assertThat(winners).isEqualTo("jena3");
 
     }
 }
