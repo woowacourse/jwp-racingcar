@@ -9,7 +9,7 @@ public class InMemoryGameDao implements GameDao {
     private final List<PlayResultDto> playResultDtos = new ArrayList<>();
 
     @Override
-    public Long insertWithKeyHolder(int trialCount, List<String> winners) {
+    public Long insert(int trialCount, List<String> winners) {
         PlayResultDto playResultDto = new PlayResultDto(1, String.join(",", winners));
         playResultDtos.add(playResultDto);
         return 1L;

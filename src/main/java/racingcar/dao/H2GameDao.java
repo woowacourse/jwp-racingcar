@@ -19,7 +19,7 @@ public class H2GameDao implements GameDao {
     }
 
     @Override
-    public Long insertWithKeyHolder(int trialCount, List<String> winners) {
+    public Long insert(int trialCount, List<String> winners) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         final String sql = "INSERT INTO game (trialcount, winners) VALUES (?, ?)";
 

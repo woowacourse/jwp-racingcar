@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 class CarsTest {
     Cars cars = Cars.from(List.of("토리", "망고"));
 
-    @DisplayName("우승자의 이름을 Return")
+    @DisplayName("우승자의 이름을 반환할 수 있다.")
     @Test
     void Should_Winner_When_getWinnerMethod() {
-        assertThat(cars.getWinner()).isEqualTo(List.of("망고"));
+        assertThat(cars.getWinner()).isEqualTo(List.of("토리", "망고"));
     }
 }
