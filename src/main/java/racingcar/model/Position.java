@@ -14,10 +14,6 @@ public class Position implements Comparable<Position> {
         this.position = position;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
     public void move(RacingNumberGenerator generator) {
         if (isMovable(generator)) {
             position++;
@@ -48,5 +44,9 @@ public class Position implements Comparable<Position> {
     @Override
     public int hashCode() {
         return Objects.hash(position);
+    }
+
+    public int getPosition() {
+        return position;
     }
 }

@@ -2,7 +2,6 @@ package racingcar.dao;
 
 import racingcar.entity.PlayResult;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +11,7 @@ public class PlayResultInMemoryDao implements PlayResultDao{
 
     private static Long id = 0L;
     private final Map<Long, PlayResult> memory = new HashMap<>();
+
     @Override
     public long insert() {
         memory.put(id, new PlayResult(id++));

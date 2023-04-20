@@ -37,17 +37,17 @@ public class RacingGame {
                 .count();
     }
 
+    private List<Car> mapToCars(String[] carsName) {
+        return Arrays.stream(carsName)
+                .map(Car::new)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
     public void play() {
         int count = round.getRound();
         while (count-- > 0) {
             cars.race(racingNumberGenerator);
         }
-    }
-
-    private List<Car> mapToCars(String[] carsName) {
-        return Arrays.stream(carsName)
-                .map(Car::new)
-                .collect(Collectors.toUnmodifiableList());
     }
 
     public List<Car> getWinnerCars() {

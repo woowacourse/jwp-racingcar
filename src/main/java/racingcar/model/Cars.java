@@ -18,11 +18,9 @@ public class Cars {
     }
 
     public Car getWinner() {
-        Car winner = cars.stream()
+        return cars.stream()
                 .max(Car::compareTo)
                 .orElse(null);
-
-        return winner;
     }
 
     public List<Car> findWinnerCars(final Car winner) {

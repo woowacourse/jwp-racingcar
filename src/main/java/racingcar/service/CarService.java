@@ -40,11 +40,6 @@ public class CarService {
         final List<Car> winnerCars = racingGame.getWinnerCars();
         final List<Car> cars = racingGame.getCars();
 
-
-        for (Car car : cars) {
-            System.out.println(winnerCars.contains(car));
-        }
-
         cars.forEach(car -> playerDao.insert(id, car.getName(), car.getPosition(), winnerCars.contains(car)));
         return new WinnerCarDto(convertCarToCarDto(winnerCars), convertCarToCarDto(cars));
     }
