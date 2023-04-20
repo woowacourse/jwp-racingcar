@@ -3,7 +3,6 @@ jar { enabled = true }
 
 dependencies {
     implementation 'org.springframework:spring-tx'
-    implementation 'org.springframework:spring-context'
     api 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
