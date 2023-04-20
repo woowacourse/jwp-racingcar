@@ -44,13 +44,14 @@ class WebRacingGameControllerTest {
     @Test
     void 게임_진행() throws Exception {
         // given
+        GameRequest gameRequest = new GameRequest(List.of("허브,비버"), 4);
         GameResponse gameResponse = new GameResponse(List.of("허브"), List.of(
                 new PlayerDto("비버", 3),
                 new PlayerDto("허브", 4)));
 
         given(racingGameService.play(any(GameRequest.class)))
                 .willReturn(gameResponse);
-        final String request = objectMapper.writeValueAsString(gameResponse);
+        final String request = objectMapper.writeValueAsString(gameRequest);
 
         // expect
         mockMvc.perform(post("/plays")

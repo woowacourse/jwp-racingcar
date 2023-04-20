@@ -44,10 +44,10 @@ public class PlayerJdbcDaoTest {
         cars.race(numberGenerator);
 
         Game game = new Game(1);
-        final int gameId = gameDao.saveAndGetId(game).get();
+        Game saveGame = gameDao.saveAndGetGame(game);
 
         List<Player> players = cars.getCars().stream()
-                .map(car -> new Player(car, true, gameId))
+                .map(car -> new Player(car, true, saveGame.getId()))
                 .collect(Collectors.toList());
         // when
         playerDao.saveAll(players);
