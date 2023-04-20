@@ -17,11 +17,11 @@ class RacingCarGameTest {
     @DisplayName("게임 시도 횟수 만큼 자동차가 전진한다")
     @Test
     void playRoundsTest() {
-        int roundCount = 2;
+        int trialCount = 2;
         Car carA = CarFixtureFactory.getCarWithName("carA");
         Car carB = CarFixtureFactory.getCarWithName("carB");
         Cars cars = new Cars(List.of(carA, carB));
-        RacingCarGame racingCarGame = new RacingCarGame(cars, roundCount);
+        RacingCarGame racingCarGame = new RacingCarGame(cars, new TrialCount(trialCount));
         RacingCarNumberGenerator scheduledNumberGenerator =
                 new ScheduledNumberGenerator(STOP_NUMBER, MOVE_NUMBER, STOP_NUMBER, MOVE_NUMBER);
 
@@ -34,12 +34,12 @@ class RacingCarGameTest {
     @DisplayName("게임 결과에 따라 승리한 자동차를 반환 한다.")
     @Test
     void winnerCarsTest() {
-        int roundCount = 2;
+        int trialCount = 2;
         Car carA = CarFixtureFactory.getCarWithNameAndStep("carA", 1);
         Car carB = CarFixtureFactory.getCarWithNameAndStep("carB", 3);
         Car carC = CarFixtureFactory.getCarWithNameAndStep("carC", 3);
         Cars cars = new Cars(List.of(carA, carB, carC));
-        RacingCarGame racingCarGame = new RacingCarGame(cars, roundCount);
+        RacingCarGame racingCarGame = new RacingCarGame(cars, new TrialCount(trialCount));
 
         Cars winnerCars = racingCarGame.winnerCars();
 

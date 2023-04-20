@@ -1,27 +1,24 @@
 package racing.console.ui.input;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
-    private InputView() {
-    }
-
     private static final String INPUT_CAR_NAME = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
     private static final String INPUT_COUNT = "시도할 회수는 몇회인가요?";
 
-    static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
-    public static String inputCarsName() {
+    public List<String> readCarNames() {
         System.out.println(INPUT_CAR_NAME);
-        return sc.next();
+        String carNames = sc.nextLine();
+
+        return List.of(carNames.split(","));
     }
 
-    public static int inputCount() {
+    public String readTrialCount() {
         System.out.println(INPUT_COUNT);
-        String inputCount = sc.next();
-
-        InputVerifier.checkInputTypeIsNumber(inputCount);
-        return Integer.parseInt(inputCount);
+        return sc.nextLine();
     }
 }

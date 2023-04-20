@@ -17,9 +17,6 @@ public class Car {
         this.step = step;
     }
 
-    public void moveForward() {
-    }
-
     public void moveForwardByNumber(int number) {
         if (number >= MOVE_FORWARD_STANDARD) {
             this.step += 1;
