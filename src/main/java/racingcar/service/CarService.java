@@ -10,7 +10,6 @@ import racingcar.dto.WinnerCarDto;
 import racingcar.entity.PlayResult;
 import racingcar.entity.Player;
 import racingcar.exception.BadRequestException;
-import racingcar.exception.ExceptionMessage;
 import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.strategy.RacingNumberGenerator;
@@ -91,7 +90,7 @@ public class CarService {
 
     private void checkDuplication(String[] carsName) {
         if (getDistinctCarsCount(carsName) != carsName.length) {
-            throw new BadRequestException(ExceptionMessage.DUPLICATE_CAR_NAME);
+            throw new BadRequestException("이름은 중복될 수 없습니다.");
         }
     }
 

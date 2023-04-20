@@ -1,7 +1,6 @@
 package racingcar.model;
 
 import racingcar.exception.BadRequestException;
-import racingcar.exception.ExceptionMessage;
 
 public class Name {
 
@@ -17,10 +16,10 @@ public class Name {
 
     private void validateName(String name) {
         if (name.isBlank()) {
-            throw new BadRequestException(ExceptionMessage.BLANK_NAME);
+            throw new BadRequestException("이름은 공백일 수 없습니다.");
         }
         if (!validateLength(name)) {
-            throw new BadRequestException(ExceptionMessage.WRONG_NAME_LENGTH);
+            throw new BadRequestException("1 ~ 5글자 사이의 이름을 입력해주세요.");
         }
     }
 
