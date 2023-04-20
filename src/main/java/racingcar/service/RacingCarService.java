@@ -4,11 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.Count;
 import racingcar.domain.RacingCarGame;
-import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
 import racingcar.repository.RacingCarRepository;
@@ -33,7 +31,7 @@ public class RacingCarService {
         racingCarGame.play(numberGenerator);
         racingCarRepository.save(racingCarGame);
 
-        return new ResultResponseDto(getWinners(racingCarGame), carsToPlayerDtos(racingCarGame));
+        return ResultResponseDto.of(racingCarGame);
     }
 
     public List<ResultResponseDto> readGameResultAll() {
@@ -44,17 +42,5 @@ public class RacingCarService {
         return Arrays.stream(racingGameRequestDto.getNames().split(","))
             .map(String::trim)
             .collect(Collectors.toList());
-    }
-
-    private String getWinners(RacingCarGame racingCarGame) {
-        return racingCarGame.findWinners().getAll().stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(","));
-    }
-
-    private List<PlayerDto> carsToPlayerDtos(RacingCarGame racingCarGame) {
-        return racingCarGame.getCars().getAll().stream()
-                .map(car -> new PlayerDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
     }
 }
