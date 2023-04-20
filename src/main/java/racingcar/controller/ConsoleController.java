@@ -1,39 +1,60 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.GameResponseDto;
+import racingcar.dao.RacingCarDao;
+import racingcar.dao.RacingGameDao;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-@Component
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class ConsoleController {
 
-    private final InputView inputView;
-    private final OutputView outputView;
-    private final RacingCarService racingCarService;
-
-    @Autowired
-    public ConsoleController(RacingCarService racingCarService) {
-        this.inputView = new InputView(System.in);
-        this.outputView = new OutputView();
-        this.racingCarService = racingCarService;
+    public static void main(String[] args) {
+        InputView inputView1 = new InputView(System.in);
+        OutputView outputView1 = new OutputView();
+        try {
+            JdbcTemplate jdbcTemplate = getConnection();
+            RacingCarService racingCarService1 = new RacingCarService(new RacingGameDao(jdbcTemplate), new RacingCarDao(jdbcTemplate));
+            GameResponseDto plays = racingCarService1.plays(new GameRequestDtoForPlays(inputView1.requestCarNames(), inputView1.requestNumberOfTimes()));
+            outputView1.printResult(plays);
+        } catch (Exception exception) {
+            outputView1.printErrorMessage(exception);
+        }
     }
 
-    public void plays() {
-        try {
-            GameRequestDtoForPlays gameRequestDtoForPlays = new GameRequestDtoForPlays(
-                    inputView.requestCarNames(),
-                    inputView.requestNumberOfTimes()
-            );
+    public static JdbcTemplate getConnection() throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:h2:mem:testdb;MODE=MySQL");
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(
+                new SingleConnectionDataSource(connection, false)
+        );
+        createTable(jdbcTemplate);
+        return jdbcTemplate;
+    }
 
-            GameResponseDto gameResponseDto = racingCarService.plays(gameRequestDtoForPlays);
-            outputView.printResult(gameResponseDto);
-        } catch (IllegalArgumentException exception) {
-            outputView.printErrorMessage(exception);
-        }
+    public static void createTable(JdbcTemplate jdbcTemplate) {
+        jdbcTemplate.execute(
+                "CREATE TABLE GAME (\n" +
+                "id                  INT         NOT NULL AUTO_INCREMENT,\n" +
+                "count               INT         NOT NULL,\n" +
+                "winners             VARCHAR(50) NOT NULL,\n" +
+                "created_at          DATETIME    NOT NULL,\n" +
+                "PRIMARY KEY (id));");
+
+        jdbcTemplate.execute(
+                "CREATE TABLE CAR (\n" +
+                "id                  INT         NOT NULL AUTO_INCREMENT,\n" +
+                "name                VARCHAR(50) NOT NULL,\n" +
+                "position            INT         NOT NULL,\n" +
+                "game_id      INT         NOT NULL,\n" +
+                "PRIMARY KEY (id), " +
+                "CONSTRAINT `car_ibfk_1` FOREIGN KEY (game_id) REFERENCES GAME (id) ON DELETE CASCADE);");
     }
 
 }
