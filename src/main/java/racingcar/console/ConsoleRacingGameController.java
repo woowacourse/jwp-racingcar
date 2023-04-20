@@ -1,4 +1,4 @@
-package racingcar.controller;
+package racingcar.console;
 
 import racingcar.api.dto.request.CarGameRequest;
 import racingcar.api.dto.response.GameResponse;

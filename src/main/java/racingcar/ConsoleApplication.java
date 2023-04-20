@@ -1,6 +1,6 @@
 package racingcar;
 
-import racingcar.controller.ConsoleRacingGameController;
+import racingcar.console.ConsoleRacingGameController;
 import racingcar.domain.CarRandomNumberGenerator;
 import racingcar.repository.console.ConsoleCarRepository;
 import racingcar.repository.console.ConsoleGameRepository;

@@ -9,20 +9,23 @@ import java.util.stream.Collectors;
 public class CarGameRequest {
 
     @NotNull
-    private final List<String> names;
+    private String names;
 
     @Positive
-    private final Integer count;
+    private Integer count;
+
+    public CarGameRequest() {
+    }
 
     public CarGameRequest(String names, Integer count) {
         this.names = trimName(names);
         this.count = count;
     }
 
-    private List<String> trimName(String names) {
+    private String trimName(String names) {
         return Arrays.stream(names.split(","))
                 .map(String::strip)
-                .collect(Collectors.toList());
+                .collect(Collectors.joining(","));
     }
 
     public int getCount() {
@@ -30,6 +33,7 @@ public class CarGameRequest {
     }
 
     public List<String> getNames() {
-        return names;
+        return Arrays.stream(names.split(","))
+                .collect(Collectors.toList());
     }
 }
