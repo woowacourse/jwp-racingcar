@@ -11,11 +11,9 @@ import java.util.Map;
 
 @Repository
 public class H2WinnerRepository implements WinnerRepository {
-    private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
     public H2WinnerRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("winner")
                 .usingGeneratedKeyColumns("id");
