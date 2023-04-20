@@ -13,8 +13,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
-import racingcar.utils.NumberGenerator;
-import racingcar.utils.RandomNumberGenerator;
 
 @JdbcTest
 class PlayerDaoTest {
@@ -26,13 +24,10 @@ class PlayerDaoTest {
 
     private PlayerDao playerDao;
 
-    private NumberGenerator numberGenerator;
-
     @BeforeEach
     void setUp() {
         playerDao = new PlayerDao(jdbcTemplate);
         gameDao = new GameDao(jdbcTemplate);
-        numberGenerator = new RandomNumberGenerator();
     }
 
     @AfterEach
@@ -43,12 +38,12 @@ class PlayerDaoTest {
 
     @Test
     void 플레이어를_저장한다() {
-        int gameId = gameDao.insert(Game.of(List.of(new Car("허브", numberGenerator)), 4)).intValue();
+        int gameId = gameDao.insert(Game.of(List.of(new Car("허브")), 4)).intValue();
 
         List<Player> players = List.of(
-                Player.of(new Car("허브", numberGenerator), gameId),
-                Player.of(new Car("비버", numberGenerator), gameId),
-                Player.of(new Car("애쉬", numberGenerator), gameId)
+                Player.of(new Car("허브"), gameId),
+                Player.of(new Car("비버"), gameId),
+                Player.of(new Car("애쉬"), gameId)
         );
 
         playerDao.insert(players);
@@ -60,17 +55,17 @@ class PlayerDaoTest {
 
     @Test
     void 저장된_플레이어_정보를_불러온다() {
-        int gameId1 = gameDao.insert(Game.of(List.of(new Car("car1", numberGenerator)), 4)).intValue();
+        int gameId1 = gameDao.insert(Game.of(List.of(new Car("car1")), 4)).intValue();
         List<Player> players1 = List.of(
-                Player.of(new Car("car1", numberGenerator), gameId1),
-                Player.of(new Car("car2", numberGenerator), gameId1),
-                Player.of(new Car("car3", numberGenerator), gameId1)
+                Player.of(new Car("car1"), gameId1),
+                Player.of(new Car("car2"), gameId1),
+                Player.of(new Car("car3"), gameId1)
         );
 
-        int gameId2 = gameDao.insert(Game.of(List.of(new Car("car4", numberGenerator)), 4)).intValue();
+        int gameId2 = gameDao.insert(Game.of(List.of(new Car("car4")), 4)).intValue();
         List<Player> players2 = List.of(
-                Player.of(new Car("car4", numberGenerator), gameId2),
-                Player.of(new Car("car5", numberGenerator), gameId2)
+                Player.of(new Car("car4"), gameId2),
+                Player.of(new Car("car5"), gameId2)
         );
         playerDao.insert(players1);
         playerDao.insert(players2);

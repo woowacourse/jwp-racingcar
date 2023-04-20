@@ -1,34 +1,31 @@
 package racingcar.domain;
 
-import racingcar.utils.NumberGenerator;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.utils.NumberGenerator;
 
 public class Race {
 
     private final static int MIN_COUNT = 1;
     private final static int MAX_COUNT = 999_999_999;
-    
+
     private final int totalCount;
-    private int currentCount = 0;
     private final Participants participants;
+    private final NumberGenerator numberGenerator;
+    private int currentCount = 0;
 
     public Race(final int totalCount, final List<String> carNames, NumberGenerator numberGenerator) {
         validateRange(totalCount);
         this.totalCount = totalCount;
+        this.numberGenerator = numberGenerator;
         List<Car> cars = carNames.stream()
-            .map(carName -> generateCar(carName, numberGenerator))
-            .collect(Collectors.toList());
-        this.participants = new Participants(cars, numberGenerator);
-    }
-
-    private Car generateCar(String carName, NumberGenerator numberGenerator) {
-        return new Car(carName, numberGenerator);
+                .map(Car::new)
+                .collect(Collectors.toList());
+        this.participants = new Participants(cars);
     }
 
     public void playRound() {
-        participants.drive();
+        participants.drive(numberGenerator);
         addCount();
     }
 

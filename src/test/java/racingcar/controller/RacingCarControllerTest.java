@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,8 +20,6 @@ import racingcar.domain.Car;
 import racingcar.dto.PlaysRequest;
 import racingcar.dto.PlaysResponse;
 import racingcar.service.RacingCarService;
-import racingcar.utils.NumberGenerator;
-import racingcar.utils.RandomNumberGenerator;
 
 @WebMvcTest
 class RacingCarControllerTest {
@@ -36,18 +33,11 @@ class RacingCarControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private NumberGenerator numberGenerator;
-
-    @BeforeEach
-    void setUp() {
-        numberGenerator = new RandomNumberGenerator();
-    }
-
     @Test
     void 컨트롤러_테스트() throws Exception {
         PlaysResponse response = PlaysResponse.of(
                 "car2",
-                List.of(new Car("car1", numberGenerator), new Car("car2", numberGenerator)));
+                List.of(new Car("car1"), new Car("car2")));
 
         given(racingCarService.play(any(PlaysRequest.class)))
                 .willReturn(response);

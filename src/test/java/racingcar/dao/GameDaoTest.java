@@ -12,8 +12,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Car;
 import racingcar.entity.Game;
-import racingcar.utils.NumberGenerator;
-import racingcar.utils.RandomNumberGenerator;
 
 @JdbcTest
 class GameDaoTest {
@@ -23,12 +21,9 @@ class GameDaoTest {
 
     private GameDao gameDao;
 
-    private NumberGenerator numberGenerator;
-
     @BeforeEach
     void setUp() {
         gameDao = new GameDao(jdbcTemplate);
-        numberGenerator = new RandomNumberGenerator();
     }
 
     @AfterEach
@@ -39,7 +34,7 @@ class GameDaoTest {
 
     @Test
     void 게임을_저장한다() {
-        Game game = Game.of(List.of(new Car("car1", numberGenerator), new Car("car2", numberGenerator)), 10);
+        Game game = Game.of(List.of(new Car("car1"), new Car("car2")), 10);
 
         Long id = gameDao.insert(game);
 
@@ -48,8 +43,8 @@ class GameDaoTest {
 
     @Test
     void 저장된_게임_정보를_불러온다() {
-        Game game1 = Game.of(List.of(new Car("car1", numberGenerator), new Car("car2", numberGenerator)), 5);
-        Game game2 = Game.of(List.of(new Car("car3", numberGenerator), new Car("car4", numberGenerator)), 10);
+        Game game1 = Game.of(List.of(new Car("car1"), new Car("car2")), 5);
+        Game game2 = Game.of(List.of(new Car("car3"), new Car("car4")), 10);
         gameDao.insert(game1);
         gameDao.insert(game2);
 

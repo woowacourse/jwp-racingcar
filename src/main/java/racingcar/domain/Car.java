@@ -11,21 +11,19 @@ public class Car {
 
     private final CarName name;
     private int drivenDistance = 0;
-    private final NumberGenerator numberGenerator;
 
-    public Car(final String name, NumberGenerator numberGenerator) {
+    public Car(final String name) {
         this.name = new CarName(name);
-        this.numberGenerator = numberGenerator;
     }
 
-    public void drive() {
-        int number = chooseNumber();
+    public void drive(NumberGenerator numberGenerator) {
+        int number = chooseNumber(numberGenerator);
         if (number >= MOVING_STANDARD) {
             drivenDistance += DRIVING_DISTANCE;
         }
     }
 
-    private int chooseNumber() {
+    private int chooseNumber(NumberGenerator numberGenerator) {
         int number = numberGenerator.generate();
         validateNumber(number);
         return number;
