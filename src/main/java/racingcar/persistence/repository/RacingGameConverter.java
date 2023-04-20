@@ -9,21 +9,21 @@ import racingcar.persistence.entity.PlayerResultEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DomainConverter {
+public class RacingGameConverter {
 
-    public List<RacingGame> join(
+    public List<RacingGame> convertAll(
             final List<GameResultEntity> gameResults,
             final List<PlayerResultEntity> playerResults
     ) {
         return gameResults.stream()
                 .map(gameResult -> new RacingGame(
-                        collectCar(playerResults, gameResult.getId()),
+                        collectCarNames(playerResults, gameResult.getId()),
                         gameResult.getTrialCount(),
                         new RandomNumberGenerator()
                 )).collect(Collectors.toList());
     }
 
-    private List<String> collectCar(
+    private List<String> collectCarNames(
             final List<PlayerResultEntity> playerResults,
             final int gameResultId
     ) {
