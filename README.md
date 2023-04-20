@@ -72,7 +72,7 @@ erDiagram
 - [ ] `/plays`로 GET 요청을 받는 API 구현
 
 ### 2. 기존 기능 수정 - 출력 방식 수정
-- [ ] console application에 해당하는 코드 다시 가져오기
+- [x] console application에 해당하는 코드 다시 가져오기
 - [ ] console application에서 플레이의 중간 과정을 출력하는 로직 제거
 - [ ] web application과 동일하게 우승자와 player 별 최종 이동거리를 출력하도록 수정
 
