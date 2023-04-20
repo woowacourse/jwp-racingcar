@@ -20,7 +20,7 @@ public class H2RacingCarDao implements RacingCarDao {
     }
 
     @Override
-    public long saveWinners(final int count, final String winners) {
+    public Long saveWinners(final int count, final String winners) {
         String sql = "INSERT INTO play_result(winners, trial_count) VALUES (?, ?)";
         final GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 

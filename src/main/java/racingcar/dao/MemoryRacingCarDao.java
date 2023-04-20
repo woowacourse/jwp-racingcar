@@ -10,9 +10,9 @@ public final class MemoryRacingCarDao implements RacingCarDao {
     private List<Car> cars;
 
     @Override
-    public long saveWinners(final int count, final String winners) {
+    public Long saveWinners(final int count, final String winners) {
         this.winners = winners;
-        return 1L;
+        return null;
     }
 
     @Override
@@ -22,7 +22,7 @@ public final class MemoryRacingCarDao implements RacingCarDao {
 
     @Override
     public List<GameResultDto> findAllResult() {
-        return List.of(new GameResultDto(1L, winners));
+        return List.of(new GameResultDto(null, winners));
     }
 
     @Override
