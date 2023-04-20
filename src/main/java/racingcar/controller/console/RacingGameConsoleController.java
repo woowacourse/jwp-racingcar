@@ -1,5 +1,6 @@
 package racingcar.controller.console;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,19 +35,18 @@ public final class RacingGameConsoleController {
 	}
 
 	private void playGameAndSave () {
-		final Cars cars = inputCarsWithValidation();
+		final List<String> carNames = inputCarsNameWithValidation();
 		final TryCount count = inputTryCountWithValidation();
-		GameResultResponseDto gameResultResponseDto = racingCarService.startRace(
-				cars.getCars().stream().map(Car::getCarName).collect(Collectors.toList()), count);
+		GameResultResponseDto gameResultResponseDto = racingCarService.startRace(carNames, count);
 		outputView.printResult(gameResultResponseDto);
 	}
 
-	private Cars inputCarsWithValidation () {
+	private List<String> inputCarsNameWithValidation () {
 		Optional<Cars> cars = null;
 		do {
 			cars = inputCarsHandlingException();
 		} while (cars.isEmpty());
-		return cars.get();
+		return cars.get().getCars().stream().map(Car::getCarName).collect(Collectors.toList());
 	}
 
 	private Optional<Cars> inputCarsHandlingException () {
@@ -57,6 +57,8 @@ public final class RacingGameConsoleController {
 			return Optional.empty();
 		}
 	}
+
+	경
 
 	private TryCount inputTryCountWithValidation () {
 		Optional<TryCount> tryCount = null;
