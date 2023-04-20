@@ -1,10 +1,10 @@
 package racingcar.db;
 
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
+import racingcar.domain.Car;
+import racingcar.domain.TryCount;
 import racingcar.dto.GameWinnerDto;
-import racingcar.dto.response.GameResponse;
+import racingcar.dto.GameResultDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,22 +20,22 @@ public class RacingGameJdbcRepository implements RacingGameRepository {
     }
 
     @Override
-    public void saveGame(GameResultDto resultDto) {
-        int id = gameResultDao.save(resultDto);
-        resultCarDao.save(id, resultDto.getRacingCars());
+    public void saveGame(TryCount tryCount, String winners, List<Car> cars) {
+        int id = gameResultDao.save(tryCount, winners, cars);
+        resultCarDao.save(id, cars);
     }
 
     @Override
-    public List<GameResponse> findAllGame() {
-        List<GameResponse> gameResponses = new ArrayList<>();
+    public List<GameResultDto> findAllGameResult() {
+        List<GameResultDto> gameResults = new ArrayList<>();
 
-        List<GameWinnerDto> gameWinners = gameResultDao.selectAllGame();
+        List<GameWinnerDto> gameWinners = gameResultDao.selectAllGameResult();
         for (GameWinnerDto gameWinner : gameWinners) {
-            List<CarDto> cars = resultCarDao.findByGameId(gameWinner.getGameId());
-            gameResponses.add(new GameResponse(gameWinner.getWinners(), cars));
+            List<Car> cars = resultCarDao.findByGameId(gameWinner.getGameId());
+            gameResults.add(new GameResultDto(gameWinner.getWinners(), cars));
         }
 
-        return gameResponses;
+        return gameResults;
     }
 
     @Override

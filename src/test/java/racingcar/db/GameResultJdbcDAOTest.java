@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
+import racingcar.domain.Car;
+import racingcar.domain.Name;
+import racingcar.domain.TryCount;
 import racingcar.dto.GameWinnerDto;
 
 import java.util.List;
@@ -34,11 +35,7 @@ class GameResultJdbcDAOTest {
     @DisplayName("게임 결과를 저장할 수 있다.")
     @Test
     void saveGameResultTest() {
-        GameResultDto gameResultDto = new GameResultDto(5, "dochi",
-                List.of(new CarDto("dochi", 4))
-        );
-
-        int id = gameResultJdbcDAO.save(gameResultDto);
+        int id = gameResultJdbcDAO.save(new TryCount(5), "dochi", List.of(new Car(new Name("dochi"), 4)));
 
         assertThat(id)
                 .isEqualTo(1);
@@ -46,18 +43,17 @@ class GameResultJdbcDAOTest {
 
     @Test
     void findGame_when_not_exist() {
-        List<GameWinnerDto> gameWinners = gameResultJdbcDAO.selectAllGame();
+        List<GameWinnerDto> gameWinners = gameResultJdbcDAO.selectAllGameResult();
         assertThat(gameWinners).isEmpty();
     }
 
     @Test
     void findGame_success() {
-        GameResultDto gameResultDto = new GameResultDto(5, "dochi", List.of(new CarDto("dochi", 4)));
-        gameResultJdbcDAO.save(gameResultDto);
+        gameResultJdbcDAO.save(new TryCount(5), "dochi", List.of(new Car(new Name("dochi"), 4)));
 
-        List<GameWinnerDto> gameWinners = gameResultJdbcDAO.selectAllGame();
+        List<GameWinnerDto> gameWinners = gameResultJdbcDAO.selectAllGameResult();
         assertThat(gameWinners.get(0))
                 .usingRecursiveComparison()
-                .comparingOnlyFields("winners");
+                .isEqualTo(new GameWinnerDto(1, "dochi"));
     }
 }

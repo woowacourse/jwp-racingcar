@@ -5,6 +5,7 @@ import racingcar.dto.CarDto;
 import racingcar.exception.BusinessArgumentException;
 import racingcar.exception.ErrorCode;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,10 +38,8 @@ public class Cars {
         return String.join(",", winnerNames);
     }
 
-    public List<CarDto> getCars() {
-        return cars.stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toUnmodifiableList());
+    public List<Car> getCars() {
+        return Collections.unmodifiableList(this.cars);
     }
 
     private int getMaxPosition() {

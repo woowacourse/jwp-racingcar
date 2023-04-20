@@ -6,7 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.dto.GameResultDto;
+import racingcar.domain.Car;
+import racingcar.domain.TryCount;
 import racingcar.dto.GameWinnerDto;
 
 import java.sql.PreparedStatement;
@@ -22,21 +23,21 @@ public class GameResultJdbcDAO implements GameResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int save(GameResultDto resultDto) {
+    public int save(TryCount tryCount, String winners, List<Car> cars) {
         String sql = "insert into GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update((connection) -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"game_id"});
-            preparedStatement.setString(1, resultDto.getWinners());
-            preparedStatement.setInt(2, resultDto.getTrialCount());
+            preparedStatement.setString(1, winners);
+            preparedStatement.setInt(2, tryCount.getCount());
             return preparedStatement;
         }, keyHolder);
 
         return keyHolder.getKey().intValue();
     }
 
-    public List<GameWinnerDto> selectAllGame() {
+    public List<GameWinnerDto> selectAllGameResult() {
         String sql = "select game_id,winners from GAME_RESULT";
         try {
             return jdbcTemplate.query(sql, (rs, rowNum) -> new GameWinnerDto(rs.getInt("game_id"), rs.getString("winners")));

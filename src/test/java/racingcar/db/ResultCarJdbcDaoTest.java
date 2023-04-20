@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.CarDto;
+import racingcar.domain.Car;
+import racingcar.domain.Name;
 
 import java.util.List;
 
@@ -31,14 +32,14 @@ class ResultCarJdbcDaoTest {
 
     @Test
     void save_result_car__fail_when_game_referenceKey_not_exist() {
-        assertThatThrownBy(() -> resultCarDao.save(50, List.of(new CarDto("aaa", 5))))
+        assertThatThrownBy(() -> resultCarDao.save(50, List.of(new Car(new Name("aaa"), 5))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR]: 존재하지 않는 게임입니다.");
     }
 
     @Test
     void find_car_when_not_exist() {
-        List<CarDto> cars = resultCarDao.findByGameId(77);
+        List<Car> cars = resultCarDao.findByGameId(77);
         assertThat(cars).isEmpty();
     }
 }

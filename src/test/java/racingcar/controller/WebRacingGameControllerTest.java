@@ -8,9 +8,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import racingcar.dto.CarDto;
+import racingcar.domain.Car;
+import racingcar.domain.Name;
 import racingcar.dto.request.GameRequest;
-import racingcar.dto.response.GameResponse;
+import racingcar.dto.GameResultDto;
 import racingcar.service.RacingGameService;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class WebRacingGameControllerTest {
     void playGameSuccessTest() throws Exception {
         //given
         GameRequest request = new GameRequest("브리,브라운", 10);
-        GameResponse response = new GameResponse("브라운",
-                List.of(new CarDto("브리", 7), new CarDto("브라운", 8)));
+        GameResultDto response = new GameResultDto("브라운",
+                List.of(new Car(new Name("브리"), 7), new Car(new Name("브라운"), 8)));
 
         //when
         doReturn(response)

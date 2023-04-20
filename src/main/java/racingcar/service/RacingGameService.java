@@ -3,10 +3,10 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.db.RacingGameRepository;
+import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.dto.CarDto;
+import racingcar.domain.TryCount;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.response.GameResponse;
 
 import java.util.List;
 
@@ -19,17 +19,17 @@ public class RacingGameService {
         this.racingGameRepository = racingGameRepository;
     }
 
-    public GameResponse saveGamePlay(String names, int tryCount) {
+    public GameResultDto saveGamePlay(String names, int tryCount) {
         RacingGame racingGame = new RacingGame(names);
         racingGame.moveCars(tryCount);
         String winners = racingGame.decideWinners();
-        List<CarDto> resultCars = racingGame.getCars();
+        List<Car> resultCars = racingGame.getCars();
 
-        racingGameRepository.saveGame(new GameResultDto(tryCount, winners, resultCars));
-        return new GameResponse(winners, resultCars);
+        racingGameRepository.saveGame(new TryCount(tryCount), winners, racingGame.getCars());
+        return new GameResultDto(winners, resultCars);
     }
 
-    public List<GameResponse> findAllGame() {
-        return racingGameRepository.findAllGame();
+    public List<GameResultDto> findAllGame() {
+        return racingGameRepository.findAllGameResult();
     }
 }

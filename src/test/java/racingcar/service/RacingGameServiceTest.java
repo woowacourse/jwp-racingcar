@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import racingcar.dto.CarDto;
-import racingcar.dto.response.GameResponse;
+import racingcar.dto.GameResultDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ class RacingGameServiceTest {
 
     @RepeatedTest(value = 5)
     void saveGame() {
-        GameResponse result = racingGameService.saveGamePlay("도치,쥬니", 2);
+        GameResultDto result = racingGameService.saveGamePlay("도치,쥬니", 2);
         List<Integer> resultPositions = result.getRacingCars().stream()
                 .map(CarDto::getPosition)
                 .collect(Collectors.toList());

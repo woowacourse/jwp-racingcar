@@ -1,11 +1,11 @@
 package racingcar.db;
 
-import racingcar.dto.CarDto;
+import racingcar.domain.Car;
 
 import java.util.List;
 
 public interface ResultCarDao {
-    void save(int gameId, List<CarDto> carDtoList);
+    void save(int gameId, List<Car> carDtoList);
 
-    List<CarDto> findByGameId(int gameId);
+    List<Car> findByGameId(int gameId);
 }

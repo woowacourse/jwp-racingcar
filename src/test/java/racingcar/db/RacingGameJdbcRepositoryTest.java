@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.CarDto;
+import racingcar.domain.Car;
+import racingcar.domain.Name;
+import racingcar.domain.TryCount;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.response.GameResponse;
 
 import java.util.List;
 
@@ -27,15 +28,11 @@ class RacingGameJdbcRepositoryTest {
 
     @Test
     void findGame_success() {
-        GameResultDto gameResultDto = new GameResultDto(5, "qwer",
-                List.of(new CarDto("qwer", 4))
-        );
+        List<Car> cars = List.of(new Car(new Name("qwer"), 4));
+        racingGameRepository.saveGame(new TryCount(5), "qwer", cars);
+        List<GameResultDto> games = racingGameRepository.findAllGameResult();
 
-        racingGameRepository.saveGame(gameResultDto);
-        List<GameResponse> games = racingGameRepository.findAllGame();
-
-        assertThat(games.get(0)).usingRecursiveComparison()
-                .ignoringFields("trialCount")
-                .isEqualTo(gameResultDto);
+        assertThat(games.get(0).getRacingCars()).usingRecursiveComparison().isEqualTo(cars);
+        assertThat(games.get(0).getWinners()).isEqualTo("qwer");
     }
 }

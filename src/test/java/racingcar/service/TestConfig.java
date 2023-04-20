@@ -4,8 +4,9 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import racingcar.db.RacingGameRepository;
+import racingcar.domain.Car;
+import racingcar.domain.TryCount;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.response.GameResponse;
 
 import java.util.List;
 
@@ -26,11 +27,11 @@ class TestConfig {
 
     private static class StubRepository implements RacingGameRepository {
         @Override
-        public void saveGame(GameResultDto resultDto) {
+        public void saveGame(TryCount tryCount, String winners, List<Car> cars) {
         }
 
         @Override
-        public List<GameResponse> findAllGame() {
+        public List<GameResultDto> findAllGameResult() {
             return null;
         }
 

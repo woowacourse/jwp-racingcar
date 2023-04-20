@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import racingcar.domain.engine.Engine;
+import racingcar.domain.engine.RandomMovingEngine;
 
 public class Car {
     private static final int INITIAL_POSITION = 0;
@@ -13,6 +14,12 @@ public class Car {
         this.name = name;
         this.position = Position.from(INITIAL_POSITION);
         this.engine = engine;
+    }
+
+    public Car(Name name, int position) {
+        this.name = name;
+        this.position = Position.from(position);
+        this.engine = new RandomMovingEngine();
     }
 
     public Car(Name name, int position, Engine engine) {

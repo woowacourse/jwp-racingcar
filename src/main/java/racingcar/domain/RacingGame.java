@@ -30,7 +30,7 @@ public class RacingGame {
         return cars.getWinners();
     }
 
-    public List<CarDto> getCars() {
+    public List<Car> getCars() {
         return cars.getCars();
     }
 
