@@ -13,11 +13,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CarNameLengthException.class)
     public ResponseEntity<ErrorResponseDto> handleCarNameException(CarNameLengthException exception) {
-        return ResponseEntity.badRequest().body(new ErrorResponseDto(HttpStatus.BAD_REQUEST.value(), "이름 에러 발생", System.currentTimeMillis()));
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(HttpStatus.BAD_REQUEST.value(), "공백을 제외한 이름의 길이가 1이상 5자 이하이어야 합니다", System.currentTimeMillis()));
     }
 
     @ExceptionHandler(TryCountException.class)
     public ResponseEntity<ErrorResponseDto> handleTryCountException(TryCountException exception) {
-        return ResponseEntity.badRequest().body(new ErrorResponseDto(HttpStatus.BAD_REQUEST.value(), "시도 횟수 에러 발생", System.currentTimeMillis()));
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(HttpStatus.BAD_REQUEST.value(), "시도 횟수는 0 이상의 숫자를 입력해야 합니다.", System.currentTimeMillis()));
     }
 }
