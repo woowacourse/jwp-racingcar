@@ -11,8 +11,8 @@ import racingcar.domain.Car;
 import racingcar.domain.Race;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
-import racingcar.entity.Game;
-import racingcar.entity.Player;
+import racingcar.entity.GameEntity;
+import racingcar.entity.PlayerEntity;
 import racingcar.utils.NumberGenerator;
 
 @Service
@@ -31,33 +31,32 @@ public class RacingCarService {
     @Transactional
     public PlayResponse play(PlayRequest playRequest) {
         Race race = new Race(playRequest.getCount(), playRequest.getNames(), numberGenerator);
-        while (!race.isFinished()) {
-            race.playRound();
-        }
+        race.play();
+
         List<Car> winners = race.findWinners();
 
-        Game game = Game.from(playRequest.getCount());
-        Long gameId = gameDao.insert(game);
+        GameEntity gameEntity = GameEntity.from(playRequest.getCount());
+        Long gameId = gameDao.insert(gameEntity);
 
-        List<Player> players = race.getParticipants().stream()
-                .map(participant -> Player.of(participant, gameId.intValue(), winners.contains(participant)))
+        List<PlayerEntity> playerEntities = race.getParticipants().stream()
+                .map(participant -> PlayerEntity.of(participant, gameId.intValue(), winners.contains(participant)))
                 .collect(Collectors.toList());
-        playerDao.insert(players);
+        playerDao.insert(playerEntities);
 
-        return PlayResponse.from(players);
+        return PlayResponse.from(playerEntities);
     }
 
     @Transactional(readOnly = true)
     public List<PlayResponse> findHistory() {
-        List<Game> games = gameDao.findAll();
-        List<Player> players = playerDao.findAll();
+        List<GameEntity> gameEntities = gameDao.findAll();
+        List<PlayerEntity> playerEntities = playerDao.findAll();
 
         List<PlayResponse> responses = new ArrayList<>();
-        for (Game game : games) {
-            List<Player> gamePlayers = players.stream()
-                    .filter(player -> player.getGameId() == game.getId())
+        for (GameEntity gameEntity : gameEntities) {
+            List<PlayerEntity> gamePlayerEntities = playerEntities.stream()
+                    .filter(player -> player.getGameId() == gameEntity.getId())
                     .collect(Collectors.toList());
-            responses.add(PlayResponse.from(gamePlayers));
+            responses.add(PlayResponse.from(gamePlayerEntities));
         }
 
         return responses;

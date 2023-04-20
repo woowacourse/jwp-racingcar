@@ -13,8 +13,8 @@ import racingcar.dao.GameJdbcDao;
 import racingcar.dao.PlayerJdbcDao;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
-import racingcar.entity.Game;
-import racingcar.entity.Player;
+import racingcar.entity.GameEntity;
+import racingcar.entity.PlayerEntity;
 import racingcar.utils.DrivableNumberGenerator;
 
 public class RacingCarServiceTest {
@@ -44,14 +44,14 @@ public class RacingCarServiceTest {
     @Test
     void 이력을_조회한다() {
         given(gameDao.findAll()).willReturn(List.of(
-                new Game(1, 10, LocalDateTime.now()),
-                new Game(2, 5, LocalDateTime.now())
+                new GameEntity(1, 10, LocalDateTime.now()),
+                new GameEntity(2, 5, LocalDateTime.now())
         ));
         given(playerDao.findAll()).willReturn(List.of(
-                new Player(1, "비버", 5, 1, true),
-                new Player(2, "허브", 5, 1, true),
-                new Player(3, "애쉬", 3, 1, false),
-                new Player(4, "애쉬", 3, 2, true)
+                new PlayerEntity(1, "비버", 5, 1, true),
+                new PlayerEntity(2, "허브", 5, 1, true),
+                new PlayerEntity(3, "애쉬", 3, 1, false),
+                new PlayerEntity(4, "애쉬", 3, 2, true)
         ));
 
         List<PlayResponse> responses = racingCarService.findHistory();

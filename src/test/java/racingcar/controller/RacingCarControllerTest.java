@@ -22,7 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 import racingcar.service.RacingCarService;
 
 @WebMvcTest
@@ -40,8 +40,8 @@ class RacingCarControllerTest {
     @Test
     void 게임을_진행한다() throws Exception {
         PlayResponse response = PlayResponse.from(
-                List.of(new Player(1, "car1", 10, 1, false),
-                        new Player(2, "car2", 10, 1, true)));
+                List.of(new PlayerEntity(1, "car1", 10, 1, false),
+                        new PlayerEntity(2, "car2", 10, 1, true)));
 
         given(racingCarService.play(any(PlayRequest.class)))
                 .willReturn(response);
@@ -62,10 +62,10 @@ class RacingCarControllerTest {
     void 이력을_조회한다() throws Exception {
         List<PlayResponse> response = List.of(
                 PlayResponse.from(List.of(
-                        new Player(1, "car1", 8, 1, false),
-                        new Player(2, "car2", 10, 1, true))),
+                        new PlayerEntity(1, "car1", 8, 1, false),
+                        new PlayerEntity(2, "car2", 10, 1, true))),
                 PlayResponse.from(
-                        List.of(new Player(1, "car3", 10, 2, true)))
+                        List.of(new PlayerEntity(1, "car3", 10, 2, true)))
         );
 
         given(racingCarService.findHistory()).willReturn(response);

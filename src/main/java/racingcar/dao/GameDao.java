@@ -1,11 +1,11 @@
 package racingcar.dao;
 
 import java.util.List;
-import racingcar.entity.Game;
+import racingcar.entity.GameEntity;
 
 public interface GameDao {
 
-    Long insert(Game game);
+    Long insert(GameEntity gameEntity);
 
-    List<Game> findAll();
+    List<GameEntity> findAll();
 }

@@ -2,23 +2,23 @@ package racingcar.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 
 public class PlayerInMemoryDao implements PlayerDao {
 
-    private final List<Player> players;
+    private final List<PlayerEntity> playerEntities;
 
     public PlayerInMemoryDao() {
-        players = new ArrayList<>();
+        playerEntities = new ArrayList<>();
     }
 
     @Override
-    public void insert(List<Player> players) {
-        this.players.addAll(players);
+    public void insert(List<PlayerEntity> playerEntities) {
+        this.playerEntities.addAll(playerEntities);
     }
 
     @Override
-    public List<Player> findAll() {
-        return new ArrayList<>(players);
+    public List<PlayerEntity> findAll() {
+        return new ArrayList<>(playerEntities);
     }
 }

@@ -7,14 +7,14 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 
 @Repository
 public class PlayerJdbcDao implements PlayerDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Player> playerRowMapper = (resultSet, rowNum) ->
-            new Player(
+    private final RowMapper<PlayerEntity> playerRowMapper = (resultSet, rowNum) ->
+            new PlayerEntity(
                     resultSet.getInt("id"),
                     resultSet.getString("name"),
                     resultSet.getInt("position"),
@@ -26,7 +26,7 @@ public class PlayerJdbcDao implements PlayerDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(List<Player> players) {
+    public void insert(List<PlayerEntity> playerEntities) {
 
         String sql = "insert into PLAYER (name, position, game_id, is_winner) values (?, ?, ?, ?)";
 
@@ -34,21 +34,21 @@ public class PlayerJdbcDao implements PlayerDao {
 
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                Player player = players.get(i);
-                ps.setString(1, player.getName());
-                ps.setInt(2, player.getPosition());
-                ps.setInt(3, player.getGameId());
-                ps.setBoolean(4, player.isWinner());
+                PlayerEntity playerEntity = playerEntities.get(i);
+                ps.setString(1, playerEntity.getName());
+                ps.setInt(2, playerEntity.getPosition());
+                ps.setInt(3, playerEntity.getGameId());
+                ps.setBoolean(4, playerEntity.isWinner());
             }
 
             @Override
             public int getBatchSize() {
-                return players.size();
+                return playerEntities.size();
             }
         });
     }
 
-    public List<Player> findAll() {
+    public List<PlayerEntity> findAll() {
         String sql = "select * from PLAYER";
 
         return jdbcTemplate.query(sql, playerRowMapper);

@@ -2,7 +2,7 @@ package racingcar.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 
 public class PlayResponse {
 
@@ -14,13 +14,13 @@ public class PlayResponse {
         this.racingCars = racingCars;
     }
 
-    public static PlayResponse from(List<Player> players) {
-        List<String> winners = players.stream()
-                .filter(Player::isWinner)
-                .map(Player::getName)
+    public static PlayResponse from(List<PlayerEntity> playerEntities) {
+        List<String> winners = playerEntities.stream()
+                .filter(PlayerEntity::isWinner)
+                .map(PlayerEntity::getName)
                 .collect(Collectors.toList());
 
-        List<CarResponse> racingCars = players.stream()
+        List<CarResponse> racingCars = playerEntities.stream()
                 .map(CarResponse::from)
                 .collect(Collectors.toList());
 

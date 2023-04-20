@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.entity.Game;
+import racingcar.entity.GameEntity;
 
 @JdbcTest
-class GameDaoTest {
+class GameEntityDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -33,25 +33,25 @@ class GameDaoTest {
 
     @Test
     void 게임을_저장한다() {
-        Game game = Game.from(10);
+        GameEntity gameEntity = GameEntity.from(10);
 
-        Long id = gameDao.insert(game);
+        Long id = gameDao.insert(gameEntity);
 
         assertThat(id).isPositive();
     }
 
     @Test
     void 저장된_게임_정보를_불러온다() {
-        Game game1 = Game.from(5);
-        Game game2 = Game.from(10);
-        gameDao.insert(game1);
-        gameDao.insert(game2);
+        GameEntity gameEntity1 = GameEntity.from(5);
+        GameEntity gameEntity2 = GameEntity.from(10);
+        gameDao.insert(gameEntity1);
+        gameDao.insert(gameEntity2);
 
-        List<Game> games = gameDao.findAll();
+        List<GameEntity> gameEntities = gameDao.findAll();
 
         assertAll(
-                () -> assertThat(games).hasSize(2),
-                () -> assertThat(games).extracting("trialCount")
+                () -> assertThat(gameEntities).hasSize(2),
+                () -> assertThat(gameEntities).extracting("trialCount")
                         .containsExactlyInAnyOrder(5, 10)
         );
     }

@@ -1,6 +1,6 @@
 package racingcar.dto;
 
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 
 public class CarResponse {
 
@@ -12,8 +12,8 @@ public class CarResponse {
         this.position = position;
     }
 
-    public static CarResponse from(Player player) {
-        return new CarResponse(player.getName(), player.getPosition());
+    public static CarResponse from(PlayerEntity playerEntity) {
+        return new CarResponse(playerEntity.getName(), playerEntity.getPosition());
     }
 
     public String getName() {
