@@ -3,7 +3,6 @@ package racingcar.controller;
 import racingcar.domain.Cars;
 import racingcar.service.RacingCarService;
 import racingcar.util.RandomNumberGenerator;
-import racingcar.validation.Validation;
 import racingcar.view.InputView;
 import racingcar.view.MessageView;
 import racingcar.view.OutputView;
@@ -11,9 +10,7 @@ import racingcar.view.OutputView;
 
 public class Controller {
 
-    private final Validation validation = new Validation();
     private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
-
     private final RacingCarService racingCarService = new RacingCarService();
 
     public void runGame() {
@@ -27,7 +24,6 @@ public class Controller {
 
         try {
             String carNames = InputView.inputCarNames();
-            validation.validateCarNames(carNames);
             return racingCarService.makeCars(carNames);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -39,9 +35,7 @@ public class Controller {
         MessageView.printTryCountMessage();
 
         try {
-            int tryCount = InputView.inputTryCount();
-            validation.validateTryCount(tryCount);
-            return tryCount;
+            return InputView.inputTryCount();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

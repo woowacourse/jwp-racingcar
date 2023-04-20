@@ -1,4 +1,4 @@
-package racingcar.constant;
+package racingcar.view;
 
 public enum ExceptionMessage {
     CAR_NAME_NOT_INPUT_MESSAGE("자동차 이름을 입력해주세요."),

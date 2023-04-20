@@ -1,23 +1,45 @@
 package racingcar.view;
 
-import racingcar.constant.ExceptionMessage;
-
 import java.util.Scanner;
 
 public class InputView {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
-    public String inputCarNames() {
-        return scanner.nextLine();
+    public static String inputCarNames() {
+        String input = SCANNER.nextLine();
+        validateBlank(input);
+        validateEmpty(input);
+        return input;
     }
 
-    public int inputTryCount() {
+    public static int inputTryCount() {
         try {
-            return scanner.nextInt();
-        } catch (Exception e) {
+            String input = SCANNER.nextLine();
+            int count = Integer.parseInt(input);
+            validatePositiveNumber(count);
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException(
                     ExceptionMessage.TRY_COUNT_NOT_NUMBER_MESSAGE.getExceptionMessage());
+        }
+    }
+
+    public static void validateBlank(String input) {
+        if (input.isBlank()) {
+            throw new IllegalArgumentException(ExceptionMessage.CAR_NAME_BLANK_MESSAGE.getExceptionMessage());
+        }
+    }
+
+    public static void validateEmpty(String input) {
+        if (input.isEmpty()) {
+            throw new IllegalArgumentException(ExceptionMessage.CAR_NAME_NOT_INPUT_MESSAGE.getExceptionMessage());
+        }
+    }
+
+    private static void validatePositiveNumber(int count) {
+        if (count <= 0) {
+            throw new IllegalArgumentException(ExceptionMessage.TRY_COUNT_NOT_POSITIVE_MESSAGE.getExceptionMessage());
         }
     }
 }
