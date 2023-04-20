@@ -47,7 +47,7 @@ public class RacingcarService {
     private String findWinners(final List<Car> cars) {
         int winnerPosition = maxPosition(cars);
         return cars.stream()
-            .filter(car -> car.isPosition(winnerPosition))
+            .filter(car -> car.isMaxPosition(winnerPosition))
             .map(Car::getName)
             .collect(Collectors.joining(", "));
     }
@@ -68,7 +68,7 @@ public class RacingcarService {
     private int maxPosition(final List<Car> cars) {
         int maxPosition = 0;
         for (Car car : cars) {
-            maxPosition = car.findGreaterPosition(maxPosition);
+            maxPosition = car.findHigherPosition(maxPosition);
         }
         return maxPosition;
     }
