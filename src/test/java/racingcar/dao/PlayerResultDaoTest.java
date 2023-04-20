@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -23,8 +24,10 @@ class PlayerResultDaoTest {
     GameDao gameDao;
 
     @Test
+    @DisplayName("게임 결과 저장 시 해당 게임의 참가자가 모두 저장된다.")
     @Transactional
     void insertPlayerResultTest() {
+        //given
         GameSaveDto game = new GameSaveDto("leo", 5);
         Long gameId = gameDao.createGame(game);
 
@@ -33,8 +36,10 @@ class PlayerResultDaoTest {
 
         List<PlayerResultSaveDto> playerResults = List.of(playerResultSaveDto);
         playerResultDao.savePlayerResult(playerResults);
+        //when
         List<PlayerResultDto> playerResultsByGameId = playerResultDao.findPlayerResultsByGameId(gameId);
 
+        //then
         Assertions.assertThat(playerResultsByGameId.size()).isEqualTo(1);
     }
 }
