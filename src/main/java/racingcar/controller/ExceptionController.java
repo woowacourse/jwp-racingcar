@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import racingcar.dto.ExceptionResponseDto;
+import racingcar.dto.PlayFailResponse;
 
 @RestControllerAdvice
 public class ExceptionController {
@@ -13,9 +13,9 @@ public class ExceptionController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class})
-    public ResponseEntity<ExceptionResponseDto> handle(Exception exception) {
+    public ResponseEntity<PlayFailResponse> handle(Exception exception) {
         log.error(exception.getMessage());
-        ExceptionResponseDto exceptionResponseDto = new ExceptionResponseDto(exception.getMessage());
-        return ResponseEntity.badRequest().body(exceptionResponseDto);
+        PlayFailResponse playFailResponse = new PlayFailResponse(exception.getMessage());
+        return ResponseEntity.badRequest().body(playFailResponse);
     }
 }

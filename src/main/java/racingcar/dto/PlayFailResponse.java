@@ -1,10 +1,10 @@
 package racingcar.dto;
 
-public class ExceptionResponseDto {
+public class PlayFailResponse {
 
     private final String message;
 
-    public ExceptionResponseDto(String message) {
+    public PlayFailResponse(String message) {
         this.message = message;
     }
 
