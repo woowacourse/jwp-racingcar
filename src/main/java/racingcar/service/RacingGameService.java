@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.RacingGameRepository;
 import racingcar.domain.*;
 import racingcar.dto.PlayerSaveDto;
-import racingcar.dto.PostGameResponse;
+import racingcar.dto.OneGameHistoryDto;
 import racingcar.dto.RacingCarDto;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class RacingGameService {
         this.racingGameRepository = racingGameRepository;
     }
 
-    public PostGameResponse run(final List<String> inputNames, final int inputCount) {
+    public OneGameHistoryDto run(final List<String> inputNames, final int inputCount) {
         final List<Name> names = generateNames(inputNames);
         final RacingGame racingGame = new RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(inputCount));
         final RacingCars racingCars = racingGame.moveCars();
@@ -54,13 +54,13 @@ public class RacingGameService {
         return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 
-    private PostGameResponse generatePostGameResponse(RacingCars racingCars) {
+    private OneGameHistoryDto generatePostGameResponse(RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
         final String winnerName = String.join(", ", winnerNames);
 
         final List<RacingCarDto> racingCarsDto = racingCars.getRacingCars().stream()
                 .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
                 .collect(toList());
-        return new PostGameResponse(winnerName, racingCarsDto);
+        return new OneGameHistoryDto(winnerName, racingCarsDto);
     }
 }
