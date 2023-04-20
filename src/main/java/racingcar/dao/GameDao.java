@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-public interface GameDao {
+interface GameDao {
 
     Long save(final int trialCount);
 }
