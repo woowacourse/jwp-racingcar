@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import racingcar.entity.GameHistoryEntity;
 
 @Repository
@@ -21,7 +20,6 @@ public class PlayResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Transactional
     public Long insertWithKeyHolder(int trialCount, List<String> winners) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         final String updateSql = "insert into PLAY_RESULT (trialcount, winners) values (?, ?)";
