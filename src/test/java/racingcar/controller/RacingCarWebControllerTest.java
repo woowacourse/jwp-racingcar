@@ -33,7 +33,7 @@ class RacingCarWebControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(dto)
                 .when().post("/plays")
-                .then().log().all()
+                .then().log().body()
                 .statusCode(HttpStatus.OK.value())
                 .body("racingCars.size()", is(3));
     }
@@ -41,10 +41,10 @@ class RacingCarWebControllerTest {
     @DisplayName("게임 플레이 이력 조회를 한다")
     @Test
     void getAllResults() {
-        given().log().all()
+        given().log().headers()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/plays")
-                .then().log().all()
+                .then()
                 .statusCode(HttpStatus.OK.value());
     }
 }
