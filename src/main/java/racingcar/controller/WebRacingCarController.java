@@ -4,8 +4,6 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
 import java.util.List;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,10 +57,5 @@ public class WebRacingCarController {
         return cars.getCars().stream()
                 .map(car -> new RacingCarDto(car.getName().getValue(), car.getDistance().getValue()))
                 .collect(toUnmodifiableList());
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handle(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
