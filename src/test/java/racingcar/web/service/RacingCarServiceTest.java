@@ -1,4 +1,4 @@
-package racingcar.service;
+package racingcar.web.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,9 +27,7 @@ class RacingCarServiceTest {
     @Test
     @DisplayName("Dao 메서드가 제대로 호출되는지 확인")
     void insertGame() {
-//        Cars cars = new Cars("roy, jamie");
         GameInformationDto gameInformationDto = new GameInformationDto("roy, jamie", 10);
-//        racingCarService.insertGame(10, cars);
         racingCarService.runGame(gameInformationDto);
 
         verify(resultDao, atLeastOnce()).insert(anyInt(), anyString());

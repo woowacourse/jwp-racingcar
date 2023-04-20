@@ -1,4 +1,4 @@
-package racingcar.controller;
+package racingcar.web.controller;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.web.controller.dto.GameInformationDto;
 import racingcar.web.util.NumberGenerator;
 import racingcar.web.util.TestNumberGenerator;

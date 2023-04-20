@@ -12,15 +12,12 @@ import racingcar.web.service.RacingCarService;
 import java.util.List;
 
 @RestController
-public class RacingCarController {
+public class WebController {
 
     private RacingCarService racingCarService;
 
-    public RacingCarController() {
-    }
-
     @Autowired
-    public RacingCarController(RacingCarService racingCarService) {
+    public WebController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 

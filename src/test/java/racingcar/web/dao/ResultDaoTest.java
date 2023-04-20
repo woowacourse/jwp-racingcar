@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.web.dao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

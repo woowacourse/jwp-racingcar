@@ -3,15 +3,15 @@ package racingcar.web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.web.controller.dto.GameInformationDto;
+import racingcar.web.controller.dto.GameResultDto;
 import racingcar.web.controller.dto.RacingCarDto;
 import racingcar.web.dao.GameRecordDao;
 import racingcar.web.dao.RacingCarDao;
 import racingcar.web.dao.ResultDao;
-import racingcar.web.controller.dto.GameResultDto;
-import racingcar.web.util.NumberGenerator;
-import racingcar.web.util.RandomNumberGenerator;
 import racingcar.web.domain.Car;
 import racingcar.web.domain.Cars;
+import racingcar.web.util.NumberGenerator;
+import racingcar.web.util.RandomNumberGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
