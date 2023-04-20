@@ -26,6 +26,16 @@ class RacingCarGameServiceTest {
         public void insertAll(final List<Car> cars, final int gameId) {
         
         }
+        
+        @Override
+        public Car findByName(final String name, final int gameId) {
+            return null;
+        }
+        
+        @Override
+        public List<Car> findAll(final int gameId) {
+            return null;
+        }
     }
     
     static class FakeGameDAO implements GameDAO {

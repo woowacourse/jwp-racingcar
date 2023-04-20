@@ -77,4 +77,40 @@ class RacingCarDAOTest {
         assertThat(cars.size()).isEqualTo(2);
     }
     
+    @Test
+    @DisplayName("findByName - 자동차 이름과 게임 아이디를 받아서 DB에서 자동차 객체를 찾아서 반환한다.")
+    void findByNameTest() {
+        //given
+        final String name = "io";
+        final int gameId = 1;
+        final Car car = RacingCar.create(name, 5);
+        this.racingCarDAO.insert(car, gameId);
+        
+        //when
+        final Car carResult = this.racingCarDAO.findByName(name, gameId);
+        
+        //then
+        assertThat(carResult.getName().getValue()).isEqualTo(name);
+    }
+    
+    @Test
+    @DisplayName("findAll - 게임 아이디를 받아서 DB에서 모든 자동차를 찾아서 반환한다.")
+    void findAllByGameIdTest() {
+        //given
+        final int gameId = 1;
+        final Car car = RacingCar.create("io", 5);
+        final Car car2 = RacingCar.create("echo", 5);
+        this.racingCarDAO.insert(car, gameId);
+        this.racingCarDAO.insert(car2, gameId);
+        
+        //when
+        final List<Car> cars = this.racingCarDAO.findAll(gameId);
+        
+        //then
+        assertThat(cars.size()).isEqualTo(2);
+        assertThat(cars.get(0).getName().getValue()).isEqualTo("io");
+        assertThat(cars.get(1).getName().getValue()).isEqualTo("echo");
+    }
+    
+    
 }
