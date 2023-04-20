@@ -42,7 +42,7 @@ public final class RacingGameConsoleController {
 	}
 
 	private List<String> inputCarsNameWithValidation () {
-		Optional<Cars> cars = null;
+		Optional<Cars> cars;
 		do {
 			cars = inputCarsHandlingException();
 		} while (cars.isEmpty());
@@ -59,7 +59,7 @@ public final class RacingGameConsoleController {
 	}
 
 	private TryCount inputTryCountWithValidation () {
-		Optional<TryCount> tryCount = null;
+		Optional<TryCount> tryCount;
 		do {
 			tryCount = inputTryCountHandlingException();
 		} while (tryCount.isEmpty());
