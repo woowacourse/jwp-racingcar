@@ -51,7 +51,6 @@ public class RacingGameConsoleController {
         while (canProceed()) {
             racingCars.moveAll();
             tryCount.deduct();
-            OutputView.printScoreBoard(racingCars);
         }
 
         OutputView.printWinner(racingCars);
