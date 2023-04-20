@@ -3,12 +3,10 @@ package racingcar.controller;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import racingcar.dto.RacingGameInputDto;
 
 import static org.hamcrest.Matchers.containsString;
@@ -16,8 +14,6 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-/*@JdbcTest
-@Sql({"test_data.sql"})*/
 public class RacingGameControllerTest {
     @LocalServerPort
     int port;

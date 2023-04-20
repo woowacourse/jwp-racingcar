@@ -15,11 +15,11 @@ import java.util.Map;
 
 @Repository
 public class PlayersResultDao {
-    private final SimpleJdbcInsert insertActor;
+    private final SimpleJdbcInsert insertPlayersResult;
     private final JdbcTemplate jdbcTemplate;
 
     public PlayersResultDao(final DataSource dataSource, final JdbcTemplate jdbcTemplate) {
-        this.insertActor = new SimpleJdbcInsert(dataSource)
+        this.insertPlayersResult = new SimpleJdbcInsert(dataSource)
                 .withTableName("players_result")
                 .usingGeneratedKeyColumns("id");
 
@@ -38,7 +38,7 @@ public class PlayersResultDao {
 
     public void insertResult(final List<? extends PlayerResultDto> playerResultDtos, final int resultId) {
         for (final PlayerResultDto playerResultDto : playerResultDtos) {
-            insertActor.execute(EntityToMap.convert(dto -> {
+            insertPlayersResult.execute(EntityToMap.convert(dto -> {
                         Map<String, Object> params = new HashMap<>();
                         params.put("name", dto.getName());
                         params.put("position", dto.getPosition());
@@ -51,5 +51,9 @@ public class PlayersResultDao {
     public List<PlayerResultEntity> getResultByResultId(final int resultId) {
         String sql = "select * from players_result where result_id = ?";
         return jdbcTemplate.query(sql, playersResultRowMapper, resultId);
+    }
+
+    public void setTableName(String tableName) {
+        insertPlayersResult.setTableName(tableName);
     }
 }
