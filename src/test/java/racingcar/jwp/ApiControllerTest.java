@@ -5,14 +5,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import racingcar.controller.ApiController;
 import racingcar.dto.request.GameRequestDto;
-import racingcar.service.GameFindService;
 
 @WebMvcTest(ApiController.class)
 public class ApiControllerTest {
@@ -22,9 +20,6 @@ public class ApiControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private GameFindService gameService;
 
     @Test
     @DisplayName("게임 실행 테스트")
