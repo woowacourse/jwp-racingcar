@@ -41,9 +41,4 @@ public class CarJdbcDao implements CarDao {
         String sql = "SELECT name, position FROM car WHERE game_id = ?";
         return jdbcTemplate.query(sql, carDtoRowMapper, gameId);
     }
-
-    public CarDto findCar(final String name, final int gameId) {
-        String sql = "SELECT name, position FROM car WHERE game_id = ? AND name = ?";
-        return jdbcTemplate.queryForObject(sql, carDtoRowMapper, gameId, name);
-    }
 }

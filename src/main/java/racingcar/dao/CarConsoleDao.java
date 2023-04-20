@@ -24,19 +24,4 @@ public class CarConsoleDao implements CarDao {
                 .map(car -> CarDto.of(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public CarDto findCar(String name, int gameId) {
-        Integer carId = findCarByName(name);
-        Car car = cars.get(carId);
-        return CarDto.of(car.getName(), car.getPosition());
-    }
-
-    private Integer findCarByName(String name) {
-        return cars.entrySet().stream()
-                .filter(carEntry -> carEntry.getValue().getName().equals(name))
-                .findAny()
-                .orElseThrow(() -> new NoSuchElementException(name + " 자동차를 찾을 수 없습니다."))
-                .getKey();
-    }
 }
