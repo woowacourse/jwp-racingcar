@@ -18,8 +18,9 @@ public class PlayerResultDao {
     }
 
     public void saveAll(final List<PlayerResultEntity> playerResultEntities) {
+        final String sql = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
+
         for (var entity : playerResultEntities) {
-            String sql = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
             jdbcTemplate.update(sql, entity.getName(), entity.getPosition(), entity.getGameResultId());
         }
     }
