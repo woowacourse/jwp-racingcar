@@ -31,7 +31,6 @@ public class RacingGameService {
         return GameResponse.of(racingGame.findWinners(), racingGame.findCurrentCarPositions());
     }
 
-    @Transactional
     public List<GameResponse> findAll() {
         List<Player> players = racingGameRepository.findAll();
 
