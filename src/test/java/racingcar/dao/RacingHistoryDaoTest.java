@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,17 +35,17 @@ class RacingHistoryDaoTest {
         //when
         Long savedId = racingHistoryDao.save(trialCount, playTime);
         //then
+        RacingHistoryDto expectedResult = new RacingHistoryDto(savedId, trialCount, playTime);
         RacingHistoryDto racingHistoryDto = jdbcTemplate.queryForObject(
-            "SELECT id, trial_count, play_time FROM racing_history WHERE id = :id",
-            new MapSqlParameterSource("id", savedId),
-            (rs, rowNum) -> new RacingHistoryDto(rs.getLong("id"),
-                    rs.getInt("trial_count"),
-                    rs.getObject("play_time", LocalDateTime.class)));
+                "SELECT id, trial_count, play_time FROM racing_history WHERE id = :id",
+                new MapSqlParameterSource("id", savedId),
+                (rs, rowNum) -> new RacingHistoryDto(rs.getLong("id"),
+                        rs.getInt("trial_count"),
+                        rs.getObject("play_time", LocalDateTime.class)));
 
-        assertAll(
-            () -> assertThat(racingHistoryDto.getPlayTime()).isEqualTo(playTime),
-            () -> assertThat(racingHistoryDto.getTrialCount()).isEqualTo(trialCount)
-        );
+        assertThat(racingHistoryDto)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedResult);
     }
 
     @DisplayName("모든 누적 게임 실행기록을 조회할 수 있다.")
@@ -59,14 +58,10 @@ class RacingHistoryDaoTest {
         Long savedId2 = racingHistoryDao.save(trialCount, playTime);
 
         //when
-        List<Long> racingHistories = racingHistoryDao.findAllIds();
+        List<Long> racingHistoryIds = racingHistoryDao.findAllIds();
 
         //then
-        assertAll(
-                () -> assertThat(racingHistories).hasSize(2),
-                () -> assertThat(racingHistories.get(0)).isEqualTo(savedId1),
-                () -> assertThat(racingHistories.get(1)).isEqualTo(savedId2)
-        );
+        assertThat(racingHistoryIds).containsExactly(savedId1, savedId2);
     }
 
 }
