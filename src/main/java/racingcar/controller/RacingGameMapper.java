@@ -1,14 +1,15 @@
 package racingcar.controller;
 
-import org.springframework.stereotype.Component;
-import racingcar.dao.Player;
-import racingcar.domain.RacingCars;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Map;
-
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
+import org.springframework.stereotype.Component;
+import racingcar.controller.dto.GameResponse;
+import racingcar.controller.dto.RacingCarDto;
+import racingcar.dao.Player;
+import racingcar.domain.RacingCars;
 
 @Component
 public class RacingGameMapper {
