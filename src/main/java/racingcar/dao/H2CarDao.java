@@ -12,6 +12,7 @@ public class H2CarDao implements CarDao {
 
     private JdbcTemplate jdbcTemplate;
     private final RowMapper<CarEntity> carRowMapper = (resultSet, rowNum) -> new CarEntity(
+            resultSet.getInt("id"),
             resultSet.getInt("game_id"),
             resultSet.getString("name"),
             resultSet.getInt("position")
