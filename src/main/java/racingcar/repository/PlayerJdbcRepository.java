@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import racingcar.domain.Cars;
 import racingcar.domain.Name;
 import racingcar.domain.Position;
-import racingcar.dto.PlayerDto;
+import racingcar.repository.dto.PlayerDto;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
 package racingcar.repository;
 
-import racingcar.dto.RacingGameDto;
+import racingcar.repository.dto.RacingGameDto;
 
 import java.util.List;
 import java.util.Optional;

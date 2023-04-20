@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.domain.Cars;
 import racingcar.domain.Name;
 import racingcar.domain.Position;
-import racingcar.dto.PlayerDto;
+import racingcar.repository.dto.PlayerDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

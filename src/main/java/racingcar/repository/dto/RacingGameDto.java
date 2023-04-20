@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.repository.dto;
 
 import java.time.LocalDateTime;
 

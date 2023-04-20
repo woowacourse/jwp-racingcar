@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.repository.dto;
 
 import racingcar.domain.Name;
 import racingcar.domain.Position;

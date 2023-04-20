@@ -1,7 +1,7 @@
 package racingcar.repository;
 
 import racingcar.domain.Cars;
-import racingcar.dto.PlayerDto;
+import racingcar.repository.dto.PlayerDto;
 
 import java.util.List;
 

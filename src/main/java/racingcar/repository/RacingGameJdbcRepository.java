@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.RacingGameDto;
+import racingcar.repository.dto.RacingGameDto;
 
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;

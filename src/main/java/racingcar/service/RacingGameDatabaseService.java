@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.response.RacingGameResponse;
 import racingcar.domain.*;
-import racingcar.dto.RacingGameDto;
 import racingcar.repository.PlayerRepository;
 import racingcar.repository.RacingGameRepository;
+import racingcar.repository.dto.RacingGameDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
