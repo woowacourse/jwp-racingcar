@@ -1,6 +1,11 @@
 package racingcar.dto;
 
+import java.util.List;
+
 public class NamesAndCountRequest {
+
+    public static final String SEPARATOR = ",";
+
     private String names;
     private int count;
 
@@ -11,8 +16,8 @@ public class NamesAndCountRequest {
         this.count = count;
     }
 
-    public String getNames() {
-        return names;
+    public List<String> getNames() {
+        return List.of(names.split(SEPARATOR));
     }
 
     public int getCount() {

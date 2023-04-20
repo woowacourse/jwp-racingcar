@@ -15,8 +15,6 @@ import java.util.Optional;
 @Service
 public class RacingCarService {
 
-    public static final String SEPARATOR = ",";
-
     private final GameDao gameDao;
     private final PlayerDao playerDao;
     private final ParticipatesDao participatesDao;
@@ -83,7 +81,7 @@ public class RacingCarService {
     }
 
     private void createPlayers(final NamesAndCountRequest namesAndCount, final GameManager gameManager) {
-        List<String> carNames = List.of(namesAndCount.getNames().split(SEPARATOR));
+        List<String> carNames = namesAndCount.getNames();
         CarNamesRequest carNamesRequest = new CarNamesRequest(carNames);
         gameManager.createCars(carNamesRequest);
     }
