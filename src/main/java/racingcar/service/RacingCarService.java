@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.GameDao;
 import racingcar.dao.ParticipatesDao;
 import racingcar.dao.PlayerDao;
+import racingcar.domain.Cars;
 import racingcar.domain.GameManager;
+import racingcar.domain.GameRound;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.*;
 
@@ -26,9 +28,9 @@ public class RacingCarService {
     }
 
     public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
-        final GameManager gameManager = new GameManager(new RandomNumberGenerator());
-        int trialCount = createGame(namesAndCount, gameManager);
-        createPlayers(namesAndCount, gameManager);
+        final Cars cars = Cars.from(namesAndCount.getNames());
+        final GameRound gameRound = new GameRound(namesAndCount.getCount());
+        final GameManager gameManager = new GameManager(cars, gameRound, new RandomNumberGenerator());
 
         List<CarStatusResponse> carStatusResponses = new ArrayList<>();
         while (!gameManager.isEnd()) {
@@ -36,7 +38,7 @@ public class RacingCarService {
         }
 
         List<String> winnerNames = gameManager.decideWinner().getWinnerNames();
-        saveGameAndPlayerAndParticipates(trialCount, carStatusResponses, winnerNames);
+        saveGameAndPlayerAndParticipates(namesAndCount.getCount(), carStatusResponses, winnerNames);
         return convertResultResponse(carStatusResponses, winnerNames);
     }
 
@@ -71,19 +73,6 @@ public class RacingCarService {
             return new ParticipateDto(gameId, playerId, carPosition, true);
         }
         return new ParticipateDto(gameId, playerId, carPosition, false);
-    }
-
-    private int createGame(final NamesAndCountRequest namesAndCount, final GameManager gameManager) {
-        int trialCount = namesAndCount.getCount();
-        GameRoundRequest gameRoundRequest = new GameRoundRequest(trialCount);
-        gameManager.createGameRound(gameRoundRequest);
-        return trialCount;
-    }
-
-    private void createPlayers(final NamesAndCountRequest namesAndCount, final GameManager gameManager) {
-        List<String> carNames = namesAndCount.getNames();
-        CarNamesRequest carNamesRequest = new CarNamesRequest(carNames);
-        gameManager.createCars(carNamesRequest);
     }
 
     private String convertWinners(final List<String> winnerNames) {

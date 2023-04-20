@@ -15,6 +15,6 @@ public class ConsoleApplication {
         );
         consoleController.newCarNames();
         consoleController.newGameRound();
-        consoleController.play();
+//        consoleController.play();
     }
 }

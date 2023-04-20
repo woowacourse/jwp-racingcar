@@ -1,12 +1,9 @@
 package racingcar.controller;
 
 import java.util.List;
-import racingcar.domain.GameManager;
+import racingcar.domain.Cars;
+import racingcar.domain.GameRound;
 import racingcar.domain.NumberGenerator;
-import racingcar.dto.CarNamesRequest;
-import racingcar.dto.CarStatusResponse;
-import racingcar.dto.GameResultResponse;
-import racingcar.dto.GameRoundRequest;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -14,12 +11,10 @@ public class ConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final GameManager gameManager;
 
     public ConsoleController(InputView inputView, OutputView outputView, NumberGenerator numberGenerator) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameManager = new GameManager(numberGenerator);
     }
 
     public void newCarNames() {
@@ -36,20 +31,20 @@ public class ConsoleController {
         }
     }
 
-    public void play() {
-        outputView.printResultMessage();
-        while (!gameManager.isEnd()) {
-            List<CarStatusResponse> roundResultCarStatus = gameManager.playGameRound();
-            outputView.printRoundResult(roundResultCarStatus);
-        }
-        GameResultResponse winnerNames = gameManager.decideWinner();
-        outputView.printEndGameResult(winnerNames);
-    }
+//    public void play() {
+//        outputView.printResultMessage();
+//        while (!gameManager.isEnd()) {
+//            List<CarStatusResponse> roundResultCarStatus = gameManager.playGameRound();
+//            outputView.printRoundResult(roundResultCarStatus);
+//        }
+//        GameResultResponse winnerNames = gameManager.decideWinner();
+//        outputView.printEndGameResult(winnerNames);
+//    }
 
     private boolean newCarNamesHasException() {
         try {
-            CarNamesRequest inputCarNames = inputView.inputCarName();
-            gameManager.createCars(inputCarNames);
+            final List<String> inputCarNames = inputView.inputCarName();
+            Cars.from(inputCarNames);
             return false;
         } catch (Exception e) {
             outputView.printErrorMessage(e.getMessage());
@@ -59,8 +54,8 @@ public class ConsoleController {
 
     private boolean newGameRoundHasException() {
         try {
-            GameRoundRequest inputGameRound = inputView.inputGameRound();
-            gameManager.createGameRound(inputGameRound);
+            final int inputGameRound = inputView.inputGameRound();
+            new GameRound(inputGameRound);
             return false;
         } catch (Exception e) {
             outputView.printErrorMessage(e.getMessage());

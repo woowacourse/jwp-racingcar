@@ -1,33 +1,19 @@
 package racingcar.domain;
 
-import racingcar.dto.CarNamesRequest;
-import racingcar.dto.CarStatusResponse;
-import racingcar.dto.GameResultResponse;
-import racingcar.dto.GameRoundRequest;
-
 import java.util.ArrayList;
 import java.util.List;
+import racingcar.dto.CarStatusResponse;
+import racingcar.dto.GameResultResponse;
 
 public class GameManager {
     private final NumberGenerator numberGenerator;
-    private Cars cars;
-    private GameRound gameRound;
+    private final Cars cars;
+    private final GameRound gameRound;
 
-    public GameManager(NumberGenerator numberGenerator) {
+    public GameManager(final Cars cars, final GameRound gameRound, final NumberGenerator numberGenerator) {
+        this.cars = cars;
+        this.gameRound = gameRound;
         this.numberGenerator = numberGenerator;
-    }
-
-    public void createCars(CarNamesRequest inputCarNames) {
-        cars = new Cars();
-        List<String> carNames = inputCarNames.getCarNames();
-        for (String carName : carNames) {
-            cars.addCar(new Car(carName));
-        }
-    }
-
-    public void createGameRound(GameRoundRequest inputGameRound) {
-        int totalRound = inputGameRound.getRound();
-        gameRound = new GameRound(totalRound);
     }
 
     public List<CarStatusResponse> playGameRound() {

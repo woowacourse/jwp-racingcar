@@ -1,11 +1,6 @@
 package racingcar.view;
 
-import racingcar.dto.CarNamesRequest;
-import racingcar.dto.GameRoundRequest;
-import racingcar.validator.CarValidator;
-import racingcar.validator.DefaultCarValidator;
-import racingcar.validator.DefaultGameRoundValidator;
-import racingcar.validator.GameRoundValidator;
+import static racingcar.exception.ErrorMessages.INPUT_EXCEPTION;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,8 +8,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static racingcar.exception.ErrorMessages.INPUT_EXCEPTION;
+import racingcar.validator.CarValidator;
+import racingcar.validator.DefaultCarValidator;
+import racingcar.validator.DefaultGameRoundValidator;
+import racingcar.validator.GameRoundValidator;
 
 public class InputView {
     private static final String SEPARATOR_REGEX = "\\s*,\\s";
@@ -23,7 +20,7 @@ public class InputView {
 
     private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-    public CarNamesRequest inputCarName() {
+    public List<String> inputCarName() {
         System.out.println(CAR_NAMES_INPUT_MESSAGE);
         String input = readLine();
 
@@ -32,17 +29,17 @@ public class InputView {
         CarValidator carValidator = new DefaultCarValidator();
         carValidator.validateCarNames(carNames);
 
-        return new CarNamesRequest(carNames);
+        return carNames;
     }
 
-    public GameRoundRequest inputGameRound() {
+    public int inputGameRound() {
         System.out.println(GAME_ROUND_INPUT_MESSAGE);
         String inputGameRound = readLine();
 
         GameRoundValidator gameRoundValidator = new DefaultGameRoundValidator();
         gameRoundValidator.validateGameRoundInput(inputGameRound);
 
-        return new GameRoundRequest(stringToIntConverter(inputGameRound));
+        return stringToIntConverter(inputGameRound);
     }
 
     private String readLine() {
