@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -42,5 +43,14 @@ class OutputViewTest {
         OutputView.printStatusGuide();
 
         assertThat(outputStream.toString()).contains("실행 결과");
+    }
+
+    @Test
+    void printStatus_메서드_테스트() {
+        final String expected = "judy : -" + System.lineSeparator() + "nunu : --" + System.lineSeparator();
+        OutputView.printStatus(Map.of("judy", 1, "nunu", 2));
+
+        assertThat(outputStream.toString()).contains(
+                "judy : -" + System.lineSeparator(), "nunu : --" + System.lineSeparator());
     }
 }
