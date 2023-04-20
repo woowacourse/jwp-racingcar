@@ -4,7 +4,7 @@ public class PlayResultDto {
     private int id;
     private String winners;
 
-    public PlayResultDto(){
+    public PlayResultDto() {
 
     }
 
