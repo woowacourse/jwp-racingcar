@@ -1,4 +1,4 @@
-package racingcar.service;
+package racingcar.business;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
