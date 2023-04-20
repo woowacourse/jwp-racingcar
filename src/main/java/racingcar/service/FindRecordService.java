@@ -20,7 +20,7 @@ public class FindRecordService {
     }
 
     public List<RacingCarResult> findAllRecords() {
-        final List<Record> records = findAllRecordsDao.findAllRecords();
+        final List<Record> records = findAllRecordsDao.findAll();
         final Map<Long, List<Record>> recordsByGameId = records.stream()
             .collect(Collectors.groupingBy(Record::getGameId));
         return recordsByGameId.values().stream()

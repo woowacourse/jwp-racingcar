@@ -6,5 +6,5 @@ import racingcar.repository.entity.Record;
 
 public interface FindAllRecordsDao {
 
-    List<Record> findAllRecords();
+    List<Record> findAll();
 }

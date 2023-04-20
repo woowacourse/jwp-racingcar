@@ -24,7 +24,7 @@ public class JdbcFindAllRecordDao implements FindAllRecordsDao {
     }
 
     @Override
-    public List<Record> findAllRecords() {
+    public List<Record> findAll() {
         final String sql = "SELECT p.game_id, u.name, p.position FROM position AS p "
             + "LEFT OUTER JOIN game AS g ON p.game_id = g.id "
             + "LEFT OUTER JOIN users AS u ON p.users_id = u.id";

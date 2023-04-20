@@ -8,7 +8,7 @@ import racingcar.repository.entity.Record;
 public class ConsoleFindAllRecordDao implements FindAllRecordsDao {
 
     @Override
-    public List<Record> findAllRecords() {
+    public List<Record> findAll() {
         return Collections.emptyList();
     }
 }
