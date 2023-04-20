@@ -26,16 +26,14 @@ public class Cars {
         return winner;
     }
 
-    public List<CarDto> findWinnerNames(Car winner) {
+    public List<Car> findWinnerCars(Car winner) {
         return cars.stream()
                 .filter(car -> car.isSamePosition(winner))
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .map(car -> new Car(car.getName()))
                 .collect(Collectors.toList());
     }
 
-    public List<CarDto> findPlayers() {
-        return cars.stream()
-                .map(car -> new CarDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
+    public List<Car> findCars() {
+        return cars;
     }
 }

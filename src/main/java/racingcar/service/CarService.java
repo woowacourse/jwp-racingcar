@@ -33,12 +33,19 @@ public class CarService {
         this.playResultDao = playResultDao;
     }
 
-    public WinnerCarDto playGame(GameDto gameDto) {
+    public WinnerCarDto playGame(final GameDto gameDto) {
         final Cars cars = initGame(gameDto);
         final Car winner = cars.getWinner();
-        final WinnerCarDto winnerCarDto = new WinnerCarDto(cars.findWinnerNames(winner), cars.findPlayers());
+        final WinnerCarDto winnerCarDto =
+                new WinnerCarDto(convertToCarDto(cars.findWinnerCars(winner)), convertToCarDto(cars.findCars()));
         save(gameDto, winnerCarDto);
         return winnerCarDto;
+    }
+
+    private List<CarDto> convertToCarDto(final List<Car> cars) {
+        return cars.stream().
+                map(car -> new CarDto(car.getName(), car.getPosition())).
+                collect(Collectors.toList());
     }
 
     private void save(final GameDto gameDto, final WinnerCarDto winner) {
