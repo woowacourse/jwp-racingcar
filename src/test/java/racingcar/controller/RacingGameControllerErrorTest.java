@@ -36,7 +36,7 @@ public class RacingGameControllerErrorTest extends RacingGameFixtures {
         final JsonPath result = response.jsonPath();
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
-                () -> assertThat(result.getString("exceptionMessage")).isEqualTo("[ERROR] 쉼표로 이름을 구분해주세요.")
+                () -> assertThat(result.getString("exceptionMessage")).isEqualTo("[ERROR] ,로 이름을 구분해주세요.")
         );
     }
 }

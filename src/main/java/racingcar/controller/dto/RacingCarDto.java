@@ -17,4 +17,12 @@ public class RacingCarDto {
     public int getPosition() {
         return position;
     }
+
+    @Override
+    public String toString() {
+        return "RacingCarDto{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                '}';
+    }
 }

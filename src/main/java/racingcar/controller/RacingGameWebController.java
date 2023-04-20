@@ -1,7 +1,6 @@
 package racingcar.controller;
 
 import java.util.List;
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.GameRequest;
 import racingcar.controller.dto.GameResponse;
-import racingcar.dao.Player;
-import racingcar.domain.RacingCars;
 import racingcar.service.RacingGameService;
 
 @RestController
@@ -19,23 +16,22 @@ import racingcar.service.RacingGameService;
 public class RacingGameWebController {
 
     private final RacingGameService racingGameService;
-    private final RacingGameMapper mapper;
 
-    public RacingGameWebController(final RacingGameService racingGameService, final RacingGameMapper mapper) {
+    public RacingGameWebController(final RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
-        this.mapper = mapper;
     }
 
     @PostMapping
     public ResponseEntity<GameResponse> doGame(@RequestBody final GameRequest gameRequest) {
-        final RacingCars racingCars = racingGameService.run(gameRequest.getNames(), gameRequest.getCount());
+        final GameResponse response = racingGameService.run(gameRequest);
 
-        return ResponseEntity.ok(mapper.toGameResponse(racingCars));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<List<GameResponse>> findResult() {
-        final Map<Long, List<Player>> results = racingGameService.findAll();
-        return ResponseEntity.ok(mapper.toGameResponses(results));
+        final List<GameResponse> responses = racingGameService.findAll();
+
+        return ResponseEntity.ok(responses);
     }
 }

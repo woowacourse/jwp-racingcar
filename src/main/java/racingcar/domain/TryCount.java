@@ -31,4 +31,8 @@ public class TryCount {
     public boolean isZero() {
         return this.tryCount == END_FLAG;
     }
+
+    public int getCount() {
+        return tryCount;
+    }
 }

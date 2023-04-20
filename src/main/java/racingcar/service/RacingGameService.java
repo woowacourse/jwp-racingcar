@@ -1,14 +1,14 @@
 package racingcar.service;
 
-import static java.util.Collections.addAll;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.controller.dto.GameRequest;
+import racingcar.controller.dto.GameResponse;
 import racingcar.dao.Player;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.RacingGameDao;
@@ -16,7 +16,6 @@ import racingcar.domain.Name;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
-import racingcar.exception.CommaNotFoundException;
 
 @Service
 @Transactional
@@ -30,40 +29,26 @@ public class RacingGameService {
         this.playerDao = playerDao;
     }
 
-    public RacingCars run(final String inputNames, final int inputCount) {
-        final List<Name> names = sliceNames(inputNames);
+    public GameResponse run(final GameRequest gameRequest) {
+        final List<Name> names = createNames(gameRequest.sliceNames());
         final RacingCars racingCars = new RacingCars(createRacingCar(names));
-        final TryCount tryCount = new TryCount(inputCount);
+        final TryCount tryCount = createTryCount(gameRequest.getCount());
 
         moveCars(racingCars, tryCount);
 
-        saveRacingCars(inputCount, racingCars);
-        return racingCars;
+        saveRacingCars(tryCount, racingCars);
+
+        return new GameResponse(racingCars.getWinnerNames(), racingCars.getRacingCars());
     }
 
-    private static List<Name> sliceNames(final String inputNames) {
-        return sliceNameByComma(inputNames).stream()
+    private List<Name> createNames(final List<String> names) {
+        return names.stream()
                 .map(Name::new)
                 .collect(toList());
     }
 
-    private static List<String> sliceNameByComma(final String names) {
-        validateComma(names);
-
-        return getSplitName(names);
-    }
-
-    private static List<String> getSplitName(final String names) {
-        List<String> splitNames = new ArrayList<>();
-        addAll(splitNames, names.split(","));
-
-        return splitNames;
-    }
-
-    private static void validateComma(final String names) {
-        if (!names.contains(",")) {
-            throw new CommaNotFoundException();
-        }
+    private TryCount createTryCount(final int count) {
+        return new TryCount(count);
     }
 
     private List<RacingCar> createRacingCar(final List<Name> names) {
@@ -83,12 +68,12 @@ public class RacingGameService {
         return !tryCount.isZero();
     }
 
-    private void saveRacingCars(final int tryCount, final RacingCars racingCars) {
+    private void saveRacingCars(final TryCount tryCount, final RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
         final List<Player> players = racingCars.getRacingCars().stream()
                 .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
                 .collect(toList());
-        final long gameId = racingGameDao.save(tryCount);
+        final long gameId = racingGameDao.save(tryCount.getCount());
 
         playerDao.saveAllPlayers(gameId, players);
     }
@@ -98,9 +83,15 @@ public class RacingGameService {
     }
 
     @Transactional(readOnly = true)
-    public Map<Long, List<Player>> findAll() {
+    public List<GameResponse> findAll() {
         final List<Player> allPlayers = playerDao.findAll();
-        return allPlayers.stream()
+
+        final Map<Long, List<Player>> groupingPlayers = allPlayers.stream()
                 .collect(groupingBy(Player::getGameId));
+
+        return groupingPlayers.values().stream()
+                .map(RacingCars::create)
+                .map(racingcars -> new GameResponse(racingcars.getWinnerNames(), racingcars.getRacingCars()))
+                .collect(toList());
     }
 }

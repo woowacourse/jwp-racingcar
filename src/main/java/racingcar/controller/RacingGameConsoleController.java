@@ -1,8 +1,9 @@
 package racingcar.controller;
 
+import racingcar.controller.dto.GameRequest;
+import racingcar.controller.dto.GameResponse;
 import racingcar.dao.PlayerConsoleDao;
 import racingcar.dao.RacingGameConsoleDao;
-import racingcar.domain.RacingCars;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -10,14 +11,17 @@ import racingcar.view.OutputView;
 public class RacingGameConsoleController {
 
     public void play() {
-        final RacingGameService racingGameService = new RacingGameService(new RacingGameConsoleDao(), new PlayerConsoleDao());
+        final RacingGameService racingGameService = new RacingGameService(
+                new RacingGameConsoleDao(),
+                new PlayerConsoleDao()
+        );
 
         final String names = InputView.requestCarName();
         final int tryCount = InputView.requestTryCount();
 
-        final RacingCars racingCars = racingGameService.run(names, tryCount);
+        final GameResponse response = racingGameService.run(new GameRequest(names, tryCount));
 
-        OutputView.printResult(racingCars);
+        OutputView.printResult(response);
     }
 
 }
