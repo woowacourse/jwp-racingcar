@@ -1,11 +1,16 @@
 package racingcar.controller.console;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import racingcar.controller.TrackResponse;
 import racingcar.service.RacingService;
 import racingcar.view.inputview.InputView;
 import racingcar.view.outputview.OutputView;
 
 public class RacingConsoleController {
+
+    private static final String NAME_SPLIT_DELIMITER = ",";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -18,9 +23,10 @@ public class RacingConsoleController {
     }
 
     public void start() {
-        String names = inputView.inputCarNames();
-        Integer trialTimes = inputView.inputTrialTimes();
-        TrackResponse trackResponse = racingService.play(names, trialTimes);
+        final List<String> names = Arrays.stream(inputView.inputCarNames().split(NAME_SPLIT_DELIMITER))
+                .collect(Collectors.toList());
+        final Integer trialTimes = inputView.inputTrialTimes();
+        final TrackResponse trackResponse = racingService.play(names, trialTimes);
 
         outputView.printWinnerCars(trackResponse.getWinners());
         outputView.printCurrentCarsPosition(trackResponse.getRacingCars());

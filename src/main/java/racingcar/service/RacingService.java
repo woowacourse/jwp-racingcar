@@ -27,7 +27,7 @@ public class RacingService {
     }
 
     @Transactional
-    public TrackResponse play(final String names, final Integer trialTimes) {
+    public TrackResponse play(final List<String> names, final Integer trialTimes) {
         final Cars cars = makeCars(names, movingStrategy);
         final Track track = makeTrack(cars, trialTimes);
         final Integer trackId = saveTrack(track);
@@ -37,7 +37,7 @@ public class RacingService {
         return new TrackResponse(makeWinnerCarNames(finishedCars), makeCarResponses(finishedCars));
     }
 
-    private Cars makeCars(final String name, final MovingStrategy movingStrategy) {
+    private Cars makeCars(final List<String> name, final MovingStrategy movingStrategy) {
         return new Cars(name, movingStrategy);
     }
 

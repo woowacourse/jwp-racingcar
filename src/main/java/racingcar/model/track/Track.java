@@ -15,7 +15,6 @@ public class Track {
 
     public Track(final Cars cars, final Integer trialTimes) {
         validate(trialTimes);
-
         this.cars = cars;
         this.trialTimes = trialTimes;
     }
@@ -42,7 +41,7 @@ public class Track {
     }
 
     public boolean runnable() {
-        return trialTimes >= CAN_GAME;
+        return trialTimes > CAN_GAME;
     }
 
     public Cars getCars() {
