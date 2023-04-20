@@ -1,25 +1,39 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.PlayRequest;
-import racingcar.dto.PlayResponse;
-import racingcar.service.GameService;
+import racingcar.dto.GameDto;
+import racingcar.dto.RecordDto;
+import racingcar.model.Cars;
+import racingcar.service.RacingGameService;
+import racingcar.service.GameRecordService;
+
+import java.util.List;
 
 @RestController
 public class WebController {
 
-    private final GameService gameService;
+    private final RacingGameService racingGameService;
+    private final GameRecordService gameRecordService;
 
-    @Autowired
-    public WebController(final GameService gameService) {
-        this.gameService = gameService;
+    public WebController(final RacingGameService racingGameService, final GameRecordService gameRecordService) {
+        this.racingGameService = racingGameService;
+        this.gameRecordService = gameRecordService;
     }
 
     @PostMapping("/plays")
-    public PlayResponse plays(@RequestBody final PlayRequest playRequest) {
-        return gameService.play(playRequest);
+    public RecordDto plays(@RequestBody final GameDto gameDto) {
+        Cars cars = racingGameService.play(gameDto);
+
+        gameRecordService.saveGameRecord(gameDto.getCount(), cars);
+
+        return new RecordDto(cars.getWinner(), racingGameService.carsToListOfCarDto(cars));
+    }
+
+    @GetMapping("/plays")
+    public List<RecordDto> record() {
+        return gameRecordService.findRecords();
     }
 }

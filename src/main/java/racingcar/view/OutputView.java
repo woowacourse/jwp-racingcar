@@ -1,44 +1,34 @@
 package racingcar.view;
 
-import racingcar.model.Cars;
-import racingcar.model.Vehicle;
+import racingcar.dto.CarDto;
+import racingcar.dto.RecordDto;
 
-import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.joining;
 
 public class OutputView {
 
     private static final String RESULT_HEADER = "\n실행 결과";
-    private static final String WIN_MENTION = "%s가 최종 우승했습니다.%n";
-    private static final String WINNER_CONNECTOR = ", ";
-    private static final String STICK = "-";
-    public static final String CAR_RESULT = "%s : %s\n";
+    private static final String WIN_MENTION = "%s가 최종 우승했습니다.%n%n";
+    public static final String CAR_RESULT = "이름: %s, 이동 거리 : %s\n";
+    public static final String RECORD_NAME_FORMAT = "%-5s";
 
-    public void resultHeader() {
+    public void result(RecordDto recordDto) {
         System.out.println(RESULT_HEADER);
-    }
 
-    public void result(Cars racing) {
-        String result = racing.getCars()
+        System.out.printf(WIN_MENTION, recordDto.getWinners());
+
+        String result = recordDto.getRacingCars()
                 .stream()
                 .map(this::convertResultToString)
                 .collect(Collectors.joining());
         System.out.println(result);
     }
 
-    private String convertResultToString(Vehicle car) {
-        return String.format(CAR_RESULT, car.getName(), STICK.repeat(car.getDistance()));
+    private String convertResultToString(CarDto car) {
+        return String.format(CAR_RESULT, padRight(car.getName()), car.getPosition());
     }
 
-    public void winner(List<Vehicle> winners) {
-        System.out.printf(WIN_MENTION, convertwinnersToString(winners));
-    }
-
-    private String convertwinnersToString(List<Vehicle> winners) {
-        return winners.stream()
-                .map(Vehicle::getName)
-                .collect(joining(WINNER_CONNECTOR));
+    public static String padRight(String s) {
+        return String.format(RECORD_NAME_FORMAT, s);
     }
 }
