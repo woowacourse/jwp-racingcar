@@ -53,8 +53,4 @@ public class PlayResultDao {
         String sql = "select * from play_result";
         return jdbcTemplate.query(sql, playResultRowMapper);
     }
-
-    public void setTableName(String tableName) {
-        insertPlayResult.setTableName(tableName);
-    }
 }

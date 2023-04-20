@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
 
@@ -15,7 +14,6 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @JdbcTest
-@Sql(scripts={"classpath:test_data.sql"})
 public class PlayResultDaoTest {
     private PlayResultDao playResultDao;
 
@@ -28,7 +26,6 @@ public class PlayResultDaoTest {
     @BeforeEach
     void setUp() {
         playResultDao = new PlayResultDao(dataSource, jdbcTemplate);
-        playResultDao.setTableName("test_play_result");
     }
 
     @Test
@@ -39,7 +36,7 @@ public class PlayResultDaoTest {
 
         playResultDao.insertResult(racingGameDto);
 
-        final String sql = "select count (*) from test_play_result";
+        final String sql = "select count (*) from play_result";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class)).isEqualTo(1);
     }
 
@@ -51,7 +48,7 @@ public class PlayResultDaoTest {
 
         playResultDao.insertResult(racingGameDto);
 
-        final String sql = "select winners from test_play_result";
+        final String sql = "select winners from play_result";
         assertThat(jdbcTemplate.queryForObject(sql, String.class)).isEqualTo("토미");
     }
 }

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
 
@@ -15,7 +14,6 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @JdbcTest
-@Sql(scripts={"classpath:test_data.sql"})
 public class PlayersResultDaoTest {
     private PlayResultDao playResultDao;
     private PlayersResultDao playersResultDao;
@@ -29,9 +27,7 @@ public class PlayersResultDaoTest {
     @BeforeEach
     void setUp() {
         playResultDao = new PlayResultDao(dataSource, jdbcTemplate);
-        playResultDao.setTableName("test_play_result");
         playersResultDao = new PlayersResultDao(dataSource, jdbcTemplate);
-        playersResultDao.setTableName("test_players_result");
     }
 
     @Test
@@ -43,7 +39,7 @@ public class PlayersResultDaoTest {
         final int newId = playResultDao.insertResult(racingGameDto);
         playersResultDao.insertResult(racingGameDto.getRacingCars(), newId);
 
-        final String sql = "select count (*) from test_players_result";
+        final String sql = "select count (*) from players_result";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class)).isEqualTo(3);
     }
 }

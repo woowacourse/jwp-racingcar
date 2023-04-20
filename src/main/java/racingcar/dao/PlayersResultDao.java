@@ -52,8 +52,4 @@ public class PlayersResultDao {
         String sql = "select * from players_result where result_id = ?";
         return jdbcTemplate.query(sql, playersResultRowMapper, resultId);
     }
-
-    public void setTableName(String tableName) {
-        insertPlayersResult.setTableName(tableName);
-    }
 }
