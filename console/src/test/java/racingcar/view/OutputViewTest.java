@@ -20,14 +20,12 @@ class OutputViewTest {
 
     @BeforeEach
     void setMockOutput() {
-        //테스트를 위해 System.out을 MockOutput으로 변경한다
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
     }
 
     @AfterEach
     void setSystemOut() {
-        //테스트가 끝나면 다시 원래의 out으로 변경한다
         System.setOut(System.out);
     }
 
@@ -36,7 +34,6 @@ class OutputViewTest {
         final List<String> winners = List.of("judy", "nunu");
         OutputView.printWinner(winners);
 
-//        assertThat(mockOutput.output()).contains("judy, nunu가 최종 우승했습니다.");
         assertThat(outputStream.toString()).contains("judy, nunu가 최종 우승했습니다.");
     }
 

@@ -31,7 +31,6 @@ public class RacingGameMapper {
                 .collect(Collectors.toList());
     }
 
-    //매퍼가 이렇게 많은 역할을 하고 있는게 맞는지 애매해지네요 어디까지 repository 의 책임일까요
     public static List<RacingGame> toDomain(final List<GameEntity> gameEntities, final List<CarEntity> carEntities) {
         final List<RacingGame> result = new ArrayList<>();
         for (final GameEntity gameEntity : gameEntities) {
