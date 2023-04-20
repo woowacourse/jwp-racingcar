@@ -35,24 +35,24 @@ public class RacingCarService {
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoRequest.getCount();
         GamePlay.play(cars, count, numberGenerator);
-        List<CarParam> carParams = cars.getCars().stream()
-                .map(CarParam::new)
+        List<CarResponse> carResponses = cars.getCars().stream()
+                .map(CarResponse::new)
                 .collect(Collectors.toList());
-        List<CarParam> winners = cars.findWinners().stream()
-                .map(CarParam::new)
+        List<CarResponse> winners = cars.findWinners().stream()
+                .map(CarResponse::new)
                 .collect(Collectors.toList());
-        saveResult(count, carParams, winners);
+        saveResult(count, carResponses, winners);
         return new GameResultResponse(cars.findWinners(), cars.getCars());
     }
 
-    private void saveResult(int trialCount, List<CarParam> cars, List<CarParam> winners) {
+    private void saveResult(int trialCount, List<CarResponse> cars, List<CarResponse> winners) {
         int playerResultId = playResultDAO.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
         playersInfoDAO.insert(playerResultId, cars);
     }
 
-    private String makeWinnersString(List<CarParam> winners) {
+    private String makeWinnersString(List<CarResponse> winners) {
         return winners.stream()
-                .map(CarParam::getName)
+                .map(CarResponse::getName)
                 .collect(Collectors.joining(DELIMITER));
     }
 

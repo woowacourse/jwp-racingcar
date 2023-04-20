@@ -3,7 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarParam;
+import racingcar.dto.CarResponse;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,20 +21,20 @@ public class PlayersInfoDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(int playResultId, List<CarParam> carParams) {
+    public void insert(int playResultId, List<CarResponse> carResponses) {
         String sql = "insert into players_info (name, position, play_result_id) values (?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                CarParam carParam = carParams.get(i);
-                ps.setString(FIRST_PARAM, carParam.getName());
-                ps.setInt(SECOND_PARAM, carParam.getPosition());
+                CarResponse carResponse = carResponses.get(i);
+                ps.setString(FIRST_PARAM, carResponse.getName());
+                ps.setInt(SECOND_PARAM, carResponse.getPosition());
                 ps.setInt(THIRD_PARAM, playResultId);
             }
 
             @Override
             public int getBatchSize() {
-                return carParams.size();
+                return carResponses.size();
             }
         });
     }

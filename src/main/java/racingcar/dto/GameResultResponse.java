@@ -7,14 +7,14 @@ import java.util.stream.Collectors;
 
 public class GameResultResponse {
     private final String winners;
-    private final List<CarParam> racingCars;
+    private final List<CarResponse> racingCars;
 
     public GameResultResponse(List<Car> winners, List<Car> racingCars) {
         String winnersToDto = winners.stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(","));
-        List<CarParam> racingCarsToDto = racingCars.stream()
-                .map(CarParam::new)
+        List<CarResponse> racingCarsToDto = racingCars.stream()
+                .map(CarResponse::new)
                 .collect(Collectors.toList());
         this.winners = winnersToDto;
         this.racingCars = racingCarsToDto;
@@ -24,7 +24,7 @@ public class GameResultResponse {
         return winners;
     }
 
-    public List<CarParam> getRacingCars() {
+    public List<CarResponse> getRacingCars() {
         return racingCars;
     }
 }
