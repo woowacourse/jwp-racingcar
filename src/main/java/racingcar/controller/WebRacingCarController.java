@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,10 +26,9 @@ public class WebRacingCarController {
         this.racingCarService = racingCarService;
     }
 
-    //HTTP created 고려
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponse> play(@RequestBody @Valid final RacingGameRequest racingGameRequest) {
-        return ResponseEntity.ok().body(racingCarService.play(racingGameRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(racingCarService.play(racingGameRequest));
     }
 
     @GetMapping("/plays")
@@ -38,7 +38,7 @@ public class WebRacingCarController {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
-        return ResponseEntity.badRequest().body(new ExceptionResponse(exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -48,6 +48,6 @@ public class WebRacingCarController {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(System.lineSeparator()));
 
-        return ResponseEntity.badRequest().body(new ExceptionResponse(exceptionMessage));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponse(exceptionMessage));
     }
 }
