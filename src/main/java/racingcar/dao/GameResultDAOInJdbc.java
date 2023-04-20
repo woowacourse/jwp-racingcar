@@ -13,11 +13,11 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
-public class GameResultDAOInH2 implements GameResultDAO {
+public class GameResultDAOInJdbc implements GameResultDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GameResultDAOInH2(JdbcTemplate jdbcTemplate) {
+    public GameResultDAOInJdbc(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

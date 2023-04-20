@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ComponentScan
 @JdbcTest
-class GameResultDAOInH2Test {
+class GameResultDAOInJdbcTest {
     @Autowired
-    private GameResultDAOInH2 gameResultDAOInH2;
+    private GameResultDAOInJdbc gameResultDAOInJdbc;
 
     @DisplayName("최종 게임 결과를 저장할 수 있다.")
     @Transactional
@@ -31,9 +31,9 @@ class GameResultDAOInH2Test {
 
         //when
         for (GameResultDto result : results) {
-            gameResultDAOInH2.save(result);
+            gameResultDAOInJdbc.save(result);
         }
-        List<GameResultEntity> findResults = gameResultDAOInH2.findAll();
+        List<GameResultEntity> findResults = gameResultDAOInJdbc.findAll();
 
         //then
         for (int i = 0; i < findResults.size(); i++) {

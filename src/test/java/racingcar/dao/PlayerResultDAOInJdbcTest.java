@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 
 @ComponentScan
 @JdbcTest
-class PlayerResultDAOInH2Test {
+class PlayerResultDAOInJdbcTest {
     @Autowired
-    private GameResultDAOInH2 gameResultDAOInH2;
+    private GameResultDAOInJdbc gameResultDAOInJdbc;
     @Autowired
-    private PlayerResultDAOInH2 playerResultDAOInH2;
+    private PlayerResultDAOInJdbc playerResultDAOInJdbc;
 
     @DisplayName("플레이어들의 게임 결과를 저장할 수 있다.")
     @Transactional
@@ -29,13 +29,13 @@ class PlayerResultDAOInH2Test {
     void savePlayerResultTest() {
         //given
         List<CarDto> carDtos = List.of(CarDto.of("zuny", 10), CarDto.of("dochi", 7));
-        int savedId = gameResultDAOInH2.save(GameResultDto.from(10));
+        int savedId = gameResultDAOInJdbc.save(GameResultDto.from(10));
 
         //when
-        playerResultDAOInH2.saveAll(PlayerResultDto.of(carDtos, savedId));
+        playerResultDAOInJdbc.saveAll(PlayerResultDto.of(carDtos, savedId));
 
         //then
-        List<PlayerResultEntity> findResult = playerResultDAOInH2.findAll();
+        List<PlayerResultEntity> findResult = playerResultDAOInJdbc.findAll();
         List<String> findNames = getNamesFrom(findResult);
         List<Integer> findPositions = getPositionsFrom(findResult);
 
