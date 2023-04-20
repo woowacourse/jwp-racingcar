@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.dto.HistoryResponseDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
 import racingcar.service.RacingCarService;
@@ -27,8 +28,8 @@ public class RacingCarWebController {
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<ResultResponseDto>> showAllRacingGameHistory() {
-        List<ResultResponseDto> resultResponseDtos = racingCarService.getAllRacingGameHistory();
-        return ResponseEntity.ok().body(resultResponseDtos);
+    public ResponseEntity<HistoryResponseDto> showAllRacingGameHistory() {
+        HistoryResponseDto historyResponseDto = racingCarService.getAllRacingGameHistory();
+        return ResponseEntity.ok().body(historyResponseDto);
     }
 }

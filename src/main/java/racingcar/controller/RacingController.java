@@ -25,14 +25,10 @@ public class RacingController {
         int tryCount = inputTryCount();
         var requestDto = new RacingGameRequestDto(carNames, tryCount);
 
-        racingCarService.play(requestDto);
+        ResultResponseDto responseDto = racingCarService.play(requestDto);
 
-        List<ResultResponseDto> playHistory = racingCarService.getAllRacingGameHistory();
-
-        for (ResultResponseDto responseDto : playHistory) {
-            outputView.printStatus(responseDto);
-            outputView.printWinners(responseDto);
-        }
+        outputView.printStatus(responseDto);
+        outputView.printWinners(responseDto);
     }
 
     private List<String> inputCarNames() {

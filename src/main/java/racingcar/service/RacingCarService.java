@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
+import racingcar.dto.HistoryResponseDto;
 import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
@@ -47,13 +48,14 @@ public class RacingCarService {
     }
 
     @Transactional
-    public List<ResultResponseDto> getAllRacingGameHistory() {
-        return racingGameRepository.getAllRacingGames().stream()
+    public HistoryResponseDto getAllRacingGameHistory() {
+        List<ResultResponseDto> resultResponseDtos = racingGameRepository.getAllRacingGames().stream()
                 .map(racingGame ->
                         new ResultResponseDto(racingGame.getWinners(),
-                        mapToPlayerDtos(racingGame.getCars())
+                                mapToPlayerDtos(racingGame.getCars())
                         )
                 )
                 .collect(Collectors.toList());
+        return new HistoryResponseDto(resultResponseDtos);
     }
 }
