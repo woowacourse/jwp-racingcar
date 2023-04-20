@@ -42,7 +42,7 @@ public class RacingCarService {
     private void saveGame(final int count, final RacingGame racingGame) {
         final String winners = String.join(", ", racingGame.getWinnerNames());
 
-        final long resultId = racingCarDao.saveWinners(count, winners);
+        final Long resultId = racingCarDao.saveWinners(count, winners);
         racingCarDao.saveCars(resultId, racingGame.getCars());
     }
 
