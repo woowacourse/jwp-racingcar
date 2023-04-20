@@ -2,20 +2,14 @@ package racingcar.dto.response;
 
 public class ErrorResponse {
 
-    private final int code;
     private final String message;
 
-    public ErrorResponse(int code, String message) {
-        this.code = code;
+    public ErrorResponse(final String message) {
         this.message = message;
     }
 
-    public static ErrorResponse send(final int code, final String message) {
-        return new ErrorResponse(code, message);
-    }
-
-    public int getCode() {
-        return code;
+    public static ErrorResponse send(final String message) {
+        return new ErrorResponse(message);
     }
 
     public String getMessage() {

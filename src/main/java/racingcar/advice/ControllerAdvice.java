@@ -17,6 +17,6 @@ public class ControllerAdvice {
         String errorMessage = Objects.requireNonNull(exception.getBindingResult().getFieldError()).getDefaultMessage();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ErrorResponse.send(HttpStatus.BAD_REQUEST.value(), errorMessage));
+                .body(ErrorResponse.send(errorMessage));
     }
 }
