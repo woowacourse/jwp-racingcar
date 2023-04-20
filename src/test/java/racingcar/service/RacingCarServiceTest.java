@@ -23,7 +23,6 @@ import racingcar.repository.JdbcRacingGameRepository;
 @ExtendWith(MockitoExtension.class)
 class RacingCarServiceTest {
 
-    private static final long gameId = 1L;
     private static final String TEST_PLAYER_NAME_1 = "hong";
     private static final String TEST_PLAYER_NAME_2 = "coda";
 
