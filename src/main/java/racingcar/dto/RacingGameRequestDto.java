@@ -8,6 +8,11 @@ public class RacingGameRequestDto {
     private String names;
     private int count;
 
+    public RacingGameRequestDto(final String names, final int count) {
+        this.names = names;
+        this.count = count;
+    }
+
     public List<String> getNamesList() {
         return List.of(names.split(DELIMITER));
     }
