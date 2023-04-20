@@ -4,3 +4,5 @@ dependencies {
 
     implementation project(":domain")
 }
+bootJar { enabled = false }
+jar { enabled = true }
