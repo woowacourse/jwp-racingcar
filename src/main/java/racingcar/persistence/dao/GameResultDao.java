@@ -22,13 +22,13 @@ public class GameResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long save(final String winners, final int trialCount) {
+    public Long save(final GameResultEntity gameResultEntity) {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, GAME_RESULT_ID);
-            preparedStatement.setString(1, winners);
-            preparedStatement.setInt(2, trialCount);
+            preparedStatement.setString(1, gameResultEntity.getWinners());
+            preparedStatement.setInt(2, gameResultEntity.getTrialCount());
             return preparedStatement;
         }, keyHolder);
         return keyHolder.getKey().longValue();
@@ -37,7 +37,7 @@ public class GameResultDao {
     public List<GameResultEntity> selectAll() {
         final String sql = "SELECT * FROM GAME_RESULT";
 
-        return jdbcTemplate.query(sql, (resultSet, count) -> new GameResultEntity(
+        return jdbcTemplate.query(sql, (resultSet, count) -> GameResultEntity.ofOutward(
                 resultSet.getInt("id"),
                 resultSet.getInt("trial_count"),
                 resultSet.getString("winners"),

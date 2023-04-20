@@ -1,29 +1,29 @@
 package racingcar.persistence.repository;
 
-import racingcar.dto.GameResultResponse;
+import racingcar.domain.RacingGame;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryGameRepository implements GameRepository {
 
-    private final List<GameResultResponse> gameResults;
+    private final List<RacingGame> gameResults;
 
     public InMemoryGameRepository() {
         this(new ArrayList<>());
     }
 
-    public InMemoryGameRepository(final List<GameResultResponse> gameResults) {
+    public InMemoryGameRepository(final List<RacingGame> gameResults) {
         this.gameResults = gameResults;
     }
 
     @Override
-    public void saveGameRecord(final GameResultResponse gameResultResponse, final int ignored) {
-        gameResults.add(gameResultResponse);
+    public void saveGame(final RacingGame racingGame) {
+        gameResults.add(racingGame);
     }
 
     @Override
-    public List<GameResultResponse> makeGameRecords() {
+    public List<RacingGame> selectAllGames() {
         return List.copyOf(gameResults);
     }
 }

@@ -27,11 +27,12 @@ public class RacingGameService {
     public GameResultResponse playRacingGame(final RacingGameRequest racingGameRequest) {
         RacingGame racingGame = createRacingGame(racingGameRequest);
         racingGame.start();
+
         GameResultResponse gameResultResponse = new GameResultResponse(
                 mapWinnerNamesTextFrom(racingGame),
                 mapCarDtosFrom(racingGame)
         );
-        racingGameRepository.saveGameRecord(gameResultResponse, racingGameRequest.getCount());
+        racingGameRepository.saveGame(racingGame);
         return gameResultResponse;
     }
 
@@ -56,7 +57,9 @@ public class RacingGameService {
                 .collect(Collectors.joining(","));
     }
 
-    public List<GameResultResponse> makeGameRecords() {
-        return racingGameRepository.makeGameRecords();
+    public List<RacingGame> makeGameRecords() {
+        List<RacingGame> allGames = racingGameRepository.selectAllGames();
+        allGames.forEach(RacingGame::start);
+        return allGames;
     }
 }

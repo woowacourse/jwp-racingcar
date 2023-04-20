@@ -1,12 +1,12 @@
 package racingcar.persistence.repository;
 
-import racingcar.dto.GameResultResponse;
+import racingcar.domain.RacingGame;
 
 import java.util.List;
 
 public interface GameRepository {
 
-    void saveGameRecord(final GameResultResponse gameResultResponse, final int trialCount);
+    void saveGame(final RacingGame racingGame);
 
-    List<GameResultResponse> makeGameRecords();
+    List<RacingGame> selectAllGames();
 }

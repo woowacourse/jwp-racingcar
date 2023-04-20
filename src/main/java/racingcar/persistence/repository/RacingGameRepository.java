@@ -2,11 +2,15 @@ package racingcar.persistence.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.GameResultResponse;
+import racingcar.domain.Car;
+import racingcar.domain.RacingGame;
 import racingcar.persistence.dao.GameResultDao;
 import racingcar.persistence.dao.PlayerResultDao;
+import racingcar.persistence.entity.GameResultEntity;
+import racingcar.persistence.entity.PlayerResultEntity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class RacingGameRepository implements GameRepository {
@@ -20,12 +24,28 @@ public class RacingGameRepository implements GameRepository {
         this.playerResultDao = playerResultDao;
     }
 
-    public void saveGameRecord(final GameResultResponse gameResultResponse, final int trialCount) {
-        Long gameResultKey = gameResultDao.save(gameResultResponse.getWinners(), trialCount);
-        playerResultDao.saveAll(gameResultResponse.getRacingCars(), gameResultKey);
+    public void saveGame(final RacingGame racingGame) {
+        Long gameResultKey = gameResultDao.save(toGameResultEntity(racingGame));
+        playerResultDao.saveAll(toPlayerResultEntity(racingGame, gameResultKey));
     }
 
-    public List<GameResultResponse> makeGameRecords() {
+    private GameResultEntity toGameResultEntity(final RacingGame racingGame) {
+        return GameResultEntity.ofInward(
+                racingGame.getGameCoin().getGiven(),
+                racingGame.getWinners().stream()
+                        .map(Car::getCarName)
+                        .reduce((o1, o2) -> o1 + "," + o2)
+                        .orElseThrow()
+        );
+    }
+
+    private List<PlayerResultEntity> toPlayerResultEntity(final RacingGame racingGame, final Long gameResultId) {
+        return racingGame.getCars().stream()
+                .map(car -> PlayerResultEntity.ofInward(car.getCarName(), car.getPosition(), gameResultId))
+                .collect(Collectors.toList());
+    }
+
+    public List<RacingGame> selectAllGames() {
         GameRecordJoiner gameRecordJoiner = new GameRecordJoiner();
         return gameRecordJoiner.join(gameResultDao.selectAll(), playerResultDao.selectAll());
     }

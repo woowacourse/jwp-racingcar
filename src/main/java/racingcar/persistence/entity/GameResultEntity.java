@@ -9,7 +9,23 @@ public class GameResultEntity {
     private final String winners;
     private final LocalDateTime createdAt;
 
-    public GameResultEntity(final int id, final int trialCount, final String winners, final LocalDateTime createdAt) {
+    public static GameResultEntity ofInward(
+            final int trialCount,
+            final String winners
+    ) {
+        return new GameResultEntity(-1, trialCount, winners, null);
+    }
+
+    public static GameResultEntity ofOutward(
+            final int id,
+            final int trialCount,
+            final String winners,
+            final LocalDateTime createdAt
+    ) {
+        return new GameResultEntity(id, trialCount, winners, createdAt);
+    }
+
+    private GameResultEntity(final int id, final int trialCount, final String winners, final LocalDateTime createdAt) {
         this.id = id;
         this.trialCount = trialCount;
         this.winners = winners;
