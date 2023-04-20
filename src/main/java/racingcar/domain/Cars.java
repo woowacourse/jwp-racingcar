@@ -3,7 +3,7 @@ package racingcar.domain;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import racingcar.dto.CarDto;
+import racingcar.dto.CarResponse;
 import racingcar.utils.NumberGenerator;
 
 import java.util.Collections;
@@ -18,21 +18,21 @@ public class Cars {
     private final List<Car> cars;
     private final NumberGenerator numberGenerator;
 
-    private Cars(List<Car> cars, NumberGenerator numberGenerator) {
+    public Cars(List<Car> cars, NumberGenerator numberGenerator) {
         this.cars = cars;
         this.numberGenerator = numberGenerator;
     }
 
-    public static Cars initialize(String names, NumberGenerator numberGenerator) {
+    public Cars(String names, NumberGenerator numberGenerator) {
         List<CarName> carNames = getCarNames(names);
         validateDuplication(carNames);
 
-        List<Car> cars = carNames.stream().map(Car::of)
+        this.cars = carNames.stream().map(Car::of)
             .collect(Collectors.toList());
-        return new Cars(cars, numberGenerator);
+        this.numberGenerator = numberGenerator;
     }
 
-    private static List<CarName> getCarNames(String names) {
+    private List<CarName> getCarNames(String names) {
         List<CarName> carNames = CarName.of(
             Arrays.asList(names.split(","))
         );
@@ -41,32 +41,32 @@ public class Cars {
         return carNames;
     }
 
-    private static void validateCarNames(List<CarName> carNames) {
+    private void validateCarNames(List<CarName> carNames) {
         validateNamesLength(carNames);
-        carNames.forEach(Cars::validateNameBlank);
+        carNames.forEach(this::validateNameBlank);
     }
 
-    private static void validateNamesLength(List<CarName> carNames) {
+    private void validateNamesLength(List<CarName> carNames) {
         if (carNames.size() == 0) {
             throw new IllegalArgumentException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
     }
 
-    private static void validateNameBlank(CarName carName) {
+    private void validateNameBlank(CarName carName) {
         if (carName.isBlank()) {
             throw new IllegalArgumentException(EMPTY_INPUT_EXCEPTION_MESSAGE);
         }
     }
 
-    private static void validateDuplication(List<CarName> names) {
+    private void validateDuplication(List<CarName> names) {
         Set<CarName> namesWithoutDuplication = new HashSet<>(names);
         if (names.size() != namesWithoutDuplication.size()) {
             throw new IllegalArgumentException("중복된 이름은 사용할 수 없습니다.");
         }
     }
 
-    public List<CarDto> getCarDtos() {
-        return cars.stream().map((car) -> new CarDto(car.getName(), car.getPosition()))
+    public List<CarResponse> getCarDtos() {
+        return cars.stream().map((car) -> new CarResponse(car.getName(), car.getPosition()))
             .collect(Collectors.toList());
     }
 
@@ -81,18 +81,9 @@ public class Cars {
     public List<String> getWinnerNames() {
         int highestPosition = calculateHighestPosition();
         return cars.stream()
-            .filter(car -> hasHighestPosition(highestPosition, car))
+            .filter(car -> car.hasPosition(highestPosition))
             .map(Car::getName)
             .collect(Collectors.toUnmodifiableList());
-    }
-
-    public List<CarDto> getCarsDto() {
-        return cars.stream().map((car) -> new CarDto(car.getName(), car.getPosition()))
-            .collect(Collectors.toList());
-    }
-
-    private static boolean hasHighestPosition(int highestPosition, Car car) {
-        return car.hasPosition(highestPosition);
     }
 
     private int calculateHighestPosition() {

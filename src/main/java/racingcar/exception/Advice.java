@@ -1,23 +1,17 @@
 package racingcar.exception;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import racingcar.dto.ExceptionMessageDTO;
+import racingcar.dto.ExceptionResponse;
 
 @RestControllerAdvice
 public class Advice {
 
-    public static final int ILLEGAL_INPUT_ERROR = 20;
-    public static final int UNKNOWN_ERROR = -1;
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ExceptionMessageDTO handleIllegalInput(IllegalArgumentException exception) {
-        return new ExceptionMessageDTO(ILLEGAL_INPUT_ERROR, exception.getMessage());
-    }
-
     @ExceptionHandler
-    public ExceptionMessageDTO handleException(Exception exception) {
-        return new ExceptionMessageDTO(UNKNOWN_ERROR, exception.getMessage());
+    public ResponseEntity handleException(Exception exception) {
+        return ResponseEntity.badRequest()
+            .body(new ExceptionResponse(exception.getMessage()));
     }
 
 }

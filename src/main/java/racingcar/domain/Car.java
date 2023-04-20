@@ -2,7 +2,6 @@ package racingcar.domain;
 
 import racingcar.domain.vo.CarName;
 import racingcar.domain.vo.Position;
-import racingcar.dto.CarDto;
 
 public class Car {
 
@@ -11,9 +10,13 @@ public class Car {
     private final CarName name;
     private Position position;
 
-    private Car(CarName name) {
+    public Car(CarName name, Position position) {
         this.name = name;
-        this.position = Position.of(ZERO_POSITION);
+        this.position = position;
+    }
+
+    private Car(CarName name) {
+        this(name, Position.of(ZERO_POSITION));
     }
 
     public static Car of(CarName name) {

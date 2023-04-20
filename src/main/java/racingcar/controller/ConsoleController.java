@@ -1,6 +1,8 @@
 package racingcar.controller;
 
 import racingcar.domain.Cars;
+import racingcar.dto.RacingRequest;
+import racingcar.service.ConsoleService;
 import racingcar.utils.Converter;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;
@@ -12,22 +14,25 @@ public class ConsoleController {
 
     private final OutputView outputView;
     private final InputView inputView;
+    final private ConsoleService service;
 
-    public ConsoleController(OutputView outputView, InputView inputView) {
+    public ConsoleController(OutputView outputView, InputView inputView, ConsoleService service) {
         this.outputView = outputView;
         this.inputView = inputView;
+        this.service = service;
     }
 
     public void run() {
         Cars cars = initializeCars();
         Trial trial = initializeTrial();
-        Cars movedCars = playGame(cars, trial);
+        Cars movedCars = service.run(cars, trial);
         printFinalResult(movedCars);
     }
 
     private Cars initializeCars() {
         try {
-            return Cars.initialize(inputView.getCarNames(), RandomNumberGenerator.makeInstance());
+            String input = inputView.getCarNames();
+            return new Cars(input, RandomNumberGenerator.makeInstance());
         } catch (IllegalArgumentException exception) {
             outputView.printErrorMessage(exception.getMessage());
             return initializeCars();
@@ -36,20 +41,12 @@ public class ConsoleController {
 
     private Trial initializeTrial() {
         try {
-            return Trial.of(Converter.convertStringToInt(inputView.getTrial()));
+            String input = inputView.getTrial();
+            return Trial.of(Converter.convertStringToInt(input));
         } catch (IllegalArgumentException exception) {
             outputView.printErrorMessage(exception.getMessage());
             return initializeTrial();
         }
-    }
-
-    private Cars playGame(Cars cars, Trial trial) {
-        outputView.printResultMessage();
-        for (int count = 0; count < trial.getValue(); count++) {
-            cars.move();
-            printResult(cars);
-        }
-        return cars;
     }
 
     private void printFinalResult(Cars cars) {

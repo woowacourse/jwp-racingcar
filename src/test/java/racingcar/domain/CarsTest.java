@@ -17,7 +17,7 @@ class CarsTest {
     @Test
     @DisplayName("차 추가 테스트")
     void givenCar_whenSavingCar_thenSavesCar() {
-        cars = Cars.initialize("test",RandomNumberGenerator.makeInstance());
+        cars = new Cars("test", RandomNumberGenerator.makeInstance());
 
         assertThat(cars).extracting("cars").asList().hasSize(1);
     }
@@ -25,7 +25,7 @@ class CarsTest {
     @Test
     @DisplayName("move 실행시 value가 1 증가한다.")
     void givenCarsHavingACar_whenMovesCar_thenAddsPosition() {
-        cars = Cars.initialize("test",
+        cars = new Cars("test",
             new TestRandomNumberGenerator(
                 List.of(4)
             ));
@@ -38,7 +38,7 @@ class CarsTest {
     @Test
     @DisplayName("position 값이 제일 높은 Car의 이름을 반환한다.")
     void givenMovedCar_whenFindsWinnerNames_thenReturnsWinnerName() {
-        cars = Cars.initialize("test,fox",
+        cars = new Cars("test,fox",
             new TestRandomNumberGenerator(
                 List.of(3, 4)
             ));
@@ -52,7 +52,7 @@ class CarsTest {
     @Test
     @DisplayName("position 값이 제일 높은 Car가 여러 대라면 모든 우승자 이름을 반환한다.")
     void givenCarsHavingMultipleWinners_whenFindsWinnerNames_thenReturnsAllWinnerNames() {
-        cars = Cars.initialize("test,fox",
+        cars = new Cars("test,fox",
             new TestRandomNumberGenerator(
                 List.of(4, 4)
             ));

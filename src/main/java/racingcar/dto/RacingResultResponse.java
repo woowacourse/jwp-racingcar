@@ -2,13 +2,13 @@ package racingcar.dto;
 
 import java.util.List;
 
-public class FinalResultDto {
+public class RacingResultResponse {
 
     private final boolean success = true;
     private final List<String> winners;
-    private final List<CarDto> racingCars;
+    private final List<CarResponse> racingCars;
 
-    public FinalResultDto(List<String> winners, List<CarDto> racingCars) {
+    public RacingResultResponse(List<String> winners, List<CarResponse> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
@@ -21,7 +21,7 @@ public class FinalResultDto {
         return winners;
     }
 
-    public List<CarDto> getRacingCars() {
+    public List<CarResponse> getRacingCars() {
         return racingCars;
     }
 }

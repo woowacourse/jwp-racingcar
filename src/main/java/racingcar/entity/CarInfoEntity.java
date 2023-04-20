@@ -1,17 +1,23 @@
-package racingcar.dto;
+package racingcar.entity;
 
-public class CarInfoDto {
+public class CarInfoEntity {
 
+    private int id;
     private int racingId;
     private String name;
     private int position;
     private boolean isWinner;
 
-    public CarInfoDto(int racingId, String name, int position, boolean isWinner) {
+    public CarInfoEntity(int id, int racingId, String name, int position, boolean isWinner) {
+        this.id = id;
         this.racingId = racingId;
         this.name = name;
         this.position = position;
         this.isWinner = isWinner;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getRacingId() {
