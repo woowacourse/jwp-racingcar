@@ -15,13 +15,13 @@ public class RacingGameMapper {
         return new RacingGameDto(winners, CarMapper.toCarDtos(cars), moveCount);
     }
 
-    public static List<ResponseDto> toResponseDtos(List<RacingGameDto> racingGameDtos) {
+    public static List<PlayResponseDto> toResponseDtos(List<RacingGameDto> racingGameDtos) {
         return racingGameDtos.stream()
-                .map(racingGameDto -> new ResponseDto(racingGameDto.getWinnerNames(), racingGameDto.getCars()))
+                .map(racingGameDto -> new PlayResponseDto(racingGameDto.getWinnerNames(), racingGameDto.getCars()))
                 .collect(Collectors.toList());
     }
 
-    public static ResponseDto toResponseDto(RacingGameDto racingGameDto) {
-        return new ResponseDto(racingGameDto.getWinnerNames(), racingGameDto.getCars());
+    public static PlayResponseDto toResponseDto(RacingGameDto racingGameDto) {
+        return new PlayResponseDto(racingGameDto.getWinnerNames(), racingGameDto.getCars());
     }
 }

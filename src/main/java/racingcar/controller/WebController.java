@@ -21,19 +21,19 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResponseDto> play(@RequestBody RequestDto requestDto) {
-        List<String> names = ValueEditor.splitByComma(requestDto.getNames());
-        String count = requestDto.getCount();
+    public ResponseEntity<PlayResponseDto> play(@RequestBody PlayRequestDto playRequestDto) {
+        List<String> names = ValueEditor.splitByComma(playRequestDto.getNames());
+        String count = playRequestDto.getCount();
         RacingGameDto racingGameDto = racingGameService.play(new StartInformationDto(names, count));
-        ResponseDto responseDto = RacingGameMapper.toResponseDto(racingGameDto);
-        return ResponseEntity.ok().body(responseDto);
+        PlayResponseDto playResponseDto = RacingGameMapper.toResponseDto(racingGameDto);
+        return ResponseEntity.ok().body(playResponseDto);
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<ResponseDto>> queryHistory() {
+    public ResponseEntity<List<PlayResponseDto>> queryHistory() {
         List<RacingGameDto> racingGameDtos = racingGameService.queryHistory();
-        List<ResponseDto> responseDtos = RacingGameMapper.toResponseDtos(racingGameDtos);
-        return ResponseEntity.ok().body(responseDtos);
+        List<PlayResponseDto> playResponseDtos = RacingGameMapper.toResponseDtos(racingGameDtos);
+        return ResponseEntity.ok().body(playResponseDtos);
     }
 
 }
