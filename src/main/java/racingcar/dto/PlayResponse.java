@@ -2,7 +2,7 @@ package racingcar.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.domain.Car;
+import racingcar.entity.Player;
 
 public class PlayResponse {
 
@@ -14,8 +14,8 @@ public class PlayResponse {
         this.racingCars = racingCars;
     }
 
-    public static PlayResponse of(String winners, List<Car> racingCars) {
-        List<CarResponse> carResponses = racingCars.stream()
+    public static PlayResponse of(String winners, List<Player> players) {
+        List<CarResponse> carResponses = players.stream()
                 .map(CarResponse::from)
                 .collect(Collectors.toList());
 

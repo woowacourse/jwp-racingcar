@@ -16,9 +16,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import racingcar.domain.Car;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
+import racingcar.entity.Player;
 import racingcar.service.RacingCarService;
 
 @WebMvcTest
@@ -37,7 +37,7 @@ class RacingCarControllerTest {
     void 컨트롤러_테스트() throws Exception {
         PlayResponse response = PlayResponse.of(
                 "car2",
-                List.of(new Car("car1"), new Car("car2")));
+                List.of(new Player(1, "car1", 10, 1), new Player(2, "car2", 10, 1)));
 
         given(racingCarService.play(any(PlayRequest.class)))
                 .willReturn(response);

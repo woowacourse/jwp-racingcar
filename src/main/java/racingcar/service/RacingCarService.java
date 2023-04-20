@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +45,22 @@ public class RacingCarService {
                 .collect(Collectors.toList());
         playerDao.insert(players);
 
-        return PlayResponse.of(game.getWinners(), participants);
+        return PlayResponse.of(game.getWinners(), players);
+    }
+
+    public List<PlayResponse> findHistory() {
+        List<Game> games = gameDao.findAll();
+        List<Player> players = playerDao.findAll();
+
+        List<PlayResponse> responses = new ArrayList<>();
+        for (Game game : games) {
+            List<Player> gamePlayers = players.stream()
+                    .filter(player -> player.getGameId() == game.getId())
+                    .collect(Collectors.toList());
+            responses.add(PlayResponse.of(game.getWinners(), gamePlayers));
+        }
+
+        return responses;
     }
 
     private Race createRace(PlayRequest playRequest) {

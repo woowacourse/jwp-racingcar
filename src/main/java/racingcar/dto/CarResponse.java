@@ -1,6 +1,7 @@
 package racingcar.dto;
 
 import racingcar.domain.Car;
+import racingcar.entity.Player;
 
 public class CarResponse {
 
@@ -16,6 +17,10 @@ public class CarResponse {
         String name = car.getName();
         int position = car.getDrivenDistance();
         return new CarResponse(name, position);
+    }
+
+    public static CarResponse from(Player player) {
+        return new CarResponse(player.getName(), player.getPosition());
     }
 
     public String getName() {

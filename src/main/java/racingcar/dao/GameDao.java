@@ -40,7 +40,7 @@ public class GameDao {
     }
 
     public List<Game> findAll() {
-        String sql = "select * from GAME";
+        String sql = "select * from GAME ORDER BY created_at ASC";
 
         return jdbcTemplate.query(sql, gameRowMapper);
     }
