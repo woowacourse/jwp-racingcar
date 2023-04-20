@@ -31,7 +31,7 @@ public class ConsoleController {
             outputView.printGameResult(gameResult);
         } catch (IllegalArgumentException exception) {
             outputView.printExceptionMessage(exception);
-            play(gameInfoDto);
+            run();
         }
     }
 }
