@@ -65,4 +65,17 @@ public class RacingCarService {
             racingCarDao.insert(car, resultId);
         }
     }
+
+    public List<GameResultDto> findAllGame() {
+        List<Long> gameIds = resultDao.findAllId();
+        List<GameResultDto> gameResults = new ArrayList<>();
+
+        for (Long gameId : gameIds) {
+            String winners = resultDao.findWinnerBy(gameId);
+            List<RacingCarDto> racingCars = racingCarDao.findBy(gameId);
+            gameResults.add(new GameResultDto(winners, racingCars));
+        }
+
+        return gameResults;
+    }
 }
