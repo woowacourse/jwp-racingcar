@@ -5,7 +5,8 @@ import java.util.stream.Collectors;
 
 public class Cars {
     private static final int MAX_SIZE = 20;
-    public static final String NAME_DELIMITER = ",";
+    private static final String NAME_DELIMITER = ",";
+
     private final List<Car> cars;
 
     public Cars(final List<Car> cars) {
@@ -71,7 +72,7 @@ public class Cars {
         return cars.stream()
                 .mapToInt(Car::getPosition)
                 .max()
-                .orElse(Car.MIN_POSITION);
+                .orElseThrow(() -> new IllegalArgumentException("하나 이상의 자동차가 있어야합니다."));
     }
 
     public String getCombinedNames() {

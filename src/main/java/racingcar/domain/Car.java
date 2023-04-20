@@ -5,8 +5,9 @@ import java.util.Objects;
 public class Car {
     private static final int MAX_NAME_LENGTH = 5;
     private static final int MIN_NAME_LENGTH = 1;
-    public static final int MIN_POSITION = 0;
+    private static final int MIN_POSITION = 0;
     private static final int MIN_POWER = 4;
+
     private final String name;
     private int position = MIN_POSITION;
 
