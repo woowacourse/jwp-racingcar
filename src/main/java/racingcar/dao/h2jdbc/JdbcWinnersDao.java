@@ -15,7 +15,7 @@ public class JdbcWinnersDao implements WinnersDao {
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcWinnersDao(JdbcTemplate jdbcTemplate) {
+    public JdbcWinnersDao(final JdbcTemplate jdbcTemplate) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("winners");
         this.jdbcTemplate = jdbcTemplate;

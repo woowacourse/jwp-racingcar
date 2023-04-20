@@ -16,14 +16,14 @@ public class OutputView {
         System.out.println(RESULT_START_MESSAGE);
     }
 
-    public void printStatusOf(List<CarDto> cars) {
+    public void printStatusOf(final List<CarDto> cars) {
         for (CarDto carInfo : cars) {
             printStatusOf(carInfo);
         }
         System.out.println();
     }
 
-    private void printStatusOf(CarDto carInfo) {
+    private void printStatusOf(final CarDto carInfo) {
         int fromZeroToPosition = carInfo.getPosition();
         String progress = POSITION_CHARACTER.repeat(fromZeroToPosition);
         System.out.println(carInfo.getName() + CAR_INFIX + progress);

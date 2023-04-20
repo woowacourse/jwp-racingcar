@@ -29,7 +29,7 @@ public class WebGameController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResultResponse> playGame(@RequestBody GamePlayRequest gamePlayRequest) {
+    public ResponseEntity<GameResultResponse> playGame(@RequestBody final GamePlayRequest gamePlayRequest) {
         final List<String> names = List.of(gamePlayRequest.getNames().split(CAR_NAME_SEPARATOR));
         final int playCount = gamePlayRequest.getCount();
 

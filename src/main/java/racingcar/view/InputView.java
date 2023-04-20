@@ -10,12 +10,12 @@ public class InputView {
 
     public List<String> inputCarNames() {
         System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
-        String input = SCANNER.nextLine();
-        String[] carNames = input.split(CAR_NAME_SEPARATOR);
+        final String input = SCANNER.nextLine();
+        final String[] carNames = input.split(CAR_NAME_SEPARATOR);
         return trim(List.of(carNames));
     }
 
-    private List<String> trim(List<String> carNames) {
+    private List<String> trim(final List<String> carNames) {
         return carNames.stream()
                 .map(String::trim)
                 .collect(Collectors.toList());

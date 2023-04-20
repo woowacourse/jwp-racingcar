@@ -35,17 +35,17 @@ public class GameService {
         this.moveChance = RandomMoveChance.getInstance();
     }
 
-    public Game createGameWith(List<String> names, int trialCount) {
+    public Game createGameWith(final List<String> names, final int trialCount) {
         return new Game(makeCarsWith(names), trialCount);
     }
 
-    private List<Car> makeCarsWith(List<String> carNames) {
+    private List<Car> makeCarsWith(final List<String> carNames) {
         return carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
     }
 
-    public GameResult play(Game game) {
+    public GameResult play(final Game game) {
         while (game.isNotDone()) {
             game.playOnceWith(moveChance);
         }
@@ -68,7 +68,7 @@ public class GameService {
         return getGameResult(game);
     }
 
-    private List<Integer> findIdsOf(List<Car> cars, Map<Car, Integer> carIds) {
+    private List<Integer> findIdsOf(final List<Car> cars, final Map<Car, Integer> carIds) {
         return carIds.entrySet().stream()
                 .filter(entry -> cars.contains(entry.getKey()))
                 .map(Map.Entry::getValue)

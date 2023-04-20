@@ -38,7 +38,7 @@ public class ConsoleGameController {
 
     private Game createGame() {
         return handleExceptionByRepeating(() -> {
-            List<String> carNames = INPUT_VIEW.inputCarNames();
+            final List<String> carNames = INPUT_VIEW.inputCarNames();
             int trialCount = INPUT_VIEW.inputTrialCount();
             return gameService.createGameWith(carNames, trialCount);
         });

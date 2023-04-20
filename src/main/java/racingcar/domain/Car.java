@@ -11,31 +11,31 @@ public class Car {
     private final Name name;
     private int position;
 
-    public Car(String name) {
+    public Car(final String name) {
         this(name, START_POSITION);
     }
 
-    public Car(String name, int position) {
+    public Car(final String name, final int position) {
         validatePosition(position);
         this.name = new Name(name);
         this.position = position;
     }
 
-    public boolean isFartherThan(Car other) {
+    public boolean isFartherThan(final Car other) {
         return position > other.position;
     }
 
-    public boolean hasSamePositionWith(Car other) {
+    public boolean hasSamePositionWith(final Car other) {
         return position == other.position;
     }
 
-    public void move(MoveChance moveChance) {
+    public void move(final MoveChance moveChance) {
         if (moveChance.isMovable()) {
             position++;
         }
     }
 
-    private void validatePosition(int position) {
+    private void validatePosition(final int position) {
         if (position < START_POSITION) {
             throw new IllegalGameArgumentException("[ERROR] 위치는 시작점보다 작으면 안됩니다.");
         }

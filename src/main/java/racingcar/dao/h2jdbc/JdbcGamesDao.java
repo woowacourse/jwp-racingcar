@@ -15,7 +15,7 @@ public class JdbcGamesDao implements GamesDao {
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcGamesDao(JdbcTemplate jdbcTemplate) {
+    public JdbcGamesDao(final JdbcTemplate jdbcTemplate) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("games")
                 .usingColumns("trial_count")

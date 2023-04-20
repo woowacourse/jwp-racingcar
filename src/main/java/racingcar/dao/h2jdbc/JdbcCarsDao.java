@@ -17,7 +17,7 @@ public class JdbcCarsDao implements CarsDao {
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcCarsDao(JdbcTemplate jdbcTemplate) {
+    public JdbcCarsDao(final JdbcTemplate jdbcTemplate) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("cars")
                 .usingGeneratedKeyColumns("id");
