@@ -5,7 +5,7 @@ import racingcar.domain.RacingGame;
 
 public interface RacingGameRepository {
 
-    RacingGame insert(final RacingGame racingGame);
+    RacingGame save(final RacingGame racingGame);
 
     List<RacingGame> findAll();
 }

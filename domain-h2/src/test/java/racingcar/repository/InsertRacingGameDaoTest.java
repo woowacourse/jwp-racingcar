@@ -27,7 +27,7 @@ class InsertRacingGameDaoTest {
         final InsertGameDao insertGameDao = new InsertGameDao(jdbcTemplate);
         final GameEntity gameEntity = RacingGameMapper.toGameEntity(new RacingGame(List.of("브리"), 5));
 
-        final GameEntity result = insertGameDao.save(gameEntity);
+        final GameEntity result = insertGameDao.insert(gameEntity);
 
         assertThat(result.getGameId()).isPositive();
     }

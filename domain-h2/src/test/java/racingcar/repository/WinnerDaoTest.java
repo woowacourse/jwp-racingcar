@@ -31,7 +31,7 @@ class WinnerDaoTest {
     void setUp(final JdbcTemplate jdbcTemplate) {
         final GameEntity gameEntity = RacingGameMapper.toGameEntity(new RacingGame(List.of("브리"), 5));
 
-        gameId = RepositoryFactory.gamesDao(jdbcTemplate).save(gameEntity).getGameId();
+        gameId = RepositoryFactory.gamesDao(jdbcTemplate).insert(gameEntity).getGameId();
         carId = RepositoryFactory.carDao(jdbcTemplate)
                 .insertAll(List.of(new CarEntity("브리", 9, gameId)))
                 .get(0)

@@ -16,7 +16,7 @@ public class StubRacingGameRepository implements RacingGameRepository {
     private int maxGameId = 0;
 
     @Override
-    public RacingGame insert(final RacingGame racingGame) {
+    public RacingGame save(final RacingGame racingGame) {
         final List<Car> carWithId = racingGame.getCars()
                 .stream()
                 .map(car -> new Car(car.getCarName(), car.getPosition(), ++maxCarId))

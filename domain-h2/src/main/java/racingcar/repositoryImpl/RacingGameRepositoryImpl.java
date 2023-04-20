@@ -25,8 +25,8 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     }
 
     @Override
-    public RacingGame insert(final RacingGame racingGame) {
-        final GameEntity gameEntity = gamesDao.save(RacingGameMapper.toGameEntity(racingGame));
+    public RacingGame save(final RacingGame racingGame) {
+        final GameEntity gameEntity = gamesDao.insert(RacingGameMapper.toGameEntity(racingGame));
         final List<CarEntity> carEntities = RacingGameMapper.toCarEntities(racingGame.getCars(),
                 gameEntity.getGameId());
         final List<CarEntity> savedCarEntities = carDao.insertAll(carEntities);

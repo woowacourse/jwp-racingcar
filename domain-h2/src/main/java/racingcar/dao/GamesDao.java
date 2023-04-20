@@ -16,8 +16,8 @@ public class GamesDao {
         selectGameDao = new SelectGameDao(jdbcTemplate);
     }
 
-    public GameEntity save(final GameEntity gameEntity) {
-        return insertGameDao.save(gameEntity);
+    public GameEntity insert(final GameEntity gameEntity) {
+        return insertGameDao.insert(gameEntity);
     }
 
     public List<GameEntity> findAll() {

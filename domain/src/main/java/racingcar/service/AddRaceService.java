@@ -23,6 +23,6 @@ public class AddRaceService {
         final RacingGame racingGame = new RacingGame(carsName, count);
         racingGame.race(numberPicker);
 
-        return racingGameRepository.insert(racingGame);
+        return racingGameRepository.save(racingGame);
     }
 }

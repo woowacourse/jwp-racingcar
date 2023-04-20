@@ -29,7 +29,7 @@ class CarDaoTest {
     void setUp(final JdbcTemplate jdbcTemplate) {
         final GameEntity gameEntity = RacingGameMapper.toGameEntity(new RacingGame(List.of("브리"), 5));
 
-        gameId = RepositoryFactory.gamesDao(jdbcTemplate).save(gameEntity).getGameId();
+        gameId = RepositoryFactory.gamesDao(jdbcTemplate).insert(gameEntity).getGameId();
         carDao = RepositoryFactory.carDao(jdbcTemplate);
     }
 
