@@ -19,18 +19,18 @@ public class RacingCarController {
     }
 
     public void run() {
-        Cars cars = initCars();
-        Lap lap = initTryCount();
+        final Cars cars = initCars();
+        final Lap lap = initTryCount();
         OutputView.printResultMessage();
         race(cars, lap, numberGenerator);
-        showFinalStatus(cars);
         prizeWinner(cars);
+        showFinalStatus(cars);
     }
 
     private Cars initCars() {
         try {
-            String input = InputView.inputCarNames();
-            List<String> carNames = splitCarNames(input);
+            final String input = InputView.inputCarNames();
+            final List<String> carNames = splitCarNames(input);
             return new Cars(carNames);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -38,13 +38,13 @@ public class RacingCarController {
         }
     }
 
-    private List<String> splitCarNames(String input) {
+    private List<String> splitCarNames(final String input) {
         return List.of(input.split(","));
     }
 
     private Lap initTryCount() {
         try {
-            int tries = InputView.inputTries();
+            final int tries = InputView.inputTries();
             return new Lap(tries);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -52,28 +52,28 @@ public class RacingCarController {
         }
     }
 
-    private void race(Cars cars, Lap lap, NumberGenerator numberGenerator) {
+    private void race(final Cars cars, final Lap lap, final NumberGenerator numberGenerator) {
         while (!lap.isFinish()) {
             cars.moveCars(numberGenerator);
             lap.reduce();
         }
     }
 
-    private void showFinalStatus(Cars cars) {
-        List<Car> latestResult = cars.getLatestResult();
-        List<CarStatusDto> carStatusDtos = mapCarsToCarStatuses(latestResult);
+    private void prizeWinner(final Cars cars) {
+        final WinnerMaker winnerMaker = new WinnerMaker();
+        final List<String> winners = winnerMaker.getWinnerCarsName(cars.getLatestResult());
+        OutputView.printFinalResult(winners);
+    }
+
+    private void showFinalStatus(final Cars cars) {
+        final List<Car> latestResult = cars.getLatestResult();
+        final List<CarStatusDto> carStatusDtos = mapCarsToCarStatuses(latestResult);
         OutputView.printCarStatus(carStatusDtos);
     }
 
-    private List<CarStatusDto> mapCarsToCarStatuses(List<Car> cars) {
+    private List<CarStatusDto> mapCarsToCarStatuses(final List<Car> cars) {
         return cars.stream()
                 .map(car -> new CarStatusDto(car.getCarName(), car.getCurrentPosition()))
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    private void prizeWinner(Cars cars) {
-        WinnerMaker winnerMaker = new WinnerMaker();
-        List<String> winnersName = winnerMaker.getWinnerCarsName(cars.getLatestResult());
-        OutputView.printFinalResult(winnersName);
     }
 }
