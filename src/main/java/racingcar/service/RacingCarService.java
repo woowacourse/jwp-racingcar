@@ -27,7 +27,7 @@ public class RacingCarService {
     }
 
     public ResultResponseDto play(RacingGameRequestDto racingGameRequestDto) {
-        Cars cars = Cars.of(spiteNameWithComma(racingGameRequestDto));
+        Cars cars = Cars.of(splitNameWithComma(racingGameRequestDto));
         Count count = Count.of(racingGameRequestDto.getCount());
         RacingCarGame racingCarGame = new RacingCarGame(cars, count);
 
@@ -44,7 +44,7 @@ public class RacingCarService {
         return racingCarRepository.readGameResultAll();
     }
 
-    private List<String> spiteNameWithComma(RacingGameRequestDto racingGameRequestDto) {
+    private List<String> splitNameWithComma(RacingGameRequestDto racingGameRequestDto) {
         return Arrays.stream(racingGameRequestDto.getNames().split(","))
             .map(String::trim)
             .collect(Collectors.toList());
