@@ -5,7 +5,7 @@ import java.util.List;
 
 import racingcar.dao.entity.Winner;
 
-public class MemoryWinnerDao implements WinnerDao{
+public class MemoryWinnerDao implements WinnerDao {
     private final List<Winner> winnerTable = new ArrayList<>();
 
     @Override

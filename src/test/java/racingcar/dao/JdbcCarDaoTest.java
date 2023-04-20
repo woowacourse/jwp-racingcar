@@ -39,8 +39,8 @@ class JdbcCarDaoTest {
     void insertCar() {
         long gameId = jdbcGameDao.saveGame(new Game(1));
         List<Car> cars = List.of(
-                new Car(gameId,"폴로", 1),
-                new Car(gameId,"이리내", 2)
+                new Car(gameId, "폴로", 1),
+                new Car(gameId, "이리내", 2)
         );
         jdbcCarDao.insertCar(cars);
 

@@ -25,7 +25,7 @@ public class ValueEditor {
     public static int parseStringToInt(String input) {
         try {
             return Integer.parseInt(input);
-        } catch(NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             throw new IllegalArgumentException(NUMBER_FORMAT_EXCEPTIONS_MESSAGE);
         }
     }

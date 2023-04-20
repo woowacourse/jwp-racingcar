@@ -17,7 +17,7 @@ public class Name {
     }
 
     private void validateCarNameLength(String name) {
-        if(name == null || name.isBlank()) {
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException(EXCEPTION_CAR_NAME_LENGTH);
         }
 

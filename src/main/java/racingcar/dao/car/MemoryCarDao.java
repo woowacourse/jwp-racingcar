@@ -5,7 +5,7 @@ import java.util.List;
 
 import racingcar.dao.entity.Car;
 
-public class MemoryCarDao implements CarDao{
+public class MemoryCarDao implements CarDao {
     private final List<Car> carTable = new ArrayList<>();
 
     @Override
