@@ -8,9 +8,14 @@ import java.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import racingcar.utils.TestNumberGenerator;
 
+@DisplayName("Cars 클래스")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@SuppressWarnings("NonAsciiCharacters")
 public class CarsTest {
 
     private Cars cars;
@@ -21,56 +26,64 @@ public class CarsTest {
     }
 
     @Test
-    @DisplayName("생성자는 중복된 이름이 존재하는 목록을 입력받으면 예외를 던진다.")
-    void should_throwException_when_inputDuplicatedNames() {
+    void 생성자는_중복된_이름이_존재하는_목록을_입력받으면_예외를_던진다() {
+        // given
         List<String> duplicatedNames = List.of("car1", "car1");
 
+        // expect
         assertThatThrownBy(() -> new Cars(duplicatedNames))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("중복된 차 이름이 없어야 합니다.");
     }
 
     @Test
-    @DisplayName("race 메서드는 자동차 경주를 1회 진행한다.")
-    void should_raceOneTime_when_race() {
+    void race_메서드는_자동차_경주를_1회_진행한다() {
+        // given
         NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 5));
 
+        // when
         cars.race(numberGenerator);
 
+        // then
         assertThat(cars.getCars())
                 .extracting(Car::getPosition)
                 .containsExactly(1, 0, 1);
     }
 
     @Test
-    @DisplayName("findWinners 메서드는 우승자 이름 목록을 반환한다.")
-    void should_returnWinnersName_when_findWinners() {
+    void findWinners_메서드는_우승자_이름_목록을_반환한다() {
+        // given
         NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 5));
         cars.race(numberGenerator);
 
+        // when
         List<String> result = cars.findWinners();
 
+        // then
         assertThat(result).containsExactly("car1", "car3");
     }
 
     @Test
-    @DisplayName("findWinners 메서드는 우승자가 존재하지 않는 경우 예외를 던진다.")
-    void should_throwException_when_emptyCars() {
+    void findWinners_메서드는_우승자가_존재하지_않는_경우_예외를_던진다() {
+        // given
         Cars emptyCars = new Cars(List.of());
 
+        // expect
         assertThatThrownBy(emptyCars::findWinners)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("우승자가 존재하지 않습니다.");
     }
 
     @Test
-    @DisplayName("getCars 메서드는 경주에 참가한 모든 차의 이름과 현재 위치를 반환한다.")
-    void should_returnCurrentCarNameAndPositions_when_getCars() {
+    void getCars_메서드는_경주에_참가한_모든_차의_이름과_현재_위치를_반환한다() {
+        // given
         NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3, 5));
         cars.race(numberGenerator);
 
+        // when
         List<Car> result = cars.getCars();
 
+        // then
         assertAll(
                 () -> assertThat(result).extracting(Car::getName).containsExactly("car1", "car2", "car3"),
                 () -> assertThat(result).extracting(Car::getPosition).containsExactly(1, 0, 1)

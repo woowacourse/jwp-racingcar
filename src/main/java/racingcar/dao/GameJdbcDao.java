@@ -1,30 +1,26 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import racingcar.entity.GameEntity;
 
 @Component
 public class GameJdbcDao implements GameDao {
-    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
 
     public GameJdbcDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        this.jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("Game")
+                .usingGeneratedKeyColumns("id");
     }
 
-    public int save(final int trialCount, final String winners) {
-        final String sql = "insert into game (trial, winners) values (?,?)";
-
-        final KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setInt(1, trialCount);
-            ps.setString(2, winners);
-            return ps;
-        }, keyHolder);
-
-        return keyHolder.getKey().intValue();
+    @Override
+    public Optional<Integer> saveAndGetId(final GameEntity game) {
+        SqlParameterSource params = new BeanPropertySqlParameterSource(game);
+        return Optional.of(jdbcInsert.executeAndReturnKey(params).intValue());
     }
 }

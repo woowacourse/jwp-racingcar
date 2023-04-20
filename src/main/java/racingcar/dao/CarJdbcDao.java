@@ -1,38 +1,43 @@
 package racingcar.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import racingcar.domain.Car;
+import racingcar.entity.CarEntity;
 
 @Component
 public class CarJdbcDao implements CarDao {
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
+    private final RowMapper<CarEntity> rowMapper = (resultSet, rowNum) -> new CarEntity(
+            resultSet.getInt("id"),
+            resultSet.getString("name"),
+            resultSet.getInt("position"),
+            resultSet.getBoolean("winner"),
+            resultSet.getInt("game_id")
+    );
 
     public CarJdbcDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("Car")
+                .usingGeneratedKeyColumns("id");
     }
 
-    public void saveAll(final int gameId, final List<Car> cars) {
-        final String sql = "INSERT INTO car(name, position, game_id) VALUES (?, ?, ?)";
-        final BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
+    @Override
+    public void saveAll(final List<CarEntity> cars) {
+        final BeanPropertySqlParameterSource[] parameterSources = cars.stream()
+                .map(BeanPropertySqlParameterSource::new)
+                .toArray(BeanPropertySqlParameterSource[]::new);
+        jdbcInsert.executeBatch(parameterSources);
+    }
 
-            @Override
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                final Car car = cars.get(i);
-                ps.setString(1, car.getName());
-                ps.setInt(2, car.getPosition());
-                ps.setInt(3, gameId);
-            }
-
-            @Override
-            public int getBatchSize() {
-                return cars.size();
-            }
-        };
-        jdbcTemplate.batchUpdate(sql, batchPreparedStatementSetter);
+    @Override
+    public List<CarEntity> findAll() {
+        final String sql = "SELECT * FROM CAR";
+        return jdbcTemplate.query(sql, rowMapper);
     }
 }

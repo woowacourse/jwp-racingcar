@@ -3,7 +3,6 @@ package racingcar.domain;
 import java.util.List;
 
 public class RacingGame {
-
     private final NumberGenerator numberGenerator;
     private final Cars cars;
     private final Count count;
@@ -14,16 +13,14 @@ public class RacingGame {
         this.count = new Count(count);
     }
 
-    public boolean isPlayable() {
-        return count.isPlayable();
-    }
-
     public void play() {
-        cars.race(numberGenerator);
-        count.decrease();
+        while (count.isPlayable()) {
+            cars.race(numberGenerator);
+            count.decrease();
+        }
     }
 
-    public List<Car> findCurrentCarPositions() {
+    public List<Car> getCars() {
         return cars.getCars();
     }
 
