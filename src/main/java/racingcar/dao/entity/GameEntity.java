@@ -1,5 +1,7 @@
 package racingcar.dao.entity;
 
+import racingcar.domain.RacingGame;
+
 import java.time.LocalTime;
 
 public class GameEntity {
@@ -18,8 +20,8 @@ public class GameEntity {
         this.createdAt = createdAt;
     }
 
-    public static GameEntity of (final int tryCount, final LocalTime createdAt) {
-        return new GameEntity(DEFAULT_ID, tryCount, createdAt);
+    public static GameEntity from (RacingGame racingGame) {
+        return new GameEntity(DEFAULT_ID, racingGame.getTryCount(), racingGame.getCreated_at());
     }
 
     public int getGameId() {

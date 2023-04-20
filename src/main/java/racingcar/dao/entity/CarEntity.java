@@ -1,5 +1,7 @@
 package racingcar.dao.entity;
 
+import racingcar.domain.Car;
+
 public class CarEntity {
 
 
@@ -17,8 +19,8 @@ public class CarEntity {
         this.gameId = gameId;
     }
 
-    public static CarEntity of(final String name, final int position, final int gameId) {
-        return new CarEntity(DEFAULT_ID, name, position, gameId);
+    public static CarEntity from(final Car car, int gameId) {
+        return new CarEntity(DEFAULT_ID, car.getName(), car.getPosition(), gameId);
     }
 
     public int getCarId() {

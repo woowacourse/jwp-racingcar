@@ -1,22 +1,17 @@
 package racingcar.domain;
 
 public class Car {
-    public static final Integer DEFAULT_ID = null;
     public static final int MINIMUM_NUMBER_TO_MOVE = 4;
-    private Integer carId;
     private final CarName name;
     private final Position position;
-    private Integer gameId;
 
-    public Car(Integer carId, CarName name, Position position, Integer gameId) {
-        this.carId = carId;
+    public Car(final CarName name, final Position position) {
         this.name = name;
         this.position = position;
-        this.gameId = gameId;
     }
 
     public static Car of(String name, int position) {
-        return new Car(DEFAULT_ID, new CarName(name), new Position(position), DEFAULT_ID);
+        return new Car(new CarName(name), new Position(position));
     }
 
     public void move(NumberGenerator numberGenerator) {
@@ -39,24 +34,12 @@ public class Car {
         return number >= MINIMUM_NUMBER_TO_MOVE;
     }
 
-    public void setCarId(final Integer carId) {
-        this.carId = carId;
-    }
-
-    public Integer getCarId() {
-        return carId;
-    }
-
     public String getName() {
         return name.getName();
     }
 
     public int getPosition() {
         return position.getPosition();
-    }
-
-    public Integer getGameId() {
-        return gameId;
     }
 
 }
