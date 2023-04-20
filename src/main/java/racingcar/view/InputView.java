@@ -19,13 +19,9 @@ public class InputView {
         this.scanner = scanner;
     }
 
-    public List<String> readCarNames() {
-        final String DELIMITER = ",";
-
+    public String readCarNames() {
         printInputMessage(ENTER_CAR_NAMES);
-        String input = readLine();
-        validateNotEmpty(input);
-        return splitWordsBy(input, DELIMITER);
+        return readLine().strip();
     }
 
     public int readCount() throws IllegalArgumentException {
@@ -46,7 +42,7 @@ public class InputView {
 
     private List<String> splitWordsBy(String input, String delimiter) {
         return Arrays.stream(input.split(delimiter, -1)).map(String::strip)
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     private void throwError(String errorMessage) {
