@@ -10,21 +10,14 @@ import racingcar.view.OutputView;
 
 import java.util.Scanner;
 
-public class Application {
-
-    private static InputView createInputView() {
-        return new InputView(new Scanner(System.in), new OutputView());
-    }
-
-    private static OutputView createOutputView() {
-        return new OutputView();
-    }
+public class ConsoleApplication {
 
     public static void main(String[] args) {
         ConsoleController consoleController = new ConsoleController(
-                createInputView(),
-                createOutputView(),
+                new InputView(new Scanner(System.in)),
+                new OutputView(),
                 new RacingCarService(new LocalGameDao(), new LocalCarDao(), new RandomSingleDigitGenerator()));
+
         consoleController.createGameAndPlay();
     }
 }

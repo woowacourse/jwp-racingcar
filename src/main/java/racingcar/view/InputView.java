@@ -6,20 +6,18 @@ public class InputView {
 
     public static final String FORMAT_OF_NUMBER = "\\d+";
     private final Scanner scanner;
-    private final OutputView outputView;
 
-    public InputView(final Scanner scanner, final OutputView outputView) {
+    public InputView(final Scanner scanner) {
         this.scanner = scanner;
-        this.outputView = outputView;
     }
 
     public String readCarNames() {
-        outputView.printCarNameInputGuide();
+        System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
         return scanner.nextLine();
     }
 
     public int readGameRound() {
-        outputView.printGameRoundGuide();
+        System.out.println("시도할 횟수는 몇 회인가요?");
 
         String gameRoundContent = scanner.nextLine();
         validateGameRound(gameRoundContent);
