@@ -12,13 +12,8 @@ public class OutputView {
     }
 
     private void addCarResult(final StringBuilder roundResult, CarDto carDto) {
-        final String carResult = carDto.getName() + " : " + convertDistance(carDto.getPosition());
+        final String carResult = carDto.getName() + " : " + carDto.getPosition();
         roundResult.append(carResult).append(System.lineSeparator());
-    }
-
-    private String convertDistance(final int distance) {
-        final String sign = "-";
-        return sign.repeat(distance);
     }
 
     public void printWinners(final String winners) {
