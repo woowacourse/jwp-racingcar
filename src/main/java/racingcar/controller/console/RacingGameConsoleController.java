@@ -58,8 +58,6 @@ public final class RacingGameConsoleController {
 		}
 	}
 
-	경
-
 	private TryCount inputTryCountWithValidation () {
 		Optional<TryCount> tryCount = null;
 		do {
