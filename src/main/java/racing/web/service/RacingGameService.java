@@ -1,65 +1,52 @@
 package racing.web.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racing.domain.Car;
-import racing.domain.CarName;
+import racing.domain.CarFactory;
 import racing.domain.Cars;
-import racing.web.repository.CarEntity;
-import racing.web.repository.RacingGameDao;
+import racing.domain.RacingCarGame;
+import racing.domain.TrialCount;
+import racing.domain.utils.RandomRacingCarNumberGenerator;
+import racing.persist.car.CarRepository;
+import racing.persist.game.RacingGameRepository;
 
 @Service
 public class RacingGameService {
 
-    private final RacingGameDao racingGameDao;
+    private final CarRepository carRepository;
+    private final RacingGameRepository racingGameRepository;
 
-    public RacingGameService(RacingGameDao racingGameDao) {
-        this.racingGameDao = racingGameDao;
+    public RacingGameService(CarRepository carRepository, RacingGameRepository racingGameRepository) {
+        this.carRepository = carRepository;
+        this.racingGameRepository = racingGameRepository;
     }
 
-    public Long saveGameByCount(int count) {
-        return racingGameDao.saveGame(count);
+    public Long playNewGame(int count, String carNames) {
+        Cars cars = CarFactory.carFactory(carNames);
+        RacingCarGame racingCarGame = new RacingCarGame(cars, new TrialCount(count));
+        racingCarGame.playRounds(new RandomRacingCarNumberGenerator());
+
+        Long savedGameId = racingGameRepository.saveGameByCount(count);
+        carRepository.saveCarsInGame(cars, savedGameId);
+
+        return savedGameId;
     }
 
-    public void playGame(Long gameId, Cars cars) {
-        int gameTrialCount = racingGameDao.findGameTrialById(gameId);
-        cars.moveCarsByCount(gameTrialCount);
-        List<String> winners = cars.getWinners();
-
-        List<CarEntity> carEntities = cars.getCars().stream()
-                .map(car -> CarEntity.of(gameId, car, winners.contains(car.getName())))
-                .collect(Collectors.toList());
-        racingGameDao.saveCar(carEntities);
+    public RacingCarGame getResultById(Long gameId) {
+        return racingGameRepository.findRacingGameById(gameId);
     }
 
-    public String filterWinnersToCarNames(Cars cars) {
-        List<String> winners = cars.getWinners();
-        return String.join(",", winners);
+    public String filterWinnersToCarNames(RacingCarGame racingCarGame) {
+        Cars winners = racingCarGame.winnerCars();
+
+        return winners.getCars().stream()
+                .map(Car::getName)
+                .collect(Collectors.joining(","));
     }
 
-    public List<Cars> getAllResults() {
-        List<Long> gameIdOrderByRecent = racingGameDao.findAllGameIdOrderByRecent();
-        List<CarEntity> carsInGame = racingGameDao.findCarsInGame(gameIdOrderByRecent);
-
-        List<Cars> results = new ArrayList<>();
-        for (Long gameId : gameIdOrderByRecent) {
-            results.add(filterByGameId(carsInGame, gameId));
-        }
-
-        return results;
-    }
-
-    private Cars filterByGameId(List<CarEntity> carsInGame, Long gameId) {
-        return new Cars(carsInGame.stream()
-                .filter(carEntity -> carEntity.getGameId().equals(gameId))
-                .map(this::toCarFrom)
-                .collect(Collectors.toList()));
-    }
-
-    private Car toCarFrom(CarEntity carEntity) {
-        CarName carName = new CarName(carEntity.getCarName());
-        return new Car(carName, carEntity.getStep());
+    public List<RacingCarGame> getAllResults() {
+        return racingGameRepository.findAllGamesOrderByRecent();
     }
 }
