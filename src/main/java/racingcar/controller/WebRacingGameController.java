@@ -1,5 +1,7 @@
 package racingcar.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +22,15 @@ public class WebRacingGameController {
     }
 
     @PostMapping("/plays")
-    public GameResponseDto plays(@RequestBody @Valid final GameRequestDto gameRequest) {
-        return racingGameService.play(gameRequest);
+    public ResponseEntity<GameResponseDto> plays(@RequestBody @Valid final GameRequestDto gameRequest) {
+        final GameResponseDto saveGameResponseDto = racingGameService.play(gameRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(saveGameResponseDto);
     }
 
     @GetMapping("/plays")
-    public List<GameResponseDto> findAll() {
-        return racingGameService.findAll();
+    public ResponseEntity<List<GameResponseDto>> findAll() {
+        List<GameResponseDto> gameResponseDtos = racingGameService.findAll();
+        return ResponseEntity.ok(gameResponseDtos);
     }
 }
