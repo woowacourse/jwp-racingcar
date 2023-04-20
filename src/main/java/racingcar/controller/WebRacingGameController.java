@@ -29,7 +29,9 @@ public final class WebRacingGameController {
     public ResponseEntity<GameResultResponse> playRacingGame(
             @Valid @RequestBody final RacingGameRequest racingGameRequest
     ) {
-        return ResponseEntity.ok(racingGameService.playRacingGame(racingGameRequest));
+        RacingGame racingGame = racingGameService.playRacingGame(racingGameRequest);
+        GameResultResponse gameResultResponse = ClientResponseConverter.toGameResultResponse(racingGame);
+        return ResponseEntity.ok(gameResultResponse);
     }
 
     @GetMapping(path = "/plays")

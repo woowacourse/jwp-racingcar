@@ -6,7 +6,6 @@ import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.CarData;
-import racingcar.dto.GameResultResponse;
 import racingcar.dto.RacingGameRequest;
 import racingcar.persistence.repository.GameRepository;
 
@@ -24,16 +23,11 @@ public class RacingGameService {
     }
 
     @Transactional
-    public GameResultResponse playRacingGame(final RacingGameRequest racingGameRequest) {
+    public RacingGame playRacingGame(final RacingGameRequest racingGameRequest) {
         RacingGame racingGame = createRacingGame(racingGameRequest);
         racingGame.start();
-
-        GameResultResponse gameResultResponse = new GameResultResponse(
-                mapWinnerNamesTextFrom(racingGame),
-                mapCarDtosFrom(racingGame)
-        );
         racingGameRepository.saveGame(racingGame);
-        return gameResultResponse;
+        return racingGame;
     }
 
     private RacingGame createRacingGame(final RacingGameRequest racingGameRequest) {
@@ -44,17 +38,17 @@ public class RacingGameService {
         );
     }
 
+    private String mapWinnerNamesTextFrom(final RacingGame racingGame) {
+        return racingGame.getWinners().stream()
+                .map(Car::getCarName)
+                .collect(Collectors.joining(","));
+    }
+
     private List<CarData> mapCarDtosFrom(final RacingGame racingGame) {
         return racingGame.getCars().stream()
                 .sorted(Comparator.comparingInt(Car::getPosition).reversed())
                 .map(car -> new CarData(car.getCarName(), car.getPosition()))
                 .collect(Collectors.toList());
-    }
-
-    private String mapWinnerNamesTextFrom(final RacingGame racingGame) {
-        return racingGame.getWinners().stream()
-                .map(Car::getCarName)
-                .collect(Collectors.joining(","));
     }
 
     public List<RacingGame> makeGameRecords() {
