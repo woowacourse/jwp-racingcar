@@ -27,25 +27,25 @@ class RacingCarDaoTest {
     void setUp() {
         racingCarDao = new RacingCarDao(jdbcTemplate);
 
-        jdbcTemplate.execute("DROP TABLE MOVE_LOG IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE PLAY_RESULT IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE PLAY_RESULT("
+        jdbcTemplate.execute("DROP TABLE RACING_CAR IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE RACING_INFO IF EXISTS");
+        jdbcTemplate.execute("CREATE TABLE RACING_INFO("
                 + "    id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,"
                 + "    winners     VARCHAR(50) NOT NULL,"
                 + "    trial_count INT         NOT NULL,"
                 + "    created_at  DATETIME    NOT NULL,"
                 + "    PRIMARY KEY (id))");
 
-        jdbcTemplate.execute("CREATE TABLE MOVE_LOG("
+        jdbcTemplate.execute("CREATE TABLE RACING_CAR("
                 + "    id      INT         NOT NULL AUTO_INCREMENT,"
                 + "    game_id INT         NOT NULL,"
                 + "    name    VARCHAR(50) NOT NULL,"
                 + "    move    INT         NOT NULL,"
                 + "    PRIMARY KEY (id),"
-                + "    FOREIGN KEY (game_id) REFERENCES PLAY_RESULT (id))");
+                + "    FOREIGN KEY (game_id) REFERENCES RACING_INFO (id))");
     }
 
-    @DisplayName("게임 플레이 인원수 만큼 MOVE_LOG 테이블에 정보가 레코드된다.")
+    @DisplayName("게임 플레이 인원수 만큼 RACING_CAR 테이블에 정보가 레코드된다.")
     @Test
     void insertDBTest() {
         //given
@@ -54,7 +54,7 @@ class RacingCarDaoTest {
                         new RacingCar(new Name("리오"))
                 ));
         final TryCount tryCount = new TryCount(3);
-        final String sql = "SELECT COUNT(*) FROM MOVE_LOG";
+        final String sql = "SELECT COUNT(*) FROM RACING_CAR";
 
         //when
         racingCarDao.insertGame(new RacingCarsDto(racingCars), new TryCountDto(tryCount));

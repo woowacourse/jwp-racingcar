@@ -23,7 +23,7 @@ public class RacingCarDao {
     public RacingCarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
-            .withTableName("PLAY_RESULT")
+            .withTableName("RACING_INFO")
             .usingGeneratedKeyColumns("id");
     }
 
@@ -45,7 +45,7 @@ public class RacingCarDao {
     }
 
     private void insertMoveLog(final RacingCarsDto racingCarsDto, final int gameId) {
-        final String sql = "INSERT INTO MOVE_LOG (game_id, name, move) values (?,?,?)";
+        final String sql = "INSERT INTO RACING_CAR (game_id, name, move) values (?,?,?)";
 
         List<Object[]> batchArgs = new ArrayList<>();
         for (RacingCarDto racingCarDto : racingCarsDto.getRacingCarDtos()) {
@@ -60,7 +60,7 @@ public class RacingCarDao {
     }
 
     public List<WinnersDto> selectWinners() {
-        final String sql = "SELECT id, winners FROM PLAY_RESULT";
+        final String sql = "SELECT id, winners FROM RACING_INFO";
 
         return jdbcTemplate.query(sql,
             (resultSet, rowNum) -> new WinnersDto(
@@ -69,7 +69,7 @@ public class RacingCarDao {
     }
 
     public List<RacingCarDto> selectRace(int gameId) {
-        final String sql = "SELECT name, move FROM MOVE_LOG WHERE game_id = ?";
+        final String sql = "SELECT name, move FROM RACING_CAR WHERE game_id = ?";
 
         return jdbcTemplate.query(sql,
             (resultSet, rowNum) -> new RacingCarDto(

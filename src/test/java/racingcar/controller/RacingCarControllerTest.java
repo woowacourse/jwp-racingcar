@@ -28,22 +28,22 @@ class RacingCarControllerTest {
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
-        jdbcTemplate.execute("DROP TABLE MOVE_LOG IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE PLAY_RESULT IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE PLAY_RESULT("
+        jdbcTemplate.execute("DROP TABLE RACING_CAR IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE RACING_INFO IF EXISTS");
+        jdbcTemplate.execute("CREATE TABLE RACING_INFO("
             + "    id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,"
             + "    winners     VARCHAR(50) NOT NULL,"
             + "    trial_count INT         NOT NULL,"
             + "    created_at  DATETIME    NOT NULL,"
             + "    PRIMARY KEY (id))");
 
-        jdbcTemplate.execute("CREATE TABLE MOVE_LOG("
+        jdbcTemplate.execute("CREATE TABLE RACING_CAR("
             + "    id      INT         NOT NULL AUTO_INCREMENT,"
             + "    game_id INT         NOT NULL,"
             + "    name    VARCHAR(50) NOT NULL,"
             + "    move    INT         NOT NULL,"
             + "    PRIMARY KEY (id),"
-            + "    FOREIGN KEY (game_id) REFERENCES PLAY_RESULT (id))");
+            + "    FOREIGN KEY (game_id) REFERENCES RACING_INFO (id))");
     }
 
     @ParameterizedTest(name = "클라이언트가 잘못된 요청을 보낸 경우 400 에러 반환")
