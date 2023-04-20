@@ -11,7 +11,7 @@ import racingcar.domain.RacingGame;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Repository
+@Repository("RacingGameRepositoryImpl")
 public class RacingGameRepositoryImpl implements RacingGameRepository {
 
     private final RacingCarGameDao racingCarGameDao;

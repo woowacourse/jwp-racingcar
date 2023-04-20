@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
@@ -20,7 +21,7 @@ public class RacingCarService {
     private final NumberGenerator numberGenerator;
     private final RacingGameRepository racingGameRepository;
 
-    public RacingCarService(NumberGenerator numberGenerator, RacingGameRepository racingGameRepository) {
+    public RacingCarService(NumberGenerator numberGenerator, @Qualifier("RacingGameRepositoryImpl") RacingGameRepository racingGameRepository) {
         this.numberGenerator = numberGenerator;
         this.racingGameRepository = racingGameRepository;
     }
