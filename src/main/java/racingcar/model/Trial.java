@@ -7,7 +7,6 @@ public class Trial {
 
     public Trial(int trial) {
         validateBound(trial);
-
         this.trial = trial;
     }
 
