@@ -1,7 +1,5 @@
 package racingcar.utils;
 
-import racingcar.utils.NumberGenerator;
-
 public class DrivableNumberGenerator implements NumberGenerator {
 
     @Override
