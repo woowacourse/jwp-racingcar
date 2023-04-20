@@ -6,12 +6,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.service.dto.GameRequestDto;
-import racingcar.service.dto.GameResponseDto;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
 import racingcar.repository.GameDao;
 import racingcar.repository.PlayerResultDao;
+import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
+import racingcar.service.dto.GameRequestDto;
+import racingcar.service.dto.GameResponseDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,14 +42,38 @@ public class GameServiceTest {
         given(gameDao.save(any()))
                 .willReturn(game);
         given(playerResultDao.save(any()))
-                .willReturn(new PlayerResult(1, new PlayerResult("ditoo", 5, game)));
+                .willReturn(new PlayerResult(1, new PlayerResult("ditoo", 5, game.getId())));
         given(playerResultDao.save(any()))
-                .willReturn(new PlayerResult(2, new PlayerResult("leo", 3, game)));
+                .willReturn(new PlayerResult(2, new PlayerResult("leo", 3, game.getId())));
 
         // when
         GameResponseDto gameResponseDto = gameService.playGame(requestDto);
 
         // then
         assertThat(gameResponseDto.getWinners()).isEqualTo(game.getWinners());
+    }
+
+    @Test
+    @DisplayName("전체 게임 조회 테스트")
+    public void getAllTest() {
+        // given
+        List<GetPlayerResultQueryResponseDto> queryResponses = new ArrayList<>();
+        queryResponses.add(new GetPlayerResultQueryResponseDto(1,"디투", "디투", 8));
+        queryResponses.add(new GetPlayerResultQueryResponseDto(1,"디투", "레오", 6));
+        queryResponses.add(new GetPlayerResultQueryResponseDto(2,"디투,홍실", "디투", 8));
+        queryResponses.add(new GetPlayerResultQueryResponseDto(2,"디투,홍실", "블랙캣", 6));
+        queryResponses.add(new GetPlayerResultQueryResponseDto(2,"디투,홍실", "홍실", 8));
+        queryResponses.add(new GetPlayerResultQueryResponseDto(2,"디투,홍실", "에단", 7));
+        given(playerResultDao.getAll())
+                .willReturn(queryResponses);
+
+        // when
+        List<GameResponseDto> gameResponseDtos = gameService.getAll();
+
+        // then
+        assertThat(gameResponseDtos.get(0).getWinners()).isEqualTo(queryResponses.get(0).getWinners());
+        assertThat(gameResponseDtos.get(0).getRacingCars().size()).isEqualTo(2);
+        assertThat(gameResponseDtos.get(1).getWinners()).isEqualTo(queryResponses.get(3).getWinners());
+        assertThat(gameResponseDtos.get(1).getRacingCars().size()).isEqualTo(4);
     }
 }

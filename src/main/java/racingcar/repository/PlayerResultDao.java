@@ -38,7 +38,7 @@ public class PlayerResultDao {
         final Map<String, Object> params = new HashMap<>();
         params.put("name", playerResult.getName());
         params.put("final_position", playerResult.getFinalPosition());
-        params.put("game_id", playerResult.getGame().getId());
+        params.put("game_id", playerResult.getGameId());
         return new HashMap<>(params);
     }
 

@@ -9,6 +9,7 @@ import racingcar.domain.Lap;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.domain.WinnerMaker;
+import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
 import racingcar.entity.Game;
@@ -19,6 +20,8 @@ import racingcar.util.ListJoiner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -43,7 +46,7 @@ public class GameService {
         final List<String> winners = makeWinners(cars);
         final Game game = saveGame(winners, request.getCount());
         final List<PlayerResult> playerResults = savePlayerResults(cars, game);
-        return GameResponseDto.of(game, playerResults);
+        return GameResponseDto.createByPlayerResult(game.getWinners(), playerResults);
     }
 
     private void race(final Cars cars, final Lap lap, final NumberGenerator numberGenerator) {
@@ -67,9 +70,22 @@ public class GameService {
         final List<PlayerResult> playerResults = new ArrayList<>();
         for (Car car : cars.getLatestResult()) {
             final PlayerResult playerResult = new PlayerResult(
-                    car.getCarName().getName(), car.getCurrentPosition().getPosition(), game);
+                    car.getCarName().getName(), car.getCurrentPosition().getPosition(), game.getId());
             playerResults.add(playerResultDao.save(playerResult));
         }
         return playerResults;
+    }
+
+    public List<GameResponseDto> getAll() {
+        final Map<Long, List<GetPlayerResultQueryResponseDto>> allGames = mapByGame(playerResultDao.getAll());
+        return allGames.values().stream()
+                .map(value -> GameResponseDto.createByQueryResponse(value.get(0).getWinners(), value))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private Map<Long, List<GetPlayerResultQueryResponseDto>> mapByGame(
+            final List<GetPlayerResultQueryResponseDto> queryResponses) {
+        return queryResponses.stream()
+                .collect(Collectors.groupingBy(GetPlayerResultQueryResponseDto::getGameId));
     }
 }
