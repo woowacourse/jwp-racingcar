@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,9 +26,15 @@ public class RacingWebController {
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<TrackResponse>> getResult() {
+    public ResponseEntity<List<TrackResponse>> getAllResults() {
         List<TrackResponse> allResults = racingService.findAllResults();
         return ResponseEntity.ok(allResults);
+    }
+
+    @GetMapping("/plays/{id}")
+    public ResponseEntity<TrackResponse> getResult(@PathVariable int id) {
+        TrackResponse trackResponse = racingService.findById(id);
+        return ResponseEntity.ok(trackResponse);
     }
 
     @PostMapping("/plays")

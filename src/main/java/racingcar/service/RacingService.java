@@ -17,6 +17,7 @@ import racingcar.model.car.strategy.RandomMovingStrategy;
 import racingcar.model.track.Track;
 
 @Service
+@Transactional(readOnly = true)
 public class RacingService {
 
     private final RacingDao racingDao;
@@ -65,6 +66,13 @@ public class RacingService {
                 .collect(Collectors.toList());
 
         racingDao.saveWithBatch(carDtos);
+    }
+
+    public TrackResponse findById(int trackId) {
+        Cars cars = racingDao.findAllCarsByTrackId(trackId);
+        String winners = makeWinnerCarNames(cars);
+        List<CarResponse> carResponses = makeCarResponses(cars);
+        return new TrackResponse(winners, carResponses);
     }
 
     public List<TrackResponse> findAllResults() {
