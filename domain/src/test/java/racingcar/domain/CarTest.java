@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
-import racingcar.dto.CarPositionDto;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -27,7 +26,7 @@ class CarTest {
     @Test
     void status_증가_확인() {
         car.move(4);
-        assertThat(car.getPosition()).isEqualTo(1);
+        assertThat(car.getPosition()).isOne();
     }
 
     @Test
@@ -37,9 +36,9 @@ class CarTest {
 
     @Test
     void dto_carName_status_확인() {
-        final CarPositionDto dto = new CarPositionDto(0, "judy");
+        final Car car = new Car("asdf", 5);
 
-        assertThat(dto.getStatus()).isEqualTo(0);
-        assertThat(dto.getCarName()).isEqualTo("judy");
+        assertThat(car.getPosition()).isEqualTo(5);
+        assertThat(car.getCarName()).isEqualTo("asdf");
     }
 }

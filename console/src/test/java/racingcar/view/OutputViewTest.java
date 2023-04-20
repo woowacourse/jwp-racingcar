@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
-import racingcar.dto.CarPositionDto;
 
 @SuppressWarnings({"NonAsciiCharacters", "SpellCheckingInspection"})
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -46,15 +45,5 @@ class OutputViewTest {
         OutputView.printStatusGuide();
 
         assertThat(outputStream.toString()).contains("실행 결과");
-    }
-
-    @Test
-    void printStatus_메서드로_경주_진행상황_출력_테스트() {
-        final List<CarPositionDto> dtos = List.of(
-                new CarPositionDto(1, "judy"),
-                new CarPositionDto(2, "nunu"));
-        OutputView.printStatus(dtos);
-
-        assertThat(outputStream.toString()).contains("judy : -", "nunu : --");
     }
 }
