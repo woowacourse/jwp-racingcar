@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,6 @@ import racingcar.dao.RacingCarRecord;
 import racingcar.dao.RacingCarRecordDao;
 import racingcar.dao.RacingGameHistory;
 import racingcar.dao.RacingGameHistoryDao;
-import racingcar.domain.RacingGameService;
 import racingcar.domain.game.RandomNumberGenerator;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
@@ -39,7 +39,8 @@ class RacingGameServiceMockTest {
 
     @BeforeEach
     void setUp() {
-        racingGameService = new RacingGameService(racingGameHistoryDao, racingCarRecordDao, new RandomNumberGenerator());
+        racingGameService = new RacingGameService(racingGameHistoryDao, racingCarRecordDao,
+                new RandomNumberGenerator());
     }
 
     @DisplayName("게임 결과를 저장한다.")
@@ -64,7 +65,7 @@ class RacingGameServiceMockTest {
         //given
         Long historyId = 1L;
         given(racingGameHistoryDao.selectAll()).willReturn(
-                List.of(new RacingGameHistory(historyId, 3, LocalDateTime.now()))
+                new ArrayList<>(List.of(new RacingGameHistory(historyId, 3, LocalDateTime.now())))
         );
         given(racingCarRecordDao.findByHistoryId(historyId)).willReturn(
                 List.of(

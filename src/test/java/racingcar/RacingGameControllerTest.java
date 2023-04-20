@@ -4,8 +4,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,8 +29,8 @@ import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.RacingGame;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
-import racingcar.web.RacingGameRequest;
 import racingcar.web.RacingGameController;
+import racingcar.web.RacingGameRequest;
 import racingcar.web.RacingGameResponse;
 
 @ExtendWith(MockitoExtension.class)

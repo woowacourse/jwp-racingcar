@@ -1,13 +1,9 @@
 package racingcar.domain;
 
-import com.zaxxer.hikari.util.IsolationLevel;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.RacingCarRecord;
 import racingcar.dao.RacingCarRecordDao;
 import racingcar.dao.RacingGameHistory;
@@ -57,7 +53,7 @@ public class RacingGameService {
         racingGameHistories.sort(
                 (history, otherHistory) -> otherHistory.getPlayTime().compareTo(history.getPlayTime()));
         return racingGameHistories.stream()
-                .mapToLong(history -> history.getId())
+                .mapToLong(RacingGameHistory::getId)
                 .mapToObj(this::findById)
                 .map(RacingGameDto::from)
                 .collect(Collectors.toList());
