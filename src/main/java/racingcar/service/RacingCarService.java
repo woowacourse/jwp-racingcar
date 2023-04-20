@@ -34,7 +34,7 @@ public class RacingCarService {
         Cars cars = new Cars(CarFactory.buildCars(carNames));
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoRequest.getCount();
-        play(cars, count, numberGenerator);
+        GamePlay.play(cars, count, numberGenerator);
         List<CarParam> carParams = cars.getCars().stream()
                 .map(CarParam::new)
                 .collect(Collectors.toList());
@@ -43,12 +43,6 @@ public class RacingCarService {
                 .collect(Collectors.toList());
         saveResult(count, carParams, winners);
         return new GameResultResponse(cars.findWinners(), cars.getCars());
-    }
-
-    private void play(Cars cars, int count, NumberGenerator numberGenerator) {
-        while (count-- > 0) {
-            cars.moveCars(numberGenerator);
-        }
     }
 
     private void saveResult(int trialCount, List<CarParam> cars, List<CarParam> winners) {
