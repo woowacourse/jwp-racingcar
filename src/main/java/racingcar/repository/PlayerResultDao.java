@@ -1,6 +1,5 @@
 package racingcar.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -20,7 +19,6 @@ public class PlayerResultDao {
     private final SimpleJdbcInsert insertPlayerResult;
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public PlayerResultDao(final DataSource dataSource) {
         this.insertPlayerResult = new SimpleJdbcInsert(dataSource)
                 .withTableName("player_result")

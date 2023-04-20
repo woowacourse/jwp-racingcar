@@ -1,6 +1,5 @@
 package racingcar.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -14,7 +13,6 @@ public class GameDao {
 
     private final SimpleJdbcInsert insertGame;
 
-    @Autowired
     public GameDao(final DataSource dataSource) {
         this.insertGame = new SimpleJdbcInsert(dataSource)
                 .withTableName("game")
