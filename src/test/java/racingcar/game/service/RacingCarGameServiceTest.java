@@ -44,10 +44,20 @@ class RacingCarGameServiceTest {
         public int insert(final int count, final GameResult gameResult) {
             return 0;
         }
+        
+        @Override
+        public GameResult find(final int gameId) {
+            return null;
+        }
+        
+        @Override
+        public List<GameResult> findAll() {
+            return null;
+        }
     }
     
     @Test
-    @DisplayName("RacingCarGameService 객체 생성 테스트")
+    @DisplayName("RacingCarGameService create 테스트")
     void create() {
         //given
         final CarDAO fakeCarDAO = new FakeCarDAO();

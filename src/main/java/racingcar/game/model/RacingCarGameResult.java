@@ -3,23 +3,32 @@ package racingcar.game.model;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.car.interfaces.Car;
-import racingcar.car.interfaces.Name;
 import racingcar.game.interfaces.GameResult;
 
 public final class RacingCarGameResult implements GameResult {
     
-    private final List<Name> winners;
+    private final String winners;
     private final List<Car> cars;
     
-    private final long createdAt = System.currentTimeMillis();
+    private final long createdAt;
     
-    private RacingCarGameResult(final List<Name> winners, final List<Car> cars) {
+    private RacingCarGameResult(final String winners, final List<Car> cars) {
         this.winners = winners;
         this.cars = cars;
+        this.createdAt = System.currentTimeMillis();
     }
     
+    public RacingCarGameResult(final String winners, final List<Car> cars, final long createdAt) {
+        this.winners = winners;
+        this.cars = cars;
+        this.createdAt = createdAt;
+    }
+    
+    
     public static RacingCarGameResult create(final List<Car> winners, final List<Car> cars) {
-        final List<Name> winnerNames = winners.stream().map(Car::getName).collect(Collectors.toList());
+        final String winnerNames = winners.stream()
+                .map(car -> car.getName().getValue())
+                .collect(Collectors.joining(","));
         return new RacingCarGameResult(winnerNames, cars);
     }
     
@@ -35,6 +44,6 @@ public final class RacingCarGameResult implements GameResult {
     
     @Override
     public String getWinners() {
-        return this.winners.stream().map(Name::getValue).collect(Collectors.joining(","));
+        return this.winners;
     }
 }

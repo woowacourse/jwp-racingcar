@@ -1,5 +1,7 @@
 package racingcar.game.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import racingcar.car.interfaces.CarDAO;
 import racingcar.car.interfaces.NumberGenerator;
@@ -32,5 +34,11 @@ public class RacingCarGameService implements GameService {
         final int gameId = this.racingGameDao.insert(count, gameResult);
         this.racingCarDAO.insertAll(gameResult.getCars(), gameId);
         return GameResponseDTO.create(gameResult);
+    }
+    
+    @Override
+    public List<GameResponseDTO> retrieveAllGames() {
+        final List<GameResult> gameResults = this.racingGameDao.findAll();
+        return gameResults.stream().map(GameResponseDTO::create).collect(Collectors.toList());
     }
 }
