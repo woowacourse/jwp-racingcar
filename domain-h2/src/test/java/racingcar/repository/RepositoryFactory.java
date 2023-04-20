@@ -3,17 +3,12 @@ package racingcar.repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dao.CarDao;
 import racingcar.dao.GamesDao;
-import racingcar.dao.InsertCarDao;
 import racingcar.dao.WinnerDao;
 
 public final class RepositoryFactory {
 
     public static CarDao carDao(final JdbcTemplate jdbcTemplate) {
         return new CarDao(jdbcTemplate);
-    }
-
-    public static InsertCarDao insertCarDao(final JdbcTemplate jdbcTemplate) {
-        return new InsertCarDao(jdbcTemplate);
     }
 
     public static WinnerDao winnerDao(final JdbcTemplate jdbcTemplate) {

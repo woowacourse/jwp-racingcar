@@ -27,10 +27,6 @@ public class RacingGame {
         return cars.findWinner();
     }
 
-    public List<Car> findResult() {
-        return cars.getCars();
-    }
-
     public Count getCount() {
         return count;
     }

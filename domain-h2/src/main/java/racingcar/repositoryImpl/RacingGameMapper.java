@@ -45,7 +45,7 @@ public class RacingGameMapper {
 
     public static RacingGame toDomain(final GameEntity gameEntity, final List<CarEntity> savedCarEntities) {
         final List<Car> carWithIds = savedCarEntities.stream()
-                .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition(), carEntity.getCarId()))
+                .map(CarEntity::toDomain)
                 .collect(Collectors.toList());
         return new RacingGame(gameEntity.getGameId(), carWithIds, gameEntity.getTrialCount());
     }
