@@ -11,8 +11,6 @@ import static org.mockito.BDDMockito.given;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.assertj.core.api.InstanceOfAssertFactories;
-import org.assertj.core.api.InstanceOfAssertFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,14 +22,12 @@ import racingcar.dao.RacingCarRecordDao;
 import racingcar.dao.RacingGameHistory;
 import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.RacingGameService;
-import racingcar.domain.cars.RacingCar;
-import racingcar.domain.game.RacingGame;
 import racingcar.domain.game.RandomNumberGenerator;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
 
 @ExtendWith(MockitoExtension.class)
-class RacingGameServiceTest {
+class RacingGameServiceMockTest {
 
     @Mock
     private RacingCarRecordDao racingCarRecordDao;
