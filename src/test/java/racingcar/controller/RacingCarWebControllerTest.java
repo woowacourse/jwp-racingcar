@@ -4,18 +4,19 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.dto.PlayRequestDto;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarControllerTest {
+class RacingCarWebControllerTest {
 
-    @Value("${local.server.port}")
+    @LocalServerPort
     int port;
 
     @BeforeEach
@@ -28,12 +29,22 @@ class RacingCarControllerTest {
     void playRequest() {
         final PlayRequestDto dto = new PlayRequestDto("a, b, c", 10);
 
-        RestAssured.given().log().all()
+        given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(dto)
                 .when().post("/plays")
-                .then().log().all()
+                .then().log().body()
                 .statusCode(HttpStatus.OK.value())
                 .body("racingCars.size()", is(3));
+    }
+
+    @DisplayName("게임 플레이 이력 조회를 한다")
+    @Test
+    void getAllResults() {
+        given().log().headers()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/plays")
+                .then()
+                .statusCode(HttpStatus.OK.value());
     }
 }
