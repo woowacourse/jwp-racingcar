@@ -9,19 +9,15 @@ public class GameResult {
     private final String winners;
     private final Timestamp createdAt;
 
-    private GameResult(Integer id, int trialCount, String winners, Timestamp createdAt) {
+    public GameResult(Integer id, int trialCount, String winners, Timestamp createdAt) {
         this.id = id;
         this.trialCount = trialCount;
         this.winners = winners;
         this.createdAt = createdAt;
     }
 
-    public static GameResult of(int trialCount, String winners, Timestamp createdAt) {
-        return new GameResult(null, trialCount, winners, createdAt);
-    }
-
-    public static GameResult of(Integer id, int trialCount, String winners, Timestamp createdAt) {
-        return new GameResult(id, trialCount, winners, createdAt);
+    public GameResult(int trialCount, String winners, Timestamp createdAt) {
+        this(null, trialCount, winners, createdAt);
     }
 
     public Integer getId() {

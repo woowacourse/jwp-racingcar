@@ -37,9 +37,9 @@ class JdbcCarResultDaoTest {
 
     @Test
     void saveAndFindById() {
-        GameResult gameResult = GameResult.of(10, "juno", Timestamp.valueOf(LocalDateTime.now()));
+        GameResult gameResult = new GameResult(10, "juno", Timestamp.valueOf(LocalDateTime.now()));
         Integer playResultId = webPlayResultDao.save(gameResult);
-        CarResult carResult = CarResult.of(playResultId, "juno", 3);
+        CarResult carResult = new CarResult(playResultId, "juno", 3);
         int carId = jdbcCarResultDao.save(carResult);
         CarResult result = jdbcCarResultDao.findById(carId);
         assertThat(result).isNotNull();
@@ -47,16 +47,16 @@ class JdbcCarResultDaoTest {
 
     @Test
     void findAllByPlayResultId() {
-        GameResult gameResult = GameResult.of(10, "juno,hongo", Timestamp.valueOf(LocalDateTime.now()));
+        GameResult gameResult = new GameResult(10, "juno,hongo", Timestamp.valueOf(LocalDateTime.now()));
         int playResultId = webPlayResultDao.save(gameResult);
-        CarResult carResult1 = CarResult.of(playResultId, "juno", 3);
-        CarResult carResult2 = CarResult.of(playResultId, "hongo", 3);
+        CarResult carResult1 = new CarResult(playResultId, "juno", 3);
+        CarResult carResult2 = new CarResult(playResultId, "hongo", 3);
         int carResult1Id = jdbcCarResultDao.save(carResult1);
         int carResult2Id = jdbcCarResultDao.save(carResult2);
 
         List<CarResult> expectedCarResults = new ArrayList<>();
-        expectedCarResults.add(CarResult.of(carResult1Id, playResultId, "juno", 3));
-        expectedCarResults.add(CarResult.of(carResult2Id, playResultId, "hongo", 3));
+        expectedCarResults.add(new CarResult(carResult1Id, playResultId, "juno", 3));
+        expectedCarResults.add(new CarResult(carResult2Id, playResultId, "hongo", 3));
         List<CarResult> carResults = jdbcCarResultDao.findAllByPlayResultId(playResultId);
         assertThat(carResults).isEqualTo(expectedCarResults);
     }

@@ -40,12 +40,12 @@ public class RacingGameService {
     }
 
     private int savePlayResult(int tryCount, RacingGame racingGame, String winners) {
-        return gameResultDao.save(GameResult.of(tryCount, winners, racingGame.getCreatedAt()));
+        return gameResultDao.save(new GameResult(tryCount, winners, racingGame.getCreatedAt()));
     }
 
     private void saveCarResult(List<Car> cars, int playResultId) {
         cars.stream()
-                .map(car -> CarResult.of(playResultId, car.getName(), car.getPosition()))
+                .map(car -> new CarResult(playResultId, car.getName(), car.getPosition()))
                 .forEach(carResultDao::save);
     }
 

@@ -33,7 +33,7 @@ class JdbcGameResultDaoTest {
 
     @Test
     void save_메서드는_데이터베이스에_게임결과를_저장() {
-        GameResult gameResult = GameResult.of(10, "hongo", Timestamp.valueOf(LocalDateTime.now()));
+        GameResult gameResult = new GameResult(10, "hongo", Timestamp.valueOf(LocalDateTime.now()));
         int id = webPlayResultDao.save(gameResult);
         GameResult result = webPlayResultDao.findById(id);
         assertThat(result).isNotNull();
@@ -41,7 +41,7 @@ class JdbcGameResultDaoTest {
 
     @Test
     void findById_메서드는_특정Id의_게임결과를_반환() {
-        GameResult gameResult = GameResult.of(10, "hongo", Timestamp.valueOf("2023-04-19 00:00:00"));
+        GameResult gameResult = new GameResult(10, "hongo", Timestamp.valueOf("2023-04-19 00:00:00"));
         int id = webPlayResultDao.save(gameResult);
         GameResult savedResult = webPlayResultDao.findById(id);
         assertAll(
@@ -54,8 +54,8 @@ class JdbcGameResultDaoTest {
 
     @Test
     void findAll_메서드는_모든_게임결과를_반환() {
-        GameResult gameResult1 = GameResult.of(10, "juno", Timestamp.valueOf("2023-04-19 00:00:00"));
-        GameResult gameResult2 = GameResult.of(15, "hongo", Timestamp.valueOf("2023-04-19 00:00:00"));
+        GameResult gameResult1 = new GameResult(10, "juno", Timestamp.valueOf("2023-04-19 00:00:00"));
+        GameResult gameResult2 = new GameResult(15, "hongo", Timestamp.valueOf("2023-04-19 00:00:00"));
         int playResult1Id = webPlayResultDao.save(gameResult1);
         int playResult2Id = webPlayResultDao.save(gameResult2);
 

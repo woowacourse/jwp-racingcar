@@ -15,7 +15,7 @@ import java.util.List;
 public class JdbcCarResultDao implements CarResultDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
-    private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> CarResult.of(
+    private final RowMapper<CarResult> entityRowMapper = (resultSet, rowNum) -> new CarResult(
             resultSet.getInt("id"),
             resultSet.getInt("game_result_id"),
             resultSet.getString("name"),

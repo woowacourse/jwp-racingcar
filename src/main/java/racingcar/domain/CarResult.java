@@ -8,19 +8,15 @@ public class CarResult {
     private final String name;
     private final int position;
 
-    private CarResult(Integer id, int gameResultId, String name, int position) {
+    public CarResult(Integer id, int gameResultId, String name, int position) {
         this.id = id;
         this.gameResultId = gameResultId;
         this.name = name;
         this.position = position;
     }
 
-    public static CarResult of(int resultId, String name, int position) {
-        return new CarResult(null, resultId, name, position);
-    }
-
-    public static CarResult of(Integer id, int resultId, String name, int position) {
-        return new CarResult(id, resultId, name, position);
+    public CarResult (int resultId, String name, int position) {
+        this(null, resultId, name, position);
     }
 
     public Integer getId() {

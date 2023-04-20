@@ -23,7 +23,7 @@ public class JdbcGameResultDao implements GameResultDao {
     }
 
     private final RowMapper<GameResult> entityRowMapper = (resultSet, rowNum) ->
-            GameResult.of(
+            new GameResult(
                     resultSet.getInt("id"),
                     resultSet.getInt("trial_count"),
                     resultSet.getString("winners"),
