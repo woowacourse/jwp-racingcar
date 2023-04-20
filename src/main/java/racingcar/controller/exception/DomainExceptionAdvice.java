@@ -7,7 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import racingcar.dto.ExceptionResponse;
+import racingcar.controller.dto.ExceptionResponse;
 import racingcar.exception.CarNameBlankException;
 import racingcar.exception.CarNameLengthException;
 import racingcar.exception.NoCarsExistException;

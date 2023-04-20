@@ -1,9 +1,9 @@
 package racingcar.controller;
 
+import racingcar.controller.dto.CarData;
+import racingcar.controller.dto.GameResultResponse;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.dto.CarData;
-import racingcar.dto.GameResultResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;

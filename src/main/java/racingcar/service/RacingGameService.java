@@ -2,9 +2,9 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.controller.dto.RacingGameRequest;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.RacingGameRequest;
 import racingcar.persistence.repository.GameRepository;
 
 import java.util.List;
