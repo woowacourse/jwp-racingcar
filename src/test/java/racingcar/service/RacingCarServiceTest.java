@@ -12,23 +12,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
-import racingcar.dto.CarDto;
 import racingcar.dto.GameDto;
-import racingcar.dto.GameIdDto;
 import racingcar.dto.GameResponse;
+import racingcar.entity.CarEntity;
+import racingcar.entity.GameEntity;
 import racingcar.strategy.RandomMovingStrategy;
 
 class RacingCarServiceTest {
 
     private RacingCarService racingCarService;
-    private GameDao gameDao;
-    private CarDao carDao;
     private GameDto gameDto;
 
     @BeforeEach
     void setUp() {
-        gameDao = Mockito.mock(GameDao.class);
-        carDao = Mockito.mock(CarDao.class);
+        GameDao gameDao = Mockito.mock(GameDao.class);
+        CarDao carDao = Mockito.mock(CarDao.class);
         racingCarService = new RacingCarService(
                 new RandomMovingStrategy(),
                 gameDao,
@@ -40,10 +38,11 @@ class RacingCarServiceTest {
         given(gameDao.insertGame(tryTimes)).willReturn(gameId);
         given(carDao.findCars(gameId)).willReturn(
                 new ArrayList<>() {{
-                    add(CarDto.of(gameDto.getNames().get(0), 0));
-                    add(CarDto.of(gameDto.getNames().get(1), 0));
+                    add(CarEntity.of(gameDto.getNames().get(0), 0));
+                    add(CarEntity.of(gameDto.getNames().get(1), 0));
                 }}
         );
+        given(gameDao.findAll()).willReturn(List.of(GameEntity.of(gameId, tryTimes)));
     }
 
     @Test
@@ -63,9 +62,6 @@ class RacingCarServiceTest {
     @Test
     @DisplayName("게임 이력을 조회한다.")
     void getGameResults() {
-        int gameId = 1;
-        given(gameDao.findAll()).willReturn(List.of(GameIdDto.from(gameId)));
-
         List<GameResponse> gameResponses = racingCarService.getGameResults();
 
         assertAll(

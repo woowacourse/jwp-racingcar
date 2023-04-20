@@ -13,8 +13,9 @@ import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameDto;
-import racingcar.dto.GameIdDto;
 import racingcar.dto.GameResponse;
+import racingcar.entity.CarEntity;
+import racingcar.entity.GameEntity;
 import racingcar.strategy.MovingStrategy;
 
 @Service
@@ -58,17 +59,17 @@ public class RacingCarService {
 
     private void saveCars(int gameId, RacingGame game) {
         List<Car> cars = game.getCars();
-        convertDto(cars).forEach(car -> carDao.insertCar(car, gameId));
+        convertToEntity(cars).forEach(car -> carDao.insertCar(car, gameId));
     }
 
     @Transactional
     public List<GameResponse> getGameResults() {
         List<GameResponse> gameResponses = new ArrayList<>();
-        List<GameIdDto> allGame = gameDao.findAll();
+        List<GameEntity> allGame = gameDao.findAll();
 
-        for (GameIdDto gameIdDto : allGame) {
+        for (GameEntity gameEntity : allGame) {
             gameResponses.add(
-                    makeGameResponse(gameIdDto.getId())
+                    makeGameResponse(gameEntity.getId())
             );
         }
 
@@ -94,10 +95,17 @@ public class RacingCarService {
     }
 
     private List<CarDto> findCars(final int gameId) {
-        return carDao.findCars(gameId);
+        List<CarEntity> cars = carDao.findCars(gameId);
+        return convertToDto(cars);
     }
 
-    private List<CarDto> convertDto(final List<Car> cars) {
+    private List<CarEntity> convertToEntity(final List<Car> cars) {
+        return cars.stream()
+                .map(car -> CarEntity.of(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+    }
+
+    private List<CarDto> convertToDto(final List<CarEntity> cars) {
         return cars.stream()
                 .map(car -> CarDto.of(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());

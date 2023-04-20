@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.GameIdDto;
+import racingcar.entity.GameEntity;
 
 @Repository
 public class GameJdbcDao implements GameDao {
@@ -26,8 +26,9 @@ public class GameJdbcDao implements GameDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    private final RowMapper<GameIdDto> gameDtoRowMapper = (resultSet, rowNum) -> GameIdDto.from(
-            resultSet.getInt("id")
+    private final RowMapper<GameEntity> gameDtoRowMapper = (resultSet, rowNum) -> GameEntity.of(
+            resultSet.getInt("id"),
+            resultSet.getInt("trial_count")
     );
 
     @Override
@@ -40,8 +41,8 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public List<GameIdDto> findAll() {
-        String sql = "SELECT id FROM game;";
+    public List<GameEntity> findAll() {
+        String sql = "SELECT id, trial_count FROM game;";
 
         return jdbcTemplate.query(sql, gameDtoRowMapper);
     }

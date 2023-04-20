@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import racingcar.domain.Car;
-import racingcar.dto.CarDto;
+import racingcar.entity.CarEntity;
 
 public class CarConsoleDao implements CarDao {
 
@@ -13,15 +13,15 @@ public class CarConsoleDao implements CarDao {
     private int id = 1;
 
     @Override
-    public int insertCar(CarDto carDto, int gameId) {
-        cars.put(id++, new Car(carDto.getName(), carDto.getPosition()));
+    public int insertCar(final CarEntity carEntity, final int gameId) {
+        cars.put(id++, new Car(carEntity.getName(), carEntity.getPosition()));
         return id - 1;
     }
 
     @Override
-    public List<CarDto> findCars(int gameId) {
+    public List<CarEntity> findCars(final int gameId) {
         return cars.values().stream()
-                .map(car -> CarDto.of(car.getName(), car.getPosition()))
+                .map(car -> CarEntity.of(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
 }
