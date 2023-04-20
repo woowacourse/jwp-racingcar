@@ -55,23 +55,20 @@ public class RacingCarController {
     private void race(Cars cars, Lap lap, NumberGenerator numberGenerator) {
         while (!lap.isFinish()) {
             cars.moveCars(numberGenerator);
-            List<Car> movedCars = cars.getLatestResult();
-            List<CarStatusDto> carStatusDtos = mapCarsToCarStatuses(movedCars);
             lap.reduce();
-            OutputView.printCarStatus(carStatusDtos);
         }
-    }
-
-    private List<CarStatusDto> mapCarsToCarStatuses(List<Car> cars) {
-        return cars.stream()
-                .map(car -> new CarStatusDto(car.getCarName(), car.getCurrentPosition()))
-                .collect(Collectors.toUnmodifiableList());
     }
 
     private void showFinalStatus(Cars cars) {
         List<Car> latestResult = cars.getLatestResult();
         List<CarStatusDto> carStatusDtos = mapCarsToCarStatuses(latestResult);
         OutputView.printCarStatus(carStatusDtos);
+    }
+
+    private List<CarStatusDto> mapCarsToCarStatuses(List<Car> cars) {
+        return cars.stream()
+                .map(car -> new CarStatusDto(car.getCarName(), car.getCurrentPosition()))
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private void prizeWinner(Cars cars) {
