@@ -71,7 +71,8 @@ public class CarService {
     }
 
     private void race(final Cars cars, final Round round) {
-        for (int count = 0; count < round.getRound(); count++) {
+        int count = round.getRound();
+        while (count-- > 0) {
             cars.race(generator);
         }
     }
