@@ -1,7 +1,6 @@
 package racingcar.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class RacingCarService {
     }
 
     public PlayResponse play(PlayRequest playRequest) {
-        Race race = createRace(playRequest);
+        Race race = new Race(playRequest.getCount(), playRequest.getNames(), numberGenerator);
         while (!race.isFinished()) {
             race.playRound();
         }
@@ -61,13 +60,5 @@ public class RacingCarService {
         }
 
         return responses;
-    }
-
-    private Race createRace(PlayRequest playRequest) {
-        String delimiter = ",";
-        List<String> carNames = Arrays.stream(playRequest.getNames().split(delimiter, -1)).map(String::strip)
-                .collect(Collectors.toList());
-
-        return new Race(playRequest.getCount(), carNames, numberGenerator);
     }
 }

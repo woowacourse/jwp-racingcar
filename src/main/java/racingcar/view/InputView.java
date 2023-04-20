@@ -19,9 +19,13 @@ public class InputView {
         this.scanner = scanner;
     }
 
-    public String readCarNames() {
+    public List<String> readCarNames() {
+        final String DELIMITER = ",";
+
         printInputMessage(ENTER_CAR_NAMES);
-        return readLine().strip();
+        String input = readLine();
+        validateNotEmpty(input);
+        return splitWordsBy(input, DELIMITER);
     }
 
     public int readCount() throws IllegalArgumentException {

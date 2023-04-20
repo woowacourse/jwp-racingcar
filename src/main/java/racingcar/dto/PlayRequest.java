@@ -1,18 +1,16 @@
 package racingcar.dto;
 
-import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import javax.validation.constraints.Positive;
 
 public class PlayRequest {
 
-    @NotEmpty(message = "[ERROR] 입력값이 없습니다.")
-    private final String names;
+    private final List<String> names;
 
     @Positive(message = "[ERROR] 올바르지 않은 시도횟수입니다.")
     private final int count;
 
-    public PlayRequest(String names, int count) {
-        validateNames(names);
+    public PlayRequest(List<String> names, int count) {
         this.names = names;
         this.count = count;
     }
@@ -23,7 +21,7 @@ public class PlayRequest {
         }
     }
 
-    public String getNames() {
+    public List<String> getNames() {
         return names;
     }
 

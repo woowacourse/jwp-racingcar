@@ -32,7 +32,7 @@ public class RacingCarServiceTest {
 
     @Test
     void 게임을_진행한다() {
-        PlayRequest playRequest = new PlayRequest("비버,허브,애쉬,박스더", 4);
+        PlayRequest playRequest = new PlayRequest(List.of("비버", "허브", "애쉬", "박스더"), 4);
         PlayResponse playResponse = racingCarService.play(playRequest);
 
         assertAll(

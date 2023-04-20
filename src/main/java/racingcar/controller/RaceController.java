@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import java.util.List;
 import java.util.function.Supplier;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
@@ -20,7 +21,7 @@ public class RaceController {
     }
 
     public void play() {
-        String carNames = repeat(inputView::readCarNames);
+        List<String> carNames = repeat(inputView::readCarNames);
         int count = repeat(inputView::readCount);
         PlayRequest playRequest = new PlayRequest(carNames, count);
         PlayResponse response = racingCarService.play(playRequest);

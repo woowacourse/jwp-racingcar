@@ -43,7 +43,7 @@ class RacingCarControllerTest {
         given(racingCarService.play(any(PlayRequest.class)))
                 .willReturn(response);
 
-        PlayRequest playRequest = new PlayRequest("car1,car2", 4);
+        PlayRequest playRequest = new PlayRequest(List.of("car1", "car2"), 4);
         String request = objectMapper.writeValueAsString(playRequest);
 
         mockMvc.perform(post("/plays")
