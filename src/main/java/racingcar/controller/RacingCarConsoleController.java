@@ -1,15 +1,16 @@
 package racingcar.controller;
 
-import racingcar.domain.*;
-import racingcar.dto.PositionOfCar;
+import racingcar.domain.Cars;
+import racingcar.domain.Count;
+import racingcar.domain.RacingGame;
+import racingcar.domain.RandomNumberGenerator;
+import racingcar.dto.response.RacingGameResponseDto;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class RacingCarConsoleController {
 
@@ -28,8 +29,8 @@ public class RacingCarConsoleController {
 
     public void run() {
         final RacingGame racingGame = generateGame();
-        play(racingGame);
-        findWinners(racingGame);
+        RacingGameResponseDto racingGameResponseDto = racingCarService.play(racingGame);
+        outputView.printResult(racingGameResponseDto);
     }
 
     private RacingGame generateGame() {
@@ -45,23 +46,5 @@ public class RacingCarConsoleController {
             outputView.printErrorMessage(e.getMessage());
             return retry(function, supplier);
         }
-    }
-
-    private void play(final RacingGame racingGame) {
-        outputView.printResultMessage();
-        racingCarService.play(racingGame);
-        final List<Car> cars = racingGame.getCurrentResult();
-        outputView.printPosition(conversionPositionOfCars(cars));
-    }
-
-    private List<PositionOfCar> conversionPositionOfCars(final List<Car> cars) {
-        return cars.stream()
-                .map(PositionOfCar::from)
-                .collect(Collectors.toList());
-    }
-
-    private void findWinners(final RacingGame racingGame) {
-        final List<String> winners = racingGame.findWinners();
-        outputView.printWinnersMessage(winners);
     }
 }
