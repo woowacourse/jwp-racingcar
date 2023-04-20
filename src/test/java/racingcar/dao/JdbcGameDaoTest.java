@@ -42,12 +42,15 @@ class JdbcGameDaoTest {
     @DisplayName("Game 테이블에 저장된 정보를 불러올 수 있다.")
     void findGame_whenCall_thenSuccess() {
         // given
-        gameDao.save(10);
+        Long gameId = gameDao.save(10);
 
+        // when
         List<GameFindDto> gameFindDtos = gameDao.findAll();
+
+        // then
         Assertions.assertAll(
                 () -> assertThat(gameFindDtos.size()).isEqualTo(1),
-                () -> assertThat(gameFindDtos.get(0).getId()).isEqualTo(1),
+                () -> assertThat(gameFindDtos.get(0).getId()).isEqualTo(gameId),
                 () -> assertThat(gameFindDtos.get(0).getTrialCount()).isEqualTo(10)
         );
     }

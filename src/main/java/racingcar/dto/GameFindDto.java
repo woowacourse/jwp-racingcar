@@ -25,4 +25,13 @@ public class GameFindDto {
     public Date getCreatedAt() {
         return createdAt;
     }
+
+    @Override
+    public String toString() {
+        return "GameFindDto{" +
+                "id=" + id +
+                ", trialCount=" + trialCount +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

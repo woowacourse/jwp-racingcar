@@ -3,6 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import racingcar.dto.PlayerFindDto;
 import racingcar.dto.PlayerSaveDto;
 
 import java.util.List;
@@ -24,6 +25,20 @@ public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao{
                 .toArray(MapSqlParameterSource[]::new);
 
         jdbcTemplate.batchUpdate(sql, params);
+    }
+
+    @Override
+    public List<PlayerFindDto> findById(long gameId) {
+        String sql = "select id, game_id, name, position, is_winner from Player where game_id = :game_id";
+        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("game_id", gameId);
+        return jdbcTemplate.query(sql, sqlParameterSource,
+                (resultSet, rowNum) -> new PlayerFindDto(
+                        resultSet.getLong("id"),
+                        resultSet.getLong("game_id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("position"),
+                        resultSet.getBoolean("is_winner")
+                ));
     }
 
     private MapSqlParameterSource createParams(final long id, final PlayerSaveDto dto) {

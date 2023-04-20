@@ -32,7 +32,18 @@ public class PlayerFindDto {
         return position;
     }
 
-    public boolean isWinner() {
+    public boolean getIsWinner() {
         return isWinner;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerFindDto{" +
+                "id=" + id +
+                ", gameId=" + gameId +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                ", isWinner=" + isWinner +
+                '}';
     }
 }

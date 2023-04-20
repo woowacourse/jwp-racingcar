@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,13 +9,12 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dto.PlayerFindDto;
 import racingcar.dto.PlayerSaveDto;
-import racingcar.exception.ExceptionInformation;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @JdbcTest
 @Transactional
@@ -55,5 +55,32 @@ class JdbcPlayerDaoTest {
         // when, then
         assertThatThrownBy(() -> playerDao.save(2, List.of(kongHana, ethan)))
                 .isInstanceOf(DataAccessException.class);
+    }
+
+    @Test
+    @DisplayName("player 테이블에 저장된 정보를 불러올 수 있다.")
+    void findPlayer_whenCall_thenSuccess() {
+        // given
+        String konghanaName = "콩하나";
+        String ethanName = "에단";
+
+        // when
+        Long gameId = gameDao.save(10);
+        final PlayerSaveDto kongHana = new PlayerSaveDto(konghanaName, 10, true);
+        final PlayerSaveDto ethan = new PlayerSaveDto(ethanName, 5, false);
+        playerDao.save(gameId, List.of(kongHana, ethan));
+
+        List<PlayerFindDto> playerFindDtos = playerDao.findById(gameId);
+
+        // then
+        Assertions.assertAll(
+                () -> assertThat(playerFindDtos.size()).isEqualTo(2),
+                () -> assertThat(playerFindDtos.get(0).getName()).isEqualTo(konghanaName),
+                () -> assertThat(playerFindDtos.get(0).getPosition()).isEqualTo(10),
+                () -> assertThat(playerFindDtos.get(0).getIsWinner()).isEqualTo(true),
+                () -> assertThat(playerFindDtos.get(1).getName()).isEqualTo(ethanName),
+                () -> assertThat(playerFindDtos.get(1).getPosition()).isEqualTo(5),
+                () -> assertThat(playerFindDtos.get(1).getIsWinner()).isEqualTo(false)
+        );
     }
 }
