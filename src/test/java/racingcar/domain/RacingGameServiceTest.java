@@ -4,14 +4,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.RacingCarRecord;
 import racingcar.dao.RacingCarRecordDao;
+import racingcar.dao.RacingGameHistory;
 import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.cars.RacingCar;
+import racingcar.domain.game.NumberGenerator;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
 
@@ -28,6 +34,22 @@ public class RacingGameServiceTest {
     @Autowired
     private RacingCarRecordDao racingCarRecordDao;
 
+    @DisplayName("게임을 진행하고 결과를 저장할 수 있다.")
+    @Test
+    void testPlayGameAndInsertData() {
+        //given
+        //when
+        racingGameService.play(10, List.of("서브웨이", "브리", "로지"));
+        //then
+        List<RacingGameHistory> racingGameHistories = racingGameHistoryDao.selectAll();
+        RacingGameHistory createdGameHistory = racingGameHistories.get(0);
+        assertThat(createdGameHistory.getTrialCount()).isEqualTo(10);
+        List<RacingCarRecord> createdCarRecords = racingCarRecordDao.findByHistoryId(createdGameHistory.getId());
+        List<String> createdCarNames = createdCarRecords.stream()
+                .map(RacingCarRecord::getName)
+                .collect(Collectors.toList());
+        assertThat(createdCarNames).containsExactly("서브웨이", "브리", "로지");
+    }
 
     @DisplayName("최신순으로 게임이력을 읽을 수 있다.")
     @Test
@@ -82,4 +104,37 @@ public class RacingGameServiceTest {
         assertThat(otherPlayer.getPosition()).isEqualTo(5);
 
     }
+
+    @Nested
+    @DisplayName("Position테스트")
+    class MockNumberGeneratorTest {
+        private RacingGameService racingGameService;
+        private NumberGenerator numberGenerator;
+
+        @BeforeEach
+        void setUp() {
+            numberGenerator = (size) -> List.of(1, 4, 5);
+            racingGameService = new RacingGameService(racingGameHistoryDao, racingCarRecordDao, numberGenerator);
+        }
+
+        @DisplayName("게임을 진행하고 결과를 저장할 수 있다.")
+        @Test
+        void testPlayGameAndInsertData() {
+            //given
+            //when
+            racingGameService.play(1, List.of("서브웨이", "브리", "로지"));
+            //then
+            List<RacingGameHistory> racingGameHistories = racingGameHistoryDao.selectAll();
+            RacingGameHistory createdGameHistory = racingGameHistories.get(0);
+            List<RacingCarRecord> createdCarRecords = racingCarRecordDao.findByHistoryId(createdGameHistory.getId());
+            RacingCarRecord subway = createdCarRecords.stream().filter(car -> car.getName().equals("서브웨이")).findFirst().get();
+            RacingCarRecord briee = createdCarRecords.stream().filter(car -> car.getName().equals("브리")).findFirst().get();
+            RacingCarRecord rosie = createdCarRecords.stream().filter(car -> car.getName().equals("로지")).findFirst().get();
+            assertThat(subway.getPosition()).isEqualTo(0);
+            assertThat(briee.getPosition()).isEqualTo(1);
+            assertThat(rosie.getPosition()).isEqualTo(1);
+
+        }
+    }
+
 }
