@@ -9,6 +9,6 @@ public class ConsoleRacingCarApplication {
     public static void main(String[] args) {
         RacingGameService racingGameService = new RacingGameService(new DummyCarResultDao(), new DummyGameResultDao());
         ConsoleRacingGameController consoleRacingGameController = new ConsoleRacingGameController(racingGameService);
-        consoleRacingGameController.play();
+        consoleRacingGameController.playGame();
     }
 }

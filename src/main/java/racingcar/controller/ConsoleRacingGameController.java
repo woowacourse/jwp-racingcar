@@ -13,7 +13,7 @@ public class ConsoleRacingGameController {
         this.racingGameService = racingGameService;
     }
 
-    public void play() {
+    public void playGame() {
         String names = InputView.inputCarNames();
         int count = InputView.inputTryCount();
 
