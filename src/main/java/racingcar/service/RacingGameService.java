@@ -1,6 +1,6 @@
 package racingcar.service;
 
-import racingcar.controller.dto.RacingGameResponse;
+import racingcar.controller.response.RacingGameResponse;
 
 import java.util.List;
 

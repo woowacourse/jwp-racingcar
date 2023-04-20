@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.controller.dto.CarDto;
-import racingcar.controller.dto.RacingGameResponse;
+import racingcar.controller.response.CarResponse;
+import racingcar.controller.response.RacingGameResponse;
 import racingcar.domain.Car;
 
 import java.util.List;
@@ -56,7 +56,7 @@ class RacingGameDatabaseServiceTest {
 
         final List<String> findCarNameValues = findGameHistory.getRacingCars()
                 .stream()
-                .map(CarDto::getName)
+                .map(CarResponse::getName)
                 .collect(Collectors.toList());
 
         // then

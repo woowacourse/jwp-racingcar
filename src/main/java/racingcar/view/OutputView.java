@@ -1,7 +1,7 @@
 package racingcar.view;
 
-import racingcar.controller.dto.CarDto;
-import racingcar.controller.dto.RacingGameResponse;
+import racingcar.controller.response.CarResponse;
+import racingcar.controller.response.RacingGameResponse;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class OutputView {
     }
 
     public void printRacingResult(final RacingGameResponse response) {
-        final List<CarDto> cars = response.getRacingCars();
+        final List<CarResponse> cars = response.getRacingCars();
 
         cars.forEach(car ->
                 System.out.printf("%s : %s%n", car.getName(), "-".repeat(car.getPosition())));

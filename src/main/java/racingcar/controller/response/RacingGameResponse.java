@@ -1,4 +1,4 @@
-package racingcar.controller.dto;
+package racingcar.controller.response;
 
 import racingcar.domain.Car;
 
@@ -7,16 +7,16 @@ import java.util.stream.Collectors;
 
 public class RacingGameResponse {
     private final String winners;
-    private final List<CarDto> racingCars;
+    private final List<CarResponse> racingCars;
 
     public RacingGameResponse(final String winners, final List<Car> racingCars) {
         this.winners = winners;
         this.racingCars = createCarDto(racingCars);
     }
 
-    private List<CarDto> createCarDto(final List<Car> racingCars) {
+    private List<CarResponse> createCarDto(final List<Car> racingCars) {
         return racingCars.stream()
-                .map(car -> new CarDto(car.getNameValue(), car.getPositionValue()))
+                .map(car -> new CarResponse(car.getNameValue(), car.getPositionValue()))
                 .collect(Collectors.toList());
     }
 
@@ -24,7 +24,7 @@ public class RacingGameResponse {
         return winners;
     }
 
-    public List<CarDto> getRacingCars() {
+    public List<CarResponse> getRacingCars() {
         return racingCars;
     }
 }

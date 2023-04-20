@@ -1,4 +1,4 @@
-package racingcar.controller.dto;
+package racingcar.controller.response;
 
 import java.time.LocalDateTime;
 

@@ -2,11 +2,11 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.controller.dto.RacingGameResponse;
+import racingcar.controller.response.RacingGameResponse;
 import racingcar.domain.*;
+import racingcar.dto.RacingGameDto;
 import racingcar.repository.PlayerRepository;
 import racingcar.repository.RacingGameRepository;
-import racingcar.repository.mapper.RacingGameMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,12 +57,12 @@ public class RacingGameDatabaseService implements RacingGameService {
                 .collect(Collectors.toList());
     }
 
-    private RacingGameResponse parseToRacingGameResponseBy(final RacingGameMapper racingGame) {
+    private RacingGameResponse parseToRacingGameResponseBy(final RacingGameDto racingGame) {
         return new RacingGameResponse(racingGame.getWinners(), parseToCarsBy(racingGame));
     }
 
-    private List<Car> parseToCarsBy(final RacingGameMapper racingGame) {
-        return playerRepository.findBy(racingGame.getId())
+    private List<Car> parseToCarsBy(final RacingGameDto racingGame) {
+        return playerRepository.findByRacingGameId(racingGame.getId())
                 .stream()
                 .map(playerMapper -> new Car(playerMapper.getName(), playerMapper.getPosition()))
                 .collect(Collectors.toList());

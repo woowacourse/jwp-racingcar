@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.controller.dto.RacingGameRequest;
-import racingcar.controller.dto.RacingGameResponse;
+import racingcar.controller.request.RacingGameRequest;
+import racingcar.controller.response.RacingGameResponse;
 import racingcar.service.RacingGameService;
 
 import java.util.List;

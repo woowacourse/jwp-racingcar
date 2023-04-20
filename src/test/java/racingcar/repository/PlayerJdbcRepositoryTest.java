@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.domain.Cars;
 import racingcar.domain.Name;
 import racingcar.domain.Position;
-import racingcar.repository.mapper.PlayerMapper;
+import racingcar.dto.PlayerDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,15 +45,15 @@ class PlayerJdbcRepositoryTest {
         playerJdbcRepository.save(new Cars(List.of("헤나", "찰리")), savedGameId);
 
         // when
-        final List<PlayerMapper> findPlayerMappers = playerJdbcRepository.findBy(savedGameId);
+        final List<PlayerDto> findPlayers = playerJdbcRepository.findByRacingGameId(savedGameId);
 
-        final List<String> findPlayerNameValues = findPlayerMappers.stream()
-                .map(PlayerMapper::getName)
+        final List<String> findPlayerNameValues = findPlayers.stream()
+                .map(PlayerDto::getName)
                 .map(Name::getValue)
                 .collect(Collectors.toList());
 
-        final List<Position> findPlayerPositions = findPlayerMappers.stream()
-                .map(PlayerMapper::getPosition)
+        final List<Position> findPlayerPositions = findPlayers.stream()
+                .map(PlayerDto::getPosition)
                 .collect(Collectors.toList());
 
         // then

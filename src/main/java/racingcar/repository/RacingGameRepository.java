@@ -1,6 +1,6 @@
 package racingcar.repository;
 
-import racingcar.repository.mapper.RacingGameMapper;
+import racingcar.dto.RacingGameDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface RacingGameRepository {
     int save(final String winners, final int count);
 
-    Optional<RacingGameMapper> findById(final int id);
+    Optional<RacingGameDto> findById(final int id);
 
-    List<RacingGameMapper> findAll();
+    List<RacingGameDto> findAll();
 }

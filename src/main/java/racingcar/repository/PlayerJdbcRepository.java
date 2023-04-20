@@ -5,7 +5,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Cars;
-import racingcar.repository.mapper.PlayerMapper;
+import racingcar.domain.Name;
+import racingcar.domain.Position;
+import racingcar.dto.PlayerDto;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,12 +21,10 @@ public class PlayerJdbcRepository implements PlayerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<PlayerMapper> playerRowMapper = (resultSet, rowNum) -> {
-        return new PlayerMapper(
-                resultSet.getInt("id"),
-                resultSet.getString("name"),
-                resultSet.getInt("position"),
-                resultSet.getInt("racing_game_id")
+    private final RowMapper<PlayerDto> playerRowMapper = (resultSet, rowNum) -> {
+        return new PlayerDto(
+                new Name(resultSet.getString("name")),
+                new Position(resultSet.getInt("position"))
         );
     };
 
@@ -50,7 +50,7 @@ public class PlayerJdbcRepository implements PlayerRepository {
     }
 
     @Override
-    public List<PlayerMapper> findBy(final int racingGameId) {
+    public List<PlayerDto> findByRacingGameId(final int racingGameId) {
         final String sql = "SELECT * FROM PLAYER WHERE racing_game_id = ?";
         return jdbcTemplate.query(sql, playerRowMapper, racingGameId);
     }

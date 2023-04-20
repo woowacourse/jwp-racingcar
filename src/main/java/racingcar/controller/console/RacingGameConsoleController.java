@@ -3,7 +3,7 @@ package racingcar.controller.console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import racingcar.controller.dto.RacingGameResponse;
+import racingcar.controller.response.RacingGameResponse;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
