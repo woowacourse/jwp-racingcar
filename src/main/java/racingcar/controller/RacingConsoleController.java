@@ -12,7 +12,7 @@ public class RacingConsoleController {
     private final InputView inputView = new InputView();
     private final RacingGameService racingGameService;
 
-    private RacingConsoleController(final RacingGameService racingGameService) {
+    public RacingConsoleController(final RacingGameService racingGameService) {
         this.racingGameService = racingGameService;
     }
 

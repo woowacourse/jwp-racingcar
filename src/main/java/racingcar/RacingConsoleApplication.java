@@ -1,23 +1,35 @@
 package racingcar;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import racingcar.controller.RacingConsoleController;
+import racingcar.dao.CarDao;
+import racingcar.dao.GameDao;
+import racingcar.service.RacingGameService;
 
-@SpringBootApplication
-public class RacingConsoleApplication implements CommandLineRunner {
-
-    @Autowired
-    private RacingConsoleController racingConsoleController;
+public class RacingConsoleApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RacingConsoleApplication.class, args);
+        JdbcTemplate jdbcTemplate = createJdbcTemplate();
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+
+        GameDao gameDao = new GameDao(jdbcTemplate);
+        CarDao carDao = new CarDao(namedParameterJdbcTemplate);
+
+        RacingGameService racingGameService = new RacingGameService(gameDao, carDao);
+
+        RacingConsoleController racingConsoleController = new RacingConsoleController(racingGameService);
+        racingConsoleController.run();
     }
 
-    @Override
-    public void run(final String... args) throws Exception {
-        racingConsoleController.run();
+    private static JdbcTemplate createJdbcTemplate() {
+        EmbeddedDatabase db = new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.H2)
+                .addScripts("data.sql")
+                .build();
+        return new JdbcTemplate(db);
     }
 }

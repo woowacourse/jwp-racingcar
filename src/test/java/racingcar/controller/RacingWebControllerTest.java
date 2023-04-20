@@ -42,7 +42,7 @@ public class RacingWebControllerTest {
 
     @Test
     void 플레이어_여러명인_경우_테스트() {
-        GameRequestDto requestDto = new GameRequestDto(List.of("오잉,포이,브리"), 3);
+        GameRequestDto requestDto = new GameRequestDto(List.of("오잉", "포이", "브리"), 3);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
