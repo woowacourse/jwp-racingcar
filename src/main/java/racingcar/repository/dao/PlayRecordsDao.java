@@ -1,8 +1,10 @@
 package racingcar.repository.dao;
 
+import racingcar.repository.dao.entity.PlayRecordEntity;
+
 public interface PlayRecordsDao {
 
-    void insert(final int count);
+    void insert(final PlayRecordEntity playRecord);
 
     long getLastId();
 

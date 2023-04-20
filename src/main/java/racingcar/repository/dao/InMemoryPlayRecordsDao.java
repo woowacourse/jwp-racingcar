@@ -3,6 +3,7 @@ package racingcar.repository.dao;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import racingcar.repository.dao.entity.PlayRecordEntity;
 
 public class InMemoryPlayRecordsDao implements PlayRecordsDao {
 
@@ -11,8 +12,8 @@ public class InMemoryPlayRecordsDao implements PlayRecordsDao {
     private final List<PlayRecord> playRecords = new ArrayList<>();
 
     @Override
-    public void insert(final int count) {
-        playRecords.add(new PlayRecord(id, count));
+    public void insert(final PlayRecordEntity playRecord) {
+        playRecords.add(new PlayRecord(id, playRecord.getCount()));
         id++;
     }
 

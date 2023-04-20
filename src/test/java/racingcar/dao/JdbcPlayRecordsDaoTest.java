@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.repository.dao.JdbcPlayRecordsDao;
+import racingcar.repository.dao.entity.PlayRecordEntity;
 
 @SpringBootTest
 class JdbcPlayRecordsDaoTest {
@@ -17,8 +18,12 @@ class JdbcPlayRecordsDaoTest {
     @DisplayName("DB: 게임 이력 저장 테스트")
     @Test
     void insert2() {
-        playRecordsDao.insert(2);
+        playRecordsDao.insert(
+                PlayRecordEntity.builder()
+                        .count(2)
+                        .build()
+        );
 
-        assertThat(playRecordsDao.getLastId()).isEqualTo(1);
+        assertThat(playRecordsDao.getLastId()).isEqualTo(1L);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.repository.dao.JdbcCarsDao;
 import racingcar.repository.dao.JdbcPlayRecordsDao;
 import racingcar.repository.dao.entity.CarEntity;
+import racingcar.repository.dao.entity.PlayRecordEntity;
 
 @SpringBootTest
 class JdbcCarsDaoTest {
@@ -32,7 +33,11 @@ class JdbcCarsDaoTest {
 
     @BeforeEach
     void setUp() {
-        playRecordsDao.insert(5);
+        playRecordsDao.insert(
+                PlayRecordEntity.builder()
+                        .count(5)
+                        .build()
+        );
     }
 
     @AfterEach
@@ -64,7 +69,11 @@ class JdbcCarsDaoTest {
     void findAllCarsById() {
         long id1 = playRecordsDao.getLastId();
         carsDao.insert(id1, FIXTURE_CARS_ID_NULL);
-        playRecordsDao.insert(5);
+        playRecordsDao.insert(
+                PlayRecordEntity.builder()
+                        .count(5)
+                        .build()
+        );
         long id2 = playRecordsDao.getLastId();
         carsDao.insert(id2, FIXTURE_CARS_ID_NULL);
 
