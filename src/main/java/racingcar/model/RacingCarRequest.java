@@ -1,15 +1,15 @@
 package racingcar.model;
 
-public class PlayRequest {
+public class RacingCarRequest {
     private final String names;
     private final int count;
 
-    PlayRequest() {
+    RacingCarRequest() {
         this.names = "";
         this.count = 0;
     }
 
-    public PlayRequest(final String names, final int count) {
+    public RacingCarRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }
