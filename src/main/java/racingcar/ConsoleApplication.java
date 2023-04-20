@@ -11,8 +11,9 @@ public class ConsoleApplication {
                 new GameResultDAOInMemory(), new PlayerResultDAOInMemory()
         );
 
-        ConsoleRacingGameController manager = new ConsoleRacingGameController(racingGameService);
+        ConsoleRacingGameController consoleRacingGameController =
+                new ConsoleRacingGameController(racingGameService);
 
-        manager.run();
+        consoleRacingGameController.run();
     }
 }
