@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingGameControllerTest {
+class RacingGameWebControllerTest {
 
     @BeforeEach
     void setUp(@LocalServerPort int port) {

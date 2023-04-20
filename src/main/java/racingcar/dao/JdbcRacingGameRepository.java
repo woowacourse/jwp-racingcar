@@ -1,9 +1,14 @@
 package racingcar.dao;
 
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.*;
+import racingcar.dto.GameFindDto;
+import racingcar.dto.PlayerSaveDto;
+import racingcar.dto.RacingGameFindDto;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +24,19 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
         this.playerDao = playerDao;
     }
 
+    public static JdbcRacingGameRepository generateDefaultJdbcRacingGameRepository() {
+        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(generateDataSource());
+        return new JdbcRacingGameRepository(new JdbcGameDao(jdbcTemplate), new JdbcPlayerDao(jdbcTemplate));
+    }
+
+    public static DataSource generateDataSource() {
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        dataSource.setDriverClass(org.h2.Driver.class);
+        dataSource.setUrl("jdbc:h2:mem:testdb");
+        dataSource.setUsername("sa");
+        return dataSource;
+    }
+
     @Override
     public Long save(final int trialCount, final List<PlayerSaveDto> playerSaveDtos) {
         final Long gameId = gameDao.save(trialCount);
@@ -32,6 +50,5 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
         return gameFindDtos.stream()
                 .map(gameFindDto -> new RacingGameFindDto(gameFindDto, playerDao.findById(gameFindDto.getId())))
                 .collect(Collectors.toList());
-
     }
 }

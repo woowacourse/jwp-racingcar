@@ -1,60 +1,30 @@
 package racingcar.controller;
 
-import racingcar.domain.Name;
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
-import racingcar.domain.TryCount;
+import racingcar.dto.OneGameHistoryDto;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 public class RacingGameConsoleController {
 
-    private RacingCars racingCars;
-    private TryCount tryCount;
+    private final RacingGameService racingGameService;
+
+    public RacingGameConsoleController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
 
     public void start() {
-        setUpGame();
-        playGame();
+        OneGameHistoryDto oneGameHistoryDto = racingGameService.run(inputCarNames(), requestTryCount());
+        OutputView.printWinner(oneGameHistoryDto);
     }
 
-    private void setUpGame() {
-        racingCars = createRacingCar();
-        tryCount = requestTryCount();
-    }
-
-    private RacingCars createRacingCar() {
-        final List<Name> names = inputCarNames();
-        return new RacingCars(createRacingCar(names));
-    }
-
-    private List<Name> inputCarNames() {
+    private List<String> inputCarNames() {
         return InputView.requestCarName();
     }
 
-    private List<RacingCar> createRacingCar(final List<Name> names) {
-        return names.stream()
-                .map(RacingCar::createRandomMoveRacingCar)
-                .collect(toList());
-    }
-
-    private TryCount requestTryCount() {
+    private int requestTryCount() {
         return InputView.requestTryCount();
-    }
-
-    private void playGame() {
-        while (canProceed()) {
-            racingCars.moveAll();
-            tryCount.deduct();
-        }
-
-        OutputView.printWinner(racingCars);
-    }
-
-    private boolean canProceed() {
-        return !tryCount.isZero();
     }
 }

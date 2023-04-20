@@ -1,6 +1,5 @@
 package racingcar.dao;
 
-import racingcar.dto.OneGameHistoryDto;
 import racingcar.dto.PlayerSaveDto;
 import racingcar.dto.RacingGameFindDto;
 

@@ -1,15 +1,9 @@
 package racingcar.view;
 
-import racingcar.domain.Name;
-import racingcar.domain.TryCount;
-import racingcar.exception.ExceptionInformation;
+import racingcar.utils.Parser;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import static java.util.Collections.addAll;
-import static java.util.stream.Collectors.toList;
 
 public class InputView {
 
@@ -19,46 +13,22 @@ public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static List<Name> requestCarName() {
+    public static List<String> requestCarName() {
         System.out.println(requestCarNameMessage);
 
         try {
-            return sliceNames();
+            return Parser.sliceByComma(input());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return requestCarName();
         }
     }
 
-    private static List<Name> sliceNames() {
-        return sliceNameByComma(input()).stream().map(Name::new)
-                .collect(toList());
-    }
-
-    private static List<String> sliceNameByComma(final String names) {
-        validateComma(names);
-
-        return getSplitName(names);
-    }
-
-    private static List<String> getSplitName(final String names) {
-        List<String> splitNames = new ArrayList<>();
-        addAll(splitNames, names.split(COMMA));
-
-        return splitNames;
-    }
-
-    private static void validateComma(final String names) {
-        if (!names.contains(COMMA)) {
-            throw new IllegalArgumentException(ExceptionInformation.COMMA_NOT_FOUND_EXCEPTION.getExceptionMessage());
-        }
-    }
-
-    public static TryCount requestTryCount() {
+    public static int requestTryCount() {
         System.out.println(requestTryCountMessage);
 
         try {
-            return new TryCount(Integer.parseInt(input()));
+            return Integer.parseInt(input());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return requestTryCount();

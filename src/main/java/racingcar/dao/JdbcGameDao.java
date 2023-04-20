@@ -11,7 +11,7 @@ import racingcar.dto.GameFindDto;
 import java.util.List;
 
 @Repository
-class JdbcGameDao extends JdbcTemplateDao implements GameDao{
+class JdbcGameDao extends JdbcTemplateDao implements GameDao {
 
     public JdbcGameDao(NamedParameterJdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);

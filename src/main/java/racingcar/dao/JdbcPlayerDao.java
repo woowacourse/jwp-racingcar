@@ -9,7 +9,7 @@ import racingcar.dto.PlayerSaveDto;
 import java.util.List;
 
 @Repository
-public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao{
+public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao {
 
     public JdbcPlayerDao(NamedParameterJdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);

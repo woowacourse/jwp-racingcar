@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.PlayerSaveDto;
-import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameFindDto;
 
 import java.util.List;
@@ -63,6 +62,6 @@ class JdbcRacingGameRepositoryTest {
                 () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(1).getName()).isEqualTo("에단"),
                 () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(1).getPosition()).isEqualTo(5),
                 () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(1).getIsWinner()).isFalse()
-                );
+        );
     }
 }
