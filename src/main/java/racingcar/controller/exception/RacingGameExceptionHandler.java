@@ -1,9 +1,7 @@
-package racingcar.controller;
+package racingcar.controller.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -17,13 +15,20 @@ public class RacingGameExceptionHandler {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @ExceptionHandler(value = {RuntimeExceptionImpl.class, DataAccessException.class})
-    public ResponseEntity<Map<String, String>> handle(Exception exception) {
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handle(final RuntimeExceptionImpl exception) {
         printLog(exception);
 
-        final Map<String, String> exceptionResponse = new HashMap<>();
-        exceptionResponse.put("exception", exception.getMessage());
-        return ResponseEntity.badRequest().body(exceptionResponse);
+        return ResponseEntity.badRequest()
+                .body(new ExceptionResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handle(final DataAccessException exception) {
+        printLog(exception);
+
+        return ResponseEntity.internalServerError()
+                .body(new ExceptionResponse(exception.getMessage()));
     }
 
     private void printLog(final Exception exception) {
