@@ -28,7 +28,6 @@ public class ConsoleRacingGameService implements RacingGameService {
         final int gameId = insertGame(game);
         game.playGameWith(gameInputDto.getNames(), numberGenerator);
         insertAllCars(game.getCars(), gameId);
-        printFinalResultWithCarDtos(convertCarToDto(game.getCars()));
         return new GameResultDto(game);
     }
 
