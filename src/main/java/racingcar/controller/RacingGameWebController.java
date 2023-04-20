@@ -16,17 +16,21 @@ import racingcar.service.RacingGameService;
 public class RacingGameWebController {
 
     private final RacingGameService racingGameService;
+    private final NameParser nameParser;
 
-    public RacingGameWebController(final RacingGameService racingGameService) {
+    public RacingGameWebController(final RacingGameService racingGameService, final NameParser nameParser) {
         this.racingGameService = racingGameService;
+        this.nameParser = nameParser;
     }
 
     @PostMapping
     public ResponseEntity<GameResponse> doGame(@RequestBody final GameRequest gameRequest) {
-        final GameResponse response = racingGameService.run(gameRequest);
+        final List<String> names = nameParser.slice(gameRequest.getNames());
+        final GameResponse response = racingGameService.run(names, gameRequest.getCount());
 
         return ResponseEntity.ok(response);
     }
+
 
     @GetMapping
     public ResponseEntity<List<GameResponse>> findResult() {

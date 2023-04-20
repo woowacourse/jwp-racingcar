@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.controller.dto.GameRequest;
 import racingcar.controller.dto.GameResponse;
 import racingcar.dao.Player;
 import racingcar.dao.PlayerDao;
@@ -29,10 +28,10 @@ public class RacingGameService {
         this.playerDao = playerDao;
     }
 
-    public GameResponse run(final GameRequest gameRequest) {
-        final List<Name> names = createNames(gameRequest.sliceNames());
+    public GameResponse run(final List<String> inputNames, final int inputCount) {
+        final List<Name> names = createNames(inputNames);
         final RacingCars racingCars = new RacingCars(createRacingCar(names));
-        final TryCount tryCount = createTryCount(gameRequest.getCount());
+        final TryCount tryCount = createTryCount(inputCount);
 
         moveCars(racingCars, tryCount);
 

@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import racingcar.controller.dto.GameRequest;
 import racingcar.controller.dto.GameResponse;
 import racingcar.dao.PlayerConsoleDao;
 import racingcar.dao.RacingGameConsoleDao;
@@ -9,6 +8,12 @@ import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingGameConsoleController {
+
+    private final NameParser nameParser;
+
+    public RacingGameConsoleController(final NameParser nameParser) {
+        this.nameParser = nameParser;
+    }
 
     public void play() {
         final RacingGameService racingGameService = new RacingGameService(
@@ -19,9 +24,8 @@ public class RacingGameConsoleController {
         final String names = InputView.requestCarName();
         final int tryCount = InputView.requestTryCount();
 
-        final GameResponse response = racingGameService.run(new GameRequest(names, tryCount));
+        final GameResponse response = racingGameService.run(nameParser.slice(names), tryCount);
 
         OutputView.printResult(response);
     }
-
 }
