@@ -2,13 +2,12 @@ package racingcar.domain;
 
 import racingcar.domain.movingstrategy.MovingStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class RacingGame {
 
-    private final Cars cars;
+    private Cars cars;
     private TryCount tryCount;
 
     public RacingGame(final Names carNames, final TryCount tryCount) {
@@ -21,17 +20,24 @@ public final class RacingGame {
         this.tryCount = tryCount;
     }
 
-    public List<Cars> start(final MovingStrategy strategy) {
-        final List<Cars> movingStatus = new ArrayList<>();
-        for (int i = 0; i < tryCount.getCount(); i++) {
-            cars.moveCars(strategy);
-            movingStatus.add(new Cars(cars));
-            tryCount = tryCount.decreaseCount();
+    public Cars run(final MovingStrategy strategy) {
+        final int count = tryCount.getCount();
+        for (int i = 0; i < count; i++) {
+            moveCars(strategy);
         }
-        return movingStatus;
+        return cars;
     }
 
-    public Cars getWinners() {
-        return cars.getWinners();
+    private void moveCars(final MovingStrategy strategy) {
+        this.cars = cars.move(strategy);
+        tryCount = tryCount.decreaseCount();
+    }
+
+    public int getTryCountValue() {
+        return tryCount.getCount();
+    }
+
+    public List<Car> getCars() {
+        return cars.getCars();
     }
 }
