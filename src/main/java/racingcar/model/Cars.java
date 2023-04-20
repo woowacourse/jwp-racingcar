@@ -25,13 +25,12 @@ public class Cars {
         return List.copyOf(cars);
     }
 
-    public List<String> getWinners() {
-        return cars.stream().filter(car -> car.checkLocationEqual(getMaxLocation()))
-                .map(Car::getName)
+    public List<Car> getWinners() {
+        return cars.stream().filter(car -> car.checkPositionEqual(getMaxPosition()))
                 .collect(Collectors.toList());
     }
 
-    private Car getMaxLocation() {
+    private Car getMaxPosition() {
         return cars.stream()
                 .max(Car::compareTo)
                 .orElseThrow();
