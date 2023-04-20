@@ -16,19 +16,17 @@ import racingcar.dto.GameDto;
 import racingcar.dto.GameResponse;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
-import racingcar.strategy.MovingStrategy;
+import racingcar.strategy.RandomMovingStrategy;
 
 @Service
 public class RacingCarService {
 
     private static final String DELIMITER = ",";
 
-    private final MovingStrategy movingStrategy;
     private final GameDao gameDao;
     private final CarDao carDao;
 
-    public RacingCarService(final MovingStrategy movingStrategy, final GameDao gameDao, final CarDao carDao) {
-        this.movingStrategy = movingStrategy;
+    public RacingCarService(final GameDao gameDao, final CarDao carDao) {
         this.gameDao = gameDao;
         this.carDao = carDao;
     }
@@ -44,7 +42,7 @@ public class RacingCarService {
 
     private RacingGame createGame(final List<String> carNames, final int tryTimes) {
         int gameId = gameDao.insertGame(tryTimes);
-        RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), movingStrategy);
+        RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), new RandomMovingStrategy());
         race(game, tryTimes);
         saveCars(gameId, game);
 

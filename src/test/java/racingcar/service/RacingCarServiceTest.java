@@ -16,7 +16,6 @@ import racingcar.dto.GameDto;
 import racingcar.dto.GameResponse;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
-import racingcar.strategy.RandomMovingStrategy;
 
 class RacingCarServiceTest {
 
@@ -28,7 +27,6 @@ class RacingCarServiceTest {
         GameDao gameDao = Mockito.mock(GameDao.class);
         CarDao carDao = Mockito.mock(CarDao.class);
         racingCarService = new RacingCarService(
-                new RandomMovingStrategy(),
                 gameDao,
                 carDao
         );

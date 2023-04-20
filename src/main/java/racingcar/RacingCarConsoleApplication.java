@@ -4,7 +4,6 @@ import racingcar.controller.RacingCarConsoleController;
 import racingcar.dao.CarConsoleDao;
 import racingcar.dao.GameConsoleDao;
 import racingcar.service.RacingCarService;
-import racingcar.strategy.RandomMovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -15,7 +14,7 @@ public class RacingCarConsoleApplication {
                 new InputView(),
                 new OutputView(),
                 new RacingCarService(
-                        new RandomMovingStrategy(), new GameConsoleDao(), new CarConsoleDao()
+                        new GameConsoleDao(), new CarConsoleDao()
                 )
         );
 
