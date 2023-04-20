@@ -15,4 +15,8 @@ public class Position {
     public Position increase() {
         return new Position(position + 1);
     }
+    
+    public int compareTo(final Position otherPosition) {
+        return this.position - otherPosition.position;
+    }
 }

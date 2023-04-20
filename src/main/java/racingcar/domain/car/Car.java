@@ -8,7 +8,7 @@ import racingcar.domain.strategy.move.MoveStrategy;
 @EqualsAndHashCode
 @Getter
 @ToString
-public class Car {
+public class Car implements Comparable<Car> {
     private final Name name;
     private final Position position;
     
@@ -27,5 +27,14 @@ public class Car {
         }
         
         return this;
+    }
+    
+    @Override
+    public int compareTo(final Car otherCar) {
+        return this.position.compareTo(otherCar.position);
+    }
+    
+    public boolean isSamePositionTo(final Car otherCar) {
+        return this.position.equals(otherCar.position);
     }
 }
