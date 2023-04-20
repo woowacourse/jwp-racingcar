@@ -20,24 +20,20 @@ public class RacingCarService {
 
     private ResultDao resultDao;
     private RacingCarDao racingCarDao;
-    private final NumberGenerator numberGenerator;
 
     @Autowired
-    public RacingCarService(ResultDao resultDao, RacingCarDao racingCarDao, NumberGenerator numberGenerator) {
+    public RacingCarService(ResultDao resultDao, RacingCarDao racingCarDao) {
         this.resultDao = resultDao;
         this.racingCarDao = racingCarDao;
-        this.numberGenerator = numberGenerator;
     }
 
-    public RacingCarService(NumberGenerator numberGenerator){
-        this.numberGenerator = numberGenerator;
-    }
+    public RacingCarService(){}
 
-    public GameResultDto play(GameInforamtionDto gameInforamtionDto) {
+    public GameResultDto play(GameInforamtionDto gameInforamtionDto, NumberGenerator numberGenerator) {
         Cars cars = getCars(gameInforamtionDto.getNames());
         int trialCount = getTrialCount(gameInforamtionDto.getCount());
 
-        List<RacingCarDto> racingCars = playGame(cars, trialCount);
+        List<RacingCarDto> racingCars = playGame(cars, trialCount, numberGenerator);
         insertGame(trialCount, cars);
 
         return new GameResultDto(cars.getWinnerCars(), racingCars);
@@ -53,7 +49,7 @@ public class RacingCarService {
         return trialCount;
     }
 
-    public List<RacingCarDto> playGame(Cars cars, int trialCount) {
+    public List<RacingCarDto> playGame(Cars cars, int trialCount, NumberGenerator numberGenerator) {
         for (int count = 0; count < trialCount; count++) {
             cars.moveForRound(numberGenerator);
         }

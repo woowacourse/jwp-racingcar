@@ -11,7 +11,7 @@ import racingcar.dto.GameResultDto;
 import racingcar.dto.RacingCarDto;
 import racingcar.repository.RacingCarDao;
 import racingcar.repository.ResultDao;
-import racingcar.util.NumberGenerator;
+import racingcar.util.RandomNumberGenerator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,19 +28,16 @@ class RacingCarServiceTest {
     ResultDao resultDao;
     @Mock
     RacingCarDao racingCarDao;
-    @Mock
-    NumberGenerator numberGenerator;
     @InjectMocks
     RacingCarService racingCarService;
 
     @Test
     @DisplayName("Dao 메서드가 제대로 호출되는지 확인")
     void insertGame() {
-        when(numberGenerator.generateNumber()).thenReturn(8);
         String names = "roy, jamie";
         GameInforamtionDto gameInforamtionDto = new GameInforamtionDto(names, 10);
 
-        racingCarService.play(gameInforamtionDto);
+        racingCarService.play(gameInforamtionDto, new RandomNumberGenerator());
 
         verify(resultDao, times(1)).insert(anyInt(), anyString());
         verify(racingCarDao, times(2)).insert(any(), anyLong());

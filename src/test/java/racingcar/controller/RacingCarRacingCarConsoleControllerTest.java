@@ -5,10 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import racingcar.dto.GameInforamtionDto;
+import racingcar.util.NumberGenerator;
+import racingcar.util.TestNumberGenerator;
+
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 
@@ -21,6 +27,15 @@ class RacingCarRacingCarConsoleControllerTest {
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
+    }
+
+    @TestConfiguration
+    class testConfig {
+
+        @Bean
+        NumberGenerator numberGenerator() {
+            return new TestNumberGenerator(List.of(6, 4, 7, 3, 8, 2, 9, 1, 5, 4, 6, 3));
+        }
     }
 
     @DisplayName("/plays로 연결이 잘 되는지 확인")

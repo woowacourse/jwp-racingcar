@@ -1,5 +1,6 @@
 package racingcar.repository;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,14 @@ class RacingCarDaoTest {
         racingCarDao.insert(new Car(new Name("test4")), 1L);
         racingCarDao.insert(new Car(new Name("test5")), 2L);
         racingCarDao.insert(new Car(new Name("test6")), 2L);
+    }
+
+    @AfterEach
+    void reset() {
+        jdbcTemplate.execute("SET REFERENTIAL_INTEGRITY FALSE");
+        jdbcTemplate.update("TRUNCATE TABLE racing_cars");
+        jdbcTemplate.update("TRUNCATE TABLE results");
+        jdbcTemplate.execute("SET REFERENTIAL_INTEGRITY TRUE");
     }
 
     @Test

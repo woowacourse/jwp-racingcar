@@ -9,7 +9,7 @@ import racingcar.view.OutputView;
 public class RacingCarConsoleController {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final RacingCarService racingCarService = new RacingCarService(new RandomNumberGenerator());
+    private final RacingCarService racingCarService = new RacingCarService();
     private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
     public void runGame() {
@@ -44,6 +44,6 @@ public class RacingCarConsoleController {
 
     private void movePerRounds(Cars cars, int tryCount) {
         outputView.printResultMessage();
-        racingCarService.playGame(cars, tryCount);
+        racingCarService.playGame(cars, tryCount, randomNumberGenerator);
     }
 }
