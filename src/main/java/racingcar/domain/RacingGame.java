@@ -59,6 +59,10 @@ public class RacingGame {
                 .collect(Collectors.toList());
     }
 
+    public Coin getGameCoin() {
+        return gameCoin;
+    }
+
     private Car getFurthestCar() {
         return cars.stream()
                 .max(Car::comparePosition)
