@@ -5,7 +5,7 @@ import racingcar.domain.RacingGame;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryRacingGameRepository implements RacingGames {
+public class InMemoryRacingGameRepository implements RacingGameRepository {
 
     private static final List<RacingGame> racingGames = new ArrayList<>();
 

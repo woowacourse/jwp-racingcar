@@ -8,7 +8,7 @@ import racingcar.domain.RacingGame;
 import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.ResultResponseDto;
-import racingcar.repository.RacingGames;
+import racingcar.repository.RacingGameRepository;
 import racingcar.util.NumberGenerator;
 
 import java.util.List;
@@ -18,18 +18,18 @@ import java.util.stream.Collectors;
 public class RacingCarService {
 
     private final NumberGenerator numberGenerator;
-    private final RacingGames racingGames;
+    private final RacingGameRepository racingGameRepository;
 
-    public RacingCarService(NumberGenerator numberGenerator, RacingGames racingGames) {
+    public RacingCarService(NumberGenerator numberGenerator, RacingGameRepository racingGameRepository) {
         this.numberGenerator = numberGenerator;
-        this.racingGames = racingGames;
+        this.racingGameRepository = racingGameRepository;
     }
 
     @Transactional
     public ResultResponseDto play(RacingGameRequestDto racingGameRequestDto) {
         RacingGame racingGame = initGame(racingGameRequestDto);
         racingGame.moveCars(numberGenerator);
-        RacingGame save = racingGames.save(racingGame);
+        RacingGame save = racingGameRepository.save(racingGame);
 
         return new ResultResponseDto(save.getWinners(), mapToPlayerDtos(save.getCars()));
     }
@@ -47,7 +47,7 @@ public class RacingCarService {
 
     @Transactional
     public List<ResultResponseDto> getAllRacingGameHistory() {
-        return racingGames.getAllRacingGames().stream()
+        return racingGameRepository.getAllRacingGames().stream()
                 .map(racingGame ->
                         new ResultResponseDto(racingGame.getWinners(),
                         mapToPlayerDtos(racingGame.getCars())
