@@ -9,12 +9,12 @@ public class RacingGame {
 
     private final Long gameId;
     private final Cars cars;
-    private final int count;
+    private final Count count;
 
     public RacingGame(Cars cars, int count) {
         this.gameId = null;
         this.cars = cars;
-        this.count = count;
+        this.count = new Count(count);
     }
 
     public RacingGame(Long gameId, RacingGame racingGame) {
@@ -24,7 +24,7 @@ public class RacingGame {
     }
 
     public void moveCars(NumberGenerator numberGenerator) {
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count.getValue(); i++) {
             cars.moveAll(numberGenerator);
         }
     }
@@ -44,6 +44,6 @@ public class RacingGame {
     }
 
     public int getCount() {
-        return count;
+        return count.getValue();
     }
 }
