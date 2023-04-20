@@ -8,7 +8,7 @@ public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public RacingGameRequest readGameRequest() {
-        return new RacingGameRequest(readCarNames(), readTrialCount());
+        return RacingGameRequest.of(readCarNames(), readTrialCount());
     }
 
     private String readCarNames() {

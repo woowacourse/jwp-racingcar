@@ -28,9 +28,6 @@ public class Car {
     }
 
     private void validate(String name) {
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("자동차 이름은 공백일 수 없습니다.");
-        }
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException("자동차의 이름은 다섯 글자 이하여야합니다.");
         }
