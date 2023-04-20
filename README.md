@@ -31,43 +31,58 @@
 # DDL
 
 ```sql
+DROP TABLE IF EXISTS GAME;
+DROP TABLE IF EXISTS CAR;
+DROP TABLE IF EXISTS WINNER;
+
 CREATE TABLE GAME
 (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    winners     VARCHAR(50) NOT NULL,
-    trial_count INT         NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
+    id          INT      NOT NULL AUTO_INCREMENT,
+    trial_count INT      NOT NULL,
+    created_at  DATETIME NOT NULL default current_timestamp,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE car
+CREATE TABLE CAR
 (
-    id             INT         NOT NULL AUTO_INCREMENT,
-    game_id_id INT         NOT NULL,
-    name           VARCHAR(50) NOT NULL,
-    position       INT         NOT NULL,
+    id       INT         NOT NULL AUTO_INCREMENT,
+    game_id  INT         NOT NULL,
+    name     VARCHAR(50) NOT NULL,
+    position INT         NOT NULL,
     PRIMARY KEY (id),
-    foreign key (game_id_id) references game_id (id)
+    foreign key (game_id) references GAME (id)
 );
 
+CREATE TABLE WINNER
+(
+    id     INT NOT NULL AUTO_INCREMENT,
+    car_id INT NOT NULL,
+    PRIMARY KEY (id),
+    foreign key (car_id) references CAR (id)
+);
 ```
 
 # DB 구조
 
 ```mermaid
 erDiagram
-    GAME ||--o{ car: GAME_id
+    GAME ||--o{ CAR: GAME_id
+    GAME ||--o{ CAR: GAME_id
     GAME {
         int id
         varchar winners
         int trial_count
         DATETIME created_at
     }
-    car {
+    CAR {
         int id
         int game_id
         int name
         int position
+    }
+    WINNER {
+        int id
+        int car_id
     }
 ```
 
