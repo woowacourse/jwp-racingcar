@@ -9,7 +9,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 import racingcar.repository.dao.RacingCarDao;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -29,7 +28,6 @@ class RacingCarDaoTest {
 
     @DisplayName("자동차 이름과 포지션을 저장하는 기능 테스트")
     @Test
-    @Transactional
     void Should_Success_When_InsertRacingCar() {
         long gameId = 1L;
         assertDoesNotThrow(() -> racingCarDao.insert(gameId, "tori", 9));
