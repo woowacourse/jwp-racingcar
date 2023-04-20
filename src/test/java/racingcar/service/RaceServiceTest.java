@@ -1,9 +1,6 @@
 package racingcar.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
 import java.util.List;
@@ -14,10 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.domain.NumberGenerator;
-import racingcar.domain.dao.CarDao;
-import racingcar.domain.dao.RaceResultDao;
 import racingcar.domain.dao.entity.CarEntity;
-import racingcar.domain.dao.entity.RaceEntity;
+import racingcar.domain.dao.entity.RaceResultEntity;
+import racingcar.domain.repository.RaceResultEntityRepository;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
 
@@ -28,10 +24,7 @@ class RaceServiceTest {
     private NumberGenerator numberGenerator;
 
     @Mock
-    private CarDao carDao;
-
-    @Mock
-    private RaceResultDao raceResultDao;
+    private RaceResultEntityRepository raceResultEntityRepository;
 
     @InjectMocks
     private RaceService raceService;
@@ -43,8 +36,6 @@ class RaceServiceTest {
         final String testCarNames = "pobi,crong,honux";
         final int raceCount = 2;
         final RaceRequest raceRequest = new RaceRequest(testCarNames, raceCount);
-        given(raceResultDao.save(anyInt(), anyString()))
-            .willReturn(1L);
 
         // when
         final RaceResponse result = raceService.play(raceRequest);
@@ -60,16 +51,14 @@ class RaceServiceTest {
     @DisplayName("모든 경주 기록 조회한다.")
     void testFindAllRace() {
         // given
-        final RaceEntity raceEntity1 = new RaceEntity(1L, 1, "test");
-        final RaceEntity raceEntity2 = new RaceEntity(2L, 2, "test");
-        final List<RaceEntity> raceEntities = List.of(raceEntity1, raceEntity2);
         final CarEntity carEntity1 = new CarEntity(1L, "test", 1);
         final CarEntity carEntity2 = new CarEntity(2L, "test", 2);
         final List<CarEntity> carEntities = List.of(carEntity1, carEntity2);
-        given(raceResultDao.findAll())
+        final RaceResultEntity raceResultEntity1 = new RaceResultEntity(1L, 1, "test", carEntities);
+        final RaceResultEntity raceResultEntity2 = new RaceResultEntity(2L, 2, "test", carEntities);
+        final List<RaceResultEntity> raceEntities = List.of(raceResultEntity1, raceResultEntity2);
+        given(raceResultEntityRepository.findAll())
             .willReturn(raceEntities);
-        given(carDao.findAll(anyLong()))
-            .willReturn(carEntities);
 
         // when
         final List<RaceResponse> result = raceService.findAllRace();

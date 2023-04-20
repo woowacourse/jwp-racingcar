@@ -1,7 +1,7 @@
 package racingcar.domain.dao;
 
 import java.util.List;
-import racingcar.domain.dao.entity.RaceEntity;
+import racingcar.domain.dao.entity.RaceResultEntity;
 
 public class ConsoleRaceResultDao implements RaceResultDao {
 
@@ -11,7 +11,7 @@ public class ConsoleRaceResultDao implements RaceResultDao {
     }
 
     @Override
-    public List<RaceEntity> findAll() {
+    public List<RaceResultEntity> findAll() {
         return null;
     }
 }

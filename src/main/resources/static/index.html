@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>자동차 경주 게임</title>
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="gnb">
@@ -17,10 +17,10 @@
 <form onsubmit="submitForm(); return false;">
   <div class="input-area">
     <label for="names">자동차 이름:</label>
-    <input type="text" id="names" name="names">
+    <input id="names" name="names" type="text">
 
     <label for="count">시도할 횟수:</label>
-    <input type="text" id="count" name="count">
+    <input id="count" name="count" type="text">
   </div>
 
   <button type="submit">Submit</button>

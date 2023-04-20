@@ -2,8 +2,7 @@ package racingcar.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.domain.dao.entity.CarEntity;
-import racingcar.domain.dao.entity.RaceEntity;
+import racingcar.domain.dao.entity.RaceResultEntity;
 
 public class RaceResponse {
 
@@ -22,11 +21,12 @@ public class RaceResponse {
         return new RaceResponse(winnerNames, carRaceResult);
     }
 
-    public static RaceResponse of(final RaceEntity raceEntity, final List<CarEntity> carEntities) {
-        final List<CarStatusDto> carStatuses = carEntities.stream()
+    public static RaceResponse of(final RaceResultEntity raceResultEntity) {
+        final List<CarStatusDto> carStatuses = raceResultEntity.getCarEntities()
+            .stream()
             .map(CarStatusDto::of)
             .collect(Collectors.toUnmodifiableList());
-        return new RaceResponse(raceEntity.getWinners(), carStatuses);
+        return new RaceResponse(raceResultEntity.getWinners(), carStatuses);
     }
 
     public String getWinners() {

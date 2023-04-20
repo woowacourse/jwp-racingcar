@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import racingcar.domain.CarName;
 import racingcar.domain.CarPosition;
 import racingcar.domain.dao.entity.CarEntity;
-import racingcar.domain.dao.entity.RaceEntity;
+import racingcar.domain.dao.entity.RaceResultEntity;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RaceRequest;
 import racingcar.dto.RaceResponse;
@@ -98,10 +98,9 @@ class WebRaceControllerTest {
     @DisplayName("자동차 경주 기록 조회")
     public void testFindAllRace() throws Exception {
         //given
-        final RaceEntity raceEntity = new RaceEntity(1L, 1, "test");
         final List<CarEntity> carEntities = List.of(new CarEntity(1L, "test", 1));
-        final List<RaceResponse> expectedResponse = List.of(
-            RaceResponse.of(raceEntity, carEntities));
+        final RaceResultEntity raceResultEntity = new RaceResultEntity(1L, 1, "test", carEntities);
+        final List<RaceResponse> expectedResponse = List.of(RaceResponse.of(raceResultEntity));
 
         //when
         when(raceService.findAllRace())

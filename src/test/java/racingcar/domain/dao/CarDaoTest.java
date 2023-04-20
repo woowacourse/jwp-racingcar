@@ -23,20 +23,24 @@ class CarDaoTest {
     @Autowired
     private H2CarDao carDao;
     @Autowired
-    private H2RaceResultResultDao raceResultDao;
+    private H2RaceResultDao raceResultDao;
 
     @Test
     @DisplayName("차들의 정보를 저장한다")
     public void testSaveAll() {
         //given
         final Long raceResultId = raceResultDao.save(trialCount, winners);
+        final List<CarEntity> carEntities = cars.stream()
+            .map(car -> new CarEntity(null, car.getName(), car.getPosition()))
+            .collect(Collectors.toUnmodifiableList());
 
         //when
-        carDao.saveAll(raceResultId, cars);
+        carDao.saveAll(raceResultId, carEntities);
 
         // then
         final List<CarEntity> result = carDao.findAll(raceResultId);
-        final List<String> resultNames = result.stream().map(CarEntity::getName)
+        final List<String> resultNames = result.stream()
+            .map(CarEntity::getName)
             .collect(Collectors.toUnmodifiableList());
 
         // then
@@ -49,7 +53,10 @@ class CarDaoTest {
     public void findAll() {
         // given
         final Long raceResultId = raceResultDao.save(trialCount, winners);
-        carDao.saveAll(raceResultId, cars);
+        final List<CarEntity> carEntities = cars.stream()
+            .map(car -> new CarEntity(null, car.getName(), car.getPosition()))
+            .collect(Collectors.toUnmodifiableList());
+        carDao.saveAll(raceResultId, carEntities);
 
         // when
         final List<CarEntity> result = carDao.findAll(raceResultId);
