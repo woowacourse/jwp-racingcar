@@ -7,9 +7,7 @@ import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayersInfoDao;
 import racingcar.domain.CarFactory;
 import racingcar.domain.Cars;
-import racingcar.dto.CarParam;
-import racingcar.dto.GameInfoRequest;
-import racingcar.dto.GameResultResponse;
+import racingcar.dto.*;
 import racingcar.genertor.NumberGenerator;
 import racingcar.genertor.RandomNumberGenerator;
 
@@ -62,5 +60,9 @@ public class RacingCarService {
         return winners.stream()
                 .map(CarParam::getName)
                 .collect(Collectors.joining(DELIMITER));
+    }
+
+    public List<PlayRecordsResponse> showPlayRecords() {
+        return playResultDAO.findAllPlayRecords();
     }
 }
