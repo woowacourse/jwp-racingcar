@@ -1,6 +1,5 @@
 package racingcar.dao.car;
 
-import racingcar.domain.car.Car;
 import racingcar.dto.CarDto;
 import racingcar.dto.WinnerDto;
 

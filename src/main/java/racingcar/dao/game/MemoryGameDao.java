@@ -28,4 +28,9 @@ public class MemoryGameDao implements GameDao {
     public GameDto findById(final long gameId) {
         return game.get(gameId);
     }
+    
+    public void deleteAll() {
+        id = 1L;
+        game.clear();
+    }
 }

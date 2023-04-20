@@ -49,4 +49,9 @@ public class MemoryCarDao implements CarDao {
                 .sorted()
                 .collect(Collectors.toUnmodifiableList());
     }
+    
+    public void deleteAll() {
+        id = 1L;
+        car.clear();
+    }
 }

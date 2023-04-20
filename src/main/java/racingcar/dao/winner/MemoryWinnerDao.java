@@ -29,4 +29,9 @@ public class MemoryWinnerDao implements WinnerDao {
                 .sorted()
                 .collect(Collectors.toUnmodifiableList());
     }
+    
+    public void deleteAll() {
+        id = 1L;
+        winner.clear();
+    }
 }

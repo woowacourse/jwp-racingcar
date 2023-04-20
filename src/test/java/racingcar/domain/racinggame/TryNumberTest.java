@@ -36,7 +36,10 @@ class TryNumberTest {
         TryNumber decreasedTryNumber = tryNumber.decrease();
         
         // then
-        assertThat(decreasedTryNumber).isEqualTo(new TryNumber(2));
+        assertAll(
+                () -> assertThat(decreasedTryNumber.getNumber()).isEqualTo(2),
+                () -> assertThat(decreasedTryNumber.getOriginalNumber()).isEqualTo(3)
+        );
     }
     
     @Test
