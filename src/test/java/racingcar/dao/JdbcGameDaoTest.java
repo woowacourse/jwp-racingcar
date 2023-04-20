@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -34,7 +35,7 @@ public class JdbcGameDaoTest {
         final int trialCount = 5;
 
         // when
-        final long id = gameDao.insert(trialCount);
+        final Long id = gameDao.insert(trialCount);
 
         // then
         assertThat(id).isNotNull();
@@ -72,11 +73,14 @@ public class JdbcGameDaoTest {
         final Long secondId = gameDao.insert(5);
 
         //when
-        final List<GameIdDTO> allGameIdDTOS = gameDao.findAllGameIds();
+        final List<GameIdDTO> allGameIdDTOs = gameDao.findAllGameIds();
 
         //then
-        assertThat(allGameIdDTOS).hasSize(2).containsExactly(new GameIdDTO(firstId), new GameIdDTO(secondId));
-        System.out.println(allGameIdDTOS);
+        assertSoftly(softly -> {
+            softly.assertThat(allGameIdDTOs).hasSize(2);
+            softly.assertThat(allGameIdDTOs.get(0).getId()).isEqualTo(firstId);
+            softly.assertThat(allGameIdDTOs.get(1).getId()).isEqualTo(secondId);
+        });
     }
 
     @AfterEach

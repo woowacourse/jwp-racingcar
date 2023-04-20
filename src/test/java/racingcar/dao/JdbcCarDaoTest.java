@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -75,10 +76,14 @@ public class JdbcCarDaoTest {
         carDao.insert("kyle", 1, gameId, true);
 
         //when
-        final List<CarNameDTO> carNameDTOS = carDao.findWinners(gameId);
+        final List<CarNameDTO> carNameDTOs = carDao.findWinners(gameId);
 
         //then
-        assertThat(carNameDTOS).hasSize(2).containsExactly(new CarNameDTO("gavi"), new CarNameDTO("kyle"));
+        assertSoftly(softly -> {
+            softly.assertThat(carNameDTOs).hasSize(2);
+            softly.assertThat(carNameDTOs.get(0).getName()).isEqualTo("gavi");
+            softly.assertThat(carNameDTOs.get(1).getName()).isEqualTo("kyle");
+        });
     }
 
     @Test
@@ -92,7 +97,23 @@ public class JdbcCarDaoTest {
         final List<CarNamePositionDTO> allCars = carDao.findAllCarNamesAndPositions(gameId);
 
         //then
-        assertThat(allCars).hasSize(3).containsExactly(new CarNamePositionDTO("huchu", 0), new CarNamePositionDTO("gavi", 1), new CarNamePositionDTO("kyle", 1));
+        assertSoftly(softly -> {
+            softly.assertThat(allCars).hasSize(3);
+            softly.assertThat(getName(allCars, 0)).isEqualTo("huchu");
+            softly.assertThat(getName(allCars, 1)).isEqualTo("gavi");
+            softly.assertThat(getName(allCars, 2)).isEqualTo("kyle");
+            softly.assertThat(getPosition(allCars, 0)).isEqualTo(0);
+            softly.assertThat(getPosition(allCars, 1)).isEqualTo(1);
+            softly.assertThat(getPosition(allCars, 2)).isEqualTo(1);
+        });
+    }
+
+    private String getName(final List<CarNamePositionDTO> allCars, final int index) {
+        return allCars.get(index).getName();
+    }
+
+    private int getPosition(final List<CarNamePositionDTO> allCars, final int index) {
+        return allCars.get(index).getPosition();
     }
 
     @AfterEach
