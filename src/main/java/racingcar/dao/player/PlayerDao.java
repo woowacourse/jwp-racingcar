@@ -1,8 +1,9 @@
 package racingcar.dao.player;
 
+import java.util.List;
 import racingcar.dao.entity.Player;
 
 public interface PlayerDao {
 
-    public void insertPlayer(Player player);
+    public void insertPlayer(List<Player> players);
 }

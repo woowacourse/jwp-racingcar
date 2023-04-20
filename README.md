@@ -29,3 +29,4 @@
 - [x] dao의 단위를 entity하나당 하나로 매치되도록 분리하기
 - [x] console application의 출력 방식을 web application과 동일하게 하기
 - [x] web과 console 모두 같은 service를 이용하는 방식으로 수정
+- [x] query문을 한번 호출하여 플레이어들을 한번에 저장하게 수정

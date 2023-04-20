@@ -1,6 +1,7 @@
 package racingcar.repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.Game;
 import racingcar.dao.entity.Player;
@@ -23,11 +24,10 @@ public class RacingCarRepository {
 
     public void save(RacingGameDto racingGameDto, List<PlayerDto> playerDtos) {
         Long gameId = racingCarGameDao.insertGameWithKeyHolder(new Game(racingGameDto));
-        playerDtos.forEach(
-            playerDto -> playerDao.insertPlayer(
-                new Player(playerDto.getName(), playerDto.getPosition(), gameId)
-            )
-        );
+        List<Player> players = playerDtos.stream()
+            .map(playerDto -> new Player(playerDto.getName(), playerDto.getPosition(), gameId))
+            .collect(Collectors.toList());
+        playerDao.insertPlayer(players);
     }
 
     public List<ResultResponseDto> readGameResultAll() {
