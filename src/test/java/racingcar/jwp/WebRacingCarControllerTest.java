@@ -21,7 +21,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApiControllerTest {
+public class WebRacingCarControllerTest {
 
     @Value("${local.server.port}")
     int port;

@@ -18,12 +18,12 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class ApiController {
+public class WebRacingCarController {
 
     private final GameService gameService;
 
     @Autowired
-    public ApiController(final GameService gameService) {
+    public WebRacingCarController(final GameService gameService) {
         this.gameService = gameService;
     }
 

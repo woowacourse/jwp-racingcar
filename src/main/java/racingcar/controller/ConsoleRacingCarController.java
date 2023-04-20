@@ -13,13 +13,13 @@ import racingcar.view.OutputView;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RacingCarController {
+public class ConsoleRacingCarController {
     private static final int MINIMUM_RANDOM_NUMBER = 0;
     private static final int MAXIMUM_RANDOM_NUMBER = 9;
 
     private final NumberGenerator numberGenerator;
 
-    public RacingCarController() {
+    public ConsoleRacingCarController() {
         this.numberGenerator = new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER);
     }
 
