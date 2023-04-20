@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="utf-8">
     <title>자동차 경주 게임</title>
@@ -50,24 +50,22 @@
         })
             .then(response => {
                 if (response.ok) {
-                    return response.json();
+                    response.json()
+                        .then(data => {
+                            const resultPosition = document.createElement("div");
+                            for (let index in data.racingCars) {
+                                const span = document.createElement("span");
+                                span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
+                                resultPosition.appendChild(span);
+                            }
+                            document.getElementById("resultWinner").innerHTML = data.winners;
+                            document.getElementById("resultPosition").innerHTML = '';
+                            document.getElementById("resultPosition").appendChild(resultPosition);
+                        })
                 } else {
-                    throw new Error("Network response was not ok.");
+                    response.text()
+                        .then(a => alert(a));
                 }
-            })
-            .then(data => {
-                const resultPosition = document.createElement("div");
-                for (let index in data.racingCars) {
-                    const span = document.createElement("span");
-                    span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
-                    resultPosition.appendChild(span);
-                }
-                document.getElementById("resultWinner").innerHTML = data.winners
-                document.getElementById("resultPosition").innerHTML = '';
-                document.getElementById("resultPosition").appendChild(resultPosition);
-            })
-            .catch(error => {
-                console.error("Error:", error);
             });
     }
 
