@@ -13,8 +13,8 @@ import java.util.List;
 @Service
 public class RacingCarService {
 
-    private final ResultDao resultDao;
-    private final RacingCarDao racingCarDao;
+    private ResultDao resultDao;
+    private RacingCarDao racingCarDao;
     private final NumberGenerator numberGenerator;
 
     public RacingCarService(ResultDao resultDao, RacingCarDao racingCarDao, NumberGenerator numberGenerator) {
@@ -23,9 +23,13 @@ public class RacingCarService {
         this.numberGenerator = numberGenerator;
     }
 
+    public RacingCarService(NumberGenerator numberGenerator){
+        this.numberGenerator = numberGenerator;
+    }
+
     public GameResultDto play(GameInforamtionDto gameInforamtionDto) {
-        Cars cars = getCars(gameInforamtionDto);
-        int trialCount = getTrialCount(gameInforamtionDto);
+        Cars cars = getCars(gameInforamtionDto.getNames());
+        int trialCount = getTrialCount(gameInforamtionDto.getCount());
 
         List<RacingCarDto> racingCars = playGame(cars, trialCount);
         insertGame(trialCount, cars);
@@ -33,19 +37,17 @@ public class RacingCarService {
         return new GameResultDto(cars.getWinnerCars(), racingCars);
     }
 
-    private Cars getCars(GameInforamtionDto gameInforamtionDto) {
-        String names = gameInforamtionDto.getNames();
+    public Cars getCars(String names) {
         Validation.validateCarNames(names);
         return new Cars(names);
     }
 
-    private int getTrialCount(GameInforamtionDto gameInforamtionDto) {
-        int trialCount = gameInforamtionDto.getCount();
+    public int getTrialCount(int trialCount) {
         Validation.validateTryCount(trialCount);
         return trialCount;
     }
 
-    private List<RacingCarDto> playGame(Cars cars, int trialCount) {
+    public List<RacingCarDto> playGame(Cars cars, int trialCount) {
         for (int count = 0; count < trialCount; count++) {
             cars.moveForRound(numberGenerator);
         }

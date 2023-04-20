@@ -1,14 +1,15 @@
 package racingcar.controller;
 
 import racingcar.domain.Cars;
+import racingcar.service.RacingCarService;
 import racingcar.util.RandomNumberGenerator;
-import racingcar.validation.Validation;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarConsoleController {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
+    private final RacingCarService racingCarService = new RacingCarService(new RandomNumberGenerator());
     private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
     public void runGame() {
@@ -22,19 +23,10 @@ public class RacingCarConsoleController {
 
         try {
             String carNames = inputView.inputCarNames();
-            Validation.validateCarNames(carNames);
-            return new Cars(carNames);
+            return racingCarService.getCars(carNames);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return initCarData();
-        }
-    }
-
-    private void movePerRounds(Cars cars, int tryCount) {
-        outputView.printResultMessage();
-
-        for (int count = 0; count < tryCount; count++) {
-            cars.moveForRound(randomNumberGenerator);
         }
     }
 
@@ -43,11 +35,15 @@ public class RacingCarConsoleController {
 
         try {
             int tryCount = inputView.inputTryCount();
-            Validation.validateTryCount(tryCount);
-            return tryCount;
+            return racingCarService.getTrialCount(tryCount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return setTryCount();
         }
+    }
+
+    private void movePerRounds(Cars cars, int tryCount) {
+        outputView.printResultMessage();
+        racingCarService.playGame(cars, tryCount);
     }
 }
