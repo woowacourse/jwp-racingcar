@@ -23,8 +23,7 @@ public class RacingCarConsoleController {
         Cars cars = Cars.from(inputView.readCarNames());
         TryCount tryCount = new TryCount(inputView.readTryCount());
 
-        racingCarService.playRound(cars, tryCount);
-        racingCarService.saveGameResult(cars, tryCount);
+        racingCarService.play(cars, tryCount);
 
         List<RacingCarGameResultDto> gameResult = racingCarService.getGameResult();
         outputView.printAllGameResult(gameResult);

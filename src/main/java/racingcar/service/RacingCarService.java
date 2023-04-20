@@ -22,7 +22,9 @@ public class RacingCarService {
         this.racingCarDao = racingCarDao;
     }
 
-    public void saveGameResult(Cars cars, TryCount tryCount) {
+    public void play(Cars cars, TryCount tryCount) {
+        cars.runRound(tryCount);
+
         Long gameId = gameDao.insert(tryCount.getValue(), cars.getWinner());
         for (Car car : cars.getCars()) {
             racingCarDao.insert(gameId, car.getNameValue(), car.getPositionValue());
@@ -37,11 +39,5 @@ public class RacingCarService {
             gameResults.add(new RacingCarGameResultDto(playResultDto.getWinners(), racingCar));
         }
         return gameResults;
-    }
-
-    public void playRound(Cars cars, TryCount tryCount) {
-        for (int i = 0; i < tryCount.getValue(); i++) {
-            cars.runRound();
-        }
     }
 }

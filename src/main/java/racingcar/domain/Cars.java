@@ -24,7 +24,13 @@ public class Cars {
                 .collect(collectingAndThen(toList(), Cars::new));
     }
 
-    public void runRound() {
+    public void runRound(TryCount tryCount) {
+        for (int i = 0; i < tryCount.getValue(); i++) {
+            runRound();
+        }
+    }
+
+    private void runRound() {
         for (Car car : cars) {
             int randomNumber = random.nextInt(RANDOM_NUM_MAX_VALUE);
             car.runForward(randomNumber);

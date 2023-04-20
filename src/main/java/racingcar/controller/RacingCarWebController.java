@@ -28,8 +28,7 @@ public class RacingCarWebController {
     public RacingCarGameResultDto run(@RequestBody GameInitializeDto gameInitializeDto) {
         Cars cars = Cars.from(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
-        racingCarService.playRound(cars, tryCount);
-        racingCarService.saveGameResult(cars, tryCount);
+        racingCarService.play(cars, tryCount);
         return new RacingCarGameResultDto(String.join(",", cars.getWinner()), makeCarDtos(cars));
     }
 

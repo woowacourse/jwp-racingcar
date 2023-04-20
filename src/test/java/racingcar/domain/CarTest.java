@@ -16,7 +16,7 @@ class CarTest {
     }
 
     @DisplayName("4보다 작은 값이 입력되면, Position 값에 변화가 없다.")
-    @ParameterizedTest(name = "{displayName} [{index}] engine=''{0}''")
+    @ParameterizedTest(name = "{displayName} [{index}]")
     @ValueSource(ints = {0, 2, 3})
     void Should_UnConvertPosition_When_EngineLessThan4(int engine) {
         car.runForward(engine);
@@ -24,7 +24,7 @@ class CarTest {
     }
 
     @DisplayName("4 이상인 값이 입력되면, Position 값이 증가한다.")
-    @ParameterizedTest(name = "{displayName} [{index}] engine=''{0}''")
+    @ParameterizedTest(name = "{displayName} [{index}]")
     @ValueSource(ints = {4, 7, 10})
     void Should_IncreasePosition_When_EngineMoreThan4(int engine) {
         car.runForward(engine);
