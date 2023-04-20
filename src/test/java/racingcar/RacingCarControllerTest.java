@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,5 +75,30 @@ class RacingCarControllerTest {
                 .andExpect(jsonPath("racingCars", hasSize(3)))
                 .andExpect(jsonPath("$.racingCars[0].name").value("브리"))
                 .andExpect(jsonPath("$.racingCars[0].position").value(0));
+    }
+
+    @Test
+    void getGameHistory_메서드가_적절한_형식을_반환한다() throws Exception {
+        List<HistoryResponse> historyResponses = List.of(
+                new HistoryResponse(
+                        "베로",
+                        List.of(
+                                RacingCarStatusDto.from(new Car("주노", 1)),
+                                RacingCarStatusDto.from(new Car("베로", 5))
+                        )
+                )
+        );
+
+        // given
+        given(racingCarService.getHistory())
+                .willReturn(historyResponses);
+
+        // then
+        mockMvc.perform(get("/plays"))
+                .andExpect(jsonPath("$[0].winners").value("베로"))
+                .andExpect(jsonPath("$[0].racingCars[0].name").value("주노"))
+                .andExpect(jsonPath("$[0].racingCars[0].position").value(1))
+                .andExpect(jsonPath("$[0].racingCars[1].name").value("베로"))
+                .andExpect(jsonPath("$[0].racingCars[1].position").value(5));
     }
 }
