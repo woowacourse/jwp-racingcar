@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
@@ -21,6 +22,7 @@ public class RacingCarService {
     private RacingCarDao racingCarDao;
     private final NumberGenerator numberGenerator;
 
+    @Autowired
     public RacingCarService(ResultDao resultDao, RacingCarDao racingCarDao, NumberGenerator numberGenerator) {
         this.resultDao = resultDao;
         this.racingCarDao = racingCarDao;
