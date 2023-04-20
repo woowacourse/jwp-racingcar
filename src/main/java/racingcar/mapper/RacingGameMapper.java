@@ -2,7 +2,6 @@ package racingcar.mapper;
 
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.view.PlaySuccessResponse;
-import racingcar.mapper.CarMapper;
 import racingcar.model.RacingGame;
 import racingcar.model.car.Car;
 

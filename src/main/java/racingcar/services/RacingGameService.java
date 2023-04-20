@@ -5,12 +5,12 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.dao.WinnerDao;
-import racingcar.mapper.CarMapper;
 import racingcar.dto.RacingGameDto;
-import racingcar.mapper.RacingGameMapper;
 import racingcar.dto.StartInformationDto;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
+import racingcar.mapper.CarMapper;
+import racingcar.mapper.RacingGameMapper;
 import racingcar.model.MoveCount;
 import racingcar.model.RacingGame;
 import racingcar.model.car.Cars;
@@ -55,7 +55,7 @@ public class RacingGameService {
     @Transactional
     public List<RacingGameDto> queryHistory() {
         List<RacingGameDto> racingGameDtos = new ArrayList<>();
-        for (GameEntity gameEntity: gameDao.selectAll()) {
+        for (GameEntity gameEntity : gameDao.selectAll()) {
             List<CarEntity> carEntities = carDao.selectByGameId(gameEntity.getId());
             List<String> winners = winnerDao.selectByGameId(gameEntity.getId());
             racingGameDtos.add(new RacingGameDto(winners, CarMapper.mapCarEntitiesToCarDtos(carEntities), gameEntity.getMoveCount()));
