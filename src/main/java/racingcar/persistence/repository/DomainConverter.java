@@ -9,7 +9,7 @@ import racingcar.persistence.entity.PlayerResultEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GameRecordJoiner {
+public class DomainConverter {
 
     public List<RacingGame> join(
             final List<GameResultEntity> gameResults,
