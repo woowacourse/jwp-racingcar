@@ -29,20 +29,14 @@ public class JdbcCarsDao implements CarsDao {
     );
 
     @Override
-    public int insert(final int gameId, String name, final int position) {
-        final SqlParameterSource parameterSource = new MapSqlParameterSource()
+    public int insert(final int gameId, final CarDto carInfo, final boolean isWin) {
+        final MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
                 .addValue("game_id", gameId)
-                .addValue("name", name)
-                .addValue("position", position);
+                .addValue("name", carInfo.getName())
+                .addValue("position", carInfo.getPosition())
+                .addValue("is_win", isWin);
 
-        return simpleJdbcInsert.executeAndReturnKey(parameterSource).intValue();
-    }
-
-    @Override
-    public CarDto findById(final int id) {
-        final String sql = "SELECT name, position FROM cars WHERE id = ?";
-
-        return jdbcTemplate.queryForObject(sql, carDtoRowMapper, id);
+        return simpleJdbcInsert.executeAndReturnKey(mapSqlParameterSource).intValue();
     }
 
     @Override
@@ -50,5 +44,12 @@ public class JdbcCarsDao implements CarsDao {
         final String sql = "SELECT name, position FROM cars WHERE game_id = ?";
 
         return jdbcTemplate.query(sql, carDtoRowMapper, gameId);
+    }
+
+    @Override
+    public List<String> findWinnerNamesByGameId(final int gameId) {
+        final String sql = "SELECT name FROM cars WHERE is_win = TRUE AND game_id = ?";
+
+        return jdbcTemplate.queryForList(sql, String.class, gameId);
     }
 }

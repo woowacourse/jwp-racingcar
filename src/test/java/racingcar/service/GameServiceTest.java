@@ -75,19 +75,6 @@ class GameServiceTest {
         assertThat(actualNames).containsExactlyInAnyOrderElementsOf(names);
     }
 
-    @Test
-    @DisplayName("진행 후 우승자 저장 테스트")
-    void save_winners() {
-        final List<String> names = List.of("땡칠", "필립", "다니", "코일");
-        final Game game = gameService.createGameWith(names, 5);
-
-        gameService.play(game);
-        final String sql = "select count(car_id) from winners where game_id = ?";
-        final Integer winnerCount = jdbcTemplate.queryForObject(sql, Integer.class, getGreatestGameId());
-
-        assertThat(winnerCount).isGreaterThanOrEqualTo(1);
-    }
-
     private Integer getGreatestGameId() {
         final String sql = "select max(id) as id from games";
         return jdbcTemplate.queryForObject(sql, Integer.class);

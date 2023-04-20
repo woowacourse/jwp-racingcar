@@ -5,9 +5,10 @@ import racingcar.dto.CarDto;
 import java.util.List;
 
 public interface CarsDao {
-    int insert(int gameId, String name, int position);
 
-    CarDto findById(int id);
+    int insert(final int gameId, final CarDto carInfo, final boolean isWin);
 
-    List<CarDto> findAllByGameId(int gameId);
+    List<CarDto> findAllByGameId(final int gameId);
+
+    List<String> findWinnerNamesByGameId(final int gameId);
 }

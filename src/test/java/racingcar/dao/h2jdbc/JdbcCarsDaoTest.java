@@ -38,7 +38,7 @@ class JdbcCarsDaoTest {
     @Test
     @DisplayName("자동차 추가 테스트")
     void insert_test() {
-        final int carId = carsDao.insert(gameId, "자동차", 3);
+        final int carId = carsDao.insert(gameId, new CarDto("자동차", 3), false);
 
         final String sql = "select * from cars where id=?";
         final Map<String, Object> row = jdbcTemplate.queryForMap(sql, carId);
@@ -50,24 +50,11 @@ class JdbcCarsDaoTest {
     }
 
     @Test
-    @DisplayName("id로 자동차 조회 테스트")
-    void find_by_id_test() {
-        final int carId = carsDao.insert(gameId, "car", 5);
-
-        final CarDto carDto = carsDao.findById(carId);
-
-        assertSoftly(softly -> {
-            softly.assertThat(carDto.getName()).isEqualTo("car");
-            softly.assertThat(carDto.getPosition()).isEqualTo(5);
-        });
-    }
-
-    @Test
     @DisplayName("gameId로 자동차들 조회 테스트")
     void find_all_by_game_id_test() {
-        carsDao.insert(gameId, "car", 5);
-        carsDao.insert(gameId, "car2", 2);
-        carsDao.insert(gameId, "car3", 4);
+        carsDao.insert(gameId, new CarDto("car", 5), false);
+        carsDao.insert(gameId, new CarDto("car2", 2), false);
+        carsDao.insert(gameId, new CarDto("car3", 4), false);
 
         final List<CarDto> carDtos = carsDao.findAllByGameId(gameId);
 
