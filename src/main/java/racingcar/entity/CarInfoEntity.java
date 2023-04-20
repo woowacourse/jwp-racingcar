@@ -9,7 +9,7 @@ public class CarInfoEntity {
     private boolean isWinner;
 
     public CarInfoEntity(int id, int racingId, String name, int position, boolean isWinner) {
-        this.id=id;
+        this.id = id;
         this.racingId = racingId;
         this.name = name;
         this.position = position;
