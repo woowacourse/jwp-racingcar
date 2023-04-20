@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.controller.dto.SinglePlayRequest;
+import racingcar.controller.dto.GamePlayRequest;
+import racingcar.controller.dto.GameResultResponse;
 import racingcar.domain.Game;
 import racingcar.exception.GameException;
 import racingcar.service.GameService;
-import racingcar.service.dto.SingleGameResult;
+import racingcar.service.dto.GameResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +29,14 @@ public class WebGameController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<SingleGameResult> playGame(@RequestBody SinglePlayRequest singlePlayRequest) {
-        final List<String> names = List.of(singlePlayRequest.getNames().split(CAR_NAME_SEPARATOR));
-        final int playCount = singlePlayRequest.getCount();
+    public ResponseEntity<GameResultResponse> playGame(@RequestBody GamePlayRequest gamePlayRequest) {
+        final List<String> names = List.of(gamePlayRequest.getNames().split(CAR_NAME_SEPARATOR));
+        final int playCount = gamePlayRequest.getCount();
 
         final Game game = gameService.createGameWith(trim(names), playCount);
-        final SingleGameResult gameResult = gameService.play(game);
+        final GameResult gameResult = gameService.play(game);
 
-        return ResponseEntity.ok(gameResult);
+        return ResponseEntity.ok(new GameResultResponse(gameResult.getWinners(), gameResult.getRacingCars()));
     }
 
     private List<String> trim(List<String> carNames) {
@@ -45,12 +46,13 @@ public class WebGameController {
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<SingleGameResult>> getAllGameResults() {
-        final List<SingleGameResult> responseBody = new ArrayList<>();
+    public ResponseEntity<List<GameResultResponse>> getAllGameResults() {
+        final List<GameResultResponse> responseBody = new ArrayList<>();
 
         final List<Integer> allPlayedGameIds = gameService.findAllPlayedGameIds();
         for (final int gameId : allPlayedGameIds) {
-            responseBody.add(gameService.getGameResult(gameId));
+            final GameResult gameResult = gameService.getGameResult(gameId);
+            responseBody.add(new GameResultResponse(gameResult.getWinners(), gameResult.getRacingCars()));
         }
 
         return ResponseEntity.ok(responseBody);

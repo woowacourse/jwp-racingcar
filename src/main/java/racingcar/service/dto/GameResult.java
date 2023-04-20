@@ -3,15 +3,14 @@ package racingcar.service.dto;
 import racingcar.dto.CarDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class SingleGameResult {
+public class GameResult {
 
     private final String winners;
     private final List<CarDto> racingCars;
 
-    public SingleGameResult(List<String> winners, List<CarDto> racingCars) {
-        this.winners = winners.stream().collect(Collectors.joining(","));
+    public GameResult(final List<String> winners, final List<CarDto> racingCars) {
+        this.winners = String.join(",", winners);
         this.racingCars = racingCars;
     }
 

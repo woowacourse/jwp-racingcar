@@ -9,8 +9,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import racingcar.service.dto.SingleGameResult;
-import racingcar.controller.dto.SinglePlayRequest;
+import racingcar.service.dto.GameResult;
+import racingcar.controller.dto.GamePlayRequest;
 import racingcar.domain.Car;
 import racingcar.domain.Game;
 import racingcar.dto.CarDto;
@@ -49,10 +49,10 @@ class WebGameControllerTest {
         given(gameService.createGameWith(any(), anyInt()))
                 .willReturn(new Game(cars, 10));
         given(gameService.play(any()))
-                .willReturn(new SingleGameResult(List.of("aa"), carDtos));
+                .willReturn(new GameResult(List.of("aa"), carDtos));
 
-        String request = objectMapper.writeValueAsString(new SinglePlayRequest("aa", 1));
-        String response = objectMapper.writeValueAsString(new SingleGameResult(List.of("aa"), carDtos));
+        String request = objectMapper.writeValueAsString(new GamePlayRequest("aa", 1));
+        String response = objectMapper.writeValueAsString(new GameResult(List.of("aa"), carDtos));
 
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/plays")
@@ -72,7 +72,7 @@ class WebGameControllerTest {
         given(gameService.createGameWith(any(), anyInt()))
                 .willThrow(new IllegalGameArgumentException("test"));
 
-        String request = objectMapper.writeValueAsString(new SinglePlayRequest("aa", 1));
+        String request = objectMapper.writeValueAsString(new GamePlayRequest("aa", 1));
 
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/plays")

@@ -9,7 +9,7 @@ import racingcar.domain.Game;
 import racingcar.domain.MoveChance;
 import racingcar.domain.RandomMoveChance;
 import racingcar.dto.CarDto;
-import racingcar.service.dto.SingleGameResult;
+import racingcar.service.dto.GameResult;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +45,7 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    public SingleGameResult play(Game game) {
+    public GameResult play(Game game) {
         while (game.isNotDone()) {
             game.playOnceWith(moveChance);
         }
@@ -53,7 +53,7 @@ public class GameService {
         return insertResultOf(game);
     }
 
-    private SingleGameResult insertResultOf(final Game game) {
+    private GameResult insertResultOf(final Game game) {
         final int gameId = gamesDao.insert(game.getTrialCount());
 
         final Map<Car, Integer> carIds = new HashMap<>();
@@ -75,21 +75,21 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    private SingleGameResult getGameResult(final Game game) {
+    private GameResult getGameResult(final Game game) {
         final List<String> allWinnerNames = game.findWinners().stream()
                 .map(Car::getName)
                 .collect(Collectors.toUnmodifiableList());
         final List<CarDto> allCarInfo = game.getCars().stream()
                 .map(car -> new CarDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
-        return new SingleGameResult(allWinnerNames, allCarInfo);
+        return new GameResult(allWinnerNames, allCarInfo);
     }
 
-    public SingleGameResult getGameResult(final int gameId) {
+    public GameResult getGameResult(final int gameId) {
         final List<String> allWinnerNames = winnersDao.findAllWinnerNameByGameId(gameId);
         final List<CarDto> allCarInfo = carsDao.findAllByGameId(gameId);
 
-        return new SingleGameResult(allWinnerNames, allCarInfo);
+        return new GameResult(allWinnerNames, allCarInfo);
     }
 
     public List<Integer> findAllPlayedGameIds() {

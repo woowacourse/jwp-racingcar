@@ -1,11 +1,11 @@
 package racingcar.controller.dto;
 
-public class SinglePlayRequest {
+public class GamePlayRequest {
 
     private final String names;
     private final int count;
 
-    public SinglePlayRequest(String names, int count) {
+    public GamePlayRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }

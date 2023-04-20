@@ -3,12 +3,9 @@ package racingcar.controller;
 import racingcar.dao.CarsDao;
 import racingcar.dao.GamesDao;
 import racingcar.dao.WinnersDao;
-import racingcar.dao.console.ConsoleCarsDao;
-import racingcar.dao.console.ConsoleGamesDao;
-import racingcar.dao.console.ConsoleWinnersDao;
 import racingcar.domain.Game;
 import racingcar.service.GameService;
-import racingcar.service.dto.SingleGameResult;
+import racingcar.service.dto.GameResult;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -24,6 +21,7 @@ public class ConsoleGameController {
 
     private final GameService gameService;
 
+
     public ConsoleGameController(
             final GamesDao gamesDao,
             final CarsDao carsDao,
@@ -34,7 +32,7 @@ public class ConsoleGameController {
 
     public void play() {
         final Game game = createGame();
-        final SingleGameResult result = gameService.play(game);
+        final GameResult result = gameService.play(game);
         showResult(result);
     }
 
@@ -46,10 +44,10 @@ public class ConsoleGameController {
         });
     }
 
-    private void showResult(final SingleGameResult singleGameResult) {
+    private void showResult(final GameResult gameResult) {
         OUTPUT_VIEW.noticeResult();
-        OUTPUT_VIEW.printStatusOf(singleGameResult.getRacingCars());
-        OUTPUT_VIEW.printWinners(singleGameResult.getWinners());
+        OUTPUT_VIEW.printStatusOf(gameResult.getRacingCars());
+        OUTPUT_VIEW.printWinners(gameResult.getWinners());
     }
 
     private <T> T handleExceptionByRepeating(Supplier<T> supplier) {
