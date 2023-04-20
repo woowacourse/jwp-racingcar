@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.database.RacingCarDao;
+import racingcar.database.RacingGameDao;
 import racingcar.model.RacingCarRequest;
+import racingcar.model.RacingCarResponse;
 import racingcar.model.RacingCarResult;
 import racingcar.service.RacingCarService;
 
@@ -20,8 +23,13 @@ public class RacingCarWebController {
 
     private final RacingCarService racingCarService;
 
+    private final RacingGameDao racingGameDao;
+    private final RacingCarDao racingCarDao;
+
     @Autowired
-    public RacingCarWebController(final RacingCarService racingCarService) {
+    public RacingCarWebController(final RacingCarService racingCarService, final RacingGameDao racingGameDao, final RacingCarDao racingCarDao) {
+        this.racingGameDao = racingGameDao;
+        this.racingCarDao = racingCarDao;
         this.racingCarService = racingCarService;
     }
 
@@ -31,12 +39,33 @@ public class RacingCarWebController {
         final int count = request.getCount();
 
         final RacingCarResult racingCarResult = racingCarService.playRacingCar(names, count);
+        saveResult(count, racingCarResult);
 
         return ResponseEntity.ok().body(racingCarResult);
     }
 
+    private void saveResult(final int count, final RacingCarResult racingCarResult) {
+        final int gameId = racingGameDao.insert(count);
+
+        racingCarResult.getRacingCars().forEach(car ->
+                racingCarDao.insert(car, gameId, racingCarResult.isWinner(car)));
+    }
+
     @GetMapping(path = "/plays")
-    public List<RacingCarResult> getLog() {
-        return racingCarService.getRacingCarLog();
+    public List<RacingCarResponse> getLog() {
+        return getRacingCarLog();
+    }
+
+    public List<RacingCarResponse> getRacingCarLog() {
+        final List<Integer> gameIds = racingGameDao.selectGameIds();
+
+        return gameIds.stream()
+                .map(this::generateLog)
+                .collect(Collectors.toList());
+    }
+
+    private RacingCarResponse generateLog(final int gameId) {
+        final RacingCarResult result = new RacingCarResult(racingCarDao.selectWinners(gameId), racingCarDao.selectAllCars(gameId));
+        return new RacingCarResponse(result);
     }
 }
