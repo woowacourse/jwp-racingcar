@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
-import racingcar.domain.Car;
 import racingcar.domain.Race;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
@@ -27,19 +27,17 @@ public class RacingCarService {
         this.numberGenerator = numberGenerator;
     }
 
+    @Transactional
     public PlayResponse play(PlayRequest playRequest) {
         Race race = new Race(playRequest.getCount(), playRequest.getNames(), numberGenerator);
         while (!race.isFinished()) {
             race.playRound();
         }
 
-        List<Car> winners = race.findWinners();
-        List<Car> participants = race.getParticipants();
-
-        Game game = Game.of(winners, playRequest.getCount());
+        Game game = Game.of(race.findWinners(), playRequest.getCount());
         Long gameId = gameDao.insert(game);
 
-        List<Player> players = participants.stream()
+        List<Player> players = race.getParticipants().stream()
                 .map(participant -> Player.of(participant, gameId.intValue()))
                 .collect(Collectors.toList());
         playerDao.insert(players);
@@ -47,6 +45,7 @@ public class RacingCarService {
         return PlayResponse.of(game.getWinners(), players);
     }
 
+    @Transactional(readOnly = true)
     public List<PlayResponse> findHistory() {
         List<Game> games = gameDao.findAll();
         List<Player> players = playerDao.findAll();
