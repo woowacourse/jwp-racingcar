@@ -43,5 +43,8 @@
         - [x] 의존성 주입 방법 적용
         - [x] 랜덤 관련 테스트 변경
 
-- [ ] 중복 코드 제거
-    - [ ] console application, web application 중복 제거
+- [x] console application, web application 중복 제거
+    - [x] console controller 리팩터링
+        - [x] console controller 기존 로직 삭제
+        - [x] console controller 에서 service를 사용하도록 수정
+    - [x] Local DAO 추가

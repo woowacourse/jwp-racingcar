@@ -1,6 +1,10 @@
 package racingcar;
 
-import racingcar.controller.GameController;
+import racingcar.controller.ConsoleController;
+import racingcar.dao.LocalCarDao;
+import racingcar.dao.LocalGameDao;
+import racingcar.domain.numbergenerator.RandomSingleDigitGenerator;
+import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -17,7 +21,10 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        GameController gameController = new GameController(createInputView(), createOutputView());
-        gameController.run();
+        ConsoleController consoleController = new ConsoleController(
+                createInputView(),
+                createOutputView(),
+                new RacingCarService(new LocalGameDao(), new LocalCarDao(), new RandomSingleDigitGenerator()));
+        consoleController.createGameAndPlay();
     }
 }
