@@ -28,6 +28,12 @@ public final class RacingGameConsoleController {
 	}
 
 	public void run () {
+		while (true) {
+			playGameAndSave();
+		}
+	}
+
+	private void playGameAndSave () {
 		final Cars cars = inputCarsWithValidation();
 		final TryCount count = inputTryCountWithValidation();
 		GameResultResponseDto gameResultResponseDto = racingCarService.startRace(
