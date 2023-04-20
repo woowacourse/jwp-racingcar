@@ -2,16 +2,21 @@ package racingcar.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.dao.MemoryRacingCarDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.PlayRequestDto;
 import racingcar.dto.PlayResultDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@SpringBootTest
 class RacingCarServiceTest {
-    private RacingCarService racingCarService = new RacingCarService(new MemoryRacingCarDao());
+    @Autowired
+    private RacingCarService racingCarService;
 
+    @Transactional
     @DisplayName("차들의 이름과 시도 횟수를 입력 받아서 우승자와 차들을 반환한다")
     @Test
     void playRequest() {
