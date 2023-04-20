@@ -40,7 +40,6 @@ public class JdbcRacingGameDao implements RacingGameDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, gameParameters, keyHolder);
         return (long) keyHolder.getKeys().get("id");
-
     }
 
     private void saveAllPlayers(final Long id, final List<PlayerSaveDto> playerSaveDtos) {
