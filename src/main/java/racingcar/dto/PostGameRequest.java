@@ -3,7 +3,7 @@ package racingcar.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GameRequest {
+public class PostGameRequest {
 
     @JsonProperty("names")
     private final String names;
@@ -11,7 +11,7 @@ public class GameRequest {
     private final int count;
 
     @JsonCreator
-    public GameRequest(@JsonProperty("names") String names,@JsonProperty("count") int count) {
+    public PostGameRequest(@JsonProperty("names") String names, @JsonProperty("count") int count) {
         this.names = names;
         this.count = count;
     }

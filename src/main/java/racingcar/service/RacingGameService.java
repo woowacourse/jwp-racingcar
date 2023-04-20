@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import racingcar.dto.PlayerSaveDto;
 import racingcar.dao.RacingGameDao;
 import racingcar.domain.*;
+import racingcar.dto.PostGameResponse;
+import racingcar.dto.RacingCarDto;
 
 import java.util.List;
 
@@ -18,16 +20,17 @@ public class RacingGameService {
         this.racingGameDao = racingGameDao;
     }
 
-    public RacingCars run(final List<String> inputNames, final int inputCount) {
-        final List<Name> names = sliceNames(inputNames);
-        RacingGame racingGame = new RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(inputCount));
-        RacingCars racingCars = racingGame.moveCars();
+    public PostGameResponse run(final List<String> inputNames, final int inputCount) {
+        final List<Name> names = generateNames(inputNames);
+        final RacingGame racingGame = new RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(inputCount));
+        final RacingCars racingCars = racingGame.moveCars();
 
         saveRacingCars(inputCount, racingCars);
-        return racingCars;
+
+        return generatePostGameResponse(racingCars);
     }
 
-    private List<Name> sliceNames(final List<String> inputNames) {
+    private List<Name> generateNames(final List<String> inputNames) {
         return inputNames.stream()
                 .map(Name::new)
                 .collect(toList());
@@ -49,5 +52,15 @@ public class RacingGameService {
 
     private PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
         return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
+    }
+
+    private PostGameResponse generatePostGameResponse(RacingCars racingCars) {
+        final List<String> winnerNames = racingCars.getWinnerNames();
+        final String winnerName = String.join(", ", winnerNames);
+
+        final List<RacingCarDto> racingCarsDto = racingCars.getRacingCars().stream()
+                .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
+                .collect(toList());
+        return new PostGameResponse(winnerName, racingCarsDto);
     }
 }

@@ -2,12 +2,12 @@ package racingcar.dto;
 
 import java.util.List;
 
-public class GameResponse {
+public class PostGameResponse {
 
     private final String winners;
     private final List<RacingCarDto> racingCars;
 
-    public GameResponse(final String winners, final List<RacingCarDto> racingCars) {
+    public PostGameResponse(final String winners, final List<RacingCarDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

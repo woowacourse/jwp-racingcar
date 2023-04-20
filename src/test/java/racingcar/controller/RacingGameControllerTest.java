@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.dto.GameRequest;
+import racingcar.dto.PostGameRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -31,11 +31,11 @@ class RacingGameControllerTest {
 
         String names = "브리,토미,브라운";
         int count = 10;
-        GameRequest gameRequest = new GameRequest(names, count);
+        PostGameRequest postGameRequest = new PostGameRequest(names, count);
 
         final ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(gameRequest)
+                .body(postGameRequest)
                 .when().post("/plays")
                 .then().log().all()
                 .extract();
