@@ -14,7 +14,6 @@ import racingcar.dto.request.PlayerResultSaveDto;
 import racingcar.dto.response.GameResponseDto;
 import racingcar.dto.response.PlayerResultDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,8 +38,10 @@ public class GamePlayService {
         List<String> winners = cars.calculateWinners();
 
         Long gameId = createGame(String.join(",", winners), gameRequestDto.getCount());
-        List<PlayerResultDto> playerResultDtos = createPlayerResults(cars, gameId);
-        return GameResponseDto.of(winners, playerResultDtos);
+        List<PlayerResultSaveDto> playerResults = createPlayerResults(cars, gameId);
+        playerResultDao.savePlayerResult(playerResults);
+        List<PlayerResultDto> playerResultsByGameId = playerResultDao.findPlayerResultsByGameId(gameId);
+        return GameResponseDto.of(winners, playerResultsByGameId);
     }
 
     private Cars makeCars(List<String> carNames) {
@@ -56,13 +57,9 @@ public class GamePlayService {
         return gameId;
     }
 
-    private List<PlayerResultDto> createPlayerResults(Cars cars, Long gameId) {
-        List<PlayerResultDto> playerResults = new ArrayList<>();
-        for (Car car : cars.getLatestResult()) {
-            PlayerResultSaveDto playerResultSaveDto = new PlayerResultSaveDto(gameId, car);
-            PlayerResultDto playerResultDto = playerResultDao.savePlayerResult(playerResultSaveDto);
-            playerResults.add(playerResultDto);
-        }
-        return playerResults;
+    private List<PlayerResultSaveDto> createPlayerResults(Cars cars, Long gameId) {
+        return cars.getLatestResult().stream()
+                .map(car -> new PlayerResultSaveDto(gameId, car))
+                .collect(Collectors.toList());
     }
 }

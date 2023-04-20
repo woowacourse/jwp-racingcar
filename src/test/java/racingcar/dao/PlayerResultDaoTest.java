@@ -27,11 +27,12 @@ class PlayerResultDaoTest {
     void insertPlayerResultTest() {
         GameSaveDto game = new GameSaveDto("leo", 5);
         Long gameId = gameDao.createGame(game);
-        
+
         Car leoCar = new Car("leo");
         PlayerResultSaveDto playerResultSaveDto = new PlayerResultSaveDto(gameId, leoCar);
 
-        playerResultDao.savePlayerResult(playerResultSaveDto);
+        List<PlayerResultSaveDto> playerResults = List.of(playerResultSaveDto);
+        playerResultDao.savePlayerResult(playerResults);
         List<PlayerResultDto> playerResultsByGameId = playerResultDao.findPlayerResultsByGameId(gameId);
 
         Assertions.assertThat(playerResultsByGameId.size()).isEqualTo(1);

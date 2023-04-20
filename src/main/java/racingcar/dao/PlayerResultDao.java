@@ -1,27 +1,22 @@
 package racingcar.dao;
 
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.request.PlayerResultSaveDto;
 import racingcar.dto.response.PlayerResultDto;
 
-import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
 public class PlayerResultDao {
 
-    private final SimpleJdbcInsert insertPlayerResult;
     private final JdbcTemplate jdbcTemplate;
 
-    public PlayerResultDao(final DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.insertPlayerResult = new SimpleJdbcInsert(dataSource)
-                .withTableName("player_result")
-                .usingGeneratedKeyColumns("id");
+    public PlayerResultDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -30,10 +25,23 @@ public class PlayerResultDao {
         return playerResultDto;
     };
 
-    public PlayerResultDto savePlayerResult(final PlayerResultSaveDto playerResultSaveDto) {
-        final SqlParameterSource params = new BeanPropertySqlParameterSource(playerResultSaveDto);
-        insertPlayerResult.execute(params);
-        return new PlayerResultDto(playerResultSaveDto.getName(), playerResultSaveDto.getFinalPosition());
+    public void savePlayerResult(List<PlayerResultSaveDto> playerResults) {
+        String query = "INSERT INTO player_result (name, final_position, game_id) VALUES (?, ?, ?)";
+        jdbcTemplate.batchUpdate(query,
+                new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        PlayerResultSaveDto playerResultSaveDto = playerResults.get(i);
+                        ps.setString(1, playerResultSaveDto.getName());
+                        ps.setInt(2, playerResultSaveDto.getFinalPosition());
+                        ps.setLong(3, playerResultSaveDto.getGameId());
+                    }
+
+                    @Override
+                    public int getBatchSize() {
+                        return playerResults.size();
+                    }
+                });
     }
 
     public List<PlayerResultDto> findPlayerResultsByGameId(Long gameId) {
