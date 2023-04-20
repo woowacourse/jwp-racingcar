@@ -2,18 +2,12 @@ package racingcar.controller.dto;
 
 public class CarResponseDto {
 
-    private final int id;
     private final String name;
     private final int position;
 
-    public CarResponseDto(int id, String name, int position) {
-        this.id = id;
+    public CarResponseDto(String name, int position) {
         this.name = name;
         this.position = position;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {

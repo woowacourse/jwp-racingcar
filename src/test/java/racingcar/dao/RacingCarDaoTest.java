@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @JdbcTest
@@ -18,48 +17,40 @@ class RacingCarDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private RacingCarDao racingCarDao;
+    private RacingGameDao racingGameDao;
 
     @BeforeEach
     void setUp() {
+        racingGameDao = new RacingGameDao(jdbcTemplate);
         racingCarDao = new RacingCarDao(jdbcTemplate);
     }
 
     @Test
     void saveGame() {
-        GameEntity gameEntity = generateGameEntity();
+        int id = racingGameDao.save(new GameEntity.Builder().count(1).winners("매튜").build());
+        CarEntity carEntity = generateCarEntity(id);
 
-        Assertions.assertDoesNotThrow(() -> racingCarDao.saveGame(gameEntity));
+        Assertions.assertDoesNotThrow(() -> racingCarDao.save(carEntity));
     }
 
     @Test
     void findAll() {
+        int id = racingGameDao.save(new GameEntity.Builder().count(1).winners("매튜").build());
         for (int i = 0; i < 2; i++) {
-            racingCarDao.saveGame(generateGameEntity());
+            racingCarDao.save(generateCarEntity(id));
         }
 
-        List<GameEntity> result = racingCarDao.findAll();
+        List<CarEntity> resultCar = racingCarDao.findByGameId(id);
 
-        Assertions.assertEquals(result.size(), 2);
-        Assertions.assertEquals(result.get(0).getRacingCars().size(), 2);
-        Assertions.assertEquals(result.get(1).getRacingCars().size(), 2);
+        Assertions.assertEquals(resultCar.size(), 2);
     }
 
-    public static GameEntity generateGameEntity() {
-        return new GameEntity.Builder()
-                .count(10)
-                .winners("메리")
-                .racingCars(new ArrayList<>(List.of(
-                                new CarEntity.Builder()
-                                        .name("메리")
-                                        .position(5)
-                                        .build(),
-                                new CarEntity.Builder()
-                                        .name("매튜")
-                                        .position(4)
-                                        .build())
-                        )
-                )
-                .build();
+    private CarEntity generateCarEntity(int gameId) {
+        return new CarEntity.Builder()
+                        .name("매튜")
+                        .position(4)
+                        .gameId(gameId)
+                        .build();
     }
 
 }

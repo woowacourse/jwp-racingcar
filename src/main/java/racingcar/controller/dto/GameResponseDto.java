@@ -4,18 +4,12 @@ import java.util.List;
 
 public class GameResponseDto {
 
-    private final int id;
     private final String winners;
     private final List<CarResponseDto> racingCars;
 
-    public GameResponseDto(int id, String winners, List<CarResponseDto> racingCars) {
-        this.id = id;
+    public GameResponseDto(String winners, List<CarResponseDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getWinners() {
