@@ -9,6 +9,6 @@ import racingcar.domain.RandomNumberGenerator;
 public class SpringConfig {
     @Bean
     public NumberGenerator numberGenerator() {
-        return new RandomNumberGenerator(0,9);
+        return new RandomNumberGenerator();
     }
 }

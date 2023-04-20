@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 public class RacingGameConsoleController {
 
     private static final int RACE_START_POINT = 0;
-    private static final int MINIMUM_RANDOM_NUMBER = 0;
-    private static final int MAXIMUM_RANDOM_NUMBER = 9;
 
     public void run() {
         RacingCars cars = createCars();
@@ -47,7 +45,7 @@ public class RacingGameConsoleController {
     }
 
     private void raceCars(RacingCars cars, int tries) {
-        NumberGenerator numberGenerator = new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER);
+        NumberGenerator numberGenerator = new RandomNumberGenerator();
 
         for (int i = 0; i < tries; i++) {
             cars.moveCars(numberGenerator);
