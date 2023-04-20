@@ -1,4 +1,4 @@
-package racingcar.controller.dto;
+package racingcar.web.controller.dto;
 
 public class GameInformationDto {
 

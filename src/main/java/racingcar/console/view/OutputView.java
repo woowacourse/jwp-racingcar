@@ -1,7 +1,7 @@
-package racingcar.view;
+package racingcar.console.view;
 
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
+import racingcar.web.domain.Car;
+import racingcar.web.domain.Cars;
 
 public class OutputView {
     private static final String WINNER_DELIMITER = ", ";

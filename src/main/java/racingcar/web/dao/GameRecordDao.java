@@ -1,10 +1,10 @@
-package racingcar.dao;
+package racingcar.web.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import racingcar.controller.dto.GameResultDto;
-import racingcar.controller.dto.RacingCarDto;
+import racingcar.web.controller.dto.GameResultDto;
+import racingcar.web.controller.dto.RacingCarDto;
 
 import java.util.List;
 

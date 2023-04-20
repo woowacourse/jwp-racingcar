@@ -1,14 +1,14 @@
-package racingcar.controller;
+package racingcar.console.controller;
 
-import racingcar.domain.Cars;
-import racingcar.service.RacingCarService;
-import racingcar.util.RandomNumberGenerator;
-import racingcar.view.InputView;
-import racingcar.view.MessageView;
-import racingcar.view.OutputView;
+import racingcar.web.domain.Cars;
+import racingcar.web.service.RacingCarService;
+import racingcar.web.util.RandomNumberGenerator;
+import racingcar.console.view.InputView;
+import racingcar.console.view.MessageView;
+import racingcar.console.view.OutputView;
 
 
-public class Controller {
+public class ConsoleController {
 
     private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
     private final RacingCarService racingCarService = new RacingCarService();

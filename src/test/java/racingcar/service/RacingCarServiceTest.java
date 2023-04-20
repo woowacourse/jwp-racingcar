@@ -6,9 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.controller.dto.GameInformationDto;
-import racingcar.dao.RacingCarDao;
-import racingcar.dao.ResultDao;
+import racingcar.web.controller.dto.GameInformationDto;
+import racingcar.web.dao.RacingCarDao;
+import racingcar.web.dao.ResultDao;
+import racingcar.web.service.RacingCarService;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;

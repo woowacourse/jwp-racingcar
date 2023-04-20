@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.web.domain;
 
 public class Car {
     private static final int CAR_LOCATION_INITIALIZATION = 0;

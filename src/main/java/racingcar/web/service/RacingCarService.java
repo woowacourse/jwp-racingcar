@@ -1,16 +1,17 @@
-package racingcar.service;
+package racingcar.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.controller.dto.GameInformationDto;
-import racingcar.controller.dto.RacingCarDto;
-import racingcar.dao.GameRecordDao;
-import racingcar.dao.RacingCarDao;
-import racingcar.dao.ResultDao;
-import racingcar.domain.*;
-import racingcar.controller.dto.GameResultDto;
-import racingcar.util.NumberGenerator;
-import racingcar.util.RandomNumberGenerator;
+import racingcar.web.controller.dto.GameInformationDto;
+import racingcar.web.controller.dto.RacingCarDto;
+import racingcar.web.dao.GameRecordDao;
+import racingcar.web.dao.RacingCarDao;
+import racingcar.web.dao.ResultDao;
+import racingcar.web.controller.dto.GameResultDto;
+import racingcar.web.util.NumberGenerator;
+import racingcar.web.util.RandomNumberGenerator;
+import racingcar.web.domain.Car;
+import racingcar.web.domain.Cars;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,6 @@ public class RacingCarService {
     private ResultDao resultDao;
     private RacingCarDao racingCarDao;
     private GameRecordDao gameRecordDao;
-
 
     public RacingCarService() {
     }
@@ -78,13 +78,5 @@ public class RacingCarService {
 
     public List<GameResultDto> findGameRecord() {
         return gameRecordDao.findGameRecord();
-    }
-
-    public ResultDao getResultDao() {
-        return resultDao;
-    }
-
-    public RacingCarDao getRacingCarDao() {
-        return racingCarDao;
     }
 }

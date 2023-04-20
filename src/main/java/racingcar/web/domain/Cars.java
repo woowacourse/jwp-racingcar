@@ -1,7 +1,7 @@
-package racingcar.domain;
+package racingcar.web.domain;
 
-import racingcar.view.ExceptionMessage;
-import racingcar.util.NumberGenerator;
+import racingcar.console.view.ExceptionMessage;
+import racingcar.web.util.NumberGenerator;
 
 import java.util.*;
 import java.util.stream.Collectors;

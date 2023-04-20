@@ -1,13 +1,13 @@
-package racingcar.controller;
+package racingcar.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.controller.dto.GameInformationDto;
-import racingcar.controller.dto.GameResultDto;
-import racingcar.service.RacingCarService;
+import racingcar.web.controller.dto.GameInformationDto;
+import racingcar.web.controller.dto.GameResultDto;
+import racingcar.web.service.RacingCarService;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package racingcar.view;
+package racingcar.console.view;
 
 public class MessageView {
 

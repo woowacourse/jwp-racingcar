@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.web.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

@@ -2,7 +2,8 @@ package racingcar.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.util.NumberGenerator;
+import racingcar.web.domain.Cars;
+import racingcar.web.util.NumberGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;

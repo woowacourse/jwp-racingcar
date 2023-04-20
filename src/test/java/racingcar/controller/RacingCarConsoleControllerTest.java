@@ -10,9 +10,9 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.controller.dto.GameInformationDto;
-import racingcar.util.NumberGenerator;
-import racingcar.util.TestNumberGenerator;
+import racingcar.web.controller.dto.GameInformationDto;
+import racingcar.web.util.NumberGenerator;
+import racingcar.web.util.TestNumberGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarControllerTest {
+class RacingCarConsoleControllerTest {
 
     @TestConfiguration
     static class TestSpringConfig {
