@@ -19,7 +19,7 @@ public class RacingConsoleController {
 
     public void start() {
         String names = inputView.inputCarNames();
-        String trialTimes = inputView.inputTrialTimes();
+        Integer trialTimes = inputView.inputTrialTimes();
         TrackResponse trackResponse = racingService.play(names, trialTimes);
 
         outputView.printWinnerCars(trackResponse.getWinners());

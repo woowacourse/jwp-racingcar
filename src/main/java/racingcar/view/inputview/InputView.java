@@ -15,5 +15,5 @@ public abstract class InputView {
 
     public abstract String inputCarNames();
 
-    public abstract String inputTrialTimes();
+    public abstract Integer inputTrialTimes();
 }
