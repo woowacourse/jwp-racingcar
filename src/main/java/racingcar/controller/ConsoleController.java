@@ -1,8 +1,6 @@
 package racingcar.controller;
 
 import java.util.function.Supplier;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 import racingcar.controller.dto.GamePlayResponseDto;
 import racingcar.model.Cars;
 import racingcar.model.Names;
@@ -11,8 +9,7 @@ import racingcar.service.GameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-@Component
-public class ConsoleController implements CommandLineRunner {
+public class ConsoleController {
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -24,8 +21,7 @@ public class ConsoleController implements CommandLineRunner {
         this.gameService = gameService;
     }
 
-    @Override
-    public void run(final String... args) {
+    public void run() {
         while (true) {
             final Cars cars = repeatUntilReturnValue(this::initCars);
             final TryCount tryCount = repeatUntilReturnValue(this::initTryCount);
