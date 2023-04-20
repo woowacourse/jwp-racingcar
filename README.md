@@ -30,8 +30,9 @@ Dto
 - [x] 콘솔 애플리케이션 만들기
 - [x] Dao가 뷰에 전달할 DTO를 반환하지 않도록 수정
   - DB 로직이 뷰를 알고 있는 것!
-- [ ] Exception.class에 대한 ExceptionHandler도 생성하기
-  - 어떤 에러 코드를 사용하면 좋을까?
+- [x] Exception.class에 대한 ExceptionHandler도 생성하기
+  - 어떤 에러 코드를 사용하면 좋을까? -> 정의되지 않은 예외에 대해서는 서버의 문제로 간주하고 500(INTERNAL_SERVER_ERROR) 사용?
+  
 
 ## 궁금한 내용
 - [ ] CAR_RESULT와 PLAY_RESULT를 조인해서 조회하는 책임은 어떤 Dao 클래스가 가지는 것이 좋을까?
