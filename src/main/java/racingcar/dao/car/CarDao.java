@@ -2,8 +2,6 @@ package racingcar.dao.car;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.car.dto.CarRegisterRequest;
@@ -29,7 +27,11 @@ public class CarDao {
 
         List<MapSqlParameterSource> batchInsertData = makeBatchInsertDataFrom(carRegisterRequests);
 
-        jdbcInsert.executeBatch(SqlParameterSourceUtils.createBatch(batchInsertData));
+        jdbcInsert.executeBatch(mapToArrayFrom(batchInsertData));
+    }
+
+    private static MapSqlParameterSource[] mapToArrayFrom(final List<MapSqlParameterSource> batchInsertData) {
+        return batchInsertData.toArray(new MapSqlParameterSource[0]);
     }
 
     private static List<MapSqlParameterSource> makeBatchInsertDataFrom(
