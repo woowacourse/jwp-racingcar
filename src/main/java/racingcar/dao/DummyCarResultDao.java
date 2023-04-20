@@ -11,6 +11,11 @@ public class DummyCarResultDao implements CarResultDao {
     }
 
     @Override
+    public void saveAll(List<CarResult> carResults) {
+
+    }
+
+    @Override
     public CarResult findById(long id) {
         return null;
     }

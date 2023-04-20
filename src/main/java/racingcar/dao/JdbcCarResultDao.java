@@ -5,10 +5,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.CarResult;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -33,6 +36,11 @@ public class JdbcCarResultDao implements CarResultDao {
     public long save(CarResult carResult) {
         SqlParameterSource source = new BeanPropertySqlParameterSource(carResult);
         return simpleJdbcInsert.executeAndReturnKey(source).longValue();
+    }
+
+    public void saveAll(List<CarResult> carResults) {
+        SqlParameterSource[] sources = SqlParameterSourceUtils.createBatch(carResults);
+        simpleJdbcInsert.executeBatch(sources);
     }
 
     public CarResult findById(long id) {

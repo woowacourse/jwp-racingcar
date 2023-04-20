@@ -1,6 +1,6 @@
 package racingcar;
 
-import racingcar.controller.ConsoleRacingGameController;
+import racingcar.controller.console.ConsoleRacingGameController;
 import racingcar.dao.DummyCarResultDao;
 import racingcar.dao.DummyGameResultDao;
 import racingcar.service.RacingGameService;

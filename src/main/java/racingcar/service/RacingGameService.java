@@ -36,7 +36,7 @@ public class RacingGameService {
 
     private void saveResult(RacingGame racingGame, int tryCount) {
         long playResultId = savePlayResult(tryCount, racingGame, racingGame.getWinnerNames());
-        saveCarResult(racingGame.getCars(), playResultId);
+        saveAllCarResult(racingGame.getCars(), playResultId);
     }
 
     private long savePlayResult(int tryCount, RacingGame racingGame, String winners) {
@@ -47,6 +47,13 @@ public class RacingGameService {
         cars.stream()
                 .map(car -> new CarResult(playResultId, car.getName(), car.getPosition()))
                 .forEach(carResultDao::save);
+    }
+
+    private void saveAllCarResult(List<Car> cars, long playResultId) {
+        List<CarResult> carResults = cars.stream()
+                .map(car -> new CarResult(playResultId, car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+        carResultDao.saveAll(carResults);
     }
 
     public List<GameResponse> findAllCarGame() {
