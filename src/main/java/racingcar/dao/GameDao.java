@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.GameEntity;
 
+import java.util.List;
+
 @Repository
 public class GameDao {
     private final SimpleJdbcInsert insertActor;
@@ -23,4 +25,10 @@ public class GameDao {
         return insertActor.executeAndReturnKey(sqlParameterSource).intValue();
     }
 
+    public List<Integer> findGameIds() {
+        String sql = "SELECT game_id FROM GAME";
+        return jdbcTemplate.query(sql,(resultSet, rowNum)-> {
+            return resultSet.getInt("game_id");
+        });
+    }
 }

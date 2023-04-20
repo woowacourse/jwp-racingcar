@@ -31,7 +31,6 @@ public class WinnerDao {
         return jdbcTemplate.query(sql,(resultSet, rowNum)-> {
             return resultSet.getInt("car_id");
         }, gameId);
-
     }
 
 }

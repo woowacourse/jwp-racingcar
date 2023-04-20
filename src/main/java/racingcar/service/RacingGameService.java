@@ -39,7 +39,7 @@ public class RacingGameService {
         saveCars(racingGame.getCars(), gameId);
         saveWinners(racingGame.pickWinnerCarNames(), gameId);
 
-        return createResult(racingGame);
+        return findResultByGameId(gameId);
     }
 
     private void saveCars(final List<Car> cars, final int gameId) {
@@ -59,15 +59,7 @@ public class RacingGameService {
         winnerDao.saveAll(winnerEntities);
     }
 
-    private RacingGameResponseDto createResult(final RacingGame racingGame) {
-        List<String> winnerCars = racingGame.pickWinnerCarNames();
-        List<CarStatusDto> carStatuses = racingGame.getCars().stream()
-                .map(car -> new CarStatusDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toUnmodifiableList());
-
-        return new RacingGameResponseDto(winnerCars, carStatuses);
-    }
-    private RacingGameResponseDto selectResultByGameId(int gameId) {
+    private RacingGameResponseDto findResultByGameId(int gameId) {
         List<CarEntity> carEntities = carDao.findCarsByGameID(gameId);
         List<String> winnerCarNames = findWinnerCarNames(gameId, carEntities);
 
@@ -86,7 +78,14 @@ public class RacingGameService {
                 .collect(Collectors.toList());
     }
 
+    public List<RacingGameResponseDto> findAllGameResult() {
+        List<Integer> listOfGameId = gameDao.findGameIds();
 
+        return listOfGameId.stream()
+                .peek(gameId -> System.out.println(gameId))
+                .map(gameId -> findResultByGameId(gameId))
+                .collect(Collectors.toList());
+    }
 
 
     //1차
@@ -127,5 +126,6 @@ public class RacingGameService {
 //
 //        return new RacingGameResponseDto(winnerCars, carStatuses);
 //    }
+//
 
 }
