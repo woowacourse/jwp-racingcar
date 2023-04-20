@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
-import racingcar.dto.PlaysRequest;
-import racingcar.dto.PlaysResponse;
+import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
 import racingcar.utils.DrivableNumberGenerator;
 
 public class RacingCarServiceTest {
@@ -20,12 +20,12 @@ public class RacingCarServiceTest {
 
         RacingCarService racingCarService = new RacingCarService(gameDao, playerDao, new DrivableNumberGenerator());
 
-        PlaysRequest playsRequest = new PlaysRequest("비버,허브,애쉬,박스더", 4);
-        PlaysResponse playsResponse = racingCarService.play(playsRequest);
+        PlayRequest playRequest = new PlayRequest("비버,허브,애쉬,박스더", 4);
+        PlayResponse playResponse = racingCarService.play(playRequest);
 
         assertAll(
-                () -> assertThat(playsResponse.getWinners()).isEqualTo("비버,허브,애쉬,박스더"),
-                () -> assertThat(playsResponse.getRacingCars()).hasSize(4)
+                () -> assertThat(playResponse.getWinners()).isEqualTo("비버,허브,애쉬,박스더"),
+                () -> assertThat(playResponse.getRacingCars()).hasSize(4)
         );
     }
 }

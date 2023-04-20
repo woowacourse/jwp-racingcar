@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.PlaysRequest;
-import racingcar.dto.PlaysResponse;
+import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
 import racingcar.service.RacingCarService;
 
 @RestController
@@ -19,8 +19,8 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<PlaysResponse> play(@RequestBody @Valid PlaysRequest playsRequest) {
-        PlaysResponse response = racingCarService.play(playsRequest);
+    public ResponseEntity<PlayResponse> play(@RequestBody @Valid PlayRequest playRequest) {
+        PlayResponse response = racingCarService.play(playRequest);
         return ResponseEntity.ok().body(response);
     }
 }

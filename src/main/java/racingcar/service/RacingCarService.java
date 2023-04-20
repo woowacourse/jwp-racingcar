@@ -8,8 +8,8 @@ import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.Car;
 import racingcar.domain.Race;
-import racingcar.dto.PlaysRequest;
-import racingcar.dto.PlaysResponse;
+import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
 import racingcar.utils.NumberGenerator;
@@ -27,8 +27,8 @@ public class RacingCarService {
         this.numberGenerator = numberGenerator;
     }
 
-    public PlaysResponse play(PlaysRequest playsRequest) {
-        Race race = createRace(playsRequest);
+    public PlayResponse play(PlayRequest playRequest) {
+        Race race = createRace(playRequest);
         while (!race.isFinished()) {
             race.playRound();
         }
@@ -36,7 +36,7 @@ public class RacingCarService {
         List<Car> winners = race.findWinners();
         List<Car> participants = race.getParticipants();
 
-        Game game = Game.of(winners, playsRequest.getCount());
+        Game game = Game.of(winners, playRequest.getCount());
         Long gameId = gameDao.insert(game);
 
         List<Player> players = participants.stream()
@@ -44,14 +44,14 @@ public class RacingCarService {
                 .collect(Collectors.toList());
         playerDao.insert(players);
 
-        return PlaysResponse.of(game.getWinners(), participants);
+        return PlayResponse.of(game.getWinners(), participants);
     }
 
-    private Race createRace(PlaysRequest playsRequest) {
+    private Race createRace(PlayRequest playRequest) {
         String delimiter = ",";
-        List<String> carNames = Arrays.stream(playsRequest.getNames().split(delimiter, -1)).map(String::strip)
+        List<String> carNames = Arrays.stream(playRequest.getNames().split(delimiter, -1)).map(String::strip)
                 .collect(Collectors.toList());
 
-        return new Race(playsRequest.getCount(), carNames, numberGenerator);
+        return new Race(playRequest.getCount(), carNames, numberGenerator);
     }
 }

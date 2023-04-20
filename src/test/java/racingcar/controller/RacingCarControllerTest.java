@@ -17,8 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
-import racingcar.dto.PlaysRequest;
-import racingcar.dto.PlaysResponse;
+import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
 import racingcar.service.RacingCarService;
 
 @WebMvcTest
@@ -35,15 +35,15 @@ class RacingCarControllerTest {
 
     @Test
     void 컨트롤러_테스트() throws Exception {
-        PlaysResponse response = PlaysResponse.of(
+        PlayResponse response = PlayResponse.of(
                 "car2",
                 List.of(new Car("car1"), new Car("car2")));
 
-        given(racingCarService.play(any(PlaysRequest.class)))
+        given(racingCarService.play(any(PlayRequest.class)))
                 .willReturn(response);
 
-        PlaysRequest playsRequest = new PlaysRequest("car1,car2", 4);
-        String request = objectMapper.writeValueAsString(playsRequest);
+        PlayRequest playRequest = new PlayRequest("car1,car2", 4);
+        String request = objectMapper.writeValueAsString(playRequest);
 
         mockMvc.perform(post("/plays")
                         .content(request)

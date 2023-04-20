@@ -1,11 +1,10 @@
 package racingcar;
 
+import java.util.Scanner;
 import racingcar.controller.RaceController;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.Scanner;
 
 public class Application {
 
