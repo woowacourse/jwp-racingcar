@@ -28,6 +28,7 @@ public class CarJdbcDao implements CarDao {
             resultSet.getInt("position")
     );
 
+    @Override
     public int insertCar(final CarDto carDto, final int gameId) {
         Map<String, Object> parameters = new HashMap<>(4);
         parameters.put("name", carDto.getName());
@@ -37,6 +38,7 @@ public class CarJdbcDao implements CarDao {
         return insertActor.executeAndReturnKey(parameters).intValue();
     }
 
+    @Override
     public List<CarDto> findCars(final int gameId) {
         String sql = "SELECT name, position FROM car WHERE game_id = ?";
         return jdbcTemplate.query(sql, carDtoRowMapper, gameId);

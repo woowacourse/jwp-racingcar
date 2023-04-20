@@ -30,6 +30,7 @@ public class GameJdbcDao implements GameDao {
             resultSet.getInt("id")
     );
 
+    @Override
     public int insertGame(final int tryTimes) {
         Map<String, Object> parameters = new HashMap<>(2);
         parameters.put("trial_count", tryTimes);
@@ -38,6 +39,7 @@ public class GameJdbcDao implements GameDao {
         return insertActor.executeAndReturnKey(parameters).intValue();
     }
 
+    @Override
     public List<GameIdDto> findAll() {
         String sql = "SELECT id FROM game;";
 
