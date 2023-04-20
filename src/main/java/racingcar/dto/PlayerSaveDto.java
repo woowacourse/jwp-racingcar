@@ -23,4 +23,13 @@ public class PlayerSaveDto {
     public boolean getIsWinner() {
         return isWinner;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerSaveDto{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                ", isWinner=" + isWinner +
+                '}';
+    }
 }

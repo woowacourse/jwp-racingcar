@@ -1,7 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.RacingGameDao;
+import racingcar.dao.RacingGameRepository;
 import racingcar.domain.*;
 import racingcar.dto.PlayerSaveDto;
 import racingcar.dto.PostGameResponse;
@@ -14,10 +14,10 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class RacingGameService {
 
-    private final RacingGameDao racingGameDao;
+    private final RacingGameRepository racingGameRepository;
 
-    public RacingGameService(final RacingGameDao racingGameDao) {
-        this.racingGameDao = racingGameDao;
+    public RacingGameService(final RacingGameRepository racingGameRepository) {
+        this.racingGameRepository = racingGameRepository;
     }
 
     public PostGameResponse run(final List<String> inputNames, final int inputCount) {
@@ -47,7 +47,7 @@ public class RacingGameService {
         final List<PlayerSaveDto> playerSaveDtos = racingCars.getRacingCars().stream()
                 .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
                 .collect(toList());
-        racingGameDao.save(tryCount, playerSaveDtos);
+        racingGameRepository.save(tryCount, playerSaveDtos);
     }
 
     private PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {

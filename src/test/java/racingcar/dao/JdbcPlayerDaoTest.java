@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.PlayerSaveDto;
 import racingcar.exception.ExceptionInformation;
 
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @JdbcTest
+@Transactional
 class JdbcPlayerDaoTest {
 
     private PlayerDao playerDao;
@@ -28,18 +30,18 @@ class JdbcPlayerDaoTest {
     void setUp() {
         playerDao = new JdbcPlayerDao(jdbcTemplate);
         gameDao = new JdbcGameDao(jdbcTemplate);
-        gameDao.save(10);
     }
 
     @Test
     @DisplayName("Player 테이블에 값을 저장할 수 있다.")
     void saveGame_whenCall_thenSuccess() {
         // given
+        Long gameId = gameDao.save(10);
         final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
         final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
 
         // when, then
-        assertThatCode(() -> playerDao.save(1, List.of(kongHana, ethan)))
+        assertThatCode(() -> playerDao.save(gameId, List.of(kongHana, ethan)))
                 .doesNotThrowAnyException();
     }
 

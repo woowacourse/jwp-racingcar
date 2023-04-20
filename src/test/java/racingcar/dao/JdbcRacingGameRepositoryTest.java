@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.PlayerSaveDto;
 
 import java.util.List;
@@ -13,16 +14,17 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @JdbcTest
-class JdbcRacingGameDaoTest {
+@Transactional
+class JdbcRacingGameRepositoryTest {
 
-    private RacingGameDao racingGameDao;
+    private RacingGameRepository racingGameRepository;
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        racingGameDao = new JdbcRacingGameDao(jdbcTemplate);
+        racingGameRepository = new JdbcRacingGameRepository(new JdbcGameDao(jdbcTemplate), new JdbcPlayerDao(jdbcTemplate));
     }
 
     @Test
@@ -33,7 +35,7 @@ class JdbcRacingGameDaoTest {
         final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
 
         // when, then
-        assertThatCode(() -> racingGameDao.save(10, List.of(kongHana, ethan)))
+        assertThatCode(() -> racingGameRepository.save(10, List.of(kongHana, ethan)))
                 .doesNotThrowAnyException();
     }
 }

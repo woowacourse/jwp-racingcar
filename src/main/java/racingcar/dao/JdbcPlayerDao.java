@@ -2,10 +2,12 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 import racingcar.dto.PlayerSaveDto;
 
 import java.util.List;
 
+@Repository
 public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao{
 
     public JdbcPlayerDao(NamedParameterJdbcTemplate jdbcTemplate) {
