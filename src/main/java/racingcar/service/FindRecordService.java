@@ -29,22 +29,13 @@ public class FindRecordService {
     }
 
     private RacingCarResult mapToRacingCarResult(final List<Record> records) {
-        final List<String> winners = findWinners(records);
-        final List<Car> cars = records.stream()
+        List<String> winners = records.stream()
+            .filter(Record::isWinner)
+            .map(Record::getName)
+            .collect(Collectors.toList());
+        List<Car> cars = records.stream()
             .map(record -> Car.of(record.getName(), record.getPosition()))
             .collect(Collectors.toList());
         return new RacingCarResult(winners, cars);
-    }
-
-    private List<String> findWinners(final List<Record> records) {
-        final int maxPosition = records.stream()
-            .mapToInt(Record::getPosition)
-            .max()
-            .orElseThrow(IllegalStateException::new);
-
-        return records.stream()
-            .filter(record -> record.getPosition() == maxPosition)
-            .map(Record::getName)
-            .collect(Collectors.toList());
     }
 }
