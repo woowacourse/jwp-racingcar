@@ -1,6 +1,7 @@
 package racingcar.view;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,38 +21,35 @@ public class InputView {
     private static final String TRY_NUM_NOT_INTEGER_ERROR = ERROR_PREFIX + "시도할 횟수가 정수가 아닙니다.";
     private static final String TRY_NUM_NOT_POSITIVE_ERROR = ERROR_PREFIX + "시도할 횟수는 1 이상이어야 합니다.";
 
-    private InputView() {}
+    private InputView() {
+    }
 
     public static InputView getInstance() {
         return INSTANCE;
     }
 
-    public String[] readCarNames() {
-        Scanner scanner = new Scanner(System.in);
-        String carNames = scanner.nextLine();
+    public List<String> readCarNames() {
+        final Scanner scanner = new Scanner(System.in);
+        final String carNames = scanner.nextLine();
         validateCarNames(carNames);
-        String[] splitCarNames = getSplitCarNames(carNames);
+        final String[] splitCarNames = getSplitCarNames(carNames);
         validateSplitCarNames(splitCarNames);
 
-        return splitCarNames;
+        return Arrays.asList(splitCarNames);
     }
 
-    private void validateCarNames(String carNames) {
+    private void validateCarNames(final String carNames) {
         if (isBlank(carNames)) {
             throw new IllegalArgumentException(CAR_NAMES_BLANK_ERROR);
         }
     }
 
-    private boolean isBlank(String inputValue) {
-        return inputValue.length() < 1;
-    }
-
-    private String[] getSplitCarNames(String carNames) {
+    private String[] getSplitCarNames(final String carNames) {
         return carNames.split(CAR_NAMES_DELIMITER, -1);
     }
 
-    private void validateSplitCarNames(String[] splitCarNames) {
-        for (String carName : splitCarNames) {
+    private void validateSplitCarNames(final String[] splitCarNames) {
+        for (final String carName : splitCarNames) {
             validateCarName(carName);
         }
         if (isDuplicated(splitCarNames)) {
@@ -59,7 +57,11 @@ public class InputView {
         }
     }
 
-    private void validateCarName(String carName) {
+    private boolean isBlank(final String inputValue) {
+        return inputValue.length() < 1;
+    }
+
+    private void validateCarName(final String carName) {
         if (isCorrectCarNameLength(carName)) {
             throw new IllegalArgumentException(CAR_NAME_LENGTH_ERROR);
         }
@@ -68,24 +70,24 @@ public class InputView {
         }
     }
 
-    private boolean isDuplicated(String[] splitCarNames) {
-        Set<String> removedDuplicatedSplitCarNames = Arrays.stream(splitCarNames)
+    private boolean isDuplicated(final String[] splitCarNames) {
+        final Set<String> removedDuplicatedSplitCarNames = Arrays.stream(splitCarNames)
                 .collect(Collectors.toSet());
         return splitCarNames.length != removedDuplicatedSplitCarNames.size();
     }
 
-    private boolean isCorrectCarNameLength(String carName) {
+    private boolean isCorrectCarNameLength(final String carName) {
         return carName.length() > MAX_CAR_NAME_LENGTH;
     }
 
     public int readTryNum() {
-        Scanner scanner = new Scanner(System.in);
-        String tryNum = scanner.nextLine();
+        final Scanner scanner = new Scanner(System.in);
+        final String tryNum = scanner.nextLine();
         validateTryNum(tryNum);
         return Integer.parseInt(tryNum);
     }
 
-    private void validateTryNum(String tryNum) {
+    private void validateTryNum(final String tryNum) {
         if (isBlank(tryNum)) {
             throw new IllegalArgumentException(TRY_NUM_BLANK_ERROR);
         }
@@ -97,21 +99,18 @@ public class InputView {
         }
     }
 
-    private boolean isNotInteger(String tryNum){
+    private boolean isNotInteger(final String tryNum) {
         try {
             Integer.parseInt(tryNum);
-        } catch (NumberFormatException error) {
+        } catch (final NumberFormatException error) {
             return true;
         }
         return false;
     }
 
-    private boolean isNotPositive(String tryNum) {
+    private boolean isNotPositive(final String tryNum) {
         return Integer.parseInt(tryNum) < 1;
     }
-
-
-
 
 
 }
