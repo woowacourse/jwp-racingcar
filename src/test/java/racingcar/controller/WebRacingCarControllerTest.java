@@ -65,7 +65,7 @@ class WebRacingCarControllerTest {
             .body(requestDto)
             .when().post("/plays")
             .then().log().all()
-            .statusCode(HttpStatus.BAD_REQUEST.value())
-            .body(is("IllegalArgumentException"));
+            .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .body(is("[ERROR] 이름은 5글자까지 가능합니다."));
     }
 }
