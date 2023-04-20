@@ -35,29 +35,43 @@ public class Game {
         }
     }
 
-    public void joinCars(final String carNames) {
+    public void playGameWith(final String carNames, final NumberGenerator numberGenerator) {
+        joinCars(carNames);
+        playGame(numberGenerator);
+    }
+
+    private void joinCars(final String carNames) {
+        validateRegistered();
+        final List<String> names = Arrays.asList(carNames.split(",", -1));
+        validateDuplicate(names);
+        final List<Car> joinCars = names.stream().map(Car::new)
+            .collect(Collectors.toList());
+        this.cars = new Cars(joinCars);
+    }
+
+    private void validateRegistered() {
         if (cars != null) {
             throw new IllegalStateException("이미 참가자들이 등록되어 있습니다.");
         }
-        final List<String> names = Arrays.asList(carNames.split(",", -1));
+    }
+
+    private void validateDuplicate(final List<String> names) {
         final long distinctSize = names.stream()
             .distinct()
             .count();
         if (distinctSize < names.size()) {
             throw new IllegalArgumentException("중복된 이름이 존재합니다.");
         }
-        final List<Car> joinCars = names.stream().map(Car::new)
-            .collect(Collectors.toList());
-        this.cars = new Cars(joinCars);
     }
 
-    public void playGame(NumberGenerator numberGenerator) {
+    private void playGame(NumberGenerator numberGenerator) {
         if (cars == null) {
             throw new IllegalStateException("게임을 플레이 하기위해 참가한 차량이 없습니다.");
         }
         while (currentCount < totalCount) {
             raceOneRound(numberGenerator);
         }
+        judgeWinner();
     }
 
     private void raceOneRound(NumberGenerator numberGenerator) {
@@ -69,7 +83,7 @@ public class Game {
         currentCount++;
     }
 
-    public void judgeWinner() {
+    private void judgeWinner() {
         if (cars == null) {
             throw new IllegalStateException("우승자를 판단하기에는 참가한 차량이 없습니다.");
         }
