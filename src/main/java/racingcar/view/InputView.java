@@ -13,27 +13,28 @@ public class InputView {
     private static final String TRIES_INPUT_MESSAGE = "시도할 횟수는 몇회인가요?";
     private static final Scanner sc = new Scanner(System.in);
 
-    public static List<String> inputCarNames() {
+    public String inputCarNames() {
         System.out.println(CAR_NAME_INPUT_MESSAGE);
-        String input = sc.nextLine();
-
-        return splitInputByDelimiter(input);
+        String carNames = sc.nextLine();
+        InputValidator.validateCarNames(splitInputByDelimiter(carNames));
+        return carNames;
     }
 
-    public static int inputTries() {
+    public int inputTryCount() {
         try {
             System.out.println(TRIES_INPUT_MESSAGE);
-            return sc.nextInt();
+            int tryCount = sc.nextInt();
+            InputValidator.validateTryCount(tryCount);
+            return tryCount;
         } catch (InputMismatchException e) {
             throw new IllegalArgumentException("숫자를 입력해주세요.");
         }
     }
 
-    private static List<String> splitInputByDelimiter(String input) {
+    private List<String> splitInputByDelimiter(String input) {
         return Arrays.stream(input.split(CAR_NAME_DELIMITER))
                 .map(String::trim)
                 .collect(Collectors.toList());
-
     }
-    
+
 }
