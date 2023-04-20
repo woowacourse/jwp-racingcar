@@ -8,7 +8,7 @@ public class MockRandomPicker implements NumberPicker {
     private int pos = 0;
 
 
-    public MockRandomPicker(List<Integer> expected) {
+    public MockRandomPicker(final List<Integer> expected) {
         this.expected = expected;
     }
 

@@ -3,7 +3,6 @@ package racingcar.domain;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.dto.CarPositionDto;
 
 public class Cars {
 
@@ -43,12 +42,6 @@ public class Cars {
     private void move(final Car car, final NumberPicker numberPicker) {
         final int power = numberPicker.pickNumber();
         car.move(power);
-    }
-
-    public List<CarPositionDto> toDto() {
-        return cars.stream()
-                .map(Car::toDto)
-                .collect(Collectors.toList());
     }
 
     public List<String> findWinnerName() {

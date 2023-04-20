@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
-import racingcar.dto.CarPositionDto;
 
 @SuppressWarnings({"NonAsciiCharacters", "SpellCheckingInspection"})
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -28,12 +27,12 @@ class CarsTest {
     void move_함수를_호출했을때_진행이_되는_것을_확인() {
         cars.moveCars(mockRandomPicker);
 
-        final List<CarPositionDto> carPositionDtos = cars.toDto();
-        assertAll(() -> assertThat(carPositionDtos.get(0).getStatus()).isEqualTo(1),
+        final List<Car> carPositionDtos = cars.getCars();
+        assertAll(() -> assertThat(carPositionDtos.get(0).getPosition()).isEqualTo(1),
                 () -> assertThat(carPositionDtos.get(0).getCarName()).isEqualTo("judy"),
-                () -> assertThat(carPositionDtos.get(1).getStatus()).isZero(),
+                () -> assertThat(carPositionDtos.get(1).getPosition()).isZero(),
                 () -> assertThat(carPositionDtos.get(1).getCarName()).isEqualTo("nunu"),
-                () -> assertThat(carPositionDtos.get(2).getStatus()).isEqualTo(1),
+                () -> assertThat(carPositionDtos.get(2).getPosition()).isEqualTo(1),
                 () -> assertThat(carPositionDtos.get(2).getCarName()).isEqualTo("pobi")
         );
     }

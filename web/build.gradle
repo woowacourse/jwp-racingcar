@@ -1,17 +1,19 @@
-plugins {
-    id 'java'
-}
-
 group 'racingcar'
-version 'unspecified'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.rest-assured:rest-assured:4.4.0'
+
+    implementation project(":domain")
+    implementation project(":domain-h2")
 }
 
-test {
+tasks.named("test") {
     useJUnitPlatform()
 }

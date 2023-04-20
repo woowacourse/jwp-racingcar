@@ -1,7 +1,5 @@
 package racingcar.domain;
 
-import racingcar.dto.CarPositionDto;
-
 public class Car {
 
     private static final int GO = 4;
@@ -28,10 +26,6 @@ public class Car {
         if (power >= GO) {
             position = position.next();
         }
-    }
-
-    public CarPositionDto toDto() {
-        return new CarPositionDto(position.getMoveCount(), carName.getName());
     }
 
     public int getPosition() {

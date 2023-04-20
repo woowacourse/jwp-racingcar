@@ -1,17 +1,4 @@
-plugins {
-    id 'java'
-}
-
-group 'racingcar'
-version 'unspecified'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-}
-
-test {
-    useJUnitPlatform()
+    implementation project(":domain")
+    implementation project(":domain-h2")
 }

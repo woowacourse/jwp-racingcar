@@ -1,17 +1,6 @@
-plugins {
-    id 'java'
-}
-
-group 'racingcar'
-version 'unspecified'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-}
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'com.h2database:h2'
 
-test {
-    useJUnitPlatform()
+    implementation project(":domain")
 }
