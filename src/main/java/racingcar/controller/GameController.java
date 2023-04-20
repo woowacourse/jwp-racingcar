@@ -23,20 +23,13 @@ public class GameController {
 
     public void run() {
         Cars cars = makeCars(inputView.readCarNames());
-
-        GameSystem gameSystem = createGameSystem(inputView.readGameRound());
+        GameSystem gameSystem = new GameSystem(inputView.readGameRound(), new GameRecorder(new ArrayList<>()));
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
-
-        outputView.printAllGameResults(gameSystem.getAllGameResult());
-        outputView.printWinners(gameSystem.getWinnersGameResult());
+        outputView.printRacingResult(gameSystem.getWinnersGameResult(), gameSystem.getFinalGameResult());
     }
 
     private Cars makeCars(final List<String> carNames) {
         CarFactory carFactory = new CarFactory();
         return carFactory.createCars(carNames);
-    }
-
-    private GameSystem createGameSystem(final int gameRound) {
-        return new GameSystem(gameRound, new GameRecorder(new ArrayList<>()));
     }
 }

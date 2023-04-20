@@ -22,10 +22,6 @@ public class GameResultOfCar {
         return this.position == position;
     }
 
-    public int getGameRound() {
-        return gameRound;
-    }
-
     public String getCarName() {
         return carName;
     }

@@ -40,23 +40,19 @@ public class GameSystem {
         gameRecorder.record(gameRound, cars);
     }
 
-    public List<GameResultOfCar> getAllGameResult() {
-        return gameRecorder.getRecords();
-    }
-
     public List<GameResultOfCar> getWinnersGameResult() {
-        List<GameResultOfCar> gameResultOfFinalRound = getGameResultsOfFinalRound();
+        List<GameResultOfCar> gameResultOfFinalRound = getFinalGameResult();
 
         int position = findTopPosition(gameResultOfFinalRound);
 
         return findGameResultOfTopPositionedCars(gameResultOfFinalRound, position);
     }
 
-    private List<GameResultOfCar> getGameResultsOfFinalRound() {
-        return gameRecorder.getRecords()
-                .stream()
+    public List<GameResultOfCar> getFinalGameResult() {
+        final List<GameResultOfCar> records = gameRecorder.getRecords();
+        return records.stream()
                 .filter(gameResultOfCar -> gameResultOfCar.isSameGameRound(finalRound))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private int findTopPosition(final List<GameResultOfCar> gameResultOfCars) {

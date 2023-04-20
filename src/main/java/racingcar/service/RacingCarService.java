@@ -41,7 +41,7 @@ public class RacingCarService {
         gameSystem.executeRace(cars, numberGenerator);
         insertCar(cars, gameId, gameSystem);
 
-        return createResponseDTO(count, gameSystem);
+        return createResponseDTO(gameSystem);
     }
 
     private Cars makeCars(final String names) {
@@ -68,16 +68,15 @@ public class RacingCarService {
                 .collect(Collectors.toList());
     }
 
-    private RacingResultDTO createResponseDTO(final int count, final GameSystem gameSystem) {
+    private RacingResultDTO createResponseDTO(final GameSystem gameSystem) {
         final String winners = String.join(DELIMITER, getWinners(gameSystem));
-        final List<CarDTO> carDTOs = getCarDTOs(count, gameSystem);
+        final List<CarDTO> carDTOs = getCarDTOs(gameSystem);
         return new RacingResultDTO(winners, carDTOs);
     }
 
-    private List<CarDTO> getCarDTOs(final int count, final GameSystem gameSystem) {
-        List<GameResultOfCar> allGameResult = gameSystem.getAllGameResult();
-        return allGameResult.stream()
-                .filter(gameResultOfCar -> gameResultOfCar.isSameGameRound(count))
+    private List<CarDTO> getCarDTOs(final GameSystem gameSystem) {
+        List<GameResultOfCar> finalGameResult = gameSystem.getFinalGameResult();
+        return finalGameResult.stream()
                 .map(gameResultOfCar -> new CarDTO(gameResultOfCar.getCarName(), gameResultOfCar.getPosition()))
                 .collect(Collectors.toList());
     }

@@ -40,7 +40,6 @@ class GameSystemTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-
     @ParameterizedTest
     @MethodSource("getCarsOnSamePositionAndGameRound")
     @DisplayName("GameSystem 객체가 서로 다른 gameRound를 가질 때, executeRace 실행 시 finalRound의 값과 동일한 횟수만큼 position의 변화가 일어나는지 확인")
@@ -52,9 +51,17 @@ class GameSystemTest {
         assertThat(getMaxPosition(gameSystem)).isEqualTo(expectedPosition);
     }
 
+    static Stream<Arguments> getCarsOnSamePositionAndGameRound() {
+        return Stream.of(
+                Arguments.arguments(new Cars(List.of(new Car("poy", DEFAULT_POSITION), new Car("joy", DEFAULT_POSITION))), 4, 4),
+                Arguments.arguments(new Cars(List.of(new Car("poy", DEFAULT_POSITION), new Car("joy", DEFAULT_POSITION))), 5, 5),
+                Arguments.arguments(new Cars(List.of(new Car("poy", DEFAULT_POSITION), new Car("joy", DEFAULT_POSITION))), 6, 6)
+        );
+    }
+
     private int getMaxPosition(final GameSystem gameSystem) {
-        List<GameResultOfCar> allGameResult = gameSystem.getAllGameResult();
-        return allGameResult.stream()
+        List<GameResultOfCar> finalGameResult = gameSystem.getFinalGameResult();
+        return finalGameResult.stream()
                 .map(GameResultOfCar::getPosition)
                 .max(Integer::compareTo)
                 .orElse(0);
@@ -76,15 +83,6 @@ class GameSystemTest {
         return winnersGameResult.stream()
                 .map(GameResultOfCar::getCarName)
                 .collect(Collectors.toList());
-    }
-
-
-    static Stream<Arguments> getCarsOnSamePositionAndGameRound() {
-        return Stream.of(
-                Arguments.arguments(new Cars(List.of(new Car("poy", DEFAULT_POSITION), new Car("joy", DEFAULT_POSITION))), 4, 4),
-                Arguments.arguments(new Cars(List.of(new Car("poy", DEFAULT_POSITION), new Car("joy", DEFAULT_POSITION))), 5, 5),
-                Arguments.arguments(new Cars(List.of(new Car("poy", DEFAULT_POSITION), new Car("joy", DEFAULT_POSITION))), 6, 6)
-        );
     }
 
     static Stream<Arguments> getCarsAndWinners() {
