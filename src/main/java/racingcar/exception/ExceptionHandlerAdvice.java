@@ -1,5 +1,7 @@
 package racingcar.exception;
 
+import java.util.stream.Collectors;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,7 +13,10 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleBlankException(MethodArgumentNotValidException exception) {
-        return ResponseEntity.badRequest().body("잘못된 입력입니다.");
+        String errorMessage = exception.getFieldErrors().stream()
+            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+            .collect(Collectors.joining(", "));
+        return ResponseEntity.badRequest().body(errorMessage);
     }
 
     @ExceptionHandler(InvalidInputException.class)
