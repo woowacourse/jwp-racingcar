@@ -27,7 +27,7 @@ import static org.mockito.Mockito.mock;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("JdbcRacingGameRepository 는")
-class JdbcRacingGameRepositoryTest {
+class JdbcRacingGameRepositoryTestMockVersion {
 
     private RacingGameDao gameDao = mock(RacingGameDao.class);
     private CarDao carDao = mock(CarDao.class);
@@ -56,7 +56,6 @@ class JdbcRacingGameRepositoryTest {
         return new RacingGame(cars, gameTime);
     }
 
-    // TODO mock을 쓰니 코드가 많이 복잡해 진 느낌이 듭니다.
     @Test
     void 모든_게임을_조회한다() {
         // given

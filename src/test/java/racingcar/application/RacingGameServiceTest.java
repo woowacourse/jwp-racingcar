@@ -4,70 +4,68 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestComponent;
-import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 import racingcar.application.RacingGameService.GameResult;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.GameTime;
+import racingcar.domain.RacingGame;
+import racingcar.domain.RacingGameRepository;
 import racingcar.domain.numbergenerator.NumberGenerator;
 
-import javax.annotation.Priority;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("RacingGameService 은")
-@SpringBootTest
-@Import(value = RacingGameServiceTest.MockNumberGenerator.class)
-@Transactional
 class RacingGameServiceTest {
 
-    @Autowired
-    private RacingGameService racingGameService;
+    private NumberGenerator numberGenerator = mock(NumberGenerator.class);
+    private RacingGameRepository racingGameRepository = mock(RacingGameRepository.class);
 
-    @Priority(1)
-    @TestComponent
-    public static class MockNumberGenerator implements NumberGenerator {
+    private RacingGameService racingGameService = new RacingGameService(numberGenerator, racingGameRepository);
 
-        private int count = 0;
-
-        @Override
-        public int generateNumber() {
-            if (count++ % 3 == 0) {
-                return 9;
-            }
-            return 1;
-        }
+    private RacingGame makeGame() {
+        return new RacingGame(
+                new Cars(List.of(
+                        new Car("브리", 3),
+                        new Car("토미", 2))),
+                new GameTime(5)
+        );
     }
 
     @Test
     void 게임을_진행한다() {
+        // given
+        given(racingGameRepository.save(any()))
+                .willReturn(1L);
+        given(racingGameRepository.findById(1L))
+                .willReturn(Optional.of(makeGame()));
+
         // when
-        final Long id = racingGameService.play(List.of("브리", "토미", "브라운"), 10);
+        final Long id = racingGameService.play(List.of("브리", "토미"), 10);
 
         // then
         final GameResult gameResult = racingGameService.findResultById(id);
         assertThat(gameResult.getWinners()).containsExactly("브리");
-        assertThat(gameResult.getRacingCars().size()).isEqualTo(3);
+        assertThat(gameResult.getRacingCars().size()).isEqualTo(2);
     }
 
     @Test
     void 전체_게임을_조회한다() {
         // given
-        IntStream.range(0, 10)
-                .forEach(it -> racingGameService.play(
-                        List.of("브리", "토미", "브라운"),
-                        10)
-                );
+        given(racingGameRepository.findAll())
+                .willReturn(List.of(makeGame(), makeGame(), makeGame()));
 
         // when
         final List<GameResult> results = racingGameService.findAll();
 
         // then
-        assertThat(results.size()).isEqualTo(10);
+        assertThat(results.size()).isEqualTo(3);
     }
 }
