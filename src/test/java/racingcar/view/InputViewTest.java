@@ -42,7 +42,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputCarNames())
-                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : null");
+                .withMessage("[ERROR] null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : null");
     }
     
     @Test
@@ -54,7 +54,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputCarNames())
-                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : ");
+                .withMessage("[ERROR] null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : ");
     }
     
     @ParameterizedTest(name = "{displayName} : names = {0}")
@@ -67,7 +67,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputCarNames())
-                .withMessage("차 이름은 쉼표로 구분해서 영어와 한글로만 입력할 수 있습니다. 다시 입력해주세요. 입력된 names : " + names);
+                .withMessage("[ERROR] 차 이름은 쉼표로 구분해서 영어와 한글로만 입력할 수 있습니다. 다시 입력해주세요. 입력된 names : " + names);
     }
     
     @ParameterizedTest(name = "{displayName} : names = {0}")
@@ -93,7 +93,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputTryNumber())
-                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : null");
+                .withMessage("[ERROR] null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : null");
     }
     
     @Test
@@ -105,7 +105,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputTryNumber())
-                .withMessage("null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : ");
+                .withMessage("[ERROR] null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : ");
     }
     
     @ParameterizedTest(name = "{displayName} : names = {0}")
@@ -118,7 +118,7 @@ class InputViewTest {
         // when, then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new InputView().inputTryNumber())
-                .withMessageStartingWith("시도 횟수는 숫자만 입력할 수 있습니다. 다시 입력해주세요. Error message : ");
+                .withMessageStartingWith("[ERROR] 시도 횟수는 숫자만 입력할 수 있습니다. 다시 입력해주세요. Error message : ");
     }
     
     @AfterEach

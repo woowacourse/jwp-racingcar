@@ -30,7 +30,7 @@ public class Cars {
         final int size = splitedNames.size();
         
         if (size != count) {
-            throw new IllegalArgumentException("[ERROR] 동명이인은 불가능합니다. 현재 차 목록 : \n" + splitedNames);
+            throw new IllegalArgumentException("[ERROR] 동명이인은 불가능합니다. 입력된 차 이름 목록 : " + splitedNames);
         }
     }
     

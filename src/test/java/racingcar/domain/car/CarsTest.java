@@ -41,6 +41,6 @@ class CarsTest {
     void 같은_이름이_존재할_시_예외_처리(String names) {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new Cars(names))
-                .withMessageStartingWith("[ERROR] 동명이인은 불가능합니다. 현재 차 목록 : \n");
+                .withMessageStartingWith("[ERROR] 동명이인은 불가능합니다. 입력된 차 이름 목록 : ");
     }
 }

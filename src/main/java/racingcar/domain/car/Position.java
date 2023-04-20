@@ -1,10 +1,12 @@
 package racingcar.domain.car;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
+@Getter
 public class Position {
     private final int position;
     
