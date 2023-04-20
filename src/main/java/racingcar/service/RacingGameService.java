@@ -1,6 +1,14 @@
 package racingcar.service;
 
+import static java.util.Collections.addAll;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.Player;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.RacingGameDao;
@@ -10,15 +18,8 @@ import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
 import racingcar.exception.CommaNotFoundException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static java.util.Collections.addAll;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
-
 @Service
+@Transactional
 public class RacingGameService {
 
     private final RacingGameDao racingGameDao;
@@ -96,6 +97,7 @@ public class RacingGameService {
         return new Player(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 
+    @Transactional(readOnly = true)
     public Map<Long, List<Player>> findAll() {
         final List<Player> allPlayers = playerDao.findAll();
         return allPlayers.stream()
