@@ -3,7 +3,6 @@ package racingcar.dao;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import racingcar.domain.Car;
 import racingcar.dto.CarDto;
@@ -17,12 +16,6 @@ public class CarConsoleDao implements CarDao {
     public int insertCar(CarDto carDto, int gameId) {
         cars.put(id++, new Car(carDto.getName(), carDto.getPosition()));
         return id - 1;
-    }
-
-    @Override
-    public void updatePosition(CarDto carDto, int gameId) {
-        Integer carId = findCarByName(carDto.getName());
-        cars.put(carId, new Car(carDto.getName(), carDto.getPosition()));
     }
 
     @Override

@@ -5,13 +5,15 @@ import racingcar.dto.GameIdDto;
 
 public class GameConsoleDao implements GameDao {
 
+    private final int gameId = 1;
+
     @Override
     public int insertGame(int tryTimes) {
-        return 1;
+        return gameId;
     }
 
     @Override
     public List<GameIdDto> findAll() {
-        return null;
+        return List.of(GameIdDto.from(gameId));
     }
 }

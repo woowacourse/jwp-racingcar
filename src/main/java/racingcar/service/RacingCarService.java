@@ -42,8 +42,8 @@ public class RacingCarService {
     private RacingGame createGame(final List<String> carNames, final int tryTimes) {
         int gameId = gameDao.insertGame(tryTimes);
         RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), movingStrategy);
-        List<Car> cars = game.getCars();
-        convertDto(cars).forEach(car -> carDao.insertCar(car, gameId));
+        race(game, tryTimes);
+        saveCars(gameId, game);
 
         return game;
     }
@@ -52,9 +52,11 @@ public class RacingCarService {
         for (int i = 0; i < tryTimes; i++) {
             racingGame.playSingleRound();
         }
+    }
 
-        List<Car> cars = racingGame.getCars();
-        convertDto(cars).forEach(car -> carDao.updatePosition(car, racingGame.getId()));
+    private void saveCars(int gameId, RacingGame game) {
+        List<Car> cars = game.getCars();
+        convertDto(cars).forEach(car -> carDao.insertCar(car, gameId));
     }
 
     public List<GameResponse> getGameResults() {

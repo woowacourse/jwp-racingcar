@@ -37,11 +37,6 @@ public class CarJdbcDao implements CarDao {
         return insertActor.executeAndReturnKey(parameters).intValue();
     }
 
-    public void updatePosition(final CarDto carDto, final int gameId) {
-        String sql = "UPDATE car SET position = ? WHERE game_id = ? AND name = ?";
-        jdbcTemplate.update(sql, carDto.getPosition(), gameId, carDto.getName());
-    }
-
     public List<CarDto> findCars(final int gameId) {
         String sql = "SELECT name, position FROM car WHERE game_id = ?";
         return jdbcTemplate.query(sql, carDtoRowMapper, gameId);

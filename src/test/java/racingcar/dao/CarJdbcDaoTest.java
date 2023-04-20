@@ -2,7 +2,6 @@ package racingcar.dao;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,13 +41,6 @@ class CarJdbcDaoTest {
     void insertCar() {
         int carId = carJdbcDao.insertCar(CarDto.of("조이", 1), gameId);
         assertThat(carId).isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("position을 업데이트한다.")
-    void updatePosition() {
-        assertDoesNotThrow(() -> carJdbcDao.updatePosition(CarDto.of("밀리", 5), gameId));
-        assertThat(carJdbcDao.findCar("밀리", gameId).getPosition()).isEqualTo(5);
     }
 
     @Test
