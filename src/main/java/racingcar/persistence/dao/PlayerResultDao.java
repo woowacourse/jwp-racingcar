@@ -18,7 +18,7 @@ public class PlayerResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveAll(final List<CarData> racingCarData, final Number gameResultKey) {
+    public void saveAll(final List<CarData> racingCarData, final Long gameResultKey) {
         for (CarData carData : racingCarData) {
             String sql = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
             jdbcTemplate.update(sql, carData.getName(), carData.getPosition(), gameResultKey);

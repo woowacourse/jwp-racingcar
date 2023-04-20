@@ -22,7 +22,7 @@ public class GameResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Number save(final String winners, final int trialCount) {
+    public Long save(final String winners, final int trialCount) {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -31,7 +31,7 @@ public class GameResultDao {
             preparedStatement.setInt(2, trialCount);
             return preparedStatement;
         }, keyHolder);
-        return keyHolder.getKey();
+        return keyHolder.getKey().longValue();
     }
 
     public List<GameResultEntity> selectAll() {
