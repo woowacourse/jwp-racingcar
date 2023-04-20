@@ -15,6 +15,10 @@ public class Car {
         return new Car(name, Position.create());
     }
 
+    public static Car of(Name name, Position position) {
+        return new Car(name, position);
+    }
+
     public void tryMove(Engine engine) {
         if (engine.isMovable()) {
             position.move();

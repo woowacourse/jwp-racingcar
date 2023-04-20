@@ -31,22 +31,6 @@ public class Cars {
         }
     }
 
-    public Cars getWinners() {
-        int maxPosition = getMaxPosition();
-        List<Car> result = cars.stream()
-                .filter(car -> car.getPosition() == maxPosition)
-                .collect(Collectors.toList());
-
-        return new Cars(result);
-    }
-
-    private int getMaxPosition() {
-        return cars.stream()
-                .map(Car::getPosition)
-                .max(Integer::compareTo)
-                .orElseThrow();
-    }
-
     public List<Car> getCars() {
         return Collections.unmodifiableList(cars);
     }

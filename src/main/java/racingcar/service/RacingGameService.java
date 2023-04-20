@@ -6,11 +6,7 @@ import racingcar.dao.GameResultDAO;
 import racingcar.dao.PlayerResultDAO;
 import racingcar.dao.entity.GameResultEntity;
 import racingcar.dao.entity.PlayerResultEntity;
-import racingcar.domain.Cars;
-import racingcar.domain.Names;
-import racingcar.domain.TryCount;
-import racingcar.domain.engine.Engine;
-import racingcar.domain.engine.RandomMovingEngine;
+import racingcar.domain.*;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayerResultDto;
@@ -23,6 +19,7 @@ import java.util.stream.Collectors;
 public class RacingGameService {
     private final GameResultDAO gameResultDAO;
     private final PlayerResultDAO playerResultDAO;
+    private final RacingGameManager racingGameManager = RacingGameManager.getInstance();
 
     @Autowired
     public RacingGameService(GameResultDAO gameResultDAO, PlayerResultDAO playerResultDAO) {
@@ -33,10 +30,11 @@ public class RacingGameService {
     public GameResponseDto play(Names names, TryCount tryCount) {
         Cars cars = Cars.createByNames(names);
 
-        moveCars(cars, tryCount);
+        racingGameManager.play(cars, tryCount);
 
+        Cars winningCars = racingGameManager.decideWinners(cars);
+        String winners = convertToString(winningCars);
         List<CarDto> carDtos = CarDto.from(cars.getCars());
-        String winners = decideWinners(carDtos);
 
         int savedId = gameResultDAO.save(GameResultDto.from(tryCount.getCount()));
         playerResultDAO.saveAll(PlayerResultDto.of(carDtos, savedId));
@@ -44,23 +42,9 @@ public class RacingGameService {
         return new GameResponseDto(winners, carDtos);
     }
 
-    private void moveCars(Cars cars, TryCount tryCount) {
-        Engine engine = new RandomMovingEngine();
-
-        for (int i = 0; i < tryCount.getCount(); i++) {
-            cars.moveCars(engine);
-        }
-    }
-
-    private String decideWinners(List<CarDto> carDtos) {
-        int maxPosition = carDtos.stream()
-                .map(CarDto::getPosition)
-                .max(Integer::compareTo)
-                .orElseThrow();
-
-        return carDtos.stream()
-                .filter(carDto -> carDto.getPosition() == maxPosition)
-                .map(CarDto::getName)
+    private String convertToString(Cars winners) {
+        return winners.getCars().stream()
+                .map(Car::getName)
                 .collect(Collectors.joining(","));
     }
 
@@ -83,11 +67,17 @@ public class RacingGameService {
     }
 
     private GameResponseDto getGameResponseDto(List<PlayerResultEntity> playerResultEntities, Integer gameId) {
-        List<CarDto> carDtos = playerResultEntities.stream()
+        List<Car> carsOfGameId = playerResultEntities.stream()
                 .filter(result -> result.getGameId() == gameId)
-                .map(result -> CarDto.of(result.getName(), result.getPosition()))
+                .map(result -> Car.of(Name.from(result.getName()), Position.from(result.getPosition())))
                 .collect(Collectors.toList());
-        String winners = decideWinners(carDtos);
+
+        Cars winningCars = racingGameManager.decideWinners(Cars.from(carsOfGameId));
+        String winners = convertToString(winningCars);
+
+        List<CarDto> carDtos = carsOfGameId.stream()
+                .map(car -> CarDto.of(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
 
         return new GameResponseDto(winners, carDtos);
     }

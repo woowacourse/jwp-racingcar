@@ -7,7 +7,9 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RacingGameTest {
+class RacingGameManagerTest {
+    private final RacingGameManager racingGameManager = RacingGameManager.getInstance();
+
     @DisplayName("더 많이 움직인 자동차가 우승자가 된다.")
     @Test
     public void getWinnersTest() {
@@ -19,7 +21,7 @@ class RacingGameTest {
         moveByCount(car1, 5);
         moveByCount(car2, 7);
 
-        assertThat(cars.getWinners().getCars())
+        assertThat(racingGameManager.decideWinners(cars).getCars())
                 .containsExactly(car2);
     }
 
@@ -37,7 +39,7 @@ class RacingGameTest {
         moveByCount(car2, 7);
         moveByCount(car3, 7);
 
-        assertThat(cars.getWinners().getCars())
+        assertThat(racingGameManager.decideWinners(cars).getCars())
                 .containsExactly(car2, car3);
     }
 
