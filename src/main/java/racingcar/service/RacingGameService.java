@@ -63,10 +63,9 @@ public class RacingGameService {
         return new OneGameHistoryDto(winnerName, racingCarsDto);
     }
 
-    public AllGameHistoryDto findRacingGameHistory() {
+    public List<OneGameHistoryDto> findRacingGameHistory() {
         final List<RacingGameFindDto> racingGameFindDtos = racingGameRepository.findAll();
-        final List<OneGameHistoryDto> oneGameHistoryDtos = generateOneGameHistoryDtos(racingGameFindDtos);
-        return new AllGameHistoryDto(oneGameHistoryDtos);
+        return generateOneGameHistoryDtos(racingGameFindDtos);
     }
 
     private List<OneGameHistoryDto> generateOneGameHistoryDtos(List<RacingGameFindDto> racingGameFindDtos) {
