@@ -1,13 +1,13 @@
 package racingcar.utils;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class RandomNumberGenerator implements NumberGenerator {
     private static final int UPPER_BOUND = 10;
-    private static final Random random = new Random();
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     @Override
     public int generateNumber() {
-        return random.nextInt(UPPER_BOUND);
+        return secureRandom.nextInt(UPPER_BOUND);
     }
 }
