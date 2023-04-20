@@ -5,8 +5,8 @@ import static racingcar.dto.DtoMapper.*;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.ResultDto;
-import view.InputView;
-import view.OutputView;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 public class RacingCarController {
 	private final InputView inputView = new InputView();
