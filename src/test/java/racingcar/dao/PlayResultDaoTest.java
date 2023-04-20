@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
+import racingcar.entity.PlayResultEntity;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class PlayResultDaoTest {
                 List.of(new CarDto("포비", 10),
                         new CarDto("브라운", 5), new CarDto("구구", 8)));
 
-        playResultDao.insertResult(racingGameDto);
+        playResultDao.insertResult(PlayResultEntity.from(racingGameDto));
 
         final String sql = "select count (*) from play_result";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class)).isEqualTo(1);
@@ -42,7 +43,7 @@ public class PlayResultDaoTest {
                 List.of(new CarDto("토미", 10),
                         new CarDto("브라운", 5), new CarDto("구구", 8)));
 
-        playResultDao.insertResult(racingGameDto);
+        playResultDao.insertResult(PlayResultEntity.from(racingGameDto));
 
         final String sql = "select winners from play_result";
         assertThat(jdbcTemplate.queryForObject(sql, String.class)).isEqualTo("토미");

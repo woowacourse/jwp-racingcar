@@ -8,6 +8,8 @@ import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.RacingGameInputDto;
 import racingcar.dto.RacingGameResultDto;
+import racingcar.entity.PlayResultEntity;
+import racingcar.entity.PlayerResultEntity;
 import racingcar.utils.InputUtil;
 import racingcar.view.OutputView;
 
@@ -31,8 +33,11 @@ public class RacingGameService {
         racingGame.start();
 
         RacingGameDto racingGameDto = new RacingGameDto(racingGame);
-        int resultId = playResultDao.insertResult(racingGameDto);
-        playersResultDao.insertResult(racingGameDto.getRacingCars(), resultId);
+        int resultId = playResultDao.insertResult(PlayResultEntity.from(racingGameDto));
+        playersResultDao.insertResult(racingGameDto.getRacingCars()
+                .stream()
+                .map(carDto -> PlayerResultEntity.from(carDto, resultId))
+                .collect(Collectors.toList()));
 
         RacingGameResultDto racingGameResultDto = new RacingGameResultDto(racingGame);
         OutputView.printResult(racingGameResultDto);
