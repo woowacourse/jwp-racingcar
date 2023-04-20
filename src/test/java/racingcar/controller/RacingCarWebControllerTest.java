@@ -68,7 +68,7 @@ class RacingCarWebControllerTest {
         mockMvc.perform(post("/plays")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(bodyData))
-               .andExpect(status().isOk())
+               .andExpect(status().isCreated())
                .andExpect(content().json(resultData));
     }
 
