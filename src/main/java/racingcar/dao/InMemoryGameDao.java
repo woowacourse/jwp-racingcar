@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import java.util.List;
-import java.util.Optional;
 
 public class InMemoryGameDao implements GameDao {
     @Override
