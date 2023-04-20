@@ -29,9 +29,9 @@ public class PlayerJdbcRepository implements PlayerRepository {
     };
 
     @Override
-    public boolean save(final Cars cars, final int racingGameId) {
+    public int[] saveAll(final Cars cars, final int racingGameId) {
         final String sql = "INSERT INTO PLAYER(name, position, racing_game_id) VALUES(?, ?, ?)";
-        final int[] updatedCounts = jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+        return jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
             @Override
             public void setValues(final PreparedStatement ps, final int i) throws SQLException {
@@ -45,8 +45,6 @@ public class PlayerJdbcRepository implements PlayerRepository {
                 return cars.getRacingCars().size();
             }
         });
-
-        return updatedCounts.length == cars.getRacingCars().size();
     }
 
     @Override

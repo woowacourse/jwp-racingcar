@@ -31,10 +31,11 @@ class PlayerJdbcRepositoryTest {
         final Cars cars = new Cars(List.of("저문", "헤나"));
 
         // when
-        final boolean isSaved = playerJdbcRepository.save(cars, savedGameId);
+        final int[] updatedCounts = playerJdbcRepository.saveAll(cars, savedGameId);
+        final boolean isAllSaved = (updatedCounts.length == cars.getRacingCars().size());
 
         // then
-        assertThat(isSaved).isTrue();
+        assertThat(isAllSaved).isTrue();
     }
 
     @DisplayName("레이싱 게임 id를 통해서 해당 플레이어들의 정보를 조회힌다.")
@@ -42,7 +43,7 @@ class PlayerJdbcRepositoryTest {
     void findBy() {
         // given
         final int savedGameId = racingGameJdbcRepository.save("헤나,찰리", 10);
-        playerJdbcRepository.save(new Cars(List.of("헤나", "찰리")), savedGameId);
+        playerJdbcRepository.saveAll(new Cars(List.of("헤나", "찰리")), savedGameId);
 
         // when
         final List<PlayerDto> findPlayers = playerJdbcRepository.findByRacingGameId(savedGameId);

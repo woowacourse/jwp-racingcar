@@ -33,12 +33,17 @@ public class RacingGameDatabaseService implements RacingGameService {
         final String winners = createWinners(racingGame);
 
         final int racingGameId = racingGameRepository.save(winners, trial);
-        final boolean isSaved = playerRepository.save(cars, racingGameId);
-        if (!isSaved) {
-            throw new IllegalStateException("[ERROR] 레이싱 플레이어 저장에 실패하였습니다.");
-        }
+        final int[] updatedCounts = playerRepository.saveAll(cars, racingGameId);
+        validateAllSaved(nameValues, updatedCounts);
 
         return new RacingGameResponse(winners, cars.getRacingCars());
+    }
+
+    private void validateAllSaved(final List<String> nameValues, final int[] updatedCounts) {
+        final boolean isAllSaved = updatedCounts.length == nameValues.size();
+        if (!isAllSaved) {
+            throw new IllegalStateException("[ERROR] 레이싱 플레이어 저장에 실패하였습니다.");
+        }
     }
 
     private String createWinners(final RacingGame racingGame) {
