@@ -1,16 +1,14 @@
 package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import racingcar.domain.car.Car;
 import racingcar.domain.race.RacingGame;
-import racingcar.domain.race.WinnerJudge;
-import racingcar.domain.race.WinnerJudgeImpl;
 
 class RacingGameTest {
     @Nested
@@ -20,43 +18,8 @@ class RacingGameTest {
         @DisplayName("이름이 중복으로 입력되었을 때 예외 발생")
         void throwExceptionWhenDuplicateNameExists() {
             Assertions.assertThatThrownBy(
-                            () -> new RacingGame(List.of("rosie", "hong", "rosie"), new WinnerJudgeImpl()))
+                            () -> new RacingGame(List.of("rosie", "hong", "rosie")))
                     .isInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    @Nested
-    @DisplayName("우승자를 판별 기능은")
-    class GetWinnersTest {
-        private RacingGame race;
-        private WinnerJudge mockWinnerJudge;
-
-
-        @Test
-        @DisplayName("우승자이면 true를 반환한다.")
-        void shouldContainWinners() {
-            // given
-            Car winner = new Car("rosie");
-            mockWinnerJudge = cars -> List.of(winner);
-            race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge);
-
-            // when
-
-            //then
-            assertThat(race.isWinner(winner)).isTrue();
-        }
-
-        @Test
-        @DisplayName("우승자가 아니면 false를 반환한다.")
-        void shouldNotContainNonWinners() {
-            // given
-            Car winner = new Car("rosie");
-            mockWinnerJudge = cars -> List.of(winner);
-            race = new RacingGame(List.of("rosie", "hong"), mockWinnerJudge);
-
-            // when
-            //then
-            assertThat(race.isWinner(new Car("hong"))).isFalse();
         }
     }
 
@@ -65,7 +28,7 @@ class RacingGameTest {
     void testGameProgress() {
         //given
         int trialCount = 10;
-        RacingGame race = new RacingGame(List.of("바론", "론이", "로니", "로지"), new WinnerJudgeImpl());
+        RacingGame race = new RacingGame(List.of("바론", "론이", "로니", "로지"));
         //when
         race.progress(trialCount);
         //then
@@ -73,5 +36,17 @@ class RacingGameTest {
                 .allMatch(car -> 0 <= car.getPosition() && car.getPosition() <= trialCount);
 
         assertThat(isAllInTrialCount).isTrue();
+    }
+
+    @DisplayName("시도 횟수가 0 이하면 예외가 발생한다.")
+    @Test
+    void progressFailWhenWrongTrialCount() {
+        //given
+        int trialCount = -1;
+        RacingGame racingGame = new RacingGame(List.of("로지", "브리"));
+        //when
+        //then
+        assertThatThrownBy(() -> racingGame.progress(trialCount))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -1,12 +1,15 @@
-package racingcar.dao;
+package racingcar.dto;
 
 import java.time.LocalDateTime;
 
-public class RacingHistory {
+public class RacingHistoryDto {
+
+    private final long id;
     private final int trialCount;
     private final LocalDateTime playTime;
 
-    public RacingHistory(int trialCount, LocalDateTime playTime) {
+    public RacingHistoryDto(long id, int trialCount, LocalDateTime playTime) {
+        this.id = id;
         this.trialCount = trialCount;
         this.playTime = playTime;
     }
@@ -18,4 +21,9 @@ public class RacingHistory {
     public LocalDateTime getPlayTime() {
         return playTime;
     }
+
+    public long getId() {
+        return id;
+    }
+
 }

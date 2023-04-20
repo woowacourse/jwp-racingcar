@@ -1,11 +1,11 @@
-package racingcar.dao;
+package racingcar.dto;
 
-public class CarRecord {
+public class CarRecordDto {
     private final String name;
     private final int position;
     private final boolean isWinner;
 
-    public CarRecord(String name, int position, boolean isWinner) {
+    public CarRecordDto(String name, int position, boolean isWinner) {
         this.name = name;
         this.position = position;
         this.isWinner = isWinner;

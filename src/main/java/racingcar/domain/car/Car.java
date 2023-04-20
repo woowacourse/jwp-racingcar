@@ -1,18 +1,12 @@
 package racingcar.domain.car;
 
-import racingcar.domain.RandomNumberPicker;
-import racingcar.domain.race.NumberPicker;
-
 public class Car {
     private static final int LEAST_CONDITION = 4;
     private static final int MAX_NAME_LENGTH = 5;
-    private static final int ONE_STEP = 1;
+    private static final Position ONE_STEP = new Position(1);
 
     private final String name;
-    private final Position position;
-
-    private NumberPicker numberPicker = new RandomNumberPicker();
-
+    private Position position;
 
     public Car(String name) {
         validate(name);
@@ -25,12 +19,6 @@ public class Car {
         this.position = new Position(position);
     }
 
-    public Car(String name, NumberPicker numberPicker) {
-        this.name = name;
-        this.position = new Position();
-        this.numberPicker = numberPicker;
-    }
-
     public String getName() {
         return name;
     }
@@ -40,18 +28,19 @@ public class Car {
     }
 
     private void validate(String name) {
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("자동차 이름은 공백일 수 없습니다.");
-        }
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException("자동차의 이름은 다섯 글자 이하여야합니다.");
         }
     }
 
-    public void moveDependingOn() {
-        int pickedNumber = numberPicker.pickNumber();
-        if (pickedNumber >= LEAST_CONDITION) {
-            position.add(ONE_STEP);
+    public void moveDependingOn(int power) {
+        if (power >= LEAST_CONDITION) {
+            this.position = position.add(ONE_STEP);
         }
     }
+
+    public boolean isInSamePosition(Position other) {
+        return this.position.equals(other);
+    }
+
 }

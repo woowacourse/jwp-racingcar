@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
+import racingcar.dto.CarRecordDto;
 import racingcar.dto.ResultDto;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,4 +47,25 @@ class RacingGameServiceTest {
                 () -> assertThat(result.getWinners()).isNotEmpty()
         );
     }
+
+    @DisplayName("전체 누적 게임 결과를 조회한다.")
+    @Test
+    void findAllRacingGameResult() {
+        //given
+        given(racingHistoryDao.findAllIds()).willReturn(List.of(1L, 2L));
+        given(carRecordDao.findAllByRacingHistoryId(anyLong())).willReturn(
+                List.of(new CarRecordDto("Rosie", 5, true),
+                        new CarRecordDto("Baron", 3, false)));
+
+        //when
+        List<ResultDto> allGames = racingGameService.findAllGameHistories();
+
+        //then
+        assertAll(
+                () -> assertThat(allGames).hasSize(2),
+                () -> assertThat(allGames.get(0).getWinners()).isEqualTo("Rosie"),
+                () -> assertThat(allGames.get(0).getRacingCars()).hasSize(2)
+        );
+    }
+
 }

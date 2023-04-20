@@ -12,8 +12,12 @@ public class CarDto {
         this.position = position;
     }
 
-    public static CarDto from(Car car) {
+    public static CarDto fromCar(Car car) {
         return new CarDto(car.getName(), car.getPosition());
+    }
+
+    public static CarDto fromRecord(CarRecordDto carRecordDto) {
+        return new CarDto(carRecordDto.getName(), carRecordDto.getPosition());
     }
 
     public String getName() {
