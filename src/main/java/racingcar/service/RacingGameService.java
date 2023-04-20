@@ -11,6 +11,7 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RandomMoveChance;
 import racingcar.domain.TrialCount;
+import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
 
 @Service
@@ -40,16 +41,17 @@ public class RacingGameService {
     }
 
     public List<Car> winnerResponseDto(int gameNumber) {
-        List<Car> winnerNames = winnersDao.find(gameNumber);
-        return winnerNames;
+        return winnersDao.find(gameNumber);
     }
 
     public List<Integer> getGameNumbers() {
         return gameDao.getGameNumbers();
     }
 
-    public GameResponseDto play(Cars cars, int playCount) {
-        TrialCount trialCount = TrialCount.of(playCount);
+    public GameResponseDto play(GameRequestDto gameRequestDto) {
+        Cars cars = Cars.of(gameRequestDto.getNames());
+        TrialCount trialCount = TrialCount.of(gameRequestDto.getCount());
+
         int gameNumber = gameDao.saveGame(trialCount);
         playMultipleTimes(cars, trialCount);
         cars.saveGameLog(gameLogDao, gameNumber);

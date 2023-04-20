@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.Cars;
 import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingGameService;
@@ -24,8 +23,7 @@ public class SpringController {
 
     @PostMapping
     public ResponseEntity<GameResponseDto> postInput(@RequestBody GameRequestDto gameRequestDto) {
-        Cars cars = Cars.of(gameRequestDto.getNames());
-        GameResponseDto gameResponseDto = racingGameService.play(cars, gameRequestDto.getCount());
+        GameResponseDto gameResponseDto = racingGameService.play(gameRequestDto);
         return ResponseEntity.ok()
                 .body(gameResponseDto);
     }
