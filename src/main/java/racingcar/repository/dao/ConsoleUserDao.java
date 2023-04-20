@@ -10,11 +10,6 @@ public class ConsoleUserDao implements UserDao {
     }
 
     @Override
-    public UserEntity findById(final long id) {
-        return new UserEntity("");
-    }
-
-    @Override
     public UserEntity findByName(final String name) {
         return new UserEntity("");
     }

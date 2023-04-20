@@ -35,12 +35,6 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public UserEntity findById(final long id) {
-        final String sql = "SELECT id, name FROM users WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, actorRowMapper, id);
-    }
-
-    @Override
     public UserEntity findByName(final String name) {
         final String sql = "SELECT id, name FROM users WHERE name = ?";
         return jdbcTemplate.queryForObject(sql, actorRowMapper, name);
