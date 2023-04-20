@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import racingcar.domain.AttemptNumber;
 import racingcar.domain.Car;
@@ -55,11 +56,10 @@ public class RacingCarGameService {
         final Map<Long, Integer> positionByPlayerId = new HashMap<>();
 
         for (final Car car : cars) {
-            final long playerId = playerDao.save(new PlayerEntity(car.getName()));
-            final PlayerEntity playerEntity = playerDao.findById(playerId);
+            final PlayerEntity savedPlayerEntity = getSavedPlayerEntity(new PlayerEntity(car.getName()));
 
-            playerEntities.add(playerEntity);
-            positionByPlayerId.put(playerId, car.getPosition());
+            playerEntities.add(savedPlayerEntity);
+            positionByPlayerId.put(savedPlayerEntity.getId(), car.getPosition());
         }
 
         savePositions(positionByPlayerId, gameId);
@@ -73,6 +73,15 @@ public class RacingCarGameService {
         final int count = gameInitializationRequest.getCount();
 
         return new RacingCarGame(names, count, numberGenerator);
+    }
+
+    private PlayerEntity getSavedPlayerEntity(final PlayerEntity playerEntity) {
+        try {
+            return playerDao.findByName(playerEntity.getName());
+        } catch (EmptyResultDataAccessException e) {
+            final long userId = playerDao.save(playerEntity);
+            return new PlayerEntity(userId, playerEntity.getName());
+        }
     }
 
     private void savePositions(final Map<Long, Integer> positionByPlayerId, final long gameId) {
