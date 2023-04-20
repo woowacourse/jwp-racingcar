@@ -8,6 +8,7 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import racingcar.controller.RacingGameConsoleController;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
+import racingcar.service.RacingGameService;
 
 public class RacingCarConsoleApplication {
 

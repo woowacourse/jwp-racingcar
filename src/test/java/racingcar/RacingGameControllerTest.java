@@ -26,6 +26,7 @@ import racingcar.domain.car.Winners;
 import racingcar.domain.race.RacingCars;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.ResultDto;
+import racingcar.service.RacingGameService;
 
 @ExtendWith(MockitoExtension.class)
 class RacingGameControllerTest {

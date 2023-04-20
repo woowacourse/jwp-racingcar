@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -16,10 +16,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.dto.CarRecordDto;
 import racingcar.dao.CarRecordDao;
-import racingcar.dto.RacingHistoryDto;
 import racingcar.dao.RacingHistoryDao;
+import racingcar.dto.CarRecordDto;
+import racingcar.dto.RacingHistoryDto;
 import racingcar.dto.ResultDto;
 
 @ExtendWith(MockitoExtension.class)
