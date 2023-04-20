@@ -1,9 +1,8 @@
 package racingcar.domain;
 
-import java.util.ArrayList;
 import java.util.List;
-import racingcar.dto.CarStatusResponse;
-import racingcar.dto.GameResultResponse;
+import java.util.stream.Collectors;
+import racingcar.dto.RacingCarResponse;
 
 public class GameManager {
     private final NumberGenerator numberGenerator;
@@ -16,28 +15,32 @@ public class GameManager {
         this.numberGenerator = numberGenerator;
     }
 
-    public List<CarStatusResponse> playGameRound() {
+    public void play() {
+        while (isPlayable()) {
+            playGameRound();
+        }
+    }
+
+    private void playGameRound() {
         List<Car> currentCars = cars.getCars();
         for (Car car : currentCars) {
             car.move(numberGenerator.generateNumber());
         }
         gameRound.increaseRound();
-        return convertCarToCarStatus(currentCars);
     }
 
-    public boolean isEnd() {
-        return gameRound.isEnd();
+    private boolean isPlayable() {
+        return gameRound.isPlayable();
     }
 
-    public GameResultResponse decideWinner() {
-        return new GameResultResponse(cars.findWinnerNames());
+    public List<String> decideWinner() {
+        return cars.findWinnerNames();
     }
 
-    private List<CarStatusResponse> convertCarToCarStatus(List<Car> carsStatus) {
-        List<CarStatusResponse> roundResultCarStatus = new ArrayList<>();
-        for (Car car : carsStatus) {
-            roundResultCarStatus.add(new CarStatusResponse(car));
-        }
-        return roundResultCarStatus;
+    public List<RacingCarResponse> getResultCars() {
+        return cars.getCars()
+                .stream()
+                .map(it -> new RacingCarResponse(it.getName(), it.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
     }
 }

@@ -1,5 +1,7 @@
 package racingcar.service;
 
+import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import racingcar.dao.GameDao;
 import racingcar.dao.ParticipatesDao;
@@ -8,11 +10,11 @@ import racingcar.domain.Cars;
 import racingcar.domain.GameManager;
 import racingcar.domain.GameRound;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.dto.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import racingcar.dto.NamesAndCountRequest;
+import racingcar.dto.ParticipateDto;
+import racingcar.dto.PlayerDto;
+import racingcar.dto.RacingCarResponse;
+import racingcar.dto.ResultResponse;
 
 @Service
 public class RacingCarService {
@@ -32,28 +34,27 @@ public class RacingCarService {
         final GameRound gameRound = new GameRound(namesAndCount.getCount());
         final GameManager gameManager = new GameManager(cars, gameRound, new RandomNumberGenerator());
 
-        List<CarStatusResponse> carStatusResponses = new ArrayList<>();
-        while (!gameManager.isEnd()) {
-            carStatusResponses = gameManager.playGameRound();
-        }
+        gameManager.play();
 
-        List<String> winnerNames = gameManager.decideWinner().getWinnerNames();
-        saveGameAndPlayerAndParticipates(namesAndCount.getCount(), carStatusResponses, winnerNames);
-        return convertResultResponse(carStatusResponses, winnerNames);
+        final List<RacingCarResponse> racingCarResponses = gameManager.getResultCars();
+        List<String> winnerNames = gameManager.decideWinner();
+        saveGameAndPlayerAndParticipates(namesAndCount.getCount(), racingCarResponses, winnerNames);
+        return convertResultResponse(racingCarResponses, winnerNames);
     }
 
-    private ResultResponse convertResultResponse(final List<CarStatusResponse> carStatusResponses, final List<String> winnerNames) {
+    private ResultResponse convertResultResponse(final List<RacingCarResponse> racingCarResponses,
+                                                 final List<String> winnerNames) {
         String winners = convertWinners(winnerNames);
-        List<RacingCarResponse> racingCarResponses = convertRacingCars(carStatusResponses);
-
         return new ResultResponse(winners, racingCarResponses);
     }
 
-    private void saveGameAndPlayerAndParticipates(final int trialCount, final List<CarStatusResponse> carStatusResponses, final List<String> winnerNames) {
+    private void saveGameAndPlayerAndParticipates(final int trialCount,
+                                                  final List<RacingCarResponse> racingCarResponses,
+                                                  final List<String> winnerNames) {
         Long gameId = gameDao.save(trialCount);
-        for (CarStatusResponse carStatusResponse : carStatusResponses) {
-            String carName = carStatusResponse.getCarName();
-            int carPosition = carStatusResponse.getCarPosition();
+        for (RacingCarResponse racingCarResponse : racingCarResponses) {
+            String carName = racingCarResponse.getName();
+            int carPosition = racingCarResponse.getPosition();
             Long playerId = findOrSavePlayer(carName);
             ParticipateDto participateDto = convertParticipate(winnerNames, gameId, carName, carPosition, playerId);
             participatesDao.save(participateDto);
@@ -77,13 +78,5 @@ public class RacingCarService {
 
     private String convertWinners(final List<String> winnerNames) {
         return String.join(",", winnerNames);
-    }
-
-    private List<RacingCarResponse> convertRacingCars(final List<CarStatusResponse> carStatusResponses) {
-        List<RacingCarResponse> racingCarsResponses = new ArrayList<>();
-        for (CarStatusResponse carStatusResponse : carStatusResponses) {
-            racingCarsResponses.add(new RacingCarResponse(carStatusResponse.getCarName(), carStatusResponse.getCarPosition()));
-        }
-        return racingCarsResponses;
     }
 }

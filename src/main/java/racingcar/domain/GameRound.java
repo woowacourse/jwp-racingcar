@@ -13,7 +13,7 @@ public class GameRound {
         this.currRound++;
     }
 
-    public boolean isEnd() {
-        return this.currRound == this.totalRound;
+    public boolean isPlayable() {
+        return this.currRound != this.totalRound;
     }
 }
