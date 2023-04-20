@@ -3,7 +3,7 @@ package racingcar.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import racingcar.exception.NameIsOutOfBoundException;
+import racingcar.exception.ExceptionInformation;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,7 +17,8 @@ public class NameTest {
         //when
         //then
         assertThatThrownBy(() -> new Name(name))
-                .isInstanceOf(NameIsOutOfBoundException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ExceptionInformation.NAME_IS_OUT_OF_BOUND_EXCEPTION.getExceptionMessage());
     }
 
     @ParameterizedTest

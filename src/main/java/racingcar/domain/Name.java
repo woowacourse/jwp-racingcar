@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.NameIsOutOfBoundException;
+import racingcar.exception.ExceptionInformation;
 
 import java.util.Objects;
 
@@ -18,7 +18,7 @@ public class Name {
 
     private void validateLength(final String name) {
         if (isWrongLength(name)) {
-            throw new NameIsOutOfBoundException();
+            throw new IllegalArgumentException(ExceptionInformation.NAME_IS_OUT_OF_BOUND_EXCEPTION.getExceptionMessage());
         }
     }
 

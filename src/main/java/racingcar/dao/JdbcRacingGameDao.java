@@ -1,6 +1,5 @@
 package racingcar.dao;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -8,7 +7,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.PlayerSaveDto;
-import racingcar.exception.DatabaseAccessException;
 
 import java.util.List;
 
@@ -40,12 +38,9 @@ public class JdbcRacingGameDao implements RacingGameDao {
         final SqlParameterSource gameParameters = new MapSqlParameterSource("trialCount", trialCount);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        try {
-            jdbcTemplate.update(sql, gameParameters, keyHolder);
-            return (long) keyHolder.getKeys().get("id");
-        } catch (DataAccessException exception) {
-            throw new DatabaseAccessException();
-        }
+        jdbcTemplate.update(sql, gameParameters, keyHolder);
+        return (long) keyHolder.getKeys().get("id");
+
     }
 
     private void saveAllPlayers(final Long id, final List<PlayerSaveDto> playerSaveDtos) {
@@ -55,10 +50,7 @@ public class JdbcRacingGameDao implements RacingGameDao {
         final MapSqlParameterSource[] params = playerSaveDtos.stream()
                 .map(dto -> createParams(id, dto))
                 .toArray(MapSqlParameterSource[]::new);
-        try {
-            jdbcTemplate.batchUpdate(sql, params);
-        } catch (DatabaseAccessException exception) {
-            throw new DatabaseAccessException();
-        }
+
+        jdbcTemplate.batchUpdate(sql, params);
     }
 }

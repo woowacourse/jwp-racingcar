@@ -3,18 +3,14 @@ package racingcar.controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.RacingCars;
 import racingcar.dto.PostGameRequest;
 import racingcar.dto.PostGameResponse;
-import racingcar.dto.RacingCarDto;
-import racingcar.exception.CommaNotFoundException;
+import racingcar.exception.ExceptionInformation;
 import racingcar.service.RacingGameService;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.util.Collections.addAll;
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -40,7 +36,7 @@ public class RacingGameController {
 
     private void validateComma(final String names) {
         if (!names.contains(",")) {
-            throw new CommaNotFoundException();
+            throw new IllegalArgumentException(ExceptionInformation.COMMA_NOT_FOUND_EXCEPTION.getExceptionMessage());
         }
     }
 }

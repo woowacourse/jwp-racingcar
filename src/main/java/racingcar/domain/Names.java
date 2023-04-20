@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.CommaNotFoundException;
+import racingcar.exception.ExceptionInformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class Names {
 
     private static void validateComma(final String names) {
         if (!names.contains(COMMA)) {
-            throw new CommaNotFoundException();
+            throw new IllegalArgumentException(ExceptionInformation.COMMA_NOT_FOUND_EXCEPTION.getExceptionMessage());
         }
     }
 

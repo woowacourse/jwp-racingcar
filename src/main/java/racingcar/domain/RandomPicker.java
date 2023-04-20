@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.CannotCreateRandomException;
+import racingcar.exception.ExceptionInformation;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -17,7 +17,7 @@ public class RandomPicker implements Pickable {
             random = SecureRandom.getInstanceStrong();
         } catch (NoSuchAlgorithmException e) {
             System.out.println(e.getMessage());
-            throw new CannotCreateRandomException();
+            throw new IllegalArgumentException(ExceptionInformation.CANNOT_CREATE_RANDOM_EXCEPTION.getExceptionMessage());
         }
     }
 
