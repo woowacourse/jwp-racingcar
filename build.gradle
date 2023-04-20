@@ -16,6 +16,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'io.rest-assured:rest-assured:4.4.0'
+	testImplementation 'org.mockito:mockito-inline:4.6.1'
 }
 
 tasks.named('test') {
