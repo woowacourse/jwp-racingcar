@@ -1,14 +1,14 @@
 package racingcar.dto;
 
-public class RequestDto {
+public class NamesAndCountDto {
 
     private String names;
     private int count;
 
-    private RequestDto() {
+    private NamesAndCountDto() {
     }
 
-    public RequestDto(final String names, final int count) {
+    public NamesAndCountDto(final String names, final int count) {
         this.names = names;
         this.count = count;
     }

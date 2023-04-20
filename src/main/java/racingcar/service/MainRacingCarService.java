@@ -5,9 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import racingcar.dto.CarDto;
-import racingcar.dto.RequestDto;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.NamesAndCountDto;
+import racingcar.dto.WinnersAndCarsDto;
 
 @Service
 public class MainRacingCarService {
@@ -24,20 +23,20 @@ public class MainRacingCarService {
         this.saveRacingCarResultService = saveRacingCarResultService;
     }
 
-    public List<ResponseDto> findAllRecords() {
+    public List<WinnersAndCarsDto> findAllRecords() {
         final List<RacingCarResult> racingCarResults = findRecordService.findAllRecords();
         return racingCarResults.stream()
-            .map(racingCarResult -> new ResponseDto(racingCarResult.getWinners(), CarDto.from(racingCarResult.getCars())))
+            .map(WinnersAndCarsDto::from)
             .collect(Collectors.toList());
     }
 
-    public ResponseDto raceCar(final RequestDto requestDto) {
-        final List<String> names = List.of(requestDto.getNames().split(","));
-        final int count = requestDto.getCount();
+    public WinnersAndCarsDto raceCar(final NamesAndCountDto namesAndCountDto) {
+        final List<String> names = List.of(namesAndCountDto.getNames().split(","));
+        final int count = namesAndCountDto.getCount();
 
         final RacingCarResult racingCarResult = playRacingCarService.playRacingCar(names, count);
         saveRacingCarResultService.saveRacingCarResult(racingCarResult);
 
-        return new ResponseDto(racingCarResult.getWinners(), CarDto.from(racingCarResult.getCars()));
+        return WinnersAndCarsDto.from(racingCarResult);
     }
 }

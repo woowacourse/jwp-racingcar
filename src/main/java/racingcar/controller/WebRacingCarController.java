@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import racingcar.dto.RequestDto;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.NamesAndCountDto;
+import racingcar.dto.WinnersAndCarsDto;
 import racingcar.service.MainRacingCarService;
 
 @RestController
@@ -24,14 +24,14 @@ public class WebRacingCarController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponseDto>> findAllRecords() {
-        final List<ResponseDto> records = mainRacingCarService.findAllRecords();
+    public ResponseEntity<List<WinnersAndCarsDto>> findAllRecords() {
+        final List<WinnersAndCarsDto> records = mainRacingCarService.findAllRecords();
         return ResponseEntity.ok().body(records);
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDto> playRacingCar(@RequestBody RequestDto requestDto) {
-        final ResponseDto responseDto = mainRacingCarService.raceCar(requestDto);
-        return ResponseEntity.ok().body(responseDto);
+    public ResponseEntity<WinnersAndCarsDto> playRacingCar(@RequestBody NamesAndCountDto namesAndCountDto) {
+        final WinnersAndCarsDto winnersAndCarsDto = mainRacingCarService.raceCar(namesAndCountDto);
+        return ResponseEntity.ok().body(winnersAndCarsDto);
     }
 }

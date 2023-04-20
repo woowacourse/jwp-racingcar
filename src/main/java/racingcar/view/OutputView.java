@@ -3,17 +3,17 @@ package racingcar.view;
 import java.util.List;
 
 import racingcar.dto.CarDto;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.WinnersAndCarsDto;
 
 public class OutputView {
 
     private static final String RESULT_MESSAGE = "실행 결과";
 
-    public static void printResult(final ResponseDto responseDto) {
+    public static void printResult(final WinnersAndCarsDto winnersAndCarsDto) {
         System.out.println(RESULT_MESSAGE);
-        String winners = responseDto.getWinners();
+        String winners = winnersAndCarsDto.getWinners();
         System.out.println("winners: " + winners);
-        List<CarDto> carDtos = responseDto.getRacingCars();
+        List<CarDto> carDtos = winnersAndCarsDto.getRacingCars();
         System.out.println("racingCars: ");
         carDtos.forEach(System.out::println);
     }

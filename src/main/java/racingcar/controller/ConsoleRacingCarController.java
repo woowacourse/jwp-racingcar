@@ -2,8 +2,8 @@ package racingcar.controller;
 
 import java.io.IOException;
 
-import racingcar.dto.RequestDto;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.NamesAndCountDto;
+import racingcar.dto.WinnersAndCarsDto;
 import racingcar.service.MainRacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -20,9 +20,9 @@ public class ConsoleRacingCarController {
         try {
             String names = InputView.readCarNames();
             int attempt = InputView.readAttemptNumber();
-            RequestDto requestDto = new RequestDto(names, attempt);
-            ResponseDto responseDto = mainRacingCarService.raceCar(requestDto);
-            OutputView.printResult(responseDto);
+            NamesAndCountDto namesAndCountDto = new NamesAndCountDto(names, attempt);
+            WinnersAndCarsDto winnersAndCarsDto = mainRacingCarService.raceCar(namesAndCountDto);
+            OutputView.printResult(winnersAndCarsDto);
         } catch (IllegalArgumentException | IOException e) {
             System.out.println(e.getMessage());
             run();
