@@ -44,8 +44,8 @@ public class PlayerResultDao {
 
     public List<GetPlayerResultQueryResponseDto> getAll() {
         final String sql = "select game.id, game.winners, player_result.name, player_result.final_position" +
-                "from game, player_result" +
-                "where game.id = player_result.game_id";
+                " from game, player_result" +
+                " where game.id = player_result.game_id";
         return jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new GetPlayerResultQueryResponseDto(
