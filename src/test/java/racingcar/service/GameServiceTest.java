@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import racingcar.domain.Cars;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
 import racingcar.repository.GameDao;
@@ -46,11 +49,19 @@ public class GameServiceTest {
         given(playerResultDao.save(any()))
                 .willReturn(new PlayerResult(2, new PlayerResult("leo", 3, game.getId())));
 
+        Cars cars = new Cars(requestDto.getNames());
+        GameResponseDto responseExpected = GameResponseDto.createByDomain(game.getWinners(), cars);
+
         // when
-        GameResponseDto gameResponseDto = gameService.createGameResult(requestDto);
+        GameResponseDto responseActually;
+        try (MockedStatic<GameRunner> utilities = Mockito.mockStatic(GameRunner.class)) {
+            utilities.when(() -> GameRunner.race(any(), any(), any()))
+                    .thenReturn(responseExpected);
+            responseActually = gameService.createGameResult(requestDto);
+        }
 
         // then
-        assertThat(gameResponseDto.getWinners()).isEqualTo(game.getWinners());
+        assertThat(responseActually.getWinners()).isEqualTo(responseExpected.getWinners());
     }
 
     @Test
