@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import racingcar.dto.GameResponse;
+import racingcar.dto.GameResponseDto;
 import racingcar.dto.PlayerDto;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class OutputView {
         System.out.println(RESULT_MESSAGE);
     }
 
-    public void printResult(final GameResponse gameResponse) {
+    public void printResult(final GameResponseDto gameResponse) {
         printWinnersMessage(gameResponse.getWinners());
 
         System.out.println(generatePositionMessages(gameResponse.getRacingCars()) + POSITION_MESSAGE_DELIMITER);

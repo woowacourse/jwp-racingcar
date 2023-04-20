@@ -6,8 +6,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import racingcar.domain.NumberGenerator;
-import racingcar.dto.GameRequest;
-import racingcar.dto.GameResponse;
+import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
 import racingcar.repositiory.RacingGameRepository;
 import racingcar.utils.TestNumberGenerator;
 
@@ -29,10 +29,10 @@ class RacingGameServiceTest {
                 numberGenerator,
                 racingGameRepository
         );
-        final GameRequest gameRequest = new GameRequest(List.of("브리", "비버", "허브"), 1);
+        final GameRequestDto gameRequest = new GameRequestDto(List.of("브리", "비버", "허브"), 1);
 
         // when
-        final GameResponse gameResponse = racingGameService.play(gameRequest);
+        final GameResponseDto gameResponse = racingGameService.play(gameRequest);
 
         // then
         assertAll(

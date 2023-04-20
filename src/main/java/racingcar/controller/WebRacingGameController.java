@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.GameRequest;
-import racingcar.dto.GameResponse;
+import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingGameService;
 
 import javax.validation.Valid;
@@ -20,12 +20,12 @@ public class WebRacingGameController {
     }
 
     @PostMapping("/plays")
-    public GameResponse plays(@RequestBody @Valid final GameRequest gameRequest) {
+    public GameResponseDto plays(@RequestBody @Valid final GameRequestDto gameRequest) {
         return racingGameService.play(gameRequest);
     }
 
     @GetMapping("/plays")
-    public List<GameResponse> findAll() {
+    public List<GameResponseDto> findAll() {
         return racingGameService.findAll();
     }
 }

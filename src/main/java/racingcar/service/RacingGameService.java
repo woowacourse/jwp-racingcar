@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
-import racingcar.dto.GameRequest;
-import racingcar.dto.GameResponse;
+import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
 import racingcar.entity.Player;
 import racingcar.repositiory.RacingGameRepository;
 
@@ -23,22 +23,22 @@ public class RacingGameService {
     }
 
     @Transactional
-    public GameResponse play(final GameRequest gameRequest) {
+    public GameResponseDto play(final GameRequestDto gameRequest) {
         final RacingGame racingGame = playRacingGame(gameRequest);
 
         racingGameRepository.save(racingGame);
 
-        return GameResponse.of(racingGame.findWinners(), racingGame.findCurrentCarPositions());
+        return GameResponseDto.of(racingGame.findWinners(), racingGame.findCurrentCarPositions());
     }
 
     @Transactional(readOnly = true)
-    public List<GameResponse> findAll() {
+    public List<GameResponseDto> findAll() {
         List<Player> players = racingGameRepository.findAll();
 
-        return GameResponse.toGamePlayResponse(players);
+        return GameResponseDto.toGamePlayResponse(players);
     }
 
-    private RacingGame playRacingGame(final GameRequest gameRequest) {
+    private RacingGame playRacingGame(final GameRequestDto gameRequest) {
         final RacingGame racingGame = new RacingGame(numberGenerator, gameRequest.getNames(), gameRequest.getCount());
 
         racingGame.play();

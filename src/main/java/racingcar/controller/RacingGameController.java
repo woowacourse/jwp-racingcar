@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.dto.GameRequest;
-import racingcar.dto.GameResponse;
+import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -31,19 +31,19 @@ public class RacingGameController {
     }
 
     public void run() {
-        GameResponse responses = racingGameService.play(initialize());
+        GameResponseDto responses = racingGameService.play(initialize());
 
         printResult(responses);
     }
 
-    private GameRequest initialize() {
+    private GameRequestDto initialize() {
         List<String> carNames = retry(inputView::readCarNames);
         int count = retry(inputView::readCount);
 
-        return new GameRequest(carNames, count);
+        return new GameRequestDto(carNames, count);
     }
 
-    private void printResult(final GameResponse responses) {
+    private void printResult(final GameResponseDto responses) {
         outputView.printResultMessage();
         outputView.printResult(responses);
     }
