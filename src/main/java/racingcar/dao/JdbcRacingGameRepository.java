@@ -28,29 +28,10 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
 
     @Override
     public List<RacingGameFindDto> findAll() {
-        List<GameFindDto> gameFindDtos = gameDao.findAll();
-//        return gameFindDtos.stream()
-//                .map(gameFindDto -> playerDao.findById(gameFindDto.getId()))
-//                .map(playerFindDtos ->
-//                        new OneGameHistoryDto(generateWinners(playerFindDtos), generateRacingCarDtos(playerFindDtos)))
-//                .collect(Collectors.toList());
+        final List<GameFindDto> gameFindDtos = gameDao.findAll();
         return gameFindDtos.stream()
                 .map(gameFindDto -> new RacingGameFindDto(gameFindDto, playerDao.findById(gameFindDto.getId())))
                 .collect(Collectors.toList());
 
     }
-
-    private String generateWinners(List<PlayerFindDto> playerFindDtos) {
-        return playerFindDtos.stream()
-                .filter(PlayerFindDto::getIsWinner)
-                .map(PlayerFindDto::getName)
-                .collect(Collectors.joining(","));
-    }
-
-    private List<RacingCarDto> generateRacingCarDtos(List<PlayerFindDto> playerFindDtos) {
-        return playerFindDtos.stream()
-                .map(playerFindDto -> new RacingCarDto(playerFindDto.getName(), playerFindDto.getPosition()))
-                .collect(Collectors.toList());
-    }
-
 }

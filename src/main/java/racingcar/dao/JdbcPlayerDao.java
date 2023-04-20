@@ -29,8 +29,8 @@ public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao{
 
     @Override
     public List<PlayerFindDto> findById(long gameId) {
-        String sql = "select id, game_id, name, position, is_winner from Player where game_id = :game_id";
-        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("game_id", gameId);
+        final String sql = "select id, game_id, name, position, is_winner from Player where game_id = :game_id";
+        final MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("game_id", gameId);
         return jdbcTemplate.query(sql, sqlParameterSource,
                 (resultSet, rowNum) -> new PlayerFindDto(
                         resultSet.getLong("id"),

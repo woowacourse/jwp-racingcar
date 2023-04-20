@@ -22,7 +22,7 @@ class JdbcGameDao extends JdbcTemplateDao implements GameDao{
         final String sql = "insert into Game (trial_count) values (:trialCount)";
         final SqlParameterSource gameParameters = new MapSqlParameterSource("trialCount", trialCount);
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+        final KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, gameParameters, keyHolder);
         return (long) keyHolder.getKeys().get("id");
     }

@@ -3,11 +3,10 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import racingcar.dao.RacingGameRepository;
 import racingcar.domain.*;
-import racingcar.dto.PlayerSaveDto;
-import racingcar.dto.OneGameHistoryDto;
-import racingcar.dto.RacingCarDto;
+import racingcar.dto.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,7 +26,7 @@ public class RacingGameService {
 
         saveRacingCars(inputCount, racingCars);
 
-        return generatePostGameResponse(racingCars);
+        return generateOneGameHistoryDto(racingCars);
     }
 
     private List<Name> generateNames(final List<String> inputNames) {
@@ -54,7 +53,7 @@ public class RacingGameService {
         return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 
-    private OneGameHistoryDto generatePostGameResponse(RacingCars racingCars) {
+    private OneGameHistoryDto generateOneGameHistoryDto(RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
         final String winnerName = String.join(", ", winnerNames);
 
@@ -62,5 +61,31 @@ public class RacingGameService {
                 .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
                 .collect(toList());
         return new OneGameHistoryDto(winnerName, racingCarsDto);
+    }
+
+    public AllGameHistoryDto findRacingGameHistory() {
+        final List<RacingGameFindDto> racingGameFindDtos = racingGameRepository.findAll();
+        final List<OneGameHistoryDto> oneGameHistoryDtos = generateOneGameHistoryDtos(racingGameFindDtos);
+        return new AllGameHistoryDto(oneGameHistoryDtos);
+    }
+
+    private List<OneGameHistoryDto> generateOneGameHistoryDtos(List<RacingGameFindDto> racingGameFindDtos) {
+        return racingGameFindDtos.stream()
+                .map(RacingGameFindDto::getPlayerFindDtos)
+                .map(playerFindDtos -> new OneGameHistoryDto(generateWinners(playerFindDtos), generateRacingCarDtos(playerFindDtos)))
+                .collect(toList());
+    }
+
+    private String generateWinners(List<PlayerFindDto> playerFindDtos) {
+        return playerFindDtos.stream()
+                .filter(PlayerFindDto::getIsWinner)
+                .map(PlayerFindDto::getName)
+                .collect(Collectors.joining(","));
+    }
+
+    private List<RacingCarDto> generateRacingCarDtos(List<PlayerFindDto> playerFindDtos) {
+        return playerFindDtos.stream()
+                .map(playerFindDto -> new RacingCarDto(playerFindDto.getName(), playerFindDto.getPosition()))
+                .collect(Collectors.toList());
     }
 }
