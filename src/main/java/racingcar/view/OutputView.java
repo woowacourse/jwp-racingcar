@@ -1,9 +1,8 @@
 package racingcar.view;
 
-import racingcar.domain.Car;
+import racingcar.dto.response.RacingCarResponse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OutputView {
 
@@ -15,17 +14,13 @@ public class OutputView {
         System.out.println(RESULT_MESSAGE);
     }
 
-    public void printFinalResult(List<Car> winners) {
-        String winnerNames = winners.stream()
-                .map(car -> car.getName())
-                .collect(Collectors.joining(","));
-
-        System.out.print(winnerNames + WINNER_MESSAGE_FORMAT);
+    public void printFinalResult(String winners) {
+        System.out.print(winners + WINNER_MESSAGE_FORMAT);
     }
 
-    public void printDistanceResult(List<Car> cars) {
-        for (Car car : cars) {
-            System.out.printf(DISTANCE_RESULT_FORMAT, car.getName(), car.getPosition());
+    public void printDistanceResult(List<RacingCarResponse> racingCarResponses) {
+        for (RacingCarResponse racingCarResponse : racingCarResponses) {
+            System.out.printf(DISTANCE_RESULT_FORMAT, racingCarResponse.getName(), racingCarResponse.getPosition());
         }
     }
 }

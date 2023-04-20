@@ -9,19 +9,19 @@ import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.request.RacingStartRequest;
 import racingcar.dto.response.RacingCarResponse;
 import racingcar.dto.response.RacingResultResponse;
-import racingcar.repository.WebRacingCarRepository;
+import racingcar.repository.RacingCarRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class WebRacingCarService {
+public class RacingCarService {
 
-    private final WebRacingCarRepository webRacingCarRepository;
+    private final RacingCarRepository racingCarRepository;
 
-    public WebRacingCarService(WebRacingCarRepository webRacingCarRepository) {
-        this.webRacingCarRepository = webRacingCarRepository;
+    public RacingCarService(RacingCarRepository racingCarRepository) {
+        this.racingCarRepository = racingCarRepository;
     }
 
     public RacingResultResponse play(RacingStartRequest racingStartRequest) {
@@ -50,7 +50,7 @@ public class WebRacingCarService {
     }
 
     private void saveGameResult(RacingGame racingGame) {
-        webRacingCarRepository.saveRacingGame(racingGame);
+        racingCarRepository.saveRacingGame(racingGame);
     }
 
     private RacingResultResponse createRacingResultResponse(RacingGame racingGame) {
@@ -63,7 +63,7 @@ public class WebRacingCarService {
     public List<RacingResultResponse> inquireHistory() {
         List<RacingResultResponse> racingResultResponses = new ArrayList<>();
 
-        for (RacingGame racingGame : webRacingCarRepository.findAllEndedRacingGame()) {
+        for (RacingGame racingGame : racingCarRepository.findAllEndedRacingGame()) {
             racingResultResponses.add(new RacingResultResponse(
                     getWinners(racingGame),
                     getRacingCarResponses(racingGame)));

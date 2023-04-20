@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.request.RacingStartRequest;
 import racingcar.dto.response.RacingResultResponse;
-import racingcar.service.WebRacingCarService;
+import racingcar.service.RacingCarService;
 
 import java.util.List;
 
 @RestController
 public class WebRacingCarController {
 
-    private final WebRacingCarService webRacingCarService;
+    private final RacingCarService webRacingCarService;
 
-    public WebRacingCarController(WebRacingCarService webRacingCarService) {
+    public WebRacingCarController(RacingCarService webRacingCarService) {
         this.webRacingCarService = webRacingCarService;
     }
 

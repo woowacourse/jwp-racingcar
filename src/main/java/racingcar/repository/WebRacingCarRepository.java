@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class WebRacingCarRepository {
+public class WebRacingCarRepository implements RacingCarRepository{
 
     private final RacingGameDao racingGameDao;
     private final CarDao carDao;
@@ -25,6 +25,7 @@ public class WebRacingCarRepository {
         this.carDao = carDao;
     }
 
+    @Override
     public void saveRacingGame(RacingGame racingGame) {
         RacingGameEntity racingGameEntity = EntityMapper.toRacingGameEntity(racingGame);
         int gameId = racingGameDao.save(racingGameEntity);
@@ -33,6 +34,7 @@ public class WebRacingCarRepository {
         carDao.saveAll(carEntities);
     }
 
+    @Override
     public List<RacingGame> findAllEndedRacingGame() {
         List<RacingGameEntity> endedRacingGameEntities = racingGameDao.findEndedRacingGameEntities();
         List<CarEntity> endedCarEntities = carDao.findEndedCars();

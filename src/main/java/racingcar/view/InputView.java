@@ -21,10 +21,9 @@ public class InputView {
         this.scanner = scanner;
     }
 
-    public List<String> readCarNames() {
+    public String readCarNames() {
         System.out.println(READ_CARS_NAME_MESSAGE);
-
-        return Arrays.asList(scanner.nextLine().trim().split(","));
+        return scanner.nextLine();
     }
 
     public int readRacingRound() {
