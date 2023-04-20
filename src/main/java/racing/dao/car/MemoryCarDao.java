@@ -9,7 +9,7 @@ import racing.dto.CarDto;
 
 public class MemoryCarDao implements CarDao {
 
-    private static int carId = 0;
+    private static int carId = 1;
     private static final Map<Integer, CarDto> cars = new LinkedHashMap<>();
 
     @Override

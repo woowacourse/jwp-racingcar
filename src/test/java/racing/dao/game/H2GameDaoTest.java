@@ -32,7 +32,7 @@ class H2GameDaoTest {
                 final int count = rs.getInt("play_count");
                 return new GameDto(count);
             });
-        
+
         //then
         Assertions.assertThat(games).hasSize(1);
         Assertions.assertThat(games.get(0).getCount()).isEqualTo(6);
@@ -47,7 +47,7 @@ class H2GameDaoTest {
         h2GameDao.insert(new Game("6"));
 
         //when
-        final List<Integer> allId = h2GameDao.getAllId();
+        final List<Integer> allId = h2GameDao.getAllGameId();
 
         //then
         Assertions.assertThat(allId).containsExactly(1, 2);

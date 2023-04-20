@@ -20,7 +20,7 @@ public class MemoryGameDao implements GameDao {
     }
 
     @Override
-    public List<Integer> getAllId() {
+    public List<Integer> getAllGameId() {
         return List.copyOf(games.keySet());
     }
 }

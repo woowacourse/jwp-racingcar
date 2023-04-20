@@ -30,7 +30,7 @@ public class H2GameDao implements GameDao {
 
 
     @Override
-    public List<Integer> getAllId() {
+    public List<Integer> getAllGameId() {
         final String sql = "SELECT id FROM GAME";
         return namedParameterJdbcTemplate.query(sql, (rs, rowNum) -> rs.getInt("id"));
     }

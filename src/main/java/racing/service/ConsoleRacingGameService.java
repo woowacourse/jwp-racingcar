@@ -33,7 +33,7 @@ public class ConsoleRacingGameService implements RacingGameService {
 
     @Override
     public List<GameResultDto> showGames() {
-        final List<Integer> allId = gameDao.getAllId();
+        final List<Integer> allId = gameDao.getAllGameId();
         return allId.stream()
             .map(gameId -> {
                 final List<CarDto> carsInGame = carDao.findByGameId(gameId);

@@ -10,7 +10,7 @@ public class GameResultDto {
     private final String winners;
 
     public GameResultDto(final Game game) {
-        this.racingCars = carsInit(game);
+        this.racingCars = initCarDtosUsingGame(game);
         this.winners = getWinners(this.racingCars).stream()
             .map(CarDto::getName)
             .collect(Collectors.joining(","));
@@ -23,7 +23,7 @@ public class GameResultDto {
             .collect(Collectors.joining(","));
     }
 
-    private List<CarDto> carsInit(final Game game) {
+    private List<CarDto> initCarDtosUsingGame(final Game game) {
         return game.getCars().stream()
             .map(CarDto::new)
             .collect(Collectors.toUnmodifiableList());

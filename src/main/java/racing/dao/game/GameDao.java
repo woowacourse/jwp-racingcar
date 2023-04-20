@@ -7,5 +7,5 @@ public interface GameDao {
 
     int insert(final Game game);
 
-    List<Integer> getAllId();
+    List<Integer> getAllGameId();
 }
