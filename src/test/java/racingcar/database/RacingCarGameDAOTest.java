@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,9 +23,8 @@ class RacingCarGameDAOTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
-    @Qualifier("gameDAO")
     @Autowired
-    private GameDAO gameDao;
+    private GameDAO racingCarGameDAO;
     
     @Test
     @DisplayName("insert - 게임 횟수와 우승자 이름을 받아서 DB에 저장한다.")
@@ -41,8 +39,8 @@ class RacingCarGameDAOTest {
         final int beforeCount = this.jdbcTemplate.queryForObject(sql, Integer.class, trialCount, winners);
         
         //when
-        this.gameDao.insert(trialCount, gameResult);
-        this.gameDao.insert(trialCount, gameResult);
+        this.racingCarGameDAO.insert(trialCount, gameResult);
+        this.racingCarGameDAO.insert(trialCount, gameResult);
         
         //then
         final int afterCount = this.jdbcTemplate.queryForObject(sql, Integer.class, trialCount, winners);
@@ -59,8 +57,8 @@ class RacingCarGameDAOTest {
         final RacingCarGameResult gameResult = RacingCarGameResult.create(List.of(echo), List.of(echo, io));
         
         //when
-        final int firstKey = this.gameDao.insert(trialCount, gameResult);
-        final int secondKey = this.gameDao.insert(trialCount, gameResult);
+        final int firstKey = this.racingCarGameDAO.insert(trialCount, gameResult);
+        final int secondKey = this.racingCarGameDAO.insert(trialCount, gameResult);
         
         //then
         Assertions.assertThat(secondKey - firstKey).isEqualTo(1);
@@ -74,10 +72,10 @@ class RacingCarGameDAOTest {
         final Car echo = RacingCar.create("echo", 1);
         final Car io = RacingCar.create("io", 0);
         final RacingCarGameResult gameResult = RacingCarGameResult.create(List.of(echo), List.of(echo, io));
-        final int gameId = this.gameDao.insert(trialCount, gameResult);
+        final int gameId = this.racingCarGameDAO.insert(trialCount, gameResult);
         
         //when
-        final GameResult gameResultFromDB = this.gameDao.find(gameId);
+        final GameResult gameResultFromDB = this.racingCarGameDAO.find(gameId);
         
         //then
         Assertions.assertThat(gameResultFromDB.getWinners()).isEqualTo(gameResult.getWinners());
@@ -93,11 +91,11 @@ class RacingCarGameDAOTest {
         final Car echo = RacingCar.create("echo", 1);
         final Car io = RacingCar.create("io", 0);
         final RacingCarGameResult gameResult = RacingCarGameResult.create(List.of(echo), List.of(echo, io));
-        this.gameDao.insert(trialCount, gameResult);
-        this.gameDao.insert(trialCount, gameResult);
+        this.racingCarGameDAO.insert(trialCount, gameResult);
+        this.racingCarGameDAO.insert(trialCount, gameResult);
         
         //when
-        final List<GameResult> gameResults = this.gameDao.findAll();
+        final List<GameResult> gameResults = this.racingCarGameDAO.findAll();
         
         //then
         Assertions.assertThat(gameResults.size()).isEqualTo(2);

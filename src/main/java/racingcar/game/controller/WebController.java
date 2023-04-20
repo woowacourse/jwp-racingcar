@@ -2,6 +2,7 @@ package racingcar.game.controller;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,5 +30,10 @@ public class WebController {
     public ResponseEntity<List<GameResponseDTO>> retrieveAllGames() {
         final List<GameResponseDTO> gameResponseDTOs = this.racingCarGameService.retrieveAllGames();
         return ResponseEntity.ok().body(gameResponseDTOs);
+    }
+    
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handle(final IllegalArgumentException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 }
