@@ -24,12 +24,8 @@ public class RacingCarConsoleController {
         String carNames = inputCarNames();
         int count = inputTryCount();
         RacingCarGameRequestDto racingCarGameRequestDto = new RacingCarGameRequestDto(carNames, count);
-
         RacingCarGameResultResponseDto result = racingCarService.play(racingCarGameRequestDto);
-
-        outputView.resultMessage();
-        outputView.printWinners(result.getWinners());
-        outputView.printStatus(result.getRacingCars());
+        outputView.printResult(result);
     }
 
     private String inputCarNames() {
