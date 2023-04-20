@@ -59,13 +59,13 @@ class RacingHistoryDaoTest {
         Long savedId2 = racingHistoryDao.save(trialCount, playTime);
 
         //when
-        List<RacingHistoryDto> racingHistories = racingHistoryDao.findAll();
+        List<Long> racingHistories = racingHistoryDao.findAllIds();
 
         //then
         assertAll(
                 () -> assertThat(racingHistories).hasSize(2),
-                () -> assertThat(racingHistories.get(0).getId()).isEqualTo(savedId1),
-                () -> assertThat(racingHistories.get(1).getId()).isEqualTo(savedId2)
+                () -> assertThat(racingHistories.get(0)).isEqualTo(savedId1),
+                () -> assertThat(racingHistories.get(1)).isEqualTo(savedId2)
         );
     }
 

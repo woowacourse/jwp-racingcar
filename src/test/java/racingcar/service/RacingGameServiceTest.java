@@ -8,7 +8,6 @@ import static org.mockito.BDDMockito.anyInt;
 import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.given;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dao.CarRecordDao;
 import racingcar.dao.RacingHistoryDao;
 import racingcar.dto.CarRecordDto;
-import racingcar.dto.RacingHistoryDto;
 import racingcar.dto.ResultDto;
 
 @ExtendWith(MockitoExtension.class)
@@ -54,11 +52,10 @@ class RacingGameServiceTest {
     @Test
     void findAllRacingGameResult() {
         //given
-        LocalDateTime time = LocalDateTime.of(2023, 4, 17, 15, 54, 55);
-        given(racingHistoryDao.findAll()).willReturn(
-                List.of(new RacingHistoryDto(1, 10, time), new RacingHistoryDto(2, 10, time)));
+        given(racingHistoryDao.findAllIds()).willReturn(List.of(1L, 2L));
         given(carRecordDao.findAllByRacingHistoryId(anyLong())).willReturn(
-                List.of(new CarRecordDto("Rosie", 5, true), new CarRecordDto("Baron", 3, false)));
+                List.of(new CarRecordDto("Rosie", 5, true),
+                        new CarRecordDto("Baron", 3, false)));
 
         //when
         List<ResultDto> allGames = racingGameService.findAllGameHistories();

@@ -10,7 +10,6 @@ import racingcar.domain.car.Car;
 import racingcar.domain.car.Winners;
 import racingcar.domain.race.RacingGame;
 import racingcar.dto.CarRecordDto;
-import racingcar.dto.RacingHistoryDto;
 import racingcar.dto.ResultDto;
 
 @Service
@@ -40,16 +39,16 @@ public class RacingGameService {
     }
 
     public List<ResultDto> findAllGameHistories() {
-        List<RacingHistoryDto> racingHistories = racingHistoryDao.findAll();
-        List<List<CarRecordDto>> carRecords = findAllCarRecordsInHistory(racingHistories);
+        List<Long> racingHistoryIds = racingHistoryDao.findAllIds();
+        List<List<CarRecordDto>> carRecords = findAllCarRecordsInHistory(racingHistoryIds);
         return carRecords.stream()
                 .map(ResultDto::fromRecords)
                 .collect(Collectors.toList());
     }
 
-    private List<List<CarRecordDto>> findAllCarRecordsInHistory(List<RacingHistoryDto> racingHistories) {
-        return racingHistories.stream()
-                .map(history -> carRecordDao.findAllByRacingHistoryId(history.getId()))
+    private List<List<CarRecordDto>> findAllCarRecordsInHistory(List<Long> racingHistoryIds) {
+        return racingHistoryIds.stream()
+                .map(carRecordDao::findAllByRacingHistoryId)
                 .collect(Collectors.toList());
     }
 
