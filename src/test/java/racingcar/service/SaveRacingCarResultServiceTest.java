@@ -117,7 +117,7 @@ class SaveRacingCarResultServiceTest {
         final List<WinnerEntity> winnerEntities = winnerDao.findByGameId(FIRST_GAME_ID);
         final WinnerEntity winnerEntity = winnerEntities.get(0);
 
-        final long modiUserId = winnerEntity.getUserId();
+        final long modiUserId = winnerEntity.getUsersId();
         final UserEntity modiEntity = userDao.findById(modiUserId);
 
         assertThat(modiEntity.getName()).isEqualTo(modi);

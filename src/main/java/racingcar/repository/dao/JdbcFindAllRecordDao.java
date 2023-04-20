@@ -2,6 +2,8 @@ package racingcar.repository.dao;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,15 +14,14 @@ import racingcar.repository.entity.Record;
 public class JdbcFindAllRecordDao implements FindAllRecordsDao {
 
     private final JdbcTemplate jdbcTemplate;
-
     private final RowMapper<Record> actorRowMapper = (resultSet, rowNum) -> new Record(
         resultSet.getLong("game_id"),
         resultSet.getString("name"),
         resultSet.getInt("position")
     );
 
-    public JdbcFindAllRecordDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcFindAllRecordDao(final DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override

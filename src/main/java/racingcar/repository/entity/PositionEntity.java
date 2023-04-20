@@ -26,7 +26,7 @@ public class PositionEntity {
         return gameId;
     }
 
-    public long getUserId() {
+    public long getUsersId() {
         return userId;
     }
 

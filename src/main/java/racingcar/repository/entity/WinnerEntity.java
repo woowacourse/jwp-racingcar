@@ -24,7 +24,7 @@ public class WinnerEntity {
         return gameId;
     }
 
-    public long getUserId() {
+    public long getUsersId() {
         return userId;
     }
 }

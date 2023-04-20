@@ -1,15 +1,14 @@
 package racingcar.repository.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
-import java.util.Objects;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import racingcar.repository.entity.GameEntity;
@@ -18,28 +17,25 @@ import racingcar.repository.entity.GameEntity;
 public class JdbcGameDao implements GameDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
     private final RowMapper<GameEntity> actorRowMapper = (resultSet, rowNum) -> new GameEntity(
-            resultSet.getLong("id"),
-            resultSet.getInt("trial_count"),
-            resultSet.getTimestamp("created_at")
+        resultSet.getLong("id"),
+        resultSet.getInt("trial_count"),
+        resultSet.getTimestamp("created_at")
     );
 
     public JdbcGameDao(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcInsert = new SimpleJdbcInsert(dataSource)
+            .withTableName("game")
+            .usingColumns("trial_count")
+            .usingGeneratedKeyColumns("id");
     }
 
     @Override
     public long save(final GameEntity gameEntity) {
-        final String sql = "INSERT INTO game (trial_count) VALUES (?)";
-        final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-
-        jdbcTemplate.update(connection -> {
-            final PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setInt(1, gameEntity.getTrialCount());
-            return preparedStatement;
-        }, keyHolder);
-
-        return (long) Objects.requireNonNull(keyHolder.getKeys()).get("ID");
+        final SqlParameterSource params = new BeanPropertySqlParameterSource(gameEntity);
+        return jdbcInsert.executeAndReturnKey(params).longValue();
     }
 
     @Override

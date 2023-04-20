@@ -1,14 +1,12 @@
 package racingcar.repository.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.Objects;
-
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import racingcar.repository.entity.UserEntity;
@@ -17,27 +15,23 @@ import racingcar.repository.entity.UserEntity;
 public class JdbcUserDao implements UserDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
     private final RowMapper<UserEntity> actorRowMapper = (resultSet, rowNum) -> new UserEntity(
-            resultSet.getLong("id"),
-            resultSet.getString("name")
+        resultSet.getLong("id"),
+        resultSet.getString("name")
     );
 
     public JdbcUserDao(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcInsert = new SimpleJdbcInsert(dataSource)
+            .withTableName("users")
+            .usingGeneratedKeyColumns("id");
     }
 
     @Override
     public long save(final UserEntity userEntity) {
-        final String sql = "INSERT INTO users (name) VALUES (?)";
-        final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-
-        jdbcTemplate.update(connection -> {
-            final PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, userEntity.getName());
-            return preparedStatement;
-        }, keyHolder);
-
-        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+        final SqlParameterSource params = new BeanPropertySqlParameterSource(userEntity);
+        return jdbcInsert.executeAndReturnKey(params).longValue();
     }
 
     @Override
