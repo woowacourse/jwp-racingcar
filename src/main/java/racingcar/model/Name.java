@@ -1,4 +1,4 @@
-package racingcar.model.wrapper;
+package racingcar.model;
 
 import racingcar.exception.BadRequestException;
 import racingcar.exception.ExceptionMessage;

@@ -14,7 +14,7 @@ import racingcar.exception.ExceptionMessage;
 import racingcar.model.Car;
 import racingcar.model.Cars;
 import racingcar.strategy.RacingNumberGenerator;
-import racingcar.wrapper.Round;
+import racingcar.model.Round;
 
 import java.util.ArrayList;
 import java.util.Arrays;
