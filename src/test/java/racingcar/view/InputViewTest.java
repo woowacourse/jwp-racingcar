@@ -78,7 +78,7 @@ class InputViewTest {
         System.setIn(inputStream);
         
         // when
-        final int inputTryNumber = new InputView().inputTryNumber();
+        final int inputTryNumber = new InputView().inputCount();
         
         // then
         assertThat(inputTryNumber).isEqualTo(Integer.parseInt(tryNumber));
@@ -92,7 +92,7 @@ class InputViewTest {
         
         // when, then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new InputView().inputTryNumber())
+                .isThrownBy(() -> new InputView().inputCount())
                 .withMessage("[ERROR] null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : null");
     }
     
@@ -104,7 +104,7 @@ class InputViewTest {
         
         // when, then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new InputView().inputTryNumber())
+                .isThrownBy(() -> new InputView().inputCount())
                 .withMessage("[ERROR] null 또는 empty가 올 수 없습니다. 다시 입력해주세요. 입력된 data : ");
     }
     
@@ -117,7 +117,7 @@ class InputViewTest {
         
         // when, then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new InputView().inputTryNumber())
+                .isThrownBy(() -> new InputView().inputCount())
                 .withMessageStartingWith("[ERROR] 시도 횟수는 숫자만 입력할 수 있습니다. 다시 입력해주세요. Error message : ");
     }
     

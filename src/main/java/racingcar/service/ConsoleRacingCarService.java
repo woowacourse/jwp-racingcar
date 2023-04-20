@@ -12,7 +12,7 @@ import racingcar.dto.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ConsoleRacingCarService implements RacingCarService {
+public class ConsoleRacingCarService {
     private final GameDao gameDao;
     private final CarDao carDao;
     private final WinnerDao winnerDao;
@@ -23,24 +23,28 @@ public class ConsoleRacingCarService implements RacingCarService {
         this.winnerDao = winnerDao;
     }
     
-    @Override
-    public void playGame(final GameInputDto gameInputDto, final MoveStrategy moveStrategy) {
-        final RacingGame racingGame = race(gameInputDto, moveStrategy);
+    public GameResponseDto playGame(final GameRequestDto gameRequestDto, final MoveStrategy moveStrategy) {
+        final RacingGame racingGame = race(gameRequestDto, moveStrategy);
         
-        final Long gameId = insertGameDao(racingGame);
+        final long gameId = insertGameDao(racingGame);
         final Cars cars = racingGame.getCars();
         
         insertCarDao(gameId, cars);
         insertWinnerDao(gameId, cars);
+        
+        return new GameResponseDto(racingGame);
     }
     
-    private RacingGame race(final GameInputDto gameInputDto, final MoveStrategy moveStrategy) {
-        final RacingGame racingGame = new RacingGame(gameInputDto.getCarNames(), gameInputDto.getTryNumber());
+    private RacingGame race(final GameRequestDto gameRequestDto, final MoveStrategy moveStrategy) {
+        final String names = gameRequestDto.getNames();
+        final int count = Integer.parseInt(gameRequestDto.getCount());
+        final RacingGame racingGame = new RacingGame(names, count);
+        
         racingGame.race(moveStrategy);
         return racingGame;
     }
     
-    private Long insertGameDao(final RacingGame racingGame) {
+    private long insertGameDao(final RacingGame racingGame) {
         final GameDto gameDto = new GameDto(racingGame);
         return gameDao.insert(gameDto);
     }
@@ -61,7 +65,6 @@ public class ConsoleRacingCarService implements RacingCarService {
         }
     }
     
-    @Override
     public List<GameResultDto> findAllGameResult() {
         return findGameResults(gameDao.findAllId());
     }

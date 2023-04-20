@@ -2,7 +2,7 @@ package racingcar.dto;
 
 import lombok.Getter;
 import racingcar.domain.racinggame.RacingGame;
-import racingcar.domain.racinggame.TryNumber;
+import racingcar.domain.racinggame.Count;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,8 +16,8 @@ public class GameDto {
     private final String time;
     
     public GameDto(final RacingGame racingGame) {
-        final TryNumber tryNumber = racingGame.getTryNumber();
-        this.tryNumber = tryNumber.getOriginalNumber();
+        final Count count = racingGame.getCount();
+        this.tryNumber = count.getOriginalCount();
         
         final ZoneId koreaZoneId = ZoneId.of("Asia/Seoul");
         final LocalDate localDate = LocalDate.now(koreaZoneId);

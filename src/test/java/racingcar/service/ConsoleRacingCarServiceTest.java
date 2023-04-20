@@ -1,12 +1,10 @@
 package racingcar.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import racingcar.dao.car.MemoryCarDao;
 import racingcar.dao.game.MemoryGameDao;
 import racingcar.dao.winner.MemoryWinnerDao;
-import racingcar.dto.GameDto;
-import racingcar.dto.GameInputDto;
+import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResultDto;
 
 import java.util.List;
@@ -27,7 +25,7 @@ class ConsoleRacingCarServiceTest {
         final ConsoleRacingCarService consoleRacingCarService = new ConsoleRacingCarService(gameDao, carDao, winnerDao);
         
         // when
-        consoleRacingCarService.playGame(new GameInputDto("아벨,스플릿,포비", 20), () -> true);
+        consoleRacingCarService.playGame(new GameRequestDto("아벨,스플릿,포비", "20"), () -> true);
         final List<GameResultDto> gameResults = consoleRacingCarService.findAllGameResult();
         
         // then

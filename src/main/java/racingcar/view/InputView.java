@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,7 +46,7 @@ public class InputView {
         }
     }
     
-    public int inputTryNumber() {
+    public int inputCount() {
         try {
             System.out.println("시도할 회수는 몇회인가요?");
             final String inputTryNumber = reader.readLine();

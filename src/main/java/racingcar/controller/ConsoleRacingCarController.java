@@ -1,43 +1,43 @@
 package racingcar.controller;
 
 import racingcar.domain.strategy.move.RandomBasedMoveStrategy;
-import racingcar.dto.GameInputDto;
-import racingcar.service.RacingCarService;
+import racingcar.dto.GameRequestDto;
+import racingcar.service.ConsoleRacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 import racingcar.view.repeatinput.Repeat;
 
 public class ConsoleRacingCarController {
-    private final RacingCarService racingCarService;
+    private final ConsoleRacingCarService consoleRacingCarService;
     private final InputView inputView;
     private final OutputView outputView;
     
-    public ConsoleRacingCarController(final RacingCarService racingCarService, final InputView inputView, final OutputView outputView) {
-        this.racingCarService = racingCarService;
+    public ConsoleRacingCarController(final ConsoleRacingCarService consoleRacingCarService, final InputView inputView, final OutputView outputView) {
+        this.consoleRacingCarService = consoleRacingCarService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
     
     public void run() {
         Repeat.repeatJustRunnableAtException(this::playGame);
-        outputView.printGameResult(racingCarService.findAllGameResult());
+        outputView.printGameResult(consoleRacingCarService.findAllGameResult());
     }
     
     private void playGame() {
-        final GameInputDto gameInputDto = getGameInputDto();
-        racingCarService.playGame(gameInputDto, new RandomBasedMoveStrategy());
+        final GameRequestDto gameRequestDto = getGameInputDto();
+        consoleRacingCarService.playGame(gameRequestDto, new RandomBasedMoveStrategy());
     }
     
-    private GameInputDto getGameInputDto() {
+    private GameRequestDto getGameInputDto() {
         final String carNames = Repeat.repeatSupplierAtException(inputView::inputCarNames);
-        final int tryNumber = Repeat.repeatSupplierAtException(inputView::inputTryNumber);
-        return getGameInputDto(carNames, tryNumber);
+        final int count = Repeat.repeatSupplierAtException(inputView::inputCount);
+        return getGameInputDto(carNames, count);
     }
     
-    private GameInputDto getGameInputDto(final String carNames, final int tryNumber) {
-        return GameInputDto.builder()
-                .carNames(carNames)
-                .tryNumber(tryNumber)
+    private GameRequestDto getGameInputDto(final String carNames, final int count) {
+        return GameRequestDto.builder()
+                .names(carNames)
+                .count(String.valueOf(count))
                 .build();
     }
 }
