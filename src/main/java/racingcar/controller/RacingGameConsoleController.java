@@ -2,8 +2,8 @@ package racingcar.controller;
 
 import java.io.IOException;
 
+import racingcar.controller.dto.ConsoleRacingResultDto;
 import racingcar.controller.dto.RacingGameResponse;
-import racingcar.controller.dto.ToView;
 import racingcar.domain.CarGroup;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
@@ -27,9 +27,9 @@ public class RacingGameConsoleController {
         final int trial = inputView.readMovingTrial();
 
         final RacingGameResponse racingGameResponse = racingGameService.race(carGroup, trial);
-        final ToView toView = new ToView(racingGameResponse);
+        final ConsoleRacingResultDto consoleRacingResultDto = new ConsoleRacingResultDto(racingGameResponse);
         outputView.printNotice();
-        outputView.printWinner(toView.getNames());
-        outputView.printRacingResult(toView.getHistory());
+        outputView.printWinner(consoleRacingResultDto.getNames());
+        outputView.printRacingResult(consoleRacingResultDto.getHistory());
     }
 }

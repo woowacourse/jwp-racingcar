@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 import racingcar.domain.Name;
 import racingcar.domain.Position;
 
-public class ToView {
+public class ConsoleRacingResultDto {
 
     private final List<Name> names;
     private final Map<Name, Position> history;
 
-    public ToView(final RacingGameResponse racingGameResponse) {
+    public ConsoleRacingResultDto(final RacingGameResponse racingGameResponse) {
         this.names = Arrays.stream(racingGameResponse.getWinners().split(","))
                 .map(Name::new)
                 .collect(Collectors.toList());

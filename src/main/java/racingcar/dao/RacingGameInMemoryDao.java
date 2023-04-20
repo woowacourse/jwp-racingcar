@@ -17,16 +17,15 @@ public class RacingGameInMemoryDao implements RacingGameDao {
     public int save(String winners, int count) {
         RacingGameDtoMapper racingGame = new RacingGameDtoMapper(id, winners, LocalDateTime.now(), count);
         racingGames.add(racingGame);
-        id++;
 
-        return id;
+        return id++;
     }
 
     @Override
     public Optional<RacingGameDtoMapper> findById(int id) {
         for (final RacingGameDtoMapper racingGame : racingGames) {
             if (racingGame.getId() == id) {
-                return Optional.ofNullable(racingGame);
+                return Optional.of(racingGame);
             }
         }
         return Optional.empty();
