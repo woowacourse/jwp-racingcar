@@ -11,14 +11,8 @@ public class CarEntity {
     private final Boolean isWin;
 
     public CarEntity(final String name, final Integer position, final Boolean isWin) {
-        this.name = name;
-        this.position = position;
-        this.isWin = isWin;
+        this(null, null, name, position, isWin);
     }
-
-//    public CarEntity(final String name, final Integer position, final Boolean isWin) {
-//        this(null, null, name, position, isWin);
-//    }
 
     public CarEntity(final Integer id, final Integer gameId, final String name, final Integer position,
                      final Boolean isWin) {
