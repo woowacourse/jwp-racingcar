@@ -25,5 +25,14 @@ public class WinnerDao {
         SqlParameterSource[] sqlParameterSource = SqlParameterSourceUtils.createBatch(winners);
         return insertActor.executeBatch(sqlParameterSource);
     }
+
+    public List<Integer> findWinnerCarIdsByGameId(final int gameId) {
+        String sql = "SELECT * FROM WINNER WHERE game_id =?";
+        return jdbcTemplate.query(sql,(resultSet, rowNum)-> {
+            return resultSet.getInt("car_id");
+        }, gameId);
+
+    }
+
 }
 
