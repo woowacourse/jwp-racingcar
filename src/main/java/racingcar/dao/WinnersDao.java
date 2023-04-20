@@ -9,20 +9,17 @@ import racingcar.domain.Name;
 
 @Repository
 public class WinnersDao {
+    private final RowMapper<Car> carRowMapper = (resultSet, rowNum) -> new Car(
+            new Name(resultSet.getString("player_name")),
+            resultSet.getInt("result_position")
+    );
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+
 
     public WinnersDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-    private final RowMapper<Car> carRowMapper = (resultSet, rowNum) -> {
-        Car car = new Car(
-                new Name(resultSet.getString("player_name")),
-                resultSet.getInt("result_position")
-        );
-        return car;
-    };
 
     public void insert(int gameNumber, String winner) {
         String sql = "insert into winners(game_number, winner) values(?,?)";
