@@ -14,7 +14,7 @@ import racingcar.domain.entity.RacingGameEntity;
 public class JdbcRacingGameDao implements RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private RowMapper<RacingGameEntity> rowMapper = (rs, rowNum) -> {
+    private final RowMapper<RacingGameEntity> rowMapper = (rs, rowNum) -> {
         final int id = rs.getInt("id");
         final int count = rs.getInt("count");
         final LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();

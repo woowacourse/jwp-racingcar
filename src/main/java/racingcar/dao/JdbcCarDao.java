@@ -13,7 +13,7 @@ import racingcar.domain.entity.CarEntity;
 public class JdbcCarDao implements CarDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private RowMapper<CarEntity> rowMapper = (rs, rowNum) -> {
+    private final RowMapper<CarEntity> rowMapper = (rs, rowNum) -> {
         final int id = rs.getInt("id");
         final int gameId = rs.getInt("racing_game_id");
         final String name = rs.getString("name");

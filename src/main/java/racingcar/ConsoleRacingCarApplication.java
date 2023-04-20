@@ -14,7 +14,7 @@ import racingcar.view.OutputView;
 public class ConsoleRacingCarApplication {
 
     public static void main(String[] args) {
-        ConsoleRacingCarController controller = new ConsoleRacingCarController(initRacingCarService(),
+        final ConsoleRacingCarController controller = new ConsoleRacingCarController(initRacingCarService(),
                 new InputView(new Scanner(System.in)),
                 new OutputView());
         controller.run();

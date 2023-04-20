@@ -9,7 +9,7 @@ public class Car implements Comparable<Car> {
     private static final int MOVABLE_MIN_NUMBER = 4;
     private static final String NAME_LENGTH_ERROR = "자동차 이름은 1자 이상 5자 이하여야 합니다.";
 
-    private String name;
+    private final String name;
     private int position = 0;
 
     public Car(final String name) {
@@ -17,19 +17,19 @@ public class Car implements Comparable<Car> {
         this.name = name;
     }
 
-    private void validateName(String name) {
+    private void validateName(final String name) {
         if (name.length() < NAME_MIN_LENGTH || name.length() > NAME_MAX_LENGTH) {
             throw new IllegalArgumentException(NAME_LENGTH_ERROR);
         }
     }
 
-    public void move(int number) {
+    public void move(final int number) {
         if (number >= MOVABLE_MIN_NUMBER) {
             position++;
         }
     }
 
-    public boolean isSamePosition(Car otherCar) {
+    public boolean isSamePosition(final Car otherCar) {
         return this.position == otherCar.position;
     }
 
@@ -42,14 +42,18 @@ public class Car implements Comparable<Car> {
     }
 
     @Override
-    public int compareTo(Car otherCar) {
+    public int compareTo(final Car otherCar) {
         return this.position - otherCar.position;
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
         Car car = (Car) other;
         return position == car.position && Objects.equals(name, car.name);
     }

@@ -41,7 +41,7 @@ public class Cars {
     }
 
     public List<Car> findAllWinner() {
-        Car maxPositionCar = findMaxPositionCar();
+        final Car maxPositionCar = findMaxPositionCar();
         return findSamePositionCars(maxPositionCar);
     }
 
