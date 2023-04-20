@@ -2,6 +2,8 @@ package racing.domain;
 
 public class Car {
 
+    private static final int MOVE_FORWARD_STANDARD = 4;
+
     private final CarName carName;
     private int step;
 
@@ -16,7 +18,12 @@ public class Car {
     }
 
     public void moveForward() {
-        this.step++;
+    }
+
+    public void moveForwardByNumber(int number) {
+        if (number >= MOVE_FORWARD_STANDARD) {
+            this.step += 1;
+        }
     }
 
     public String getName() {
