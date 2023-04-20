@@ -2,7 +2,8 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.*;
+import racingcar.dao.CarDao;
+import racingcar.dao.GameDao;
 import racingcar.domain.car.Car;
 import racingcar.domain.carfactory.CarFactory;
 import racingcar.domain.cars.Cars;
@@ -10,8 +11,7 @@ import racingcar.domain.numbergenerator.NumberGenerator;
 import racingcar.domain.record.GameRecorder;
 import racingcar.domain.result.GameResultOfCar;
 import racingcar.domain.system.GameSystem;
-import racingcar.dto.CarDTO;
-import racingcar.dto.RacingResultDTO;
+import racingcar.dto.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

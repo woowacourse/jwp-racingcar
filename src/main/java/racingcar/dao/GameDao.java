@@ -1,5 +1,7 @@
 package racingcar.dao;
 
+import racingcar.dto.GameIdDTO;
+
 import java.util.List;
 
 public interface GameDao {

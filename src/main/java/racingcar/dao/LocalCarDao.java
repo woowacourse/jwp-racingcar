@@ -1,5 +1,8 @@
 package racingcar.dao;
 
+import racingcar.dto.CarNameDTO;
+import racingcar.dto.CarNamePositionDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

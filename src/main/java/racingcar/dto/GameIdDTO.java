@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dto;
 
 public class GameIdDTO {
     private final Long id;

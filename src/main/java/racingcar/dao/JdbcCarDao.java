@@ -3,6 +3,8 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import racingcar.dto.CarNameDTO;
+import racingcar.dto.CarNamePositionDTO;
 
 import java.util.List;
 
