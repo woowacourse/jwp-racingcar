@@ -44,14 +44,6 @@ public class Cars {
         car.move(power);
     }
 
-    public List<String> findWinnerName() {
-        final int max = findMaxPosition();
-        return cars.stream()
-                .filter(car -> car.matchPosition(max))
-                .map(Car::getCarName)
-                .collect(Collectors.toList());
-    }
-
     public List<Car> findWinner() {
         final int max = findMaxPosition();
         return cars.stream()

@@ -26,6 +26,13 @@ class CarNameTest {
     }
 
     @Test
+    void 생성시_공백이_들어오면_예외() {
+        assertThatThrownBy(() -> new CarName(" "))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이름이 공백입니다.");
+    }
+
+    @Test
     void 생성시_5이하의_길이가_들어오면_잘_생성됨() {
         assertDoesNotThrow(() -> new CarName("12345"));
     }

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -39,13 +40,23 @@ class CarsTest {
 
     @Test
     void findWinnerName_함수는_아무것도_하지_않는다면_모두가_우승자가_됨() {
-        assertThat(cars.findWinnerName()).containsExactly("judy", "nunu", "pobi");
+        final List<String> result = cars.findWinner()
+                .stream()
+                .map(Car::getCarName)
+                .collect(Collectors.toList());
+
+        assertThat(result).containsExactly("judy", "nunu", "pobi");
     }
 
     @Test
     void findWinnerName_함수로_우승자들이_반환됨() {
         cars.moveCars(mockRandomPicker);
-        assertThat(cars.findWinnerName()).containsExactly("judy", "pobi");
+        final List<String> result = cars.findWinner()
+                .stream()
+                .map(Car::getCarName)
+                .collect(Collectors.toList());
+
+        assertThat(result).containsExactly("judy", "pobi");
     }
 
     @Test
