@@ -5,7 +5,7 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.entity.Game;
-import racingcar.entity.RacingGame;
+import racingcar.entity.RacingGameEntity;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -37,17 +37,17 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
     }
 
     @Override
-    public Long save(final RacingGame racingGame) {
-        final Long gameId = gameDao.save(racingGame.getGame());
-        playerDao.save(gameId, racingGame.getPlayer());
+    public Long save(final RacingGameEntity racingGameEntity) {
+        final Long gameId = gameDao.save(racingGameEntity.getGame());
+        playerDao.save(gameId, racingGameEntity.getPlayer());
         return gameId;
     }
 
     @Override
-    public List<RacingGame> findAll() {
+    public List<RacingGameEntity> findAll() {
         final List<Game> games = gameDao.findAll();
         return games.stream()
-                .map(game -> new RacingGame(game, playerDao.findById(game.getId())))
+                .map(game -> new RacingGameEntity(game, playerDao.findById(game.getId())))
                 .collect(Collectors.toList());
     }
 }

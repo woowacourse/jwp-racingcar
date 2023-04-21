@@ -1,12 +1,12 @@
 package racingcar.dao;
 
-import racingcar.entity.RacingGame;
+import racingcar.entity.RacingGameEntity;
 
 import java.util.List;
 
 public interface RacingGameRepository {
 
-    Long save(final RacingGame racingGame);
+    Long save(final RacingGameEntity racingGameEntity);
 
-    List<RacingGame> findAll();
+    List<RacingGameEntity> findAll();
 }

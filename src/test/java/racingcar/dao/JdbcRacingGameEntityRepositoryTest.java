@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.ApplicationType;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
-import racingcar.entity.RacingGame;
+import racingcar.entity.RacingGameEntity;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @JdbcTest
 @Transactional
-class JdbcRacingGameRepositoryTest {
+class JdbcRacingGameEntityRepositoryTest {
 
     private RacingGameRepository racingGameRepository;
 
@@ -43,7 +43,7 @@ class JdbcRacingGameRepositoryTest {
         List<Player> players = List.of(kongHana, ethan);
 
         // when, then
-        assertThatCode(() -> racingGameRepository.save(new RacingGame(game, players)))
+        assertThatCode(() -> racingGameRepository.save(new RacingGameEntity(game, players)))
                 .doesNotThrowAnyException();
     }
 
@@ -56,10 +56,10 @@ class JdbcRacingGameRepositoryTest {
         Game game = new Game(10, ApplicationType.CONSOLE);
         List<Player> players = List.of(kongHana, ethan);
 
-        Long gameId = racingGameRepository.save(new RacingGame(game, players));
+        Long gameId = racingGameRepository.save(new RacingGameEntity(game, players));
 
         // when, then
-        List<RacingGame> oneGameHistoryDtos = racingGameRepository.findAll();
+        List<RacingGameEntity> oneGameHistoryDtos = racingGameRepository.findAll();
         assertAll(
                 () -> assertThat(oneGameHistoryDtos.size()).isEqualTo(1),
                 () -> assertThat(oneGameHistoryDtos.get(0).getGame().getId()).isEqualTo(gameId),

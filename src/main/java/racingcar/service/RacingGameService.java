@@ -7,12 +7,14 @@ import racingcar.dao.RacingGameRepository;
 import racingcar.domain.Name;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
+import racingcar.domain.RacingGame;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameHistoryDto;
 import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingGameDto;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
-import racingcar.entity.RacingGame;
+import racingcar.entity.RacingGameEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,14 +34,19 @@ public class RacingGameService {
         return new RacingGameService(JdbcRacingGameRepository.generateDefaultJdbcRacingGameRepository());
     }
 
-    public GameHistoryDto playGame(final List<String> inputNames, final int inputCount, final ApplicationType applicationType) {
-        final List<Name> names = generateNames(inputNames);
-        final racingcar.domain.RacingGame racingGame = new racingcar.domain.RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(inputCount));
-        final RacingCars racingCars = racingGame.moveCars();
+    public GameHistoryDto playGame(final RacingGameDto racingGameDto) {
+        final RacingCars racingCars = moveRacingCars(racingGameDto);
 
-        saveRacingCars(inputCount, applicationType, racingCars);
+        saveRacingCars(racingGameDto, racingCars);
 
         return generateOneGameHistoryDto(racingCars);
+    }
+
+    private RacingCars moveRacingCars(RacingGameDto racingGameDto) {
+        final List<Name> names = generateNames(racingGameDto.getNames());
+        final RacingGame racingGame = new RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(racingGameDto.getTrialCount()));
+        final RacingCars racingCars = racingGame.moveCars();
+        return racingCars;
     }
 
     private List<Name> generateNames(final List<String> inputNames) {
@@ -54,13 +61,13 @@ public class RacingGameService {
                 .collect(toList());
     }
 
-    private void saveRacingCars(final int tryCount, final ApplicationType applicationType, final RacingCars racingCars) {
+    private void saveRacingCars(final RacingGameDto racingGameDto, final RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
         final List<Player> players = racingCars.getRacingCars().stream()
                 .map(racingCar -> createPlayerEntity(winnerNames, racingCar))
                 .collect(toList());
-        final Game game = new Game(tryCount, applicationType);
-        racingGameRepository.save(new RacingGame(game, players));
+        final Game game = new Game(racingGameDto.getTrialCount(), racingGameDto.getApplicationType());
+        racingGameRepository.save(new RacingGameEntity(game, players));
     }
 
     private Player createPlayerEntity(final List<String> winnerNames, final RacingCar racingCar) {
@@ -78,13 +85,13 @@ public class RacingGameService {
     }
 
     public List<GameHistoryDto> findRacingGameHistory() {
-        final List<RacingGame> racingGames = racingGameRepository.findAll();
-        return generateOneGameHistoryDtos(racingGames);
+        final List<RacingGameEntity> racingGameEntities = racingGameRepository.findAll();
+        return generateOneGameHistoryDtos(racingGameEntities);
     }
 
-    private List<GameHistoryDto> generateOneGameHistoryDtos(final List<RacingGame> racingGames) {
-        return racingGames.stream()
-                .map(RacingGame::getPlayer)
+    private List<GameHistoryDto> generateOneGameHistoryDtos(final List<RacingGameEntity> racingGameEntities) {
+        return racingGameEntities.stream()
+                .map(RacingGameEntity::getPlayer)
                 .map(players -> new GameHistoryDto(generateWinners(players), generateRacingCarDtos(players)))
                 .collect(toList());
     }

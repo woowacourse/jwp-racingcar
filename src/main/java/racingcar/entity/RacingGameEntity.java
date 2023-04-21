@@ -2,12 +2,12 @@ package racingcar.entity;
 
 import java.util.List;
 
-public class RacingGame {
+public class RacingGameEntity {
 
     private final Game game;
     private final List<Player> player;
 
-    public RacingGame(final Game game, final List<Player> player) {
+    public RacingGameEntity(final Game game, final List<Player> player) {
         this.game = game;
         this.player = player;
     }

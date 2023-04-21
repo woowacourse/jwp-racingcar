@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-class RacingGameTest {
+class RacingGameEntityTest {
 
     @DisplayName("자동차 경주 게임을 진행할 수 있다.")
     @Test

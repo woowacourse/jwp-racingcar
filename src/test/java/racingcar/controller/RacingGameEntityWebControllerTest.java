@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
-class RacingGameWebControllerTest {
+class RacingGameEntityWebControllerTest {
 
     @BeforeEach
     void setUp(@LocalServerPort int port) {
