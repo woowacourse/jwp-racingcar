@@ -1,9 +1,10 @@
 package racingcar.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -15,8 +16,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
+import racingcar.domain.DefinedNumberPicker;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.TryCount;
+import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingCarGameResultDto;
 import racingcar.repository.JdbcRacingGameRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,8 +29,6 @@ class RacingCarServiceTest {
     private static final String TEST_PLAYER_NAME_1 = "hong";
     private static final String TEST_PLAYER_NAME_2 = "coda";
 
-    @Mock
-    private NumberPicker numberPicker;
     @Mock
     private JdbcRacingGameRepository jdbcRacingGameRepository;
     @InjectMocks
@@ -47,14 +49,28 @@ class RacingCarServiceTest {
         verify(jdbcRacingGameRepository).saveGameResult(cars, tryCount);
     }
 
-    @DisplayName("tryCount만큼 Cars의 runForword메서드를 실행시켰는지 테스트")
+    @DisplayName("게임 실행하고, 반환되는 결과가 예상대로인지 확인하는 기능 테스트")
     @Test
     public void playRoundTest() {
-        final Cars cars = mock(Cars.class);
-        final TryCount tryCount = new TryCount(5);
+        final List<String> playerNames = List.of(TEST_PLAYER_NAME_1, TEST_PLAYER_NAME_2);
+        final int tryCount = 2;
+        final NumberPicker numberPicker = new DefinedNumberPicker(List.of(4, 4, 6, 2));
 
-        racingCarService.playRound(cars, tryCount);
+        final RacingCarService racingCarService =
+                new RacingCarService(mock(JdbcRacingGameRepository.class), numberPicker);
 
-        verify(cars, times(tryCount.getValue())).runRound(any(NumberPicker.class));
+        final RacingCarGameResultDto racingCarGameResultDto = racingCarService.playRound(playerNames, tryCount);
+        final List<RacingCarDto> racingCarDtos = racingCarGameResultDto.getRacingCars();
+
+        assertAll(
+                () -> assertThat(racingCarGameResultDto.getWinners())
+                        .containsExactly(TEST_PLAYER_NAME_1),
+                () -> assertThat(racingCarDtos)
+                        .extracting(RacingCarDto::getName)
+                        .containsExactly(TEST_PLAYER_NAME_1, TEST_PLAYER_NAME_2),
+                () -> assertThat(racingCarDtos)
+                        .extracting(RacingCarDto::getPosition)
+                        .contains(1, 2)
+        );
     }
 }
