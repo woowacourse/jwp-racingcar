@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.ParticipatesDao;
 import racingcar.dao.PlayerDao;
@@ -33,6 +34,7 @@ public class RacingCarService {
         this.participatesDao = participatesDao;
     }
 
+    @Transactional
     public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
         final Cars cars = Cars.from(namesAndCount.getNames());
         final GameRound gameRound = new GameRound(namesAndCount.getCount());
@@ -85,6 +87,7 @@ public class RacingCarService {
         return String.join(",", winnerNames);
     }
 
+    @Transactional
     public List<ResultResponse> findAllResult() {
         final List<ResultResponse> resultResponses = new ArrayList<>();
         gameDao.findAll()

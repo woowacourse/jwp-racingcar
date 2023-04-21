@@ -66,7 +66,7 @@ erDiagram
 - [x] Service 내부 책임 분리
 - [x] 부정 연산자 제거
 - [ ] `@ParameterizedTest`로 테스트할 때 `@DisplayName` 삭제
-- [ ] 비즈니스 로직을 수행 중 예외가 발생할 경우 롤백하기 위해 `@Transactional` 적용
+- [x] 비즈니스 로직을 수행 중 예외가 발생할 경우 롤백하기 위해 `@Transactional` 적용
 
 ### 1. 게임 플레이 이력 조회 API 구현
 - [x] `/plays`로 GET 요청을 받는 API 구현
