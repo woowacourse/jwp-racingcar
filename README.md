@@ -42,3 +42,14 @@
 ## DB 테이블
 
 ![](./docs/table.png)
+
+# 모듈간 의존성
+
+```mermaid
+graph TD
+web --> domain
+console --> domain
+domain-h2 --> domain
+web --> domain-h2
+console --> domain-h2
+```
