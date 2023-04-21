@@ -9,17 +9,18 @@ import org.springframework.stereotype.Service;
 import racingcar.domain.Car;
 import racingcar.repository.dao.FindAllRecordsDao;
 import racingcar.repository.entity.Record;
+import racingcar.service.dto.RacingCarResult;
 
 @Service
-public class FindRecordService {
+public class FindRacingCarResultService {
 
     private final FindAllRecordsDao findAllRecordsDao;
 
-    public FindRecordService(final FindAllRecordsDao findAllRecordsDao) {
+    public FindRacingCarResultService(final FindAllRecordsDao findAllRecordsDao) {
         this.findAllRecordsDao = findAllRecordsDao;
     }
 
-    public List<RacingCarResult> findAllRecords() {
+    public List<RacingCarResult> findAllResults() {
         final List<Record> records = findAllRecordsDao.findAll();
         final Map<Long, List<Record>> recordsByGameId = records.stream()
             .collect(Collectors.groupingBy(Record::getGameId));

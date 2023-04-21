@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import racingcar.TableTruncator;
-import racingcar.dto.NamesAndCountDto;
+import racingcar.controller.dto.RacingCarGameRequest;
 
 import static org.hamcrest.core.Is.is;
 
@@ -44,11 +44,11 @@ class WebRacingCarControllerTest {
     void 이름과_시도_횟수를_요청했을_때() {
         final String names = "브리,토미,브라운";
         final int count = 10;
-        final NamesAndCountDto namesAndCountDto = new NamesAndCountDto(names, count);
+        final RacingCarGameRequest racingCarGameRequest = new RacingCarGameRequest(names, count);
 
         RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(namesAndCountDto)
+            .body(racingCarGameRequest)
             .when().post("/plays")
             .then().log().all()
             .statusCode(HttpStatus.OK.value());
@@ -58,11 +58,11 @@ class WebRacingCarControllerTest {
     void 참가자_이름_제한_초과로_IllegalArgumentException이_발생했을_때() {
         final String names = "abcd, abcde";
         final int count = 10;
-        final NamesAndCountDto namesAndCountDto = new NamesAndCountDto(names, count);
+        final RacingCarGameRequest racingCarGameRequest = new RacingCarGameRequest(names, count);
 
         RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(namesAndCountDto)
+            .body(racingCarGameRequest)
             .when().post("/plays")
             .then().log().all()
             .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())

@@ -1,10 +1,11 @@
 package racingcar.controller;
 
 import java.io.IOException;
+import java.util.List;
 
-import racingcar.dto.NamesAndCountDto;
-import racingcar.dto.WinnersAndCarsDto;
+import racingcar.controller.dto.RacingCarGameResponse;
 import racingcar.service.MainRacingCarService;
+import racingcar.service.dto.RacingCarResult;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -18,11 +19,11 @@ public class ConsoleRacingCarController {
 
     public void run() {
         try {
-            String names = InputView.readCarNames();
-            int attempt = InputView.readAttemptNumber();
-            NamesAndCountDto namesAndCountDto = new NamesAndCountDto(names, attempt);
-            WinnersAndCarsDto winnersAndCarsDto = mainRacingCarService.raceCar(namesAndCountDto);
-            OutputView.printResult(winnersAndCarsDto);
+            final List<String> names = List.of(InputView.readCarNames().split(","));
+            final int attempt = InputView.readAttemptNumber();
+            final RacingCarResult racingCarResult = mainRacingCarService.raceCar(names, attempt);
+            final RacingCarGameResponse racingCarGameResponse = RacingCarGameResponse.from(racingCarResult);
+            OutputView.printResult(racingCarGameResponse);
         } catch (IllegalArgumentException | IOException e) {
             System.out.println(e.getMessage());
             run();

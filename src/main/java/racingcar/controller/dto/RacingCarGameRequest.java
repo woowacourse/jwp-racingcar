@@ -1,14 +1,14 @@
-package racingcar.dto;
+package racingcar.controller.dto;
 
-public class NamesAndCountDto {
+public class RacingCarGameRequest {
 
     private String names;
     private int count;
 
-    private NamesAndCountDto() {
+    private RacingCarGameRequest() {
     }
 
-    public NamesAndCountDto(final String names, final int count) {
+    public RacingCarGameRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }

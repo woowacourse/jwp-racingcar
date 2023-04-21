@@ -20,6 +20,7 @@ import racingcar.repository.entity.GameEntity;
 import racingcar.repository.entity.PositionEntity;
 import racingcar.repository.entity.UserEntity;
 import racingcar.repository.entity.WinnerEntity;
+import racingcar.service.dto.RacingCarResult;
 
 @Service
 public class SaveRacingCarResultService {
