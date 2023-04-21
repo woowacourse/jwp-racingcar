@@ -1,10 +1,9 @@
 package racingcar.model.car;
 
+import org.springframework.util.StringUtils;
 import racingcar.exception.CustomException;
-import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.strategy.MovingStrategy;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class Car {
@@ -37,34 +36,26 @@ public class Car {
     }
 
     private void validate(final String carName) {
-        validateNull(carName);
-        validateHasBlank(carName);
+        validateEmptyInput(carName);
         validateValue(carName);
         validateOverMaxNameLength(carName);
     }
 
-    private void validateNull(final String carName) {
-        final Optional<String> optionalCarName = Optional.ofNullable(carName);
-        if (optionalCarName.isEmpty()) {
-            throw new CustomException(ExceptionStatus.HAS_BLANK_CAR_NAME);
+    private void validateEmptyInput(final String carName) {
+        if (StringUtils.hasText(carName)) {
+            throw new CustomException("비어있는 자동차 이름이 존재합니다.");
         }
     }
 
     private void validateValue(final String carName) {
         if (!STRING_PATTERN.matcher(carName).matches()) {
-            throw new CustomException(ExceptionStatus.INVALID_CAR_NAME_FORMAT);
-        }
-    }
-
-    private void validateHasBlank(final String carName) {
-        if (carName.isBlank()) {
-            throw new CustomException(ExceptionStatus.HAS_BLANK_CAR_NAME);
+            throw new CustomException("자동차 이름은 문자와 숫자만 가능합니다.");
         }
     }
 
     private void validateOverMaxNameLength(final String carName) {
         if (carName.length() > MAX_NAME_LENGTH) {
-            throw new CustomException(ExceptionStatus.EXCEED_CAR_NAME_LENGTH);
+            throw new CustomException("자동차 이름은 다섯 글자 이하여야 합니다.");
         }
     }
 

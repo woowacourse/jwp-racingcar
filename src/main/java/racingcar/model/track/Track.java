@@ -1,7 +1,6 @@
 package racingcar.model.track;
 
 import racingcar.exception.CustomException;
-import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.Cars;
 
 import java.util.regex.Pattern;
@@ -32,7 +31,7 @@ public class Track {
 
     private void validateNumber(final String trialTimes) {
         if (!NUMBER_PATTERN.matcher(trialTimes).matches()) {
-            throw new CustomException(ExceptionStatus.INVALID_TRIAL_TIMES_FORMAT);
+            throw new CustomException("시도 횟수는 숫자만 입력 가능합니다.");
         }
     }
 
@@ -40,7 +39,7 @@ public class Track {
         int trialTimesNumber = Integer.parseInt(trialTimes);
 
         if (trialTimesNumber < TRIAL_MIN_TIMES || trialTimesNumber > TRIAL_MAX_TIMES) {
-            throw new CustomException(ExceptionStatus.INVALID_RANGE_TRIAL_TIMES);
+            throw new CustomException("시도 횟수는 1 이상 100 이하여야 합니다.");
         }
     }
 

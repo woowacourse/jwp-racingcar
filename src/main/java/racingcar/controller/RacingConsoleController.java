@@ -61,6 +61,6 @@ public class RacingConsoleController {
     }
 
     public void terminated(final CustomException customException) {
-        outputView.printErrorMessage(customException.getErrorNumber());
+        outputView.printErrorMessage(customException);
     }
 }

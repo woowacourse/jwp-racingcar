@@ -2,7 +2,6 @@ package racingcar.model.car;
 
 import org.springframework.util.StringUtils;
 import racingcar.exception.CustomException;
-import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.strategy.MovingStrategy;
 
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class Cars {
 
     private static void validateEmptyInput(final String carNames) {
         if (!StringUtils.hasText(carNames)) {
-            throw new CustomException(ExceptionStatus.EMPTY_INPUT_FORMAT);
+            throw new CustomException("입력값이 존재하지 않습니다.");
         }
     }
 
@@ -55,7 +54,7 @@ public class Cars {
         final int distinctCarNamesCount = new HashSet<>(carNames).size();
 
         if (carNamesCount != distinctCarNamesCount) {
-            throw new CustomException(ExceptionStatus.DUPLICATE_CAR_NAMES);
+            throw new CustomException("중복된 차 이름이 존재합니다.");
         }
     }
 

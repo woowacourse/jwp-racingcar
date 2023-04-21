@@ -1,17 +1,15 @@
 package racingcar.exception;
 
+import org.springframework.http.HttpStatus;
+
 public class CustomException extends IllegalArgumentException {
-    private ExceptionStatus exceptionStatus;
+    private String errorMessage;
 
-    public CustomException(final ExceptionStatus exceptionStatus) {
-        this.exceptionStatus = exceptionStatus;
-    }
-
-    public int getErrorNumber() {
-        return exceptionStatus.getValue();
+    public CustomException(final String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public String getErrorMessage() {
-        return exceptionStatus.getMessage();
+        return errorMessage;
     }
 }
