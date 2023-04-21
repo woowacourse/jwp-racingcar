@@ -4,10 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerResultDao;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.RacingGame;
-import racingcar.domain.RandomNumberGenerator;
+import racingcar.domain.*;
 import racingcar.dto.request.GameRequestDto;
 import racingcar.dto.request.GameSaveDto;
 import racingcar.dto.request.PlayerResultSaveDto;
@@ -23,15 +20,16 @@ public class GamePlayService {
 
     private final GameDao gameDao;
     private final PlayerResultDao playerResultDao;
+    private final NameSeparator nameSeparator;
 
-    public GamePlayService(GameDao gameDao, PlayerResultDao playerResultDao) {
+    public GamePlayService(GameDao gameDao, PlayerResultDao playerResultDao, NameSeparator nameSeparator) {
         this.gameDao = gameDao;
         this.playerResultDao = playerResultDao;
+        this.nameSeparator = nameSeparator;
     }
 
     public GameResponseDto playGame(GameRequestDto gameRequestDto) {
-        List<String> carNames = List.of(gameRequestDto.getNames().split(",", -1));
-        Cars cars = makeCars(carNames);
+        Cars cars = makeCars(gameRequestDto.getNames());
         RacingGame racingGame = new RacingGame(cars, gameRequestDto.getCount());
         racingGame.race(new RandomNumberGenerator());
 
@@ -44,7 +42,9 @@ public class GamePlayService {
         return GameResponseDto.of(winners, playerResultsByGameId);
     }
 
-    private Cars makeCars(List<String> carNames) {
+    private Cars makeCars(String names) {
+        List<String> carNames = nameSeparator.separateBy(",", names);
+
         List<Car> baseCars = carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
