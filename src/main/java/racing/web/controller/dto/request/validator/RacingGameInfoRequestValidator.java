@@ -1,18 +1,15 @@
 package racing.web.controller.dto.request.validator;
 
-import static racing.web.exception.RacingGameWebExceptionType.CAR_NAME_BLANK;
-import static racing.web.exception.RacingGameWebExceptionType.CAR_NAME_DUPLICATION;
-import static racing.web.exception.RacingGameWebExceptionType.CAR_NAME_INVALID_RANGE;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import racing.web.controller.dto.request.RacingGameInfoRequest;
-import racing.web.exception.RacingGameWebException;
 
 public class RacingGameInfoRequestValidator implements RequestValidator<RacingGameInfoRequest> {
-
+    private static final String CAR_NAME_BLANK = "자동차 이름이 비어있습니다.";
+    private static final String CAR_NAME_INVALID_RANGE = "자동차 이름은 1 ~ 5자 사이 이어야 합니다.";
+    private static final String CAR_NAME_DUPLICATED = "중복된 자동차 이름이 존재합니다.";
     private static final String DELIMITER = ",";
 
     @Override
@@ -37,19 +34,19 @@ public class RacingGameInfoRequestValidator implements RequestValidator<RacingGa
         int distinctSize = new HashSet<>(names).size();
 
         if (names.size() != distinctSize) {
-            throw new RacingGameWebException(CAR_NAME_DUPLICATION);
+            throw new IllegalArgumentException(CAR_NAME_DUPLICATED);
         }
     }
 
     private void validateNotBlank(String name) {
         if (name == null || name.isBlank()) {
-            throw new RacingGameWebException(CAR_NAME_BLANK);
+            throw new IllegalArgumentException(CAR_NAME_BLANK);
         }
     }
 
     private void validateLengthInRange(String name) {
         if (name.length() < 1 || 5 < name.length()) {
-            throw new RacingGameWebException(CAR_NAME_INVALID_RANGE);
+            throw new IllegalArgumentException(CAR_NAME_INVALID_RANGE);
         }
     }
 }
