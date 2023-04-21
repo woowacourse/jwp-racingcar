@@ -62,7 +62,7 @@ erDiagram
 
 ### 0. 1단계 피드백 반영
 - [x] `Exception` 핸드링 기준 변경
-- [ ] restful 한 api 작성을 위해 행위와 자원을 명확하게 표현
+- [x] restful 한 api 작성을 위해 행위와 자원을 명확하게 표현
 - [x] Service 내부 책임 분리
 - [x] 부정 연산자 제거
 - [ ] `@ParameterizedTest`로 테스트할 때 `@DisplayName` 삭제

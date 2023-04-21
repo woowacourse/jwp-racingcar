@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import java.net.URI;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class WebController {
     @PostMapping("/plays")
     public ResponseEntity<ResultResponse> postPlays(@RequestBody final NamesAndCountRequest namesAndCount) {
         ResultResponse resultResponse = racingCarService.playGame(namesAndCount);
-        return ResponseEntity.ok()
+        return ResponseEntity.created(URI.create("/plays"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(resultResponse);
     }
