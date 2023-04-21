@@ -48,7 +48,7 @@ class RacingCarControllerTest {
                             .body("racingCars", any(List.class))
                             .body("racingCars[0].name", any(String.class))
                             .body("racingCars[0].position", any(Integer.class))
-                            .statusCode(HttpStatus.OK.value());
+                            .statusCode(HttpStatus.CREATED.value());
                 }),
                 DynamicTest.dynamicTest("게임 결과를 조회한다", () -> RestAssured.given().log().all()
                         .when().get("/plays")

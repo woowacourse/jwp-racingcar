@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
@@ -36,7 +37,7 @@ public class RacingCarController {
         final RacingGame racingGame = addRaceService.addRace(playGameRequest.getNames(), playGameRequest.getCount());
         final GameResponse gameResponse = toGameResponse(racingGame);
 
-        return ResponseEntity.ok(gameResponse);
+        return ResponseEntity.created(URI.create("/plays" + racingGame.getGameId())).body(gameResponse);
     }
 
     @GetMapping("/plays")

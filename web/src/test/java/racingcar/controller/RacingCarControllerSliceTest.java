@@ -58,7 +58,7 @@ class RacingCarControllerSliceTest {
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(request))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json(response));
     }
 
