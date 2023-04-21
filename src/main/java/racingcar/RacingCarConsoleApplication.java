@@ -9,7 +9,7 @@ public class RacingCarConsoleApplication {
         NumberGenerator numberGenerator = new RandomNumberGenerator();
 
         RacingCarConsoleController racingCarConsoleController = new RacingCarConsoleController(numberGenerator);
-        racingCarConsoleController.gameStart();
+        racingCarConsoleController.startGame();
     }
 
 }

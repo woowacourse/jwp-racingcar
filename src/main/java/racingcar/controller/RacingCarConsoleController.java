@@ -19,7 +19,7 @@ public class RacingCarConsoleController {
         this.numberGenerator = numberGenerator;
     }
 
-    public void gameStart() {
+    public void startGame() {
         OutputView.printInputCarNamesNotice();
         Cars cars = new Cars(CarFactory.buildCars(InputView.inputCarNames()));
         OutputView.printInputTryTimesNotice();
