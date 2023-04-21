@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import racingcar.service.CarEntity;
+import racingcar.entity.CarEntity;
 
 @Repository
 public class JdbcCarDao implements CarDao {

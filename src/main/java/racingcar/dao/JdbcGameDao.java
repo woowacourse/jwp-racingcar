@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import racingcar.service.GameEntity;
+import racingcar.entity.GameEntity;
 
 @Repository
 public class JdbcGameDao implements GameDao {

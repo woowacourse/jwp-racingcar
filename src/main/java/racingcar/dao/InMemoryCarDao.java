@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import racingcar.service.CarEntity;
+import racingcar.entity.CarEntity;
 
 public class InMemoryCarDao implements CarDao {
     private static final Map<Integer, CarEntity> store = new LinkedHashMap<>();

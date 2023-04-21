@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import racingcar.service.CarEntity;
-import racingcar.service.GameEntity;
+import racingcar.entity.CarEntity;
+import racingcar.entity.GameEntity;
 
 @SpringBootTest
 @Transactional

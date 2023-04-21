@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import racingcar.service.CarEntity;
-import racingcar.service.RacingResponse;
+import racingcar.dto.RacingCarResponseDto;
+import racingcar.entity.CarEntity;
 
 public class ConsoleView {
     private static final String DELIMITER = ",";
@@ -67,9 +67,9 @@ public class ConsoleView {
         return tryCount;
     }
 
-    public void printResult(RacingResponse racingResponse) {
-        printAllCars(racingResponse.getRacingCars());
-        printWinner(racingResponse.getWinners());
+    public void printResult(RacingCarResponseDto racingCarResponseDto) {
+        printAllCars(racingCarResponseDto.getRacingCars());
+        printWinner(racingCarResponseDto.getWinners());
     }
 
     private void printWinner(String winners) {

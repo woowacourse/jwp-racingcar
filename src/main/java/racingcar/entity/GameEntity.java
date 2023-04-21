@@ -1,4 +1,4 @@
-package racingcar.service;
+package racingcar.entity;
 
 import java.time.LocalDateTime;
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import racingcar.service.GameEntity;
+import racingcar.entity.GameEntity;
 
 class InMemoryGameDaoTest {
     private final InMemoryGameDao inMemoryGameDao = new InMemoryGameDao();
