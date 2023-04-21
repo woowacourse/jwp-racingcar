@@ -22,14 +22,14 @@ public class InputView {
         return validateTryTimes(scanner.nextLine());
     }
 
-    protected int validateTryTimes(String input) {
+    protected int validateTryTimes(final String input) {
         int tryTimes = validateTryTimesType(input);
         validateTryTimesRange(tryTimes);
 
         return tryTimes;
     }
 
-    private int validateTryTimesType(String tryTimes) {
+    private int validateTryTimesType(final String tryTimes) {
         try {
             return Integer.parseInt(tryTimes);
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class InputView {
         }
     }
 
-    private void validateTryTimesRange(int tryTimes) {
+    private void validateTryTimesRange(final int tryTimes) {
         if (tryTimes < MIN_TRY_TIMES) {
             throw new IllegalArgumentException(WRONG_TRY_TIMES_RANGE.of());
         }

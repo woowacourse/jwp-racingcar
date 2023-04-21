@@ -1,51 +1,50 @@
 package racingcar.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.domain.Car;
+import racingcar.domain.CarFactory;
+import racingcar.domain.Cars;
+import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameRequest;
-import racingcar.strategy.MovingStrategy;
+import racingcar.dto.GameDto;
+import racingcar.dto.GameResponse;
+import racingcar.entity.CarEntity;
+import racingcar.entity.GameEntity;
+import racingcar.strategy.RandomMovingStrategy;
 
 @Service
 public class RacingCarService {
 
     private static final String DELIMITER = ",";
 
-    private final MovingStrategy movingStrategy;
     private final GameDao gameDao;
     private final CarDao carDao;
 
-    public RacingCarService(final MovingStrategy movingStrategy, final GameDao gameDao, final CarDao carDao) {
-        this.movingStrategy = movingStrategy;
+    public RacingCarService(final GameDao gameDao, final CarDao carDao) {
         this.gameDao = gameDao;
         this.carDao = carDao;
     }
 
-    public int play(final GameRequest gameRequest) {
-        List<String> carNames = splitNames(gameRequest);
-        RacingGame game = createGame(carNames, gameRequest.getCount());
+    @Transactional
+    public GameResponse play(final GameDto gameDto) {
+        RacingGame game = createGame(gameDto.getNames(), gameDto.getCount());
+        int gameId = game.getId();
+        race(game, gameDto.getCount());
 
-        race(game, gameRequest.getCount());
-        updateWinners(game);
-
-        return game.getId();
-    }
-
-    private List<String> splitNames(final GameRequest gameRequest) {
-        String names = gameRequest.getNames();
-
-        return List.of(names.split(DELIMITER));
+        return makeGameResponse(gameId);
     }
 
     private RacingGame createGame(final List<String> carNames, final int tryTimes) {
         int gameId = gameDao.insertGame(tryTimes);
-        RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), movingStrategy);
-        List<Car> cars = game.getCars();
-        convertDto(cars).forEach(car -> carDao.insertCar(car, gameId));
+        RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), new RandomMovingStrategy());
+        race(game, tryTimes);
+        saveCars(gameId, game);
 
         return game;
     }
@@ -54,27 +53,59 @@ public class RacingCarService {
         for (int i = 0; i < tryTimes; i++) {
             racingGame.playSingleRound();
         }
-
-        List<Car> cars = racingGame.getCars();
-        convertDto(cars).forEach(car -> carDao.updatePosition(car, racingGame.getId()));
     }
 
-    private List<CarDto> convertDto(final List<Car> cars) {
+    private void saveCars(final int gameId, final RacingGame game) {
+        List<Car> cars = game.getCars();
+        convertToEntity(cars).forEach(car -> carDao.insertCar(car, gameId));
+    }
+
+    @Transactional
+    public List<GameResponse> getGameResults() {
+        List<GameResponse> gameResponses = new ArrayList<>();
+        List<GameEntity> allGame = gameDao.findAll();
+
+        for (GameEntity gameEntity : allGame) {
+            gameResponses.add(
+                    makeGameResponse(gameEntity.getId())
+            );
+        }
+
+        return gameResponses;
+    }
+
+    private GameResponse makeGameResponse(final int gameId) {
+        String winners = findWinners(gameId);
+        List<CarDto> cars = findCars(gameId);
+
+        return GameResponse.of(winners, new ArrayList<>(cars));
+    }
+
+    private String findWinners(final int gameId) {
+        List<CarDto> carDtos = findCars(gameId);
+        Cars cars = new Cars(
+                carDtos.stream()
+                        .map(carDto -> new Car(carDto.getName(), carDto.getPosition()))
+                        .collect(Collectors.toList())
+        );
+
+        return String.join(DELIMITER, cars.findWinners());
+    }
+
+    private List<CarDto> findCars(final int gameId) {
+        List<CarEntity> cars = carDao.findCars(gameId);
+        return convertToDto(cars);
+    }
+
+    private List<CarEntity> convertToEntity(final List<Car> cars) {
         return cars.stream()
-                .map(CarDto::from)
+                .map(car -> CarEntity.of(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
     }
 
-    private void updateWinners(final RacingGame racingGame) {
-        List<String> winners = racingGame.getWinners();
-        winners.forEach(name -> carDao.updateWinner(name, racingGame.getId()));
-    }
-
-    public List<CarDto> findWinners(final int gameId) {
-        return carDao.findWinners(gameId);
-    }
-
-    public List<CarDto> findCars(final int gameId) {
-        return carDao.findCars(gameId);
+    private List<CarDto> convertToDto(final List<CarEntity> cars) {
+        return cars.stream()
+                .map(car -> CarDto.of(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
     }
 }

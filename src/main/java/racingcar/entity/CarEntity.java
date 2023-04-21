@@ -1,16 +1,17 @@
-package racingcar.dto;
+package racingcar.entity;
 
-public class CarDto {
+public class CarEntity {
+
     private final String name;
     private final int position;
 
-    private CarDto(final String name, final int position) {
+    private CarEntity(final String name, final int position) {
         this.name = name;
         this.position = position;
     }
 
-    public static CarDto of(final String name, final int position) {
-        return new CarDto(name, position);
+    public static CarEntity of(final String name, final int position) {
+        return new CarEntity(name, position);
     }
 
     public String getName() {
