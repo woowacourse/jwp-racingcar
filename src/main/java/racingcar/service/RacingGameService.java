@@ -2,9 +2,9 @@ package racingcar.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.GameLogDao;
 import racingcar.dao.WinnersDao;
@@ -49,6 +49,7 @@ public class RacingGameService {
         return gameDao.getGameNumbers();
     }
 
+    @Transactional
     public GameResponseDto play(GameRequestDto gameRequestDto) {
         int gameNumber = gameDao.saveGame(gameRequestDto.getCount());
         Cars cars = playGame(gameRequestDto.getNames(), gameRequestDto.getCount()).getCars();
