@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.domain.Car;
 import racingcar.domain.DeterminedNumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
@@ -38,7 +39,10 @@ class RacingGameRepositoryTest {
     @DisplayName("게임 결과가 데이터베이스에 저장될 수 있다")
     void shouldSaveGameResultWhenRequest() {
         RacingGame racingGame = new RacingGame(
-                List.of("브리", "브라운"),
+                List.of(
+                        new Car("브리", 0),
+                        new Car("브라운", 0)
+                ),
                 3,
                 new RandomNumberGenerator()
         );
@@ -62,7 +66,11 @@ class RacingGameRepositoryTest {
         ));
 
         RacingGame racingGame = new RacingGame(
-                List.of("브리", "토미", "브라운"),
+                List.of(
+                        new Car("브리", 0),
+                        new Car("토미", 0),
+                        new Car("브라운", 0)
+                ),
                 3,
                 determinedNumberGenerator
         );

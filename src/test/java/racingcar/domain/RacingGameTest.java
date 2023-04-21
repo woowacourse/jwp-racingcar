@@ -17,8 +17,12 @@ class RacingGameTest {
     @ParameterizedTest
     @MethodSource("parameterProvider")
     void getWinnersTest(List<String> carNames, List<Integer> determinedNumbers, int gameTry, List<String> expectedWinners) {
+        List<Car> cars = carNames.stream()
+                .map(carName -> new Car(carName, 0))
+                .collect(Collectors.toList());
+
         DeterminedNumberGenerator determinedNumberGenerator = new DeterminedNumberGenerator();
-        RacingGame racingGame = new RacingGame(carNames, gameTry, determinedNumberGenerator);
+        RacingGame racingGame = new RacingGame(cars, gameTry, determinedNumberGenerator);
         determinedNumberGenerator.readRepository(determinedNumbers);
 
         racingGame.start();

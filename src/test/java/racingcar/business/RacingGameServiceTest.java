@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.persistence.repository.RacingGameRepository;
@@ -41,12 +42,20 @@ class RacingGameServiceTest {
     void shouldReturnCorrectlyWhenInputManyPlayer() {
         List<RacingGame> allRacingGames = List.of(
                 new RacingGame(
-                        List.of("브리", "토미", "브라운"),
+                        List.of(
+                                new Car("브리", 0),
+                                new Car("토미", 0),
+                                new Car("브라운", 0)
+                        ),
                         3,
                         new RandomNumberGenerator()
                 ),
                 new RacingGame(
-                        List.of("제이슨", "구구", "네오"),
+                        List.of(
+                                new Car("제이슨", 0),
+                                new Car("구구", 0),
+                                new Car("네오", 0)
+                        ),
                         3,
                         new RandomNumberGenerator()
                 )
