@@ -3,9 +3,13 @@ package racingcar.controller.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotBlank;
+
 public class TrackRequest {
 
+    @NotBlank(message = "참여자 이름을 입력해야합니다.")
     private String names;
+    @NotBlank(message = "시도할 횟수를 입력해야합니다.")
     private String count;
 
     @JsonCreator
