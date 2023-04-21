@@ -23,12 +23,12 @@ public class RacingCarController {
     @PostMapping("/plays")
     public ResponseEntity<PlayResponse> play(@RequestBody @Valid PlayRequest playRequest) {
         PlayResponse response = racingCarService.play(playRequest);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<PlayResponse>> play() {
         List<PlayResponse> response = racingCarService.findHistory();
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 }
