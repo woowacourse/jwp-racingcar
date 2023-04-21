@@ -26,8 +26,7 @@ public class GameController {
     public ResponseDto postInput(@RequestBody RequestDto requestDto) {
         gameService.setUpGame(requestDto.getNames());
         gameService.play(requestDto.getCount());
-        ResponseDto responseDto = new ResponseDto(gameService.findWinners(), gameService.getCars());
-        return responseDto;
+        return new ResponseDto(gameService.findWinners(), gameService.getCars());
     }
 
     @GetMapping("/plays")
