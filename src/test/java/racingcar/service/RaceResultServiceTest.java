@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.dao.raceresult.RaceResultDao;
-import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
+import racingcar.entity.CarEntity;
 import racingcar.entity.RaceResultEntity;
 import racingcar.service.dto.CarStatusResponse;
 import racingcar.service.dto.GameInfoRequest;
@@ -65,7 +65,7 @@ class RaceResultServiceTest {
                                                                    new CarStatusResponse("d", 0));
 
         //when
-        when(raceResultMapper.mapToRaceResult(anyInt(), any()))
+        when(raceResultMapper.mapToRaceResultEntity(anyInt(), any()))
                 .thenReturn(raceResultEntity);
 
         when(raceResultDao.save(any()))
@@ -74,7 +74,7 @@ class RaceResultServiceTest {
         doNothing().when(carService)
                    .registerCars(any(), anyInt());
 
-        when(raceResultMapper.mapToCarStatus((RacingCars) any()))
+        when(raceResultMapper.mapToCarStatusResponseFrom((RacingCars) any()))
                 .thenReturn(carStatusResponses);
 
         final RaceResultResponse raceResult = raceResultService.createRaceResult(gameInfoRequest);
@@ -96,21 +96,23 @@ class RaceResultServiceTest {
     @DisplayName("searchRaceResult() : 모든 경기 결과를 조회할 수 있다.")
     void test_searchRaceResult() throws Exception {
         //given
-        final List<Car> cars = List.of(new Car("a", 2), new Car("b", 3),
-                                       new Car("c", 1), new Car("d", 4));
+        final List<CarEntity> cars =
+                List.of(new CarEntity("a", 2, 1, LocalDateTime.now()),
+                        new CarEntity("b", 3, 1, LocalDateTime.now()),
+                        new CarEntity("c", 1, 1, LocalDateTime.now()),
+                        new CarEntity("d", 4, 1, LocalDateTime.now()));
 
-        final Map<String, List<Car>> allRaceResult = Map.of("d", cars);
+        final Map<String, List<CarEntity>> allRaceResult = Map.of("d", cars);
 
         final List<CarStatusResponse> carStatusResponses = List.of(new CarStatusResponse("a", 2),
                                                                    new CarStatusResponse("b", 3),
                                                                    new CarStatusResponse("c", 1),
                                                                    new CarStatusResponse("d", 4));
 
-        //when
         when(raceResultDao.findAllRaceResult())
                 .thenReturn(allRaceResult);
 
-        when(raceResultMapper.mapToCarStatus((List<Car>) any()))
+        when(raceResultMapper.mapToCarStatusResponseFrom(cars))
                 .thenReturn(carStatusResponses);
 
         final List<RaceResultResponse> raceResultResponses = raceResultService.searchRaceResult();

@@ -2,17 +2,16 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.raceresult.RaceResultDao;
+import racingcar.domain.RacingCars;
+import racingcar.entity.CarEntity;
 import racingcar.entity.RaceResultEntity;
 import racingcar.service.dto.CarStatusResponse;
 import racingcar.service.dto.GameInfoRequest;
 import racingcar.service.dto.RaceResultResponse;
-import racingcar.dao.raceresult.RaceResultDao;
-import racingcar.domain.Car;
-import racingcar.domain.RacingCars;
 import racingcar.service.mapper.RaceResultMapper;
 import racingcar.util.NumberGenerator;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,14 +39,12 @@ public class RaceResultService {
         final int tryCount = gameInfoRequest.getCount();
 
         final RacingCars racingCars = moveCars(names, tryCount);
-
-        final RaceResultEntity raceResultEntity = raceResultMapper.mapToRaceResult(tryCount, racingCars);
-
+        final RaceResultEntity raceResultEntity = raceResultMapper.mapToRaceResultEntity(tryCount, racingCars);
         final int savedId = raceResultDao.save(raceResultEntity);
 
         carService.registerCars(racingCars, savedId);
 
-        final List<CarStatusResponse> carStatusResponses = raceResultMapper.mapToCarStatus(racingCars);
+        final List<CarStatusResponse> carStatusResponses = raceResultMapper.mapToCarStatusResponseFrom(racingCars);
 
         return new RaceResultResponse(raceResultEntity.getWinners(), carStatusResponses);
     }
@@ -58,14 +55,18 @@ public class RaceResultService {
         return racingCars;
     }
 
+    @Transactional(readOnly = true)
     public List<RaceResultResponse> searchRaceResult() {
 
-        final Map<String, List<Car>> allRaceResult = raceResultDao.findAllRaceResult();
+        final Map<String, List<CarEntity>> allRaceResult = raceResultDao.findAllRaceResult();
 
         return allRaceResult.entrySet()
                             .stream()
-                            .map(it -> new RaceResultResponse(it.getKey(),
-                                                              raceResultMapper.mapToCarStatus(it.getValue())))
+                            .map(it -> new RaceResultResponse(
+                                    it.getKey(),
+                                    raceResultMapper.mapToCarStatusResponseFrom(it.getValue()))
+                            )
                             .collect(Collectors.toList());
     }
+
 }

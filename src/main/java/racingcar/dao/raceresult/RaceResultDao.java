@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
+import racingcar.entity.CarEntity;
 import racingcar.entity.RaceResultEntity;
 
 import java.sql.ResultSet;
@@ -40,47 +40,37 @@ public class RaceResultDao {
         return jdbcInsert.executeAndReturnKey(params).intValue();
     }
 
-    public Map<String, List<Car>> findAllRaceResult() {
+    public Map<String, List<CarEntity>> findAllRaceResult() {
 
         final String sql =
-                "select r.winners, c.name, c.position"
-                        + " from CAR c"
-                        + " inner join RACE_RESULT r"
+                "select r.winners, c.name, c.position, c.created_at, c.race_result_id"
+                        + " from RACE_RESULT r"
+                        + " inner join Car c"
                         + " on r.id = c.race_result_id;";
 
-        RowMapper<Map<String, List<Car>>> raceResultRowMapper = (resultSet, rowNum) -> {
-            Map<String, List<Car>> raceResult = new HashMap<>();
+        return jdbcTemplate.query(sql, (ResultSet rs) -> {
+            Map<String, List<CarEntity>> resultMap = new HashMap<>();
 
-            while (hasNext(resultSet)) {
-                convertResultSetToRaceResult(resultSet, raceResult);
-                resultSet.next();
+            while (rs.next()) {
+                final String winners = rs.getString("winners");
+
+                final CarEntity carEntity = new CarEntity(
+                        rs.getString("name"),
+                        rs.getInt("position"),
+                        rs.getInt("race_result_id"),
+                        rs.getTimestamp("created_at")
+                          .toLocalDateTime()
+                );
+
+                if (!resultMap.containsKey(winners)) {
+                    resultMap.put(winners, new ArrayList<>());
+                }
+
+                resultMap.get(winners)
+                         .add(carEntity);
             }
 
-            return raceResult;
-        };
-
-        return jdbcTemplate.queryForObject(sql, raceResultRowMapper);
-    }
-
-    private boolean hasNext(final ResultSet resultSet) throws SQLException {
-        return !resultSet.isAfterLast();
-    }
-
-    private void convertResultSetToRaceResult(final ResultSet resultSet, final Map<String, List<Car>> raceResult) {
-        try {
-            final String winners = resultSet.getString("winners");
-            final String name = resultSet.getString("name");
-            final int position = resultSet.getInt("position");
-
-            if (!raceResult.containsKey(winners)) {
-                raceResult.put(winners, new ArrayList<>());
-            }
-
-            raceResult.get(winners)
-                      .add(new Car(name, position));
-
-        } catch (SQLException exception) {
-            throw new IllegalStateException("DB 조회 오류");
-        }
+            return resultMap;
+        });
     }
 }
