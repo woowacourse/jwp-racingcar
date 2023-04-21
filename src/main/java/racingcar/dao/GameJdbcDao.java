@@ -3,7 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.entity.Game;
+import racingcar.entity.GameEntity;
 import racingcar.entity.GameId;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public GameId saveAndGetGameId(final Game game) {
+    public GameId saveAndGetGameId(final GameEntity game) {
         final Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("trial", game.getTrial());

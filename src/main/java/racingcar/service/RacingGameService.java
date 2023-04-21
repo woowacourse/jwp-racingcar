@@ -8,9 +8,9 @@ import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
-import racingcar.entity.Game;
+import racingcar.entity.GameEntity;
 import racingcar.entity.GameId;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 
 import java.util.HashSet;
 import java.util.List;
@@ -34,10 +34,10 @@ public class RacingGameService {
     public GameResponseDto play(final GameRequestDto gameRequest) {
         final RacingGame racingGame = playRacingGame(gameRequest);
 
-        final GameId saveGameId = gameDao.saveAndGetGameId(new Game(racingGame.getCount()));
+        final GameId saveGameId = gameDao.saveAndGetGameId(new GameEntity(racingGame.getCount()));
 
         final Set<String> winners = new HashSet<>(racingGame.findWinners());
-        final List<Player> players = fromPlayers(racingGame, saveGameId.getId(), winners);
+        final List<PlayerEntity> players = fromPlayers(racingGame, saveGameId.getId(), winners);
 
         playerDao.saveAll(players);
 
@@ -46,7 +46,7 @@ public class RacingGameService {
 
     @Transactional(readOnly = true)
     public List<GameResponseDto> findAll() {
-        final List<Player> players = playerDao.findAll();
+        final List<PlayerEntity> players = playerDao.findAll();
 
         return GameResponseDto.toGamePlayResponse(players);
     }
@@ -59,9 +59,9 @@ public class RacingGameService {
         return racingGame;
     }
 
-    private List<Player> fromPlayers(final RacingGame racingGame, final int gameId, final Set<String> winners) {
+    private List<PlayerEntity> fromPlayers(final RacingGame racingGame, final int gameId, final Set<String> winners) {
         return racingGame.findCurrentCarPositions().stream()
-                .map(car -> new Player(car, winners.contains(car.getName()), gameId))
+                .map(car -> new PlayerEntity(car, winners.contains(car.getName()), gameId))
                 .collect(Collectors.toList());
     }
 }

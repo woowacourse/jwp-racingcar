@@ -10,9 +10,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberGenerator;
-import racingcar.entity.Game;
+import racingcar.entity.GameEntity;
 import racingcar.entity.GameId;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 import racingcar.utils.TestNumberGenerator;
 
 import java.util.List;
@@ -44,11 +44,11 @@ public class PlayerJdbcDaoTest {
         NumberGenerator numberGenerator = new TestNumberGenerator(Lists.newArrayList(4, 3));
         cars.race(numberGenerator);
 
-        Game game = new Game(1);
+        GameEntity game = new GameEntity(1);
         GameId saveGameId = gameDao.saveAndGetGameId(game);
 
-        List<Player> players = cars.getCars().stream()
-                .map(car -> new Player(car, true, saveGameId.getId()))
+        List<PlayerEntity> players = cars.getCars().stream()
+                .map(car -> new PlayerEntity(car, true, saveGameId.getId()))
                 .collect(Collectors.toList());
         // when
         playerDao.saveAll(players);

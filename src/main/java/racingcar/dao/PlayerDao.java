@@ -1,11 +1,11 @@
 package racingcar.dao;
 
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 
 import java.util.List;
 
 public interface PlayerDao {
-    void saveAll(final List<Player> players);
+    void saveAll(final List<PlayerEntity> players);
 
-    List<Player> findAll();
+    List<PlayerEntity> findAll();
 }

@@ -13,7 +13,7 @@ import racingcar.domain.NumberGenerator;
 import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
 import racingcar.entity.GameId;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 import racingcar.utils.TestNumberGenerator;
 
 import java.util.Arrays;
@@ -63,11 +63,11 @@ class RacingGameServiceTest {
     @Test
     void 자동차_결과를_반환한다() {
         //given
-        List<Player> players = Arrays.asList(
-                new Player(new Car("car1"), true, 1),
-                new Player(new Car("car2"), false, 1),
-                new Player(new Car("car3"), false, 1),
-                new Player(new Car("car4"), true, 1)
+        List<PlayerEntity> players = Arrays.asList(
+                new PlayerEntity(new Car("car1"), true, 1),
+                new PlayerEntity(new Car("car2"), false, 1),
+                new PlayerEntity(new Car("car3"), false, 1),
+                new PlayerEntity(new Car("car4"), true, 1)
         );
 
 

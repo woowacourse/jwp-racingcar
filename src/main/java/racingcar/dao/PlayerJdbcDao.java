@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class PlayerJdbcDao implements PlayerDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    private final RowMapper<Player> actorRowMapper = (resultSet, rowNum) -> new Player(
+    private final RowMapper<PlayerEntity> actorRowMapper = (resultSet, rowNum) -> new PlayerEntity(
             resultSet.getInt("id"),
             resultSet.getString("name"),
             resultSet.getInt("position"),
@@ -29,7 +29,7 @@ public class PlayerJdbcDao implements PlayerDao {
             resultSet.getInt("game_id")
     );
 
-    public void saveAll(final List<Player> players) {
+    public void saveAll(final List<PlayerEntity> players) {
         final MapSqlParameterSource[] batch = players.stream().map(player ->
                 new MapSqlParameterSource()
                         .addValue("game_id", player.getGameId())
@@ -42,7 +42,7 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
-    public List<Player> findAll() {
+    public List<PlayerEntity> findAll() {
         final String sql = "SELECT * FROM player";
 
         return jdbcTemplate.query(sql, actorRowMapper);

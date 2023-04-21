@@ -1,7 +1,7 @@
 package racingcar.dto;
 
 import racingcar.domain.Car;
-import racingcar.entity.Player;
+import racingcar.entity.PlayerEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -24,19 +24,19 @@ public class GameResponseDto {
         return new GameResponseDto(winners, playerDtos);
     }
 
-    public static List<GameResponseDto> toGamePlayResponse(final List<Player> players) {
-        final Map<Integer, List<Player>> gameIdByPlayers = players.stream()
-                .collect(Collectors.groupingBy(Player::getGameId));
+    public static List<GameResponseDto> toGamePlayResponse(final List<PlayerEntity> players) {
+        final Map<Integer, List<PlayerEntity>> gameIdByPlayers = players.stream()
+                .collect(Collectors.groupingBy(PlayerEntity::getGameId));
 
         return gameIdByPlayers.values().stream()
                 .map(GameResponseDto::mapToGamePlayResponse)
                 .collect(Collectors.toList());
     }
 
-    private static GameResponseDto mapToGamePlayResponse(final List<Player> value) {
+    private static GameResponseDto mapToGamePlayResponse(final List<PlayerEntity> value) {
         List<String> winners = value.stream()
-                .filter(Player::isWinner)
-                .map(Player::getName)
+                .filter(PlayerEntity::isWinner)
+                .map(PlayerEntity::getName)
                 .collect(Collectors.toList());
 
         List<PlayerDto> playerDtos = value.stream()
