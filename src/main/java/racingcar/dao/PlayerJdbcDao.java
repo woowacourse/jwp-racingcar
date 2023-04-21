@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -30,15 +31,10 @@ public class PlayerJdbcDao implements PlayerDao {
     );
 
     public void saveAll(final List<PlayerEntity> players) {
-        final MapSqlParameterSource[] batch = players.stream().map(player ->
-                new MapSqlParameterSource()
-                        .addValue("game_id", player.getGameId())
-                        .addValue("name", player.getName())
-                        .addValue("position", player.getPosition())
-                        .addValue("is_winner", player.isWinner())
-        ).toArray(MapSqlParameterSource[]::new);
-
-        insertActor.executeBatch(batch);
+        final BeanPropertySqlParameterSource[] parameterSources = players.stream()
+                .map(BeanPropertySqlParameterSource::new)
+                .toArray(BeanPropertySqlParameterSource[]::new);
+        insertActor.executeBatch(parameterSources);
     }
 
     @Override
