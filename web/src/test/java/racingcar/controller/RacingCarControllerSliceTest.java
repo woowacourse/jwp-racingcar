@@ -83,4 +83,30 @@ class RacingCarControllerSliceTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(response));
     }
+
+    @Test
+    void 숫자가_0이하면_400_에러_테스트() throws Exception {
+        //given
+        final GameRequest gameRequest = new GameRequest(List.of("브리", "토미", "브라운"), 0);
+        final String request = objectMapper.writeValueAsString(gameRequest);
+
+        //expect
+        mockMvc.perform(post("/plays")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(request))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 빈_이름이_들어오면_400_에러_테스트() throws Exception {
+        //given
+        final GameRequest gameRequest = new GameRequest(List.of("브리", "", "브라운"), 10);
+        final String request = objectMapper.writeValueAsString(gameRequest);
+
+        //expect
+        mockMvc.perform(post("/plays")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(request))
+                .andExpect(status().isBadRequest());
+    }
 }
