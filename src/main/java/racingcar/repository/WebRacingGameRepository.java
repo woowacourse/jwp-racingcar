@@ -5,6 +5,8 @@ import static java.util.stream.Collectors.groupingBy;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -54,17 +56,21 @@ public class WebRacingGameRepository implements RacingGameRepository {
         );
         return carRecordWithGameHistory.stream()
                 .collect(collectingAndThen(groupingBy(CarRecordWithGameHistoryDto::getGameId),
-                                map -> map.keySet().stream().map(
-                                        key -> {
-                                            List<RacingCar> racingCars = map.get(key).stream()
-                                                    .map(c -> new RacingCar(c.getId(), c.getName(), c.getPosition())).collect(
-                                                            Collectors.toList());
-                                            LocalDateTime playTime = map.get(key).get(0).getPlayTime();
-                                            return new RacingGame(key, racingCars, playTime);
-                                        }
-                                ).collect(Collectors.toList())
+                                map -> map.entrySet().stream()
+                                        .map(racingGameMapper())
+                                        .collect(Collectors.toList())
                         )
                 );
+    }
+
+    private Function<Entry<Long, List<CarRecordWithGameHistoryDto>>, RacingGame> racingGameMapper() {
+        return historyIdToCarRecords -> {
+            List<RacingCar> racingCars = historyIdToCarRecords.getValue().stream()
+                    .map(c -> new RacingCar(c.getId(), c.getName(), c.getPosition()))
+                    .collect(Collectors.toList());
+            LocalDateTime playTime = historyIdToCarRecords.getValue().get(0).getPlayTime();
+            return new RacingGame(historyIdToCarRecords.getKey(), racingCars, playTime);
+        };
     }
 
 }
