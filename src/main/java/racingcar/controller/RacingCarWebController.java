@@ -25,7 +25,7 @@ public class RacingCarWebController {
     }
 
     @GetMapping("/plays")
-    public List<PlayRecordsResponse> showRecords() {
+    public List<PlayRecordsResponse> showPlayRecords() {
         return racingCarService.showPlayRecords();
     }
 
