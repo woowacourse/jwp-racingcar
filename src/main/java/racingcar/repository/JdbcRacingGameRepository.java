@@ -3,9 +3,9 @@ package racingcar.repository;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Cars;
-import racingcar.entity.GameHistoryEntity;
 import racingcar.repository.dao.PlayResultDao;
 import racingcar.repository.dao.RacingCarDao;
+import racingcar.service.dto.GameHistoryDto;
 
 @Repository
 public class JdbcRacingGameRepository implements RacingGameRepository {
@@ -19,7 +19,7 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
     }
 
     @Override
-    public List<GameHistoryEntity> findGameHistories() {
+    public List<GameHistoryDto> findGameHistories() {
         return playResultDao.findGameHistories();
     }
 

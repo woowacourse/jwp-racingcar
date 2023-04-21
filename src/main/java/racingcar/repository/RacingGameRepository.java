@@ -2,11 +2,11 @@ package racingcar.repository;
 
 import java.util.List;
 import racingcar.domain.Cars;
-import racingcar.entity.GameHistoryEntity;
+import racingcar.service.dto.GameHistoryDto;
 
 public interface RacingGameRepository {
 
-    List<GameHistoryEntity> findGameHistories();
+    List<GameHistoryDto> findGameHistories();
 
     void saveGameResult(final Cars cars);
 }

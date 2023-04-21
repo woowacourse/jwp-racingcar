@@ -4,15 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.entity.GameHistoryEntity;
+import racingcar.service.dto.GameHistoryDto;
 
 @Repository
 public class PlayResultDao {
+
+    private static final String SPLITTER = ",";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -26,13 +30,13 @@ public class PlayResultDao {
 
         jdbcTemplate.update((Connection con) -> {
             PreparedStatement preparedStatement = con.prepareStatement(updateSql, new String[]{"id"});
-            preparedStatement.setString(1, String.join(",", winners));
+            preparedStatement.setString(1, String.join(SPLITTER, winners));
             return preparedStatement;
         }, keyHolder);
         return keyHolder.getKey().longValue();
     }
 
-    public List<GameHistoryEntity> findGameHistories() {
+    public List<GameHistoryDto> findGameHistories() {
         final String querySql = "select pr.id, winners, player_name, player_position "
                 + "from play_result as pr "
                 + "left join racing_car as rc "
@@ -40,11 +44,12 @@ public class PlayResultDao {
         return jdbcTemplate.query(querySql, PlayResultDao::mapGameHistoryRow);
     }
 
-    private static GameHistoryEntity mapGameHistoryRow(ResultSet rs, int rowNum) throws SQLException {
+    private static GameHistoryDto mapGameHistoryRow(ResultSet rs, int rowNum) throws SQLException {
         final long id = rs.getLong("id");
-        final String winners = rs.getString("winners");
+        final List<String> winners = Arrays.stream(rs.getString("winners").split(SPLITTER))
+                .collect(Collectors.toUnmodifiableList());
         final String name = rs.getString("player_name");
         final int position = rs.getInt("player_position");
-        return new GameHistoryEntity(id, winners, name, position);
+        return new GameHistoryDto(id, winners, name, position);
     }
 }
