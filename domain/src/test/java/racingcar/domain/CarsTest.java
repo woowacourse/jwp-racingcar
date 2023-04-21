@@ -44,14 +44,14 @@ class CarsTest {
 
     @Test
     void findWinnerName_함수로_우승자들이_반환됨() {
-
         cars.moveCars(mockRandomPicker);
         assertThat(cars.findWinnerName()).containsExactly("judy", "pobi");
     }
 
     @Test
     void 생성시_중복된_이름이_있으면_예외발생() {
-        assertThatThrownBy(() -> Cars.from(List.of("judy", "judy")))
+        final List<String> names = List.of("judy", "judy");
+        assertThatThrownBy(() -> Cars.from(names))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("중복된 이름이 존재합니다.");
     }

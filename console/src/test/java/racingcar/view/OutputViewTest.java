@@ -47,8 +47,7 @@ class OutputViewTest {
 
     @Test
     void printStatus_메서드_테스트() {
-        final String expected = "judy : -" + System.lineSeparator() + "nunu : --" + System.lineSeparator();
-        OutputView.printStatus(Map.of("judy", 1, "nunu", 2));
+        OutputView.printCarsStatus(Map.of("judy", 1, "nunu", 2));
 
         assertThat(outputStream.toString()).contains(
                 "judy : -" + System.lineSeparator(), "nunu : --" + System.lineSeparator());

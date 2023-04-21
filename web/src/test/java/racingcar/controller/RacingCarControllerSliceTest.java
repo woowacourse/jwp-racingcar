@@ -21,6 +21,7 @@ import racingcar.dto.PlayGameRequest;
 import racingcar.service.AddRaceService;
 import racingcar.service.FindRaceService;
 
+@SuppressWarnings("NonAsciiCharacters")
 @WebMvcTest
 class RacingCarControllerSliceTest {
 

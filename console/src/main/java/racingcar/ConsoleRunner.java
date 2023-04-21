@@ -30,7 +30,7 @@ public class ConsoleRunner {
                     .map(Car::getCarName)
                     .collect(Collectors.toList());
             OutputView.printWinner(winnerNames);
-            OutputView.printStatus(getRacingGameStatus(racingGame));
+            OutputView.printCarsStatus(getRacingGameStatus(racingGame));
         };
     }
 
