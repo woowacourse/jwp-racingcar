@@ -14,6 +14,8 @@ import java.util.List;
 @RestController
 public class RacingGameWebController {
 
+    private static final ApplicationType applicationType = ApplicationType.WEB;
+
     private final RacingGameService racingGameService;
 
     public RacingGameWebController(final RacingGameService racingGameService) {
@@ -23,7 +25,7 @@ public class RacingGameWebController {
     @PostMapping("/plays")
     public OneGameHistoryDto doGame(@RequestBody final PostGameRequest postGameRequest) {
 
-        return racingGameService.run(Parser.sliceByComma(postGameRequest.getNames()), postGameRequest.getCount());
+        return racingGameService.playGame(Parser.sliceByComma(postGameRequest.getNames()), postGameRequest.getCount(), applicationType);
     }
 
     @GetMapping("/plays")

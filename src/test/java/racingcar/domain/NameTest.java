@@ -18,7 +18,7 @@ public class NameTest {
         //then
         assertThatThrownBy(() -> new Name(name))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionInformation.NAME_IS_OUT_OF_BOUND_EXCEPTION.getExceptionMessage());
+                .hasMessage(ExceptionInformation.NAME_IS_OUT_OF_BOUND.getExceptionMessage());
     }
 
     @ParameterizedTest

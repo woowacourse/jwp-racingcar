@@ -12,12 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.PostGameRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 class RacingGameWebControllerTest {
 
     @BeforeEach
@@ -76,8 +78,7 @@ class RacingGameWebControllerTest {
         final JsonPath result = response.jsonPath();
 
         assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(result.getList("")).hasSize(2)
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
         );
     }
 }

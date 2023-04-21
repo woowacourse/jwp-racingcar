@@ -9,7 +9,7 @@ import racingcar.exception.ExceptionInformation;
 import java.util.HashMap;
 import java.util.Map;
 
-import static racingcar.exception.ExceptionInformation.DATABASE_ACCESS_EXCEPTION;
+import static racingcar.exception.ExceptionInformation.DATABASE_ACCESS;
 
 @ControllerAdvice
 public class RacingGameExceptionHandler {
@@ -25,7 +25,7 @@ public class RacingGameExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleDatabaseException(DataAccessException exception) {
         final Map<String, String> exceptionResponse = new HashMap<>();
-        exceptionResponse.put("exception", DATABASE_ACCESS_EXCEPTION.getExceptionMessage());
-        return ResponseEntity.status(DATABASE_ACCESS_EXCEPTION.getHttpStatus()).body(exceptionResponse);
+        exceptionResponse.put("exception", DATABASE_ACCESS.getExceptionMessage());
+        return ResponseEntity.status(DATABASE_ACCESS.getHttpStatus()).body(exceptionResponse);
     }
 }

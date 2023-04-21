@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.controller.ApplicationType;
 import racingcar.dto.GameFindDto;
+import racingcar.entity.Game;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ class JdbcGameDaoTest {
     void saveGame_whenCall_thenSuccess() {
         // given
         // when, then
-        assertThatCode(() -> gameDao.save(10))
+        assertThatCode(() -> gameDao.save(new Game(10, ApplicationType.CONSOLE)))
                 .doesNotThrowAnyException();
     }
 
@@ -42,7 +44,7 @@ class JdbcGameDaoTest {
     @DisplayName("Game 테이블에 저장된 정보를 불러올 수 있다.")
     void findGame_whenCall_thenSuccess() {
         // given
-        Long gameId = gameDao.save(10);
+        Long gameId = gameDao.save(new Game(10, ApplicationType.CONSOLE));
 
         // when
         List<GameFindDto> gameFindDtos = gameDao.findAll();
@@ -51,7 +53,8 @@ class JdbcGameDaoTest {
         Assertions.assertAll(
                 () -> assertThat(gameFindDtos.size()).isEqualTo(1),
                 () -> assertThat(gameFindDtos.get(0).getId()).isEqualTo(gameId),
-                () -> assertThat(gameFindDtos.get(0).getTrialCount()).isEqualTo(10)
+                () -> assertThat(gameFindDtos.get(0).getTrialCount()).isEqualTo(10),
+                () -> assertThat(gameFindDtos.get(0).getApplicationType()).isEqualTo(ApplicationType.CONSOLE)
         );
     }
 }

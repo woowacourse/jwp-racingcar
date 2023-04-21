@@ -16,13 +16,13 @@ public class TryCount {
 
     private void validateTryCount(final int inputCount) {
         if (inputCount <= END_FLAG) {
-            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER_EXCEPTION.getExceptionMessage());
+            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER.getExceptionMessage());
         }
     }
 
     public void deduct() {
         if (isZero()) {
-            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER_EXCEPTION.getExceptionMessage());
+            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER.getExceptionMessage());
         }
 
         tryCount--;

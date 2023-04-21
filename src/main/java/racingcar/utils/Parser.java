@@ -20,7 +20,7 @@ public class Parser {
 
     private static void validateComma(final String names) {
         if (!names.contains(",")) {
-            throw new IllegalArgumentException(ExceptionInformation.COMMA_NOT_FOUND_EXCEPTION.getExceptionMessage());
+            throw new IllegalArgumentException(ExceptionInformation.COMMA_NOT_FOUND.getExceptionMessage());
         }
     }
 }

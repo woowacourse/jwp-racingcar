@@ -6,7 +6,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.controller.ApplicationType;
 import racingcar.dto.GameFindDto;
+import racingcar.entity.Game;
 
 import java.util.List;
 
@@ -18,10 +20,13 @@ class JdbcGameDao extends JdbcTemplateDao implements GameDao {
     }
 
     @Override
-    public Long save(int trialCount) {
-        final String sql = "insert into Game (trial_count) values (:trialCount)";
-        final SqlParameterSource gameParameters = new MapSqlParameterSource("trialCount", trialCount);
-
+    public Long save(final Game game) {
+        final String sql = "insert into Game (trial_count, application_id) values (:trialCount, :application_id)";
+        final SqlParameterSource gameParameters = new MapSqlParameterSource()
+                .addValue("trialCount", game.getTrialCount())
+                .addValue("application_id", game.getApplicationType().getApplicationId());
+        // sql 추가
+        
         final KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, gameParameters, keyHolder);
         return (long) keyHolder.getKeys().get("id");
@@ -29,13 +34,14 @@ class JdbcGameDao extends JdbcTemplateDao implements GameDao {
 
     @Override
     public List<GameFindDto> findAll() {
-        final String sql = "select id, trial_count, created_at from Game";
+        final String sql = "select id, trial_count, created_at, application_id from Game";
 
         return jdbcTemplate.query(sql,
                 (resultSet, rowNum) -> new GameFindDto(
                         resultSet.getLong("id"),
                         resultSet.getInt("trial_count"),
-                        resultSet.getDate("created_at")
+                        resultSet.getDate("created_at"),
+                        ApplicationType.findById(resultSet.getInt("application_id"))
                 ));
     }
 }

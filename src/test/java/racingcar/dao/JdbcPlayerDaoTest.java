@@ -9,7 +9,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.controller.ApplicationType;
 import racingcar.dto.PlayerFindDto;
+import racingcar.entity.Game;
 import racingcar.entity.Player;
 
 import java.util.List;
@@ -36,7 +38,7 @@ class JdbcPlayerDaoTest {
     @DisplayName("Player 테이블에 값을 저장할 수 있다.")
     void savePlayer_whenCall_thenSuccess() {
         // given
-        Long gameId = gameDao.save(10);
+        Long gameId = gameDao.save(new Game(10, ApplicationType.CONSOLE));
         final Player kongHana = new Player("콩하나", 10, true);
         final Player ethan = new Player("에단", 5, false);
 
@@ -65,7 +67,7 @@ class JdbcPlayerDaoTest {
         String ethanName = "에단";
 
         // when
-        Long gameId = gameDao.save(10);
+        Long gameId = gameDao.save(new Game(10, ApplicationType.CONSOLE));
         final Player kongHana = new Player(konghanaName, 10, true);
         final Player ethan = new Player(ethanName, 5, false);
         playerDao.save(gameId, List.of(kongHana, ethan));

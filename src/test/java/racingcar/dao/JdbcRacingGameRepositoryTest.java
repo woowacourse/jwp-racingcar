@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.controller.ApplicationType;
+import racingcar.entity.Game;
 import racingcar.entity.Player;
 import racingcar.dto.RacingGameFindDto;
 
@@ -39,7 +41,7 @@ class JdbcRacingGameRepositoryTest {
         final Player ethan = new Player("에단", 5, false);
 
         // when, then
-        assertThatCode(() -> racingGameRepository.save(10, List.of(kongHana, ethan)))
+        assertThatCode(() -> racingGameRepository.save(new Game(10, ApplicationType.CONSOLE), List.of(kongHana, ethan)))
                 .doesNotThrowAnyException();
     }
 
@@ -49,7 +51,7 @@ class JdbcRacingGameRepositoryTest {
         // given
         final Player kongHana = new Player("콩하나", 10, true);
         final Player ethan = new Player("에단", 5, false);
-        Long gameId = racingGameRepository.save(10, List.of(kongHana, ethan));
+        Long gameId = racingGameRepository.save(new Game(10, ApplicationType.CONSOLE), List.of(kongHana, ethan));
 
         // when, then
         List<RacingGameFindDto> oneGameHistoryDtos = racingGameRepository.findAll();

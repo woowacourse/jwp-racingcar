@@ -11,6 +11,8 @@ import java.util.List;
 
 public class RacingGameConsoleController {
 
+    private static final ApplicationType applicationType = ApplicationType.CONSOLE;
+
     private final RacingGameService racingGameService;
 
     public RacingGameConsoleController(RacingGameService racingGameService) {
@@ -25,13 +27,13 @@ public class RacingGameConsoleController {
 
     private void playRacingGame() {
         try {
-            OneGameHistoryDto oneGameHistoryDto = racingGameService.run(inputCarNames(), requestTryCount());
+            OneGameHistoryDto oneGameHistoryDto = racingGameService.playGame(inputCarNames(), requestTryCount(), applicationType);
             OutputView.printWinner(oneGameHistoryDto);
         } catch (IllegalArgumentException exception) {
             ExceptionInformation exceptionInformation = ExceptionInformation.findByMessage(exception.getMessage());
             System.out.println(exceptionInformation.getExceptionMessage());
         } catch (DataAccessException exception) {
-            System.out.println(ExceptionInformation.DATABASE_ACCESS_EXCEPTION.getExceptionMessage());
+            System.out.println(ExceptionInformation.DATABASE_ACCESS.getExceptionMessage());
         }
     }
 

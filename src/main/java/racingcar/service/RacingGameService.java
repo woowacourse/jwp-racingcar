@@ -1,9 +1,11 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import racingcar.controller.ApplicationType;
 import racingcar.dao.RacingGameRepository;
 import racingcar.domain.*;
 import racingcar.dto.*;
+import racingcar.entity.Game;
 import racingcar.entity.Player;
 
 import java.util.List;
@@ -20,12 +22,12 @@ public class RacingGameService {
         this.racingGameRepository = racingGameRepository;
     }
 
-    public OneGameHistoryDto run(final List<String> inputNames, final int inputCount) {
+    public OneGameHistoryDto playGame(final List<String> inputNames, final int inputCount, final ApplicationType applicationType) {
         final List<Name> names = generateNames(inputNames);
         final RacingGame racingGame = new RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(inputCount));
         final RacingCars racingCars = racingGame.moveCars();
 
-        saveRacingCars(inputCount, racingCars);
+        saveRacingCars(inputCount, applicationType, racingCars);
 
         return generateOneGameHistoryDto(racingCars);
     }
@@ -42,12 +44,13 @@ public class RacingGameService {
                 .collect(toList());
     }
 
-    private void saveRacingCars(final int tryCount, final RacingCars racingCars) {
+    private void saveRacingCars(final int tryCount, final ApplicationType applicationType, final RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
         final List<Player> players = racingCars.getRacingCars().stream()
                 .map(racingCar -> createPlayerEntity(winnerNames, racingCar))
                 .collect(toList());
-        racingGameRepository.save(tryCount, players);
+        final Game game = new Game(tryCount, applicationType);
+        racingGameRepository.save(game, players);
     }
 
     private Player createPlayerEntity(final List<String> winnerNames, final RacingCar racingCar) {
