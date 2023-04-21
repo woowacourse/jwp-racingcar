@@ -2,6 +2,8 @@ package racingcar.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,7 +26,7 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingResponse> plays(@RequestBody RacingGameRequest request) {
+    public ResponseEntity<RacingCarResponse> plays(@Valid @RequestBody RacingCarRequest request) {
         List<String> carNames = InputConvertor.carNames(request.getNames());
         Cars cars = Cars.from(carNames);
         int tryCount = InputConvertor.tryCount(request.getCount());
