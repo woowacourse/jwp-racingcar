@@ -1,8 +1,12 @@
 package racingcar.dto;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import racingcar.domain.car.Car;
 
+@EqualsAndHashCode
+@ToString
 @Getter
 public class CarResponseDto {
     private final String name;

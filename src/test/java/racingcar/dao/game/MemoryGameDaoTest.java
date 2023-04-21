@@ -17,9 +17,9 @@ class MemoryGameDaoTest {
     void setUp() {
         gameDao = new MemoryGameDao();
         final RacingGame firstRacingGame = new RacingGame("아벨,스플릿,포비", 20);
-        gameDao.insert(new GameDto(firstRacingGame));
+        gameDao.save(new GameDto(firstRacingGame));
         final RacingGame secondRacingGame = new RacingGame("아벨,스플릿", 10);
-        gameDao.insert(new GameDto(secondRacingGame));
+        gameDao.save(new GameDto(secondRacingGame));
     }
     
     @Test
@@ -29,18 +29,6 @@ class MemoryGameDaoTest {
         
         // then
         assertThat(gameIds).containsExactly(1L, 2L);
-    }
-    
-    @Test
-    void GameId를_전달하면_GameDto를_전달한다() {
-        // given
-        final long gameId = 2L;
-        
-        // when
-        final GameDto gameDto = gameDao.findById(gameId);
-        
-        // then
-        assertThat(gameDto.getTryNumber()).isEqualTo(10);
     }
     
     @AfterEach

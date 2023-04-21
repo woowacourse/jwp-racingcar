@@ -6,7 +6,7 @@ import racingcar.dto.WinnerDto;
 import java.util.List;
 
 public interface CarDao {
-    void insert(CarDto carDto);
+    void save(CarDto carDto);
     
     long findIdByCarDto(CarDto carDto);
     

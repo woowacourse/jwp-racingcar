@@ -12,7 +12,7 @@ public class MemoryWinnerDao implements WinnerDao {
     private static long id = 1L;
     
     @Override
-    public void insert(final WinnerDto winnerDto) {
+    public void save(final WinnerDto winnerDto) {
         winner.put(id++, winnerDto);
     }
     

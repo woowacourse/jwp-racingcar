@@ -1,35 +1,36 @@
 package racingcar.dto;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import racingcar.domain.car.Car;
-import racingcar.domain.car.Cars;
 import racingcar.domain.car.Name;
-import racingcar.domain.racinggame.RacingGame;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode
+@ToString
 @Getter
 public class GameResponseDto {
     private final String winners;
     private final List<CarResponseDto> racingCars;
     
-    public GameResponseDto(final RacingGame racingGame) {
-        final Cars cars = racingGame.getCars();
-        this.winners = parseWinners(cars);
+    public GameResponseDto(final List<Car> winners, final List<Car> cars) {
+        this.winners = parseWinners(winners);
         this.racingCars = parseCarResponseDtos(cars);
     }
     
-    private List<CarResponseDto> parseCarResponseDtos(final Cars cars) {
-        return cars.getCars().stream()
-                .map(CarResponseDto::new)
-                .collect(Collectors.toUnmodifiableList());
-    }
-    
-    private String parseWinners(final Cars cars) {
-        return cars.getWinners().stream()
+    private String parseWinners(final List<Car> winners) {
+        return winners.stream()
                 .map(Car::getName)
                 .map(Name::getName)
                 .collect(Collectors.joining(", "));
+    }
+    
+    private List<CarResponseDto> parseCarResponseDtos(final List<Car> cars) {
+        return cars.stream()
+                .map(CarResponseDto::new)
+                .collect(Collectors.toUnmodifiableList());
     }
 }

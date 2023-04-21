@@ -1,4 +1,4 @@
-package racingcar.mock;
+package racingcar.view.mock;
 
 import java.io.InputStream;
 

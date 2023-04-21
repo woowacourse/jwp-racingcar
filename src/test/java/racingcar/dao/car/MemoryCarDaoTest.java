@@ -18,11 +18,11 @@ class MemoryCarDaoTest {
     @BeforeEach
     void setUp() {
         carDao = new MemoryCarDao();
-        carDao.insert(new CarDto(1L, new Car(new Name("아벨"))));
-        carDao.insert(new CarDto(1L, new Car(new Name("스플릿"))));
-        carDao.insert(new CarDto(1L, new Car(new Name("포비"))));
-        carDao.insert(new CarDto(2L, new Car(new Name("포비"))));
-        carDao.insert(new CarDto(2L, new Car(new Name("아벨"))));
+        carDao.save(new CarDto(1L, new Car(new Name("아벨"))));
+        carDao.save(new CarDto(1L, new Car(new Name("스플릿"))));
+        carDao.save(new CarDto(1L, new Car(new Name("포비"))));
+        carDao.save(new CarDto(2L, new Car(new Name("포비"))));
+        carDao.save(new CarDto(2L, new Car(new Name("아벨"))));
     }
     
     @Test

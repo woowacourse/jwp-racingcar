@@ -13,7 +13,7 @@ public class MemoryCarDao implements CarDao {
     private static long id = 1L;
     
     @Override
-    public void insert(final CarDto carDto) {
+    public void save(final CarDto carDto) {
         car.put(id++, carDto);
     }
     

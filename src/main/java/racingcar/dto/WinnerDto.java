@@ -2,9 +2,11 @@ package racingcar.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
-@Getter
 @EqualsAndHashCode
+@ToString
+@Getter
 public class WinnerDto {
     private final long gameId;
     private final long carId;

@@ -12,7 +12,7 @@ public class MemoryGameDao implements GameDao {
     private static long id = 1L;
     
     @Override
-    public long insert(final GameDto gameDto) {
+    public long save(final GameDto gameDto) {
         game.put(id, gameDto);
         return id++;
     }
@@ -22,11 +22,6 @@ public class MemoryGameDao implements GameDao {
         return game.keySet().stream()
                 .sorted()
                 .collect(Collectors.toUnmodifiableList());
-    }
-    
-    @Override
-    public GameDto findById(final long gameId) {
-        return game.get(gameId);
     }
     
     public void deleteAll() {

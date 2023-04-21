@@ -1,13 +1,12 @@
 package racingcar.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+@EqualsAndHashCode
+@ToString
 @Getter
 @NoArgsConstructor
 public class GameRequestDto {

@@ -4,7 +4,7 @@ import racingcar.controller.ConsoleRacingCarController;
 import racingcar.dao.car.MemoryCarDao;
 import racingcar.dao.game.MemoryGameDao;
 import racingcar.dao.winner.MemoryWinnerDao;
-import racingcar.service.ConsoleRacingCarService;
+import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -13,7 +13,7 @@ public class ConsoleRacingCarApplication {
         final MemoryGameDao gameDao = new MemoryGameDao();
         final MemoryCarDao carDao = new MemoryCarDao();
         final MemoryWinnerDao winnerDao = new MemoryWinnerDao();
-        final ConsoleRacingCarService racingCarService = new ConsoleRacingCarService(gameDao, carDao, winnerDao);
+        final RacingCarService racingCarService = new RacingCarService(gameDao, carDao, winnerDao);
         
         final InputView inputView = new InputView();
         final OutputView outputView = new OutputView();

@@ -15,11 +15,11 @@ class MemoryWinnerDaoTest {
     @BeforeEach
     void setUp() {
         winnerDao = new MemoryWinnerDao();
-        winnerDao.insert(new WinnerDto(1L, 1L));
-        winnerDao.insert(new WinnerDto(1L, 2L));
-        winnerDao.insert(new WinnerDto(1L, 3L));
-        winnerDao.insert(new WinnerDto(2L, 1L));
-        winnerDao.insert(new WinnerDto(2L, 2L));
+        winnerDao.save(new WinnerDto(1L, 1L));
+        winnerDao.save(new WinnerDto(1L, 2L));
+        winnerDao.save(new WinnerDto(1L, 3L));
+        winnerDao.save(new WinnerDto(2L, 1L));
+        winnerDao.save(new WinnerDto(2L, 2L));
     }
     
     @Test

@@ -16,7 +16,7 @@ public class Car implements Comparable<Car> {
         this(name, new Position(0));
     }
     
-    private Car(final Name name, final Position position) {
+    public Car(final Name name, final Position position) {
         this.name = name;
         this.position = position;
     }
