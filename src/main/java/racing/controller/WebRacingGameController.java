@@ -18,16 +18,17 @@ import java.util.List;
 public class WebRacingGameController {
 
     private final RacingGameService racingGameService;
+    private final RandomNumberGenerator generator;
 
-    public WebRacingGameController(RacingGameService racingGameService) {
+    public WebRacingGameController(RacingGameService racingGameService, RandomNumberGenerator generator) {
         this.racingGameService = racingGameService;
+        this.generator = generator;
     }
 
     @PostMapping("/plays")
     public RacingGameResultResponse start(@RequestBody RacingGameInfoRequest request) {
         Cars cars = racingGameService.createCars(request.getNames());
         Long gameId = racingGameService.createRacingGame(request.getCount());
-        RandomNumberGenerator generator = new RandomNumberGenerator();
 
         moveCar(request, cars, generator);
         return racingGameService.saveCarsState(gameId, cars);
