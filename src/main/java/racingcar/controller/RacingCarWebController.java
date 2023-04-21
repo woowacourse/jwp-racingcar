@@ -7,6 +7,7 @@ import racingcar.dto.GameResultResponse;
 import racingcar.dto.PlayRecordsResponse;
 import racingcar.service.RacingCarService;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class RacingCarWebController {
     @PostMapping("/plays")
     public ResponseEntity<GameResultResponse> createCarsAndGameRecords(@RequestBody GameInfoRequest gameInfoRequest) {
         GameResultResponse gameResultResponse = racingCarService.createResponse(gameInfoRequest);
-        return ResponseEntity.ok().body(gameResultResponse);
+        return ResponseEntity.created(URI.create("/plays")).body(gameResultResponse);
     }
 
     @GetMapping("/plays")
