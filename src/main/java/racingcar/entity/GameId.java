@@ -1,7 +1,7 @@
 package racingcar.entity;
 
 public class GameId {
-    private static final int FIRST_ID_VALUES = 0;
+    private static final int FIRST_ID_VALUES = 1;
 
     private final int id;
 
