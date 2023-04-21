@@ -33,10 +33,6 @@ public class RacingCarService {
             .collect(Collectors.toList());
     }
 
-    /*private String findWinners(final Cars cars) {
-        return String.join(", ", cars.findWinners());
-    }*/
-
     public RacingCarResponseDto play(final Cars cars, final Trial trial) {
         RacingGame racingGame = new RacingGame(cars, trial, new RandomNumberGenerator());
         racingGame.play();
@@ -57,12 +53,12 @@ public class RacingCarService {
     }
 
     private List<RacingCarResponseDto> getRacingResponses(List<GameEntity> gameEntities) {
-        List<RacingCarResponseDto> racingCarRespons = new ArrayList<>();
+        List<RacingCarResponseDto> racingCarResponse = new ArrayList<>();
         for (GameEntity gameEntity : gameEntities) {
             int playResultId = gameEntity.getId();
             List<CarEntity> carEntities = carDao.selectCarsByGameId(playResultId);
-            racingCarRespons.add(new RacingCarResponseDto(gameEntity.getWinners(), carEntities));
+            racingCarResponse.add(new RacingCarResponseDto(gameEntity.getWinners(), carEntities));
         }
-        return racingCarRespons;
+        return racingCarResponse;
     }
 }
