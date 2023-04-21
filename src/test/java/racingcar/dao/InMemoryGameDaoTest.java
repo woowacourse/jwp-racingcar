@@ -4,50 +4,59 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import racingcar.service.RacingResult;
+import racingcar.service.GameEntity;
 
 class InMemoryGameDaoTest {
     private final InMemoryGameDao inMemoryGameDao = new InMemoryGameDao();
 
-    @AfterEach
+    @BeforeEach
+    void clear() {
+        inMemoryGameDao.clearStore();
+    }
 
     @Test
     @DisplayName("RacingResult 1건이 제대로 insert되었는지 확인")
     void insertRacingResultTest() {
         // given
-        RacingResult racingResult = new RacingResult("name1,name2", 3);
-        inMemoryGameDao.insertRacingResult(racingResult);
-        List<RacingResult> racingResults = inMemoryGameDao.selectAllResults();
+        GameEntity gameEntity = new GameEntity("name1,name2", 3);
+        inMemoryGameDao.insertRacingResult(gameEntity);
+        List<GameEntity> gameEntities = inMemoryGameDao.selectAllResults();
 
         // when
-        RacingResult findPlayResult = racingResults.get(0);
+        GameEntity findPlayResult = gameEntities.get(0);
 
         // then
-        assertThat(findPlayResult.getId()).isEqualTo(racingResult.getId());
-        assertThat(findPlayResult.getWinners()).isEqualTo(racingResult.getWinners());
-        assertThat(findPlayResult.getTrialCount()).isEqualTo(racingResult.getTrialCount());
+        assertThat(findPlayResult.getId()).isEqualTo(gameEntity.getId());
+        assertThat(findPlayResult.getWinners()).isEqualTo(gameEntity.getWinners());
+        assertThat(findPlayResult.getTrialCount()).isEqualTo(gameEntity.getTrialCount());
     }
 
     @Test
     @DisplayName("RacingResult를 두 번 insert했을 때 모든 RacingResult를 제대로 select하는 확인")
     void selectAllResultsTest() {
         // given
-        RacingResult racingResult1 = new RacingResult("name1,name2", 3);
-        RacingResult racingResult2 = new RacingResult("name3,name4", 4);
+        GameEntity gameEntity1 = new GameEntity("name1,name2", 3);
+        GameEntity gameEntity2 = new GameEntity("name3,name4", 4);
 
-        inMemoryGameDao.insertRacingResult(racingResult1);
-        inMemoryGameDao.insertRacingResult(racingResult2);
+        inMemoryGameDao.insertRacingResult(gameEntity1);
+        inMemoryGameDao.insertRacingResult(gameEntity2);
 
         // when
-        List<RacingResult> racingResults = inMemoryGameDao.selectAllResults();
+        List<GameEntity> gameEntities = inMemoryGameDao.selectAllResults();
+        System.out.println(gameEntities);
 
         // then
-        assertThat(racingResults.size()).isEqualTo(2);
-        assertThat(racingResults.containsAll(List.of(racingResult1, racingResult2))).isTrue();
+        assertThat(gameEntities.size()).isEqualTo(2);
+
+        assertThat(gameEntities.get(0).getId()).isEqualTo(gameEntity1.getId());
+        assertThat(gameEntities.get(1).getId()).isEqualTo(gameEntity2.getId());
+
+        assertThat(gameEntities.get(0).getWinners()).isEqualTo(gameEntity1.getWinners());
+        assertThat(gameEntities.get(1).getWinners()).isEqualTo(gameEntity2.getWinners());
     }
 
 }

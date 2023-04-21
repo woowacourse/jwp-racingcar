@@ -34,13 +34,13 @@ public class JdbcCarDao implements CarDao {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public List<CarEntity> selectPlayerResultByRacingResultId(final int ragingResultId) {
+    public List<CarEntity> selectCarsByGameId(final int ragingResultId) {
         String sql = "select id, play_result_id, name, position from player_result where PLAY_RESULT_ID = :play_result_id";
         MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("play_result_id", ragingResultId);
         return namedParameterJdbcTemplate.query(sql, sqlParameterSource, actorRowMapper);
     }
 
-    public void insertPlayer(final CarEntity carEntity) {
+    public void insertCar(final CarEntity carEntity) {
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(carEntity);
         Number newId = insertActor.executeAndReturnKey(parameterSource);
         carEntity.setId(newId.intValue());

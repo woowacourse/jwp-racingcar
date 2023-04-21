@@ -11,14 +11,14 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import racingcar.service.RacingResult;
+import racingcar.service.GameEntity;
 
 @Repository
 public class JdbcGameDao implements GameDao {
     private final SimpleJdbcInsert insertActor;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final RowMapper<RacingResult> actorRowMapper = (resultSet, rowNum) -> new RacingResult(
+    private final RowMapper<GameEntity> actorRowMapper = (resultSet, rowNum) -> new GameEntity(
         resultSet.getInt("id"),
         resultSet.getString("winners"),
         resultSet.getInt("trial_count")
@@ -32,16 +32,16 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public RacingResult insertRacingResult(final RacingResult racingResult) {
-        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(racingResult);
+    public GameEntity insertRacingResult(final GameEntity gameEntity) {
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(gameEntity);
 
         Number newId = insertActor.executeAndReturnKey(parameterSource);
-        racingResult.setId(newId.intValue());
-        return racingResult;
+        gameEntity.setId(newId.intValue());
+        return gameEntity;
     }
 
     @Override
-    public List<RacingResult> selectAllResults() {
+    public List<GameEntity> selectAllResults() {
         String sql = "select id, trial_count, winners from play_result order by id desc";
         return namedParameterJdbcTemplate.query(sql, actorRowMapper);
     }

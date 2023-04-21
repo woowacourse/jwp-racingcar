@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import racingcar.service.CarEntity;
-import racingcar.service.RacingResult;
+import racingcar.service.GameEntity;
 
 @SpringBootTest
 @Transactional
@@ -24,20 +24,20 @@ class JdbcCarDaoTest {
     @Autowired
     JdbcCarDao jdbcCarDao;
 
-    private RacingResult racingResult;
+    private GameEntity gameEntity;
 
     @BeforeEach
     void initialize() {
-        racingResult = jdbcGameDao.insertRacingResult(new RacingResult("name1,name2", 3));
+        gameEntity = jdbcGameDao.insertRacingResult(new GameEntity("name1,name2", 3));
     }
 
     @Test
-    @DisplayName("playerResult 1건이 제대로 db에 insert되는지 확인")
-    void insertPlayer() {
+    @DisplayName("Car 1건이 제대로 db에 insert되는지 확인")
+    void insertCarTest() {
         // given
-        CarEntity carEntity = new CarEntity(racingResult.getId(), "name", 10);
-        jdbcCarDao.insertPlayer(carEntity);
-        List<CarEntity> carEntities = jdbcCarDao.selectPlayerResultByRacingResultId(2);
+        CarEntity carEntity = new CarEntity(gameEntity.getId(), "name", 10);
+        jdbcCarDao.insertCar(carEntity);
+        List<CarEntity> carEntities = jdbcCarDao.selectCarsByGameId(gameEntity.getId());
 
         // when
         CarEntity findedCarEntity = carEntities.get(0);
@@ -47,20 +47,25 @@ class JdbcCarDaoTest {
     }
 
     @Test
-    @DisplayName("playerResult를 두 번 insert했을 때 모든 playerResult를 제대로 select하는 확인")
-    void selectPlayerResultByPlayResultIdTest() {
+    @DisplayName("Car를 두 번 insert했을 때 모든 Car를 제대로 select하는 확인")
+    void selectCarsByGameIdTest() {
         // given
-        CarEntity carEntity1 = new CarEntity(racingResult.getId(), "name1", 10);
-        CarEntity carEntity2 = new CarEntity(racingResult.getId(), "name2", 10);
-        jdbcCarDao.insertPlayer(carEntity1);
-        jdbcCarDao.insertPlayer(carEntity2);
+        CarEntity carEntity1 = new CarEntity(gameEntity.getId(), "name1", 10);
+        CarEntity carEntity2 = new CarEntity(gameEntity.getId(), "name2", 10);
+        jdbcCarDao.insertCar(carEntity1);
+        jdbcCarDao.insertCar(carEntity2);
 
         // when
-        List<CarEntity> carEntities = jdbcCarDao.selectPlayerResultByRacingResultId(racingResult.getId());
+        List<CarEntity> carEntities = jdbcCarDao.selectCarsByGameId(gameEntity.getId());
 
         // then
         assertThat(carEntities.size()).isEqualTo(2);
-        assertThat(carEntities.containsAll(List.of(carEntity1, carEntity2))).isTrue();
+
+        assertThat(carEntities.get(0).getName()).isEqualTo(carEntity1.getName());
+        assertThat(carEntities.get(1).getName()).isEqualTo(carEntity2.getName());
+
+        assertThat(carEntities.get(0).getId()).isEqualTo(carEntity1.getId());
+        assertThat(carEntities.get(1).getId()).isEqualTo(carEntity2.getId());
     }
 
 }
