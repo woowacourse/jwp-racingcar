@@ -5,11 +5,12 @@ import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.entity.CarEntity;
 import racingcar.dto.GamePlayResponseDto;
+import racingcar.entity.CarEntity;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class CarService {
@@ -30,7 +31,10 @@ public class CarService {
     }
 
     public List<GamePlayResponseDto> findGamePlayHistoryAll() {
-        return gameDao.findAllWinners().stream().map(gameDto -> new GamePlayResponseDto(gameDto.getWinners(), carDao.findRacingCarByGameId(gameDto.getId()))).collect(Collectors.toList());
+        return gameDao.findAllWinners().stream()
+                .map(gameDto -> new GamePlayResponseDto(gameDto.getWinners()
+                        , carDao.findRacingCarByGameId(gameDto.getId())))
+                .collect(toList());
     }
 
     private GamePlayResponseDto save(final String count, final RacingGame racingGame) {
@@ -46,7 +50,9 @@ public class CarService {
     private List<CarEntity> mapToCarDto(final RacingGame racingGame) {
         final List<Car> cars = racingGame.getCars();
 
-        return cars.stream().map(car -> new CarEntity(car.getName(), car.getPosition())).collect(Collectors.toList());
+        return cars.stream()
+                .map(car -> new CarEntity(car.getName(), car.getPosition()))
+                .collect(toList());
     }
 
     private long insertGame(final String count, final String winners) {
@@ -55,7 +61,6 @@ public class CarService {
     }
 
     private void insertCar(final List<CarEntity> carEntities, final long id) {
-        carEntities.forEach((carEntity -> carDao.insert(carEntity.getName(), carEntity.getPosition(), id)));
+        carDao.batchInsert(carEntities, id);
     }
-    
 }

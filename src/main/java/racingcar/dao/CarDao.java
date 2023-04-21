@@ -15,9 +15,13 @@ public class CarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(final String name, final int position, final long playResultId) {
+    public void batchInsert(final List<CarEntity> carEntities, final long id) {
         String sql = "insert into CAR (name, position, game_id) values (?, ?, ?)";
-        jdbcTemplate.update(sql, name, position, playResultId);
+        jdbcTemplate.batchUpdate(sql, carEntities, carEntities.size(), (ps, argument) -> {
+            ps.setString(1, argument.getName());
+            ps.setInt(2, argument.getPosition());
+            ps.setLong(3, id);
+        });
     }
 
     public List<CarEntity> findRacingCarByGameId(final long gameId) {
