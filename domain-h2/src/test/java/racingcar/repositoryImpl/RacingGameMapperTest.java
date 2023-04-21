@@ -63,7 +63,7 @@ class RacingGameMapperTest {
                 List.of(new CarEntity(1, "ㅁㄴㅇㄹ", 3, 3)));
 
         assertAll(
-                () -> assertThat(result.getGameId()).isEqualTo(3),
+                () -> assertThat(result.getGameId().getValue()).isEqualTo(3),
                 () -> assertThat(result.getCount().getTargetCount()).isEqualTo(5),
                 () -> assertThat(result.getCars()).hasSize(1),
                 () -> assertThat(result.getCars().get(0).getCarName()).isEqualTo("ㅁㄴㅇㄹ"),
@@ -85,7 +85,7 @@ class RacingGameMapperTest {
 
         assertAll(
                 () -> assertThat(result).hasSize(2),
-                () -> assertThat(result.get(0).getGameId()).isEqualTo(1),
+                () -> assertThat(result.get(0).getGameId().getValue()).isEqualTo(1),
                 () -> assertThat(result.get(0).getCount().getTargetCount()).isEqualTo(5),
                 () -> assertThat(result.get(0).getCars()).hasSize(2),
                 () -> assertThat(result.get(0).getCars().get(0).getCarName()).isEqualTo("ㅁㄴㅇㄹ"),
@@ -94,7 +94,7 @@ class RacingGameMapperTest {
                 () -> assertThat(result.get(0).getCars().get(1).getCarName()).isEqualTo("asdf"),
                 () -> assertThat(result.get(0).getCars().get(1).getPosition()).isEqualTo(4),
                 () -> assertThat(result.get(0).getCars().get(1).getCarId().getValue()).isEqualTo(2),
-                () -> assertThat(result.get(1).getGameId()).isEqualTo(2),
+                () -> assertThat(result.get(1).getGameId().getValue()).isEqualTo(2),
                 () -> assertThat(result.get(1).getCount().getTargetCount()).isEqualTo(5),
                 () -> assertThat(result.get(1).getCars()).hasSize(2),
                 () -> assertThat(result.get(1).getCars().get(0).getCarName()).isEqualTo("ㅁㄴㅇㄹ"),

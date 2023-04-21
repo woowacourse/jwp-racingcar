@@ -16,7 +16,7 @@ public class RacingGameMapper {
     }
 
     public static GameEntity toGameEntity(final RacingGame racingGame) {
-        return new GameEntity(racingGame.getGameId(), racingGame.getCount().getTargetCount());
+        return new GameEntity(racingGame.getGameId().getValue(), racingGame.getCount().getTargetCount());
     }
 
     public static List<CarEntity> toCarEntities(final List<Car> cars, final GameId gameId) {
@@ -28,7 +28,7 @@ public class RacingGameMapper {
     public static List<WinnerEntity> toWinnerEntity(final RacingGame racingGame) {
         return racingGame.findWinner()
                 .stream()
-                .map(car -> WinnerEntity.fromDomain(car, racingGame.getGameId()))
+                .map(car -> WinnerEntity.fromDomain(car, racingGame.getGameId().getValue()))
                 .collect(Collectors.toList());
     }
 

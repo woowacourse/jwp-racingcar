@@ -6,7 +6,7 @@ public class RacingGame {
 
     private final Cars cars;
     private final Count count;
-    private Integer gameId;
+    private GameId gameId;
 
     public RacingGame(final List<String> carsName, final int count) {
         cars = Cars.from(carsName);
@@ -14,7 +14,7 @@ public class RacingGame {
     }
 
     public RacingGame(final Integer gameId, final List<Car> cars, final int count) {
-        this.gameId = gameId;
+        this.gameId = new GameId(gameId);
         this.cars = new Cars(cars);
         this.count = new Count(count);
     }
@@ -35,7 +35,7 @@ public class RacingGame {
         return cars.getCars();
     }
 
-    public Integer getGameId() {
+    public GameId getGameId() {
         return gameId;
     }
 }
