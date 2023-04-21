@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import static racingcar.option.Option.*;
+import static racingcar.option.Option.INITIAL_POSITION;
 
 import java.util.Objects;
 

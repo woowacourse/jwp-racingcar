@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import java.util.stream.Stream;
 import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
@@ -11,7 +10,7 @@ public class ConsoleController {
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
 
-    private RacingGameService racingGameService;
+    private final RacingGameService racingGameService;
 
     public ConsoleController() {
         this.racingGameService = new RacingGameService();
