@@ -2,12 +2,12 @@ package racingcar.controller;
 
 import java.util.List;
 
-public class TrackResponse {
+public class TrackCreateResponse {
 
     private final String winners;
     private final List<CarResponse> racingCars;
 
-    public TrackResponse(final String winners, final List<CarResponse> racingCars) {
+    public TrackCreateResponse(final String winners, final List<CarResponse> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

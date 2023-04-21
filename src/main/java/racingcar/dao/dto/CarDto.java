@@ -2,11 +2,11 @@ package racingcar.dao.dto;
 
 public class CarDto {
     private final String name;
-    private final int position;
+    private final Integer position;
     private final boolean isWinner;
-    private final int trackId;
+    private final Integer trackId;
 
-    public CarDto(final String name, final int position, final boolean isWinner, final int trackId) {
+    public CarDto(final String name, final Integer position, final boolean isWinner, final Integer trackId) {
         this.name = name;
         this.position = position;
         this.isWinner = isWinner;

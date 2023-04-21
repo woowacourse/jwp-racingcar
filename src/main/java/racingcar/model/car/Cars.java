@@ -12,14 +12,15 @@ import java.util.stream.Collectors;
 
 public class Cars {
     private static final int NOT_EXIST_CARS = 0;
-    private static final String SEPARATOR = ",";
+    private static final String DUPLICATE_CAR_NAMES_ERROR_MESSAGE = "중복된 차 이름이 존재합니다.";
+    private static final String NOT_EXIST_CAR_NAMES_ERROR_MESSAGE = "1개 이상의 차 이름이 필요합니다.";
 
     private final List<Car> cars;
 
-    public Cars(final String carNames, final MovingStrategy movingStrategy) {
+    public Cars(final List<String> carNames, final MovingStrategy movingStrategy) {
         validate(carNames);
 
-        this.cars = Arrays.stream(carNames.split(SEPARATOR))
+        this.cars = carNames.stream()
                 .map(carName -> new Car(carName, movingStrategy))
                 .collect(Collectors.toList());
     }
@@ -28,25 +29,21 @@ public class Cars {
         this.cars = cars;
     }
 
-    private void validate(final String carNames) {
-        String[] splitCarNames = carNames.split(SEPARATOR);
-
-        validateNotExistCar(splitCarNames);
-        validateDuplicateCarNames(splitCarNames);
+    private void validate(final List<String> carNames) {
+        validateNotExistCar(carNames);
+        validateDuplicateCarNames(carNames);
     }
 
-    private void validateNotExistCar(final String[] splitCarNames) {
-        if (splitCarNames.length == NOT_EXIST_CARS) {
-            throw new NotExistCarsException();
+    private void validateNotExistCar(final List<String> carNames) {
+        if (carNames.size() == NOT_EXIST_CARS) {
+            throw new NotExistCarsException(NOT_EXIST_CAR_NAMES_ERROR_MESSAGE);
         }
     }
 
-    private void validateDuplicateCarNames(final String[] splitCarNames) {
-        int carNamesCount = splitCarNames.length;
-        int distinctCarNamesCount = new HashSet<>(Arrays.asList(splitCarNames)).size();
-
-        if (carNamesCount != distinctCarNamesCount) {
-            throw new DuplicateCarNamesException();
+    private void validateDuplicateCarNames(final List<String> carNames) {
+        HashSet<String> uniqueNames = new HashSet<>(carNames);
+        if (carNames.size() != uniqueNames.size()) {
+            throw new DuplicateCarNamesException(DUPLICATE_CAR_NAMES_ERROR_MESSAGE);
         }
     }
 

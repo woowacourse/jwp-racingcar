@@ -17,8 +17,8 @@ public class KoreanInputView extends InputView {
     }
 
     @Override
-    public String inputTrialTimes() {
+    public Integer inputTrialTimes() {
         System.out.println(GET_TRY_TIME_MESSAGE);
-        return super.nextLine();
+        return Integer.valueOf(super.nextLine());
     }
 }
