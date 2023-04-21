@@ -18,6 +18,7 @@ public class ConsoleRacingCarApplication {
 
     private static CarService createCarService() {
         final JdbcTemplate jdbcTemplate = getJdbcTemplate();
+        createTables(jdbcTemplate);
 
         final CarDao carDao = new CarDao(jdbcTemplate);
         final GameDao gameDao = new GameDao(jdbcTemplate);
@@ -29,6 +30,10 @@ public class ConsoleRacingCarApplication {
         final DataSource dateSource = DataSourceConfig.createDateSource();
         final JdbcTemplate jdbcTemplate = new JdbcTemplate(dateSource);
 
+        return jdbcTemplate;
+    }
+
+    private static void createTables(final JdbcTemplate jdbcTemplate) {
         jdbcTemplate.execute("CREATE TABLE GAME(" +
                 "    id          BIGINT      NOT NULL AUTO_INCREMENT,\n" +
                 "    winners     VARCHAR(50) NOT NULL,\n" +
@@ -36,6 +41,7 @@ public class ConsoleRacingCarApplication {
                 "    created_at  DATETIME    NOT NULL DEFAULT current_timestamp,\n" +
                 "    PRIMARY KEY (id)\n" +
                 ");");
+
         jdbcTemplate.execute("CREATE TABLE CAR(" +
                 "    id       BIGINT     NOT NULL AUTO_INCREMENT,\n" +
                 "    game_id  BIGINT     NOT NULL,\n" +
@@ -44,9 +50,5 @@ public class ConsoleRacingCarApplication {
                 "    PRIMARY KEY (id),\n" +
                 "    FOREIGN KEY (game_id) REFERENCES GAME (id)\n" +
                 ");");
-
-
-
-        return jdbcTemplate;
     }
 }
