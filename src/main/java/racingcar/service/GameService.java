@@ -15,6 +15,7 @@ import racingcar.dto.WinnerDto;
 
 @Service
 public final class GameService {
+    public static final RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
     private final GameDao gameDao;
     private final PlayerDao playerDao;
 
@@ -38,7 +39,6 @@ public final class GameService {
     }
 
     private void playGame(final Game game, TryCount tryCount) {
-        RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
         while (tryCount.isAvailable()) {
             game.moveCars(randomMoveStrategy);
             tryCount.moveUntilZero();
