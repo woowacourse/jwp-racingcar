@@ -43,6 +43,12 @@ public class RacingGameService {
         return GameResponse.of(winners, cars);
     }
 
+    private void progress(RacingGame game) {
+        while (!game.isEnd()) {
+            game.play();
+        }
+    }
+
     private List<CarResponse> getCars(RacingGame game) {
         return game.getCars().stream()
                 .map(CarResponse::from)
@@ -56,17 +62,17 @@ public class RacingGameService {
     }
 
     private void saveGame(RacingGame game, int tryCount) {
-        GameEntity save = gameRepository.save(GameEntity.from(tryCount));
+        GameEntity savedGame = gameRepository.save(GameEntity.from(tryCount));
 
-        if (save == null) {
+        if (savedGame == null) {
             return;
         }
 
-        List<CarEntity> collect = game.getCars().stream().map(car -> carRepository.save(
-                CarEntity.of(save.getId(), car.getName(), car.getPosition()))
+        List<CarEntity> savedCars = game.getCars().stream().map(car -> carRepository.save(
+                CarEntity.of(savedGame.getId(), car.getName(), car.getPosition()))
         ).collect(Collectors.toList());
 
-        saveWinners(collect);
+        saveWinners(savedCars);
     }
 
     private void saveWinners(List<CarEntity> collect) {
@@ -83,19 +89,6 @@ public class RacingGameService {
         return collect.stream()
                 .filter(car -> car.getPosition() == maxPosition)
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    private static List<CarResponse> getCarResponses(Cars cars) {
-        return cars.getUnmodifiableCars()
-                .stream()
-                .map(CarResponse::from)
-                .collect(Collectors.toList());
-    }
-
-    private void progress(RacingGame game) {
-        while (!game.isEnd()) {
-            game.play();
-        }
     }
 
     public List<GameResponse> findAllGame() {

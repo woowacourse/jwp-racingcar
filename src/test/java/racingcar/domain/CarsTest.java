@@ -15,7 +15,7 @@ class CarsTest {
     @Test
     @DisplayName("moveAll 메소드를 호출하면 Car의 Position이 1 증가한다.")
     void moveAllTest() {
-        Cars cars = new Cars(dummy);
+        Cars cars = Cars.from(dummy);
 
         cars.moveAll(new AlwaysMoveGenerator());
 
@@ -29,7 +29,7 @@ class CarsTest {
     @Test
     @DisplayName("moveAll 메소드를 호출해도 Car의 Position이 증가하지 않는다.")
     void notMoveAllTest() {
-        Cars cars = new Cars(dummy);
+        Cars cars = Cars.from(dummy);
 
         cars.moveAll(new NeverMoveGenerator());
 
@@ -43,7 +43,7 @@ class CarsTest {
     @Test
     @DisplayName("dicideWinners 메소드를 호출하면 우승자의 이름 목록을 반환한다.")
     void decideWinners() {
-        Cars cars = new Cars(dummy);
+        Cars cars = Cars.from(dummy);
 
         cars.moveAll(new AlwaysMoveGenerator());
 

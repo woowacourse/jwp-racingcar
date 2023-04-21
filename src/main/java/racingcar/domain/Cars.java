@@ -3,10 +3,7 @@ package racingcar.domain;
 import racingcar.RandomNumberGenerator;
 import racingcar.api.dto.request.CarGameRequest;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Cars {
@@ -16,22 +13,32 @@ public class Cars {
         this.cars = cars;
     }
 
-    public static Cars from(final List<String> cars) {
-        validateCars(cars);
-        return new Cars(cars.stream()
+    public static Cars from(final List<String> carNames) {
+        List<String> refinedNames = carNames.stream()
+                .map(String::strip)
+                .collect(Collectors.toList());
+
+        validateCarNames(refinedNames);
+
+        return new Cars(refinedNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toList()));
     }
 
     public static Cars from(final CarGameRequest request) {
-        List<Car> cars = request.getNames().stream()
-                .map(Car::new)
+        List<String> carNames = Arrays.stream(request.getNames().split(",", -1))
+                .map(String::strip)
                 .collect(Collectors.toList());
 
+        validateCarNames(carNames);
+
+        List<Car> cars = carNames.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
         return new Cars(cars);
     }
 
-    private static void validateCars(final List<String> cars) {
+    private static void validateCarNames(final List<String> cars) {
         validateEmpty(cars);
         validateDuplicatedName(cars);
     }

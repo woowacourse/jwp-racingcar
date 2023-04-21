@@ -3,7 +3,6 @@ package racingcar.api.dto.request;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class CarGameRequest {
@@ -23,7 +22,7 @@ public class CarGameRequest {
     }
 
     private String trimName(String names) {
-        return Arrays.stream(names.split(","))
+        return Arrays.stream(names.split(",", -1))
                 .map(String::strip)
                 .collect(Collectors.joining(","));
     }
@@ -32,8 +31,7 @@ public class CarGameRequest {
         return count;
     }
 
-    public List<String> getNames() {
-        return Arrays.stream(names.split(","))
-                .collect(Collectors.toList());
+    public String getNames() {
+        return names;
     }
 }
