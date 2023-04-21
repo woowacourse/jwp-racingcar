@@ -3,13 +3,13 @@ package racing.dao;
 public class CarEntity {
 
     private final String name;
-    private final int step;
+    private final int position;
     private final boolean isWinner;
     private final Long gameId;
 
-    public CarEntity(String name, int step, boolean isWinner, Long gameId) {
+    public CarEntity(String name, int position, boolean isWinner, Long gameId) {
         this.name = name;
-        this.step = step;
+        this.position = position;
         this.isWinner = isWinner;
         this.gameId = gameId;
     }
@@ -18,8 +18,8 @@ public class CarEntity {
         return name;
     }
 
-    public int getStep() {
-        return step;
+    public int getPosition() {
+        return position;
     }
 
     public boolean isWinner() {

@@ -21,7 +21,7 @@ public class RacingGameDao implements GameDao {
 
     @Override
     public Long saveGame(int count) {
-        String saveGameQuery = "INSERT INTO game(count, create_time) VALUES (?, ?)";
+        String saveGameQuery = "INSERT INTO game(play_count, create_time) VALUES (?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 

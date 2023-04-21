@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS car (
     id bigint NOT NULL AUTO_INCREMENT,
     name VARCHAR(8) NOT NULL,
-    step int(3) NOT NULL,
+    position int(3) NOT NULL,
     is_winner boolean default false,
     game_id bigint not null,
     PRIMARY KEY (id)
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS car (
 
 CREATE TABLE IF NOT EXISTS game (
     id bigint NOT NULL AUTO_INCREMENT,
-    count int(3) NOT NULL,
+    play_count int(3) NOT NULL,
     create_time timestamp NOT NULL,
     PRIMARY KEY (id)
 );

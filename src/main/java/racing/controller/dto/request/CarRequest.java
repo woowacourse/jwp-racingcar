@@ -5,18 +5,18 @@ import racing.domain.Car;
 public class CarRequest {
     private final Long gameId;
     private final String carName;
-    private final int step;
+    private final int position;
     private final boolean isWinner;
 
-    private CarRequest(Long gameId, String carName, int step, boolean isWinner) {
+    private CarRequest(Long gameId, String carName, int position, boolean isWinner) {
         this.gameId = gameId;
         this.carName = carName;
-        this.step = step;
+        this.position = position;
         this.isWinner = isWinner;
     }
 
     public static CarRequest of(Long gameId, Car car, boolean isWinner) {
-        return new CarRequest(gameId, car.getName(), car.getStep(), isWinner);
+        return new CarRequest(gameId, car.getName(), car.getPosition(), isWinner);
     }
 
     public Long getGameId() {
@@ -27,8 +27,8 @@ public class CarRequest {
         return carName;
     }
 
-    public int getStep() {
-        return step;
+    public int getPosition() {
+        return position;
     }
 
     public boolean isWinner() {

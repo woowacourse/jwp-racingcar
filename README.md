@@ -15,6 +15,6 @@
 - [x] 자동차 정보를 조회한다.
   - 모든 자동차들의 정보 조회
     - name
-    - step
+    - position
     - isWinner
     - gameId

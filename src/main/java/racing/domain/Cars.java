@@ -20,28 +20,28 @@ public class Cars {
     public List<String> getPrintForm() {
         List<String> forms = new ArrayList<>();
         for (Car car : cars) {
-            forms.add(car.getCarStepForm());
+            forms.add(car.getCarPositionForm());
         }
         return forms;
     }
 
     public List<String> getWinners() {
-        int winnerStep = getWinnerStep();
-        return findWinners(winnerStep);
+        int winnerPosition = getWinnerPosition();
+        return findWinners(winnerPosition);
     }
 
-    private int getWinnerStep() {
-        int winnerStep = 0;
+    private int getWinnerPosition() {
+        int winnerPosition = 0;
         for (Car car : cars) {
-            winnerStep = car.getCarStep(winnerStep);
+            winnerPosition = car.getCarPosition(winnerPosition);
         }
-        return winnerStep;
+        return winnerPosition;
     }
 
-    private List<String> findWinners(int winnerStep) {
+    private List<String> findWinners(int winnerPosition) {
         List<String> winners = new ArrayList<>();
         for (Car car : cars) {
-            if (car.getStep() == winnerStep) {
+            if (car.getPosition() == winnerPosition) {
                 winners.add(car.getName());
             }
         }

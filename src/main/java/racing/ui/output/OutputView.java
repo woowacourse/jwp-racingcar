@@ -30,7 +30,7 @@ public class OutputView {
 
     public static void printResult(Cars cars) {
         List<String> winners = cars.getWinners();
-        printWinnersStep(cars);
+        printWinnersPosition(cars);
         System.out.println(System.lineSeparator() + makeWinnersPrintForm(winners));
     }
 
@@ -42,10 +42,10 @@ public class OutputView {
         return sb.substring(0, sb.toString().length() - 2) + FINAL_WINNER;
     }
 
-    private static void printWinnersStep(Cars cars) {
+    private static void printWinnersPosition(Cars cars) {
         System.out.println(System.lineSeparator() + "이동 횟수");
         for (Car car : cars.getCars()) {
-            System.out.println(car.getName() + " : " + car.getStep() + "회");
+            System.out.println(car.getName() + " : " + car.getPosition() + "회");
         }
     }
 

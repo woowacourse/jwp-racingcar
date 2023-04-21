@@ -74,7 +74,7 @@ public class RacingGameService {
                 .collect(toList());
 
         List<CarResponse> carResponses = carEntityResponses.stream()
-                .map(carEntityResponse -> new CarResponse(carEntityResponse.getName(), carEntityResponse.getStep()))
+                .map(carEntityResponse -> new CarResponse(carEntityResponse.getName(), carEntityResponse.getPosition()))
                 .collect(toList());
 
         return new RacingGameResultResponse(winners, carResponses);

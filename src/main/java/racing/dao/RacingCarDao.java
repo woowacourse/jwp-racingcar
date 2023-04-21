@@ -14,7 +14,7 @@ public class RacingCarDao implements CarDao {
 
     private final RowMapper<CarEntity> rowMapper = (resultSet, rowNum) -> new CarEntity(
             resultSet.getString("name"),
-            resultSet.getInt("step"),
+            resultSet.getInt("position"),
             resultSet.getBoolean("is_winner"),
             resultSet.getLong("game_id")
     );
@@ -25,11 +25,11 @@ public class RacingCarDao implements CarDao {
 
     @Override
     public void saveCar(CarRequest car) {
-        String saveCarQuery = "INSERT INTO car(name, step, is_winner, game_id) VALUES (?, ?, ?, ?)";
+        String saveCarQuery = "INSERT INTO car(name, position, is_winner, game_id) VALUES (?, ?, ?, ?)";
 
         jdbcTemplate.update(saveCarQuery,
                 car.getCarName(),
-                car.getStep(),
+                car.getPosition(),
                 car.isWinner(),
                 car.getGameId()
         );

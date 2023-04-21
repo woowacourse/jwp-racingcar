@@ -66,7 +66,7 @@ class RacingGameServiceTest {
         racingGameService.move(7, cars.getCar(0));
 
         // then
-        Assertions.assertThat(cars.getCars().get(0).getStep()).isEqualTo(3);
+        Assertions.assertThat(cars.getCars().get(0).getPosition()).isEqualTo(3);
     }
 
     @DisplayName("RacingGameResultResponse List를 반환해야 한다.")

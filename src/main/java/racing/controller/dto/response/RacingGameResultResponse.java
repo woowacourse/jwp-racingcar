@@ -20,7 +20,7 @@ public class RacingGameResultResponse {
 
     public static RacingGameResultResponse of(List<String> winners, Cars cars) {
         List<CarResponse> carsResponses = cars.getCars().stream()
-                .map(car -> new CarResponse(car.getName(), car.getStep()))
+                .map(car -> new CarResponse(car.getName(), car.getPosition()))
                 .collect(Collectors.toList());
         return new RacingGameResultResponse(winners, carsResponses);
     }
