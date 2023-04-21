@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import java.util.stream.Stream;
 import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
