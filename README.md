@@ -143,8 +143,14 @@ Content-Type: application/json
         - [x] join을 하더라도 핵심적으로 관여하는 객체에 대한 Dao 클래스가 책임을 가짐
         - [x] join 해서 조회 vs join이 필요한 부분을 비즈니스 로직에서 처리
             - join이 필요한 부분에 대한 로직은 최대한 DB에서 가져가는 게 책임 분리의 관점에서 좋다고 판단함
+        - [x] [Dao 클래스를 관리하는 Repository 클래스에 대한 검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1173901912)
+            - 두 테이블을 통합하는 도메인 객체나 Dto를 정의할 것이 아니면 Repository 사용 의도를 전달하기 어려울 것이라 판단함
+            - Entity 를 적절하게 사용하는 쪽에 집중하기로 함에 따라 도메인-DB 연동 로직 변경
+        - [x] [Dao 에 대한 Entity 정의하기](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1172280861)
     - [x] [Dto 사용방식 검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167789126)
-    - [x] [도메인 관점에서 테이블 설계 재검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167795949)
+        - [x] [도메인과 영속 계층의 관계, DB에서 Dto vs Entity 고민](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167789126)
+        - [x] [도메인 관점에서 테이블 설계 재검토](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167795949)
+    - [x] FK 컬럼명을 참조하는 테이블과 일치하도록 변경, 관련 변수명 통일
 
 ### 리팩터링 목록
 
@@ -158,3 +164,7 @@ Content-Type: application/json
 - [x] Dao 구현체가 아닌 인터페이스에 의존하도록 변경 (DB 교체 용이하게)
     - [x] 각 Dao를 여러 DB를 적용할 수 있게 인터페이스로 추상화
     - [x] 여러 개의 Dao에 대한 로직을 Repository 클래스로 추상화
+- [ ] Spring Test 관련 기능 사용
+    - [ ] 불필요한 ApplicationContext 생성 지양, JdbcTest 사용하기
+    - [ ] 다른 테스트 어노테이션 학습하고 사용하기
+    - [ ] 테스트 격리 관련

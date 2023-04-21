@@ -1,10 +1,8 @@
 package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,11 +18,6 @@ import racingcar.repository.dao.entity.PlayRecordEntity;
 class JdbcCarsDaoTest {
 
     private static final Long FIRST_INSERT_ID = 1L;
-    private static final List<CarEntity> FIXTURE_CARS_ID_NULL = List.of(
-            new CarEntity("도이", 1),
-            new CarEntity("연어", 3),
-            new CarEntity("브리", 4)
-    );
 
     @Autowired
     private JdbcCarsDao carsDao;
@@ -48,47 +41,36 @@ class JdbcCarsDaoTest {
     @DisplayName("DB: 게임 아이디에 따른 자동차 저장 테스트")
     @Test
     void insert() {
-        carsDao.insert(FIRST_INSERT_ID, List.of(
-                        new CarEntity("도이", 1),
-                        new CarEntity("연어", 3),
-                        new CarEntity("브리", 4)
-                )
-        );
+        List<CarEntity> cars = createCarEntitiesOf(FIRST_INSERT_ID);
+        carsDao.insert(cars);
 
         assertThat(carsDao.find(FIRST_INSERT_ID))
-                .containsExactlyInAnyOrder(
-                        new CarEntity(1L, "도이", 1),
-                        new CarEntity(1L, "연어", 3),
-                        new CarEntity(1L, "브리", 4)
-                );
+                .isEqualTo(cars);
     }
 
     @DisplayName("DB: 모든 게임 별 자동차 정보 최신순 조회 테스트")
     @Test
     void findAllCarsById() {
-        long id1 = playRecordsDao.getLastId();
-        carsDao.insert(id1, FIXTURE_CARS_ID_NULL);
+        List<CarEntity> firstInsertedCars = createCarEntitiesOf(playRecordsDao.getLastId());
+        carsDao.insert(firstInsertedCars);
         playRecordsDao.insert(
                 PlayRecordEntity.builder()
                         .count(5)
                         .build()
         );
-        long id2 = playRecordsDao.getLastId();
-        carsDao.insert(id2, FIXTURE_CARS_ID_NULL);
+        List<CarEntity> secondInsertedCars = createCarEntitiesOf(playRecordsDao.getLastId());
+        carsDao.insert(secondInsertedCars);
 
-        Map<Long, List<CarEntity>> allCarsByPlayId = carsDao.findAllCarsOrderByPlayCreatedAtDesc();
+        List<List<CarEntity>> allCarsByPlayId = carsDao.findAllCarsOrderByPlayCreatedAtDesc();
 
-        assertThat(allCarsByPlayId).containsExactly(
-                entry(id2, List.of(
-                        new CarEntity(id2, "도이", 1),
-                        new CarEntity(id2, "연어", 3),
-                        new CarEntity(id2, "브리", 4)
-                )),
-                entry(id1, List.of(
-                        new CarEntity(id1, "도이", 1),
-                        new CarEntity(id1, "연어", 3),
-                        new CarEntity(id1, "브리", 4)
-                ))
+        assertThat(allCarsByPlayId).containsExactly(secondInsertedCars, firstInsertedCars);
+    }
+
+    private static List<CarEntity> createCarEntitiesOf(Long playRecordId) {
+        return List.of(
+                new CarEntity(playRecordId, "도이", 1),
+                new CarEntity(playRecordId, "연어", 3),
+                new CarEntity(playRecordId, "브리", 4)
         );
     }
 

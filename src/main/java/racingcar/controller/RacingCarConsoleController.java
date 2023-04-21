@@ -5,7 +5,6 @@ import static racingcar.view.ConsoleCommand.RECORDS;
 
 import java.util.List;
 import racingcar.dto.PlayResponseDto;
-import racingcar.repository.RacingCarRepository;
 import racingcar.repository.dao.InMemoryCarsDao;
 import racingcar.repository.dao.InMemoryPlayRecordsDao;
 import racingcar.service.RacingCarService;
@@ -17,8 +16,8 @@ public class RacingCarConsoleController {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final RacingCarService racingCarService = new RacingCarService(
-            new RacingCarRepository(new InMemoryPlayRecordsDao(), new InMemoryCarsDao()));
+    private final RacingCarService racingCarService = new RacingCarService(new InMemoryPlayRecordsDao(),
+            new InMemoryCarsDao());
 
     public void run() {
         while (true) {

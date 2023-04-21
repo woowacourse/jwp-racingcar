@@ -3,10 +3,10 @@ package racingcar.repository.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import racingcar.repository.dao.entity.PlayRecordEntity;
 
-@Component
+@Repository
 public class JdbcPlayRecordsDao implements PlayRecordsDao {
 
     private final JdbcTemplate jdbcTemplate;

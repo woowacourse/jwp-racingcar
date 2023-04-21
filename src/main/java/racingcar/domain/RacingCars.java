@@ -11,7 +11,7 @@ public class RacingCars {
     private final List<Car> racingCars;
 
     public RacingCars(final List<Car> racingCars) {
-        this.racingCars = racingCars;
+        this.racingCars = new ArrayList<>(racingCars);
     }
 
     public void process(final NumberGenerator powerValueGenerator) {
@@ -29,6 +29,6 @@ public class RacingCars {
     }
 
     public List<Car> racingCars() {
-        return Collections.unmodifiableList(racingCars);
+        return new ArrayList<>(racingCars);
     }
 }

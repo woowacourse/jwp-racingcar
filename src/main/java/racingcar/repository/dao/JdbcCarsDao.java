@@ -10,29 +10,28 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import racingcar.repository.dao.entity.CarEntity;
 
-@Component
+@Repository
 public class JdbcCarsDao implements CarsDao {
 
     private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> {
-        CarEntity car = new CarEntity(
+        return new CarEntity(
                 resultSet.getLong("play_record_id"),
                 resultSet.getString("name"),
                 resultSet.getInt("position")
         );
-        return car;
     };
-    private final ResultSetExtractor<Map<Long, List<CarEntity>>> actorResultSetExtractor = resultSet -> {
+    private final ResultSetExtractor<List<List<CarEntity>>> actorResultSetExtractor = resultSet -> {
         final Map<Long, List<CarEntity>> result = new LinkedHashMap<>();
         while (resultSet.next()) {
-            final long id = resultSet.getLong("play_record_id");
+            final Long id = resultSet.getLong("play_record_id");
             final List<CarEntity> found = result.getOrDefault(id, new ArrayList<>());
             found.add(actorRowMapper.mapRow(resultSet, resultSet.getRow()));
             result.put(id, found);
         }
-        return result;
+        return new ArrayList<>(result.values());
     };
 
     private final JdbcTemplate jdbcTemplate;
@@ -42,12 +41,12 @@ public class JdbcCarsDao implements CarsDao {
     }
 
     @Override
-    public void insert(final Long id, final List<CarEntity> cars) {
+    public void insert(final List<CarEntity> cars) {
         jdbcTemplate.batchUpdate("INSERT INTO cars (play_record_id, name, position) VALUES (?, ?, ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(final PreparedStatement ps, final int i) throws SQLException {
-                        ps.setLong(1, id);
+                        ps.setLong(1, cars.get(i).getPlayRecordId());
                         ps.setString(2, cars.get(i).getName());
                         ps.setInt(3, cars.get(i).getPosition());
                     }
@@ -68,9 +67,8 @@ public class JdbcCarsDao implements CarsDao {
     }
 
     @Override
-    public Map<Long, List<CarEntity>> findAllCarsOrderByPlayCreatedAtDesc() {
-        return jdbcTemplate.query(
-                "SELECT play_record_id, name, position FROM cars, play_records "
+    public List<List<CarEntity>> findAllCarsOrderByPlayCreatedAtDesc() {
+        return jdbcTemplate.query("SELECT play_record_id, name, position FROM cars, play_records "
                         + "WHERE cars.play_record_id = play_records.id "
                         + "ORDER BY play_records.created_at DESC",
                 actorResultSetExtractor);
