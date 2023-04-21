@@ -41,7 +41,7 @@ public class Cars {
     }
 
     private static void validateEmptyInput(final String carNames) {
-        if (StringUtils.hasText(carNames)) {
+        if (!StringUtils.hasText(carNames)) {
             throw new CustomException(ExceptionStatus.EMPTY_INPUT_FORMAT);
         }
     }
