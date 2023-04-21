@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.domain.Car;
 import racingcar.repository.dao.RacingCarDao;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -30,6 +32,7 @@ class RacingCarDaoTest {
     @Test
     void Should_Success_When_InsertRacingCar() {
         long gameId = 1L;
-        assertDoesNotThrow(() -> racingCarDao.insert(gameId, "tori", 9));
+        final List<Car> cars = List.of(new Car("tori"));
+        assertDoesNotThrow(() -> racingCarDao.insert(gameId, cars));
     }
 }
