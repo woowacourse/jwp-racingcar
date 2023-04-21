@@ -75,4 +75,36 @@ class RacingGameRestTest {
         assertThat(asResponseDto).hasSize(2);
     }
 
+    @DisplayName("시도횟수를 음수로 보낼 경우 예외 응답을 받는다.")
+    @Test
+    void testHandleExceptionThrownByNegativeTrialCount() {
+        //given
+        RacingGameRequest racingGameRequest = new RacingGameRequest("서브웨이, 로지", -1);
+
+        //when
+        Response response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(racingGameRequest)
+                .when().post("/plays");
+        //then
+        response.then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @DisplayName("이름에 빈 문자열을 보낼 경우 예외 응답을 받는다.")
+    @Test
+    void testHandleExceptionThrownByEmptyNameList() {
+        //given
+        RacingGameRequest racingGameRequest = new RacingGameRequest("", 10);
+
+        //when
+        Response response = RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(racingGameRequest)
+                .when().post("/plays");
+        //then
+        response.then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
 }
