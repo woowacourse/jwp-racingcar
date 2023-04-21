@@ -21,14 +21,14 @@ import static racingcar.option.Option.MIN_TRIAL_COUNT;
 public class GameService {
     private List<Car> cars;
     private final MoveChance moveChance;
-    private final GameDao gameDAO;
-    private final GameLogDao gameLogDAO;
-    private final WinnersDao winnersDAO;
+    private final GameDao gameDao;
+    private final GameLogDao gameLogDao;
+    private final WinnersDao winnersDao;
 
-    public GameService(final GameDao gameDAO, final GameLogDao gameLogDAO, final WinnersDao winnersDAO) {
-        this.gameDAO = gameDAO;
-        this.gameLogDAO = gameLogDAO;
-        this.winnersDAO = winnersDAO;
+    public GameService(final GameDao gameDao, final GameLogDao gameLogDao, final WinnersDao winnersDao) {
+        this.gameDao = gameDao;
+        this.gameLogDao = gameLogDao;
+        this.winnersDao = winnersDao;
         this.moveChance = new RandomMoveChance();
     }
 
@@ -65,13 +65,13 @@ public class GameService {
 
     public void play(int trialCount) {
         validateNotNegativeInteger(trialCount);
-        long gameNumber = gameDAO.saveGame(trialCount);
+        long gameNumber = gameDao.saveGame(trialCount);
         playMultipleTimes(trialCount);
         for (Car car : cars) {
-            gameLogDAO.insert(gameNumber, car.getName(), car.getPosition());
+            gameLogDao.insert(gameNumber, car.getName(), car.getPosition());
         }
         for (Car car : findWinners()) {
-            winnersDAO.insert(gameNumber, car.getName());
+            winnersDao.insert(gameNumber, car.getName());
         }
     }
 
@@ -83,21 +83,21 @@ public class GameService {
 
     public List<ServiceControllerDto> mappingEachGame() {
         List<ServiceControllerDto> gameLog = new ArrayList<>();
-        for (Long gameNumber : gameDAO.load()) {
+        for (Long gameNumber : gameDao.load()) {
             gameLog.add(new ServiceControllerDto(makeGameLogList(gameNumber), makeWinnersList(gameNumber)));
         }
         return gameLog;
     }
 
     private List<Car> makeGameLogList(final Long gameNumber) {
-        return gameLogDAO.load(gameNumber)
+        return gameLogDao.load(gameNumber)
                 .stream()
                 .map(gameLogEntity -> new Car(gameLogEntity.getPlayerName(), gameLogEntity.getResultPosition()))
                 .collect(Collectors.toList());
     }
 
     private List<Car> makeWinnersList(final long gameNumber) {
-        return winnersDAO
+        return winnersDao
                 .load(gameNumber)
                 .stream()
                 .map(winnerEntity -> new Car(winnerEntity.getWinner()))
