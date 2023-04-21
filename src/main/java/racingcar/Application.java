@@ -4,8 +4,8 @@ import java.util.Scanner;
 import racingcar.controller.RaceController;
 import racingcar.dao.GameInMemoryDao;
 import racingcar.dao.PlayerInMemoryDao;
+import racingcar.domain.RandomNumberGenerator;
 import racingcar.service.RacingCarService;
-import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 

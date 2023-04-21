@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import racingcar.utils.DrivableNumberGenerator;
-import racingcar.utils.NumberGenerator;
 
 class ParticipantsTest {
 

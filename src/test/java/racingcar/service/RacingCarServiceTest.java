@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import racingcar.dao.GameJdbcDao;
 import racingcar.dao.PlayerJdbcDao;
+import racingcar.domain.DrivableNumberGenerator;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
 import racingcar.entity.GameEntity;
 import racingcar.entity.PlayerEntity;
-import racingcar.utils.DrivableNumberGenerator;
 
 public class RacingCarServiceTest {
 

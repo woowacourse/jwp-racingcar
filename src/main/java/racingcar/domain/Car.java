@@ -1,7 +1,5 @@
 package racingcar.domain;
 
-import racingcar.utils.NumberGenerator;
-
 public class Car {
 
     private static final int DRIVING_DISTANCE = 1;

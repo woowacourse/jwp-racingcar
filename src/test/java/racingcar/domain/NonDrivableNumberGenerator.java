@@ -1,4 +1,4 @@
-package racingcar.utils;
+package racingcar.domain;
 
 public class NonDrivableNumberGenerator implements NumberGenerator {
 

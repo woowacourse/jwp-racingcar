@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.Car;
+import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
 import racingcar.entity.GameEntity;
 import racingcar.entity.PlayerEntity;
-import racingcar.utils.NumberGenerator;
 
 @Service
 public class RacingCarService {
