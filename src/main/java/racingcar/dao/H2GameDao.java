@@ -36,7 +36,11 @@ public class H2GameDao implements GameDao {
     public List<PlayResultDto> selectAll() {
         final String sql = "SELECT * FROM game";
         RowMapper<PlayResultDto> playResult = (rs, rowNum)
-                -> new PlayResultDto(rs.getInt("id"), rs.getString("winners"));
+                -> new PlayResultDto(
+                rs.getInt("id"),
+                List.of(rs.getString("winners").split(",")
+                )
+        );
         return jdbcTemplate.query(sql, playResult);
     }
 }

@@ -1,14 +1,16 @@
 package racingcar.dto;
 
+import java.util.List;
+
 public class PlayResultDto {
     private int id;
-    private String winners;
+    private List<String> winners;
 
     public PlayResultDto() {
 
     }
 
-    public PlayResultDto(int id, String winners) {
+    public PlayResultDto(int id, List<String> winners) {
         this.id = id;
         this.winners = winners;
     }
@@ -17,7 +19,7 @@ public class PlayResultDto {
         return id;
     }
 
-    public String getWinners() {
+    public List<String> getWinners() {
         return winners;
     }
 }

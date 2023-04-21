@@ -43,7 +43,7 @@ public class RacingCarService {
                         car.getPositionValue())
                 )
                 .collect(Collectors.toUnmodifiableList());
-        return new RacingCarGameResultDto(String.join(",", cars.getWinner()), racingCarDtos);
+        return new RacingCarGameResultDto(cars.getWinner(), racingCarDtos);
     }
 
     public List<RacingCarGameResultDto> getAllGameResult() {

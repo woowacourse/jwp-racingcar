@@ -10,7 +10,7 @@ public class InMemoryGameDao implements GameDao {
 
     @Override
     public Long insert(int trialCount, List<String> winners) {
-        PlayResultDto playResultDto = new PlayResultDto(1, String.join(",", winners));
+        PlayResultDto playResultDto = new PlayResultDto(1, winners);
         playResultDtos.add(playResultDto);
         return 1L;
     }
