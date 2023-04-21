@@ -1,13 +1,11 @@
 package racingcar.service;
 
-import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static racingcar.exception.ExceptionMessage.EMPTY_CARS;
 
 import java.util.List;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.domain.Position;
 import racingcar.dto.RacingCarNamesDto;
 import racingcar.dto.RacingCarStatusDto;
 import racingcar.dto.RacingCarWinnerDto;
@@ -51,7 +49,7 @@ public class RacingCarGame {
     }
 
     public RacingCarWinnerDto findWinners() {
-        Position maxPosition = getMaxPosition();
+        int maxPosition = getMaxPosition();
         List<Car> winners = cars.getCars()
                 .stream()
                 .filter(car -> car.isSamePosition(maxPosition))
@@ -59,12 +57,12 @@ public class RacingCarGame {
         return RacingCarWinnerDto.of(winners);
     }
 
-    private Position getMaxPosition() {
+    private int getMaxPosition() {
         validateEmptyCars();
         return cars.getCars()
                 .stream()
                 .map(Car::getMovedLength)
-                .max(comparing(Position::getValue))
+                .max(Integer::compareTo)
                 .orElseThrow(() -> new IllegalStateException(EMPTY_CARS.getMessage()));
     }
 }
