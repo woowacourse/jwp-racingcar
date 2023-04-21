@@ -2,16 +2,17 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.entity.RaceResultEntity;
 import racingcar.service.dto.CarStatusResponse;
 import racingcar.service.dto.GameInfoRequest;
 import racingcar.service.dto.RaceResultResponse;
 import racingcar.dao.raceresult.RaceResultDao;
-import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.service.mapper.RaceResultMapper;
 import racingcar.util.NumberGenerator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,16 +41,15 @@ public class RaceResultService {
 
         final RacingCars racingCars = moveCars(names, tryCount);
 
-        final RaceResultRegisterRequest raceResultRegisterRequest =
-                raceResultMapper.mapToRaceResult(tryCount, racingCars);
+        final RaceResultEntity raceResultEntity = raceResultMapper.mapToRaceResult(tryCount, racingCars);
 
-        final int savedId = raceResultDao.save(raceResultRegisterRequest);
+        final int savedId = raceResultDao.save(raceResultEntity);
 
         carService.registerCars(racingCars, savedId);
 
         final List<CarStatusResponse> carStatusResponses = raceResultMapper.mapToCarStatus(racingCars);
 
-        return new RaceResultResponse(raceResultRegisterRequest.getWinners(), carStatusResponses);
+        return new RaceResultResponse(raceResultEntity.getWinners(), carStatusResponses);
     }
 
     private RacingCars moveCars(final String names, final int tryCount) {

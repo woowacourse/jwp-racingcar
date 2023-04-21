@@ -3,17 +3,18 @@ package racingcar.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import racingcar.dao.raceresult.RaceResultDao;
+import racingcar.domain.Car;
+import racingcar.domain.RacingCars;
+import racingcar.entity.RaceResultEntity;
 import racingcar.service.dto.CarStatusResponse;
 import racingcar.service.dto.GameInfoRequest;
 import racingcar.service.dto.RaceResultResponse;
-import racingcar.dao.raceresult.RaceResultDao;
-import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
-import racingcar.domain.Car;
-import racingcar.domain.RacingCars;
 import racingcar.service.mapper.RaceResultMapper;
 import racingcar.util.NumberGenerator;
 import racingcar.util.RandomNumberGenerator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,8 +56,8 @@ class RaceResultServiceTest {
         final GameInfoRequest gameInfoRequest = new GameInfoRequest("a,b,c,d", 4);
         final int trialCount = gameInfoRequest.getCount();
 
-        final RaceResultRegisterRequest raceResultRegisterRequest =
-                new RaceResultRegisterRequest(trialCount, "a,b,c");
+        final RaceResultEntity raceResultEntity =
+                new RaceResultEntity(trialCount, "a,b,c", LocalDateTime.now());
 
         final List<CarStatusResponse> carStatusResponses = List.of(new CarStatusResponse("a", 1),
                                                                    new CarStatusResponse("b", 1),
@@ -65,7 +66,7 @@ class RaceResultServiceTest {
 
         //when
         when(raceResultMapper.mapToRaceResult(anyInt(), any()))
-                .thenReturn(raceResultRegisterRequest);
+                .thenReturn(raceResultEntity);
 
         when(raceResultDao.save(any()))
                 .thenReturn(1);

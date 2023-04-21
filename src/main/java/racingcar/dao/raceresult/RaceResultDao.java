@@ -6,8 +6,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
 import racingcar.domain.Car;
+import racingcar.entity.RaceResultEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,15 +26,15 @@ public class RaceResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int save(final RaceResultRegisterRequest raceResultRegisterRequest) {
+    public int save(final RaceResultEntity raceResultEntity) {
 
         final SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 
         jdbcInsert.withTableName("RACE_RESULT").usingGeneratedKeyColumns("id");
 
         final SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("trial_count", raceResultRegisterRequest.getTrialCount())
-                .addValue("winners", raceResultRegisterRequest.getWinners())
+                .addValue("trial_count", raceResultEntity.getTrialCount())
+                .addValue("winners", raceResultEntity.getWinners())
                 .addValue("created_at", LocalDateTime.now());
 
         return jdbcInsert.executeAndReturnKey(params).intValue();
