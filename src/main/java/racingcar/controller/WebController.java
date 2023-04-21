@@ -40,7 +40,7 @@ public class WebController {
     @GetMapping("/plays")
     public ResponseEntity<List<RacingCarResponseDto>> allResults() {
         return ResponseEntity.ok()
-            .body(racingcarService.allResults());
+            .body(racingcarService.allGames());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
