@@ -1,7 +1,5 @@
 package racingcar.dao;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -9,6 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.entity.GameEntity;
+import racingcar.entity.GameId;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -29,12 +31,12 @@ public class GameJdbcDaoTest {
     void 게임을_저장한다() {
         // given
         final int trialCount = 5;
-        final String winners = "비버";
 
+        GameEntity game = new GameEntity(trialCount);
         // when
-        final int id = gameDao.save(trialCount, winners);
+        GameId saveGameId = gameDao.saveAndGetGameId(game);
 
         // then
-        assertThat(id).isPositive();
+        assertThat(saveGameId.getId()).isPositive();
     }
 }

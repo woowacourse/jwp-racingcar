@@ -1,5 +1,8 @@
 package racingcar.dao;
 
+import racingcar.entity.GameEntity;
+import racingcar.entity.GameId;
+
 public interface GameDao {
-    int save(final int trialCount, final String winners);
+    GameId saveAndGetGameId(final GameEntity game);
 }

@@ -2,18 +2,18 @@
 CREATE TABLE GAME
 (
     id         INT         NOT NULL AUTO_INCREMENT,
-    winners    VARCHAR(50) NOT NULL,
     trial      INT         NOT NULL,
     created_at DATETIME    NOT NULL default current_timestamp,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE CAR
+CREATE TABLE PLAYER
 (
-    id       INT         NOT NULL AUTO_INCREMENT,
-    name     VARCHAR(50) NOT NULL,
-    position INT         NOT NULL,
-    game_id  INT         NOT NULL,
-    FOREIGN KEY (game_id) REFERENCES GAME(id),
+    id        INT         NOT NULL AUTO_INCREMENT,
+    name      VARCHAR(5) NOT NULL,
+    position  INT         NOT NULL,
+    is_winner BOOL        NOT NULL,
+    game_id   INT         NOT NULL,
+    FOREIGN KEY (game_id) REFERENCES GAME (id),
     PRIMARY KEY (id)
-)
+);
