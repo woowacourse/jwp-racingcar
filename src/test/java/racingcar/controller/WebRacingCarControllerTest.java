@@ -19,9 +19,9 @@ import racingcar.controller.dto.RacingCarGameRequest;
 
 import static org.hamcrest.core.Is.is;
 
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class WebRacingCarControllerTest {
 
     @LocalServerPort
