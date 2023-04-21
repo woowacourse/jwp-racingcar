@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,12 +16,13 @@ import racingcar.dao.RacingCarRecord;
 import racingcar.dao.RacingCarRecordDao;
 import racingcar.dao.RacingGameHistory;
 import racingcar.dao.RacingGameHistoryDao;
-import racingcar.dao.RacingGameRepository;
+import racingcar.repository.RacingGameRepository;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.NumberGenerator;
 import racingcar.domain.game.RacingGame;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
+import racingcar.service.RacingGameService;
 
 @SpringBootTest
 @Transactional

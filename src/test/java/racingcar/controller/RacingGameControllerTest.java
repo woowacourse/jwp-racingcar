@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.controller;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -24,14 +24,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import racingcar.domain.RacingGameService;
+import racingcar.service.RacingGameService;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.RacingGame;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
-import racingcar.web.RacingGameController;
-import racingcar.web.RacingGameRequest;
-import racingcar.web.RacingGameResponse;
+import racingcar.controller.web.RacingGameController;
+import racingcar.controller.web.RacingGameRequest;
+import racingcar.controller.web.RacingGameResponse;
 
 @ExtendWith(MockitoExtension.class)
 class RacingGameControllerTest {

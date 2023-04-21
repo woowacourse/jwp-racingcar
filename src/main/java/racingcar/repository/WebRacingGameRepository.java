@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.repository;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
@@ -8,18 +8,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import racingcar.dao.CarRecordWithGameHistoryDto;
+import racingcar.dao.RacingCarRecordDao;
+import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.RacingGame;
 
 @Repository
-public class RacingGameRepositoryImpl implements RacingGameRepository {
+public class WebRacingGameRepository implements RacingGameRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final RacingGameHistoryDao racingGameHistoryDao;
     private final RacingCarRecordDao racingCarRecordDao;
 
-    public RacingGameRepositoryImpl(JdbcTemplate jdbcTemplate, RacingGameHistoryDao racingGameHistoryDao,
-                                    RacingCarRecordDao racingCarRecordDao) {
+    public WebRacingGameRepository(JdbcTemplate jdbcTemplate, RacingGameHistoryDao racingGameHistoryDao,
+                                   RacingCarRecordDao racingCarRecordDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.racingGameHistoryDao = racingGameHistoryDao;
         this.racingCarRecordDao = racingCarRecordDao;

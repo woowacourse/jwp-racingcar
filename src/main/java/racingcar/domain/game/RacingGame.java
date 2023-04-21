@@ -43,10 +43,18 @@ public class RacingGame {
     }
 
     public void play(int trialCount, NumberGenerator numberGenerator) {
+        validate(trialCount);
         for (int count = 0; count < trialCount; count++) {
             List<Integer> numbers = numberGenerator.generateNumbers(getRacingCars().size());
             racingCars.moveCars(numbers);
         }
+    }
+
+    private int validate(int trialCount) {
+        if (trialCount < 0) {
+            throw new IllegalArgumentException("시도 횟수는 음수일 수 없습니다.");
+        }
+        return trialCount;
     }
 
     public boolean isWinner(RacingCar racingCar) {

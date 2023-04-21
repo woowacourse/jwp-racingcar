@@ -1,14 +1,21 @@
 package racingcar;
 
-import racingcar.console.RacingCarConsoleController;
+import racingcar.controller.console.RacingCarConsoleController;
+import racingcar.repository.ConsoleRacingGameRepository;
+import racingcar.repository.RacingGameRepository;
+import racingcar.service.RacingGameService;
+import racingcar.domain.game.NumberGenerator;
 import racingcar.domain.game.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarConsoleApplication {
     public static void main(String[] args) {
+        RacingGameRepository racingGameRepository = new ConsoleRacingGameRepository();
+        NumberGenerator randomNumberGenerator = new RandomNumberGenerator();
+        RacingGameService racingGameService = new RacingGameService(racingGameRepository, randomNumberGenerator);
         RacingCarConsoleController racingCarConsoleController = new RacingCarConsoleController(new InputView(),
-                new OutputView(), new RandomNumberGenerator());
+                new OutputView(), racingGameService);
         racingCarConsoleController.run();
     }
 }

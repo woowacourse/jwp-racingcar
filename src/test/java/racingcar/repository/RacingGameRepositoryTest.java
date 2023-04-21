@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,8 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.RacingCarRecordDao;
+import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.RacingGame;
+import racingcar.repository.WebRacingGameRepository;
 
 @SpringBootTest
 @Transactional
@@ -24,7 +27,7 @@ class RacingGameRepositoryTest {
     private RacingCarRecordDao racingCarRecordDao;
 
     @Autowired
-    private RacingGameRepositoryImpl racingGameRepository;
+    private WebRacingGameRepository racingGameRepository;
 
     @DisplayName("모든 게임 객체를 데이터베이스에서 읽어올 수 있다.")
     @Test

@@ -1,4 +1,4 @@
-package racingcar.web;
+package racingcar.controller.web;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,27 +1,17 @@
 package racingcar.view;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import racingcar.domain.cars.RacingCar;
+import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingGameDto;
 
 public class OutputView {
-
-    public void printResultTitle() {
+    public void printGameResult(RacingGameDto racingGameDto) {
         System.out.println("실행 결과");
-    }
-
-    public void printStatus(List<RacingCar> cars) {
-        for (RacingCar car : cars) {
+        for (RacingCarDto car : racingGameDto.getRacingCars()) {
             System.out.println(car.getName() + " : " + car.getPosition());
         }
         System.out.println();
-    }
 
-    public void printWinners(List<RacingCar> winners) {
-        List<String> winnersNames = winners.stream()
-                .map(RacingCar::getName)
-                .collect(Collectors.toList());
-        System.out.print(String.join(", ", winnersNames));
-        System.out.print("가 최종 우승했습니다.");
+        String winnerNames = String.join(",", racingGameDto.getWinnerNames());
+        System.out.println("우승자: " + winnerNames);
     }
 }

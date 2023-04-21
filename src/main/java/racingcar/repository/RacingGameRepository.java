@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.repository;
 
 import java.util.List;
 import racingcar.domain.game.RacingGame;
