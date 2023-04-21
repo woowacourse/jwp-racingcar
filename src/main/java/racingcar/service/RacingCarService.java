@@ -3,7 +3,6 @@ package racingcar.service;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +10,8 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.TryCount;
-import racingcar.entity.GameHistoryEntity;
 import racingcar.repository.RacingGameRepository;
+import racingcar.service.dto.GameHistoryDto;
 import racingcar.service.dto.RacingCarDto;
 import racingcar.service.dto.RacingCarGameResultDto;
 
@@ -29,14 +28,18 @@ public class RacingCarService {
 
     public List<RacingCarGameResultDto> findGameHistories() {
         return racingGameRepository.findGameHistories().stream()
-                .collect(groupingBy(GameHistoryEntity::getId))
+                .collect(groupingBy(GameHistoryDto::getGameId))
                 .values().stream()
-                .map(RacingCarService::toDto)
+                .map(RacingCarService::convert)
                 .collect(toUnmodifiableList());
     }
 
-    private static Car mapCar(final GameHistoryEntity gameHistoryEntity) {
-        return new Car(gameHistoryEntity.getPlayerName(), gameHistoryEntity.getPlayerPosition());
+    private static RacingCarGameResultDto convert(final List<GameHistoryDto> gameHistoryDtos) {
+        final List<String> winners = gameHistoryDtos.get(0).getWinners();
+        final List<RacingCarDto> racingCars = gameHistoryDtos.stream()
+                .map(gameHistoryDto -> new RacingCarDto(gameHistoryDto.getName(), gameHistoryDto.getPosition()))
+                .collect(toUnmodifiableList());
+        return new RacingCarGameResultDto(winners, racingCars);
     }
 
     public RacingCarGameResultDto playRound(final List<String> playerNames, final int tryCountValue) {
@@ -54,25 +57,21 @@ public class RacingCarService {
                 .collect(toUnmodifiableList());
     }
 
-    private static RacingCarGameResultDto toDto(final List<GameHistoryEntity> historyEntities) {
-        if (historyEntities.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-        final List<String> winnerNames = Arrays.stream(historyEntities.get(0).getWinners().split(",", -1))
-                .collect(toUnmodifiableList());
-    }
-
     public void saveGameResult(final Cars cars) {
         racingGameRepository.saveGameResult(cars);
     }
 
+    //RacingCarGameResultDto가 모든 레이어에서 호출됨. 이를 수정해야할지?
     @Transactional
-    public void saveGameResult(final RacingCarGameResultDto racingCarGameResult, final int count) {
+    public void saveGameResult(final RacingCarGameResultDto racingCarGameResult) {
         final List<RacingCarDto> racingCars = racingCarGameResult.getRacingCars();
         racingGameRepository.saveGameResult(toCars(racingCars));
     }
 
     private Cars toCars(final List<RacingCarDto> racingCars) {
-
+        final List<Car> cars = racingCars.stream()
+                .map(racingCarDto -> new Car(racingCarDto.getName(), racingCarDto.getPosition()))
+                .collect(toUnmodifiableList());
+        return new Cars(cars);
     }
 }

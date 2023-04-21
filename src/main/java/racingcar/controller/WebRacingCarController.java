@@ -8,12 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.service.dto.GameInitializeDto;
-import racingcar.service.dto.RacingCarDto;
-import racingcar.service.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
+import racingcar.service.dto.GameInitializeDto;
+import racingcar.service.dto.RacingCarGameResultDto;
 
 @RestController
 public class WebRacingCarController {
@@ -26,9 +23,9 @@ public class WebRacingCarController {
 
     @PostMapping(path = "/plays")
     public RacingCarGameResultDto playGame(@RequestBody final GameInitializeDto gameInitializeDto) {
-        final RacingCarGameResultDto racingCarGameResult = racingCarService.playRound(
-                splitNames(gameInitializeDto.getNames()), gameInitializeDto.getCount());
-        racingCarService.saveGameResult(racingCarGameResult, gameInitializeDto.getCount());
+        final RacingCarGameResultDto racingCarGameResult = racingCarService.playRound
+                (splitNames(gameInitializeDto.getNames()), gameInitializeDto.getCount());
+        racingCarService.saveGameResult(racingCarGameResult);
         return racingCarGameResult;
     }
 
@@ -39,17 +36,6 @@ public class WebRacingCarController {
 
     static List<String> splitNames(final String names) {
         return stream(names.split(",", -1))
-                .collect(toUnmodifiableList());
-    }
-
-    private static RacingCarGameResultDto toDto(final List<Car> carList) {
-        final Cars cars = new Cars(carList);
-        return new RacingCarGameResultDto(cars.getWinners(), makeCarDtos(cars));
-    }
-
-    private static List<RacingCarDto> makeCarDtos(Cars cars) {
-        return cars.getCars().stream()
-                .map(car -> new RacingCarDto(car.getName().getValue(), car.getDistance().getValue()))
                 .collect(toUnmodifiableList());
     }
 }
