@@ -23,8 +23,8 @@ public class RaceController {
     public void play() {
         List<String> carNames = repeat(inputView::readCarNames);
         int count = repeat(inputView::readCount);
-        PlayRequest playRequest = new PlayRequest(carNames, count);
-        PlayResponse response = racingCarService.play(playRequest);
+        PlayRequest request = new PlayRequest(carNames, count);
+        PlayResponse response = racingCarService.play(request);
         outputView.printResult(response);
     }
 

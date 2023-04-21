@@ -29,13 +29,13 @@ public class RacingCarService {
     }
 
     @Transactional
-    public PlayResponse play(PlayRequest playRequest) {
-        Race race = new Race(playRequest.getCount(), playRequest.getNames(), numberGenerator);
+    public PlayResponse play(PlayRequest request) {
+        Race race = new Race(request.getCount(), request.getNames(), numberGenerator);
         race.play();
 
         List<Car> winners = race.findWinners();
 
-        GameEntity gameEntity = GameEntity.from(playRequest.getCount());
+        GameEntity gameEntity = GameEntity.from(request.getCount());
         Long gameId = gameDao.insert(gameEntity);
 
         List<PlayerEntity> playerEntities = race.getParticipants().stream()
