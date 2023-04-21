@@ -14,6 +14,13 @@ import static racingcar.view.OutputView.printWinner;
 public class RacingCarConsoleController {
 
     private final NumberGenerator numberGenerator;
+    private final GamePlay gamePlay;
+
+
+    public RacingCarConsoleController(NumberGenerator numberGenerator, GamePlay gamePlay) {
+        this.numberGenerator = numberGenerator;
+        this.gamePlay = gamePlay;
+    }
 
     public void startGame() {
         try {
@@ -21,17 +28,13 @@ public class RacingCarConsoleController {
             Cars cars = CarsFactory.buildCars(InputView.inputCarNames());
             OutputView.printInputTryTimesNotice();
             int tryTimes = InputView.inputTryTimes();
-            GamePlay.play(cars, tryTimes, numberGenerator);
+            gamePlay.play(cars, tryTimes, numberGenerator);
             printWinner(cars.findWinners());
             printResultNotice();
             OutputView.printCarNameAndPosition(cars);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public RacingCarConsoleController(NumberGenerator numberGenerator) {
-        this.numberGenerator = numberGenerator;
     }
 
 }

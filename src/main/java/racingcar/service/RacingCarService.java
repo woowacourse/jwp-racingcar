@@ -23,10 +23,12 @@ public class RacingCarService {
 
     private final PlayResultDao playResultDao;
     private final PlayersInfoDao playersInfoDao;
+    private final GamePlay gamePlay;
 
-    public RacingCarService(PlayResultDao playResultDao, PlayersInfoDao playersInfoDao) {
+    public RacingCarService(PlayResultDao playResultDao, PlayersInfoDao playersInfoDao, GamePlay gamePlay) {
         this.playResultDao = playResultDao;
         this.playersInfoDao = playersInfoDao;
+        this.gamePlay = gamePlay;
     }
 
     public GameResultResponse createResponse(GameInfoRequest gameInfoRequest) {
@@ -34,7 +36,7 @@ public class RacingCarService {
         Cars cars = CarsFactory.buildCars(carNames);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoRequest.getCount();
-        GamePlay.play(cars, count, numberGenerator);
+        gamePlay.play(cars, count, numberGenerator);
         List<CarResponse> carResponses = cars.getCars().stream()
                 .map(CarResponse::new)
                 .collect(Collectors.toList());
