@@ -69,9 +69,9 @@ erDiagram
 - [ ] 비즈니스 로직을 수행 중 예외가 발생할 경우 롤백하기 위해 `@Transactional` 적용
 
 ### 1. 게임 플레이 이력 조회 API 구현
-- [ ] `/plays`로 GET 요청을 받는 API 구현
+- [x] `/plays`로 GET 요청을 받는 API 구현
   - [x] `getPlays` Controller 구현
-  - [ ] 이력 조회하는 Service 구현
+  - [x] 이력 조회하는 Service 구현
   - [x] GameDao : `findId` 메서드 구현
   - [x] ParticipatesDao : `findByGameId` 메서드 구현
   - [x] PlayerDao : `findNameById` 메서드 구현

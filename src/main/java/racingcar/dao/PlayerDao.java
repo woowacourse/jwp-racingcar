@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import java.sql.PreparedStatement;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +48,8 @@ public class PlayerDao {
         }
     }
 
-    public List<PlayerEntity> findNameById(final Long id) {
+    public String findNameById(final Long id) {
         final String sql = "SELECT name FROM Player WHERE id = ?";
-        return jdbcTemplate.query(sql, rowMapper, id);
+        return jdbcTemplate.queryForObject(sql, String.class, id);
     }
 }

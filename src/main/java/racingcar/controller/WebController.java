@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class WebController {
 
     @GetMapping("/plays")
     public ResponseEntity<List<ResultResponse>> getPlays() {
-        List<ResultResponse> resultResponses = new ArrayList<>();
+        List<ResultResponse> resultResponses = racingCarService.findAllResult();
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(resultResponses);

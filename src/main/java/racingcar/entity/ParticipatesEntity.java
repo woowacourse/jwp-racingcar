@@ -13,4 +13,16 @@ public class ParticipatesEntity {
         this.position = position;
         this.isWinner = isWinner;
     }
+
+    public Long getPlayerId() {
+        return playerId;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public Boolean getWinner() {
+        return isWinner;
+    }
 }
