@@ -26,7 +26,7 @@ public class RacingCarService {
 
     @Transactional
     public PlayResponseDto playGame(final int count, final List<String> carNames) {
-        playRecordsDao.insert(PlayRecordEntity.builder().count(count).build());
+        playRecordsDao.insert(new PlayRecordEntity(count));
         final Long playRecordId = playRecordsDao.getLastId();
         final RacingGame racingGame = RacingGame.of(new RacingCarNames(carNames).createCars(playRecordId));
 

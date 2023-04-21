@@ -16,13 +16,11 @@ import racingcar.repository.dao.entity.CarEntity;
 @Repository
 public class JdbcCarsDao implements CarsDao {
 
-    private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> {
-        return new CarEntity(
-                resultSet.getLong("play_record_id"),
-                resultSet.getString("name"),
-                resultSet.getInt("position")
-        );
-    };
+    private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> new CarEntity(
+            resultSet.getLong("play_record_id"),
+            resultSet.getString("name"),
+            resultSet.getInt("position")
+    );
     private final ResultSetExtractor<List<List<CarEntity>>> actorResultSetExtractor = resultSet -> {
         final Map<Long, List<CarEntity>> result = new LinkedHashMap<>();
         while (resultSet.next()) {

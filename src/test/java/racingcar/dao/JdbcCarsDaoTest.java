@@ -26,11 +26,7 @@ class JdbcCarsDaoTest {
 
     @BeforeEach
     void setUp() {
-        playRecordsDao.insert(
-                PlayRecordEntity.builder()
-                        .count(5)
-                        .build()
-        );
+        playRecordsDao.insert(new PlayRecordEntity(5));
     }
 
     @AfterEach
@@ -53,11 +49,8 @@ class JdbcCarsDaoTest {
     void findAllCarsById() {
         List<CarEntity> firstInsertedCars = createCarEntitiesOf(playRecordsDao.getLastId());
         carsDao.insert(firstInsertedCars);
-        playRecordsDao.insert(
-                PlayRecordEntity.builder()
-                        .count(5)
-                        .build()
-        );
+        playRecordsDao.insert(new PlayRecordEntity(5));
+
         List<CarEntity> secondInsertedCars = createCarEntitiesOf(playRecordsDao.getLastId());
         carsDao.insert(secondInsertedCars);
 
