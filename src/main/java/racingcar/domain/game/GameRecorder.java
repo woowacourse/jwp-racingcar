@@ -1,11 +1,9 @@
-package racingcar.domain.record;
-
-import racingcar.domain.car.Car;
-import racingcar.domain.cars.Cars;
-import racingcar.domain.result.GameResultOfCar;
+package racingcar.domain.game;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.domain.car.Car;
+import racingcar.domain.car.Cars;
 
 public class GameRecorder {
 

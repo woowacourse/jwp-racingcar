@@ -1,6 +1,14 @@
 package racingcar.dao;
 
+import java.util.List;
+import racingcar.dao.entity.CarEntity;
+import racingcar.domain.car.Car;
+
 public interface CarDao {
 
-    void insert(final String name, final int position, final Long gameId, final boolean isWin);
+    void batchInsert(final List<CarEntity> carEntity);
+
+    List<Car> selectAll(final int gameId);
+
+    List<String> selectWinners(final int gameId);
 }

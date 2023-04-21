@@ -1,0 +1,14 @@
+### 게임 실행
+
+POST localhost:8080/plays
+Content-Type: application/json
+
+{
+  "names": "gavi,herb,huchu",
+  "count": 10
+}
+
+### 게임 조회
+
+GET localhost:8080/plays
+Content-Type: application/json

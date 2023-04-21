@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import racingcar.domain.car.Car;
+import racingcar.exception.CarException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -26,7 +28,7 @@ class CarTest {
     @DisplayName("생성자에 영어가 아니거나 다섯 글자를 초과한 이름을 입력할 때, 오류가 발생하는지 확인")
     void create_error_test(final String input) {
         assertThatThrownBy(() -> new Car(input, DEFAULT_POSITION))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(CarException.class)
                 .hasMessageContaining("[ERROR]");
     }
 

@@ -1,4 +1,4 @@
-package racingcar.domain.cars;
+package racingcar.domain.car;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import racingcar.domain.car.Cars;
+import racingcar.exception.CarsException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -33,7 +35,7 @@ class CarsTest {
     @DisplayName("생성자에 이름이 중복되거나 길이가 2 미만인 자동차 객체 배열이 입력되었을 때, 오류를 발생시키는지 확인")
     void create_error_test(final List<Car> cars) {
         assertThatThrownBy(() -> new Cars(cars))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(CarsException.class)
                 .hasMessageContaining("[ERROR]");
     }
 

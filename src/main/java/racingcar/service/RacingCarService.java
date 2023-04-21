@@ -4,20 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.GameEntity;
 import racingcar.domain.car.Car;
-import racingcar.domain.carfactory.CarFactory;
-import racingcar.domain.cars.Cars;
-import racingcar.domain.numbergenerator.RandomSingleDigitGenerator;
-import racingcar.domain.record.GameRecorder;
-import racingcar.domain.result.GameResultOfCar;
-import racingcar.domain.system.GameSystem;
+import racingcar.domain.car.CarFactory;
+import racingcar.domain.car.Cars;
+import racingcar.domain.game.GameRecorder;
+import racingcar.domain.game.GameResultOfCar;
+import racingcar.domain.game.GameSystem;
+import racingcar.domain.game.RandomSingleDigitGenerator;
 import racingcar.dto.CarDTO;
-import racingcar.dto.ResponseDTO;
+import racingcar.dto.ResultDTO;
 
 @Service
 public class RacingCarService {
+    private static final int INITIAL_GAME_ID = 1;
 
     private final GameDao gameDao;
     private final CarDao carDao;
@@ -27,55 +31,67 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
-    public ResponseDTO play(final List<String> names, final int count) {
-        final GameSystem gameSystem = createGameSystem(count);
-        final Long gameId = gameDao.insert(count);
+    @Transactional
+    public ResultDTO play(final List<String> names, final int count) {
+        final GameSystem gameSystem = new GameSystem(count, new GameRecorder(new ArrayList<>()));
+        final Long gameId = gameDao.insert(GameEntity.create(count));
 
-        final Cars cars = makeCars(names);
+        final CarFactory carFactory = new CarFactory();
+        final Cars cars = carFactory.createCars(names);
+
         gameSystem.executeRace(cars, new RandomSingleDigitGenerator());
         insertCar(cars, gameId, gameSystem);
 
-        return createResponseDTO(count, gameSystem);
-    }
-
-    private GameSystem createGameSystem(final int gameRound) {
-        return new GameSystem(gameRound, new GameRecorder(new ArrayList<>()));
-    }
-
-    private Cars makeCars(final List<String> names) {
-        CarFactory carFactory = new CarFactory();
-        return carFactory.createCars(names);
+        return createGameDTO(count, gameSystem);
     }
 
     private void insertCar(final Cars cars, final Long id, final GameSystem gameSystem) {
+        final List<CarEntity> carEntities = new ArrayList<>();
         for (Car car : cars.getCars()) {
-            carDao.insert(car.getName(), car.getPosition(), id, isWin(car, gameSystem));
+            carEntities.add(CarEntity.create(car.getName(), car.getPosition(), id, isWin(car, gameSystem)));
         }
+        carDao.batchInsert(carEntities);
     }
 
     private boolean isWin(final Car car, final GameSystem gameSystem) {
-        List<String> winners = getWinners(gameSystem);
+        final List<String> winners = getWinners(gameSystem);
         return winners.contains(car.getName());
     }
 
     private List<String> getWinners(final GameSystem gameSystem) {
-        List<GameResultOfCar> winnersGameResult = gameSystem.getWinnersGameResult();
+        final List<GameResultOfCar> winnersGameResult = gameSystem.getWinnersGameResult();
         return winnersGameResult.stream()
                 .map(gameResultOfCar -> gameResultOfCar.getCarName())
                 .collect(Collectors.toList());
     }
 
-    private ResponseDTO createResponseDTO(final int count, final GameSystem gameSystem) {
+    private ResultDTO createGameDTO(final int count, final GameSystem gameSystem) {
         final List<String> winners = getWinners(gameSystem);
         final List<CarDTO> carDTOs = getCarDTOs(count, gameSystem);
-        return new ResponseDTO(winners, carDTOs);
+        return new ResultDTO(winners, carDTOs);
     }
 
     private List<CarDTO> getCarDTOs(final int count, final GameSystem gameSystem) {
-        List<GameResultOfCar> allGameResult = gameSystem.getAllGameResult();
+        final List<GameResultOfCar> allGameResult = gameSystem.getAllGameResult();
         return allGameResult.stream()
                 .filter(gameResultOfCar -> gameResultOfCar.isSameGameRound(count))
                 .map(gameResultOfCar -> new CarDTO(gameResultOfCar.getCarName(), gameResultOfCar.getPosition()))
                 .collect(Collectors.toList());
+    }
+
+    public List<ResultDTO> getSavedGames() {
+        final List<ResultDTO> playingCars = new ArrayList<>();
+
+        final int games = gameDao.countGames();
+        for (int gameId = INITIAL_GAME_ID; gameId <= games; gameId++) {
+            final List<String> winnerNames = carDao.selectWinners(gameId);
+            final List<Car> cars = carDao.selectAll(gameId);
+            final List<CarDTO> carDTOs = cars.stream()
+                    .map(car -> new CarDTO(car.getName(), car.getPosition()))
+                    .collect(Collectors.toList());
+
+            playingCars.add(new ResultDTO(winnerNames, carDTOs));
+        }
+        return new ArrayList<>(playingCars);
     }
 }

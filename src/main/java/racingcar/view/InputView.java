@@ -5,21 +5,20 @@ import racingcar.view.message.ErrorMessage;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import racingcar.view.message.Message;
 
 public class InputView {
 
     public static final String DELIMITER = ",";
     public static final String FORMAT_OF_NUMBER = "\\d+";
     private final Scanner scanner;
-    private final OutputView outputView;
 
-    public InputView(final Scanner scanner, final OutputView outputView) {
+    public InputView(final Scanner scanner) {
         this.scanner = scanner;
-        this.outputView = outputView;
     }
 
     public List<String> readCarNames() {
-        outputView.printCarNameInputGuide();
+        System.out.println(Message.CAR_NAME_INPUT_GUIDE.getMessage());
 
         String carNamesContent = scanner.nextLine();
         validateCarNames(carNamesContent);
@@ -27,19 +26,19 @@ public class InputView {
         return Arrays.asList(carNamesContent.split(DELIMITER));
     }
 
+    private void validateCarNames(final String content) {
+        if (content.isBlank()) {
+            throw new IllegalArgumentException(ErrorMessage.BLANK_INPUT_ERROR_FOR_CAR_NAMES.getMessage());
+        }
+    }
+
     public int readGameRound() {
-        outputView.printGameRoundGuide();
+        System.out.println(Message.GAME_ROUND_INPUT_GUIDE.getMessage());
 
         String gameRoundContent = scanner.nextLine();
         validateGameRound(gameRoundContent);
 
         return Integer.parseInt(gameRoundContent);
-    }
-
-    private void validateCarNames(final String content) {
-        if (content.isBlank()) {
-            throw new IllegalArgumentException(ErrorMessage.BLANK_INPUT_ERROR_FOR_CAR_NAMES.getMessage());
-        }
     }
 
     private void validateGameRound(final String content) {

@@ -1,13 +1,14 @@
-package racingcar.dto;
+package racingcar.dto.request;
 
-public class RequestDTO {
+public class RacingGameRequest {
 
     private String names;
     private int count;
 
-    public RequestDTO() {}
+    public RacingGameRequest() {
+    }
 
-    public RequestDTO(final String names, final int count) {
+    public RacingGameRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }
