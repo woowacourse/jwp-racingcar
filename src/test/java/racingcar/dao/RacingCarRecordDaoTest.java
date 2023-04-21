@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,29 @@ class RacingCarRecordDaoTest {
         racingCarRecordDao = new RacingCarRecordDao(jdbcTemplate);
         RacingGameHistoryDao racingGameHistoryDao = new RacingGameHistoryDao(jdbcTemplate);
         racingHistoryId = racingGameHistoryDao.insert(10, LocalDateTime.now());
+    }
+
+    @DisplayName("게임 별 자동차 이동 기록을 저장한다.")
+    @Test
+    void insertCars() {
+        //given
+        Map<RacingCar, Boolean> carToResult = Map.of(
+                new RacingCar("서브웨이"), true,
+                new RacingCar("로지"), false,
+                new RacingCar("바론"), false
+        );
+        //when
+        racingCarRecordDao.insertAll(racingHistoryId, carToResult);
+        //then
+        List<RacingCarRecord> foundCars = jdbcTemplate.query("SELECT * FROM car_record",
+                (rs, rowNum) -> new RacingCarRecord(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getInt("position"),
+                        rs.getBoolean("is_winner"),
+                        rs.getLong("history_id")
+                ));
+        assertThat(foundCars).hasSize(3);
     }
 
     @DisplayName("자동차 이동 기록을 저장한다.")

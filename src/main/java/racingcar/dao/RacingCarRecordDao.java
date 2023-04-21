@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -43,5 +44,17 @@ public class RacingCarRecordDao {
                 )
         );
 
+    }
+
+    public void insertAll(Long historyId, Map<RacingCar, Boolean> racingCarsToResult) {
+        String sql = "INSERT INTO car_record (history_id, name, position, is_winner) VALUES (?, ?, ?, ?)";
+        Set<RacingCar> racingCars = racingCarsToResult.keySet();
+        jdbcTemplate.getJdbcOperations()
+                .batchUpdate(sql, racingCars, racingCars.size(), (preparedStatement, racingCar) -> {
+                    preparedStatement.setLong(1, historyId);
+                    preparedStatement.setString(2, racingCar.getName());
+                    preparedStatement.setInt(3, racingCar.getPosition());
+                    preparedStatement.setBoolean(4, racingCarsToResult.get(racingCar));
+                });
     }
 }
