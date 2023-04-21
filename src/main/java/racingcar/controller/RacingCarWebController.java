@@ -9,6 +9,7 @@ import racingcar.util.NumberGenerator;
 import java.util.List;
 
 @RestController
+@RequestMapping("plays")
 public class RacingCarWebController {
 
     private final RacingCarService racingCarService;
@@ -19,12 +20,12 @@ public class RacingCarWebController {
         this.numberGenerator = numberGenerator;
     }
 
-    @PostMapping("plays")
+    @PostMapping
     public GameResultDto createGame(@RequestBody GameInforamtionDto gameInforamtionDto) {
         return racingCarService.play(gameInforamtionDto, numberGenerator);
     }
 
-    @GetMapping("plays")
+    @GetMapping
     public List<GameResultDto> loadAllGame() {
         return racingCarService.findAllGame();
     }
