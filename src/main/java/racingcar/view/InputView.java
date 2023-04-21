@@ -1,44 +1,30 @@
 package racingcar.view;
 
-import racingcar.domain.TryCount;
-import racingcar.dto.input.CarNameRequest;
-import racingcar.dto.input.TryCountRequest;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class InputView {
-    private static final String DELIMITER = ",";
     private static final Scanner sc = new Scanner(System.in);
+    private static final InputView INPUT_VIEW = new InputView();
 
     private InputView() {
     }
 
-    private static class InputViewSingletonHelper {
-        private static final InputView INPUT_VIEW = new InputView();
-    }
-
     public static InputView getInstance() {
-        return InputViewSingletonHelper.INPUT_VIEW;
+        return INPUT_VIEW;
     }
 
-    public CarNameRequest readCarNames() {
+    public String readCarNames() {
         printMessage(Message.ASK_CAR_NAMES);
-        List<String> input = Arrays.stream(readLine().split(DELIMITER))
-                .collect(Collectors.toUnmodifiableList());
-        validateDuplicatedCarNames(input);
-
-        return new CarNameRequest(input);
+        return readLine();
     }
 
-    public TryCountRequest readTryCount() {
+    public int readTryCount() {
         printMessage(Message.ASK_TRY_COUNT);
 
         int input = validateCount(readLine());
 
-        return new TryCountRequest(new TryCount(input));
+        return input;
     }
 
     private static void validateDuplicatedCarNames(List<String> input) {
