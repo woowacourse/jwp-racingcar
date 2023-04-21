@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import racingcar.controller.dto.TrackRequest;
+import racingcar.mapper.TrackRequestMapper;
 
 import static org.hamcrest.core.Is.is;
 
@@ -30,7 +31,7 @@ class RacingWebControllerTest {
     @DisplayName("정상 요청이 오면 상태코드 OK 반환")
     @Test
     void postRequestSuccess() {
-        final TrackRequest trackRequest = new TrackRequest("gray,hoy,logan", "10");
+        final TrackRequest trackRequest = TrackRequestMapper.of("gray,hoy,logan", "10");
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -51,7 +52,7 @@ class RacingWebControllerTest {
             ":입력값이 존재하지 않습니다.",
             " , :비어있는 자동차 이름이 존재합니다."}, delimiter = ':')
     void postRequestFailWithWrongName(final String names, final String exceptionMessage) {
-        final TrackRequest trackRequest = new TrackRequest(names, "10");
+        final TrackRequest trackRequest = TrackRequestMapper.of(names, "10");
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -69,7 +70,7 @@ class RacingWebControllerTest {
             "0:시도 횟수는 1 이상 100 이하여야 합니다.",
             "101:시도 횟수는 1 이상 100 이하여야 합니다."}, delimiter = ':')
     void postRequestFailWithWrongTrialTimes(final String trialTime, final String exceptionMessage) {
-        final TrackRequest trackRequest = new TrackRequest("gray,hoy,logan", trialTime);
+        final TrackRequest trackRequest = TrackRequestMapper.of("gray,hoy,logan", trialTime);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

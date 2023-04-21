@@ -2,12 +2,14 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.controller.dto.CarResponse;
 import racingcar.controller.dto.TrackRequest;
 import racingcar.controller.dto.TrackResponse;
 import racingcar.dao.RacingDao;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
+import racingcar.mapper.CarDtoMapper;
+import racingcar.mapper.TrackDtoMapper;
+import racingcar.mapper.TrackResponseMapper;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.car.strategy.MovingStrategy;
@@ -15,7 +17,6 @@ import racingcar.model.track.Track;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RacingService {
@@ -33,22 +34,14 @@ public class RacingService {
         final String names = trackRequest.getNames();
         final String trialTimes = trackRequest.getCount();
 
-        final Cars cars = makeCars(names, movingStrategy);
-        final Track track = makeTrack(cars, trialTimes);
+        final Cars cars = Cars.of(names, movingStrategy);
+        final Track track = Track.of(cars, trialTimes);
 
         final Integer trackId = saveTrack(track);
         final Cars finishedCars = startRace(track);
         saveCars(trackId, finishedCars);
 
-        return makeResponse(finishedCars);
-    }
-
-    private Cars makeCars(final String name, final MovingStrategy movingStrategy) {
-        return Cars.of(name, movingStrategy);
-    }
-
-    private Track makeTrack(final Cars cars, final String trialTimes) {
-        return Track.of(cars, trialTimes);
+        return TrackResponseMapper.from(finishedCars);
     }
 
     private Cars startRace(final Track track) {
@@ -60,7 +53,10 @@ public class RacingService {
     }
 
     private Integer saveTrack(final Track track) {
-        return racingDao.save(new TrackDto(track.getTrialTimes()));
+        final int trialTimes = track.getTrialTimes();
+        final TrackDto trackDto = TrackDtoMapper.from(trialTimes);
+
+        return racingDao.save(trackDto);
     }
 
     private void saveCars(final Integer trackId, final Cars finishedCars) {
@@ -68,28 +64,9 @@ public class RacingService {
         final List<Car> carsCurrentInfo = finishedCars.getCarsCurrentInfo();
 
         for (final Car car : carsCurrentInfo) {
-            racingDao.save(new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId));
+            final CarDto carDto = CarDtoMapper.of(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId);
+            racingDao.save(carDto);
         }
-    }
-
-    private TrackResponse makeResponse(final Cars finishedCars) {
-        final String winnerCarNames = makeWinnerCarNames(finishedCars);
-        final List<CarResponse> results = makeCarResponses(finishedCars);
-        return new TrackResponse(winnerCarNames, results);
-    }
-
-    private String makeWinnerCarNames(final Cars finishedCars) {
-        final String winnerCarNames = finishedCars.getWinnerCars().stream()
-                .map(Car::getCarName)
-                .collect(Collectors.joining(", "));
-        return winnerCarNames;
-    }
-
-    private List<CarResponse> makeCarResponses(final Cars finishedCars) {
-        final List<CarResponse> results = finishedCars.getCarsCurrentInfo().stream()
-                .map(car -> new CarResponse(car.getCarName(), car.getPosition()))
-                .collect(Collectors.toList());
-        return results;
     }
 
     public List<TrackResponse> findAll() {
@@ -98,10 +75,9 @@ public class RacingService {
 
         for (int id = 1; id <= maxId; id++) {
             final Cars cars = Cars.from(racingDao.findAllById(id));
-            final String winners = makeWinnerCarNames(cars);
-            final List<CarResponse> racingCars = makeCarResponses(cars);
+            final TrackResponse response = TrackResponseMapper.from(cars);
 
-            trackResponses.add(new TrackResponse(winners, racingCars));
+            trackResponses.add(response);
         }
 
         return trackResponses;

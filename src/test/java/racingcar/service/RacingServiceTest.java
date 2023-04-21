@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.controller.dto.CarResponse;
 import racingcar.controller.dto.TrackRequest;
 import racingcar.controller.dto.TrackResponse;
+import racingcar.mapper.TrackRequestMapper;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ class RacingServiceTest {
         String names = "그레이,호이,로건";
         String trialTimes = "10";
 
-        final TrackRequest trackRequest = new TrackRequest(names, trialTimes);
+        final TrackRequest trackRequest = TrackRequestMapper.of(names, trialTimes);
         final TrackResponse trackResponse = racingService.play(trackRequest);
         final List<CarResponse> cars = trackResponse.getRacingCars();
 
