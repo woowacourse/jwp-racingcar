@@ -26,7 +26,7 @@ public class ConsoleController {
             String carNames = InputView.inputCarNames();
             return racingCarService.makeCars(carNames);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            OutputView.printMessage(e.getMessage());
             return initCars();
         }
     }
@@ -37,8 +37,8 @@ public class ConsoleController {
         try {
             return InputView.inputTryCount();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            OutputView.printMessage(e.getMessage());
+            return setTryCount();
         }
-        return setTryCount();
     }
 }
