@@ -18,7 +18,7 @@ public class GameEntity {
         this(null, trial, LocalDateTime.now());
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

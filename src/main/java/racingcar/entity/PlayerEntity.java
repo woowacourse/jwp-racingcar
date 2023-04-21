@@ -21,7 +21,7 @@ public class PlayerEntity {
         this(null, player.getName(), player.getPosition(), isWinner, gameId);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
