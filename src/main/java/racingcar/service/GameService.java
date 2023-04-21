@@ -41,7 +41,7 @@ public final class GameService {
     private void playGame(final Game game, TryCount tryCount) {
         while (tryCount.isAvailable()) {
             game.moveCars(randomMoveStrategy);
-            tryCount.moveUntilZero();
+            tryCount.decrease();
         }
     }
 

@@ -20,7 +20,7 @@ public class TryCount {
         return count > 0;
     }
 
-    public void moveUntilZero() {
+    public void decrease() {
         if (isAvailable()) {
             count--;
         }
