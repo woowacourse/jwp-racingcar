@@ -4,7 +4,8 @@ import racingcar.view.Validator;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class CarGenerator {
     private static final Validator validator = new Validator();
@@ -13,6 +14,6 @@ public class CarGenerator {
         validator.checkValidCarNames(carNames);
         return Arrays.stream(carNames)
                 .map(Car::new)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

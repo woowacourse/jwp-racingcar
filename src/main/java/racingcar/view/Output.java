@@ -4,35 +4,24 @@ import racingcar.domain.Car;
 import racingcar.domain.Winner;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Output {
-    private static final String SEPERATOR = ", ";
-    private static final String MOVE_INDICATOR = "-";
 
-    public static void printMessage(String message) {
+    private static final String DELIMITER = ",";
+
+    public static void print(String message) {
         System.out.println(message);
     }
 
-    public static void printEachTryCarDistance(List<Car> cars, int index) {
-        cars.forEach(car ->
-                System.out.println(car.getName() + " : " + MOVE_INDICATOR.repeat(car.getDistanceRecord(index))));
+    public static void printResult(Winner winner, List<Car> cars) {
+        System.out.println("우승자 : " + String.join(DELIMITER, winner.getWinnerNames()));
         System.out.println();
+
+        System.out.println("결과");
+        cars.forEach(Output::printCarInformation);
     }
 
-    public static void printEachCarResult(List<Car> cars, int tryCount) {
-        printMessage("실행 결과");
-        for (int index = 0; index < tryCount; index++) {
-            printEachTryCarDistance(cars, index);
-        }
+    private static void printCarInformation(Car car) {
+        System.out.println("Name : " + car.getName() + ", Position : " + car.getDistance());
     }
-
-    public static void printWinner(Winner winner) {
-        String winnerNames = winner.getWinnerNames().stream()
-                .map(Objects::toString)
-                .collect(Collectors.joining(SEPERATOR));
-        System.out.println(winnerNames + "가 최종 우승했습니다.");
-    }
-
 }

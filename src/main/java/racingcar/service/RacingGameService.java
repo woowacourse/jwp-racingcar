@@ -1,18 +1,21 @@
 package racingcar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
+import racingcar.dao.GameDao;
+import racingcar.dao.PlayerDao;
 import racingcar.domain.Car;
 import racingcar.domain.CarGenerator;
 import racingcar.domain.RacingGame;
 import racingcar.domain.Winner;
 import racingcar.dto.PlayResultResponseDto;
-import racingcar.repository.RacingGameRepository;
+import racingcar.dto.WinnerFormatter;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Service
 public class RacingGameService {
@@ -20,19 +23,41 @@ public class RacingGameService {
     private static final CarGenerator carGenerator = new CarGenerator();
     private static final String DELIMETER = ",";
 
-    @Autowired
-    ConversionService conversionService;
-    @Autowired
-    RacingGameRepository racingGameRepository;
+    private final GameDao gameDao;
+    private final PlayerDao playerDao;
+
+    public RacingGameService(GameDao gameDao, PlayerDao playerDao) {
+        this.gameDao = gameDao;
+        this.playerDao = playerDao;
+    }
 
     public PlayResultResponseDto run(String names, Integer count) {
+        RacingGame racingGame = play(names, count);
+        Winner winner = racingGame.getWinner();
+        List<Car> cars = racingGame.getCars();
+
+        insert(winner, count, cars);
+
+        return new PlayResultResponseDto(winner, cars);
+    }
+
+    public RacingGame play(String names, Integer count) {
         List<Car> cars = carGenerator.generateCars(names.split(DELIMETER));
         RacingGame racingGame = new RacingGame(cars, count, numberGenerator);
         racingGame.run();
-        Winner winner = racingGame.getWinner();
 
-        racingGameRepository.insert(winner, count, cars);
+        return racingGame;
 
-        return new PlayResultResponseDto(winner, cars);
+    }
+
+    public void insert(Winner winner, int count, List<Car> cars) {
+        String winnerNames = new WinnerFormatter().print(winner, Locale.getDefault());
+        int gameId = gameDao.insert(winnerNames, count);
+        playerDao.insert(gameId, cars);
+    }
+
+    public List<PlayResultResponseDto> getPlayHistory() {
+        Map<Integer, PlayResultResponseDto> result = playerDao.findAll();
+        return new ArrayList<>(result.values());
     }
 }

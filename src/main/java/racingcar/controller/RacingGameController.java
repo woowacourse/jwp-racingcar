@@ -1,25 +1,35 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.PlayRequestDto;
 import racingcar.dto.PlayResultResponseDto;
 import racingcar.service.RacingGameService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class RacingGameController {
-    @Autowired
-    RacingGameService racingGameService;
+    private final RacingGameService racingGameService;
+
+    public RacingGameController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
+    }
 
     @PostMapping(value = "/plays", consumes = "application/json")
-    public PlayResultResponseDto play(@Valid @RequestBody PlayRequestDto playRequestDto) {
+    public ResponseEntity<PlayResultResponseDto> play(@Valid @RequestBody PlayRequestDto playRequestDto) {
         String names = playRequestDto.getNames();
         Integer count = playRequestDto.getCount();
 
-        return racingGameService.run(names, count);
+        return ResponseEntity.ok().body(racingGameService.run(names, count));
+    }
+
+    @RequestMapping(value = "/plays", produces = "application/json")
+    public ResponseEntity<List<PlayResultResponseDto>> viewHistory() {
+        return ResponseEntity.ok().body(racingGameService.getPlayHistory());
     }
 }

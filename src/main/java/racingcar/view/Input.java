@@ -3,7 +3,6 @@ package racingcar.view;
 import java.util.Scanner;
 
 public class Input {
-    private static final String DELIMITER = ",";
     private static final Validator validator = new Validator();
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -11,15 +10,9 @@ public class Input {
         return scanner.nextLine();
     }
 
-    public static String[] getCarNames(String input) {
-        String[] carNames = input.split(DELIMITER);
-        validator.checkValidCarNames(carNames);
-        return carNames;
-    }
-
-    public static int getTryCount(String input) {
+    public static Integer getTryCount(String input) {
         validator.checkDigits(input);
-        int tryCount = Integer.parseInt(input);
+        Integer tryCount = Integer.parseInt(input);
         validator.checkRange(tryCount);
         return tryCount;
     }

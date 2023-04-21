@@ -54,6 +54,5 @@ public class Validator {
         if (nonDuplicatedCarNames.size() != carNames.length) {
             throw new IllegalArgumentException(CARNAMES_DUPLICATE_ERROR_MESSAGE);
         }
-
     }
 }
