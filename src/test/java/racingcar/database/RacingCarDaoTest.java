@@ -3,22 +3,22 @@ package racingcar.database;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import racingcar.model.Car;
 
 
-@SpringBootTest
+@JdbcTest
 @Sql(scripts = {"classpath:data.sql"})
 class RacingCarDaoTest {
 
     private final RacingGameDao racingGameDao;
     private final RacingCarDao racingCarDao;
 
-    @Autowired
-    private RacingCarDaoTest(final RacingGameDao racingGameDao, final RacingCarDao racingCarDao) {
-        this.racingGameDao = racingGameDao;
-        this.racingCarDao = racingCarDao;
+    private RacingCarDaoTest(@Autowired final JdbcTemplate jdbcTemplate) {
+        this.racingGameDao = new RacingGameDao(jdbcTemplate);
+        this.racingCarDao = new RacingCarDao(jdbcTemplate);
     }
 
     @Test

@@ -3,18 +3,18 @@ package racingcar.database;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
-@SpringBootTest
+@JdbcTest
 @Sql(scripts = {"classpath:data.sql"})
 class RacingGameDaoTest {
 
     private final RacingGameDao racingGameDao;
 
-    @Autowired
-    private RacingGameDaoTest(final RacingGameDao racingGameDao) {
-        this.racingGameDao = racingGameDao;
+    private RacingGameDaoTest(@Autowired final JdbcTemplate jdbcTemplate) {
+        this.racingGameDao = new RacingGameDao(jdbcTemplate);
     }
 
     @Test
