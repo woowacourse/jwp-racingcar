@@ -44,7 +44,6 @@ public class RaceResultService {
 
         final RaceResultEntity raceResultEntity = raceResultMapper.mapToRaceResultEntity(racingGame);
         final int savedId = raceResultDao.save(raceResultEntity);
-
         carService.registerCars(racingGame, savedId);
 
         final List<CarStatusResponse> carStatusResponses =
