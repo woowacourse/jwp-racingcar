@@ -1,5 +1,8 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,11 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.PlayerDto;
-
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import racingcar.entity.PlayerEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class PlayerDaoTest {
@@ -71,10 +70,10 @@ class PlayerDaoTest {
         String name = "포비";
         playerDao.save(name);
         //when
-        PlayerDto playerDto = playerDao.findByName(name).orElseThrow();
+        PlayerEntity playerEntity = playerDao.findByName(name).orElseThrow();
         //then
-        assertThat(playerDto.getId()).isNotNull();
-        assertThat(playerDto.getName()).isEqualTo(name);
+        assertThat(playerEntity.getId()).isNotNull();
+        assertThat(playerEntity.getName()).isEqualTo(name);
     }
 
 
@@ -84,8 +83,8 @@ class PlayerDaoTest {
         //given
         String name = "네오";
         //when
-        Optional<PlayerDto> playerDto = playerDao.findByName(name);
+        Optional<PlayerEntity> playerEntity = playerDao.findByName(name);
         //then
-        assertThat(playerDto).isEmpty();
+        assertThat(playerEntity).isEmpty();
     }
 }

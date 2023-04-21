@@ -1,5 +1,9 @@
 package racingcar.dao;
 
+import java.sql.PreparedStatement;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,11 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.PlayerDto;
-
-import java.sql.PreparedStatement;
-import java.util.Objects;
-import java.util.Optional;
+import racingcar.entity.PlayerEntity;
 
 @Repository
 public class PlayerDao {
@@ -23,7 +23,7 @@ public class PlayerDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<PlayerDto> actorRowMapper = (resultSet, rowNum) -> new PlayerDto(
+    private final RowMapper<PlayerEntity> rowMapper = (resultSet, rowNum) -> new PlayerEntity(
             resultSet.getLong("id"),
             resultSet.getString("name")
     );
@@ -39,13 +39,18 @@ public class PlayerDao {
         return Objects.requireNonNull(generatedKeyHolder.getKey()).longValue();
     }
 
-    public Optional<PlayerDto> findByName(final String name) {
+    public Optional<PlayerEntity> findByName(final String name) {
         final String sql = "SELECT * FROM PLAYER WHERE name = ? ";
         try {
-            PlayerDto playerDto = jdbcTemplate.queryForObject(sql, actorRowMapper, name);
-            return Optional.ofNullable(playerDto);
+            PlayerEntity playerEntity = jdbcTemplate.queryForObject(sql, rowMapper, name);
+            return Optional.ofNullable(playerEntity);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    public List<PlayerEntity> findNameById(final Long id) {
+        final String sql = "SELECT name FROM Player WHERE id = ?";
+        return jdbcTemplate.query(sql, rowMapper, id);
     }
 }

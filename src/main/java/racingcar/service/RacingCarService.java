@@ -12,9 +12,9 @@ import racingcar.domain.GameRound;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.dto.NamesAndCountRequest;
 import racingcar.dto.ParticipateDto;
-import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingCarResponse;
 import racingcar.dto.ResultResponse;
+import racingcar.entity.PlayerEntity;
 
 @Service
 public class RacingCarService {
@@ -62,11 +62,11 @@ public class RacingCarService {
     }
 
     private Long findOrSavePlayer(final String carName) {
-        Optional<PlayerDto> playerDtoOptional = playerDao.findByName(carName);
-        if (playerDtoOptional.isEmpty()) {
+        Optional<PlayerEntity> playerEntity = playerDao.findByName(carName);
+        if (playerEntity.isEmpty()) {
             return playerDao.save(carName);
         }
-        return playerDtoOptional.orElseThrow().getId();
+        return playerEntity.orElseThrow().getId();
     }
 
     private ParticipateDto convertParticipate(final List<String> winnerNames, final Long gameId, final String carName, final int carPosition, final Long playerId) {
