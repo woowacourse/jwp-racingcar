@@ -18,6 +18,6 @@ public class ConsoleApplication {
                 new OutputView(),
                 new RacingCarService(new LocalGameDao(), new LocalCarDao(), new RandomSingleDigitGenerator()));
 
-        consoleController.createGameAndPlay();
+        consoleController.play();
     }
 }

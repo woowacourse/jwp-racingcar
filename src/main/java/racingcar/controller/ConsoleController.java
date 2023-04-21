@@ -17,7 +17,7 @@ public class ConsoleController {
         this.racingCarService = racingCarService;
     }
 
-    public void createGameAndPlay() {
+    public void play() {
         final RacingResultDTO racingResult = racingCarService.play(inputView.readCarNames(), inputView.readGameRound());
         outputView.printRacingResult(racingResult.getWinners(), racingResult.getRacingCars());
     }

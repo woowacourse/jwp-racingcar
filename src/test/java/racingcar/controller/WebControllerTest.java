@@ -49,7 +49,7 @@ class WebControllerTest {
 
     @Test
     void 이력을_조회한다() {
-        webController.createGameAndPlay(new RacingStartDTO("huchu,gavi", 1));
+        webController.play(new RacingStartDTO("huchu,gavi", 1));
 
         RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
