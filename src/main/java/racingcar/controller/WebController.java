@@ -1,15 +1,15 @@
 package racingcar.controller;
 
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GameDto;
-import racingcar.dto.GameResultDto;
-import racingcar.dto.GameResultsDto;
-import racingcar.service.GameService;
 import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResultDto;
+import racingcar.service.GameService;
 
 @RestController
 public class WebController {
@@ -27,7 +27,7 @@ public class WebController {
     }
 
     @GetMapping("/plays")
-    public GameResultsDto showGameHistory() {
+    public List<GameResultDto> showGameHistory() {
         return gameService.gameHistory();
     }
 }
