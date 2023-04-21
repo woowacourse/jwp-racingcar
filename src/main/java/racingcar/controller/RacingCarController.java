@@ -25,7 +25,7 @@ public class RacingCarController {
     @GetMapping("/plays")
     public ResponseEntity<List<GameResponseDto>> getGameHistory() {
         return ResponseEntity.ok()
-                .body(racingCarService.findAll());
+                .body(racingCarService.getPreviousWinners());
     }
 
     @PostMapping("/plays")
@@ -33,5 +33,6 @@ public class RacingCarController {
         return ResponseEntity.ok()
                 .body(racingCarService.plays(gameRequestDtoForPlays));
     }
+
 
 }

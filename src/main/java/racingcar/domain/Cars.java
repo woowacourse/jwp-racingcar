@@ -36,6 +36,10 @@ public class Cars {
         car.move(powerGenerator.generate(POWER_UPPER_BOUND_EXCLUSIVE));
     }
 
+    public int size() {
+        return cars.size();
+    }
+
     public List<Car> getWinners() {
         int maxDistanceOfCars = getMaxDistanceOfCars();
 
@@ -46,10 +50,6 @@ public class Cars {
 
     public List<Car> getCars() {
         return cars;
-    }
-
-    public int size() {
-        return cars.size();
     }
 
     private int getMaxDistanceOfCars() {

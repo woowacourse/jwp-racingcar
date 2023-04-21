@@ -6,16 +6,12 @@ import racingcar.controller.dto.CarResponseDto;
 import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.GameResponseDto;
 import racingcar.dao.RacingCarDao;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.GameCount;
-import racingcar.domain.PowerGenerator;
+import racingcar.domain.*;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 import racingcar.util.CarNamesDivider;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
@@ -31,8 +27,8 @@ public class RacingCarService {
         this.racingCarDao = racingCarDao;
     }
 
-    public List<GameResponseDto> findAll() {
-        List<GameEntity> racingGameEntities = racingCarDao.findAll(); // List<RacingGameEntity>
+    public List<GameResponseDto> getPreviousWinners() {
+        List<GameEntity> racingGameEntities = racingCarDao.findAll();
         return racingGameEntities.stream()
                 .map(this::generateRacingGameResponseDto)
                 .collect(Collectors.toList());
@@ -65,9 +61,9 @@ public class RacingCarService {
 
     public GameEntity getGameResultEntity(GameRequestDtoForPlays gameRequestDtoForPlays) {
         Cars cars = generateCars(gameRequestDtoForPlays);
-        GameCount gameCount = new GameCount(gameRequestDtoForPlays.getCount());
-        progress(cars, gameCount);
-        String winners = winnersToString(cars);
+        RacingGame racingGame = new RacingGame(cars, new GameCount(gameRequestDtoForPlays.getCount()));
+        racingGame.play();
+        String winners = winnersToString(racingGame.getWinners());
         return generateRacingGameEntity(gameRequestDtoForPlays, cars, winners);
     }
 
@@ -80,20 +76,9 @@ public class RacingCarService {
         return new Cars(inputCars);
     }
 
-    private void progress(Cars cars, GameCount gameCount) {
-        while (gameCount.isGameProgress()) {
-            gameCount.proceedOnce();
-            moveAllCar(cars);
-        }
-    }
-
-    private void moveAllCar(Cars cars) {
-        cars.moveAll(new PowerGenerator(new Random()));
-    }
-
-    private String winnersToString(Cars cars) {
-        return cars.getWinners().stream()
-                .map(Car::getName)
+    private String winnersToString(Winners winners) {
+        return winners.getWinners().stream()
+                .map(Winner::getName)
                 .collect(joining(","));
     }
 
