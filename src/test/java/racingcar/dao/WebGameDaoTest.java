@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.game.WebGameDao;
 import racingcar.entity.GameEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)

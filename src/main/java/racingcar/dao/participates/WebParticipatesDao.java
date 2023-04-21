@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.participates;
 
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.player;
 
 import java.sql.PreparedStatement;
 import java.util.Objects;

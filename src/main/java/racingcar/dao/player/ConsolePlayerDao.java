@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.player;
 
 import java.util.Optional;
 import racingcar.entity.PlayerEntity;

@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.game.WebGameDao;
+import racingcar.dao.participates.WebParticipatesDao;
+import racingcar.dao.player.WebPlayerDao;
 import racingcar.dto.ParticipateDto;
 import racingcar.entity.ParticipatesEntity;
 
