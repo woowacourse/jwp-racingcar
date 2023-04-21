@@ -1,6 +1,7 @@
-package racing;
+package racing.util;
 
 import org.springframework.stereotype.Component;
+import racing.util.NumberGenerator;
 
 import java.util.Random;
 
