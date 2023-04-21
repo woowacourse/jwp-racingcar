@@ -6,18 +6,15 @@ import java.util.stream.Collectors;
 
 public class RacingGame {
 
-    private static final int DEFAULT_START_LINE = 0;
     private static final int MOVABLE_BOUND = 4;
 
     private final List<Car> cars;
     private final NumberGenerator numberGenerator;
     private final Coin gameCoin;
 
-    public RacingGame(final List<String> splitCarNames, final int gameTry, final NumberGenerator numberGenerator) {
-        cars = splitCarNames.stream()
-                .map(carName -> new Car(carName, DEFAULT_START_LINE))
-                .collect(Collectors.toList());
-        gameCoin = new Coin(gameTry);
+    public RacingGame(final List<Car> cars, final int gameTry, final NumberGenerator numberGenerator) {
+        this.cars = cars;
+        this.gameCoin = new Coin(gameTry);
         this.numberGenerator = numberGenerator;
     }
 

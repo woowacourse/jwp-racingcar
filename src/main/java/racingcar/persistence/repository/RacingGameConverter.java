@@ -23,14 +23,13 @@ public class RacingGameConverter {
                 )).collect(Collectors.toList());
     }
 
-    private List<String> collectCarNames(
+    private List<Car> collectCarNames(
             final List<PlayerResultEntity> playerResults,
             final int gameResultId
     ) {
         return playerResults.stream()
                 .filter(playerResultEntity -> playerResultEntity.getGameResultId() == gameResultId)
                 .map(playerResult -> new Car(playerResult.getName(), playerResult.getPosition()))
-                .map(Car::getCarName)
                 .collect(Collectors.toList());
     }
 }
