@@ -25,7 +25,7 @@ import racingcar.dto.PlayResponse;
 import racingcar.entity.PlayerEntity;
 import racingcar.service.RacingCarService;
 
-@WebMvcTest
+@WebMvcTest(RacingCarController.class)
 class RacingCarControllerTest {
 
     @Autowired
@@ -81,7 +81,8 @@ class RacingCarControllerTest {
                 .andExpect(jsonPath("$[0].racingCars[1].position").value(10))
                 .andExpect(jsonPath("$[1].winners").value("car3"))
                 .andExpect(jsonPath("$[1].racingCars", hasSize(1)))
-                .andExpect(jsonPath("$[1].racingCars[0].name").value("car3"));
+                .andExpect(jsonPath("$[1].racingCars[0].name").value("car3"))
+                .andDo(print());
     }
 
     @ValueSource(strings = {"", "123456"})
@@ -118,6 +119,7 @@ class RacingCarControllerTest {
         mockMvc.perform(post("/plays")
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andDo(print());
     }
 }
