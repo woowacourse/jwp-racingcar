@@ -17,15 +17,15 @@ import racingcar.dto.RacingCarsDto;
 import racingcar.dto.TryCountDto;
 
 @SpringBootTest
-class RacingCarDaoTest {
-    private RacingCarDao racingCarDao;
+class RacingCarDBDaoTest {
+    private RacingCarDBDao racingCarDBDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        racingCarDao = new RacingCarDao(jdbcTemplate);
+        racingCarDBDao = new RacingCarDBDao(jdbcTemplate);
 
         jdbcTemplate.execute("DROP TABLE RACING_CAR IF EXISTS");
         jdbcTemplate.execute("DROP TABLE RACING_INFO IF EXISTS");
@@ -57,7 +57,7 @@ class RacingCarDaoTest {
         final String sql = "SELECT COUNT(*) FROM RACING_CAR";
 
         //when
-        racingCarDao.insertGame(new RacingCarsDto(racingCars), new TryCountDto(tryCount));
+        racingCarDBDao.insertGame(new RacingCarsDto(racingCars), new TryCountDto(tryCount));
         final int count = jdbcTemplate.queryForObject(sql, Integer.class);
 
         //then

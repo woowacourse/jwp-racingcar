@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,23 +19,22 @@ import racingcar.view.OutputView;
 
 @RestController
 @RequestMapping(value = "/plays")
-public class RacingCarController {
+public class RacingCarWebController {
     private final RacingCarService racingCarService;
 
-    public RacingCarController(final RacingCarService racingCarService) {
+    public RacingCarWebController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<RacingCarResponseDto> raceAdd(@RequestBody final RacingCarRequestDto racingCarRequestDto) {
+    public ResponseEntity<RacingCarResponseDto> addRace(@RequestBody final RacingCarRequestDto racingCarRequestDto) {
         RacingCarResponseDto racingCarResponseDto = racingCarService.addRace(racingCarRequestDto);
-        OutputView.printResult(racingCarResponseDto);
         return ResponseEntity.ok().body(racingCarResponseDto);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<RacingCarResponseDto>> raceList() {
+    public ResponseEntity<List<RacingCarResponseDto>> findRace() {
         return ResponseEntity.ok().body(racingCarService.findRace());
     }
 

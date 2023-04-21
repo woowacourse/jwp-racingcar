@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.RacingCarRequestDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarControllerTest {
+class RacingCarWebControllerTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
