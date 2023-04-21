@@ -21,6 +21,10 @@ public class Car {
         }
     }
 
+    public boolean isWinner(int winnerPosition) {
+        return this.position == winnerPosition;
+    }
+
     private boolean movable(int power) {
         return power >= MIN_MOVABLE_POWER;
     }

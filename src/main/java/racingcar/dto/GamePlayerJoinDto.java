@@ -3,16 +3,18 @@ package racingcar.dto;
 public class GamePlayerJoinDto {
 
     private final Long gameId;
-    private final String winner;
+    private final Integer playCount;
     private final String playerName;
     private final int position;
+    private final boolean isWinner;
     private final Long playerId;
 
-    public GamePlayerJoinDto(final Long gameId, final String winner, final String playerName, final int position, final Long playerId) {
+    public GamePlayerJoinDto(final Long gameId, final Integer playCount, final String playerName, final int position, final boolean isWinner, final Long playerId) {
         this.gameId = gameId;
-        this.winner = winner;
+        this.playCount = playCount;
         this.playerName = playerName;
         this.position = position;
+        this.isWinner = isWinner;
         this.playerId = playerId;
     }
 
@@ -20,8 +22,8 @@ public class GamePlayerJoinDto {
         return gameId;
     }
 
-    public String getWinner() {
-        return winner;
+    public int getPlaycount() {
+        return playCount;
     }
 
     public String getPlayerName() {
@@ -30,6 +32,10 @@ public class GamePlayerJoinDto {
 
     public int getPosition() {
         return position;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
     }
 
     public Long getPlayerId() {

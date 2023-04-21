@@ -47,10 +47,13 @@ public class RacingCarService {
 
         for (Long gameId : gameIdByGamePlayerJoinDto.keySet()) {
             List<GamePlayerJoinDto> sameGameData = gameIdByGamePlayerJoinDto.get(gameId);
-            String winner = sameGameData.get(0).getWinner();
+            String winners = sameGameData.stream()
+                .filter(GamePlayerJoinDto::isWinner)
+                .map(GamePlayerJoinDto::getPlayerName)
+                .collect(Collectors.joining(","));
             List<PlayerDto> playerDtos = sameGameData.stream().map(data -> new PlayerDto(data.getPlayerName(), data.getPosition()))
                 .collect(Collectors.toList());
-            result.add(new RacingCarGameResultResponseDto(winner, playerDtos));
+            result.add(new RacingCarGameResultResponseDto(winners, playerDtos));
         }
         return result;
     }

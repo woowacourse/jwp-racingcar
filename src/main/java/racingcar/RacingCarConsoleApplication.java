@@ -6,8 +6,6 @@ import racingcar.dao.player.PlayerInMemoryDao;
 import racingcar.repository.RacingCarRepository;
 import racingcar.service.RacingCarService;
 import racingcar.util.RandomNumberGenerator;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
 
 public class RacingCarConsoleApplication {
 

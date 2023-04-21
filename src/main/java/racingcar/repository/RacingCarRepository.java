@@ -32,8 +32,9 @@ public class RacingCarRepository {
     }
 
     private static List<Player> racingCarGameToPlayers(final RacingCarGame racingCarGame, final Long gameId) {
+        int winnerPosition = racingCarGame.findWinnerPosition();
         List<Player> players = racingCarGame.getCars().getAll().stream()
-            .map(playerDto -> new Player(playerDto.getName(), playerDto.getPosition(), gameId))
+            .map(car -> new Player(car.getName(), car.getPosition(), car.isWinner(winnerPosition), gameId))
             .collect(Collectors.toList());
         return players;
     }

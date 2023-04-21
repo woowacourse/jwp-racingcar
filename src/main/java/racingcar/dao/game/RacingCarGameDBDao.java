@@ -22,13 +22,12 @@ public class RacingCarGameDBDao implements RacingCarGameDao {
     }
 
     public Long insertGameWithKeyHolder(Game game) {
-        String sql = "INSERT INTO game(play_count, winners) VALUES(?, ?)";
+        String sql = "INSERT INTO game(play_count) VALUES(?)";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, game.getPlayCount());
-            ps.setString(2, game.getWinners());
             return ps;
         }, keyHolder);
 
@@ -36,7 +35,7 @@ public class RacingCarGameDBDao implements RacingCarGameDao {
     }
 
     public List<GamePlayerJoinDto> findAll() {
-        String sql = "SELECT g.winners, g.game_id, p.name, p.position, p.player_id FROM GAME as g "
+        String sql = "SELECT g.game_id, g.play_count, p.name, p.position, p.is_winner, p.player_id FROM GAME as g "
             + "join player as p "
             + "on g.game_id = p.game_id ";
         return jdbcTemplate.query(sql, rs -> {
@@ -44,9 +43,10 @@ public class RacingCarGameDBDao implements RacingCarGameDao {
                 while (rs.next()) {
                     GamePlayerJoinDto gamePlayerJoinDto = new GamePlayerJoinDto(
                         rs.getLong("game_id"),
-                        rs.getString("winners"),
+                        rs.getInt("play_count"),
                         rs.getString("name"),
                         rs.getInt("position"),
+                        rs.getBoolean("is_winner"),
                         rs.getLong("player_id")
                     );
                     result.put(rs.getLong("player_id"), gamePlayerJoinDto);

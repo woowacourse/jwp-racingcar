@@ -22,6 +22,13 @@ public class RacingCarGame {
         return cars.pickWinners();
     }
 
+    public int findWinnerPosition() {
+       return findWinners().getAll().stream()
+           .map(Car::getPosition)
+           .findFirst()
+           .orElseThrow();
+    }
+
     public Cars getCars() {
         return cars;
     }

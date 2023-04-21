@@ -19,14 +19,15 @@ public class PlayerDBDao implements PlayerDao{
 
     @Override
     public void insertPlayer(List<Player> players) {
-        String sql = "INSERT INTO player(name, position, game_id) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO player(name, position, is_winner, game_id) VALUES(?, ?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(final PreparedStatement ps, final int i) throws SQLException {
                 ps.setString(1, players.get(i).getName());
                 ps.setInt(2, players.get(i).getPosition());
-                ps.setLong(3, players.get(i).getGameId());
+                ps.setBoolean(3, players.get(i).isWinner());
+                ps.setLong(4, players.get(i).getGameId());
             }
 
             @Override
