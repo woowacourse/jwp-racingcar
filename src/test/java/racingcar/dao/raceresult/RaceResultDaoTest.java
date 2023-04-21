@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,21 @@ class RaceResultDaoTest {
 
     @Autowired
     private RaceResultDao raceResultDao;
+    private String names;
+    private RacingCars racingCars;
+    private RaceResultRegisterRequest raceResultRegisterRequest;
+
+    @BeforeEach
+    void init() {
+        String names = "성하,이오,코코닥";
+        this.names = names;
+        this.racingCars = RacingCars.makeCars(names);
+        this.raceResultRegisterRequest = RaceResultRegisterRequest.create(5, racingCars);
+    }
 
     @Test
     @DisplayName("경주 결과 요청을 받아서 저장하고 경주 결과 ID를 반환한다.")
     void save() {
-        // given
-        RacingCars racingCars = RacingCars.makeCars("성하,이오,코코닥");
-        RaceResultRegisterRequest raceResultRegisterRequest = RaceResultRegisterRequest.create(5, racingCars);
-
         // when
         int savedPlayResultId = raceResultDao.save(raceResultRegisterRequest);
 
@@ -39,13 +47,11 @@ class RaceResultDaoTest {
     @DisplayName("경주 결과 ID를 받아서 우승자를 조회한다.")
     void findWinnersByPlayResultId() {
         // given
-        String names = "성하,이오,코코닥";
-        RacingCars racingCars = RacingCars.makeCars(names);
-        racingCars.moveAllCars(5, new RandomNumberGenerator());
         RaceResultRegisterRequest raceResultRegisterRequest = RaceResultRegisterRequest.create(5, racingCars);
         int savedPlayResultId = raceResultDao.save(raceResultRegisterRequest);
 
         // when
+        racingCars.moveAllCars(5, new RandomNumberGenerator());
         List<String> nameList = Arrays.asList(names.split(","));
         String winners = raceResultDao.findWinnersByPlayResultId(savedPlayResultId);
         List<String> winnerList = Arrays.asList(winners.split(","));
@@ -59,20 +65,11 @@ class RaceResultDaoTest {
     @Test
     @DisplayName("모든 결과의 ID를 조회한다.")
     void findAllPlayResultId() {
-        // given
-        String names1 = "성하,이오,코코닥";
-        RacingCars racingCars1 = RacingCars.makeCars(names1);
-        racingCars1.moveAllCars(5, new RandomNumberGenerator());
-        RaceResultRegisterRequest raceResultRegisterRequest1 = RaceResultRegisterRequest.create(5, racingCars1);
-
-        String names2 = "성하,이오,코코닥";
-        RacingCars racingCars2 = RacingCars.makeCars(names2);
-        racingCars1.moveAllCars(5, new RandomNumberGenerator());
-        RaceResultRegisterRequest raceResultRegisterRequest2 = RaceResultRegisterRequest.create(5, racingCars2);
-
         // when
-        raceResultDao.save(raceResultRegisterRequest1);
-        raceResultDao.save(raceResultRegisterRequest2);
+        racingCars.moveAllCars(5, new RandomNumberGenerator());
+        racingCars.moveAllCars(5, new RandomNumberGenerator());
+        raceResultDao.save(raceResultRegisterRequest);
+        raceResultDao.save(raceResultRegisterRequest);
         List<Integer> playResultIds = raceResultDao.findAllPlayResultId();
 
         // then
