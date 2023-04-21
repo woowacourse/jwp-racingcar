@@ -1,17 +1,13 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.CarEntity;
 import racingcar.entity.RaceResultEntity;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,23 +17,19 @@ import java.util.Map;
 public class RaceResultDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public RaceResultDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert =
+                new SimpleJdbcInsert(jdbcTemplate)
+                        .withTableName("RACE_RESULT")
+                        .usingGeneratedKeyColumns("id");
     }
 
     public int save(final RaceResultEntity raceResultEntity) {
-
-        final SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-
-        jdbcInsert.withTableName("RACE_RESULT").usingGeneratedKeyColumns("id");
-
-        final SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("trial_count", raceResultEntity.getTrialCount())
-                .addValue("winners", raceResultEntity.getWinners())
-                .addValue("created_at", LocalDateTime.now());
-
-        return jdbcInsert.executeAndReturnKey(params).intValue();
+        return simpleJdbcInsert.executeAndReturnKey(new BeanPropertySqlParameterSource(raceResultEntity))
+                               .intValue();
     }
 
     public Map<String, List<CarEntity>> findAllRaceResult() {

@@ -29,4 +29,8 @@ public class RaceResultEntity {
     public String getWinners() {
         return winners;
     }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }
