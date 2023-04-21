@@ -1,43 +1,21 @@
 package racingcar.view;
 
-import java.util.List;
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
+import racingcar.controller.dto.GameResponse;
 
 public class OutputView {
 
-    private static final String RACING_CAR_INFO_FORMAT = "%s : %s";
-    private static final String WINNER_INFO_FORMAT = "%s가 최종 우승했습니다.%n";
+    private static final String WINNER_INFO_FORMAT = "우승자 : %s %n";
     private static final String RESULT_MESSAGE = "실행 결과";
-    private static final String WINNER_INFO_DELIMITER = ", ";
-    private static final String DISTANCE_PROGRESS_BAR = "-";
+    private static final String PLAYER_RESULT = "  ㄴ이름 : %s%n  ㄴ이동거리 : %s%n";
 
-    public static void printResultMessage() {
+    public static void printResult(final GameResponse response) {
         System.out.println(System.lineSeparator() + RESULT_MESSAGE);
+        printWinner(response);
     }
 
-    public static void printScoreBoard(final RacingCars racingCars) {
-        for (RacingCar racingCar : racingCars.getRacingCars()) {
-            System.out.println(createRacingCarInfo(racingCar));
-        }
-        System.out.println();
-    }
-
-    private static String createRacingCarInfo(RacingCar racingCar) {
-        String carName = racingCar.getName();
-        String distance = makeDistanceInfo(racingCar.getPosition());
-        return String.format(RACING_CAR_INFO_FORMAT, carName, distance);
-    }
-
-    private static String makeDistanceInfo(int position) {
-        return DISTANCE_PROGRESS_BAR.repeat(position);
-    }
-
-    public static void printWinner(final RacingCars racingCars) {
-        System.out.printf(WINNER_INFO_FORMAT, makeWinnerInfo(racingCars.getWinnerNames()));
-    }
-
-    private static String makeWinnerInfo(List<String> winners) {
-        return String.join(WINNER_INFO_DELIMITER, winners);
+    public static void printWinner(final GameResponse response) {
+        System.out.printf(WINNER_INFO_FORMAT, response.getWinners());
+        response.getRacingCars()
+                .forEach(racingCar -> System.out.printf(PLAYER_RESULT, racingCar.getName(), racingCar.getPosition()));
     }
 }

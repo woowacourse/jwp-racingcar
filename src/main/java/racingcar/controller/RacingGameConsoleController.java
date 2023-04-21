@@ -1,62 +1,31 @@
 package racingcar.controller;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
-import racingcar.domain.Name;
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
-import racingcar.domain.TryCount;
+import racingcar.controller.dto.GameResponse;
+import racingcar.dao.PlayerConsoleDao;
+import racingcar.dao.RacingGameConsoleDao;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingGameConsoleController {
 
-    private RacingCars racingCars;
-    private TryCount tryCount;
+    private final NameParser nameParser;
 
-    public void start() {
-        setUpGame();
-        playGame();
+    public RacingGameConsoleController(final NameParser nameParser) {
+        this.nameParser = nameParser;
     }
 
-    private void setUpGame() {
-        racingCars = createRacingCar();
-        tryCount = requestTryCount();
-    }
+    public void play() {
+        final RacingGameService racingGameService = new RacingGameService(
+                new RacingGameConsoleDao(),
+                new PlayerConsoleDao()
+        );
 
-    private RacingCars createRacingCar() {
-        final List<Name> names = inputCarNames();
-        return new RacingCars(createRacingCar(names));
-    }
+        final String names = InputView.requestCarName();
+        final int tryCount = InputView.requestTryCount();
 
-    private List<Name> inputCarNames() {
-        return InputView.requestCarName();
-    }
+        final GameResponse response = racingGameService.run(nameParser.slice(names), tryCount);
 
-    private List<RacingCar> createRacingCar(final List<Name> names) {
-        return names.stream()
-                .map(RacingCar::createRandomMoveRacingCar)
-                .collect(toList());
-    }
-
-    private TryCount requestTryCount() {
-        return InputView.requestTryCount();
-    }
-
-    private void playGame() {
-        OutputView.printResultMessage();
-
-        while (canProceed()) {
-            racingCars.moveAll();
-            tryCount.deduct();
-            OutputView.printScoreBoard(racingCars);
-        }
-
-        OutputView.printWinner(racingCars);
-    }
-
-    private boolean canProceed() {
-        return !tryCount.isZero();
+        OutputView.printResult(response);
     }
 }
