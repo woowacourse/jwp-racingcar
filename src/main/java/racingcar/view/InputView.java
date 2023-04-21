@@ -1,6 +1,5 @@
 package racingcar.view;
 
-import racingcar.exception.ExceptionInformation;
 import racingcar.utils.Parser;
 
 import java.util.List;
@@ -20,12 +19,7 @@ public class InputView {
 
     public static int requestTryCount() {
         System.out.println(requestTryCountMessage);
-
-        try {
-            return Integer.parseInt(input());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER.getExceptionMessage());
-        }
+        return Parser.parseIntFrom(input());
     }
 
     private static String input() {

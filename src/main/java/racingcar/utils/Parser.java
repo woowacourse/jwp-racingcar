@@ -23,4 +23,12 @@ public class Parser {
             throw new IllegalArgumentException(ExceptionInformation.NOT_FOUND_COMMA.getExceptionMessage());
         }
     }
+
+    public static int parseIntFrom(String target) {
+        try {
+            return Integer.parseInt(target);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER.getExceptionMessage());
+        }
+    }
 }

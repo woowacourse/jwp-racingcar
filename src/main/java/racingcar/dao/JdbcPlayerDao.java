@@ -26,6 +26,14 @@ public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao {
         jdbcTemplate.batchUpdate(sql, params);
     }
 
+    private MapSqlParameterSource createParams(final long id, final Player dto) {
+        return new MapSqlParameterSource()
+                .addValue("gameId", id)
+                .addValue("name", dto.getName())
+                .addValue("position", dto.getPosition())
+                .addValue("isWinner", dto.getIsWinner());
+    }
+
     @Override
     public List<Player> findById(long gameId) {
         final String sql = "select id, game_id, name, position, is_winner from Player where game_id = :game_id";
@@ -38,13 +46,5 @@ public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao {
                         resultSet.getInt("position"),
                         resultSet.getBoolean("is_winner")
                 ));
-    }
-
-    private MapSqlParameterSource createParams(final long id, final Player dto) {
-        return new MapSqlParameterSource()
-                .addValue("gameId", id)
-                .addValue("name", dto.getName())
-                .addValue("position", dto.getPosition())
-                .addValue("isWinner", dto.getIsWinner());
     }
 }
