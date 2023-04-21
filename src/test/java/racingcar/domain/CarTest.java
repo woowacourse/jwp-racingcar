@@ -20,6 +20,7 @@ class CarTest {
     @ValueSource(ints = {0, 2, 3})
     void Should_UnConvertPosition_When_EngineLessThan4(int engine) {
         car.runForward(engine);
+
         assertThat(car.getPositionValue()).isEqualTo(0);
     }
 
@@ -28,6 +29,7 @@ class CarTest {
     @ValueSource(ints = {4, 7, 10})
     void Should_IncreasePosition_When_EngineMoreThan4(int engine) {
         car.runForward(engine);
+        
         assertThat(car.getPositionValue()).isEqualTo(1);
     }
 }
