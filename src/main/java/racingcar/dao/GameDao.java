@@ -18,7 +18,7 @@ public class GameDao {
     private final RowMapper<GameEntity> rowMapper = (resultSet, rowNum) -> new GameEntity(
             resultSet.getLong("id"),
             resultSet.getInt("trial_count"),
-            resultSet.getTimestamp("date_time"));
+            resultSet.getTimestamp("created_at"));
 
     @Autowired
     public GameDao(final JdbcTemplate jdbcTemplate) {
@@ -36,8 +36,8 @@ public class GameDao {
         return Objects.requireNonNull(generatedKeyHolder.getKey()).longValue();
     }
 
-    public List<GameEntity> findId() {
-        final String sql = "SELECT id FROM GAME";
+    public List<GameEntity> findAll() {
+        final String sql = "SELECT * FROM GAME";
         return jdbcTemplate.query(sql, rowMapper);
     }
 }
