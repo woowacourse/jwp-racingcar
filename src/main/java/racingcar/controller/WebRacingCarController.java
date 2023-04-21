@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.domain.TryCount;
 import racingcar.dto.GameInitializeDto;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarGameResultDto;
@@ -26,12 +25,9 @@ public class WebRacingCarController {
     }
 
     @PostMapping(path = "/plays")
-    public RacingCarGameResultDto playGame(@RequestBody GameInitializeDto gameInitializeDto) {
-        final Cars cars = Cars.from(splitNames(gameInitializeDto.getNames()));
-        final TryCount tryCount = new TryCount(gameInitializeDto.getCount());
-        racingCarService.playRound(cars, tryCount);
-        racingCarService.saveGameResult(cars, tryCount);
-        return new RacingCarGameResultDto(cars.getWinner(), makeCarDtos(cars));
+    public RacingCarGameResultDto playGame(@RequestBody final GameInitializeDto gameInitializeDto) {
+        return racingCarService.playRound(
+                splitNames(gameInitializeDto.getNames()), gameInitializeDto.getCount());
     }
 
     @GetMapping("/plays")
@@ -49,7 +45,7 @@ public class WebRacingCarController {
 
     private static RacingCarGameResultDto toDto(final List<Car> carList) {
         final Cars cars = new Cars(carList);
-        return new RacingCarGameResultDto(cars.getWinner(), makeCarDtos(cars));
+        return new RacingCarGameResultDto(cars.getWinners(), makeCarDtos(cars));
     }
 
     private static List<RacingCarDto> makeCarDtos(Cars cars) {

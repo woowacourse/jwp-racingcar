@@ -24,7 +24,7 @@ public class Cars {
         }
     }
 
-    public List<String> getWinner() {
+    public List<String> getWinners() {
         int maxDistance = findMaxDistance();
         return cars.stream().filter(car -> car.isSameDistance(maxDistance))
                 .map(Car::getName)

@@ -26,7 +26,7 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
 
     @Override
     public void saveGameResult(final Cars cars, final TryCount tryCount) {
-        Long gameId = playResultDao.insertWithKeyHolder(tryCount.getValue(), cars.getWinner());
+        Long gameId = playResultDao.insertWithKeyHolder(tryCount.getValue(), cars.getWinners());
         racingCarDao.insert(gameId, cars.getCars());
     }
 }

@@ -12,6 +12,6 @@ class CarsTest {
     @Test
     @DisplayName("우승자의 이름을 Return")
     void Should_Winner_When_getWinnerMethod() {
-        assertThat(cars.getWinner()).isEqualTo(List.of("mango"));
+        assertThat(cars.getWinners()).isEqualTo(List.of("mango"));
     }
 }
