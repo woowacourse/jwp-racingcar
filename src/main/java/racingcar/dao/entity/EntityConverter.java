@@ -7,7 +7,7 @@ import racingcar.domain.Car;
 public class EntityConverter {
 
     public static Car toDomainEntity(CarEntity car) {
-        return new Car(car.getPlayRecordId(), car.getName(), car.getPosition());
+        return Car.of(car.getPlayRecordId(), car.getName(), car.getPosition());
     }
 
     public static CarEntity toDaoEntity(Car car) {

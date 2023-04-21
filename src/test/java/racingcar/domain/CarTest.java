@@ -14,6 +14,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class CarTest {
 
+    private static final long PLAY_RECORD_ID = 1L;
+
     @Nested
     @DisplayName("자동차 생성 기능 테스트")
     class constructorTest {
@@ -21,7 +23,7 @@ class CarTest {
         @ParameterizedTest
         @ValueSource(strings = {"자동차", "1", "일이삼사오"})
         void 자동차_생성_성공_테스트(final String name) {
-            final Car car = new Car(name);
+            final Car car = Car.ofPositionStart(PLAY_RECORD_ID, name);
 
             assertThat(car.getName()).isEqualTo(name);
             assertThat(car.getPosition()).isEqualTo(0);
@@ -30,14 +32,14 @@ class CarTest {
         @ParameterizedTest
         @ValueSource(strings = {"123456", "일이삼사오육"})
         void 자동차_생성_이름길이_예외_테스트(final String name) {
-            assertThatThrownBy(() -> new Car(name))
+            assertThatThrownBy(() -> Car.ofPositionStart(PLAY_RECORD_ID, name))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @ParameterizedTest
         @NullAndEmptySource
         void 자동차_생성_이름_공백또는Null_예외_테스트(final String name) {
-            assertThatThrownBy(() -> new Car(name))
+            assertThatThrownBy(() -> Car.ofPositionStart(PLAY_RECORD_ID, name))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -50,7 +52,7 @@ class CarTest {
 
         @BeforeEach
         void initializeCar() {
-            car = new Car("자동차");
+            car = Car.ofPositionStart(PLAY_RECORD_ID, "자동차");
         }
 
         @ParameterizedTest
@@ -71,7 +73,7 @@ class CarTest {
 
         @Test
         void 자동차_위치_비교_테스트() {
-            Car other = new Car("자동차2", Integer.MAX_VALUE);
+            Car other = Car.of(PLAY_RECORD_ID, "자동차2", Integer.MAX_VALUE);
 
             assertThat(car.compareTo(other)).isLessThan(0);
         }

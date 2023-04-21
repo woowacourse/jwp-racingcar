@@ -11,29 +11,32 @@ import org.junit.jupiter.api.Test;
 
 class RacingCarsTest {
 
+    private static final Long PLAY_RECORD_ID = 1L;
+
     @Test
     void 경주참여_자동차들_생성() {
         final List<String> carNames = new ArrayList<>(List.of("자동차1", "자동차2"));
-        final RacingCars racingCars = new RacingCars(new RacingCarNames(carNames).createCars());
+        final RacingCars racingCars = new RacingCars(new RacingCarNames(carNames).createCars(PLAY_RECORD_ID));
 
         assertThat(racingCars.racingCars()).hasSize(carNames.size());
     }
 
     @Test
     void 경주참여_자동차들_생성_중복이름_예외_테스트() {
-        assertThatThrownBy(() -> new RacingCars(new RacingCarNames(List.of("자동차", "자동차")).createCars()))
+        assertThatThrownBy(() -> new RacingCars(new RacingCarNames(List.of("자동차", "자동차")).createCars(PLAY_RECORD_ID)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 경주참여_자동차들_생성_차량개수_예외_테스트() {
-        assertThatThrownBy(() -> new RacingCars(new RacingCarNames(List.of("자동차")).createCars()))
+        assertThatThrownBy(() -> new RacingCars(new RacingCarNames(List.of("자동차")).createCars(PLAY_RECORD_ID)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 값에_따른_1회_경주_테스트() {
-        final RacingCars racingCars = new RacingCars(new RacingCarNames(List.of("a", "b", "c")).createCars());
+        final RacingCars racingCars = new RacingCars(
+                new RacingCarNames(List.of("a", "b", "c")).createCars(PLAY_RECORD_ID));
 
         racingCars.process(new TestNumberGenerator(new LinkedList<>(List.of(0, 3, 4))));
 
@@ -45,7 +48,8 @@ class RacingCarsTest {
 
     @Test
     void 우승자_산출_테스트() {
-        final RacingCars racingCars = new RacingCars(new RacingCarNames(List.of("a", "b", "c")).createCars());
+        final RacingCars racingCars = new RacingCars(
+                new RacingCarNames(List.of("a", "b", "c")).createCars(PLAY_RECORD_ID));
 
         racingCars.process(new TestNumberGenerator(new LinkedList<>(List.of(0, 4, 9))));
 

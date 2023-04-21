@@ -22,15 +22,9 @@ public class RacingCarNames {
         }
     }
 
-    public List<Car> createCars() {
-        return carNames.stream()
-                .map(Car::new)
-                .collect(Collectors.toList());
-    }
-
     public List<Car> createCars(Long playRecordId) {
         return carNames.stream()
-                .map(name -> new Car(playRecordId, name))
+                .map(name -> Car.ofPositionStart(playRecordId, name))
                 .collect(Collectors.toList());
     }
 }

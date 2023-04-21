@@ -15,34 +15,19 @@ public class Car implements Comparable<Car> {
     private final String name;
     private int position;
 
-    // TODO 생성자 오버라이드 정적 팩토리메서드로 변경
-    // TODO 막상 Dao Entity 만들고 나니, Domain Entity도 id를 가져야하나? 의문이 든다.
-    public Car(Long playRecordId, String name) {
-        validateName(name);
-        this.playRecordId = playRecordId;
-        this.name = name;
-        this.position = 0;
-    }
-
-    public Car(String name) {
-        validateName(name);
-        this.playRecordId = null;
-        this.name = name;
-        this.position = 0;
-    }
-
-    public Car(String name, int position) {
-        validateName(name);
-        this.playRecordId = null;
-        this.name = name;
-        this.position = position;
-    }
-
-    public Car(Long playRecordId, String name, int position) {
+    private Car(Long playRecordId, String name, int position) {
         validateName(name);
         this.playRecordId = playRecordId;
         this.name = name;
         this.position = position;
+    }
+
+    public static Car of(Long playRecordId, String name, int position) {
+        return new Car(playRecordId, name, position);
+    }
+
+    public static Car ofPositionStart(Long playRecordId, String name) {
+        return new Car(playRecordId, name, 0);
     }
 
     private void validateName(String name) {
