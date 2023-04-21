@@ -7,54 +7,49 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import racingcar.Strategy.RandomNumberGenerator;
-import racingcar.dao.PlayerResultDao;
-import racingcar.dao.RacingResultDao;
-import racingcar.model.Car;
+import racingcar.dao.CarDao;
+import racingcar.dao.GameDao;
 import racingcar.model.Cars;
+import racingcar.model.RacingGame;
 import racingcar.model.Trial;
 
 @Service
 public class RacingcarService {
-    private final RacingResultDao racingResultDao;
-    private final PlayerResultDao playerResultDao;
+    private final GameDao gameDao;
+    private final CarDao carDao;
 
-    public RacingcarService(final RacingResultDao racingResultDao, final PlayerResultDao playerResultDao) {
-        this.racingResultDao = racingResultDao;
-        this.playerResultDao = playerResultDao;
+    public RacingcarService(final GameDao gameDao, final CarDao carDao) {
+        this.gameDao = gameDao;
+        this.carDao = carDao;
     }
 
-    public RacingResponse move(final List<String> carNames, final int count) {
-        Cars cars = Cars.from(carNames);
-        Trial trial = new Trial(count);
-        cars.move(trial.getTrial(), new RandomNumberGenerator());
-        String winners = findWinners(cars);
-        List<PlayerResult> playerResults = insertResult(count, cars, winners);
-        return new RacingResponse(winners, playerResults);
-    }
-
-    private String findWinners(final Cars cars) {
-        return cars.findWinners()
-            .stream()
-            .map(Car::getName)
-            .collect(Collectors.joining(", "));
-    }
-
-    private List<PlayerResult> insertResult(int count, Cars cars, String winners) {
-        RacingResult racingResult = racingResultDao.insertRacingResult(new RacingResult(winners, count));
-        List<PlayerResult> playerResults = getPlayerResults(cars, racingResult);
-        playerResults.forEach(playerResultDao::insertPlayer);
-        return playerResults;
-    }
-
-    private static List<PlayerResult> getPlayerResults(Cars cars, RacingResult racingResult) {
+    private static List<CarEntity> getPlayerResults(Cars cars, RacingResult racingResult) {
         return cars.getCars()
             .stream()
-            .map(car -> new PlayerResult(racingResult.getId(), car.getName(), car.getPosition()))
+            .map(car -> new CarEntity(racingResult.getId(), car.getName(), car.getPosition()))
             .collect(Collectors.toList());
     }
 
+    /*private String findWinners(final Cars cars) {
+        return String.join(", ", cars.findWinners());
+    }*/
+
+    public RacingResponse play(final Cars cars, final Trial trial) {
+        RacingGame racingGame = new RacingGame(cars, trial, new RandomNumberGenerator());
+        racingGame.play();
+        List<CarEntity> carEntities = insertResult(trial.getTrial(), cars, racingGame.winners());
+        return new RacingResponse(racingGame.winners(), carEntities);
+    }
+
+    private List<CarEntity> insertResult(int count, Cars cars, String winners) {
+        RacingResult racingResult = gameDao.insertRacingResult(new RacingResult(winners, count));
+        List<CarEntity> carEntities = getPlayerResults(cars, racingResult);
+        carEntities.forEach(carDao::insertPlayer);
+        return carEntities;
+    }
+
     public List<RacingResponse> allResults() {
-        List<RacingResult> racingResults = racingResultDao.selectAllResults();
+        List<RacingResult> racingResults = gameDao.selectAllResults();
         return getRacingResponses(racingResults);
     }
 
@@ -62,8 +57,8 @@ public class RacingcarService {
         List<RacingResponse> racingResponses = new ArrayList<>();
         for (RacingResult racingResult : racingResults) {
             int playResultId = racingResult.getId();
-            List<PlayerResult> playerResults = playerResultDao.selectPlayerResultByRacingResultId(playResultId);
-            racingResponses.add(new RacingResponse(racingResult.getWinners(), playerResults));
+            List<CarEntity> carEntities = carDao.selectPlayerResultByRacingResultId(playResultId);
+            racingResponses.add(new RacingResponse(racingResult.getWinners(), carEntities));
         }
         return racingResponses;
     }
