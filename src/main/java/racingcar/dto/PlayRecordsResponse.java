@@ -18,5 +18,4 @@ public class PlayRecordsResponse {
     public List<CarResponse> getRacingCars() {
         return racingCars;
     }
-
 }
