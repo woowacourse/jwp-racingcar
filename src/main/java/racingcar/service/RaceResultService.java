@@ -3,7 +3,7 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.RaceResultDao;
-import racingcar.domain.RacingCars;
+import racingcar.domain.RacingGame;
 import racingcar.entity.CarEntity;
 import racingcar.entity.RaceResultEntity;
 import racingcar.service.dto.CarStatusResponse;
@@ -35,24 +35,22 @@ public class RaceResultService {
     @Transactional
     public RaceResultResponse createRaceResult(final GameInfoRequest gameInfoRequest) {
 
-        final String names = gameInfoRequest.getNames();
-        final int tryCount = gameInfoRequest.getCount();
+        final RacingGame racingGame = RacingGame.readyToRacingGame(
+                gameInfoRequest.getNames(),
+                numberGenerator,
+                gameInfoRequest.getCount()
+        );
+        racingGame.play();
 
-        final RacingCars racingCars = moveCars(names, tryCount);
-        final RaceResultEntity raceResultEntity = raceResultMapper.mapToRaceResultEntity(tryCount, racingCars);
+        final RaceResultEntity raceResultEntity = raceResultMapper.mapToRaceResultEntity(racingGame);
         final int savedId = raceResultDao.save(raceResultEntity);
 
-        carService.registerCars(racingCars, savedId);
+        carService.registerCars(racingGame, savedId);
 
-        final List<CarStatusResponse> carStatusResponses = raceResultMapper.mapToCarStatusResponseFrom(racingCars);
+        final List<CarStatusResponse> carStatusResponses =
+                raceResultMapper.mapToCarStatusResponseFrom(racingGame);
 
         return new RaceResultResponse(raceResultEntity.getWinners(), carStatusResponses);
-    }
-
-    private RacingCars moveCars(final String names, final int tryCount) {
-        final RacingCars racingCars = RacingCars.makeCars(names);
-        racingCars.moveAllCars(tryCount, numberGenerator);
-        return racingCars;
     }
 
     @Transactional(readOnly = true)
@@ -68,5 +66,4 @@ public class RaceResultService {
                             )
                             .collect(Collectors.toList());
     }
-
 }

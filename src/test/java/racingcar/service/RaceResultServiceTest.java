@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.dao.RaceResultDao;
 import racingcar.domain.RacingCars;
+import racingcar.domain.RacingGame;
 import racingcar.entity.CarEntity;
 import racingcar.entity.RaceResultEntity;
 import racingcar.service.dto.CarStatusResponse;
@@ -45,8 +46,11 @@ class RaceResultServiceTest {
         raceResultDao = mock(RaceResultDao.class);
         numberGenerator = new RandomNumberGenerator();
 
-        raceResultService = new RaceResultService(raceResultDao, carService,
-                                                  numberGenerator, raceResultMapper);
+        raceResultService =
+                new RaceResultService(
+                        raceResultDao, carService,
+                        numberGenerator, raceResultMapper
+                );
     }
 
     @Test
@@ -59,22 +63,23 @@ class RaceResultServiceTest {
         final RaceResultEntity raceResultEntity =
                 new RaceResultEntity(trialCount, "a,b,c", LocalDateTime.now());
 
-        final List<CarStatusResponse> carStatusResponses = List.of(new CarStatusResponse("a", 1),
-                                                                   new CarStatusResponse("b", 1),
-                                                                   new CarStatusResponse("c", 1),
-                                                                   new CarStatusResponse("d", 0));
+        final List<CarStatusResponse> carStatusResponses =
+                List.of(new CarStatusResponse("a", 1),
+                        new CarStatusResponse("b", 1),
+                        new CarStatusResponse("c", 1),
+                        new CarStatusResponse("d", 0));
 
         //when
-        when(raceResultMapper.mapToRaceResultEntity(anyInt(), any()))
+        when(raceResultMapper.mapToRaceResultEntity(any()))
                 .thenReturn(raceResultEntity);
 
         when(raceResultDao.save(any()))
                 .thenReturn(1);
 
         doNothing().when(carService)
-                   .registerCars(any(), anyInt());
+                   .registerCars((RacingCars) any(), anyInt());
 
-        when(raceResultMapper.mapToCarStatusResponseFrom((RacingCars) any()))
+        when(raceResultMapper.mapToCarStatusResponseFrom((RacingGame) any()))
                 .thenReturn(carStatusResponses);
 
         final RaceResultResponse raceResult = raceResultService.createRaceResult(gameInfoRequest);
