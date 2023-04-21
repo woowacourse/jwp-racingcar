@@ -1,63 +1,28 @@
 package racingcar.controller;
 
-import java.util.List;
-import java.util.function.Supplier;
-
-import racingcar.Strategy.RandomNumberGenerator;
 import racingcar.model.Cars;
 import racingcar.model.Trial;
-import racingcar.model.Winners;
-import racingcar.ui.View;
+import racingcar.service.RacingResponse;
+import racingcar.service.RacingcarService;
+import racingcar.ui.ConsoleView;
 
 public class ConsoleController {
-    private final View view;
+    private final ConsoleView consoleView;
+    private final RacingcarService racingcarService;
 
-    public ConsoleController(View view) {
-        this.view = view;
+    public ConsoleController(ConsoleView consoleView, RacingcarService racingcarService) {
+        this.consoleView = consoleView;
+        this.racingcarService = racingcarService;
     }
 
     public void run() {
-        Cars cars = repeatIfNull(this::getCars);
-        Trial trial = repeatIfNull(this::getTrial);
-        playGame(trial, cars);
-        findWinners(cars);
-    }
-
-    private <T> T repeatIfNull(Supplier<T> supplier) {
-        T t;
-        do {
-            t = supplier.get();
-        } while (t == null);
-        return t;
-    }
-
-    private Cars getCars() {
-        List<String> carNames = view.carNames();
-        try{
-            return Cars.from(carNames);
-        } catch (IllegalArgumentException e){
-            view.error(e.getMessage());
-            return null;
-        }
-    }
-
-    private Trial getTrial() {
-        int count = view.tryCount();
         try {
-            return new Trial(count);
+            Cars cars = Cars.from(consoleView.carNames());
+            Trial trial = new Trial(consoleView.tryCount());
+            RacingResponse racingResponse = racingcarService.play(cars, trial);
+            consoleView.printResult(racingResponse);
         } catch (IllegalArgumentException e) {
-            view.error(e.getMessage());
-            return null;
+            consoleView.error(e.getMessage());
         }
-    }
-
-    private void playGame(Trial trial, Cars cars) {
-        cars.move(trial.getTrial(), new RandomNumberGenerator());
-    }
-
-    private void findWinners(Cars cars) {
-        Winners winners = Winners.from(cars);
-        view.printWinner(winners.getWinner());
-        view.printAllCars(cars);
     }
 }

@@ -5,22 +5,23 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import racingcar.model.Car;
-import racingcar.model.Cars;
+import racingcar.service.CarEntity;
+import racingcar.service.RacingResponse;
 
-public class View {
+public class ConsoleView {
     private static final String DELIMITER = ",";
 
     private final Scanner scanner;
 
-    public View(Scanner scanner) {
+    public ConsoleView(Scanner scanner) {
         this.scanner = scanner;
     }
 
-    public void error(String errorMessage) {
-        System.out.println("[ERROR] "+ errorMessage);
+    private static void validateContainDelimiter(String input) {
+        if (!input.contains(DELIMITER)) {
+            throw new IllegalArgumentException("[ERROR] 구분자(" + DELIMITER + ")가 필요해요.");
+        }
     }
-
 
     public List<String> carNames() {
         System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
@@ -30,19 +31,20 @@ public class View {
             return split(input);
         } catch (IllegalArgumentException e) {
             error(e.getMessage());
-
             return carNames();
         }
     }
 
-    private static void validateContainDelimiter(String input) {
-        if (!input.contains(DELIMITER)) {
-            throw new IllegalArgumentException("[ERROR] 구분자(" + DELIMITER + ")가 필요해요.");
-        }
+    private String input() {
+        return scanner.nextLine();
     }
 
     private List<String> split(String input) {
-        return Arrays.stream(input.split(View.DELIMITER)).collect(Collectors.toList());
+        return Arrays.stream(input.split(ConsoleView.DELIMITER)).collect(Collectors.toList());
+    }
+
+    public void error(String errorMessage) {
+        System.out.println("[ERROR] " + errorMessage);
     }
 
     public int tryCount() {
@@ -65,21 +67,19 @@ public class View {
         return tryCount;
     }
 
-    private String input() {
-        return scanner.nextLine();
+    public void printResult(RacingResponse racingResponse) {
+        printAllCars(racingResponse.getRacingCars());
+        printWinner(racingResponse.getWinners());
     }
 
-    public void printWinner(List<Car> winners) {
-        String winnerNames = winners.stream()
-            .map(Car::getName)
-            .collect(Collectors.joining(", "));
-
-        System.out.println(winnerNames + "가 최종 우승했습니다.");
+    private void printWinner(String winners) {
+        System.out.println(winners + "가 최종 우승했습니다.");
     }
 
-    public void printAllCars(Cars cars) {
-        cars.getCars()
+    private void printAllCars(List<CarEntity> racingCars) {
+        racingCars
             .forEach(car ->
-                System.out.println(car.getName() + " : " +car.getPosition()));
+                System.out.println(car.getName() + " : " + car.getPosition()));
     }
+
 }

@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import racingcar.model.Cars;
+import racingcar.model.Trial;
 import racingcar.service.RacingResponse;
 import racingcar.service.RacingcarService;
 
 @RestController
 public class WebController {
-
     private final RacingcarService racingcarService;
 
     public WebController(RacingcarService racingcarService) {
@@ -25,19 +26,21 @@ public class WebController {
     @PostMapping("/plays")
     public ResponseEntity<RacingResponse> plays(@RequestBody RacingGameRequest request) {
         List<String> carNames = InputConvertor.carNames(request.getNames());
+        Cars cars = Cars.from(carNames);
         int tryCount = InputConvertor.tryCount(request.getCount());
+        Trial trial = new Trial(tryCount);
         return ResponseEntity.ok()
-            .body(racingcarService.move(carNames, tryCount));
+            .body(racingcarService.play(cars, trial));
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<RacingResponse>> allResults(){
+    public ResponseEntity<List<RacingResponse>> allResults() {
         return ResponseEntity.ok()
             .body(racingcarService.allResults());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handler(IllegalArgumentException exception){
+    public ResponseEntity<String> handler(IllegalArgumentException exception) {
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
             .body(exception.getMessage());
     }
