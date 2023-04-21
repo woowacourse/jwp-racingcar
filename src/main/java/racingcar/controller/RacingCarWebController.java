@@ -1,9 +1,6 @@
 package racingcar.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import racingcar.dto.GameInforamtionDto;
 import racingcar.dto.GameResultDto;
 import racingcar.service.RacingCarService;
@@ -30,5 +27,10 @@ public class RacingCarWebController {
     @GetMapping("plays")
     public List<GameResultDto> loadAllGame() {
         return racingCarService.findAllGame();
+    }
+
+    @ExceptionHandler
+    public void handle(Exception exception) {
+        System.out.println(exception.getMessage());
     }
 }
