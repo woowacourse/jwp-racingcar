@@ -43,7 +43,7 @@ public class SaveRacingCarResultService {
     }
 
     @Transactional
-    public void saveRacingCarResult(final RacingCarResult racingCarResult) {
+    public void save(final RacingCarResult racingCarResult) {
         final Set<String> winners = new HashSet<>(racingCarResult.getWinners());
         final List<Car> cars = racingCarResult.getCars();
         final int attempt = racingCarResult.getAttempt();
@@ -53,7 +53,7 @@ public class SaveRacingCarResultService {
             return;
         }
         final GameEntity gameEntity = saveGame(attempt);
-        savePosition(gameEntity, mapToPositionByUserEntity(cars, userEntities));
+        savePosition(gameEntity, toPositionByUserEntity(cars, userEntities));
         saveWinners(winners, userEntities, gameEntity);
     }
 
@@ -86,7 +86,7 @@ public class SaveRacingCarResultService {
         return new GameEntity(gameId, gameEntity.getTrialCount(), gameEntity.getLastModifiedTime());
     }
 
-    private Map<UserEntity, Integer> mapToPositionByUserEntity(final List<Car> cars,
+    private Map<UserEntity, Integer> toPositionByUserEntity(final List<Car> cars,
         final List<UserEntity> usersEntities) {
         final Map<String, Integer> positionByName = cars.stream()
             .collect(toMap(Car::getName, Car::getPosition));
@@ -95,8 +95,8 @@ public class SaveRacingCarResultService {
             .collect(toMap(userEntity -> userEntity, userEntity -> positionByName.get(userEntity.getName())));
     }
 
-    private void savePosition(final GameEntity gameEntity, final Map<UserEntity, Integer> positionByUsersEntity) {
-        positionByUsersEntity.entrySet().stream()
+    private void savePosition(final GameEntity gameEntity, final Map<UserEntity, Integer> positionByUserEntity) {
+        positionByUserEntity.entrySet().stream()
             .map(entry -> getPositionEntity(gameEntity, entry))
             .forEach(positionDao::save);
     }

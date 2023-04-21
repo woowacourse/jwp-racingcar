@@ -27,7 +27,7 @@ public class MainRacingCarService {
     }
 
     public List<RacingCarResult> findAllResults() {
-        return findRacingCarResultService.findAllResults();
+        return findRacingCarResultService.findAll();
     }
 
     public RacingCarResult raceCar(final List<String> names, final int attempt) {
@@ -36,7 +36,7 @@ public class MainRacingCarService {
         final List<String> winners = racingCarGame.findWinners();
         final List<Car> cars = racingCarGame.getCars();
         RacingCarResult racingCarResult = new RacingCarResult(winners, cars, attempt);
-        saveRacingCarResultService.saveRacingCarResult(racingCarResult);
+        saveRacingCarResultService.save(racingCarResult);
         return racingCarResult;
     }
 }

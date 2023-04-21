@@ -1,8 +1,9 @@
 package racingcar.service;
 
+import static java.util.stream.Collectors.*;
+
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -20,23 +21,23 @@ public class FindRacingCarResultService {
         this.findAllRecordsDao = findAllRecordsDao;
     }
 
-    public List<RacingCarResult> findAllResults() {
+    public List<RacingCarResult> findAll() {
         final List<Record> records = findAllRecordsDao.findAll();
         final Map<Long, List<Record>> recordsByGameId = records.stream()
-            .collect(Collectors.groupingBy(Record::getGameId));
+            .collect(groupingBy(Record::getGameId));
         return recordsByGameId.values().stream()
-            .map(this::mapToRacingCarResult)
-            .collect(Collectors.toList());
+            .map(this::toRacingCarResult)
+            .collect(toList());
     }
 
-    private RacingCarResult mapToRacingCarResult(final List<Record> records) {
-        List<String> winners = records.stream()
+    private RacingCarResult toRacingCarResult(final List<Record> records) {
+        final List<String> winners = records.stream()
             .filter(Record::isWinner)
             .map(Record::getName)
-            .collect(Collectors.toList());
-        List<Car> cars = records.stream()
+            .collect(toList());
+        final List<Car> cars = records.stream()
             .map(record -> Car.of(record.getName(), record.getPosition()))
-            .collect(Collectors.toList());
+            .collect(toList());
         return new RacingCarResult(winners, cars);
     }
 }
