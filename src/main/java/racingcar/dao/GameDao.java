@@ -8,16 +8,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.TrialCount;
 
 @Repository
 public class GameDao {
 
-    private final RowMapper<Integer> gameNumberMapper
-            = (resultSet, rowNum) -> resultSet.getInt("game_number");
-
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
+
+    private final RowMapper<Integer> gameNumberMapper
+            = (resultSet, rowNum) -> resultSet.getInt("game_number");
 
     public GameDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)

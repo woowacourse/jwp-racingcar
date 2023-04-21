@@ -10,12 +10,12 @@ import racingcar.domain.Name;
 @Repository
 public class GameLogDao {
 
+    private final JdbcTemplate jdbcTemplate;
+
     private final RowMapper<Car> carRowMapper = (resultSet, rowNum) -> new Car(
             new Name(resultSet.getString("player_name")),
             resultSet.getInt("result_position")
     );
-
-    private final JdbcTemplate jdbcTemplate;
 
     public GameLogDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
