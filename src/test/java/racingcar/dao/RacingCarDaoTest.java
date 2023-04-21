@@ -10,8 +10,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.domain.Car;
 import racingcar.repository.dao.RacingCarDao;
+import racingcar.service.dto.RacingCarDto;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @JdbcTest
@@ -28,11 +28,12 @@ class RacingCarDaoTest {
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY FALSE");
     }
 
+    //TODO: 이 부분도 asertDoesNotThorw에서 끝날 게 아니라 값이 제대로 들어갔는지 확인하는 식으로 하기
     @DisplayName("자동차 이름과 포지션을 저장하는 기능 테스트")
     @Test
     void Should_Success_When_InsertRacingCar() {
         long gameId = 1L;
-        final List<Car> cars = List.of(new Car("tori"));
-        assertDoesNotThrow(() -> racingCarDao.insert(gameId, cars));
+        final List<RacingCarDto> racingCarDtos = List.of(new RacingCarDto("tori", 2));
+        assertDoesNotThrow(() -> racingCarDao.insert(gameId, racingCarDtos));
     }
 }

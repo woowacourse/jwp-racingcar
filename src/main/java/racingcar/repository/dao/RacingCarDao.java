@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
+import racingcar.service.dto.RacingCarDto;
 
 @Repository
 public class RacingCarDao {
@@ -16,13 +16,13 @@ public class RacingCarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(final Long gameId, final List<Car> cars) {
+    public void insert(final Long gameId, final List<RacingCarDto> cars) {
         final String sql = "insert into RACING_CAR (player_name, player_position, game_id) values (?,?,?)";
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(final PreparedStatement ps, final int i) throws SQLException {
-                ps.setString(1, cars.get(i).getName().getValue());
-                ps.setInt(2, cars.get(i).getDistance().getValue());
+                ps.setString(1, cars.get(i).getName());
+                ps.setInt(2, cars.get(i).getPosition());
                 ps.setLong(3, gameId);
             }
 

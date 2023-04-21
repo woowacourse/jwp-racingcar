@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toUnmodifiableList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.TryCount;
@@ -57,21 +56,9 @@ public class RacingCarService {
                 .collect(toUnmodifiableList());
     }
 
-    public void saveGameResult(final Cars cars) {
-        racingGameRepository.saveGameResult(cars);
-    }
-
-    //RacingCarGameResultDto가 모든 레이어에서 호출됨. 이를 수정해야할지?
+    //RacingCarGameResultDto가 모든 레이어에서 호출됨. 이를 수정하고 싶은데 어떻게 해야 할지?
     @Transactional
     public void saveGameResult(final RacingCarGameResultDto racingCarGameResult) {
-        final List<RacingCarDto> racingCars = racingCarGameResult.getRacingCars();
-        racingGameRepository.saveGameResult(toCars(racingCars));
-    }
-
-    private Cars toCars(final List<RacingCarDto> racingCars) {
-        final List<Car> cars = racingCars.stream()
-                .map(racingCarDto -> new Car(racingCarDto.getName(), racingCarDto.getPosition()))
-                .collect(toUnmodifiableList());
-        return new Cars(cars);
+        racingGameRepository.saveGameResult(racingCarGameResult.getWinners(), racingCarGameResult.getRacingCars());
     }
 }

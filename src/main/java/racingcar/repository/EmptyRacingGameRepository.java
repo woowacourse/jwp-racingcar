@@ -1,8 +1,8 @@
 package racingcar.repository;
 
 import java.util.List;
-import racingcar.domain.Cars;
 import racingcar.service.dto.GameHistoryDto;
+import racingcar.service.dto.RacingCarDto;
 
 public class EmptyRacingGameRepository implements RacingGameRepository {
 
@@ -14,7 +14,7 @@ public class EmptyRacingGameRepository implements RacingGameRepository {
     }
 
     @Override
-    public void saveGameResult(final Cars cars) {
+    public void saveGameResult(final List<String> winners, final List<RacingCarDto> racingCars) {
         throw new UnsupportedOperationException(CALL_UNSUPPORTED_OPERATION_EXCEPTION);
     }
 }
