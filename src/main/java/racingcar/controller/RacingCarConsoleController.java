@@ -1,7 +1,7 @@
 package racingcar.controller;
 
 
-import racingcar.domain.CarFactory;
+import racingcar.domain.CarsFactory;
 import racingcar.domain.Cars;
 import racingcar.genertor.NumberGenerator;
 import racingcar.service.GamePlay;
@@ -15,19 +15,23 @@ public class RacingCarConsoleController {
 
     private final NumberGenerator numberGenerator;
 
-    public RacingCarConsoleController(NumberGenerator numberGenerator) {
-        this.numberGenerator = numberGenerator;
+    public void startGame() {
+        try {
+            OutputView.printInputCarNamesNotice();
+            Cars cars = CarsFactory.buildCars(InputView.inputCarNames());
+            OutputView.printInputTryTimesNotice();
+            int tryTimes = InputView.inputTryTimes();
+            GamePlay.play(cars, tryTimes, numberGenerator);
+            printWinner(cars.findWinners());
+            printResultNotice();
+            OutputView.printCarNameAndPosition(cars);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void startGame() {
-        OutputView.printInputCarNamesNotice();
-        Cars cars = new Cars(CarFactory.buildCars(InputView.inputCarNames()));
-        OutputView.printInputTryTimesNotice();
-        int tryTimes = InputView.inputTryTimes();
-        printResultNotice();
-        GamePlay.play(cars, tryTimes, numberGenerator);
-        OutputView.printCarNameAndPosition(cars);
-        printWinner(cars.findWinners());
+    public RacingCarConsoleController(NumberGenerator numberGenerator) {
+        this.numberGenerator = numberGenerator;
     }
 
 }
