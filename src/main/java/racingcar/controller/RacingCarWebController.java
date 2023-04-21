@@ -1,7 +1,6 @@
 package racingcar.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameInitializeDto;
-import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
 
@@ -28,20 +26,13 @@ public class RacingCarWebController {
     public RacingCarGameResultDto run(@RequestBody GameInitializeDto gameInitializeDto) {
         Cars cars = Cars.from(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
-        racingCarService.play(cars, tryCount);
-        return new RacingCarGameResultDto(String.join(",", cars.getWinner()), makeCarDtos(cars));
+        return racingCarService.play(cars, tryCount);
     }
 
     @GetMapping("/plays")
     @ResponseBody
     public ResponseEntity<List<RacingCarGameResultDto>> showGameResult() {
-        List<RacingCarGameResultDto> gameResult = racingCarService.getGameResult();
+        List<RacingCarGameResultDto> gameResult = racingCarService.getAllGameResult();
         return ResponseEntity.ok().body(gameResult);
-    }
-
-    private List<RacingCarDto> makeCarDtos(Cars cars) {
-        return cars.getCars().stream()
-                .map(car -> new RacingCarDto(car.getNameValue(), car.getPositionValue()))
-                .collect(Collectors.toUnmodifiableList());
     }
 }

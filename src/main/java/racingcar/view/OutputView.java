@@ -5,12 +5,6 @@ import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarGameResultDto;
 
 public class OutputView {
-    public void printAllGameResult(List<RacingCarGameResultDto> gameResult) {
-        for (RacingCarGameResultDto racingCarGameResult : gameResult) {
-            printGameResult(racingCarGameResult);
-        }
-    }
-
     public void printGameResult(RacingCarGameResultDto racingCarGameResultDto) {
         System.out.println(System.lineSeparator() + "실행 결과");
         System.out.println(racingCarGameResultDto.getWinners()

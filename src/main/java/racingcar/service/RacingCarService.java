@@ -2,6 +2,7 @@ package racingcar.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.GameDao;
 import racingcar.dao.RacingCarDao;
@@ -22,16 +23,30 @@ public class RacingCarService {
         this.racingCarDao = racingCarDao;
     }
 
-    public void play(Cars cars, TryCount tryCount) {
+    public RacingCarGameResultDto play(Cars cars, TryCount tryCount) {
         cars.runRound(tryCount);
+        saveGameResult(cars, tryCount);
+        return getGameResult(cars);
+    }
 
+    private void saveGameResult(Cars cars, TryCount tryCount) {
         Long gameId = gameDao.insert(tryCount.getValue(), cars.getWinner());
         for (Car car : cars.getCars()) {
             racingCarDao.insert(gameId, car.getNameValue(), car.getPositionValue());
         }
     }
 
-    public List<RacingCarGameResultDto> getGameResult() {
+    private RacingCarGameResultDto getGameResult(Cars cars) {
+        List<RacingCarDto> racingCarDtos = cars.getCars().stream()
+                .map(car -> new RacingCarDto(
+                        car.getNameValue(),
+                        car.getPositionValue())
+                )
+                .collect(Collectors.toUnmodifiableList());
+        return new RacingCarGameResultDto(String.join(",", cars.getWinner()), racingCarDtos);
+    }
+
+    public List<RacingCarGameResultDto> getAllGameResult() {
         List<RacingCarGameResultDto> gameResults = new ArrayList<>();
         List<PlayResultDto> playResult = gameDao.selectAll();
         for (PlayResultDto playResultDto : playResult) {

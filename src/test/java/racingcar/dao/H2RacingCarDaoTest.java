@@ -11,9 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.RacingCarDto;
 
 @JdbcTest
+@Transactional
 class H2RacingCarDaoTest {
     private H2RacingCarDao h2RacingCarDao;
     private Long gameId;
