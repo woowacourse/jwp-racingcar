@@ -17,7 +17,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
-import racingcar.dto.GameRequest;
+import racingcar.dto.PlayGameRequest;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -37,11 +37,11 @@ class RacingCarControllerTest {
     Stream<DynamicTest> dynamicTestFromCollections() {
         return Stream.of(
                 DynamicTest.dynamicTest("게임을 진행한다", () -> {
-                    final GameRequest gameRequest = new GameRequest(List.of("브리", "토미", "브라운"), 10);
+                    final PlayGameRequest playGameRequest = new PlayGameRequest(List.of("브리", "토미", "브라운"), 10);
 
                     RestAssured.given().log().all()
                             .contentType(MediaType.APPLICATION_JSON_VALUE)
-                            .body(gameRequest)
+                            .body(playGameRequest)
                             .when().post("/plays")
                             .then().log().all()
                             .body("winners", any(String.class))

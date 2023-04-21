@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarResponse;
-import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
+import racingcar.dto.PlayGameRequest;
 import racingcar.service.AddRaceService;
 import racingcar.service.FindRaceService;
 
@@ -32,8 +32,8 @@ public class RacingCarController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResponse> raceAdd(@RequestBody @Valid final GameRequest gameRequest) {
-        final RacingGame racingGame = addRaceService.addRace(gameRequest.getNames(), gameRequest.getCount());
+    public ResponseEntity<GameResponse> raceAdd(@RequestBody @Valid final PlayGameRequest playGameRequest) {
+        final RacingGame racingGame = addRaceService.addRace(playGameRequest.getNames(), playGameRequest.getCount());
         final GameResponse gameResponse = toGameResponse(racingGame);
 
         return ResponseEntity.ok(gameResponse);

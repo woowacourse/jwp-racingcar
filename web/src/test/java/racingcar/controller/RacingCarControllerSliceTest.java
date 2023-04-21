@@ -16,8 +16,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.RacingGame;
-import racingcar.dto.GameRequest;
 import racingcar.dto.GameResponse;
+import racingcar.dto.PlayGameRequest;
 import racingcar.service.AddRaceService;
 import racingcar.service.FindRaceService;
 
@@ -39,8 +39,8 @@ class RacingCarControllerSliceTest {
     @Test
     void 게임_진행하는_테스트() throws Exception {
         //given
-        final GameRequest gameRequest = new GameRequest(List.of("브리", "토미", "브라운"), 10);
-        final String request = objectMapper.writeValueAsString(gameRequest);
+        final PlayGameRequest playGameRequest = new PlayGameRequest(List.of("브리", "토미", "브라운"), 10);
+        final String request = objectMapper.writeValueAsString(playGameRequest);
         final GameResponse gameResponse = new GameResponse("브리,토미,브라운", List.of(
                 new racingcar.dto.CarResponse("브리", 5),
                 new racingcar.dto.CarResponse("토미", 5),
@@ -87,8 +87,8 @@ class RacingCarControllerSliceTest {
     @Test
     void 숫자가_0이하면_400_에러_테스트() throws Exception {
         //given
-        final GameRequest gameRequest = new GameRequest(List.of("브리", "토미", "브라운"), 0);
-        final String request = objectMapper.writeValueAsString(gameRequest);
+        final PlayGameRequest playGameRequest = new PlayGameRequest(List.of("브리", "토미", "브라운"), 0);
+        final String request = objectMapper.writeValueAsString(playGameRequest);
 
         //expect
         mockMvc.perform(post("/plays")
@@ -100,8 +100,8 @@ class RacingCarControllerSliceTest {
     @Test
     void 빈_이름이_들어오면_400_에러_테스트() throws Exception {
         //given
-        final GameRequest gameRequest = new GameRequest(List.of("브리", "", "브라운"), 10);
-        final String request = objectMapper.writeValueAsString(gameRequest);
+        final PlayGameRequest playGameRequest = new PlayGameRequest(List.of("브리", "", "브라운"), 10);
+        final String request = objectMapper.writeValueAsString(playGameRequest);
 
         //expect
         mockMvc.perform(post("/plays")
