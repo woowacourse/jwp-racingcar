@@ -41,7 +41,7 @@ public class RacingCarDao {
         );
     }
 
-    public List<Car> selectAllCars(final int gameId) {
+    public List<Car> selectCarsBy(final int gameId) {
         final String sql = "SELECT name, position FROM racing_car WHERE racing_game_id = ?";
         return jdbcTemplate.query(
                 sql,

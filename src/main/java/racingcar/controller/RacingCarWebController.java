@@ -65,7 +65,7 @@ public class RacingCarWebController {
     }
 
     private RacingCarResponse generateLog(final int gameId) {
-        final RacingCarResult result = new RacingCarResult(racingCarDao.selectWinners(gameId), racingCarDao.selectAllCars(gameId));
+        final RacingCarResult result = new RacingCarResult(racingCarDao.selectWinners(gameId), racingCarDao.selectCarsBy(gameId));
         return new RacingCarResponse(result);
     }
 }
