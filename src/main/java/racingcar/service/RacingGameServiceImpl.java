@@ -6,12 +6,10 @@ import racingcar.domain.Cars;
 import racingcar.domain.GameTime;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RacingGameRepository;
-import racingcar.domain.Winner;
-import racingcar.domain.Winners;
 import racingcar.domain.numbergenerator.NumberGenerator;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
-import racingcar.infrastructure.persistence.entity.CarEntity;
-import racingcar.infrastructure.persistence.entity.WinnerEntity;
+import racingcar.dto.WinnerDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +37,20 @@ public class RacingGameServiceImpl implements RacingGameService {
         final var time = new GameTime(gameTime);
         final var racingGame = new RacingGame(cars, time);
         racingGame.play(numberGenerator);
-        racingGameRepository.save(racingGame);
+
         final var winners = racingGame.winners();
-        return new GameResultDto(racingGame.getCars(), winners);
+        racingGameRepository.save(racingGame);
+
+        final List<CarDto> carDtos = racingGame.getCars().stream()
+                .map(CarDto::fromCar)
+                .collect(Collectors.toList());
+        final List<WinnerDto> winnerDtos = WinnerDto.createWinnerDtos(winners);
+        return new GameResultDto(carDtos, winnerDtos);
     }
 
     public List<GameResultDto> findAllResult() {
-        final Map<Long, List<CarEntity>> allCars = racingGameRepository.findAllCars();
-        final Map<Long, List<WinnerEntity>> allWinners = racingGameRepository.findAllWinners();
+        final Map<Long, List<CarDto>> allCars = racingGameRepository.findAllCars();
+        final Map<Long, List<WinnerDto>> allWinners = racingGameRepository.findAllWinners();
 
         List<GameResultDto> gameResultDtos = new ArrayList<>();
         addGameResultById(allCars, allWinners, gameResultDtos);
@@ -54,28 +58,13 @@ public class RacingGameServiceImpl implements RacingGameService {
         return gameResultDtos;
     }
 
-    private void addGameResultById(final Map<Long, List<CarEntity>> allCars, final Map<Long, List<WinnerEntity>> allWinners, final List<GameResultDto> gameResultDtos) {
-        for (Map.Entry<Long, List<CarEntity>> entry : allCars.entrySet()) {
+    private void addGameResultById(final Map<Long, List<CarDto>> allCars, final Map<Long, List<WinnerDto>> allWinners, final List<GameResultDto> gameResultDtos) {
+        for (Map.Entry<Long, List<CarDto>> entry : allCars.entrySet()) {
             Long key = entry.getKey();
-            List<CarEntity> carEntities = allCars.get(key);
-            List<WinnerEntity> winnerEntities = allWinners.get(key);
+            List<CarDto> carDtos = allCars.get(key);
+            List<WinnerDto> winnerDtos = allWinners.get(key);
 
-            List<Car> cars = toCars(carEntities);
-            List<Winner> winners = toWinners(winnerEntities);
-
-            gameResultDtos.add(new GameResultDto(cars, new Winners(winners)));
+            gameResultDtos.add(new GameResultDto(carDtos, winnerDtos));
         }
-    }
-
-    private List<Car> toCars(final List<CarEntity> carEntities) {
-        return carEntities.stream()
-                .map(carEntity -> new Car(carEntity.getName(), carEntity.getPosition()))
-                .collect(Collectors.toList());
-    }
-
-    private List<Winner> toWinners(final List<WinnerEntity> winnerEntities) {
-        return winnerEntities.stream()
-                .map(winnerEntity -> new Winner(winnerEntity.getName()))
-                .collect(Collectors.toList());
     }
 }

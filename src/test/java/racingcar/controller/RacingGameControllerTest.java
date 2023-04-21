@@ -8,14 +8,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.domain.Winner;
 import racingcar.domain.Winners;
+import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.PlayRequestDto;
+import racingcar.dto.WinnerDto;
 import racingcar.service.RacingGameService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
@@ -43,15 +45,21 @@ class RacingGameControllerTest {
 
     @Test
     void playTest() throws Exception {
+        //given
         final String winnersPath = "$.winners";
         final String carsPath = "$..position";
-        List<Car> cars = List.of(new Car("브리", 10), new Car("토미", 9));
-        GameResultDto gameResult = new GameResultDto(cars, new Winners(new Cars(cars)));
+        final List<Car> cars = List.of(new Car("브리", 10), new Car("토미", 9));
+        final List<WinnerDto> winnerDtos = WinnerDto.createWinnerDtos(new Winners(new Cars(cars)));
+        final List<CarDto> carDtos = cars.stream().map(CarDto::fromCar).collect(Collectors.toList());
+        final GameResultDto gameResult = new GameResultDto(carDtos, winnerDtos);
+        final PlayRequestDto request = new PlayRequestDto("브리,토미", 10);
+        final String requestJson = objectMapper.writeValueAsString(request);
+
+        //when
         given(racingGameService.play(anyList(), anyInt()))
                 .willReturn(gameResult);
 
-        PlayRequestDto request = new PlayRequestDto("브리,토미", 10);
-        String requestJson = objectMapper.writeValueAsString(request);
+        //then
         mockMvc.perform(post("/plays")
                         .content(requestJson)
                         .contentType(APPLICATION_JSON))
@@ -69,9 +77,21 @@ class RacingGameControllerTest {
 
         //given
         List<GameResultDto> gameResults = new ArrayList<>();
-        List<Winner> winners = List.of(new Winner("a"), new Winner("b"));
-        gameResults.add(new GameResultDto(List.of(new Car("a", 3), new Car("b", 5)), new Winners(winners)));
-        gameResults.add(new GameResultDto(List.of(new Car("c", 4), new Car("d", 6)), new Winners(winners)));
+
+        final List<Car> cars1 = List.of(new Car("a", 3), new Car("b", 5));
+        final List<CarDto> carDtos1 = cars1.stream()
+                .map(CarDto::fromCar)
+                .collect(Collectors.toList());
+        final List<WinnerDto> winnerDtos1 = WinnerDto.createWinnerDtos(new Winners(new Cars(cars1)));
+        gameResults.add(new GameResultDto(carDtos1, winnerDtos1));
+
+        final List<Car> cars2 = List.of(new Car("c", 4), new Car("d", 6));
+        final List<CarDto> carDtos2 = cars2.stream()
+                .map(CarDto::fromCar)
+                .collect(Collectors.toList());
+        final List<WinnerDto> winnerDtos2 = WinnerDto.createWinnerDtos(new Winners(new Cars(cars2)));
+        gameResults.add(new GameResultDto(carDtos2, winnerDtos2));
+
 
         //when
         given(racingGameService.findAllResult())

@@ -13,6 +13,7 @@ import racingcar.domain.Cars;
 import racingcar.domain.GameTime;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RacingGameRepository;
+import racingcar.dto.RacingGameDto;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -47,10 +48,10 @@ class JdbcRacingGameRepositoryTest {
 
     @Test
     void findById() {
-        Optional<RacingGame> game = racingGameRepository.findById(setUpId);
-        int gameTimeValue = game.get().getGameTimeValue();
+        final Optional<RacingGameDto> game = racingGameRepository.findById(setUpId);
+        final int trialCount = game.get().getTrialCount();
         Assertions.assertAll(
-                () -> assertThat(gameTimeValue).isEqualTo(10),
+                () -> assertThat(trialCount).isEqualTo(10),
                 () -> assertThat(game).isNotEmpty()
         );
     }

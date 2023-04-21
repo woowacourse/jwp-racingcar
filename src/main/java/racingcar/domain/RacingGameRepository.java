@@ -1,7 +1,8 @@
 package racingcar.domain;
 
-import racingcar.infrastructure.persistence.entity.CarEntity;
-import racingcar.infrastructure.persistence.entity.WinnerEntity;
+import racingcar.dto.CarDto;
+import racingcar.dto.RacingGameDto;
+import racingcar.dto.WinnerDto;
 
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,9 @@ public interface RacingGameRepository {
 
     Long save(final RacingGame racingGame);
 
-    Optional<RacingGame> findById(final Long id);
+    Optional<RacingGameDto> findById(final Long id);
 
-    Map<Long, List<CarEntity>> findAllCars();
+    Map<Long, List<CarDto>> findAllCars();
 
-    Map<Long, List<WinnerEntity>> findAllWinners();
+    Map<Long, List<WinnerDto>> findAllWinners();
 }
