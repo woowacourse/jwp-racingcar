@@ -8,15 +8,9 @@ import racingcar.dto.TryCountDto;
 import racingcar.dto.WinnersDto;
 
 public interface RacingCarDao {
-    default void insertGame(RacingCarsDto racingCarsDto, TryCountDto tryCountDto) {
+    void insertGame(RacingCarsDto racingCarsDto, TryCountDto tryCountDto);
 
-    }
+    List<WinnersDto> selectWinners();
 
-    default List<WinnersDto> selectWinners() {
-        return null;
-    }
-
-    default List<RacingCarDto> selectRace(int gameId) {
-        return null;
-    }
+    List<RacingCarDto> selectRace(int gameId);
 }

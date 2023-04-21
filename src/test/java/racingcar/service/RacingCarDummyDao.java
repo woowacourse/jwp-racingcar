@@ -1,15 +1,16 @@
-package racingcar.dao;
+package racingcar.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import racingcar.dao.RacingCarDao;
 import racingcar.domain.RacingGameInfo;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarsDto;
 import racingcar.dto.TryCountDto;
 import racingcar.dto.WinnersDto;
 
-public class RacingCarInMemoryDao implements RacingCarDao {
+public class RacingCarDummyDao implements RacingCarDao {
     RacingGameInfo racingGameInfo = new RacingGameInfo();
 
     @Override
