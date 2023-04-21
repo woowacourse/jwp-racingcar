@@ -1,13 +1,9 @@
 package racingcar.util;
 
-import racingcar.model.manager.ThresholdCarMoveManager;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 class RandomNumberGeneratorTest {
 

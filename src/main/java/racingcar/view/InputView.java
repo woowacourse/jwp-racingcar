@@ -1,31 +1,19 @@
 package racingcar.view;
 
-import java.util.List;
 import java.util.Scanner;
-
-import racingcar.util.ValueEditor;
 
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final InputView instance = new InputView();
 
-    public static InputView getInstance() {
-        return instance;
-    }
-
-    private InputView() {
-    }
-
-    public List<String> readCarNames() {
+    public String readCarNames() {
         System.out.println(Message.INPUT_CARS.message);
-        String input = ValueEditor.removeSpace(scanner.nextLine());
-        return ValueEditor.splitByComma(input);
+        return scanner.nextLine();
     }
 
     public String readMoveCount() {
         System.out.println(Message.INPUT_MOVE_COUNT.message);
-        return ValueEditor.removeSpace(scanner.nextLine());
+        return scanner.nextLine();
     }
 
     private enum Message {

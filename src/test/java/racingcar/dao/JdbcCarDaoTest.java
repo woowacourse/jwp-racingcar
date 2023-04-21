@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import racingcar.dto.CarDto;
+import racingcar.dao.car.JdbcCarDao;
+import racingcar.dao.entity.Car;
+import racingcar.dao.entity.Game;
+import racingcar.dao.game.JdbcGameDao;
 
 @JdbcTest
 class JdbcCarDaoTest {
@@ -27,23 +30,22 @@ class JdbcCarDaoTest {
 
     @BeforeEach
     void setUp() {
-        jdbcGameDao = new JdbcGameDao(dataSource);
+        jdbcGameDao = new JdbcGameDao(dataSource, jdbcTemplate);
         jdbcCarDao = new JdbcCarDao(jdbcTemplate);
     }
 
     @Test
     @DisplayName("자동차의 이동 결과를 저장한다.")
     void insertCar() {
-        List<CarDto> carDtos = List.of(
-                new CarDto("폴로", 1),
-                new CarDto("이리내", 2)
+        long gameId = jdbcGameDao.saveGame(new Game(1));
+        List<Car> cars = List.of(
+                new Car(gameId, "폴로", 1),
+                new Car(gameId, "이리내", 2)
         );
-        long gameId = jdbcGameDao.saveGame(1);
-        jdbcCarDao.insertCar(carDtos, gameId);
+        jdbcCarDao.insertCar(cars);
 
-        String sql = "SELECT count(*) FROM car WHERE g_id = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, gameId);
+        List<Car> carsInfoByGameId = jdbcCarDao.findAllCars();
 
-        assertThat(count).isEqualTo(2);
+        assertThat(carsInfoByGameId).hasSize(2);
     }
 }

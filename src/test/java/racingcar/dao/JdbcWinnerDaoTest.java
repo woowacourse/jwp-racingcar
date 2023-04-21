@@ -2,6 +2,8 @@ package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import racingcar.dao.entity.Game;
+import racingcar.dao.entity.Winner;
+import racingcar.dao.game.JdbcGameDao;
+import racingcar.dao.winner.JdbcWinnerDao;
 
 @JdbcTest
 class JdbcWinnerDaoTest {
@@ -22,19 +29,21 @@ class JdbcWinnerDaoTest {
 
     @BeforeEach
     void setUp() {
-        jdbcGameDao = new JdbcGameDao(dataSource);
+        jdbcGameDao = new JdbcGameDao(dataSource, jdbcTemplate);
         jdbcWinnerDao = new JdbcWinnerDao(jdbcTemplate);
     }
 
     @Test
     @DisplayName("승자를 저장한다")
     void insertWinner() {
-        long gameId = jdbcGameDao.saveGame(1);
-        jdbcWinnerDao.insertWinner("폴로, 이리내", gameId);
+        long gameId = jdbcGameDao.saveGame(new Game(1));
+        jdbcWinnerDao.insertWinner(List.of(
+                new Winner(gameId, "폴로"),
+                new Winner(gameId, "이리내")
+        ));
 
-        String sql = "SELECT count(*) FROM winner WHERE g_id = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, gameId);
+        List<Winner> result = jdbcWinnerDao.findAllWinner();
 
-        assertThat(count).isEqualTo(2);
+        assertThat(result).hasSize(2);
     }
 }
