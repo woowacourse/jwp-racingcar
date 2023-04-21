@@ -1,8 +1,8 @@
 package racingcar.controller.console;
 
 import java.util.List;
-import racingcar.service.RacingGameService;
 import racingcar.dto.RacingGameDto;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 

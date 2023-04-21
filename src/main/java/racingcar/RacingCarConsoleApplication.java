@@ -1,11 +1,11 @@
 package racingcar;
 
 import racingcar.controller.console.RacingCarConsoleController;
+import racingcar.domain.game.NumberGenerator;
+import racingcar.domain.game.RandomNumberGenerator;
 import racingcar.repository.ConsoleRacingGameRepository;
 import racingcar.repository.RacingGameRepository;
 import racingcar.service.RacingGameService;
-import racingcar.domain.game.NumberGenerator;
-import racingcar.domain.game.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 

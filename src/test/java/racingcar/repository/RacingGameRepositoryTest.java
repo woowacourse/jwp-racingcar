@@ -14,7 +14,6 @@ import racingcar.dao.RacingCarRecordDao;
 import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.RacingGame;
-import racingcar.repository.WebRacingGameRepository;
 
 @SpringBootTest
 @Transactional

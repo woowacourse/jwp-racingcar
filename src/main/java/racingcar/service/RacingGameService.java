@@ -3,10 +3,10 @@ package racingcar.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racingcar.repository.RacingGameRepository;
 import racingcar.domain.game.NumberGenerator;
 import racingcar.domain.game.RacingGame;
 import racingcar.dto.RacingGameDto;
+import racingcar.repository.RacingGameRepository;
 
 @Service
 public class RacingGameService {

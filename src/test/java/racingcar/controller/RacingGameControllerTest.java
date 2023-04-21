@@ -24,14 +24,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import racingcar.service.RacingGameService;
+import racingcar.controller.web.RacingGameController;
+import racingcar.controller.web.RacingGameRequest;
+import racingcar.controller.web.RacingGameResponse;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.RacingGame;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
-import racingcar.controller.web.RacingGameController;
-import racingcar.controller.web.RacingGameRequest;
-import racingcar.controller.web.RacingGameResponse;
+import racingcar.service.RacingGameService;
 
 @ExtendWith(MockitoExtension.class)
 class RacingGameControllerTest {
