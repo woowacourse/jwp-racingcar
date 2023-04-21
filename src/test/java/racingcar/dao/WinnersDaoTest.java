@@ -14,7 +14,6 @@ import racingcar.domain.Car;
 import racingcar.domain.Name;
 
 @SpringBootTest
-@Transactional
 public class WinnersDaoTest {
 
     @Autowired
@@ -27,6 +26,22 @@ public class WinnersDaoTest {
     void setUp() {
         winnersDao = new WinnersDao(jdbcTemplate);
         gameLogDao = new GameLogDao(jdbcTemplate);
+
+        jdbcTemplate.execute("drop table if exists game_log");
+        jdbcTemplate.execute("drop table if exists winners");
+
+        jdbcTemplate.execute("create table if not exists game_log\n"
+                + "(\n"
+                + "    game_id     Integer,\n"
+                + "    player_name     varchar(20),\n"
+                + "    result_position integer\n"
+                + ")");
+
+        jdbcTemplate.execute("create table if not exists winners\n"
+                + "(\n"
+                + "    game_id integer,\n"
+                + "    winner      varchar(20)\n"
+                + ")");
     }
 
     @Test
@@ -35,6 +50,7 @@ public class WinnersDaoTest {
     }
 
     @Test
+    @Transactional
     void findWinners() {
         gameLogDao.insert(3, "달리", 4);
         gameLogDao.insert(3, "디노", 4);
