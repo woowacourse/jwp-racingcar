@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.PlayRequestDto;
 import racingcar.dto.PlayResponseDto;
+import racingcar.dto.ServiceControllerDto;
 import racingcar.service.GameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -23,8 +24,8 @@ public class GameController {
 
     @PostMapping("/plays")
     public PlayResponseDto postInput(@RequestBody PlayRequestDto playRequestDto) {
-        gameService.play(playRequestDto.getCount(), playRequestDto.getNames());
-        return new PlayResponseDto(gameService.findWinners(), gameService.getCars());
+        ServiceControllerDto serviceControllerDto = gameService.play(playRequestDto.getCount(), playRequestDto.getNames());
+        return new PlayResponseDto(serviceControllerDto.getWinners(), serviceControllerDto.getGameLog());
     }
 
     @GetMapping("/plays")
@@ -42,9 +43,9 @@ public class GameController {
     public void play() {
         final String carNames = InputView.inputCarNames();
         final int trialCount = InputView.inputTrialCount();
-        gameService.play(trialCount, carNames);
+        ServiceControllerDto serviceControllerDto = gameService.play(trialCount, carNames);
         OutputView.noticeResult();
-        OutputView.printCars(gameService.getCars());
-        OutputView.printWinners(gameService.findWinners());
+        OutputView.printCars(serviceControllerDto.getGameLog());
+        OutputView.printWinners(serviceControllerDto.getWinners());
     }
 }

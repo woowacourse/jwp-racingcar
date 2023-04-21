@@ -19,8 +19,6 @@ import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
 @Service
 public class GameService {
-    private List<Car> cars;
-    private final MoveChance moveChance;
     private final GameDao gameDao;
     private final GameLogDao gameLogDao;
     private final WinnersDao winnersDao;
@@ -29,50 +27,29 @@ public class GameService {
         this.gameDao = gameDao;
         this.gameLogDao = gameLogDao;
         this.winnersDao = winnersDao;
-        this.moveChance = new RandomMoveChance();
     }
 
-    private void setCars(String names) {
-        this.cars = Stream.of(names.split(","))
-                .map(Car::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<Car> findWinners() {
-        int maxPosition = findMaxPosition();
-        return cars.stream()
-                .filter(car -> car.hasSamePositionWith(maxPosition))
-                .collect(Collectors.toList());
-    }
-
-    private int findMaxPosition() {
-        int maxPosition = 0;
-        for (Car car : cars) {
-            maxPosition = car.selectMaxPosition(maxPosition);
-        }
-        return maxPosition;
-    }
-
-    private void playOnce() {
-        for (Car car : cars) {
-            car.move(moveChance);
-        }
-    }
-
-    public List<Car> getCars() {
-        return Collections.unmodifiableList(cars);
-    }
-
-    public void play(final int trialCount, final String names) {
+    public ServiceControllerDto play(final int trialCount, final String names) {
         validateNotNegativeInteger(trialCount);
-        setCars(names);
+        GameLogic gameLogic = new GameLogic(names);
         long gameNumber = gameDao.saveGame(trialCount);
-        playMultipleTimes(trialCount);
+        playMultipleTimes(trialCount,gameLogic);
+        List<Car> winners = gameLogic.findWinners();
+        List<Car> cars = gameLogic.getCars();
+        insertCars(gameNumber, cars);
+        insertWinners(gameNumber, winners);
+        return new ServiceControllerDto(cars,winners);
+    }
+
+    private void insertWinners(long gameNumber, List<Car> winners) {
+        for (Car car : winners) {
+            winnersDao.insert(gameNumber, car.getName());
+        }
+    }
+
+    private void insertCars(long gameNumber, List<Car> cars) {
         for (Car car : cars) {
             gameLogDao.insert(gameNumber, car.getName(), car.getPosition());
-        }
-        for (Car car : findWinners()) {
-            winnersDao.insert(gameNumber, car.getName());
         }
     }
 
@@ -105,9 +82,9 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    private void playMultipleTimes(final int trialCount) {
+    private void playMultipleTimes(final int trialCount, final GameLogic gameLogic) {
         for (int i = 0; i < trialCount; i++) {
-            playOnce();
+            gameLogic.playOnce();
         }
     }
 }
