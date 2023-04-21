@@ -13,17 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import racing.domain.Car;
 import racing.domain.CarName;
 import racing.domain.Cars;
-import racing.domain.repository.CarRepository;
+import racing.domain.repository.car.H2CarRepository;
 import racing.persistence.h2.car.CarDao;
 import racing.persistence.h2.car.CarEntity;
 
 @ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
-class CarRepositoryTest {
+class H2CarRepositoryTest {
 
     @Autowired
-    private CarRepository carRepository;
+    private H2CarRepository h2CarRepository;
 
     @Autowired
     private CarDao carDao;
@@ -38,7 +38,7 @@ class CarRepositoryTest {
         ));
         Long gameId = 1L;
 
-        carRepository.saveCarsInGame(cars, gameId);
+        h2CarRepository.saveCarsInGame(cars, gameId);
 
         List<CarEntity> savedCarEntities = carDao.findCarsInGame(gameId);
 

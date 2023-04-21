@@ -1,4 +1,4 @@
-package racing.domain.repository;
+package racing.domain.repository.game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,12 @@ import racing.persistence.h2.game.RacingGameDao;
 import racing.persistence.h2.game.RacingGameEntity;
 
 @Repository
-public class RacingGameRepository {
+public class H2RacingGameRepository implements RacingGameRepository {
 
     private final RacingGameDao racingGameDao;
     private final CarDao carDao;
 
-    public RacingGameRepository(RacingGameDao racingGameDao, CarDao carDao) {
+    public H2RacingGameRepository(RacingGameDao racingGameDao, CarDao carDao) {
         this.racingGameDao = racingGameDao;
         this.carDao = carDao;
     }

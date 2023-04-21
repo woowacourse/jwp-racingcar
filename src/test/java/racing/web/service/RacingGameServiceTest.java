@@ -12,14 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import racing.domain.Car;
 import racing.domain.Cars;
-import racing.domain.repository.RacingGameRepository;
+import racing.domain.repository.game.H2RacingGameRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class RacingGameServiceTest {
 
     @Autowired
-    private RacingGameRepository racingGameRepository;
+    private H2RacingGameRepository h2RacingGameRepository;
 
     @Autowired
     private RacingGameService racingGameService;
@@ -31,7 +31,7 @@ class RacingGameServiceTest {
 
         Long newGameId = racingGameService.playNewGame(4, carNamesRequest);
 
-        Cars gameCars = racingGameRepository.findRacingGameById(newGameId).getCars();
+        Cars gameCars = h2RacingGameRepository.findRacingGameById(newGameId).getCars();
         List<String> carNames = gameCars.getCars().stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());

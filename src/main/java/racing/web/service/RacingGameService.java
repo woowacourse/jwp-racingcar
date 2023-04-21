@@ -8,8 +8,8 @@ import racing.domain.CarFactory;
 import racing.domain.Cars;
 import racing.domain.RacingCarGame;
 import racing.domain.TrialCount;
-import racing.domain.repository.CarRepository;
-import racing.domain.repository.RacingGameRepository;
+import racing.domain.repository.car.CarRepository;
+import racing.domain.repository.game.RacingGameRepository;
 import racing.domain.utils.RandomRacingCarNumberGenerator;
 
 @Service
@@ -18,9 +18,9 @@ public class RacingGameService {
     private final CarRepository carRepository;
     private final RacingGameRepository racingGameRepository;
 
-    public RacingGameService(CarRepository carRepository, RacingGameRepository racingGameRepository) {
+    public RacingGameService(CarRepository carRepository, RacingGameRepository h2RacingGameRepository) {
         this.carRepository = carRepository;
-        this.racingGameRepository = racingGameRepository;
+        this.racingGameRepository = h2RacingGameRepository;
     }
 
     public Long playNewGame(int count, String carNames) {

@@ -60,7 +60,7 @@ class RacingControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsBytes(request)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorMessage").value("자동차 이름은 1 ~ 5자 사이 이어야 합니다."));
+                .andExpect(jsonPath("$").value("자동차 이름은 1 ~ 5자 사이 이어야 합니다."));
     }
 
     @DisplayName("진행된 게임의 이력을 조회 할 수 있다.")
@@ -77,19 +77,5 @@ class RacingControllerTest {
         mockMvc.perform(get("/result/{gameId}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.winners").value("CarA"));
-    }
-
-    private List<Cars> playedCarsFixture() {
-        Cars firstGameCars = new Cars(List.of(
-                new Car(new CarName("CarA"), 3),
-                new Car(new CarName("CarB"), 1)
-        ));
-
-        Cars secondGameCars = new Cars(List.of(
-                new Car(new CarName("CarC"), 2),
-                new Car(new CarName("CarD"), 2)
-        ));
-
-        return List.of(firstGameCars, secondGameCars);
     }
 }

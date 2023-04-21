@@ -14,19 +14,19 @@ import racing.domain.Car;
 import racing.domain.CarName;
 import racing.domain.Cars;
 import racing.domain.RacingCarGame;
-import racing.domain.repository.CarRepository;
-import racing.domain.repository.RacingGameRepository;
+import racing.domain.repository.car.CarRepository;
+import racing.domain.repository.game.RacingGameRepository;
 
 @ExtendWith(SpringExtension.class)
 @Transactional
 @SpringBootTest
-class RacingGameRepositoryTest {
+class H2RacingGameRepositoryTest {
 
     @Autowired
     private RacingGameRepository racingGameRepository;
 
     @Autowired
-    private CarRepository carRepository;
+    private CarRepository h2CarRepository;
 
     @DisplayName("참여한 자동차를 포함한 게임을 조회 할 수 있다.")
     @Test
@@ -37,7 +37,7 @@ class RacingGameRepositoryTest {
                 new Car(new CarName("CarB"), 1),
                 new Car(new CarName("CarC"), 2)
         ));
-        carRepository.saveCarsInGame(cars, savedGameId);
+        h2CarRepository.saveCarsInGame(cars, savedGameId);
 
         RacingCarGame racingGame = racingGameRepository.findRacingGameById(savedGameId);
 

@@ -1,4 +1,4 @@
-package racing.domain.repository;
+package racing.domain.repository.car;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,11 +9,11 @@ import racing.persistence.h2.car.CarDao;
 import racing.persistence.h2.car.CarEntity;
 
 @Repository
-public class CarRepository {
+public class H2CarRepository implements CarRepository {
 
     private final CarDao carDao;
 
-    public CarRepository(CarDao carDao) {
+    public H2CarRepository(CarDao carDao) {
         this.carDao = carDao;
     }
 
