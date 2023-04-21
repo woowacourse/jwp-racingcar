@@ -32,7 +32,7 @@ public class WebRacingCarController {
 
     @GetMapping("/plays")
     public List<RacingCarGameResultDto> findGameHistory() {
-        return racingCarService.findGameHistory()
+        return racingCarService.findGameHistories()
                 .values().stream()
                 .map(WebRacingCarController::toDto)
                 .collect(toUnmodifiableList());

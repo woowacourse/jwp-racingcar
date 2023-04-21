@@ -28,7 +28,7 @@ public class RacingCarService {
         this.numberPicker = numberPicker;
     }
 
-    public Map<Long, List<Car>> findGameHistory() {
+    public Map<Long, List<Car>> findGameHistories() {
         return racingGameRepository.findGameHistories().stream()
                 .collect(groupingBy(GameHistoryEntity::getId,
                         mapping(RacingCarService::mapCar, toUnmodifiableList())));
