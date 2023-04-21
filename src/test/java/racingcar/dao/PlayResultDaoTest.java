@@ -28,7 +28,7 @@ class PlayResultDaoTest {
     @DisplayName("게임 결과가 저장되면 id를 반환하는 기능 테스트")
     @Test
     void Should_ReturnGameId_When_InsertPlayResult() {
-        Long gameId = playResultDao.insertWithKeyHolder(10, List.of("tori", "hong"));
+        Long gameId = playResultDao.insertWithKeyHolder(List.of("tori", "hong"));
         assertThat(gameId).isNotNull();
     }
 }

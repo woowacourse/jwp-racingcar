@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.dto.GameInitializeDto;
-import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingCarGameResultDto;
+import racingcar.service.dto.GameInitializeDto;
+import racingcar.service.dto.RacingCarDto;
+import racingcar.service.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
 
 @RestController
@@ -26,16 +26,15 @@ public class WebRacingCarController {
 
     @PostMapping(path = "/plays")
     public RacingCarGameResultDto playGame(@RequestBody final GameInitializeDto gameInitializeDto) {
-        return racingCarService.playRound(
+        final RacingCarGameResultDto racingCarGameResult = racingCarService.playRound(
                 splitNames(gameInitializeDto.getNames()), gameInitializeDto.getCount());
+        racingCarService.saveGameResult(racingCarGameResult, gameInitializeDto.getCount());
+        return racingCarGameResult;
     }
 
     @GetMapping("/plays")
     public List<RacingCarGameResultDto> findGameHistory() {
-        return racingCarService.findGameHistories()
-                .values().stream()
-                .map(WebRacingCarController::toDto)
-                .collect(toUnmodifiableList());
+        return racingCarService.findGameHistories();
     }
 
     static List<String> splitNames(final String names) {

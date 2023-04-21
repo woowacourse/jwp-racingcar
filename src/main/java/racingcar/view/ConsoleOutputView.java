@@ -2,7 +2,7 @@ package racingcar.view;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.dto.RacingCarDto;
+import racingcar.service.dto.RacingCarDto;
 
 public class ConsoleOutputView {
 

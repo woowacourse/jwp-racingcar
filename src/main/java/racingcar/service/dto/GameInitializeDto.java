@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.service.dto;
 
 public class GameInitializeDto {
 

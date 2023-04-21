@@ -18,10 +18,9 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.DefinedNumberPicker;
 import racingcar.domain.NumberPicker;
-import racingcar.domain.TryCount;
-import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingCarGameResultDto;
 import racingcar.repository.JdbcRacingGameRepository;
+import racingcar.service.dto.RacingCarDto;
+import racingcar.service.dto.RacingCarGameResultDto;
 
 @ExtendWith(MockitoExtension.class)
 class RacingCarServiceTest {
@@ -38,15 +37,13 @@ class RacingCarServiceTest {
     @Test
     public void saveTest() {
         final List<Car> carList = List.of(new Car(TEST_PLAYER_NAME_1, 1), new Car(TEST_PLAYER_NAME_2, 2));
-        final int tryCountValue = 5;
         final Cars cars = new Cars(carList);
-        final TryCount tryCount = new TryCount(tryCountValue);
 
-        doNothing().when(jdbcRacingGameRepository).saveGameResult(any(Cars.class), any(TryCount.class));
+        doNothing().when(jdbcRacingGameRepository).saveGameResult(any(Cars.class));
 
-        racingCarService.saveGameResult(cars, tryCount);
+        racingCarService.saveGameResult(cars);
 
-        verify(jdbcRacingGameRepository).saveGameResult(cars, tryCount);
+        verify(jdbcRacingGameRepository).saveGameResult(cars);
     }
 
     @DisplayName("게임 실행하고, 반환되는 결과가 예상대로인지 확인하는 기능 테스트")

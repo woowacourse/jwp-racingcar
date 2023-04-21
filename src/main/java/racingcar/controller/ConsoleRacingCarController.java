@@ -3,7 +3,7 @@ package racingcar.controller;
 import static racingcar.controller.WebRacingCarController.splitNames;
 
 import java.util.List;
-import racingcar.dto.RacingCarGameResultDto;
+import racingcar.service.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
 import racingcar.view.ConsoleInputView;
 import racingcar.view.ConsoleOutputView;

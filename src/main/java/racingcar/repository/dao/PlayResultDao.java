@@ -20,14 +20,13 @@ public class PlayResultDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long insertWithKeyHolder(int trialCount, List<String> winners) {
+    public Long insertWithKeyHolder(final List<String> winners) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        final String updateSql = "insert into PLAY_RESULT (trialcount, winners) values (?, ?)";
+        final String updateSql = "insert into PLAY_RESULT (winners) values (?)";
 
         jdbcTemplate.update((Connection con) -> {
             PreparedStatement preparedStatement = con.prepareStatement(updateSql, new String[]{"id"});
-            preparedStatement.setInt(1, trialCount);
-            preparedStatement.setString(2, String.join(",", winners));
+            preparedStatement.setString(1, String.join(",", winners));
             return preparedStatement;
         }, keyHolder);
         return keyHolder.getKey().longValue();

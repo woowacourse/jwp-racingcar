@@ -15,7 +15,7 @@ public class EmptyRacingGameRepository implements RacingGameRepository {
     }
 
     @Override
-    public void saveGameResult(final Cars cars, final TryCount tryCount) {
+    public void saveGameResult(final Cars cars) {
         throw new UnsupportedOperationException(CALL_UNSUPPORTED_OPERATION_EXCEPTION);
     }
 }

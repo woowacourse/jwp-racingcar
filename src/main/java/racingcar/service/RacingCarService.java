@@ -1,21 +1,20 @@
 package racingcar.service;
 
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.NumberPicker;
 import racingcar.domain.TryCount;
-import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingCarGameResultDto;
 import racingcar.entity.GameHistoryEntity;
 import racingcar.repository.RacingGameRepository;
+import racingcar.service.dto.RacingCarDto;
+import racingcar.service.dto.RacingCarGameResultDto;
 
 @Service
 public class RacingCarService {
@@ -28,25 +27,24 @@ public class RacingCarService {
         this.numberPicker = numberPicker;
     }
 
-    public Map<Long, List<Car>> findGameHistories() {
+    public List<RacingCarGameResultDto> findGameHistories() {
         return racingGameRepository.findGameHistories().stream()
-                .collect(groupingBy(GameHistoryEntity::getId,
-                        mapping(RacingCarService::mapCar, toUnmodifiableList())));
+                .collect(groupingBy(GameHistoryEntity::getId))
+                .values().stream()
+                .map(RacingCarService::toDto)
+                .collect(toUnmodifiableList());
     }
 
     private static Car mapCar(final GameHistoryEntity gameHistoryEntity) {
         return new Car(gameHistoryEntity.getPlayerName(), gameHistoryEntity.getPlayerPosition());
     }
 
-    //TODO : 저장로직과 게임 실행로직, 게임 결과를 반환하는 기능을 적당한 기준으로 분리하기
-    @Transactional
     public RacingCarGameResultDto playRound(final List<String> playerNames, final int tryCountValue) {
         final Cars cars = Cars.from(playerNames);
         final TryCount tryCount = new TryCount(tryCountValue);
         for (int i = 0; i < tryCount.getValue(); i++) {
             cars.runRound(numberPicker);
         }
-        saveGameResult(cars, tryCount);
         return new RacingCarGameResultDto(cars.getWinners(), toDto(cars));
     }
 
@@ -56,8 +54,25 @@ public class RacingCarService {
                 .collect(toUnmodifiableList());
     }
 
-    //TODO : private으로 수정하기ㅣ
-    public void saveGameResult(final Cars cars, final TryCount tryCount) {
-        racingGameRepository.saveGameResult(cars, tryCount);
+    private static RacingCarGameResultDto toDto(final List<GameHistoryEntity> historyEntities) {
+        if (historyEntities.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        final List<String> winnerNames = Arrays.stream(historyEntities.get(0).getWinners().split(",", -1))
+                .collect(toUnmodifiableList());
+    }
+
+    public void saveGameResult(final Cars cars) {
+        racingGameRepository.saveGameResult(cars);
+    }
+
+    @Transactional
+    public void saveGameResult(final RacingCarGameResultDto racingCarGameResult, final int count) {
+        final List<RacingCarDto> racingCars = racingCarGameResult.getRacingCars();
+        racingGameRepository.saveGameResult(toCars(racingCars));
+    }
+
+    private Cars toCars(final List<RacingCarDto> racingCars) {
+
     }
 }
