@@ -13,7 +13,7 @@ public class Car {
     }
 
     public void drive(int number) {
-        if (number >= MOVING_STANDARD) {
+        if (MOVING_STANDARD <= number) {
             drivenDistance += DRIVING_DISTANCE;
         }
     }
