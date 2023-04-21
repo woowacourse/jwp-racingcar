@@ -2,10 +2,10 @@ package racingcar.dao;
 
 import java.util.List;
 
-import racingcar.service.RacingResult;
+import racingcar.service.GameEntity;
 
 public interface GameDao {
-    RacingResult insertRacingResult(RacingResult racingResult);
+    GameEntity insertRacingResult(GameEntity gameEntity);
 
-    List<RacingResult> selectAllResults();
+    List<GameEntity> selectAllResults();
 }

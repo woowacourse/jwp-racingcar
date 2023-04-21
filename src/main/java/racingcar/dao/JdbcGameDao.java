@@ -21,12 +21,12 @@ public class JdbcGameDao implements GameDao {
     private final RowMapper<GameEntity> actorRowMapper = (resultSet, rowNum) -> new GameEntity(
         resultSet.getInt("id"),
         resultSet.getString("winners"),
-        resultSet.getInt("trial_count")
+        resultSet.getInt("trial")
     );
 
     public JdbcGameDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertActor = new SimpleJdbcInsert(dataSource)
-            .withTableName("PLAY_RESULT")
+            .withTableName("GAME")
             .usingGeneratedKeyColumns("id");
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
@@ -42,7 +42,7 @@ public class JdbcGameDao implements GameDao {
 
     @Override
     public List<GameEntity> selectAllResults() {
-        String sql = "select id, trial_count, winners from play_result order by id desc";
+        String sql = "select id, trial, winners from GAME order by id desc";
         return namedParameterJdbcTemplate.query(sql, actorRowMapper);
     }
 }

@@ -33,7 +33,7 @@ class JdbcGameDaoTest {
         // then
         assertThat(findPlayResult.getId()).isEqualTo(gameEntity.getId());
         assertThat(findPlayResult.getWinners()).isEqualTo(gameEntity.getWinners());
-        assertThat(findPlayResult.getTrialCount()).isEqualTo(gameEntity.getTrialCount());
+        assertThat(findPlayResult.getTrial()).isEqualTo(gameEntity.getTrial());
     }
 
     @Test

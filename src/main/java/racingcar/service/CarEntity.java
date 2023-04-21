@@ -2,20 +2,20 @@ package racingcar.service;
 
 public class CarEntity {
 
-    private final int playResultId;
+    private final int gameId;
     private final String name;
     private final int position;
     private int id;
 
-    public CarEntity(final int playResultId, final String name, final int position) {
-        this.playResultId = playResultId;
+    public CarEntity(final int gameId, final String name, final int position) {
+        this.gameId = gameId;
         this.name = name;
         this.position = position;
     }
 
-    public CarEntity(final int id, final int playResultId, final String name, final int position) {
+    public CarEntity(final int id, final int gameId, final String name, final int position) {
         this.id = id;
-        this.playResultId = playResultId;
+        this.gameId = gameId;
         this.name = name;
         this.position = position;
     }
@@ -28,8 +28,8 @@ public class CarEntity {
         this.id = id;
     }
 
-    public int getPlayResultId() {
-        return playResultId;
+    public int getGameId() {
+        return gameId;
     }
 
     public String getName() {
