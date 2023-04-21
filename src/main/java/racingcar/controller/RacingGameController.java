@@ -21,15 +21,6 @@ public class RacingGameController {
         this.outputView = outputView;
     }
 
-    public <T> T retry(final Supplier<T> supplier) {
-        try {
-            return supplier.get();
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-            return retry(supplier);
-        }
-    }
-
     public void run() {
         GameResponseDto responses = racingGameService.play(initialize());
 
@@ -44,7 +35,15 @@ public class RacingGameController {
     }
 
     private void printResult(final GameResponseDto responses) {
-        outputView.printResultMessage();
         outputView.printResult(responses);
+    }
+
+    public <T> T retry(final Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            return retry(supplier);
+        }
     }
 }

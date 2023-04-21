@@ -18,11 +18,8 @@ public class OutputView {
     private static final String WINNERS_MESSAGE_DELIMITER = ", ";
     private static final String ERROR_MESSAGE = "[ERROR] ";
 
-    public void printResultMessage() {
-        System.out.println(RESULT_MESSAGE);
-    }
-
     public void printResult(final GameResponseDto gameResponse) {
+        System.out.println(RESULT_MESSAGE);
         printWinnersMessage(gameResponse.getWinners());
 
         System.out.println(generatePositionMessages(gameResponse.getRacingCars()) + POSITION_MESSAGE_DELIMITER);
