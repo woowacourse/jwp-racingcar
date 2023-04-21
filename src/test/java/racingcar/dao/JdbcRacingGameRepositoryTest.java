@@ -8,9 +8,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.ApplicationType;
-import racingcar.dto.RacingGameFindDto;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
+import racingcar.entity.RacingGame;
 
 import java.util.List;
 
@@ -39,9 +39,11 @@ class JdbcRacingGameRepositoryTest {
         // given
         final Player kongHana = new Player("콩하나", 10, true);
         final Player ethan = new Player("에단", 5, false);
+        Game game = new Game(10, ApplicationType.CONSOLE);
+        List<Player> players = List.of(kongHana, ethan);
 
         // when, then
-        assertThatCode(() -> racingGameRepository.save(new Game(10, ApplicationType.CONSOLE), List.of(kongHana, ethan)))
+        assertThatCode(() -> racingGameRepository.save(new RacingGame(game, players)))
                 .doesNotThrowAnyException();
     }
 
@@ -51,10 +53,13 @@ class JdbcRacingGameRepositoryTest {
         // given
         final Player kongHana = new Player("콩하나", 10, true);
         final Player ethan = new Player("에단", 5, false);
-        Long gameId = racingGameRepository.save(new Game(10, ApplicationType.CONSOLE), List.of(kongHana, ethan));
+        Game game = new Game(10, ApplicationType.CONSOLE);
+        List<Player> players = List.of(kongHana, ethan);
+
+        Long gameId = racingGameRepository.save(new RacingGame(game, players));
 
         // when, then
-        List<RacingGameFindDto> oneGameHistoryDtos = racingGameRepository.findAll();
+        List<RacingGame> oneGameHistoryDtos = racingGameRepository.findAll();
         assertAll(
                 () -> assertThat(oneGameHistoryDtos.size()).isEqualTo(1),
                 () -> assertThat(oneGameHistoryDtos.get(0).getGame().getId()).isEqualTo(gameId),

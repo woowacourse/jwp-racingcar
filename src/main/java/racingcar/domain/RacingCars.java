@@ -38,6 +38,6 @@ public class RacingCars {
         return racingCars.stream()
                 .mapToInt(RacingCar::getPosition)
                 .max()
-                .orElseThrow(() -> new IllegalArgumentException(ExceptionInformation.CANNOT_FIND_MAX_POSITION.getExceptionMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(ExceptionInformation.NOT_FOUND_MAX_POSITION.getExceptionMessage()));
     }
 }

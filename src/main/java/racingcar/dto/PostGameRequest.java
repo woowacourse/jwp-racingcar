@@ -11,7 +11,7 @@ public class PostGameRequest {
     private final int count;
 
     @JsonCreator
-    public PostGameRequest(@JsonProperty("names") String names, @JsonProperty("count") int count) {
+    public PostGameRequest(final @JsonProperty("names") String names, final @JsonProperty("count") int count) {
         this.names = names;
         this.count = count;
     }

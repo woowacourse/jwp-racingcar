@@ -18,7 +18,7 @@ public class Name {
 
     private void validateLength(final String name) {
         if (isWrongLength(name)) {
-            throw new IllegalArgumentException(ExceptionInformation.NAME_IS_OUT_OF_BOUND.getExceptionMessage());
+            throw new IllegalArgumentException(ExceptionInformation.OUT_OF_BOUND_NAME.getExceptionMessage());
         }
     }
 

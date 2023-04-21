@@ -2,6 +2,8 @@ package racingcar.entity;
 
 public class Player {
 
+    private static final int DEFAULT_ID = -1;
+
     private final long id;
     private final long gameId;
     private final String name;
@@ -9,14 +11,14 @@ public class Player {
     private final boolean isWinner;
 
     public Player(final String name, final int position, final boolean isWinner) {
-        this.id = -1;
-        this.gameId = -1;
+        this.id = DEFAULT_ID;
+        this.gameId = DEFAULT_ID;
         this.name = name;
         this.position = position;
         this.isWinner = isWinner;
     }
 
-    public Player(long id, long gameId, String name, int position, boolean isWinner) {
+    public Player(final long id, final long gameId, final String name, final int position, final boolean isWinner) {
         this.id = id;
         this.gameId = gameId;
         this.name = name;

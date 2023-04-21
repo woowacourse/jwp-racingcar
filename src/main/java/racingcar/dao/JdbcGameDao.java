@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 class JdbcGameDao extends JdbcTemplateDao implements GameDao {
 
-    public JdbcGameDao(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcGameDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
 
@@ -24,7 +24,6 @@ class JdbcGameDao extends JdbcTemplateDao implements GameDao {
         final SqlParameterSource gameParameters = new MapSqlParameterSource()
                 .addValue("trialCount", game.getTrialCount())
                 .addValue("application_id", game.getApplicationType().getApplicationId());
-        // sql 추가
 
         final KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, gameParameters, keyHolder);

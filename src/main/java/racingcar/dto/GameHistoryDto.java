@@ -2,12 +2,12 @@ package racingcar.dto;
 
 import java.util.List;
 
-public class OneGameHistoryDto {
+public class GameHistoryDto {
 
     private final String winners;
     private final List<RacingCarDto> racingCars;
 
-    public OneGameHistoryDto(final String winners, final List<RacingCarDto> racingCars) {
+    public GameHistoryDto(final String winners, final List<RacingCarDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

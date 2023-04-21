@@ -22,6 +22,6 @@ class ParserTest {
         String target = "콩하나입니다.";
         Assertions.assertThatThrownBy(() -> Parser.sliceByComma(target))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionInformation.COMMA_NOT_FOUND.getExceptionMessage());
+                .hasMessage(ExceptionInformation.NOT_FOUND_COMMA.getExceptionMessage());
     }
 }

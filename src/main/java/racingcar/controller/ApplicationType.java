@@ -14,7 +14,7 @@ public enum ApplicationType {
         this.applicationId = applicationId;
     }
 
-    public static ApplicationType findById(int applicationId) {
+    public static ApplicationType findById(final int applicationId) {
         return Arrays.stream(values())
                 .filter(applicationType -> applicationType.applicationId == applicationId)
                 .findFirst()

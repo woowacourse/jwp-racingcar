@@ -17,7 +17,7 @@ public class RandomPicker implements Pickable {
             random = SecureRandom.getInstanceStrong();
         } catch (NoSuchAlgorithmException e) {
             System.out.println(e.getMessage());
-            throw new IllegalArgumentException(ExceptionInformation.CANNOT_CREATE_RANDOM.getExceptionMessage());
+            throw new IllegalArgumentException(ExceptionInformation.CANNOT_CREATE_RANDOM_NUMBER.getExceptionMessage());
         }
     }
 

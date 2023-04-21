@@ -6,22 +6,25 @@ import java.util.Date;
 
 public class Game {
 
+    private static final int DEFAULT_ID = -1;
+    private static final Date DEFAULT_CREATE_AT = null;
+
     private final long id;
     private final int trialCount;
     private final Date createdAt;
     private final ApplicationType applicationType;
 
-    public Game(long id, int trialCount, Date createdAt, ApplicationType applicationType) {
+    public Game(final long id, final int trialCount, final Date createdAt, final ApplicationType applicationType) {
         this.id = id;
         this.trialCount = trialCount;
         this.createdAt = createdAt;
         this.applicationType = applicationType;
     }
 
-    public Game(int trialCount, ApplicationType applicationType) {
-        this.id = -1;
+    public Game(final int trialCount, final ApplicationType applicationType) {
+        this.id = DEFAULT_ID;
         this.trialCount = trialCount;
-        this.createdAt = null;
+        this.createdAt = DEFAULT_CREATE_AT;
         this.applicationType = applicationType;
     }
 

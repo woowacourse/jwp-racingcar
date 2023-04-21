@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao {
 
-    public JdbcPlayerDao(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcPlayerDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
 

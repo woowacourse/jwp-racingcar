@@ -1,5 +1,6 @@
 package racingcar.view;
 
+import racingcar.exception.ExceptionInformation;
 import racingcar.utils.Parser;
 
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.Scanner;
 
 public class InputView {
 
-    private static final String COMMA = ",";
     private static final String requestCarNameMessage = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
     private static final String requestTryCountMessage = "시도할 회수는 몇회인가요?";
 
@@ -15,13 +15,7 @@ public class InputView {
 
     public static List<String> requestCarName() {
         System.out.println(requestCarNameMessage);
-
-        try {
-            return Parser.sliceByComma(input());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return requestCarName();
-        }
+        return Parser.sliceByComma(input());
     }
 
     public static int requestTryCount() {
@@ -30,8 +24,7 @@ public class InputView {
         try {
             return Integer.parseInt(input());
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return requestTryCount();
+            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER.getExceptionMessage());
         }
     }
 

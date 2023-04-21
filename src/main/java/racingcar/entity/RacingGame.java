@@ -1,16 +1,13 @@
-package racingcar.dto;
-
-import racingcar.entity.Game;
-import racingcar.entity.Player;
+package racingcar.entity;
 
 import java.util.List;
 
-public class RacingGameFindDto {
+public class RacingGame {
 
     private final Game game;
     private final List<Player> player;
 
-    public RacingGameFindDto(final Game game, final List<Player> player) {
+    public RacingGame(final Game game, final List<Player> player) {
         this.game = game;
         this.player = player;
     }

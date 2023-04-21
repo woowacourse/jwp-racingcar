@@ -9,7 +9,7 @@ import static java.util.stream.Collectors.toList;
 
 public class Parser {
 
-    public static final String COMMA_DELIMITER = ",";
+    private static final String COMMA_DELIMITER = ",";
 
     public static List<String> sliceByComma(final String target) {
         validateComma(target);
@@ -20,7 +20,7 @@ public class Parser {
 
     private static void validateComma(final String names) {
         if (!names.contains(",")) {
-            throw new IllegalArgumentException(ExceptionInformation.COMMA_NOT_FOUND.getExceptionMessage());
+            throw new IllegalArgumentException(ExceptionInformation.NOT_FOUND_COMMA.getExceptionMessage());
         }
     }
 }
