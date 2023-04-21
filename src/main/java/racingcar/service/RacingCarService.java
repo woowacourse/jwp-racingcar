@@ -19,9 +19,11 @@ import racingcar.repository.RacingGameRepository;
 public class RacingCarService {
 
     private final RacingGameRepository racingGameRepository;
+    private final NumberPicker numberPicker;
 
-    public RacingCarService(final RacingGameRepository racingGameRepository) {
+    public RacingCarService(final RacingGameRepository racingGameRepository, final NumberPicker numberPicker) {
         this.racingGameRepository = racingGameRepository;
+        this.numberPicker = numberPicker;
     }
 
     public Map<Long, List<Car>> findGameHistory() {
@@ -34,7 +36,7 @@ public class RacingCarService {
         return new Car(gameHistoryEntity.getPlayerName(), gameHistoryEntity.getPlayerPosition());
     }
 
-    public void playRound(final Cars cars, final TryCount tryCount, final NumberPicker numberPicker) {
+    public void playRound(final Cars cars, final TryCount tryCount) {
         for (int i = 0; i < tryCount.getValue(); i++) {
             cars.runRound(numberPicker);
         }

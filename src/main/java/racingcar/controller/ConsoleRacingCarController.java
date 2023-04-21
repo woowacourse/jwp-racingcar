@@ -3,7 +3,6 @@ package racingcar.controller;
 import static racingcar.controller.WebRacingCarController.splitNames;
 
 import racingcar.domain.Cars;
-import racingcar.domain.RandomNumberPicker;
 import racingcar.domain.TryCount;
 import racingcar.service.RacingCarService;
 import racingcar.view.ConsoleInputView;
@@ -23,7 +22,7 @@ public class ConsoleRacingCarController {
         final Cars cars = makeCars();
         final TryCount tryCount = makeTryCount();
         outputView.printResultMessage();
-        racingCarService.playRound(cars, tryCount, RandomNumberPicker.getInstance());
+        racingCarService.playRound(cars, tryCount);
         outputView.printWinners(cars.getWinner());
         outputView.printRoundResult(cars.getCars());
     }

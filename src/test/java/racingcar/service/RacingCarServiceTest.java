@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
-import racingcar.domain.DefinedNumberPicker;
+import racingcar.domain.NumberPicker;
 import racingcar.domain.TryCount;
 import racingcar.repository.JdbcRacingGameRepository;
 
@@ -26,6 +25,8 @@ class RacingCarServiceTest {
     private static final String TEST_PLAYER_NAME_1 = "hong";
     private static final String TEST_PLAYER_NAME_2 = "coda";
 
+    @Mock
+    private NumberPicker numberPicker;
     @Mock
     private JdbcRacingGameRepository jdbcRacingGameRepository;
     @InjectMocks
@@ -52,8 +53,8 @@ class RacingCarServiceTest {
         final Cars cars = mock(Cars.class);
         final TryCount tryCount = new TryCount(5);
 
-        racingCarService.playRound(cars, tryCount, new DefinedNumberPicker(Collections.emptyList()));
+        racingCarService.playRound(cars, tryCount);
 
-        verify(cars, times(5)).runRound(any(DefinedNumberPicker.class));
+        verify(cars, times(tryCount.getValue())).runRound(any(NumberPicker.class));
     }
 }
