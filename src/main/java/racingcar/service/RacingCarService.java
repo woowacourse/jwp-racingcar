@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 @Service
 public class RacingCarService {
     private static final int START_POSITION = 0;
+    
+    private final CarRandomNumberGenerator carRandomNumberGenerator = new CarRandomNumberGenerator();
 
     public RacingCarResult playRacingCar(final List<String> names, final int trialCount) {
         final RacingCars racingCars = generateRacingCars(names);
@@ -29,7 +31,6 @@ public class RacingCarService {
     }
 
     private void race(final RacingCars racingCars, final int trialCount) {
-        final CarRandomNumberGenerator carRandomNumberGenerator = new CarRandomNumberGenerator();
         for (int i = 0; i < trialCount; i++) {
             racingCars.tryOneTime(carRandomNumberGenerator);
         }
