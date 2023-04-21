@@ -16,7 +16,7 @@ class JdbcPlayRecordsDaoTest {
 
     @DisplayName("DB: 게임 이력 저장 테스트")
     @Test
-    void insert2() {
+    void insert() {
         playRecordsDao.insert(new PlayRecordEntity(2));
 
         assertThat(playRecordsDao.getLastId()).isEqualTo(1L);
