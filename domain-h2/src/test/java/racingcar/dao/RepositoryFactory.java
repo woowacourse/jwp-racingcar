@@ -1,9 +1,6 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dao.CarDao;
-import racingcar.dao.GamesDao;
-import racingcar.dao.WinnerDao;
 
 public final class RepositoryFactory {
 

@@ -1,4 +1,4 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dao.CarDao;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.GameEntity;
 import racingcar.domain.RacingGame;
@@ -55,7 +54,7 @@ class CarDaoTest {
             carDao.insertAll(List.of(new CarEntity("토미", 9, gameId),
                     new CarEntity("브리", 9, gameId)));
         }
-        
+
         @Test
         void 자동차_전체_조회() {
             final List<CarEntity> result = carDao.findAll();
