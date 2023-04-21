@@ -13,11 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import racingcar.dto.GameRequest;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Sql("/truncate.sql")
 class RacingCarControllerTest {
 
     @LocalServerPort
