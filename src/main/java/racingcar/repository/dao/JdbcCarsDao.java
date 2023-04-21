@@ -18,7 +18,7 @@ public class JdbcCarsDao implements CarsDao {
 
     private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> {
         CarEntity car = new CarEntity(
-                resultSet.getLong("play_id"),
+                resultSet.getLong("play_record_id"),
                 resultSet.getString("name"),
                 resultSet.getInt("position")
         );
@@ -27,7 +27,7 @@ public class JdbcCarsDao implements CarsDao {
     private final ResultSetExtractor<Map<Long, List<CarEntity>>> actorResultSetExtractor = resultSet -> {
         final Map<Long, List<CarEntity>> result = new LinkedHashMap<>();
         while (resultSet.next()) {
-            final long id = resultSet.getLong("play_id");
+            final long id = resultSet.getLong("play_record_id");
             final List<CarEntity> found = result.getOrDefault(id, new ArrayList<>());
             found.add(actorRowMapper.mapRow(resultSet, resultSet.getRow()));
             result.put(id, found);
@@ -42,8 +42,8 @@ public class JdbcCarsDao implements CarsDao {
     }
 
     @Override
-    public void insert(final long id, final List<CarEntity> cars) {
-        jdbcTemplate.batchUpdate("INSERT INTO cars (play_id, name, position) VALUES (?, ?, ?)",
+    public void insert(final Long id, final List<CarEntity> cars) {
+        jdbcTemplate.batchUpdate("INSERT INTO cars (play_record_id, name, position) VALUES (?, ?, ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(final PreparedStatement ps, final int i) throws SQLException {
@@ -60,18 +60,18 @@ public class JdbcCarsDao implements CarsDao {
     }
 
     @Override
-    public List<CarEntity> find(final long id) {
+    public List<CarEntity> find(final Long playRecordId) {
         return jdbcTemplate.query(
-                "SELECT play_id, name, position FROM cars WHERE play_id = ?",
-                actorRowMapper, id
+                "SELECT play_record_id, name, position FROM cars WHERE play_record_id = ?",
+                actorRowMapper, playRecordId
         );
     }
 
     @Override
     public Map<Long, List<CarEntity>> findAllCarsOrderByPlayCreatedAtDesc() {
         return jdbcTemplate.query(
-                "SELECT play_id, name, position FROM cars, play_records "
-                        + "WHERE cars.play_id = play_records.id "
+                "SELECT play_record_id, name, position FROM cars, play_records "
+                        + "WHERE cars.play_record_id = play_records.id "
                         + "ORDER BY play_records.created_at DESC",
                 actorResultSetExtractor);
     }

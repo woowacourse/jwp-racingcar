@@ -6,9 +6,9 @@ import racingcar.repository.dao.entity.CarEntity;
 
 public interface CarsDao {
 
-    void insert(long id, List<CarEntity> cars);
+    void insert(Long id, List<CarEntity> cars);
 
-    List<CarEntity> find(long id);
+    List<CarEntity> find(Long playRecordId);
 
     Map<Long, List<CarEntity>> findAllCarsOrderByPlayCreatedAtDesc();
 }

@@ -1,35 +1,46 @@
 package racingcar.domain;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+
+@Getter
+@EqualsAndHashCode
 public class Car implements Comparable<Car> {
 
     private static final int MOVABLE_POWER_MIN = 4;
     private static final int NAME_LENGTH_MAX = 5;
 
-    private final Long playId;
+    private final Long playRecordId;
     private final String name;
     private int position;
 
     // TODO 생성자 오버라이드 정적 팩토리메서드로 변경
     // TODO 막상 Dao Entity 만들고 나니, Domain Entity도 id를 가져야하나? 의문이 든다.
+    public Car(Long playRecordId, String name) {
+        validateName(name);
+        this.playRecordId = playRecordId;
+        this.name = name;
+        this.position = 0;
+    }
+
     public Car(String name) {
         validateName(name);
-        this.playId = null;
+        this.playRecordId = null;
         this.name = name;
         this.position = 0;
     }
 
     public Car(String name, int position) {
         validateName(name);
-        this.playId = null;
+        this.playRecordId = null;
         this.name = name;
         this.position = position;
     }
 
-    public Car(Long playId, String name, int position) {
+    public Car(Long playRecordId, String name, int position) {
         validateName(name);
-        this.playId = playId;
+        this.playRecordId = playRecordId;
         this.name = name;
         this.position = position;
     }
@@ -62,38 +73,8 @@ public class Car implements Comparable<Car> {
         return this.position == other.position;
     }
 
-    public Long getPlayId() {
-        return playId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
     @Override
     public int compareTo(Car other) {
         return this.position - other.position;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Car car = (Car) o;
-        return position == car.position && Objects.equals(playId, car.playId) && Objects.equals(name,
-                car.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(playId, name, position);
     }
 }

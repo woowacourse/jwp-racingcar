@@ -19,7 +19,7 @@ import racingcar.repository.dao.entity.PlayRecordEntity;
 @SpringBootTest
 class JdbcCarsDaoTest {
 
-    private static final int FIRST_INSERT_ID = 1;
+    private static final Long FIRST_INSERT_ID = 1L;
     private static final List<CarEntity> FIXTURE_CARS_ID_NULL = List.of(
             new CarEntity("도이", 1),
             new CarEntity("연어", 3),
@@ -48,13 +48,12 @@ class JdbcCarsDaoTest {
     @DisplayName("DB: 게임 아이디에 따른 자동차 저장 테스트")
     @Test
     void insert() {
-        carsDao.insert(1, List.of(
+        carsDao.insert(FIRST_INSERT_ID, List.of(
                         new CarEntity("도이", 1),
                         new CarEntity("연어", 3),
                         new CarEntity("브리", 4)
                 )
         );
-        System.out.println(carsDao.find(FIRST_INSERT_ID));
 
         assertThat(carsDao.find(FIRST_INSERT_ID))
                 .containsExactlyInAnyOrder(

@@ -7,20 +7,20 @@ import racingcar.repository.dao.entity.CarEntity;
 
 public class InMemoryCarsDao implements CarsDao {
 
-    private final Map<Long, List<CarEntity>> carsByPlayId = new LinkedHashMap<>();
+    private final Map<Long, List<CarEntity>> carsByPlayRecordId = new LinkedHashMap<>();
 
     @Override
-    public void insert(final long id, final List<CarEntity> cars) {
-        carsByPlayId.put(id, cars);
+    public void insert(final Long id, final List<CarEntity> cars) {
+        carsByPlayRecordId.put(id, cars);
     }
 
     @Override
-    public List<CarEntity> find(final long id) {
-        return carsByPlayId.get(id);
+    public List<CarEntity> find(final Long playRecordId) {
+        return carsByPlayRecordId.get(playRecordId);
     }
 
     @Override
     public Map<Long, List<CarEntity>> findAllCarsOrderByPlayCreatedAtDesc() {
-        return new LinkedHashMap<>(carsByPlayId);
+        return new LinkedHashMap<>(carsByPlayRecordId);
     }
 }
