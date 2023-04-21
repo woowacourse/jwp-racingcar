@@ -2,12 +2,16 @@ package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.entity.GameEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class WebGameDaoTest {
@@ -56,5 +60,25 @@ class WebGameDaoTest {
         //then
         String sql = "SELECT trial_count FROM GAME WHERE id = ?";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class, id)).isEqualTo(trialCount);
+    }
+
+    @DisplayName("저장된 모든 Game 데이터를 확인할 수 있다.")
+    @Test
+    void findAll() {
+        //given
+        Long id1 = webGameDao.save(10);
+        Long id2 = webGameDao.save(5);
+        //when
+        webGameDao.findAll();
+        //then
+        String sql = "SELECT * FROM GAME";
+        List<GameEntity> result = jdbcTemplate.query(sql, (resultSet, rowNum) -> new GameEntity(
+                resultSet.getLong("id"),
+                resultSet.getInt("trial_count"),
+                resultSet.getTimestamp("created_at"))
+        );
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.get(0).getId()).isEqualTo(1);
+        assertThat(result.get(1).getId()).isEqualTo(2);
     }
 }

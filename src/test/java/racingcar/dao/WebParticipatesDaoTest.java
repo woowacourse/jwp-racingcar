@@ -2,6 +2,7 @@ package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.ParticipateDto;
+import racingcar.entity.ParticipatesEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class WebParticipatesDaoTest {
@@ -70,5 +72,26 @@ class WebParticipatesDaoTest {
         String sql = "SELECT position FROM PARTICIPATES WHERE game_id = 1 and player_id = ?";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class, 1L)).isEqualTo(10);
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class, 2L)).isEqualTo(3);
+    }
+
+    @DisplayName("game_id로 데이터를 조회할 수 있다.")
+    @Test
+    void findByGameId() {
+        ParticipateDto mangoDto = new ParticipateDto(1L, 1L, 10, true);
+        ParticipateDto lucaDto = new ParticipateDto(1L, 2L, 3, false);
+        //when
+        webParticipatesDao.save(mangoDto);
+        webParticipatesDao.save(lucaDto);
+        //then
+        String sql = "SELECT * FROM PARTICIPATES WHERE game_id = ?";
+        final List<ParticipatesEntity> result = jdbcTemplate.query(sql, (resultSet, rowNum) -> new ParticipatesEntity(
+                        resultSet.getLong("game_id"),
+                        resultSet.getLong("player_id"),
+                        resultSet.getInt("position"),
+                        resultSet.getBoolean("is_winner"))
+                , 1L);
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.get(0).getPlayerId()).isEqualTo(1L);
+        assertThat(result.get(0).getWinner()).isEqualTo(true);
     }
 }

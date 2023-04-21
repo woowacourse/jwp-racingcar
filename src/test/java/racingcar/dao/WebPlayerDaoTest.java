@@ -86,4 +86,14 @@ class WebPlayerDaoTest {
         //then
         assertThat(playerEntity).isEmpty();
     }
+
+    @DisplayName("id를 입력받아 이름을 조회할 수 있다.")
+    @Test
+    void findNameById() {
+        //given
+        String name = "포비";
+        Long id = webPlayerDao.save(name);
+        //when & then
+        assertThat(webPlayerDao.findNameById(id)).isEqualTo(name);
+    }
 }
