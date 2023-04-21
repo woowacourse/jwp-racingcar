@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayersInfoDao;
-import racingcar.domain.CarFactory;
+import racingcar.domain.CarsFactory;
 import racingcar.domain.Cars;
 import racingcar.dto.*;
 import racingcar.genertor.NumberGenerator;
@@ -31,7 +31,7 @@ public class RacingCarService {
 
     public GameResultResponse createResponse(GameInfoRequest gameInfoRequest) {
         List<String> carNames = Arrays.asList(gameInfoRequest.getNames().split(","));
-        Cars cars = new Cars(CarFactory.buildCars(carNames));
+        Cars cars = CarsFactory.buildCars(carNames);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoRequest.getCount();
         GamePlay.play(cars, count, numberGenerator);
