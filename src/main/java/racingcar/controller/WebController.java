@@ -27,8 +27,8 @@ public class WebController {
                 .body(resultResponse);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handle() {
-        return ResponseEntity.badRequest().body("요청이 올바르지 않습니다.");
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handle(Exception exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 }
