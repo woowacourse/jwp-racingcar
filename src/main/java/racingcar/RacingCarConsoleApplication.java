@@ -9,7 +9,7 @@ import racingcar.controller.GameController;
 
 @SpringBootApplication
 public class RacingCarConsoleApplication {
-    private GameController gameController;
+    private final GameController gameController;
 
     RacingCarConsoleApplication(GameController gameController) {
         this.gameController = gameController;
