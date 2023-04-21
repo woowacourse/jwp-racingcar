@@ -2,14 +2,10 @@ package racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.any;
-import static org.mockito.BDDMockito.anyBoolean;
-import static org.mockito.BDDMockito.anyInt;
-import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.given;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,10 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.dao.RacingCarRecord;
-import racingcar.dao.RacingCarRecordDao;
-import racingcar.dao.RacingGameHistory;
-import racingcar.dao.RacingGameHistoryDao;
+import racingcar.dao.RacingGameRepository;
+import racingcar.domain.game.RacingGame;
 import racingcar.domain.game.RandomNumberGenerator;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
@@ -30,17 +24,13 @@ import racingcar.dto.RacingGameDto;
 class RacingGameServiceMockTest {
 
     @Mock
-    private RacingCarRecordDao racingCarRecordDao;
-
-    @Mock
-    private RacingGameHistoryDao racingGameHistoryDao;
+    private RacingGameRepository racingGameRepository;
 
     private RacingGameService racingGameService;
 
     @BeforeEach
     void setUp() {
-        racingGameService = new RacingGameService(racingGameHistoryDao, racingCarRecordDao,
-                new RandomNumberGenerator());
+        racingGameService = new RacingGameService(racingGameRepository, new RandomNumberGenerator());
     }
 
     @DisplayName("게임 결과를 저장한다.")
@@ -48,8 +38,7 @@ class RacingGameServiceMockTest {
     void insertRacingGameResult() {
         //given
         List<String> carNames = List.of("로지", "바론");
-        given(racingGameHistoryDao.insert(anyInt(), any())).willReturn(1L);
-        given(racingCarRecordDao.insert(anyLong(), any(), anyBoolean())).willReturn(1L);
+        given(racingGameRepository.save(any(RacingGame.class), anyInt())).willReturn(RacingGame.from(carNames));
         //when
         RacingGameDto result = racingGameService.play(10, carNames);
         //then
@@ -63,16 +52,8 @@ class RacingGameServiceMockTest {
     @Test
     void readRacingGameResult() {
         //given
-        Long historyId = 1L;
-        given(racingGameHistoryDao.selectAll()).willReturn(
-                new ArrayList<>(List.of(new RacingGameHistory(historyId, 3, LocalDateTime.now())))
-        );
-        given(racingCarRecordDao.findByHistoryId(historyId)).willReturn(
-                List.of(
-                        new RacingCarRecord(1L, "이름", 2, true, historyId),
-                        new RacingCarRecord(2L, "이름2", 1, false, historyId),
-                        new RacingCarRecord(3L, "이름3", 1, false, historyId)
-                )
+        given(racingGameRepository.findAll()).willReturn(
+                List.of(RacingGame.from(List.of("이름", "이름2", "이름3")))
         );
 
         //when

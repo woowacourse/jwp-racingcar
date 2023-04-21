@@ -42,6 +42,7 @@ public class RacingCarRecordDao {
                         rs.getLong("history_id")
                 )
         );
-
     }
+
+
 }

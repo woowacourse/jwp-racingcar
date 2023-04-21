@@ -16,8 +16,10 @@ import racingcar.dao.RacingCarRecord;
 import racingcar.dao.RacingCarRecordDao;
 import racingcar.dao.RacingGameHistory;
 import racingcar.dao.RacingGameHistoryDao;
+import racingcar.dao.RacingGameRepository;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.NumberGenerator;
+import racingcar.domain.game.RacingGame;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingGameDto;
 
@@ -27,6 +29,9 @@ public class RacingGameServiceTest {
 
     @Autowired
     private RacingGameService racingGameService;
+
+    @Autowired
+    private RacingGameRepository racingGameRepository;
 
     @Autowired
     private RacingGameHistoryDao racingGameHistoryDao;
@@ -41,14 +46,11 @@ public class RacingGameServiceTest {
         //when
         racingGameService.play(10, List.of("서브웨이", "브리", "로지"));
         //then
-        List<RacingGameHistory> racingGameHistories = racingGameHistoryDao.selectAll();
-        RacingGameHistory createdGameHistory = racingGameHistories.get(0);
-        assertThat(createdGameHistory.getTrialCount()).isEqualTo(10);
-        List<RacingCarRecord> createdCarRecords = racingCarRecordDao.findByHistoryId(createdGameHistory.getId());
-        List<String> createdCarNames = createdCarRecords.stream()
-                .map(RacingCarRecord::getName)
-                .collect(Collectors.toList());
-        assertThat(createdCarNames).containsExactly("서브웨이", "브리", "로지");
+        List<RacingGame> racingGames = racingGameRepository.findAll();
+        RacingGame racingGame = racingGames.get(0);
+        List<RacingCar> racingCars = racingGame.getRacingCars();
+        List<String> carNames = racingCars.stream().map(RacingCar::getName).collect(Collectors.toList());
+        assertThat(carNames).containsExactly("서브웨이", "브리", "로지");
     }
 
     @DisplayName("최신순으로 게임이력을 읽을 수 있다.")
@@ -114,7 +116,7 @@ public class RacingGameServiceTest {
         @BeforeEach
         void setUp() {
             numberGenerator = (size) -> List.of(1, 4, 5);
-            racingGameService = new RacingGameService(racingGameHistoryDao, racingCarRecordDao, numberGenerator);
+            racingGameService = new RacingGameService(racingGameRepository, numberGenerator);
         }
 
         @DisplayName("게임을 진행하고 결과를 저장할 수 있다.")
