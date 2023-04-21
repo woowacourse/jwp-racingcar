@@ -13,7 +13,7 @@ import racingcar.dto.ErrorResponse;
 public class ControllerAdvice {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    private ResponseEntity<ErrorResponse> handleIllegalArgumentException(Exception exception) {
+    private ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage()));
     }
