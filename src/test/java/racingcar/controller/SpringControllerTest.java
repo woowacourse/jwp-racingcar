@@ -1,4 +1,4 @@
-package racingcar.mapping;
+package racingcar.controller;
 
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
@@ -13,7 +13,7 @@ import racingcar.dto.GameRequestDto;
 
 @DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HttpMethodTest {
+public class SpringControllerTest {
 
     @LocalServerPort
     int port;
@@ -36,7 +36,7 @@ public class HttpMethodTest {
                 .statusCode(HttpStatus.OK.value());
     }
 
-    @DisplayName("POST 에러 - 이름이  테스트")
+    @DisplayName("POST 에러 테스트")
     @Test
     void postInputError() {
         GameRequestDto gameRequestDto = new GameRequestDto("", 10);
