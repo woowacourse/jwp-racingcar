@@ -32,8 +32,8 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(Exception.class)
-    private ResponseEntity<ErrorResponse> unhandledException(Exception exception) {
+    private ResponseEntity<ErrorResponse> unhandledException() {
         return ResponseEntity.internalServerError()
-                .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage()));
+                .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error."));
     }
 }
