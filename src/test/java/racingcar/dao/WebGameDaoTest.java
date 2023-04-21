@@ -1,36 +1,26 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.ParticipateDto;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class ParticipatesDaoTest {
+class WebGameDaoTest {
 
-    private final GameDao gameDao;
-    private final PlayerDao playerDao;
-    private final ParticipatesDao participatesDao;
+    private final WebGameDao webGameDao;
     private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public ParticipatesDaoTest(final GameDao gameDao, final PlayerDao playerDao, final ParticipatesDao participatesDao, final JdbcTemplate jdbcTemplate) {
-        this.gameDao = gameDao;
-        this.playerDao = playerDao;
-        this.participatesDao = participatesDao;
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @BeforeEach
     void setUp() {
         jdbcTemplate.execute("DROP TABLE PARTICIPATES IF EXISTS");
         jdbcTemplate.execute("DROP TABLE GAME IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE PLAYER IF EXISTS" );
+        jdbcTemplate.execute("DROP TABLE PLAYER IF EXISTS");
 
         jdbcTemplate.execute("CREATE TABLE GAME ( " +
                 "id          BIGINT   NOT NULL AUTO_INCREMENT, " +
@@ -51,23 +41,22 @@ class ParticipatesDaoTest {
                 "PRIMARY KEY (game_id, player_id), " +
                 "FOREIGN KEY (game_id) references GAME (id), " +
                 "FOREIGN KEY (player_id) references PLAYER (id)) ");
-
-        gameDao.save(10);
-        playerDao.save("망고");
-        playerDao.save("루카");
     }
 
-    @DisplayName("위치와 최종 승패를 입력받아 저장한다.")
-    @Test
-    void save() {
-        ParticipateDto mangoDto = new ParticipateDto(1L, 1L, 10, true);
-        ParticipateDto lucaDto = new ParticipateDto(1L, 2L, 3, false);
+    @Autowired
+    public WebGameDaoTest(final WebGameDao webGameDao, final JdbcTemplate jdbcTemplate) {
+        this.webGameDao = webGameDao;
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @DisplayName("시도 횟수를 입력받아 저장한다.")
+    @ParameterizedTest(name = "trialCount: {0}")
+    @ValueSource(ints = {10, 15, 5, 30})
+    void save(final int trialCount) {
         //when
-        participatesDao.save(mangoDto);
-        participatesDao.save(lucaDto);
+        Long id = webGameDao.save(trialCount);
         //then
-        String sql = "SELECT position FROM PARTICIPATES WHERE game_id = 1 and player_id = ?";
-        assertThat(jdbcTemplate.queryForObject(sql, Integer.class, 1L)).isEqualTo(10);
-        assertThat(jdbcTemplate.queryForObject(sql, Integer.class, 2L)).isEqualTo(3);
+        String sql = "SELECT trial_count FROM GAME WHERE id = ?";
+        assertThat(jdbcTemplate.queryForObject(sql, Integer.class, id)).isEqualTo(trialCount);
     }
 }

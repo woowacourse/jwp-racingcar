@@ -2,26 +2,28 @@ package racingcar.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.entity.PlayerEntity;
+import racingcar.dto.ParticipateDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class PlayerDaoTest {
+class WebParticipatesDaoTest {
 
-    private final PlayerDao playerDao;
+    private final WebGameDao webGameDao;
+    private final WebPlayerDao webPlayerDao;
+    private final WebParticipatesDao webParticipatesDao;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PlayerDaoTest(final PlayerDao playerDao, final JdbcTemplate jdbcTemplate) {
-        this.playerDao = playerDao;
+    public WebParticipatesDaoTest(final WebGameDao webGameDao, final WebPlayerDao webPlayerDao,
+                                  final WebParticipatesDao webParticipatesDao, final JdbcTemplate jdbcTemplate) {
+        this.webGameDao = webGameDao;
+        this.webPlayerDao = webPlayerDao;
+        this.webParticipatesDao = webParticipatesDao;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -50,41 +52,23 @@ class PlayerDaoTest {
                 "PRIMARY KEY (game_id, player_id), " +
                 "FOREIGN KEY (game_id) references GAME (id), " +
                 "FOREIGN KEY (player_id) references PLAYER (id)) ");
+
+        webGameDao.save(10);
+        webPlayerDao.save("망고");
+        webPlayerDao.save("루카");
     }
 
-    @DisplayName("이름을 입력받아 저장한다.")
-    @ParameterizedTest(name = "name: {0}")
-    @ValueSource(strings = {"루카", "망고", "소니", "현구막"})
-    void save(final String name) {
-        //when
-        Long id = playerDao.save(name);
-        //then
-        String sql = "SELECT name FROM PLAYER WHERE id = ?";
-        assertThat(jdbcTemplate.queryForObject(sql, String.class, id)).isEqualTo(name);
-    }
-
-    @DisplayName("이름을 입력받아 조회한다.")
+    @DisplayName("위치와 최종 승패를 입력받아 저장한다.")
     @Test
-    void findByName() {
-        //given
-        String name = "포비";
-        playerDao.save(name);
+    void save() {
+        ParticipateDto mangoDto = new ParticipateDto(1L, 1L, 10, true);
+        ParticipateDto lucaDto = new ParticipateDto(1L, 2L, 3, false);
         //when
-        PlayerEntity playerEntity = playerDao.findByName(name).orElseThrow();
+        webParticipatesDao.save(mangoDto);
+        webParticipatesDao.save(lucaDto);
         //then
-        assertThat(playerEntity.getId()).isNotNull();
-        assertThat(playerEntity.getName()).isEqualTo(name);
-    }
-
-
-    @DisplayName("이름을 입력받아 조회한 결과가 없을 때, empty를 반환한다.")
-    @Test
-    void findByNameWhenEmpty() {
-        //given
-        String name = "네오";
-        //when
-        Optional<PlayerEntity> playerEntity = playerDao.findByName(name);
-        //then
-        assertThat(playerEntity).isEmpty();
+        String sql = "SELECT position FROM PARTICIPATES WHERE game_id = 1 and player_id = ?";
+        assertThat(jdbcTemplate.queryForObject(sql, Integer.class, 1L)).isEqualTo(10);
+        assertThat(jdbcTemplate.queryForObject(sql, Integer.class, 2L)).isEqualTo(3);
     }
 }

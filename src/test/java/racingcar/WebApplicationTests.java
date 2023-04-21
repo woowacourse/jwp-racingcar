@@ -3,7 +3,7 @@ package racingcar;
 import org.junit.jupiter.api.Test;
 
 //@SpringBootTest
-class RacingCarApplicationTests {
+class WebApplicationTests {
 
     @Test
     void contextLoads() {
