@@ -47,15 +47,24 @@ public class RacingCarService {
 
         for (Long gameId : gameIdByGamePlayerJoinDto.keySet()) {
             List<GamePlayerJoinDto> sameGameData = gameIdByGamePlayerJoinDto.get(gameId);
-            String winners = sameGameData.stream()
-                .filter(GamePlayerJoinDto::isWinner)
-                .map(GamePlayerJoinDto::getPlayerName)
-                .collect(Collectors.joining(","));
-            List<PlayerDto> playerDtos = sameGameData.stream().map(data -> new PlayerDto(data.getPlayerName(), data.getPosition()))
-                .collect(Collectors.toList());
+            String winners = findWinners(sameGameData);
+            List<PlayerDto> playerDtos = findPlayers(sameGameData);
             result.add(new RacingCarGameResultResponseDto(winners, playerDtos));
         }
         return result;
+    }
+
+    private List<PlayerDto> findPlayers(final List<GamePlayerJoinDto> sameGameData) {
+        return sameGameData.stream()
+            .map(data -> new PlayerDto(data.getPlayerName(), data.getPosition()))
+            .collect(Collectors.toList());
+    }
+
+    private String findWinners(final List<GamePlayerJoinDto> sameGameData) {
+        return sameGameData.stream()
+            .filter(GamePlayerJoinDto::isWinner)
+            .map(GamePlayerJoinDto::getPlayerName)
+            .collect(Collectors.joining(","));
     }
 
     private List<String> splitNameWithComma(RacingCarGameRequestDto racingCarGameRequestDto) {
