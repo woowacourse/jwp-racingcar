@@ -1,16 +1,18 @@
 package racing.web.controller.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class RacingGameResultResponse {
 
-    private String winners;
-    private List<RacingCarStateResponse> racingCars;
+    private final String winners;
+    private final List<RacingCarStateResponse> racingCars;
 
-    public RacingGameResultResponse() {
-    }
-
-    public RacingGameResultResponse(String winners, List<RacingCarStateResponse> racingCars) {
+    @JsonCreator
+    public RacingGameResultResponse(
+            @JsonProperty("winners") String winners,
+            @JsonProperty("racingCars") List<RacingCarStateResponse> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

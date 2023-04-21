@@ -3,8 +3,9 @@ package racing.persistence.h2.game;
 import java.time.LocalDateTime;
 
 public class RacingGameEntity {
-    private Long gameId;
-    private LocalDateTime createTime;
+
+    private final Long gameId;
+    private final LocalDateTime createTime;
     private final int trialCount;
 
     public RacingGameEntity(Long gameId, LocalDateTime createTime, int trialCount) {

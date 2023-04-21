@@ -70,5 +70,4 @@ public class RacingController {
         String winners = racingGameService.filterWinnersToCarNames(racingCarGame);
         return new RacingGameResultResponse(winners, racingCarsState);
     }
-
 }

@@ -26,7 +26,8 @@ public class RacingCarConsoleController {
     public void playGame() {
         RacingCarGame racingCarGame = requestRacingGame();
 
-        RacingCarNumberGenerator racingCarNumberGenerator = new RandomRacingCarNumberGenerator();
+        RacingCarNumberGenerator racingCarNumberGenerator
+                = new RandomRacingCarNumberGenerator();
         racingCarGame.playRounds(racingCarNumberGenerator);
 
         outputView.printResult(racingCarGame.getCars());

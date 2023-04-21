@@ -1,12 +1,14 @@
 package racing.web.controller.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RacingGameSaveResponse {
-    private Long gameId;
 
-    public RacingGameSaveResponse() {
-    }
+    private final Long gameId;
 
-    public RacingGameSaveResponse(Long gameId) {
+    @JsonCreator
+    public RacingGameSaveResponse(@JsonProperty("gameId") Long gameId) {
         this.gameId = gameId;
     }
 

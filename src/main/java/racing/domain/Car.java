@@ -30,5 +30,4 @@ public class Car {
     public int getStep() {
         return step;
     }
-
 }

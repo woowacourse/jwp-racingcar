@@ -1,13 +1,17 @@
 package racing.web.controller.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RacingCarStateResponse {
-    private String name;
-    private int position;
 
-    public RacingCarStateResponse() {
-    }
+    private final String name;
+    private final int position;
 
-    public RacingCarStateResponse(String name, int position) {
+    @JsonCreator
+    public RacingCarStateResponse(
+            @JsonProperty("name") String name,
+            @JsonProperty("position") int position) {
         this.name = name;
         this.position = position;
     }

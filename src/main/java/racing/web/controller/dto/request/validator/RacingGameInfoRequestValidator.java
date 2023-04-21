@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import racing.web.controller.dto.request.RacingGameInfoRequest;
 
 public class RacingGameInfoRequestValidator implements RequestValidator<RacingGameInfoRequest> {
+
     private static final String CAR_NAME_BLANK = "자동차 이름이 비어있습니다.";
     private static final String CAR_NAME_INVALID_RANGE = "자동차 이름은 1 ~ 5자 사이 이어야 합니다.";
     private static final String CAR_NAME_DUPLICATED = "중복된 자동차 이름이 존재합니다.";
