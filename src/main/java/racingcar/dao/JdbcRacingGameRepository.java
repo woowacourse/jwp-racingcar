@@ -5,7 +5,7 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.GameFindDto;
-import racingcar.dto.PlayerSaveDto;
+import racingcar.entity.Player;
 import racingcar.dto.RacingGameFindDto;
 
 import javax.sql.DataSource;
@@ -38,9 +38,9 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
     }
 
     @Override
-    public Long save(final int trialCount, final List<PlayerSaveDto> playerSaveDtos) {
+    public Long save(final int trialCount, final List<Player> players) {
         final Long gameId = gameDao.save(trialCount);
-        playerDao.save(gameId, playerSaveDtos);
+        playerDao.save(gameId, players);
         return gameId;
     }
 

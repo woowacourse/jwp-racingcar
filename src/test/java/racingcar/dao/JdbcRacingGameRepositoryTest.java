@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.PlayerSaveDto;
+import racingcar.entity.Player;
 import racingcar.dto.RacingGameFindDto;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @JdbcTest
 @Transactional
@@ -34,8 +35,8 @@ class JdbcRacingGameRepositoryTest {
     @DisplayName("자동차 경주를 테이블에 저장할 수 있다.")
     void save_whenCall_thenSuccess() {
         // given
-        final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
-        final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
+        final Player kongHana = new Player("콩하나", 10, true);
+        final Player ethan = new Player("에단", 5, false);
 
         // when, then
         assertThatCode(() -> racingGameRepository.save(10, List.of(kongHana, ethan)))
@@ -46,8 +47,8 @@ class JdbcRacingGameRepositoryTest {
     @DisplayName("저장된 자동차 경주를 조회할 수 있다.")
     void find_whenCall_thenSuccess() {
         // given
-        final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
-        final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
+        final Player kongHana = new Player("콩하나", 10, true);
+        final Player ethan = new Player("에단", 5, false);
         Long gameId = racingGameRepository.save(10, List.of(kongHana, ethan));
 
         // when, then
@@ -63,5 +64,11 @@ class JdbcRacingGameRepositoryTest {
                 () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(1).getPosition()).isEqualTo(5),
                 () -> assertThat(oneGameHistoryDtos.get(0).getPlayerFindDtos().get(1).getIsWinner()).isFalse()
         );
+    }
+
+    @Test
+    @DisplayName("팩토리 메서드를 사용할 수 있다.")
+    void generateDefaultJdbcRacingGameRepository_whenCall_thenSuccess() {
+        assertDoesNotThrow(JdbcRacingGameRepository::generateDefaultJdbcRacingGameRepository);
     }
 }

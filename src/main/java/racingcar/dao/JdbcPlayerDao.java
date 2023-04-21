@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.PlayerFindDto;
-import racingcar.dto.PlayerSaveDto;
+import racingcar.entity.Player;
 
 import java.util.List;
 
@@ -16,11 +16,11 @@ public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao {
     }
 
     @Override
-    public void save(final long gameId, final List<PlayerSaveDto> playerSaveDtos) {
+    public void save(final long gameId, final List<Player> players) {
         final String sql = "insert into Player (game_id, name, position, is_winner) "
                 + "values (:gameId, :name, :position, :isWinner)";
 
-        final MapSqlParameterSource[] params = playerSaveDtos.stream()
+        final MapSqlParameterSource[] params = players.stream()
                 .map(dto -> createParams(gameId, dto))
                 .toArray(MapSqlParameterSource[]::new);
 
@@ -41,7 +41,7 @@ public class JdbcPlayerDao extends JdbcTemplateDao implements PlayerDao {
                 ));
     }
 
-    private MapSqlParameterSource createParams(final long id, final PlayerSaveDto dto) {
+    private MapSqlParameterSource createParams(final long id, final Player dto) {
         return new MapSqlParameterSource()
                 .addValue("gameId", id)
                 .addValue("name", dto.getName())

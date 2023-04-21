@@ -10,7 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.PlayerFindDto;
-import racingcar.dto.PlayerSaveDto;
+import racingcar.entity.Player;
 
 import java.util.List;
 
@@ -37,8 +37,8 @@ class JdbcPlayerDaoTest {
     void savePlayer_whenCall_thenSuccess() {
         // given
         Long gameId = gameDao.save(10);
-        final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
-        final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
+        final Player kongHana = new Player("콩하나", 10, true);
+        final Player ethan = new Player("에단", 5, false);
 
         // when, then
         assertThatCode(() -> playerDao.save(gameId, List.of(kongHana, ethan)))
@@ -49,8 +49,8 @@ class JdbcPlayerDaoTest {
     @DisplayName("Game 테이블에 저장되지 않은 gameId를 사용하면 Player 테이블에 값을 저장할 수 없다.")
     void savePlayer_whenInvalidGameId_thenFail() {
         // given
-        final PlayerSaveDto kongHana = new PlayerSaveDto("콩하나", 10, true);
-        final PlayerSaveDto ethan = new PlayerSaveDto("에단", 5, false);
+        final Player kongHana = new Player("콩하나", 10, true);
+        final Player ethan = new Player("에단", 5, false);
 
         // when, then
         assertThatThrownBy(() -> playerDao.save(2, List.of(kongHana, ethan)))
@@ -66,8 +66,8 @@ class JdbcPlayerDaoTest {
 
         // when
         Long gameId = gameDao.save(10);
-        final PlayerSaveDto kongHana = new PlayerSaveDto(konghanaName, 10, true);
-        final PlayerSaveDto ethan = new PlayerSaveDto(ethanName, 5, false);
+        final Player kongHana = new Player(konghanaName, 10, true);
+        final Player ethan = new Player(ethanName, 5, false);
         playerDao.save(gameId, List.of(kongHana, ethan));
 
         List<PlayerFindDto> playerFindDtos = playerDao.findById(gameId);

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.RacingGameRepository;
 import racingcar.domain.*;
 import racingcar.dto.*;
+import racingcar.entity.Player;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,14 +44,14 @@ public class RacingGameService {
 
     private void saveRacingCars(final int tryCount, final RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
-        final List<PlayerSaveDto> playerSaveDtos = racingCars.getRacingCars().stream()
-                .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
+        final List<Player> players = racingCars.getRacingCars().stream()
+                .map(racingCar -> createPlayerEntity(winnerNames, racingCar))
                 .collect(toList());
-        racingGameRepository.save(tryCount, playerSaveDtos);
+        racingGameRepository.save(tryCount, players);
     }
 
-    private PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
-        return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
+    private Player createPlayerEntity(final List<String> winnerNames, final RacingCar racingCar) {
+        return new Player(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
     }
 
     private OneGameHistoryDto generateOneGameHistoryDto(RacingCars racingCars) {

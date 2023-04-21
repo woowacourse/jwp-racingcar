@@ -7,10 +7,10 @@ import racingcar.dao.JdbcRacingGameRepository;
 import racingcar.service.RacingGameService;
 
 @SpringBootApplication
-public class RacingCarApplication {
+public class RacingCarWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RacingCarApplication.class, args);
+        SpringApplication.run(RacingCarWebApplication.class, args);
         RacingGameConsoleController racingGameConsoleController = new RacingGameConsoleController(new RacingGameService(JdbcRacingGameRepository.generateDefaultJdbcRacingGameRepository()));
         racingGameConsoleController.run();
     }
