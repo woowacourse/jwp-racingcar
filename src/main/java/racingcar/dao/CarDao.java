@@ -2,7 +2,7 @@ package racingcar.dao;
 
 import java.util.List;
 
-import racingcar.service.CarEntity;
+import racingcar.entity.CarEntity;
 
 public interface CarDao {
     List<CarEntity> selectCarsByGameId(int ragingResultId);

@@ -1,14 +1,14 @@
-package racingcar.controller;
+package racingcar.ui;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InputConvertor {
+public class WebInputConvertor {
 
     private static final String DELIMITER = ",";
 
-    private InputConvertor() {
+    private WebInputConvertor() {
     }
 
     public static List<String> carNames(final String names) {

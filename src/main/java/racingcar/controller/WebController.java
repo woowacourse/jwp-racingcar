@@ -12,31 +12,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import racingcar.dto.RacingCarRequestDto;
+import racingcar.dto.RacingCarResponseDto;
 import racingcar.model.Cars;
 import racingcar.model.Trial;
-import racingcar.service.RacingResponse;
-import racingcar.service.RacingcarService;
+import racingcar.service.RacingCarService;
+import racingcar.ui.WebInputConvertor;
 
 @RestController
 public class WebController {
-    private final RacingcarService racingcarService;
+    private final RacingCarService racingcarService;
 
-    public WebController(RacingcarService racingcarService) {
+    public WebController(RacingCarService racingcarService) {
         this.racingcarService = racingcarService;
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingCarResponse> plays(@Valid @RequestBody RacingCarRequest request) {
-        List<String> carNames = InputConvertor.carNames(request.getNames());
+    public ResponseEntity<RacingCarResponseDto> plays(@Valid @RequestBody RacingCarRequestDto request) {
+        List<String> carNames = WebInputConvertor.carNames(request.getNames());
         Cars cars = Cars.from(carNames);
-        int tryCount = InputConvertor.tryCount(request.getCount());
+        int tryCount = WebInputConvertor.tryCount(request.getCount());
         Trial trial = new Trial(tryCount);
         return ResponseEntity.ok()
             .body(racingcarService.play(cars, trial));
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<RacingResponse>> allResults() {
+    public ResponseEntity<List<RacingCarResponseDto>> allResults() {
         return ResponseEntity.ok()
             .body(racingcarService.allResults());
     }

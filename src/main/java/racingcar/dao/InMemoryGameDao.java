@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import racingcar.service.GameEntity;
+import racingcar.entity.GameEntity;
 
 public class InMemoryGameDao implements GameDao {
     private static final Map<Integer, GameEntity> store = new LinkedHashMap<>();

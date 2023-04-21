@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
+import racingcar.dto.RacingCarRequestDto;
 
 @SpringBootTest
 @Transactional
@@ -20,7 +21,7 @@ class webControllerTest {
     @Test
     void playsPostMapping(){
 
-        RacingGameRequest request = new RacingGameRequest("name1, name2", "10");
+        RacingCarRequestDto request = new RacingCarRequestDto("name1, name2", "10");
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +38,7 @@ class webControllerTest {
     @Test
     void playsGetMapping(){
 
-        RacingGameRequest request = new RacingGameRequest("name1, name2", "10");
+        RacingCarRequestDto request = new RacingCarRequestDto("name1, name2", "10");
 
         RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)

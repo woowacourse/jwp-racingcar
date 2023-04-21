@@ -9,16 +9,19 @@ import org.springframework.stereotype.Service;
 import racingcar.Strategy.RandomNumberGenerator;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dto.RacingCarResponseDto;
+import racingcar.entity.CarEntity;
+import racingcar.entity.GameEntity;
 import racingcar.model.Cars;
 import racingcar.model.RacingGame;
 import racingcar.model.Trial;
 
 @Service
-public class RacingcarService {
+public class RacingCarService {
     private final GameDao gameDao;
     private final CarDao carDao;
 
-    public RacingcarService(final GameDao gameDao, final CarDao carDao) {
+    public RacingCarService(final GameDao gameDao, final CarDao carDao) {
         this.gameDao = gameDao;
         this.carDao = carDao;
     }
@@ -34,11 +37,11 @@ public class RacingcarService {
         return String.join(", ", cars.findWinners());
     }*/
 
-    public RacingResponse play(final Cars cars, final Trial trial) {
+    public RacingCarResponseDto play(final Cars cars, final Trial trial) {
         RacingGame racingGame = new RacingGame(cars, trial, new RandomNumberGenerator());
         racingGame.play();
         List<CarEntity> carEntities = insertResult(trial.getTrial(), cars, racingGame.winners());
-        return new RacingResponse(racingGame.winners(), carEntities);
+        return new RacingCarResponseDto(racingGame.winners(), carEntities);
     }
 
     private List<CarEntity> insertResult(int count, Cars cars, String winners) {
@@ -48,18 +51,18 @@ public class RacingcarService {
         return carEntities;
     }
 
-    public List<RacingResponse> allResults() {
+    public List<RacingCarResponseDto> allResults() {
         List<GameEntity> gameEntities = gameDao.selectAllResults();
         return getRacingResponses(gameEntities);
     }
 
-    private List<RacingResponse> getRacingResponses(List<GameEntity> gameEntities) {
-        List<RacingResponse> racingResponses = new ArrayList<>();
+    private List<RacingCarResponseDto> getRacingResponses(List<GameEntity> gameEntities) {
+        List<RacingCarResponseDto> racingCarRespons = new ArrayList<>();
         for (GameEntity gameEntity : gameEntities) {
             int playResultId = gameEntity.getId();
             List<CarEntity> carEntities = carDao.selectCarsByGameId(playResultId);
-            racingResponses.add(new RacingResponse(gameEntity.getWinners(), carEntities));
+            racingCarRespons.add(new RacingCarResponseDto(gameEntity.getWinners(), carEntities));
         }
-        return racingResponses;
+        return racingCarRespons;
     }
 }

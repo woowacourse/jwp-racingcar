@@ -1,12 +1,14 @@
-package racingcar.service;
+package racingcar.dto;
 
 import java.util.List;
 
-public class RacingResponse {
+import racingcar.entity.CarEntity;
+
+public class RacingCarResponseDto {
     private final String winners;
     private final List<CarEntity> racingCars;
 
-    public RacingResponse(final String winners, final List<CarEntity> racingCars) {
+    public RacingCarResponseDto(final String winners, final List<CarEntity> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

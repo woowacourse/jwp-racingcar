@@ -1,16 +1,16 @@
-package racingcar.service;
+package racingcar.dto;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-public class RacingCarRequest {
+public class RacingCarRequestDto {
     @NotBlank
     private final String names;
 
     @Min(1)
     private final String count;
 
-    public RacingCarRequest(final String names, final String count) {
+    public RacingCarRequestDto(final String names, final String count) {
         this.names = names;
         this.count = count;
     }
