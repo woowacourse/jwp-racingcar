@@ -2,6 +2,7 @@ package racingcar.domain;
 
 public class Car {
 	private static final int MIN_MOVE_NUMBER = 4;
+
 	private final Name name;
 	private final Position position;
 

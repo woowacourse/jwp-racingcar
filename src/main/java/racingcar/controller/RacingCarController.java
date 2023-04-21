@@ -1,8 +1,7 @@
 package racingcar.controller;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.domain.RacingCars;
-import racingcar.repository.RacingCarRepository;
+import racingcar.dto.RacingResultResponse;
+import racingcar.repository.RacingCarConsoleRepository;
 import racingcar.service.RacingCarService;
 import racingcar.utils.RandomNumberGenerator;
 import racingcar.view.InputView;
@@ -16,7 +15,7 @@ public class RacingCarController {
 
     public RacingCarController() {
         this.racingCarService = new RacingCarService(
-                new RacingCarRepository(new JdbcTemplate()),
+                new RacingCarConsoleRepository(),
                 new RandomNumberGenerator()
         );
     }
@@ -49,8 +48,10 @@ public class RacingCarController {
 
     private void startRound(List<String> carNames, int roundCount) {
         OutputView.printRoundResultMsg();
-        RacingCars racingCars = racingCarService.createRacingCars(carNames);
-        racingCarService.moveCars(racingCars, roundCount);
-        OutputView.printRacingResult(racingCars.getCars(), racingCars.getWinners());
+//        RacingCars racingCars = racingCarService.createRacingCars(carNames);
+//        racingCarService.moveCars(racingCars, roundCount);
+        RacingResultResponse racingResultResponse = racingCarService.playRacingGame(carNames, roundCount);
+        OutputView.printRacingResult(racingResultResponse);
+//        OutputView.printRacingResult(racingCars.getCars(), racingCars.getWinners());
     }
 }

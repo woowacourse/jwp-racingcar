@@ -36,20 +36,19 @@ public class RacingCarService {
         return obtainRacingResult(gameId);
     }
 
-    public RacingCars createRacingCars(List<String> carNames) {
+    private RacingCars createRacingCars(List<String> carNames) {
         return carNames.stream()
                 .map(Car::new)
                 .collect(collectingAndThen(toList(), RacingCars::new));
     }
 
-    public void moveCars(RacingCars racingCars, int tryCount) {
+    private void moveCars(RacingCars racingCars, int tryCount) {
         for (int i = 0; i < tryCount; i++) {
             racingCars.moveCars(numberGenerator);
         }
     }
 
-    @Transactional(readOnly = true)
-    public RacingResultResponse obtainRacingResult(int gameId) {
+    private RacingResultResponse obtainRacingResult(int gameId) {
         List<String> winners = racingCarRepository.findWinnersByGameId(gameId);
         List<RacingCarDto> racingCars = racingCarRepository.findRacingCarsByGameId(gameId);
         return new RacingResultResponse(winners, racingCars);

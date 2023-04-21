@@ -16,33 +16,33 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-class RacingCarRepositoryTest {
+class RacingCarJdbcRepositoryTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    RacingCarRepository racingCarRepository;
+    RacingCarJdbcRepository racingCarJdbcRepository;
 
     @BeforeEach
     void setUp() {
-        racingCarRepository = new RacingCarRepository(jdbcTemplate);
+        racingCarJdbcRepository = new RacingCarJdbcRepository(jdbcTemplate);
     }
 
     @Test
     @DisplayName("게임이 정상적으로 저장되어야 한다.")
     void saveGame_success() {
-        Assertions.assertDoesNotThrow(() -> racingCarRepository.saveGame(10));
+        Assertions.assertDoesNotThrow(() -> racingCarJdbcRepository.saveGame(10));
     }
 
     @Test
     @DisplayName("승자가 정상적으로 저장되어야 한다.")
     void saveWinners_success() {
         // given
-        int gameId = racingCarRepository.saveGame(1);
+        int gameId = racingCarJdbcRepository.saveGame(1);
 
         // expect
-        racingCarRepository.saveWinners(gameId, List.of("glen", "raon"));
-        List<String> winners = racingCarRepository.findWinnersByGameId(gameId);
+        racingCarJdbcRepository.saveWinners(gameId, List.of("glen", "raon"));
+        List<String> winners = racingCarJdbcRepository.findWinnersByGameId(gameId);
 
         assertThat(winners)
                 .hasSize(2)
@@ -53,13 +53,13 @@ class RacingCarRepositoryTest {
     @DisplayName("자동차가 정상적으로 저장되어야 한다.")
     void saveCars_success() {
         // given
-        int gameId = racingCarRepository.saveGame(1);
+        int gameId = racingCarJdbcRepository.saveGame(1);
         Car car1 = new Car("glen");
         Car car2 = new Car("raon");
 
         // expect
-        racingCarRepository.saveCars(gameId, List.of(car1, car2));
-        List<RacingCarDto> findCars = racingCarRepository.findRacingCarsByGameId(gameId);
+        racingCarJdbcRepository.saveCars(gameId, List.of(car1, car2));
+        List<RacingCarDto> findCars = racingCarJdbcRepository.findRacingCarsByGameId(gameId);
 
         assertThat(findCars)
                 .hasSize(2);
@@ -74,14 +74,14 @@ class RacingCarRepositoryTest {
         List<String> winnersTest1 = List.of("glen");
         List<String> winnersTest2 = List.of("raon");
 
-        int gameId1 = racingCarRepository.saveGame(1);
-        int gameId2 = racingCarRepository.saveGame(1);
+        int gameId1 = racingCarJdbcRepository.saveGame(1);
+        int gameId2 = racingCarJdbcRepository.saveGame(1);
 
-        racingCarRepository.saveWinners(gameId1, winnersTest1);
-        racingCarRepository.saveWinners(gameId2, winnersTest2);
+        racingCarJdbcRepository.saveWinners(gameId1, winnersTest1);
+        racingCarJdbcRepository.saveWinners(gameId2, winnersTest2);
 
         // expect
-        Map<Integer, List<String>> playHistory = racingCarRepository.findWinners();
+        Map<Integer, List<String>> playHistory = racingCarJdbcRepository.findWinners();
 
         assertThat(playHistory).hasSize(2);
         assertThat(playHistory.get(gameId1)).hasSize(winnersTest1.size());
@@ -101,14 +101,14 @@ class RacingCarRepositoryTest {
         List<Car> carsTest1 = List.of(car1, car2);
         List<Car> carsTest2 = List.of(car1, car2, car3);
 
-        int gameId1 = racingCarRepository.saveGame(1);
-        int gameId2 = racingCarRepository.saveGame(1);
+        int gameId1 = racingCarJdbcRepository.saveGame(1);
+        int gameId2 = racingCarJdbcRepository.saveGame(1);
 
-        racingCarRepository.saveCars(gameId1, carsTest1);
-        racingCarRepository.saveCars(gameId2, carsTest2);
+        racingCarJdbcRepository.saveCars(gameId1, carsTest1);
+        racingCarJdbcRepository.saveCars(gameId2, carsTest2);
 
         // expect
-        Map<Integer, List<RacingCarDto>> playHistory = racingCarRepository.findRacingCars();
+        Map<Integer, List<RacingCarDto>> playHistory = racingCarJdbcRepository.findRacingCars();
 
         assertThat(playHistory).hasSize(2);
         assertThat(playHistory.get(gameId1)).hasSize(carsTest1.size());

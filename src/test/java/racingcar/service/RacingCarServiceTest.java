@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingResultResponse;
-import racingcar.repository.RacingCarRepository;
+import racingcar.repository.RacingCarJdbcRepository;
 import racingcar.utils.NumberGenerator;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.doReturn;
 class RacingCarServiceTest {
 
     @Mock
-    RacingCarRepository racingCarRepository;
+    RacingCarJdbcRepository racingCarJdbcRepository;
 
     @Mock
     NumberGenerator numberGenerator;
@@ -45,15 +45,15 @@ class RacingCarServiceTest {
                 .generateNumber();
 
         doReturn(1)
-                .when(racingCarRepository)
+                .when(racingCarJdbcRepository)
                 .saveGame(10);
 
         doReturn(List.of("raon"))
-                .when(racingCarRepository)
+                .when(racingCarJdbcRepository)
                 .findWinnersByGameId(anyInt());
 
         doReturn(List.of(racingCarDto1, racingCarDto2))
-                .when(racingCarRepository)
+                .when(racingCarJdbcRepository)
                 .findRacingCarsByGameId(anyInt());
 
         // expect
@@ -74,11 +74,11 @@ class RacingCarServiceTest {
         RacingCarDto racingCarDto2 = new RacingCarDto("raon", 1);
 
         doReturn(Map.of(1, List.of(racingCarDto1, racingCarDto2)))
-                .when(racingCarRepository)
+                .when(racingCarJdbcRepository)
                 .findRacingCars();
 
         doReturn(Map.of(1, List.of("glen", "raon")))
-                .when(racingCarRepository)
+                .when(racingCarJdbcRepository)
                 .findWinners();
 
         // expect

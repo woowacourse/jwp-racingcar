@@ -51,10 +51,6 @@ class WebRacingCarControllerTest {
                 .when(racingCarService)
                 .playRacingGame(anyList(), anyInt());
 
-        doReturn(new RacingResultResponse(winners, racingCars))
-                .when(racingCarService)
-                .obtainRacingResult(anyInt());
-
         // expect
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
