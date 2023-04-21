@@ -1,6 +1,6 @@
-package racingcar.repository.dao;
+package racingcar.dao;
 
-import racingcar.repository.dao.entity.PlayRecordEntity;
+import racingcar.dao.entity.PlayRecordEntity;
 
 public interface PlayRecordsDao {
 

@@ -1,7 +1,7 @@
-package racingcar.repository.dao;
+package racingcar.dao;
 
 import java.util.List;
-import racingcar.repository.dao.entity.CarEntity;
+import racingcar.dao.entity.CarEntity;
 
 public interface CarsDao {
 

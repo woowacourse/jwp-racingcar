@@ -4,9 +4,9 @@ import static racingcar.view.ConsoleCommand.PLAY;
 import static racingcar.view.ConsoleCommand.RECORDS;
 
 import java.util.List;
+import racingcar.dao.InMemoryCarsDao;
+import racingcar.dao.InMemoryPlayRecordsDao;
 import racingcar.dto.PlayResponseDto;
-import racingcar.repository.dao.InMemoryCarsDao;
-import racingcar.repository.dao.InMemoryPlayRecordsDao;
 import racingcar.service.RacingCarService;
 import racingcar.view.ConsoleCommand;
 import racingcar.view.InputView;

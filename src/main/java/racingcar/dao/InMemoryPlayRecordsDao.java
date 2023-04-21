@@ -1,9 +1,9 @@
-package racingcar.repository.dao;
+package racingcar.dao;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import racingcar.repository.dao.entity.PlayRecordEntity;
+import racingcar.dao.entity.PlayRecordEntity;
 
 public class InMemoryPlayRecordsDao implements PlayRecordsDao {
 

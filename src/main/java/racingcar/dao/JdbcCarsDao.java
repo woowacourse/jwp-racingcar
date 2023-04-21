@@ -1,4 +1,4 @@
-package racingcar.repository.dao;
+package racingcar.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import racingcar.repository.dao.entity.CarEntity;
+import racingcar.dao.entity.CarEntity;
 
 @Repository
 public class JdbcCarsDao implements CarsDao {

@@ -5,16 +5,16 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.CarsDao;
+import racingcar.dao.PlayRecordsDao;
+import racingcar.dao.entity.EntityConverter;
+import racingcar.dao.entity.PlayRecordEntity;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCarNames;
 import racingcar.domain.RacingCars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.PlayResponseDto;
 import racingcar.dto.PlayResponseDtoConverter;
-import racingcar.repository.dao.CarsDao;
-import racingcar.repository.dao.PlayRecordsDao;
-import racingcar.repository.dao.entity.EntityConverter;
-import racingcar.repository.dao.entity.PlayRecordEntity;
 
 @Transactional(readOnly = true)
 @Service

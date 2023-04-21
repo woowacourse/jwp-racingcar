@@ -1,4 +1,4 @@
-package racingcar.repository.dao.entity;
+package racingcar.dao.entity;
 
 import lombok.Getter;
 
