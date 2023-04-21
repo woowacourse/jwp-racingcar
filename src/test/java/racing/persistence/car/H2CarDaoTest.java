@@ -3,7 +3,6 @@ package racing.persistence.car;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,12 +27,6 @@ class H2CarDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @BeforeEach
-    void setUp() {
-        jdbcTemplate.execute("DELETE FROM games");
-        jdbcTemplate.execute("DELETE FROM cars");
-    }
 
     @DisplayName("자동차를 저장할 수 있다.")
     @Test

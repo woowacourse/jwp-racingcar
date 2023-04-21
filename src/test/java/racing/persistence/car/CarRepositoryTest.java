@@ -3,16 +3,13 @@ package racing.persistence.car;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 import racing.domain.Car;
 import racing.domain.CarName;
 import racing.domain.Cars;
@@ -20,8 +17,8 @@ import racing.domain.repository.CarRepository;
 import racing.persistence.h2.car.CarDao;
 import racing.persistence.h2.car.CarEntity;
 
-@TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)
+@Transactional
 @SpringBootTest
 class CarRepositoryTest {
 
@@ -30,15 +27,6 @@ class CarRepositoryTest {
 
     @Autowired
     private CarDao carDao;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @BeforeEach
-    void setUp() {
-        jdbcTemplate.execute("DELETE FROM games");
-        jdbcTemplate.execute("DELETE FROM cars");
-    }
 
     @DisplayName("자동차 객체를 저장할 수 있다.")
     @Test
