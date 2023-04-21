@@ -1,9 +1,9 @@
 package racingcar.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class RandomNumberGeneratorTest {
     final NumberGenerator numberGenerator = new RandomNumberGenerator();
