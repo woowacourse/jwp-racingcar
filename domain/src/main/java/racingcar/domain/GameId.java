@@ -6,6 +6,10 @@ public class GameId {
 
     private final Integer value;
 
+    public GameId() {
+        this(null);
+    }
+
     public GameId(final Integer value) {
         this.value = value;
     }

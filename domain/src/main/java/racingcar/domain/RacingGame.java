@@ -6,9 +6,10 @@ public class RacingGame {
 
     private final Cars cars;
     private final Count count;
-    private GameId gameId;
+    private final GameId gameId;
 
     public RacingGame(final List<String> carsName, final int count) {
+        gameId = new GameId();
         cars = Cars.from(carsName);
         this.count = new Count(count);
     }
