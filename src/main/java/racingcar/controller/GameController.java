@@ -24,8 +24,7 @@ public class GameController {
 
     @PostMapping("/plays")
     public PlayResponseDto postInput(@RequestBody PlayRequestDto playRequestDto) {
-        gameService.setUpGame(playRequestDto.getNames());
-        gameService.play(playRequestDto.getCount());
+        gameService.play(playRequestDto.getCount(),playRequestDto.getNames());
         return new PlayResponseDto(gameService.findWinners(), gameService.getCars());
     }
 
@@ -42,8 +41,9 @@ public class GameController {
     }
 
     public void play() {
-        gameService.setUpGame(InputView.inputCarNames());
-        gameService.play(InputView.inputTrialCount());
+        final String carNames = InputView.inputCarNames();
+        final int trialCount = InputView.inputTrialCount();
+        gameService.play(trialCount,carNames);
         OutputView.noticeResult();
         OutputView.printCars(gameService.getCars());
         OutputView.printWinners(gameService.findWinners());

@@ -32,7 +32,7 @@ public class GameService {
         this.moveChance = new RandomMoveChance();
     }
 
-    public void setUpGame(String names) {
+    private void setCars(String names) {
         this.cars = Stream.of(names.split(","))
                 .map(Car::new)
                 .collect(Collectors.toList());
@@ -63,8 +63,9 @@ public class GameService {
         return Collections.unmodifiableList(cars);
     }
 
-    public void play(int trialCount) {
+    public void play(final int trialCount, final String names) {
         validateNotNegativeInteger(trialCount);
+        setCars(names);
         long gameNumber = gameDao.saveGame(trialCount);
         playMultipleTimes(trialCount);
         for (Car car : cars) {
