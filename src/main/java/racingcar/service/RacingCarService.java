@@ -21,12 +21,12 @@ public class RacingCarService {
 
     private static final String DELIMITER = ",";
 
-    private final PlayResultDao playResultDAO;
-    private final PlayersInfoDao playersInfoDAO;
+    private final PlayResultDao playResultDao;
+    private final PlayersInfoDao playersInfoDao;
 
-    public RacingCarService(PlayResultDao playResultDAO, PlayersInfoDao playersInfoDAO) {
-        this.playResultDAO = playResultDAO;
-        this.playersInfoDAO = playersInfoDAO;
+    public RacingCarService(PlayResultDao playResultDao, PlayersInfoDao playersInfoDao) {
+        this.playResultDao = playResultDao;
+        this.playersInfoDao = playersInfoDao;
     }
 
     public GameResultResponse createResponse(GameInfoRequest gameInfoRequest) {
@@ -46,8 +46,8 @@ public class RacingCarService {
     }
 
     private void saveResult(int trialCount, List<CarResponse> cars, List<CarResponse> winners) {
-        int playerResultId = playResultDAO.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
-        playersInfoDAO.insert(playerResultId, cars);
+        int playerResultId = playResultDao.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
+        playersInfoDao.insert(playerResultId, cars);
     }
 
     private String makeWinnersString(List<CarResponse> winners) {
@@ -57,6 +57,6 @@ public class RacingCarService {
     }
 
     public List<PlayRecordsResponse> showPlayRecords() {
-        return playResultDAO.findAllPlayRecords();
+        return playResultDao.findAllPlayRecords();
     }
 }
