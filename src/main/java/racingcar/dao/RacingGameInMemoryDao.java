@@ -21,7 +21,7 @@ public class RacingGameInMemoryDao implements RacingGameDao {
     @Override
     public List<RacingGameEntity> findAllByCreatedTimeAsc() {
         return database.values()
-                .stream().sorted(Comparator.comparing(RacingGameEntity::getCreatedTime))
+                .stream().sorted(Comparator.comparing(RacingGameEntity::getCreatedAt))
                 .collect(Collectors.toList());
     }
 }

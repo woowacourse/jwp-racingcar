@@ -6,12 +6,12 @@ public class RacingGameEntity {
 
     private final Long id;
     private final int trialCount;
-    private final LocalDateTime createdTime;
+    private final LocalDateTime createdAt;
 
     public RacingGameEntity(Long id, int trialCount, LocalDateTime createdTime) {
         this.id = id;
         this.trialCount = trialCount;
-        this.createdTime = createdTime;
+        this.createdAt = createdTime;
     }
 
     public RacingGameEntity(int trialCount) {
@@ -26,7 +26,7 @@ public class RacingGameEntity {
         return id;
     }
 
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

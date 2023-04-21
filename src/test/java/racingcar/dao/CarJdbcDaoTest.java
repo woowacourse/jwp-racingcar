@@ -29,10 +29,10 @@ class CarJdbcDaoTest {
         CarEntity boxster = new CarEntity("boxster", 10, true, gameId);
         CarEntity encho = new CarEntity("encho", 7, false, gameId);
 
-        jdbcTemplate.update("INSERT INTO CAR (name, position, is_win, racing_game_id) VALUES (?, ?, ?, ?)",
-                boxster.getName(), boxster.getPosition(), boxster.isWin(), boxster.getGameId());
-        jdbcTemplate.update("INSERT INTO CAR (name, position, is_win, racing_game_id) VALUES (?, ?, ?, ?)",
-                encho.getName(), encho.getPosition(), encho.isWin(), encho.getGameId());
+        jdbcTemplate.update("INSERT INTO CAR (name, position, winner, racing_game_id) VALUES (?, ?, ?, ?)",
+                boxster.getName(), boxster.getPosition(), boxster.isWinner(), boxster.getRacingGameId());
+        jdbcTemplate.update("INSERT INTO CAR (name, position, winner, racing_game_id) VALUES (?, ?, ?, ?)",
+                encho.getName(), encho.getPosition(), encho.isWinner(), encho.getRacingGameId());
 
     }
 

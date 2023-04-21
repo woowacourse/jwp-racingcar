@@ -4,14 +4,14 @@ public class CarEntity {
 
     private final String name;
     private final int position;
-    private final boolean isWin;
-    private final Long gameId;
+    private final boolean winner;
+    private final Long racingGameId;
 
     public CarEntity(String name, int position, boolean isWin, Long gameId) {
         this.name = name;
         this.position = position;
-        this.isWin = isWin;
-        this.gameId = gameId;
+        this.winner = isWin;
+        this.racingGameId = gameId;
     }
 
     public String getName() {
@@ -22,11 +22,11 @@ public class CarEntity {
         return position;
     }
 
-    public boolean isWin() {
-        return isWin;
+    public boolean isWinner() {
+        return winner;
     }
 
-    public Long getGameId() {
-        return gameId;
+    public Long getRacingGameId() {
+        return racingGameId;
     }
 }

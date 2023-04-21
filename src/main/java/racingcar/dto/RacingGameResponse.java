@@ -18,7 +18,7 @@ public class RacingGameResponse {
 
     public static RacingGameResponse of(List<CarEntity> carEntities) {
         List<String> winners = carEntities.stream()
-                .filter(CarEntity::isWin)
+                .filter(CarEntity::isWinner)
                 .map(CarEntity::getName)
                 .collect(Collectors.toList());
         List<CarDto> carDtos = carEntities.stream()
