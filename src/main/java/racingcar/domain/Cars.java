@@ -26,20 +26,17 @@ public class Cars {
     public List<String> calculateWinners() {
         Position maxPosition = getMaxPosition();
 
-        List<String> winners = cars.stream()
+        return cars.stream()
                 .filter(car -> car.getCurrentPosition().equals(maxPosition))
                 .map(winnerCar -> winnerCar.getCarName().getName())
                 .collect(Collectors.toList());
-
-        return winners;
     }
 
     private Position getMaxPosition() {
-        Position maxPosition = cars.stream()
+        return cars.stream()
                 .map(Car::getCurrentPosition)
                 .max(Comparator.comparingInt(Position::getPosition))
                 .orElseGet(Position::new);
-        return maxPosition;
     }
 
     private void validateDuplicatedNames(final List<Car> cars) {
