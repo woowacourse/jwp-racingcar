@@ -1,8 +1,8 @@
 package racingcar.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import racingcar.dao.entity.WinnerEntity;
 
@@ -17,10 +17,16 @@ public class InsertWinnerDao {
     }
 
     public void insertAll(final List<WinnerEntity> winnerEntities) {
-        final BeanPropertySqlParameterSource[] batch = winnerEntities.stream()
-                .map(BeanPropertySqlParameterSource::new)
-                .toArray(BeanPropertySqlParameterSource[]::new);
-
+        @SuppressWarnings("unchecked") final HashMap<String, Object>[] batch = winnerEntities.stream()
+                .map(this::toMap)
+                .toArray(HashMap[]::new);
         insertActor.executeBatch(batch);
+    }
+
+    private HashMap<String, Object> toMap(final WinnerEntity winnerEntity) {
+        final HashMap<String, Object> parameters = new HashMap<>(3);
+        parameters.put("car_id", winnerEntity.getCarId().getValue());
+        parameters.put("game_id", winnerEntity.getGameId().getValue());
+        return parameters;
     }
 }

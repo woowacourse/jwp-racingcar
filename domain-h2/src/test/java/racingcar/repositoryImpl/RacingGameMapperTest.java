@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.GameEntity;
+import racingcar.dao.entity.GameId;
 import racingcar.dao.entity.WinnerEntity;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
@@ -25,23 +26,23 @@ class RacingGameMapperTest {
         final GameEntity result = RacingGameMapper.toGameEntity(racingGame);
 
         assertAll(
-                () -> assertThat(result.getGameId()).isEqualTo(3),
+                () -> assertThat(result.getGameId().getValue()).isEqualTo(3),
                 () -> assertThat(result.getTrialCount()).isEqualTo(5)
         );
     }
 
     @Test
     void toCarEntities를_통해서_도메인_객체를_엔티티로_변환한다() {
-        final List<CarEntity> result = RacingGameMapper.toCarEntities(cars, 3);
+        final List<CarEntity> result = RacingGameMapper.toCarEntities(cars, new GameId(3));
 
         assertAll(
                 () -> assertThat(result).hasSize(2),
                 () -> assertThat(result.get(0).getName()).isEqualTo("ㅁㄴㅇㄹ"),
                 () -> assertThat(result.get(0).getPosition()).isEqualTo(3),
-                () -> assertThat(result.get(0).getGameId()).isEqualTo(3),
+                () -> assertThat(result.get(0).getGameId().getValue()).isEqualTo(3),
                 () -> assertThat(result.get(1).getName()).isEqualTo("asdf"),
                 () -> assertThat(result.get(1).getPosition()).isEqualTo(4),
-                () -> assertThat(result.get(1).getGameId()).isEqualTo(3)
+                () -> assertThat(result.get(1).getGameId().getValue()).isEqualTo(3)
         );
     }
 
@@ -51,8 +52,8 @@ class RacingGameMapperTest {
 
         assertAll(
                 () -> assertThat(result).hasSize(1),
-                () -> assertThat(result.get(0).getGameId()).isEqualTo(3),
-                () -> assertThat(result.get(0).getCarId()).isEqualTo(2)
+                () -> assertThat(result.get(0).getGameId().getValue()).isEqualTo(3),
+                () -> assertThat(result.get(0).getCarId().getValue()).isEqualTo(2)
         );
     }
 
@@ -67,7 +68,7 @@ class RacingGameMapperTest {
                 () -> assertThat(result.getCars()).hasSize(1),
                 () -> assertThat(result.getCars().get(0).getCarName()).isEqualTo("ㅁㄴㅇㄹ"),
                 () -> assertThat(result.getCars().get(0).getPosition()).isEqualTo(3),
-                () -> assertThat(result.getCars().get(0).getCarId()).isEqualTo(1));
+                () -> assertThat(result.getCars().get(0).getCarId().getValue()).isEqualTo(1));
     }
 
     @Test
@@ -89,19 +90,19 @@ class RacingGameMapperTest {
                 () -> assertThat(result.get(0).getCars()).hasSize(2),
                 () -> assertThat(result.get(0).getCars().get(0).getCarName()).isEqualTo("ㅁㄴㅇㄹ"),
                 () -> assertThat(result.get(0).getCars().get(0).getPosition()).isEqualTo(3),
-                () -> assertThat(result.get(0).getCars().get(0).getCarId()).isEqualTo(1),
+                () -> assertThat(result.get(0).getCars().get(0).getCarId().getValue()).isEqualTo(1),
                 () -> assertThat(result.get(0).getCars().get(1).getCarName()).isEqualTo("asdf"),
                 () -> assertThat(result.get(0).getCars().get(1).getPosition()).isEqualTo(4),
-                () -> assertThat(result.get(0).getCars().get(1).getCarId()).isEqualTo(2),
+                () -> assertThat(result.get(0).getCars().get(1).getCarId().getValue()).isEqualTo(2),
                 () -> assertThat(result.get(1).getGameId()).isEqualTo(2),
                 () -> assertThat(result.get(1).getCount().getTargetCount()).isEqualTo(5),
                 () -> assertThat(result.get(1).getCars()).hasSize(2),
                 () -> assertThat(result.get(1).getCars().get(0).getCarName()).isEqualTo("ㅁㄴㅇㄹ"),
                 () -> assertThat(result.get(1).getCars().get(0).getPosition()).isEqualTo(3),
-                () -> assertThat(result.get(1).getCars().get(0).getCarId()).isEqualTo(3),
+                () -> assertThat(result.get(1).getCars().get(0).getCarId().getValue()).isEqualTo(3),
                 () -> assertThat(result.get(1).getCars().get(1).getCarName()).isEqualTo("asdf"),
                 () -> assertThat(result.get(1).getCars().get(1).getPosition()).isEqualTo(4),
-                () -> assertThat(result.get(1).getCars().get(1).getCarId()).isEqualTo(4)
+                () -> assertThat(result.get(1).getCars().get(1).getCarId().getValue()).isEqualTo(4)
         );
     }
 }

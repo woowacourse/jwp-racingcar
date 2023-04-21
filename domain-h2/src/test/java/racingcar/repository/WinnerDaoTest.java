@@ -31,11 +31,12 @@ class WinnerDaoTest {
     void setUp(final JdbcTemplate jdbcTemplate) {
         final GameEntity gameEntity = RacingGameMapper.toGameEntity(new RacingGame(List.of("브리"), 5));
 
-        gameId = RepositoryFactory.gamesDao(jdbcTemplate).insert(gameEntity).getGameId();
+        gameId = RepositoryFactory.gamesDao(jdbcTemplate).insert(gameEntity).getGameId().getValue();
         carId = RepositoryFactory.carDao(jdbcTemplate)
                 .insertAll(List.of(new CarEntity("브리", 9, gameId)))
                 .get(0)
-                .getCarId();
+                .getCarId()
+                .getValue();
         winnerDao = RepositoryFactory.winnerDao(jdbcTemplate);
     }
 
@@ -45,7 +46,7 @@ class WinnerDaoTest {
 
         assertAll(
                 () -> Assertions.assertThat(result).hasSize(1),
-                () -> assertThat(result.get(0).getGameId()).isPositive()
+                () -> assertThat(result.get(0).getGameId().getValue()).isPositive()
         );
     }
 }

@@ -5,7 +5,7 @@ public class Car {
     private static final int GO = 4;
 
     private final CarName carName;
-    private final Integer carId;
+    private final CarId carId;
     private Position position;
 
     public Car(final String carName) {
@@ -19,7 +19,7 @@ public class Car {
     public Car(final String carName, final int position, final Integer carId) {
         this.carName = new CarName(carName);
         this.position = new Position(position);
-        this.carId = carId;
+        this.carId = new CarId(carId);
     }
 
     public void move(final int power) {
@@ -40,7 +40,7 @@ public class Car {
         return carName.getName();
     }
 
-    public Integer getCarId() {
+    public CarId getCarId() {
         return carId;
     }
 }

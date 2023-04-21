@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.dao.entity.CarEntity;
 import racingcar.dao.entity.GameEntity;
+import racingcar.dao.entity.GameId;
 import racingcar.dao.entity.WinnerEntity;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
@@ -18,7 +19,7 @@ public class RacingGameMapper {
         return new GameEntity(racingGame.getGameId(), racingGame.getCount().getTargetCount());
     }
 
-    public static List<CarEntity> toCarEntities(final List<Car> cars, final int gameId) {
+    public static List<CarEntity> toCarEntities(final List<Car> cars, final GameId gameId) {
         return cars.stream()
                 .map(car -> CarEntity.fromDomain(car, gameId))
                 .collect(Collectors.toList());
@@ -35,7 +36,7 @@ public class RacingGameMapper {
         final List<RacingGame> result = new ArrayList<>();
         for (final GameEntity gameEntity : gameEntities) {
             final List<CarEntity> carEntitiesByGameId = carEntities.stream()
-                    .filter(carEntity -> carEntity.getGameId() == gameEntity.getGameId())
+                    .filter(carEntity -> carEntity.getGameId().equals(gameEntity.getGameId()))
                     .collect(Collectors.toList());
             result.add(toDomain(gameEntity, carEntitiesByGameId));
         }
@@ -46,7 +47,7 @@ public class RacingGameMapper {
         final List<Car> carWithIds = savedCarEntities.stream()
                 .map(CarEntity::toDomain)
                 .collect(Collectors.toList());
-        return new RacingGame(gameEntity.getGameId(), carWithIds, gameEntity.getTrialCount());
+        return new RacingGame(gameEntity.getGameId().getValue(), carWithIds, gameEntity.getTrialCount());
     }
 
 }

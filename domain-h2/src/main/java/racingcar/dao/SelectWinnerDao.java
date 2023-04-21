@@ -3,6 +3,7 @@ package racingcar.dao;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import racingcar.dao.entity.GameId;
 import racingcar.dao.entity.WinnerEntity;
 
 public class SelectWinnerDao {
@@ -18,9 +19,9 @@ public class SelectWinnerDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<WinnerEntity> findAllByGameId(final int gameId) {
+    public List<WinnerEntity> findAllByGameId(final GameId gameId) {
         final String sql = "SELECT winner_id, game_id, car_id FROM WINNER WHERE game_id = ?";
 
-        return jdbcTemplate.query(sql, actionRowMapper, gameId);
+        return jdbcTemplate.query(sql, actionRowMapper, gameId.getValue());
     }
 }

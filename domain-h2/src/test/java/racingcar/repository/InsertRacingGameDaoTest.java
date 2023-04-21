@@ -29,6 +29,6 @@ class InsertRacingGameDaoTest {
 
         final GameEntity result = insertGameDao.insert(gameEntity);
 
-        assertThat(result.getGameId()).isPositive();
+        assertThat(result.getGameId().getValue()).isPositive();
     }
 }
