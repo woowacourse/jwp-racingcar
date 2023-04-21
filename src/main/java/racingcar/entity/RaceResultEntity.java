@@ -9,8 +9,8 @@ public class RaceResultEntity {
     private final String winners;
     private final LocalDateTime createdAt;
 
-    public RaceResultEntity(final Long id, final int trialCount,
-                            final String winners, final LocalDateTime createdAt) {
+    private RaceResultEntity(final Long id, final int trialCount,
+                             final String winners, final LocalDateTime createdAt) {
         this.id = id;
         this.trialCount = trialCount;
         this.winners = winners;

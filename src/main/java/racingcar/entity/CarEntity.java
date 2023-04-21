@@ -10,7 +10,7 @@ public class CarEntity {
     private final Integer raceResultId;
     private final LocalDateTime createdAt;
 
-    public CarEntity(final Integer id, final String name,
+    private CarEntity(final Integer id, final String name,
                      final int position, final Integer raceResultId,
                      final LocalDateTime createdAt) {
         this.id = id;
