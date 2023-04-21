@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerResultDao;
 import racingcar.dto.response.GameResultDto;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class GameFindService {
 
     private final GameDao gameDao;
@@ -29,7 +31,6 @@ public class GameFindService {
             List<PlayerResultDto> playerResultsDto = playerResultDao.findPlayerResultsByGameId(game.getGameId());
             gameResultDtos.add(new GameResultDto(game.getWinners(), playerResultsDto));
         }
-
         return gameResultDtos;
     }
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class GamePlayService {
 
     private final GameDao gameDao;
@@ -28,7 +29,6 @@ public class GamePlayService {
         this.playerResultDao = playerResultDao;
     }
 
-    @Transactional
     public GameResponseDto playGame(GameRequestDto gameRequestDto) {
         List<String> carNames = List.of(gameRequestDto.getNames().split(",", -1));
         Cars cars = makeCars(carNames);
@@ -53,8 +53,7 @@ public class GamePlayService {
 
     private Long createGame(String winners, int trialCount) {
         GameSaveDto gameSaveDto = new GameSaveDto(winners, trialCount);
-        Long gameId = gameDao.createGame(gameSaveDto);
-        return gameId;
+        return gameDao.createGame(gameSaveDto);
     }
 
     private List<PlayerResultSaveDto> createPlayerResults(Cars cars, Long gameId) {
