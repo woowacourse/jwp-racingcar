@@ -50,7 +50,6 @@ public class WinnersDaoTest {
     }
 
     @Test
-    @Transactional
     void findWinners() {
         gameLogDao.insert(3, "달리", 4);
         gameLogDao.insert(3, "디노", 4);

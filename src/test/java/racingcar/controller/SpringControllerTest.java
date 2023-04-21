@@ -14,7 +14,6 @@ import racingcar.dto.GameRequestDto;
 
 @DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Transactional
 public class SpringControllerTest {
 
     @LocalServerPort
@@ -26,7 +25,6 @@ public class SpringControllerTest {
     }
 
     @DisplayName("이름과 실행 횟수 POST")
-    @Transactional
     @Test
     void postInput() {
         GameRequestDto gameRequestDto = new GameRequestDto("브리,토미,브라운", 10);
@@ -40,7 +38,6 @@ public class SpringControllerTest {
     }
 
     @DisplayName("POST 에러 테스트")
-    @Transactional
     @Test
     void postInputError() {
         GameRequestDto gameRequestDto = new GameRequestDto("", 10);

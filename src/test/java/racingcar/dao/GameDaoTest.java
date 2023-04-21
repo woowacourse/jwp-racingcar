@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.TrialCount;
 
 @SpringBootTest
-@Transactional
 public class GameDaoTest {
 
     @Autowired
