@@ -27,10 +27,10 @@ public class RacingCarConsoleController {
         GameEntity gameResultEntity = racingCarService.getGameResultEntity(
                 new GameRequestDtoForPlays(carNames, numberOfTimes)
         );
-        finish(racingCarService.generateRacingGameResponseDto(gameResultEntity));
+        printResults(racingCarService.generateRacingGameResponseDto(gameResultEntity));
     }
 
-    private void finish(GameResponseDto gameResponseDto) {
+    private void printResults(GameResponseDto gameResponseDto) {
         outputView.printWinners(gameResponseDto.getWinners());
         outputView.printResult(gameResponseDto.getRacingCars());
     }
