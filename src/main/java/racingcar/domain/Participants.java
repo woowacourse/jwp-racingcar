@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 
 public class Participants {
 
-    private static final int MIN_COUNT = 1;
-    private static final int MAX_COUNT = 5;
+    public static final int MIN_PARTICIPANT_SIZE = 1;
+    public static final int MAX_PARTICIPANT_SIZE = 5;
+    public static final String PARTICIPANT_SIZE_ERROR_MESSAGE =
+            "올바르지 않은 참여자수입니다.(" + MIN_PARTICIPANT_SIZE + "~" + MAX_PARTICIPANT_SIZE + ")";
+    private static final String NAME_DUPLICATION_ERROR_MESSAGE = "자동차 이름은 중복될 수 없습니다.";
 
     private final List<Car> cars;
 
@@ -24,8 +27,8 @@ public class Participants {
     }
 
     private void validateSize(final List<Car> cars) {
-        if (cars.size() < MIN_COUNT || MAX_COUNT < cars.size()) {
-            throw new IllegalArgumentException("[ERROR] 올바르지 않은 참여자수입니다.(" + MIN_COUNT + "~" + MAX_COUNT + ")");
+        if (cars.size() < MIN_PARTICIPANT_SIZE || MAX_PARTICIPANT_SIZE < cars.size()) {
+            throw new IllegalArgumentException(PARTICIPANT_SIZE_ERROR_MESSAGE);
         }
     }
 
@@ -34,7 +37,7 @@ public class Participants {
                 .map(Car::getName)
                 .collect(Collectors.toList());
         if (carNames.stream().distinct().count() != carNames.size()) {
-            throw new IllegalArgumentException("[ERROR] 자동차 이름은 중복될 수 없습니다.");
+            throw new IllegalArgumentException(NAME_DUPLICATION_ERROR_MESSAGE);
         }
     }
 

@@ -5,8 +5,10 @@ import java.util.stream.Collectors;
 
 public class Race {
 
-    private static final int MIN_COUNT = 1;
-    private static final int MAX_COUNT = 10;
+    public static final int MIN_TRIAL_COUNT = 1;
+    public static final int MAX_TRIAL_COUNT = 10;
+    public static final String TRIAL_COUNT_ERROR_MESSAGE =
+            "올바르지 않은 시도횟수입니다.(" + MIN_TRIAL_COUNT + " ~ " + MAX_TRIAL_COUNT + ")";
 
     private final int totalCount;
     private final Participants participants;
@@ -24,10 +26,8 @@ public class Race {
     }
 
     private void validateRange(final int count) {
-        final String NOT_PROPER_COUNT = "[ERROR] 올바르지 않은 시도횟수입니다.(" + MIN_COUNT + " ~ " + MAX_COUNT + ")";
-
-        if (count < MIN_COUNT || count > MAX_COUNT) {
-            throw new IllegalArgumentException(NOT_PROPER_COUNT);
+        if (count < MIN_TRIAL_COUNT || MAX_TRIAL_COUNT < count) {
+            throw new IllegalArgumentException(TRIAL_COUNT_ERROR_MESSAGE);
         }
     }
 
@@ -37,7 +37,7 @@ public class Race {
             addCount();
         }
     }
-    
+
     public List<Car> getParticipants() {
         return participants.getCars();
     }
