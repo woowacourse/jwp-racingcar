@@ -1,4 +1,4 @@
-package racingcar.dao.car;
+package racingcar.dao;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.CarDao;
 import racingcar.entity.CarEntity;
 
 import java.time.LocalDateTime;

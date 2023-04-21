@@ -1,7 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.car.CarDao;
+import racingcar.dao.CarDao;
 import racingcar.entity.CarEntity;
 import racingcar.domain.RacingCars;
 

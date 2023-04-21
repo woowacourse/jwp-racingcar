@@ -1,4 +1,4 @@
-package racingcar.dao.car;
+package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;

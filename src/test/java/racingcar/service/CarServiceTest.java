@@ -3,7 +3,7 @@ package racingcar.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.dao.car.CarDao;
+import racingcar.dao.CarDao;
 import racingcar.domain.RacingCars;
 
 import static org.mockito.ArgumentMatchers.any;

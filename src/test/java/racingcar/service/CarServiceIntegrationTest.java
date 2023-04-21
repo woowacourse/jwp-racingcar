@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.dao.car.CarDao;
+import racingcar.dao.CarDao;
 import racingcar.domain.RacingCars;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
