@@ -18,7 +18,7 @@ public class RacingCarConsoleController {
     public RacingCarConsoleController() {
         inputView = new InputView(System.in);
         outputView = new OutputView();
-        this.racingCarService = new RacingCarService(new RacingCarDao(new JdbcTemplate()));
+        this.racingCarService = new RacingCarService(new RacingCarDao(new JdbcTemplate()), racingGameDao);
     }
 
     public void run() {

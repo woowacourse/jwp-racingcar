@@ -1,15 +1,13 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import racingcar.domain.Winner;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
-import java.util.List;
-
 public class ObjectMapper {
 
-    private static RowMapper<CarEntity> getCarEntityMapper() {
+    public static RowMapper<CarEntity> getCarEntityMapper() {
         return (resultSet, rowNum) -> new CarEntity.Builder()
                         .id(resultSet.getInt("id"))
                         .name(resultSet.getString("name"))
@@ -17,18 +15,21 @@ public class ObjectMapper {
                         .build();
     }
 
-    public static RowMapper<GameEntity> getGameEntityMapper(JdbcTemplate jdbcTemplate) {
-        return (resultSet, rowNum) -> {
-            int gameId = resultSet.getInt("id");
-            String sql = "SELECT * FROM RACING_CAR WHERE racing_game_id = ?";
-            List<CarEntity> carEntities = jdbcTemplate.query(sql, ObjectMapper.getCarEntityMapper(), gameId);
-            return new GameEntity.Builder()
-                    .id(gameId)
-                    .racingCars(carEntities)
+    public static RowMapper<GameEntity> getGameEntityMapper() {
+        return (resultSet, rowNum) -> new GameEntity.Builder()
+                    .id(resultSet.getInt("id"))
                     .count(resultSet.getInt("count"))
-                    .winners(resultSet.getString("winners"))
                     .build();
-        };
+    }
+
+    public static RowMapper<Winner> getWinnersEntityMapper() {
+        return (resultSet, rowNum) -> new Winner(
+                resultSet.getString("name")
+        );
+    }
+
+    public static RowMapper<Integer> getCarIdMapper() {
+        return (resultSet, rowNum) -> resultSet.getInt("id");
     }
 
 }

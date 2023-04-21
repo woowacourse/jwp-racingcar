@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.GameResponseDto;
 import racingcar.dao.RacingCarDao;
+import racingcar.dao.RacingGameDao;
+import racingcar.dao.WinnersDao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +22,7 @@ class RacingCarServiceTest {
 
     @BeforeEach
     public void setUp() {
-        racingCarService = new RacingCarService(new RacingCarDao(jdbcTemplate));
+        racingCarService = new RacingCarService(new RacingCarDao(jdbcTemplate), new RacingGameDao(jdbcTemplate), new WinnersDao(jdbcTemplate));
     }
 
     @Test

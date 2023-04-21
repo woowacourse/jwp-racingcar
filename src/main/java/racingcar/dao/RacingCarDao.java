@@ -5,8 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.domain.Car;
 import racingcar.entity.CarEntity;
-import racingcar.entity.GameEntity;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -16,6 +16,8 @@ import java.util.List;
 @Repository
 public class RacingCarDao {
 
+    private static final int FIRST_CAR = 0;
+
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -23,48 +25,19 @@ public class RacingCarDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public GameEntity saveGame(GameEntity gameEntity) {
-        String sqlForGameEntity = "INSERT INTO RACING_GAME(count, winners, created_at) VALUES(?, ?, ?)";
-        gameEntity.setId(getIdAfterInsert(
-                sqlForGameEntity,
-                Integer.toString(gameEntity.getCount()),
-                gameEntity.getWinners(),
-                gameEntity.getCreatedAt().toString())
-        );
-        gameEntity.getRacingCars()
-                .forEach(carEntity -> saveCar(gameEntity.getId(), carEntity));
-        return gameEntity;
+    public List<CarEntity> findCarsByGameId(int id) {
+        String sqlForCarsByGameId = "SELECT * FROM RACING_CAR WHERE racing_game_id = ?";
+        return jdbcTemplate.query(sqlForCarsByGameId, ObjectMapper.getCarEntityMapper(), id);
     }
 
-    private void saveCar(int gameId, CarEntity carEntity) {
-        String sqlForCarEntity = "INSERT INTO RACING_CAR(position, name, racing_game_id) VALUES(?, ?, ?)";
-        carEntity.setId(getIdAfterInsert(
-                sqlForCarEntity,
-                Integer.toString(carEntity.getPosition()),
-                carEntity.getName(),
-                Integer.toString(gameId))
-        );
+    public void saveCar(int gameId, Car car) {
+        String sqlForSaveCars = "INSERT INTO RACING_CAR(name, position, racing_game_id) VALUES(?, ?, ?)";
+        jdbcTemplate.update(sqlForSaveCars, car.getName(), Integer.toString(car.getPosition()), Integer.toString(gameId));
     }
 
-    private int getIdAfterInsert(String sqlForRacingGameEntity, String... sqlParameters) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlForRacingGameEntity, Statement.RETURN_GENERATED_KEYS);
-            setSqlParameter(preparedStatement, sqlParameters);
-            return preparedStatement;
-        }, keyHolder);
-        return (int) keyHolder.getKey();
-    }
-
-    private static void setSqlParameter(PreparedStatement preparedStatement, String... sqlParameters) throws SQLException {
-        for (int parameterIndex = 1; parameterIndex <= sqlParameters.length; parameterIndex++) {
-            preparedStatement.setString(parameterIndex, sqlParameters[parameterIndex - 1]);
-        }
-    }
-
-    public List<GameEntity> findAll() {
-        String sqlForGameEntities = "SELECT * FROM RACING_GAME ORDER BY created_at";
-        return jdbcTemplate.query(sqlForGameEntities, ObjectMapper.getGameEntityMapper(jdbcTemplate));
+    public int findIdByName(String name) {
+        String sqlForFindId = "SELECT id FROM RACING_CAR WHERE name LIKE ?";
+        return jdbcTemplate.query(sqlForFindId, ObjectMapper.getCarIdMapper(), name).get(FIRST_CAR);
     }
 
 }

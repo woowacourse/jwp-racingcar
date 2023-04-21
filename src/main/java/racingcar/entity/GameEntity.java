@@ -9,14 +9,14 @@ public class GameEntity {
     private final int count;
     private final String winners;
     private final LocalDateTime createdAt;
-    private final List<CarEntity> racingCars;
+//    private final List<CarEntity> racingCars;
 
-    public GameEntity(int id, int count, String winners, LocalDateTime createdAt, List<CarEntity> racingCars) {
+    public GameEntity(int id, int count, String winners, LocalDateTime createdAt) {
         this.id = id;
         this.count = count;
         this.winners = winners;
         this.createdAt = createdAt;
-        this.racingCars = racingCars;
+//        this.racingCars = racingCars;
     }
 
     public int getId() {
@@ -35,9 +35,9 @@ public class GameEntity {
         return createdAt;
     }
 
-    public List<CarEntity> getRacingCars() {
-        return racingCars;
-    }
+//    public List<CarEntity> getRacingCars() {
+//        return racingCars;
+//    }
 
     public void setId(int id) {
         this.id = id;
@@ -65,13 +65,13 @@ public class GameEntity {
             return this;
         }
 
-        public Builder racingCars(List<CarEntity> racingCars) {
-            this.racingCars = racingCars;
-            return this;
-        }
+//        public Builder racingCars(List<CarEntity> racingCars) {
+//            this.racingCars = racingCars;
+//            return this;
+//        }
 
         public GameEntity build() {
-            return new GameEntity(id, count, winners, LocalDateTime.now(), racingCars);
+            return new GameEntity(id, count, winners, LocalDateTime.now());
         }
 
     }
