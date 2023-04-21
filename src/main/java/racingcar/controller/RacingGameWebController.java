@@ -17,12 +17,12 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class ApiController {
+public class RacingGameWebController {
 
     private final GameFindService gameFindService;
     private final GamePlayService gamePlayService;
 
-    public ApiController(final GameFindService gameService, GamePlayService gamePlayService) {
+    public RacingGameWebController(final GameFindService gameService, GamePlayService gamePlayService) {
         this.gameFindService = gameService;
         this.gamePlayService = gamePlayService;
     }
@@ -35,7 +35,6 @@ public class ApiController {
 
     @GetMapping("/plays")
     public List<GameResultDto> retrieveGameResults() {
-        List<GameResultDto> gameResultDtos = gameFindService.findAllGames();
-        return gameResultDtos;
+        return gameFindService.findAllGames();
     }
 }
