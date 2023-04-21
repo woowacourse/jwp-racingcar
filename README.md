@@ -70,6 +70,11 @@ erDiagram
 
 ### 1. 게임 플레이 이력 조회 API 구현
 - [ ] `/plays`로 GET 요청을 받는 API 구현
+  - [x] `getPlays` Controller 구현
+  - [ ] 이력 조회하는 Service 구현
+  - [ ] GameDao : `findId` 메서드 구현
+  - [ ] ParticipatesDao : `findByGameId` 메서드 구현
+  - [ ] PlayerDao : `findNameById` 메서드 구현
 
 ### 2. 기존 기능 수정 - 출력 방식 수정
 - [x] console application에 해당하는 코드 다시 가져오기

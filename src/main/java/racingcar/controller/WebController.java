@@ -1,9 +1,12 @@
 package racingcar.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import racingcar.dto.NamesAndCountRequest;
@@ -20,11 +23,19 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResultResponse> play(@RequestBody final NamesAndCountRequest namesAndCount) {
+    public ResponseEntity<ResultResponse> postPlays(@RequestBody final NamesAndCountRequest namesAndCount) {
         ResultResponse resultResponse = racingCarService.playGame(namesAndCount);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(resultResponse);
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<ResultResponse>> getPlays() {
+        List<ResultResponse> resultResponses = new ArrayList<>();
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(resultResponses);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

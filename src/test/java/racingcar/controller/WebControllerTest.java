@@ -1,5 +1,7 @@
 package racingcar.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import racingcar.dto.NamesAndCountRequest;
 import racingcar.dto.ResultResponse;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class WebControllerTest {
@@ -27,7 +27,7 @@ class WebControllerTest {
         //given
         NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest("망고,루카,소니,현구막", 10);
         //when
-        ResponseEntity<ResultResponse> responseEntity = webController.play(namesAndCountRequest);
+        ResponseEntity<ResultResponse> responseEntity = webController.postPlays(namesAndCountRequest);
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
