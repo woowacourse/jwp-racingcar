@@ -55,9 +55,9 @@ class ParticipantsTest {
         Participants participants = new Participants(List.of(car1, car2, car3));
 
         // when
-        car1.drive(numberGenerator);
-        car1.drive(numberGenerator);
-        car2.drive(numberGenerator);
+        car1.drive(4);
+        car1.drive(4);
+        car2.drive(4);
         List<Car> winners = participants.findWinners();
 
         // then
@@ -74,11 +74,11 @@ class ParticipantsTest {
         Participants participants = new Participants(List.of(car1, car2, car3));
 
         // when
-        car1.drive(numberGenerator);
-        car1.drive(numberGenerator);
-        car2.drive(numberGenerator);
-        car2.drive(numberGenerator);
-        car3.drive(numberGenerator);
+        car1.drive(4);
+        car1.drive(4);
+        car2.drive(4);
+        car2.drive(4);
+        car3.drive(4);
         List<Car> winners = participants.findWinners();
 
         // then

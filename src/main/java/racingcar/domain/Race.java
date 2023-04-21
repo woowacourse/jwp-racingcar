@@ -37,12 +37,7 @@ public class Race {
             addCount();
         }
     }
-
-    private void playRound() {
-        participants.drive(numberGenerator);
-        addCount();
-    }
-
+    
     public List<Car> getParticipants() {
         return participants.getCars();
     }

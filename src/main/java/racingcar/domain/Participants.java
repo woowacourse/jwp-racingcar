@@ -43,7 +43,7 @@ public class Participants {
     }
 
     public void drive(NumberGenerator numberGenerator) {
-        cars.forEach(car -> car.drive(numberGenerator));
+        cars.forEach(car -> car.drive(numberGenerator.generate()));
     }
 
     public List<Car> findWinners() {

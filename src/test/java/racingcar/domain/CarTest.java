@@ -12,7 +12,7 @@ class CarTest {
         final int DRIVING_DISTANCE = 1;
         Car car = new Car("test");
         //when
-        car.drive(new DrivableNumberGenerator());
+        car.drive(4);
         //then
         assertThat(car.getDrivenDistance()).isEqualTo(DRIVING_DISTANCE);
     }
@@ -22,7 +22,7 @@ class CarTest {
         //given
         Car car = new Car("test");
         //when
-        car.drive(new NonDrivableNumberGenerator());
+        car.drive(3);
         //then
         assertThat(car.getDrivenDistance()).isEqualTo(0);
     }
