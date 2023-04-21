@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -8,17 +8,17 @@ import java.util.stream.Collectors;
 import racingcar.service.CarEntity;
 
 public class InMemoryCarDao implements CarDao {
-    private static final Map<Integer, CarEntity> store = new HashMap<>();
+    private static final Map<Integer, CarEntity> store = new LinkedHashMap<>();
     private static int pointer = 0;
 
     @Override
-    public void insertPlayer(CarEntity carEntity) {
+    public void insertCar(CarEntity carEntity) {
         carEntity.setId(++pointer);
         store.put(carEntity.getId(), carEntity);
     }
 
     @Override
-    public List<CarEntity> selectPlayerResultByRacingResultId(int ragingResultId) {
+    public List<CarEntity> selectCarsByGameId(int ragingResultId) {
         return store.values()
             .stream()
             .filter(carEntity ->
@@ -28,5 +28,6 @@ public class InMemoryCarDao implements CarDao {
 
     public void clearStore() {
         store.clear();
+        pointer = 0;
     }
 }

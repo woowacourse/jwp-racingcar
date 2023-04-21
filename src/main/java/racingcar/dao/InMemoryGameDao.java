@@ -1,29 +1,30 @@
 package racingcar.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import racingcar.service.RacingResult;
+import racingcar.service.GameEntity;
 
 public class InMemoryGameDao implements GameDao {
-    private static final Map<Integer, RacingResult> store = new HashMap<>();
+    private static final Map<Integer, GameEntity> store = new LinkedHashMap<>();
     private static int pointer = 0;
 
     @Override
-    public RacingResult insertRacingResult(RacingResult racingResult) {
-        racingResult.setId(++pointer);
-        store.put(racingResult.getId(), racingResult);
-        return racingResult;
+    public GameEntity insertRacingResult(GameEntity gameEntity) {
+        gameEntity.setId(++pointer);
+        store.put(gameEntity.getId(), gameEntity);
+        return gameEntity;
     }
 
     @Override
-    public List<RacingResult> selectAllResults() {
+    public List<GameEntity> selectAllResults() {
         return new ArrayList<>(store.values());
     }
 
     public void clearStore() {
         store.clear();
+        pointer = 0;
     }
 }

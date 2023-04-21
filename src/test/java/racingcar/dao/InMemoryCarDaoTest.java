@@ -9,29 +9,29 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import racingcar.service.CarEntity;
-import racingcar.service.RacingResult;
+import racingcar.service.GameEntity;
 
 class InMemoryCarDaoTest {
     private final InMemoryGameDao inMemoryGameDao = new InMemoryGameDao();
 
     private final InMemoryCarDao inMemoryCarDao = new InMemoryCarDao();
 
-    private RacingResult racingResult;
+    private GameEntity gameEntity;
 
     @BeforeEach
     void initialize() {
         inMemoryCarDao.clearStore();
         inMemoryGameDao.clearStore();
-        racingResult = inMemoryGameDao.insertRacingResult(new RacingResult("name1,name2", 3));
+        gameEntity = inMemoryGameDao.insertRacingResult(new GameEntity("name1,name2", 3));
     }
 
     @Test
     @DisplayName("playerResult 1건이 제대로 db에 insert되는지 확인")
     void insertPlayer() {
         // given
-        CarEntity carEntity = new CarEntity(racingResult.getId(), "name", 10);
-        inMemoryCarDao.insertPlayer(carEntity);
-        List<CarEntity> carEntities = inMemoryCarDao.selectPlayerResultByRacingResultId(2);
+        CarEntity carEntity = new CarEntity(gameEntity.getId(), "name", 10);
+        inMemoryCarDao.insertCar(carEntity);
+        List<CarEntity> carEntities = inMemoryCarDao.selectCarsByGameId(carEntity.getId());
 
         // when
         CarEntity findedCarEntity = carEntities.get(0);
@@ -44,16 +44,21 @@ class InMemoryCarDaoTest {
     @DisplayName("playerResult를 두 번 insert했을 때 모든 playerResult를 제대로 select하는 확인")
     void selectPlayerResultByPlayResultIdTest() {
         // given
-        CarEntity carEntity1 = new CarEntity(racingResult.getId(), "name1", 10);
-        CarEntity carEntity2 = new CarEntity(racingResult.getId(), "name2", 10);
-        inMemoryCarDao.insertPlayer(carEntity1);
-        inMemoryCarDao.insertPlayer(carEntity2);
+        CarEntity carEntity1 = new CarEntity(gameEntity.getId(), "name1", 10);
+        CarEntity carEntity2 = new CarEntity(gameEntity.getId(), "name2", 10);
+        inMemoryCarDao.insertCar(carEntity1);
+        inMemoryCarDao.insertCar(carEntity2);
 
         // when
-        List<CarEntity> carEntities = inMemoryCarDao.selectPlayerResultByRacingResultId(racingResult.getId());
+        List<CarEntity> carEntities = inMemoryCarDao.selectCarsByGameId(gameEntity.getId());
 
         // then
         assertThat(carEntities.size()).isEqualTo(2);
-        assertThat(carEntities.containsAll(List.of(carEntity1, carEntity2))).isTrue();
+
+        assertThat(carEntities.get(0).getName()).isEqualTo(carEntity1.getName());
+        assertThat(carEntities.get(1).getName()).isEqualTo(carEntity2.getName());
+
+        assertThat(carEntities.get(0).getId()).isEqualTo(carEntity1.getId());
+        assertThat(carEntities.get(1).getId()).isEqualTo(carEntity2.getId());
     }
 }
