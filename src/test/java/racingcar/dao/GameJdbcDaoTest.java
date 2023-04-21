@@ -34,7 +34,7 @@ public class GameJdbcDaoTest {
 
         Game game = new Game(trialCount);
         // when
-        GameId saveGameId = gameDao.saveAndGetGame(game);
+        GameId saveGameId = gameDao.saveAndGetGameId(game);
 
         // then
         assertThat(saveGameId.getId()).isPositive();

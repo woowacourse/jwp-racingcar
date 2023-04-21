@@ -34,7 +34,7 @@ public class RacingGameService {
     public GameResponseDto play(final GameRequestDto gameRequest) {
         final RacingGame racingGame = playRacingGame(gameRequest);
 
-        final GameId saveGameId = gameDao.saveAndGetGame(new Game(racingGame.getCount()));
+        final GameId saveGameId = gameDao.saveAndGetGameId(new Game(racingGame.getCount()));
 
         final Set<String> winners = new HashSet<>(racingGame.findWinners());
         final List<Player> players = fromPlayers(racingGame, saveGameId.getId(), winners);

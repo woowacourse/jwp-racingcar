@@ -12,17 +12,15 @@ import java.util.Map;
 @Repository
 public class GameJdbcDao implements GameDao {
     private final SimpleJdbcInsert insertActor;
-    private final JdbcTemplate jdbcTemplate;
 
     public GameJdbcDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("game")
                 .usingGeneratedKeyColumns("id");
     }
 
     @Override
-    public GameId saveAndGetGame(final Game game) {
+    public GameId saveAndGetGameId(final Game game) {
         final Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("trial", game.getTrial());

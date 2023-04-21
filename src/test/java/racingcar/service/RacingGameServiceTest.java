@@ -48,7 +48,7 @@ class RacingGameServiceTest {
     void 자동차_경주를_진행한다() {
         // given
         final GameRequestDto request = new GameRequestDto(List.of("브리", "비버", "허브"), 1);
-        given(gameDao.saveAndGetGame(any())).willReturn(new GameId(1));
+        given(gameDao.saveAndGetGameId(any())).willReturn(new GameId(1));
 
         // when
         final GameResponseDto result = racingGameService.play(request);

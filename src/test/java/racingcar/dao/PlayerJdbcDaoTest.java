@@ -45,7 +45,7 @@ public class PlayerJdbcDaoTest {
         cars.race(numberGenerator);
 
         Game game = new Game(1);
-        GameId saveGameId = gameDao.saveAndGetGame(game);
+        GameId saveGameId = gameDao.saveAndGetGameId(game);
 
         List<Player> players = cars.getCars().stream()
                 .map(car -> new Player(car, true, saveGameId.getId()))
