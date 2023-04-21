@@ -22,21 +22,21 @@ public class JdbcCarDao implements CarDao {
 
     private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> new CarEntity(
         resultSet.getInt("id"),
-        resultSet.getInt("play_result_id"),
+        resultSet.getInt("game_id"),
         resultSet.getString("name"),
         resultSet.getInt("position")
     );
 
     public JdbcCarDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertActor = new SimpleJdbcInsert(dataSource)
-            .withTableName("PLAYER_RESULT")
+            .withTableName("CAR")
             .usingGeneratedKeyColumns("id");
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public List<CarEntity> selectCarsByGameId(final int ragingResultId) {
-        String sql = "select id, play_result_id, name, position from player_result where PLAY_RESULT_ID = :play_result_id";
-        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("play_result_id", ragingResultId);
+    public List<CarEntity> selectCarsByGameId(final int gameId) {
+        String sql = "select id, game_id, name, position from CAR where game_id = :game_id";
+        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("game_id", gameId);
         return namedParameterJdbcTemplate.query(sql, sqlParameterSource, actorRowMapper);
     }
 

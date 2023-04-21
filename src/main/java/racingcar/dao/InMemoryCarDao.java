@@ -22,7 +22,7 @@ public class InMemoryCarDao implements CarDao {
         return store.values()
             .stream()
             .filter(carEntity ->
-                carEntity.getPlayResultId() == ragingResultId)
+                carEntity.getGameId() == ragingResultId)
             .collect(Collectors.toList());
     }
 

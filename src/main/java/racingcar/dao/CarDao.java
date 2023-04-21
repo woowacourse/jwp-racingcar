@@ -5,7 +5,7 @@ import java.util.List;
 import racingcar.service.CarEntity;
 
 public interface CarDao {
-    List<CarEntity> selectPlayerResultByRacingResultId(int ragingResultId);
+    List<CarEntity> selectCarsByGameId(int ragingResultId);
 
-    void insertPlayer(final CarEntity carEntity);
+    void insertCar(final CarEntity carEntity);
 }
