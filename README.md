@@ -73,7 +73,7 @@ erDiagram
   - [x] `getPlays` Controller 구현
   - [ ] 이력 조회하는 Service 구현
   - [x] GameDao : `findId` 메서드 구현
-  - [ ] ParticipatesDao : `findByGameId` 메서드 구현
+  - [x] ParticipatesDao : `findByGameId` 메서드 구현
   - [ ] PlayerDao : `findNameById` 메서드 구현
 
 ### 2. 기존 기능 수정 - 출력 방식 수정

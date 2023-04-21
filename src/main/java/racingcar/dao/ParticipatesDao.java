@@ -1,14 +1,23 @@
 package racingcar.dao;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import racingcar.dto.ParticipateDto;
+import racingcar.entity.ParticipatesEntity;
 
 @Repository
 public class ParticipatesDao {
 
     private final JdbcTemplate jdbcTemplate;
+
+    private final RowMapper<ParticipatesEntity> rowMapper = (resultSet, rowNum) -> new ParticipatesEntity(
+            resultSet.getLong("game_id"),
+            resultSet.getLong("player_id"),
+            resultSet.getInt("position"),
+            resultSet.getBoolean("is_winner"));
 
     @Autowired
     public ParticipatesDao(final JdbcTemplate jdbcTemplate) {
@@ -23,5 +32,10 @@ public class ParticipatesDao {
                 participateDto.getPosition(),
                 participateDto.getIsWinner()
         );
+    }
+
+    public List<ParticipatesEntity> findByGameId(final Long gameId) {
+        final String sql = "SELECT * FROM PARTICIPATES WHERE game_id = ?";
+        return jdbcTemplate.query(sql, rowMapper, gameId);
     }
 }
