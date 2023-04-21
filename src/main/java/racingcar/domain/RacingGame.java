@@ -14,6 +14,12 @@ public class RacingGame {
         this.numberGenerator = numberGenerator;
     }
 
+    public void runRound(int count) {
+        for (int i = 0; i < count; i++) {
+            runRound();
+        }
+    }
+
     public void runRound() {
         racingCars.forEach(racingCar -> racingCar.advance(numberGenerator.getNumber()));
     }
@@ -22,13 +28,16 @@ public class RacingGame {
         Map<RacingCar, GameResult> results = new LinkedHashMap<>();
         racingCars.forEach(racingCar -> results.put(racingCar, GameResult.LOSE));
         List<String> winningCarsName = findWinningCarsName();
-        racingCars.stream().filter(racingCar -> winningCarsName.contains(racingCar.getName()))
+        racingCars.stream()
+                .filter(racingCar -> winningCarsName.contains(racingCar.getName()))
                 .forEach(racingCar -> results.put(racingCar, GameResult.WIN));
         return results;
     }
 
     public List<String> findWinningCarsName() {
-        List<RacingCar> sortedCars = racingCars.stream().sorted().collect(Collectors.toUnmodifiableList());
+        List<RacingCar> sortedCars = racingCars.stream()
+                .sorted()
+                .collect(Collectors.toUnmodifiableList());
         RacingCar firstCar = sortedCars.get(0);
         return sortedCars.stream()
                 .filter(car -> car.getPosition() == firstCar.getPosition())

@@ -1,22 +1,16 @@
-package racingcar.dto;
+package racingcar.entity;
 
-import racingcar.domain.RacingCar;
-
-public class RacingCarResultDto {
+public class RacingCarEntity {
     private final String name;
     private final int position;
-    private final int isWin;
+    private final boolean isWin;
     private final long gameId;
 
-    private RacingCarResultDto(String name, int position, int isWin, long gameId) {
+    public RacingCarEntity(final String name, final int position, final boolean isWin, final long gameId) {
         this.name = name;
         this.position = position;
         this.isWin = isWin;
         this.gameId = gameId;
-    }
-
-    public static RacingCarResultDto of(RacingCar racingCar, int isWin, long gameId) {
-        return new RacingCarResultDto(racingCar.getName(), racingCar.getPosition(), isWin, gameId);
     }
 
     public String getName() {
@@ -27,7 +21,7 @@ public class RacingCarResultDto {
         return position;
     }
 
-    public int isWin() {
+    public boolean getIsWin() {
         return isWin;
     }
 
@@ -35,3 +29,4 @@ public class RacingCarResultDto {
         return gameId;
     }
 }
+

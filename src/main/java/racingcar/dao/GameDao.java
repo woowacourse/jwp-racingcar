@@ -3,7 +3,6 @@ package racingcar.dao;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Map;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -13,8 +12,8 @@ import org.springframework.stereotype.Repository;
 public class GameDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public GameDao(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public GameDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public long save(int count) {

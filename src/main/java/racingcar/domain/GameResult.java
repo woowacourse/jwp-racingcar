@@ -1,16 +1,16 @@
 package racingcar.domain;
 
 public enum GameResult {
-    WIN(1),
-    LOSE(0);
+    WIN(true),
+    LOSE(false);
 
-    private final int value;
+    private final boolean value;
 
-    GameResult(int value) {
+    GameResult(boolean value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public boolean getValue() {
         return value;
     }
 }

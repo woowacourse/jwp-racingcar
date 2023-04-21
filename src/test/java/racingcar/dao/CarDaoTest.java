@@ -11,17 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import racingcar.domain.GameResult;
-import racingcar.domain.RacingCar;
-import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingCarResultDto;
+import racingcar.entity.RacingCarEntity;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @JdbcTest
 class CarDaoTest {
     private CarDao carDao;
-    private GameDao gameDao;
 
-    private List<RacingCarResultDto> cars;
+    private List<RacingCarEntity> racingCarEntities;
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -29,36 +26,23 @@ class CarDaoTest {
     @BeforeEach
     void setUp() {
         carDao = new CarDao(jdbcTemplate);
-        gameDao = new GameDao(jdbcTemplate.getJdbcTemplate().getDataSource());
         jdbcTemplate.getJdbcTemplate().execute("ALTER TABLE game ALTER COLUMN id RESTART WITH 1");
-        long id1 = gameDao.save(1);
-        long id2 = gameDao.save(2);
-        cars = List.of(
-                RacingCarResultDto.of(new RacingCar("오잉"), GameResult.LOSE.getValue(), id1),
-                RacingCarResultDto.of(new RacingCar("포이"), GameResult.WIN.getValue(), id1),
-                RacingCarResultDto.of(new RacingCar("말랑"), GameResult.WIN.getValue(), id2));
+        racingCarEntities = List.of(
+                new RacingCarEntity("오잉", 1, GameResult.LOSE.getValue(), 1),
+                new RacingCarEntity("포이", 1, GameResult.WIN.getValue(), 1),
+                new RacingCarEntity("말랑", 1, GameResult.WIN.getValue(), 2));
     }
 
     @Test
-    void 자동차_저장_테스트() {
+    void 탐색_테스트() {
         //given
-        //when
-        carDao.saveAll(cars);
-        List<RacingCarDto> queriedCars = carDao.findCarsById(1);
-
-        //then
-        assertThat(queriedCars).hasSize(2);
-    }
-
-    @Test
-    void 우승자_탐색_테스트() {
-        //given
-        carDao.saveAll(cars);
+        carDao.saveAll(racingCarEntities);
 
         //when
-        List<String> winners = carDao.findWinnersById(1);
+        List<RacingCarEntity> racingCars = carDao.findAll();
 
         //then
-        assertThat(winners).containsExactly("포이");
+        assertThat(racingCars).hasSize(3);
     }
+
 }

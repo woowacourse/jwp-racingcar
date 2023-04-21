@@ -10,8 +10,15 @@ public class RacingCar implements Comparable<RacingCar> {
     private int position;
 
     public RacingCar(String name) {
+        validate(name);
         this.name = name;
         this.position = DEFAULT_POSITION;
+    }
+
+    private void validate(final String name) {
+        if (2 > name.length() || name.length() > 5) {
+            throw new IllegalArgumentException("이름의 길이는 2에서 5입니다.");
+        }
     }
 
     public void advance(int number) {
