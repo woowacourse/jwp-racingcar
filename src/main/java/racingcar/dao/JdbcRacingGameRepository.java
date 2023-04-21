@@ -4,11 +4,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.controller.ApplicationType;
-import racingcar.dto.GameFindDto;
+import racingcar.dto.RacingGameFindDto;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
-import racingcar.dto.RacingGameFindDto;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -48,9 +46,9 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
 
     @Override
     public List<RacingGameFindDto> findAll() {
-        final List<GameFindDto> gameFindDtos = gameDao.findAll();
-        return gameFindDtos.stream()
-                .map(gameFindDto -> new RacingGameFindDto(gameFindDto, playerDao.findById(gameFindDto.getId())))
+        final List<Game> games = gameDao.findAll();
+        return games.stream()
+                .map(game -> new RacingGameFindDto(game, playerDao.findById(game.getId())))
                 .collect(Collectors.toList());
     }
 }

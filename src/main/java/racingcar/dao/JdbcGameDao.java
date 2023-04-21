@@ -7,7 +7,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.controller.ApplicationType;
-import racingcar.dto.GameFindDto;
 import racingcar.entity.Game;
 
 import java.util.List;
@@ -26,18 +25,18 @@ class JdbcGameDao extends JdbcTemplateDao implements GameDao {
                 .addValue("trialCount", game.getTrialCount())
                 .addValue("application_id", game.getApplicationType().getApplicationId());
         // sql 추가
-        
+
         final KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, gameParameters, keyHolder);
         return (long) keyHolder.getKeys().get("id");
     }
 
     @Override
-    public List<GameFindDto> findAll() {
+    public List<Game> findAll() {
         final String sql = "select id, trial_count, created_at, application_id from Game";
 
         return jdbcTemplate.query(sql,
-                (resultSet, rowNum) -> new GameFindDto(
+                (resultSet, rowNum) -> new Game(
                         resultSet.getLong("id"),
                         resultSet.getInt("trial_count"),
                         resultSet.getDate("created_at"),

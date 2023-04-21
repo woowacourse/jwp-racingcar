@@ -10,7 +10,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.ApplicationType;
-import racingcar.dto.PlayerFindDto;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
 
@@ -72,17 +71,17 @@ class JdbcPlayerDaoTest {
         final Player ethan = new Player(ethanName, 5, false);
         playerDao.save(gameId, List.of(kongHana, ethan));
 
-        List<PlayerFindDto> playerFindDtos = playerDao.findById(gameId);
+        List<Player> player = playerDao.findById(gameId);
 
         // then
         Assertions.assertAll(
-                () -> assertThat(playerFindDtos.size()).isEqualTo(2),
-                () -> assertThat(playerFindDtos.get(0).getName()).isEqualTo(konghanaName),
-                () -> assertThat(playerFindDtos.get(0).getPosition()).isEqualTo(10),
-                () -> assertThat(playerFindDtos.get(0).getIsWinner()).isEqualTo(true),
-                () -> assertThat(playerFindDtos.get(1).getName()).isEqualTo(ethanName),
-                () -> assertThat(playerFindDtos.get(1).getPosition()).isEqualTo(5),
-                () -> assertThat(playerFindDtos.get(1).getIsWinner()).isEqualTo(false)
+                () -> assertThat(player.size()).isEqualTo(2),
+                () -> assertThat(player.get(0).getName()).isEqualTo(konghanaName),
+                () -> assertThat(player.get(0).getPosition()).isEqualTo(10),
+                () -> assertThat(player.get(0).getIsWinner()).isEqualTo(true),
+                () -> assertThat(player.get(1).getName()).isEqualTo(ethanName),
+                () -> assertThat(player.get(1).getPosition()).isEqualTo(5),
+                () -> assertThat(player.get(1).getIsWinner()).isEqualTo(false)
         );
     }
 

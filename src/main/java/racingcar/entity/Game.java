@@ -40,4 +40,14 @@ public class Game {
     public ApplicationType getApplicationType() {
         return applicationType;
     }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id=" + id +
+                ", trialCount=" + trialCount +
+                ", createdAt=" + createdAt +
+                ", applicationType=" + applicationType +
+                '}';
+    }
 }

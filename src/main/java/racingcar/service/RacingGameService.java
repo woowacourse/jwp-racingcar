@@ -2,9 +2,12 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import racingcar.controller.ApplicationType;
+import racingcar.dao.JdbcRacingGameRepository;
 import racingcar.dao.RacingGameRepository;
 import racingcar.domain.*;
-import racingcar.dto.*;
+import racingcar.dto.OneGameHistoryDto;
+import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingGameFindDto;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
 
@@ -20,6 +23,10 @@ public class RacingGameService {
 
     public RacingGameService(final RacingGameRepository racingGameRepository) {
         this.racingGameRepository = racingGameRepository;
+    }
+
+    public static RacingGameService generateDefaultRacingGameService() {
+        return new RacingGameService(JdbcRacingGameRepository.generateDefaultJdbcRacingGameRepository());
     }
 
     public OneGameHistoryDto playGame(final List<String> inputNames, final int inputCount, final ApplicationType applicationType) {
@@ -74,21 +81,21 @@ public class RacingGameService {
 
     private List<OneGameHistoryDto> generateOneGameHistoryDtos(List<RacingGameFindDto> racingGameFindDtos) {
         return racingGameFindDtos.stream()
-                .map(RacingGameFindDto::getPlayerFindDtos)
-                .map(playerFindDtos -> new OneGameHistoryDto(generateWinners(playerFindDtos), generateRacingCarDtos(playerFindDtos)))
+                .map(RacingGameFindDto::getPlayer)
+                .map(players -> new OneGameHistoryDto(generateWinners(players), generateRacingCarDtos(players)))
                 .collect(toList());
     }
 
-    private String generateWinners(List<PlayerFindDto> playerFindDtos) {
-        return playerFindDtos.stream()
-                .filter(PlayerFindDto::getIsWinner)
-                .map(PlayerFindDto::getName)
+    private String generateWinners(List<Player> players) {
+        return players.stream()
+                .filter(Player::getIsWinner)
+                .map(Player::getName)
                 .collect(Collectors.joining(","));
     }
 
-    private List<RacingCarDto> generateRacingCarDtos(List<PlayerFindDto> playerFindDtos) {
-        return playerFindDtos.stream()
-                .map(playerFindDto -> new RacingCarDto(playerFindDto.getName(), playerFindDto.getPosition()))
+    private List<RacingCarDto> generateRacingCarDtos(List<Player> players) {
+        return players.stream()
+                .map(player -> new RacingCarDto(player.getName(), player.getPosition()))
                 .collect(Collectors.toList());
     }
 }

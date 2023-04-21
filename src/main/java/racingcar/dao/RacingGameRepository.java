@@ -1,9 +1,8 @@
 package racingcar.dao;
 
-import racingcar.controller.ApplicationType;
+import racingcar.dto.RacingGameFindDto;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
-import racingcar.dto.RacingGameFindDto;
 
 import java.util.List;
 

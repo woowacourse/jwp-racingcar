@@ -1,22 +1,25 @@
 package racingcar.dto;
 
+import racingcar.entity.Game;
+import racingcar.entity.Player;
+
 import java.util.List;
 
 public class RacingGameFindDto {
 
-    private final GameFindDto gameFindDto;
-    private final List<PlayerFindDto> playerFindDto;
+    private final Game game;
+    private final List<Player> player;
 
-    public RacingGameFindDto(GameFindDto gameFindDto, List<PlayerFindDto> playerFindDto) {
-        this.gameFindDto = gameFindDto;
-        this.playerFindDto = playerFindDto;
+    public RacingGameFindDto(final Game game, final List<Player> player) {
+        this.game = game;
+        this.player = player;
     }
 
-    public GameFindDto getGameFindDto() {
-        return gameFindDto;
+    public Game getGame() {
+        return game;
     }
 
-    public List<PlayerFindDto> getPlayerFindDtos() {
-        return playerFindDto;
+    public List<Player> getPlayer() {
+        return player;
     }
 }
