@@ -1,15 +1,15 @@
 package racingcar.dto;
 
 
-public class RequestDto {
+public class PlayRequestDto {
 
     private String names;
     private int count;
 
-    public RequestDto() {
+    public PlayRequestDto() {
     }
 
-    public RequestDto(String names, int count) {
+    public PlayRequestDto(String names, int count) {
         this.names = names;
         this.count = count;
     }
@@ -24,7 +24,7 @@ public class RequestDto {
 
     @Override
     public String toString() {
-        return "RequestDto{" +
+        return "PlayRequestDto{" +
                 "names='" + names + '\'' +
                 ", count=" + count +
                 '}';

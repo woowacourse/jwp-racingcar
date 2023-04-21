@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.RequestDto;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.PlayRequestDto;
+import racingcar.dto.PlayResponseDto;
 import racingcar.service.GameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -23,23 +23,21 @@ public class GameController {
     }
 
     @PostMapping("/plays")
-    public ResponseDto postInput(@RequestBody RequestDto requestDto) {
-        gameService.setUpGame(requestDto.getNames());
-        gameService.play(requestDto.getCount());
-        return new ResponseDto(gameService.findWinners(), gameService.getCars());
+    public PlayResponseDto postInput(@RequestBody PlayRequestDto playRequestDto) {
+        gameService.setUpGame(playRequestDto.getNames());
+        gameService.play(playRequestDto.getCount());
+        return new PlayResponseDto(gameService.findWinners(), gameService.getCars());
     }
 
     @GetMapping("/plays")
-    public ResponseEntity getWinners() {
-
-        return ResponseEntity.ok()
-                .body(getGameLogResponseDtos());
+    public List<PlayResponseDto> getWinners() {
+        return getGameLogResponseDtos();
     }
 
-    private List<ResponseDto> getGameLogResponseDtos() {
+    private List<PlayResponseDto> getGameLogResponseDtos() {
         return gameService.mappingEachGame()
                 .stream()
-                .map(dto -> new ResponseDto(dto.getWinners(), dto.getGameLog()))
+                .map(dto -> new PlayResponseDto(dto.getWinners(), dto.getGameLog()))
                 .collect(Collectors.toList());
     }
 

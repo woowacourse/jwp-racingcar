@@ -5,11 +5,11 @@ import racingcar.domain.Car;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ResponseDto {
+public class PlayResponseDto {
     private final List<Car> winners;
     private final List<Car> racingCars;
 
-    public ResponseDto(List<Car> winners, List<Car> racingCars) {
+    public PlayResponseDto(List<Car> winners, List<Car> racingCars) {
         this.racingCars = racingCars;
         this.winners = winners;
     }
