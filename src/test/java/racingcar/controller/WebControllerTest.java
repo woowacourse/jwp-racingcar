@@ -21,7 +21,7 @@ class WebControllerTest {
         this.webController = webController;
     }
 
-    @DisplayName("정상 작동 후 200 상태 코드 반환한다.")
+    @DisplayName("정상 작동 후 201 상태 코드 반환한다.")
     @Test
     void play() {
         //given
@@ -29,6 +29,6 @@ class WebControllerTest {
         //when
         ResponseEntity<ResultResponse> responseEntity = webController.postPlays(namesAndCountRequest);
         //then
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 }

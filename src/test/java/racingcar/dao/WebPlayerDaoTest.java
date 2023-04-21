@@ -52,8 +52,7 @@ class WebPlayerDaoTest {
                 "FOREIGN KEY (player_id) references PLAYER (id)) ");
     }
 
-    @DisplayName("이름을 입력받아 저장한다.")
-    @ParameterizedTest(name = "name: {0}")
+    @ParameterizedTest(name = "이름을 입력받아 저장한다 - name: {0}")
     @ValueSource(strings = {"루카", "망고", "소니", "현구막"})
     void save(final String name) {
         //when

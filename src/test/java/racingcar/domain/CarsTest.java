@@ -12,8 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class CarsTest {
 
-    @DisplayName("Car 등록 테스트")
-    @ParameterizedTest(name = "carNames = {0}, expectedSize = {1}")
+    @ParameterizedTest(name = " Car 등록 테스트 : carNames = {0}, expectedSize = {1}")
     @MethodSource("carNamesDummy")
     void addCarTest(List<String> carNames, int expectedSize) {
         final Cars cars = Cars.from(carNames);
@@ -33,7 +32,7 @@ class CarsTest {
         return Stream.of(
                 Arguments.arguments(List.of("aaaa", "bbbb"), 2),
                 Arguments.arguments(List.of("가나다라", "가나다라마", "가나다"), 3),
-                Arguments.arguments(List.of("1234", "123", "12", "1234"), 4)
+                Arguments.arguments(List.of("1234", "123", "12", "12345"), 4)
         );
     }
 }

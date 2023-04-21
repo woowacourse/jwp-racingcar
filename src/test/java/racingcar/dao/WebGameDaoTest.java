@@ -3,7 +3,6 @@ package racingcar.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +48,7 @@ class WebGameDaoTest {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @DisplayName("시도 횟수를 입력받아 저장한다.")
-    @ParameterizedTest(name = "trialCount: {0}")
+    @ParameterizedTest(name = "시도 횟수를 입력받아 저장한다 - trialCount: {0}")
     @ValueSource(ints = {10, 15, 5, 30})
     void save(final int trialCount) {
         //when
