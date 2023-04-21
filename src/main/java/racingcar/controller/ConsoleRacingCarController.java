@@ -2,8 +2,8 @@ package racingcar.controller;
 
 import static racingcar.controller.WebRacingCarController.splitNames;
 
-import racingcar.domain.Cars;
-import racingcar.domain.TryCount;
+import java.util.List;
+import racingcar.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
 import racingcar.view.ConsoleInputView;
 import racingcar.view.ConsoleOutputView;
@@ -19,32 +19,32 @@ public class ConsoleRacingCarController {
     }
 
     public void run() {
-        final Cars cars = makeCars();
-        final TryCount tryCount = makeTryCount();
+        final List<String> playerNames = readPlayerNames();
+        final int tryCount = readTryCount();
         outputView.printResultMessage();
-        racingCarService.playRound(cars, tryCount);
-        outputView.printWinners(cars.getWinner());
-        outputView.printRoundResult(cars.getCars());
+        final RacingCarGameResultDto racingCarGameResultDto = racingCarService.playRound(playerNames, tryCount);
+        outputView.printWinners(racingCarGameResultDto.getWinners());
+        outputView.printRoundResult(racingCarGameResultDto.getRacingCars());
     }
 
-    private Cars makeCars() {
+    private List<String> readPlayerNames() {
         try {
             outputView.printNameInput();
             final String names = inputView.readCarNames();
-            return Cars.from(splitNames(names));
+            return splitNames(names);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return makeCars();
+            return readPlayerNames();
         }
     }
 
-    private TryCount makeTryCount() {
+    private int readTryCount() {
         try {
             outputView.printCountInput();
-            return new TryCount(inputView.readTryCount());
+            return inputView.readTryCount();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return makeTryCount();
+            return readTryCount();
         }
     }
 }

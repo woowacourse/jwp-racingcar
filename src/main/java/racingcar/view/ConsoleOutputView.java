@@ -2,7 +2,7 @@ package racingcar.view;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.domain.Car;
+import racingcar.dto.RacingCarDto;
 
 public class ConsoleOutputView {
 
@@ -26,10 +26,10 @@ public class ConsoleOutputView {
         System.out.println(RESULT_MESSAGE);
     }
 
-    public void printRoundResult(final List<Car> roundResult) {
-        for (final Car car : roundResult) {
-            System.out.printf(CAR_GAME_RESULT_FORMAT, car.getName().getValue()
-                    , DISTANCE_COMMAND.repeat(car.getDistance().getValue()));
+    public void printRoundResult(final List<RacingCarDto> roundResult) {
+        for (final RacingCarDto carDto : roundResult) {
+            System.out.printf(CAR_GAME_RESULT_FORMAT, carDto.getName()
+                    , DISTANCE_COMMAND.repeat(carDto.getPosition()));
         }
         System.out.println();
     }
