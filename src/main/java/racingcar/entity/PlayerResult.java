@@ -7,17 +7,17 @@ public class PlayerResult {
     private final int finalPosition;
     private final long gameId;
 
-    public PlayerResult(final String name, final int finalPosition, final long gameId) {
+    public PlayerResult(final long id, final String name, final int finalPosition, final long gameId) {
+        this.id = id;
         this.name = name;
         this.finalPosition = finalPosition;
         this.gameId = gameId;
     }
 
-    public PlayerResult(final long id, final PlayerResult playerResult) {
-        this.id = id;
-        this.name = playerResult.name;
-        this.finalPosition = playerResult.finalPosition;
-        this.gameId = playerResult.gameId;
+    public PlayerResult(final String name, final int finalPosition, final long gameId) {
+        this.name = name;
+        this.finalPosition = finalPosition;
+        this.gameId = gameId;
     }
 
     public long getId() {

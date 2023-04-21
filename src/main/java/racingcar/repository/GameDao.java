@@ -22,6 +22,6 @@ public class GameDao {
     public Game save(final Game game) {
         final SqlParameterSource params = new BeanPropertySqlParameterSource(game);
         final long id = insertGame.executeAndReturnKey(params).longValue();
-        return new Game(id, game);
+        return new Game(id, game.getTrialCount(), game.getWinners(), game.getCreatedAt());
     }
 }

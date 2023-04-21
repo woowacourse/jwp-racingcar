@@ -48,10 +48,12 @@
       },
       body: JSON.stringify(data)
     })
-        .then(response => {
+        .then(async response => {
           if (response.ok) {
             return response.json();
           } else {
+            const text = await response.text();
+            alert(text);
             throw new Error("Network response was not ok.");
           }
         })

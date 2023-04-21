@@ -29,7 +29,7 @@ public class PlayerResultDao {
     public PlayerResult save(final PlayerResult playerResult) {
         final SqlParameterSource params = new MapSqlParameterSource(makeParams(playerResult));
         final long id = insertPlayerResult.executeAndReturnKey(params).longValue();
-        return new PlayerResult(id, playerResult);
+        return new PlayerResult(id, playerResult.getName(), playerResult.getFinalPosition(), playerResult.getGameId());
     }
 
     private Map<String, Object> makeParams(final PlayerResult playerResult) {

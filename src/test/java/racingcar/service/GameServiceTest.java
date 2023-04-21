@@ -45,9 +45,9 @@ public class GameServiceTest {
         given(gameDao.save(any()))
                 .willReturn(game);
         given(playerResultDao.save(any()))
-                .willReturn(new PlayerResult(1, new PlayerResult("ditoo", 5, game.getId())));
+                .willReturn(new PlayerResult(1, "ditoo", 8, game.getId()));
         given(playerResultDao.save(any()))
-                .willReturn(new PlayerResult(2, new PlayerResult("leo", 3, game.getId())));
+                .willReturn(new PlayerResult(2,"leo", 6, game.getId()));
 
         Cars cars = new Cars(requestDto.getNames());
         GameResponseDto responseExpected = GameResponseDto.createByDomain(game.getWinners(), cars);
