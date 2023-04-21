@@ -13,9 +13,7 @@ import racingcar.repository.PlayerResultDao;
 import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
-import racingcar.service.dto.PlayerResultResponseDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,7 +48,7 @@ public class GameService {
 
     private void saveGameResult(final int tryCount, final GameResponseDto response) {
         final Game game = saveGame(response.getWinners(), tryCount);
-        final List<PlayerResult> playerResults = savePlayerResults(response, game.getId());
+        savePlayerResults(response, game.getId());
     }
 
     private Game saveGame(final String winners, final int trialCount) {
@@ -58,14 +56,13 @@ public class GameService {
         return gameDao.save(game);
     }
 
-    private List<PlayerResult> savePlayerResults(final GameResponseDto gameResponse, final long gameId) {
-        final List<PlayerResult> playerResults = new ArrayList<>();
-        for (PlayerResultResponseDto playerResultResponse : gameResponse.getRacingCars()) {
-            final PlayerResult playerResult = new PlayerResult(
-                    playerResultResponse.getName(), playerResultResponse.getPosition(), gameId);
-            playerResults.add(playerResultDao.save(playerResult));
-        }
-        return playerResults;
+    private void savePlayerResults(final GameResponseDto gameResponse, final long gameId) {
+        gameResponse.getRacingCars()
+                .forEach(racingCar -> {
+                    final PlayerResult playerResult =
+                            new PlayerResult(racingCar.getName(), racingCar.getPosition(), gameId);
+                    playerResultDao.save(playerResult);
+                });
     }
 
     public List<GameResponseDto> getAll() {
