@@ -1,5 +1,6 @@
 package racingcar.model.car;
 
+import org.springframework.util.StringUtils;
 import racingcar.exception.CustomException;
 import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.strategy.MovingStrategy;
@@ -37,7 +38,7 @@ public class Cars {
     }
 
     private static void validateEmptyInput(final String carNames) {
-        if (carNames == null || carNames.isBlank()) {
+        if (StringUtils.hasText(carNames)) {
             throw new CustomException(ExceptionStatus.EMPTY_INPUT_FORMAT);
         }
     }
