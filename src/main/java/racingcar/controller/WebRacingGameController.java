@@ -28,7 +28,7 @@ public class WebRacingGameController {
 
     @GetMapping("/plays")
     public ResponseEntity<List<GameResponseDto>> findAll() {
-        List<GameResponseDto> gameResponseDtos = racingGameService.findAll();
+        final List<GameResponseDto> gameResponseDtos = racingGameService.findAll();
         return ResponseEntity.ok(gameResponseDtos);
     }
 }

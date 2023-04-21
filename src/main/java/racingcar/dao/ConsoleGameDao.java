@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ConsoleGameDao implements GameDao {
 
     private final List<GameEntity> games = new ArrayList<>();
-    private AtomicInteger id = new AtomicInteger(0);
+    private final AtomicInteger id = new AtomicInteger(0);
 
     @Override
     public GameId saveAndGetGameId(final GameEntity game) {
