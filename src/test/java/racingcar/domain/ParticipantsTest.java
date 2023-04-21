@@ -42,8 +42,7 @@ class ParticipantsTest {
         assertThatThrownBy(() -> {
             new Participants(List.of(car1, car2));
         }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] ")
-                .hasMessageContaining("자동차 이름은 중복될 수 없습니다.");
+                .hasMessage("자동차 이름은 중복될 수 없습니다.");
     }
 
     @Test

@@ -22,8 +22,7 @@ class RaceTest {
         assertThatThrownBy(() -> {
             new Race(count, correctCarNames, numberGenerator);
         }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] ")
-                .hasMessageContaining("올바르지 않은 시도횟수입니다.(1 ~ 10)");
+                .hasMessage("올바르지 않은 시도횟수입니다.(1 ~ 10)");
     }
 
     @Test
@@ -34,8 +33,7 @@ class RaceTest {
         assertThatThrownBy(() -> {
             new Race(count, correctCarNames, numberGenerator);
         }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] ")
-                .hasMessageContaining("올바르지 않은 시도횟수입니다.(1 ~ 10)");
+                .hasMessage("올바르지 않은 시도횟수입니다.(1 ~ 10)");
     }
 
     @ValueSource(ints = {1, 10})
