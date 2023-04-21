@@ -5,6 +5,7 @@ import racingcar.exception.CustomException;
 import racingcar.exception.ExceptionStatus;
 import racingcar.model.car.strategy.MovingStrategy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -24,13 +25,15 @@ public class Cars {
     }
 
     public static Cars from(final List<Car> cars) {
-        return new Cars(cars);
+        final List<Car> newCars = new ArrayList<>(cars);
+
+        return new Cars(newCars);
     }
 
     public static Cars of(final String carNames, final MovingStrategy movingStrategy) {
         validateEmptyInput(carNames);
 
-        List<Car> cars = Arrays.stream(carNames.split(SEPARATOR, -1))
+        final List<Car> cars = Arrays.stream(carNames.split(SEPARATOR, -1))
                 .map(carName -> Car.of(carName, movingStrategy))
                 .collect(Collectors.toList());
 
@@ -48,8 +51,8 @@ public class Cars {
                 .map(Car::getCarName)
                 .collect(Collectors.toList());
 
-        int carNamesCount = carNames.size();
-        int distinctCarNamesCount = new HashSet<>(carNames).size();
+        final int carNamesCount = carNames.size();
+        final int distinctCarNamesCount = new HashSet<>(carNames).size();
 
         if (carNamesCount != distinctCarNamesCount) {
             throw new CustomException(ExceptionStatus.DUPLICATE_CAR_NAMES);
@@ -67,7 +70,7 @@ public class Cars {
     }
 
     public List<Car> getWinnerCars() {
-        Integer maxPosition = Collections.max(cars.stream()
+        final Integer maxPosition = Collections.max(cars.stream()
                 .map(Car::getPosition)
                 .collect(Collectors.toList()));
 
