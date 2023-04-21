@@ -72,7 +72,7 @@ erDiagram
 - [ ] `/plays`로 GET 요청을 받는 API 구현
   - [x] `getPlays` Controller 구현
   - [ ] 이력 조회하는 Service 구현
-  - [ ] GameDao : `findId` 메서드 구현
+  - [x] GameDao : `findId` 메서드 구현
   - [ ] ParticipatesDao : `findByGameId` 메서드 구현
   - [ ] PlayerDao : `findNameById` 메서드 구현
 
