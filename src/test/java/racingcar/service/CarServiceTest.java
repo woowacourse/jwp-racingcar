@@ -4,14 +4,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.dao.CarDao;
-import racingcar.domain.RacingCars;
+import racingcar.domain.RacingGame;
 import racingcar.entity.CarEntity;
 import racingcar.service.mapper.CarMapper;
+import racingcar.util.RandomNumberGenerator;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -37,7 +39,10 @@ class CarServiceTest {
     @DisplayName("registerCars() : 자동차들을 저장합니다.")
     void test_registerCars() throws Exception {
         //given
-        final RacingCars racingCars = RacingCars.makeCars("a,b,c");
+        final RacingGame racingGame =
+                RacingGame.readyToRacingGame("a,b,c",
+                                             new RandomNumberGenerator(),
+                                             2);
         final int savedRaceResultId = 1;
 
         final List<CarEntity> carEntities = List.of(
@@ -47,10 +52,10 @@ class CarServiceTest {
         );
 
         //when
-        when(carMapper.mapToCarEntitiesFrom(racingCars, savedRaceResultId))
+        when(carMapper.mapToCarEntitiesFrom(any(), anyInt()))
                 .thenReturn(carEntities);
 
-        carService.registerCars(racingCars, savedRaceResultId);
+        carService.registerCars(racingGame, savedRaceResultId);
 
         //then
         verify(carDao, times(1)).save(any());

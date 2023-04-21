@@ -2,7 +2,7 @@ package racingcar.service.mapper;
 
 import org.springframework.stereotype.Component;
 import racingcar.domain.Car;
-import racingcar.domain.RacingCars;
+import racingcar.domain.RacingGame;
 import racingcar.entity.CarEntity;
 
 import java.time.LocalDateTime;
@@ -12,18 +12,18 @@ import java.util.stream.Collectors;
 @Component
 public class CarMapper {
 
-    public List<CarEntity> mapToCarEntitiesFrom(final RacingCars racingCars,
+    public List<CarEntity> mapToCarEntitiesFrom(final RacingGame racingGame,
                                                 final Integer savedId) {
 
-        return racingCars.getCars()
+        return racingGame.getParticipantAllCar()
                          .stream()
                          .map(it -> mapToCarEntity(savedId, it))
                          .collect(Collectors.toList());
     }
 
-    private CarEntity mapToCarEntity(final Integer savedId, final Car it) {
-        return new CarEntity(it.getName(),
-                             it.getPosition(),
+    private CarEntity mapToCarEntity(final Integer savedId, final Car car) {
+        return new CarEntity(car.getName(),
+                             car.getPosition(),
                              savedId,
                              LocalDateTime.now());
     }

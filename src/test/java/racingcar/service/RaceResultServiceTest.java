@@ -77,7 +77,7 @@ class RaceResultServiceTest {
                 .thenReturn(1);
 
         doNothing().when(carService)
-                   .registerCars((RacingCars) any(), anyInt());
+                   .registerCars(any(), anyInt());
 
         when(raceResultMapper.mapToCarStatusResponseFrom((RacingGame) any()))
                 .thenReturn(carStatusResponses);

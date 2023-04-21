@@ -2,7 +2,7 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
-import racingcar.domain.RacingCars;
+import racingcar.domain.RacingGame;
 import racingcar.entity.CarEntity;
 import racingcar.service.mapper.CarMapper;
 
@@ -19,9 +19,10 @@ public class CarService {
         this.carMapper = carMapper;
     }
 
-    public void registerCars(final RacingCars racingCars, final Integer savedId) {
-        final List<CarEntity> requests = carMapper.mapToCarEntitiesFrom(racingCars, savedId);
+    public void registerCars(final RacingGame racingGame, final Integer savedId) {
+        final List<CarEntity> carEntities =
+                carMapper.mapToCarEntitiesFrom(racingGame, savedId);
 
-        carDao.save(requests);
+        carDao.save(carEntities);
     }
 }
