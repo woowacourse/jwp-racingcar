@@ -16,9 +16,9 @@ import racingcar.dto.ExceptionResponse;
 
 @RestControllerAdvice
 public class RacingCarControllerAdvice extends ResponseEntityExceptionHandler {
-
+    
     @ExceptionHandler(Exception.class)
-    private ResponseEntity<ExceptionResponse<String>> exceptionHandler(final Exception e) {
+    private ResponseEntity<ExceptionResponse<String>> handleException() {
         return ResponseEntity.internalServerError().body(new ExceptionResponse<>("예상치 못한 예외가 발생했습니다."));
     }
 
@@ -33,13 +33,13 @@ public class RacingCarControllerAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    private ResponseEntity<ExceptionResponse<String>> illegalArgumentExceptionHandler(
+    private ResponseEntity<ExceptionResponse<String>> handleIllegalArgumentException(
             final IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(new ExceptionResponse<>(e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    private ResponseEntity<ExceptionResponse<String>> methodArgumentTypeMismatchExceptionHandler() {
+    private ResponseEntity<ExceptionResponse<String>> handleMethodArgumentTypeMismatchException() {
         return ResponseEntity.badRequest().body(new ExceptionResponse<>("올바른 타입을 입력해주세요."));
     }
 }
