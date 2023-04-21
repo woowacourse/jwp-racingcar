@@ -22,12 +22,12 @@ public class GameLogDao {
     }
 
     public void insert(int gameNumber, String playerName, int resultPosition) {
-        String sql = "insert into game_log (game_number, player_name, result_position) values (?, ?, ?)";
+        String sql = "insert into game_log (game_id, player_name, result_position) values (?, ?, ?)";
         jdbcTemplate.update(sql, gameNumber, playerName, resultPosition);
     }
 
     public List<Car> find(int gameNumber) {
-        String sql = "select gl.player_name, gl.result_position from game_log gl where gl.game_number = ?";
+        String sql = "select gl.player_name, gl.result_position from game_log gl where gl.game_id = ?";
         return jdbcTemplate.query(sql, carRowMapper, gameNumber);
     }
 }

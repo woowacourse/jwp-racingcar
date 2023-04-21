@@ -22,14 +22,14 @@ public class WinnersDao {
     }
 
     public void insert(int gameNumber, String winner) {
-        String sql = "insert into winners(game_number, winner) values(?,?)";
+        String sql = "insert into winners(game_id, winner) values(?,?)";
         jdbcTemplate.update(sql, gameNumber, winner);
     }
 
     public List<Car> find(int gameNumber) {
-        String sql = "select gl.game_number, gl.player_name, gl.result_position "
+        String sql = "select gl.game_id, gl.player_name, gl.result_position "
                 + "from game_log gl, winners w "
-                + "where w.game_number = gl.game_number and w.winner = gl.player_name and w.game_number = ?";
+                + "where w.game_id = gl.game_id and w.winner = gl.player_name and w.game_id = ?";
         return jdbcTemplate.query(sql, carRowMapper, gameNumber);
     }
 }

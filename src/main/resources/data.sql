@@ -3,7 +3,7 @@ drop table if exists game;
 
 create table if not exists game
 (
-    game_number Integer auto_increment primary key,
+    game_id Integer auto_increment primary key,
     created_at  datetime default current_timestamp,
     trial_count Integer
 );
@@ -11,7 +11,7 @@ create table if not exists game
 drop table if exists game_log;
 create table if not exists game_log
 (
-    game_number     Integer,
+    game_id     Integer,
     player_name     varchar(20),
     result_position integer
 );
@@ -19,6 +19,6 @@ create table if not exists game_log
 drop table if exists winners;
 create table if not exists winners
 (
-    game_number integer,
+    game_id integer,
     winner      varchar(20)
 );
