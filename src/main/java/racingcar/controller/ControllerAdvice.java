@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerAdvice {
 
     @ExceptionHandler
+    public ResponseEntity<String> handleValidationExceptions(Exception e) {
+        return ResponseEntity.internalServerError().body(e.getMessage());
+    }
+
+    @ExceptionHandler
     public ResponseEntity<String> handleValidationExceptions(RuntimeException e) {
         return ResponseEntity.internalServerError().body(e.getMessage());
     }
