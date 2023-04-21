@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import racingcar.domain.RacingGame;
 import racingcar.dto.GameResponse;
 import racingcar.dto.PlayGameRequest;
-import racingcar.service.AddRaceService;
-import racingcar.service.FindRaceService;
+import racingcar.service.RaceAddService;
+import racingcar.service.RaceFindService;
 
 @SuppressWarnings("NonAsciiCharacters")
 @WebMvcTest
@@ -32,10 +32,10 @@ class RacingCarControllerSliceTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private AddRaceService addRaceService;
+    private RaceAddService raceAddService;
 
     @MockBean
-    private FindRaceService findRaceService;
+    private RaceFindService raceFindService;
 
     @Test
     void 게임_진행하는_테스트() throws Exception {
@@ -48,7 +48,7 @@ class RacingCarControllerSliceTest {
                 new racingcar.dto.CarResponse("브라운", 5)
         ));
         final String response = objectMapper.writeValueAsString(gameResponse);
-        given(addRaceService.addRace(any(List.class), any(int.class))).willReturn(new RacingGame(1, List.of(
+        given(raceAddService.addRace(any(List.class), any(int.class))).willReturn(new RacingGame(1, List.of(
                 new racingcar.domain.Car("브리", 5),
                 new racingcar.domain.Car("토미", 5),
                 new racingcar.domain.Car("브라운", 5)
@@ -71,7 +71,7 @@ class RacingCarControllerSliceTest {
                 new racingcar.dto.CarResponse("브라운", 5)
         )));
         final String response = objectMapper.writeValueAsString(gameResponse);
-        given(findRaceService.findAllRace()).willReturn(List.of(
+        given(raceFindService.findAllRace()).willReturn(List.of(
                 new RacingGame(1, List.of(
                         new racingcar.domain.Car("브리", 5),
                         new racingcar.domain.Car("토미", 5),

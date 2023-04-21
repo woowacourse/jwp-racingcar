@@ -7,11 +7,11 @@ import racingcar.domain.RacingGame;
 import racingcar.repository.RacingGameRepository;
 
 @Service
-public class FindRaceService {
+public class RaceFindService {
 
     private final RacingGameRepository racingGameRepository;
 
-    public FindRaceService(final RacingGameRepository racingGameRepository) {
+    public RaceFindService(final RacingGameRepository racingGameRepository) {
         this.racingGameRepository = racingGameRepository;
     }
 

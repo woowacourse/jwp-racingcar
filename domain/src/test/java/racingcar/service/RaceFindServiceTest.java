@@ -13,9 +13,9 @@ import racingcar.domain.RacingGame;
 
 @SuppressWarnings({"NonAsciiCharacters"})
 @DisplayNameGeneration(ReplaceUnderscores.class)
-class FindRaceServiceTest {
+class RaceFindServiceTest {
 
-    private FindRaceService findRaceService;
+    private RaceFindService raceFindService;
 
     @BeforeEach
     void setUp() {
@@ -23,12 +23,12 @@ class FindRaceServiceTest {
         racingGameRepository.setGameIdToRacingGame(Map.of(
                 1, new RacingGame(List.of("브리", "토미", "브라운"), 10)
         ));
-        findRaceService = new FindRaceService(racingGameRepository);
+        raceFindService = new RaceFindService(racingGameRepository);
     }
 
     @Test
     void 레이스_조회_테스트() {
-        final List<RacingGame> allRace = findRaceService.findAllRace();
+        final List<RacingGame> allRace = raceFindService.findAllRace();
 
         assertAll(
                 () -> assertThat(allRace).hasSize(1),

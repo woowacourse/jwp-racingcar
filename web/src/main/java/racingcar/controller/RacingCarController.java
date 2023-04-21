@@ -14,35 +14,35 @@ import racingcar.domain.RacingGame;
 import racingcar.dto.CarResponse;
 import racingcar.dto.GameResponse;
 import racingcar.dto.PlayGameRequest;
-import racingcar.service.AddRaceService;
-import racingcar.service.FindRaceService;
+import racingcar.service.RaceAddService;
+import racingcar.service.RaceFindService;
 
 @RestController
 public class RacingCarController {
 
     private static final String CAR_NAME_DELIMITER = ",";
 
-    private final AddRaceService addRaceService;
-    private final FindRaceService findRaceService;
+    private final RaceAddService raceAddService;
+    private final RaceFindService raceFindService;
 
     public RacingCarController(
-            final AddRaceService addRaceService,
-            final FindRaceService findRaceService) {
-        this.addRaceService = addRaceService;
-        this.findRaceService = findRaceService;
+            final RaceAddService raceAddService,
+            final RaceFindService raceFindService) {
+        this.raceAddService = raceAddService;
+        this.raceFindService = raceFindService;
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<GameResponse> raceAdd(@RequestBody @Valid final PlayGameRequest playGameRequest) {
-        final RacingGame racingGame = addRaceService.addRace(playGameRequest.getNames(), playGameRequest.getCount());
+    public ResponseEntity<GameResponse> addRace(@RequestBody @Valid final PlayGameRequest playGameRequest) {
+        final RacingGame racingGame = raceAddService.addRace(playGameRequest.getNames(), playGameRequest.getCount());
         final GameResponse gameResponse = toGameResponse(racingGame);
 
         return ResponseEntity.created(URI.create("/plays" + racingGame.getGameId())).body(gameResponse);
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<GameResponse>> raceList() {
-        final List<RacingGame> racingGames = findRaceService.findAllRace();
+    public ResponseEntity<List<GameResponse>> findAllRace() {
+        final List<RacingGame> racingGames = raceFindService.findAllRace();
         final List<GameResponse> gameResponses = racingGames.stream()
                 .map(this::toGameResponse)
                 .collect(Collectors.toList());

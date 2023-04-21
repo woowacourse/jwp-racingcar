@@ -8,23 +8,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
-import racingcar.service.AddRaceService;
+import racingcar.service.RaceAddService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 @Configuration
 public class ConsoleRunner {
 
-    private final AddRaceService addRaceService;
+    private final RaceAddService raceAddService;
 
-    public ConsoleRunner(final AddRaceService addRaceService) {
-        this.addRaceService = addRaceService;
+    public ConsoleRunner(final RaceAddService raceAddService) {
+        this.raceAddService = raceAddService;
     }
 
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            final RacingGame racingGame = addRaceService.addRace(InputView.inputCarName(), InputView.inputTryCount());
+            final RacingGame racingGame = raceAddService.addRace(InputView.inputCarName(), InputView.inputTryCount());
             final List<String> winnerNames = racingGame.findWinner()
                     .stream()
                     .map(Car::getCarName)

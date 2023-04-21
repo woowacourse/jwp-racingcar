@@ -13,21 +13,21 @@ import racingcar.domain.RacingGame;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-class AddRaceServiceTest {
+class RaceAddServiceTest {
 
     private final List<String> carsName = List.of("브리", "토미", "브라운");
     private final int count = 10;
-    private AddRaceService addRaceService;
+    private RaceAddService raceAddService;
 
     @BeforeEach
     void setUp() {
-        addRaceService = new AddRaceService(new StubNumberPicker(10),
+        raceAddService = new RaceAddService(new StubNumberPicker(10),
                 new StubRacingGameRepository());
     }
 
     @Test
     void 레이스_진행() {
-        final RacingGame racingGame = addRaceService.addRace(carsName, count);
+        final RacingGame racingGame = raceAddService.addRace(carsName, count);
         final List<Car> winners = racingGame.findWinner();
         assertAll(
                 () -> assertThat(winners).hasSize(3),

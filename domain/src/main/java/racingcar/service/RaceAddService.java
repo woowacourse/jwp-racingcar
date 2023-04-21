@@ -8,12 +8,12 @@ import racingcar.domain.RacingGame;
 import racingcar.repository.RacingGameRepository;
 
 @Service
-public class AddRaceService {
+public class RaceAddService {
 
     private final NumberPicker numberPicker;
     private final RacingGameRepository racingGameRepository;
 
-    public AddRaceService(final NumberPicker numberPicker, final RacingGameRepository racingGameRepository) {
+    public RaceAddService(final NumberPicker numberPicker, final RacingGameRepository racingGameRepository) {
         this.numberPicker = numberPicker;
         this.racingGameRepository = racingGameRepository;
     }
