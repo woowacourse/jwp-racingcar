@@ -5,15 +5,11 @@ import racingcar.dao.GameDao;
 import racingcar.dao.GameLogDao;
 import racingcar.dao.WinnersDao;
 import racingcar.domain.Car;
-import racingcar.domain.MoveChance;
-import racingcar.domain.RandomMoveChance;
 import racingcar.dto.ServiceControllerDto;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
@@ -33,12 +29,12 @@ public class GameService {
         validateNotNegativeInteger(trialCount);
         GameLogic gameLogic = new GameLogic(names);
         long gameNumber = gameDao.saveGame(trialCount);
-        playMultipleTimes(trialCount,gameLogic);
+        playMultipleTimes(trialCount, gameLogic);
         List<Car> winners = gameLogic.findWinners();
         List<Car> cars = gameLogic.getCars();
         insertCars(gameNumber, cars);
         insertWinners(gameNumber, winners);
-        return new ServiceControllerDto(cars,winners);
+        return new ServiceControllerDto(cars, winners);
     }
 
     private void insertWinners(long gameNumber, List<Car> winners) {
