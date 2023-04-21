@@ -1,5 +1,6 @@
 package racingcar.domain.game;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -10,15 +11,23 @@ public class RacingGame {
 
     private Long id;
     private final RacingCars racingCars;
+    private final LocalDateTime playTime;
 
 
     public RacingGame(List<RacingCar> racingCars) {
         this.racingCars = new RacingCars(racingCars);
+        this.playTime = LocalDateTime.now();
     }
 
     public RacingGame(Long id, List<RacingCar> racingCars) {
         this.id = id;
         this.racingCars = new RacingCars(racingCars);
+        this.playTime = LocalDateTime.now();
+    }
+    public RacingGame(Long id, List<RacingCar> racingCars, LocalDateTime playTime) {
+        this.id = id;
+        this.racingCars = new RacingCars(racingCars);
+        this.playTime = playTime;
     }
 
     public static RacingGame from(List<String> carNames) {
@@ -44,18 +53,6 @@ public class RacingGame {
         return racingCars.isWinner(racingCar);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public List<RacingCar> getRacingCars() {
-        return racingCars.getCars();
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         RacingGame that = (RacingGame) o;
@@ -75,4 +72,21 @@ public class RacingGame {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<RacingCar> getRacingCars() {
+        return racingCars.getCars();
+    }
+
+    public LocalDateTime getPlayTime() {
+        return playTime;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }
