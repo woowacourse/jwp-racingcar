@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 
 import io.restassured.RestAssured;
@@ -57,7 +56,7 @@ class RacingCarControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo("자동차 이름은 5자 이하여야 합니다."));
+                .body("message", is("자동차 이름은 5자 이하여야 합니다."));
     }
 
     @DisplayName("/plays POST 요청 예외 테스트 : Dto 검증")
@@ -73,7 +72,8 @@ class RacingCarControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("names", is("자동차 이름 목록은 빈 문자열일 수 없습니다."));
+                .body("field", is("names"))
+                .body("message", is("자동차 이름 목록은 빈 문자열일 수 없습니다."));
     }
 
     private JSONObject requestJSON(List<String> carNames, int count) throws JSONException {
