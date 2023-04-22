@@ -1,6 +1,6 @@
 CREATE TABLE game_result
 (
-    id         INT AUTO_INCREMENT,
+    id         INT NOT NULL AUTO_INCREMENT,
     trial_count INT      NOT NULL,
     date_time   DATETIME NOT NULL,
     PRIMARY KEY (id)
