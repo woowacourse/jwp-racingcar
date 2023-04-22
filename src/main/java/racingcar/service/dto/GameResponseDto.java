@@ -4,7 +4,6 @@ import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
-import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;

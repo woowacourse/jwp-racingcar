@@ -5,14 +5,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Cars;
 import racingcar.domain.Lap;
+import racingcar.domain.NumberGenerator;
 import racingcar.domain.RandomNumberGenerator;
+import racingcar.domain.WinnerMaker;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
 import racingcar.repository.GameDao;
 import racingcar.repository.PlayerResultDao;
-import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
+import racingcar.util.ListJoiner;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,7 +46,21 @@ public class GameService {
     private GameResponseDto playGame(final GameRequestDto request) {
         final Cars cars = new Cars(request.getNames());
         final Lap lap = new Lap(request.getCount());
-        return GameRunner.race(cars, lap, new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER));
+        return race(cars, lap, new RandomNumberGenerator(MINIMUM_RANDOM_NUMBER, MAXIMUM_RANDOM_NUMBER));
+    }
+
+    public static GameResponseDto race(final Cars cars, final Lap lap, final NumberGenerator numberGenerator) {
+        while (!lap.isFinish()) {
+            cars.moveCars(numberGenerator);
+            lap.reduce();
+        }
+        return GameResponseDto.createByDomain(getWinners(cars), cars);
+    }
+
+    private static String getWinners(final Cars cars) {
+        final WinnerMaker winnerMaker = new WinnerMaker();
+        final List<String> winners = winnerMaker.getWinnerCarsName(cars.getLatestResult());
+        return ListJoiner.join(winners);
     }
 
     private void saveGameResult(final int tryCount, final GameResponseDto response) {

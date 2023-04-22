@@ -4,7 +4,7 @@ import racingcar.domain.Cars;
 import racingcar.domain.Lap;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RandomNumberGenerator;
-import racingcar.service.GameRunner;
+import racingcar.service.GameService;
 import racingcar.service.dto.GameResponseDto;
 import racingcar.service.dto.PlayerResultResponseDto;
 import racingcar.view.InputView;
@@ -27,7 +27,7 @@ public class ConsoleRacingCarController {
         final Cars cars = initCars();
         final Lap lap = initTryCount();
         OutputView.printResultMessage();
-        final GameResponseDto result = GameRunner.race(cars, lap, numberGenerator);
+        final GameResponseDto result = GameService.race(cars, lap, numberGenerator);
         prizeWinner(result.getWinners());
         showFinalStatus(cars);
     }

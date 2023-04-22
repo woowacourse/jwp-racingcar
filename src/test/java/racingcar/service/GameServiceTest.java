@@ -13,12 +13,8 @@ import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
 import racingcar.repository.GameDao;
 import racingcar.repository.PlayerResultDao;
-import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -54,8 +50,8 @@ public class GameServiceTest {
 
         // when
         GameResponseDto responseActually;
-        try (MockedStatic<GameRunner> utilities = Mockito.mockStatic(GameRunner.class)) {
-            utilities.when(() -> GameRunner.race(any(), any(), any()))
+        try (MockedStatic<GameService> utilities = Mockito.mockStatic(GameService.class)) {
+            utilities.when(() -> GameService.race(any(), any(), any()))
                     .thenReturn(responseExpected);
             responseActually = gameService.createGameResult(requestDto);
         }

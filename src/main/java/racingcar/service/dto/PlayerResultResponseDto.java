@@ -2,7 +2,6 @@ package racingcar.service.dto;
 
 import racingcar.domain.Car;
 import racingcar.entity.PlayerResult;
-import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 
 public class PlayerResultResponseDto {
     private final String name;
