@@ -3,10 +3,17 @@ package racingcar.entity;
 import java.sql.Timestamp;
 
 public class PlayerResultEntity {
-    Integer id;
-    Integer count;
-    String winners;
-    Timestamp dateTime;
+    private final Integer id;
+    private final Integer count;
+    private final String winners;
+    private final Timestamp dateTime;
+
+    public PlayerResultEntity(final Integer id, final Integer count, final String winners, final Timestamp dateTime) {
+        this.id = id;
+        this.count = count;
+        this.winners = winners;
+        this.dateTime = dateTime;
+    }
 
     public Integer getId() {
         return id;
@@ -22,21 +29,5 @@ public class PlayerResultEntity {
 
     public Timestamp getDateTime() {
         return dateTime;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    public void setCount(final Integer count) {
-        this.count = count;
-    }
-
-    public void setWinners(final String winners) {
-        this.winners = winners;
-    }
-
-    public void setDateTime(final Timestamp dateTime) {
-        this.dateTime = dateTime;
     }
 }

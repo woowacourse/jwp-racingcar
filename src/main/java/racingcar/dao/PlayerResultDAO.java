@@ -50,11 +50,12 @@ public class PlayerResultDAO {
 
     private RowMapper<PlayerResultEntity> playerResultRowMapper() {
         return (result, columnRow) -> {
-            final PlayerResultEntity playerResultEntity = new PlayerResultEntity();
-            playerResultEntity.setId(result.getInt("id"));
-            playerResultEntity.setCount(result.getInt("count"));
-            playerResultEntity.setWinners(result.getString("winners"));
-            playerResultEntity.setDateTime(result.getTimestamp("created_at"));
+            final PlayerResultEntity playerResultEntity = new PlayerResultEntity(
+                    result.getInt("id"),
+                    result.getInt("count"),
+                    result.getString("winners"),
+                    result.getTimestamp("created_at")
+            );
             return playerResultEntity;
         };
     }

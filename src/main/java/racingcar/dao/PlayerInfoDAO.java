@@ -33,11 +33,12 @@ public class PlayerInfoDAO {
     public List<PlayerInfoEntity> findPlayerByResultId(Integer play_result_id) {
         String sql = "select * from player_info where play_result_id = ?";
         return jdbcTemplate.query(sql, (result, column) -> {
-                    final PlayerInfoEntity playerInfoEntity = new PlayerInfoEntity();
-                    playerInfoEntity.setId(result.getInt("id"));
-                    playerInfoEntity.setName(result.getString("name"));
-                    playerInfoEntity.setPosition(result.getInt("position"));
-                    playerInfoEntity.setPlayResultId(result.getInt("play_result_id"));
+                    final PlayerInfoEntity playerInfoEntity = new PlayerInfoEntity(
+                            result.getInt("id"),
+                            result.getString("name"),
+                            result.getInt("position"),
+                            result.getInt("position")
+                    );
                     return playerInfoEntity;
                 },
                 play_result_id

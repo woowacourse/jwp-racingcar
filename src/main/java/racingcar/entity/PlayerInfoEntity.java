@@ -1,40 +1,31 @@
 package racingcar.entity;
 
 public class PlayerInfoEntity {
-    Integer id;
-    String name;
-    Integer position;
-    Integer playResultId;
+    private final Integer id;
+    private final String name;
+    private final Integer position;
+    private final Integer playResultId;
+
+    public PlayerInfoEntity(final Integer id, final String name, final Integer position, final Integer playResultId) {
+        this.id = id;
+        this.name = name;
+        this.position = position;
+        this.playResultId = playResultId;
+    }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
-
     public Integer getPosition() {
         return position;
     }
 
-    public void setPosition(final Integer position) {
-        this.position = position;
-    }
-
     public Integer getPlayResultId() {
         return playResultId;
-    }
-
-    public void setPlayResultId(final Integer playResultId) {
-        this.playResultId = playResultId;
     }
 }
