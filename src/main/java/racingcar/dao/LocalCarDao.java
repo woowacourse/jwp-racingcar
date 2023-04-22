@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 
 public class LocalCarDao implements CarDao {
 
+    private static final int UPDATED_ROWS = 1;
+
     private final List<CarEntity> carEntities = new ArrayList<>();
 
     @Override
     public int insert(final String name, final int position, final Long gameId, final boolean isWin) {
         carEntities.add(new CarEntity(name, position, gameId, isWin));
-        return 1;
+        return UPDATED_ROWS;
     }
 
     @Override
