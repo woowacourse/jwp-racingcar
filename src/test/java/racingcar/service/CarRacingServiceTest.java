@@ -19,7 +19,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarServiceTest {
+class CarRacingServiceTest {
 
     private static final int MOVEABLE_NUMBER = 5;
 
@@ -28,17 +28,17 @@ class RacingCarServiceTest {
     @Autowired
     private CarDao carDao;
 
-    private RacingCarService racingCarService;
+    private CarRacingService carRacingService;
 
     @BeforeEach
     void setUp() {
-        racingCarService = new RacingCarService(gameDao, carDao, new TestNumberGenerator());
+        carRacingService = new CarRacingService(gameDao, carDao, new TestNumberGenerator());
     }
 
     @Test
     void 게임을_진행한다() {
         //given
-        final RacingResultDTO racingResultDTO = racingCarService.play("huchu,gavi", 1);
+        final RacingResultDTO racingResultDTO = carRacingService.play("huchu,gavi", 1);
 
         //when
         //then
@@ -64,11 +64,11 @@ class RacingCarServiceTest {
     @Test
     void 게임_결과를_조회한다() {
         //given
-        racingCarService.play("huchu,gavi", 1);
+        carRacingService.play("huchu,gavi", 1);
 
         //when
-        final List<RacingResultDTO> showedResults = racingCarService.showGameResults();
-        
+        final List<RacingResultDTO> showedResults = carRacingService.showGameResults();
+
         //then
         assertSoftly(softly -> {
             softly.assertThat(showedResults).hasSize(1);

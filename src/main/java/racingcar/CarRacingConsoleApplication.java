@@ -1,23 +1,23 @@
 package racingcar;
 
-import racingcar.controller.ConsoleController;
+import racingcar.controller.CarRacingConsoleController;
 import racingcar.dao.LocalCarDao;
 import racingcar.dao.LocalGameDao;
 import racingcar.domain.numbergenerator.RandomSingleDigitGenerator;
-import racingcar.service.RacingCarService;
+import racingcar.service.CarRacingService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 import java.util.Scanner;
 
-public class ConsoleApplication {
+public class CarRacingConsoleApplication {
 
     public static void main(String[] args) {
-        ConsoleController consoleController = new ConsoleController(
+        CarRacingConsoleController carRacingConsoleController = new CarRacingConsoleController(
                 new InputView(new Scanner(System.in)),
                 new OutputView(),
-                new RacingCarService(new LocalGameDao(), new LocalCarDao(), new RandomSingleDigitGenerator()));
+                new CarRacingService(new LocalGameDao(), new LocalCarDao(), new RandomSingleDigitGenerator()));
 
-        consoleController.play();
+        carRacingConsoleController.play();
     }
 }

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class RacingCarService {
+public class CarRacingService {
     private static final String DELIMITER = ",";
     private static final int LIMIT = -1;
 
@@ -28,7 +28,7 @@ public class RacingCarService {
     private final CarDao carDao;
     private final NumberGenerator numberGenerator;
 
-    public RacingCarService(final GameDao gameDao, final CarDao carDao, final NumberGenerator numberGenerator) {
+    public CarRacingService(final GameDao gameDao, final CarDao carDao, final NumberGenerator numberGenerator) {
         this.gameDao = gameDao;
         this.carDao = carDao;
         this.numberGenerator = numberGenerator;

@@ -20,13 +20,13 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-class WebControllerTest {
+class CarRacingWebControllerTest {
 
     @LocalServerPort
     int port;
 
     @Autowired
-    private WebController webController;
+    private CarRacingWebController carRacingWebController;
 
     @BeforeEach
     void setUp() {
@@ -49,7 +49,7 @@ class WebControllerTest {
 
     @Test
     void 이력을_조회한다() {
-        webController.play(new RacingStartDTO("huchu,gavi", 1));
+        carRacingWebController.play(new RacingStartDTO("huchu,gavi", 1));
 
         RestAssured.given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
