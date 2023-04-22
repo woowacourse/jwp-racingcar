@@ -28,10 +28,6 @@ public class GameResultResponseDto {
 		return new GameResultResponseDto(winners, carStatusResponseDto);
 	}
 
-	public boolean isWinner (final String name) {
-		return this.winners.contains(name);
-	}
-
 	public List<String> getWinners () {
 		return winners;
 	}
