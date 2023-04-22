@@ -2,10 +2,12 @@ package racingcar;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.controller.ConsoleCarController;
-import racingcar.dao.CarDao;
 import racingcar.dao.DataSourceConfig;
 import racingcar.dao.GameDao;
+import racingcar.dao.PlayerDao;
 import racingcar.service.CarService;
+import racingcar.strategy.RacingNumberGenerator;
+import racingcar.strategy.RacingRandomNumberGenerator;
 
 import javax.sql.DataSource;
 
@@ -20,17 +22,17 @@ public class ConsoleRacingCarApplication {
         final JdbcTemplate jdbcTemplate = getJdbcTemplate();
         createTables(jdbcTemplate);
 
-        final CarDao carDao = new CarDao(jdbcTemplate);
+        final PlayerDao playerDao = new PlayerDao(jdbcTemplate);
         final GameDao gameDao = new GameDao(jdbcTemplate);
+        final RacingNumberGenerator generator = new RacingRandomNumberGenerator();
 
-        return new CarService(carDao, gameDao);
+        return new CarService(playerDao, gameDao, generator);
     }
 
     private static JdbcTemplate getJdbcTemplate() {
         final DataSource dateSource = DataSourceConfig.createDateSource();
-        final JdbcTemplate jdbcTemplate = new JdbcTemplate(dateSource);
 
-        return jdbcTemplate;
+        return new JdbcTemplate(dateSource);
     }
 
     private static void createTables(final JdbcTemplate jdbcTemplate) {
@@ -42,7 +44,7 @@ public class ConsoleRacingCarApplication {
                 "    PRIMARY KEY (id)\n" +
                 ");");
 
-        jdbcTemplate.execute("CREATE TABLE CAR(" +
+        jdbcTemplate.execute("CREATE TABLE PLAYER(" +
                 "    id       BIGINT     NOT NULL AUTO_INCREMENT,\n" +
                 "    game_id  BIGINT     NOT NULL,\n" +
                 "    name     VARCHAR(5) NOT NULL,\n" +

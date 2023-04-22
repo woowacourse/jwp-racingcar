@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import racingcar.entity.CarEntity;
+import racingcar.dto.CarDto;
 import racingcar.dto.GamePlayResponseDto;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class OutputView {
 
     public static void printResult(final GamePlayResponseDto gamePlayResponseDto) {
         String winners = gamePlayResponseDto.getWinners();
-        final List<CarEntity> racingCars = gamePlayResponseDto.getRacingCars();
+        final List<CarDto> racingCars = gamePlayResponseDto.getRacingCars();
 
         System.out.printf((WINNER_FORMAT) + "%n", winners);
         System.out.println("\n결과");
@@ -23,8 +23,8 @@ public class OutputView {
         System.out.printf("[Error] %s%n", message);
     }
 
-    private static void convertResult(final CarEntity carEntity) {
-        final String format = String.format(RESULT_FORMAT, carEntity.getName(), carEntity.getPosition());
+    private static void convertResult(final CarDto carDto) {
+        final String format = String.format(RESULT_FORMAT, carDto.getName(), carDto.getPosition());
         System.out.println(format);
     }
 }

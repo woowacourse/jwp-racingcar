@@ -18,8 +18,8 @@ public class ConsoleCarController {
 
     public void run() {
         final List<String> carNames = retryOnError(InputView::inputCarNames);
-        final String round = retryOnError(InputView::inputRound);
-        final GamePlayResponseDto gamePlayResponseDto = carService.playGame(carNames, round);
+        final int tryCount = retryOnError(InputView::inputTryCount);
+        final GamePlayResponseDto gamePlayResponseDto = carService.playGame(carNames, tryCount);
 
         OutputView.printResult(gamePlayResponseDto);
     }

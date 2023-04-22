@@ -13,9 +13,13 @@ public class InputView {
         return Arrays.asList(input().split(","));
     }
 
-    public static String inputRound() {
+    public static int inputTryCount() {
         System.out.println("시도할 회수는 몇회인가요?");
-        return input();
+        try {
+            return Integer.parseInt(input());
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("정수만 입력해 주세요.");
+        }
     }
 
     private static String input() {
