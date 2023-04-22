@@ -15,17 +15,17 @@ import java.util.stream.Collectors;
 @Service
 public class RacingGameService {
 
-    private final GameRepository racingGameRepository;
+    private final GameRepository gameRepository;
 
     public RacingGameService(final GameRepository gameRepository) {
-        this.racingGameRepository = gameRepository;
+        this.gameRepository = gameRepository;
     }
 
     @Transactional
     public RacingGame playRacingGame(final RacingGameRequest racingGameRequest) {
         RacingGame racingGame = createRacingGame(racingGameRequest);
         racingGame.start();
-        racingGameRepository.saveGame(racingGame);
+        gameRepository.saveGame(racingGame);
         return racingGame;
     }
 
@@ -44,6 +44,6 @@ public class RacingGameService {
     }
 
     public List<RacingGame> readAllGames() {
-        return racingGameRepository.selectAllGames();
+        return gameRepository.selectAllGames();
     }
 }
