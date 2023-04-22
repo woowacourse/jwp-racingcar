@@ -1,9 +1,8 @@
-package racingcar.controller.dto;
+package racingcar.controller.response;
 
 import java.time.LocalDateTime;
 
 public class ErrorResponse {
-
     private final String message;
     private final LocalDateTime timestamp;
     private final int statusCode;

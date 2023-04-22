@@ -1,29 +1,21 @@
 package racingcar.domain;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+public final class RacingGame {
+    private final Cars cars;
+    private final NumberGenerator numberGenerator;
 
-public class RacingGame {
-
-    private final CarGroup carGroup;
-    private final RandomNumberGenerator numberGenerator;
-
-    public RacingGame(CarGroup group, RandomNumberGenerator randomNumberGenerator) {
-        this.carGroup = group;
-        this.numberGenerator = randomNumberGenerator;
+    public RacingGame(final Cars cars, final NumberGenerator numberGenerator) {
+        this.cars = cars;
+        this.numberGenerator = numberGenerator;
     }
 
-    //TODO: 테스트
-    public void race() {
-        carGroup.race(numberGenerator);
-    }
-
-    public RacingResult produceRacingResult() {
-        Map<Name, Position> history = new LinkedHashMap<>();
-        for (Car car : carGroup.getCars()) {
-            history.put(car.getName(), car.getPosition());
+    public void raceTimesBy(int trial) {
+        while (trial-- > 0) {
+            cars.race(numberGenerator);
         }
+    }
 
-        return new RacingResult(history);
+    public RacingHistories createRacingResult() {
+        return new RacingHistories(cars.getRacingCars());
     }
 }

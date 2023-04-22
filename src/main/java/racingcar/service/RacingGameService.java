@@ -1,9 +1,11 @@
 package racingcar.service;
 
-import racingcar.controller.dto.RacingInfoResponse;
-import racingcar.domain.CarGroup;
+import racingcar.controller.response.RacingGameResponse;
+
+import java.util.List;
 
 public interface RacingGameService {
+    RacingGameResponse race(final List<String> nameValues, final int trial);
 
-    RacingInfoResponse race(final CarGroup carGroup, final int count);
+    List<RacingGameResponse> findAllRacingGameHistories();
 }

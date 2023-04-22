@@ -1,41 +1,55 @@
 package racingcar.repository;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import racingcar.domain.Cars;
+import racingcar.repository.dto.PlayerDto;
 
-import racingcar.domain.CarGroup;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class PlayerJdbcRepository implements PlayerRepository {
-
     private final JdbcTemplate jdbcTemplate;
 
     public PlayerJdbcRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private final RowMapper<PlayerDto> playerRowMapper = (resultSet, rowNum) -> {
+        return new PlayerDto(
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getInt("position"),
+                resultSet.getInt("racing_game_id")
+        );
+    };
+
     @Override
-    public boolean save(final CarGroup carGroup, final int racingGameId) {
+    public int[] saveAll(final Cars cars, final int racingGameId) {
         final String sql = "INSERT INTO PLAYER(name, position, racing_game_id) VALUES(?, ?, ?)";
-        final int[] updatedCounts = jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+        return jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
             @Override
             public void setValues(final PreparedStatement ps, final int i) throws SQLException {
-                ps.setString(1, carGroup.getCars().get(i).getName().getName());
-                ps.setInt(2, carGroup.getCars().get(i).getPosition().getPosition());
+                ps.setString(1, cars.getRacingCars().get(i).getNameValue());
+                ps.setInt(2, cars.getRacingCars().get(i).getPositionValue());
                 ps.setInt(3, racingGameId);
             }
 
             @Override
             public int getBatchSize() {
-                return carGroup.getCars().size();
+                return cars.getRacingCars().size();
             }
         });
+    }
 
-        return updatedCounts.length == carGroup.getCars().size();
+    @Override
+    public List<PlayerDto> findByRacingGameId(final int racingGameId) {
+        final String sql = "SELECT * FROM PLAYER WHERE racing_game_id = ?";
+        return jdbcTemplate.query(sql, playerRowMapper, racingGameId);
     }
 }

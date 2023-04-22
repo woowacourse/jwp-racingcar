@@ -1,14 +1,13 @@
-package racingcar.controller.dto;
+package racingcar.controller.response;
 
-public class CarInfoDto {
-
+public class CarResponse {
     private String name;
     private int position;
 
-    public CarInfoDto() {
+    public CarResponse() {
     }
 
-    public CarInfoDto(final String name, final int position) {
+    public CarResponse(final String name, final int position) {
         this.name = name;
         this.position = position;
     }

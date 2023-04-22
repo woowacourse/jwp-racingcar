@@ -2,40 +2,45 @@ package racingcar.domain;
 
 import java.util.Objects;
 
-public class Name {
+public final class Name {
+    private static final int MIN_LENGTH_NAME = 1;
+    private static final int MAX_LENGTH_NAME = 5;
 
-    private static final int MINIMUM_LENGTH_OF_CAR_NAME = 1;
-    private static final int MAXIMUM_LENGTH_OF_CAR_NAME = 5;
-    private static final String LENGTH_OF_CAR_NAME_ERROR = "[ERROR] 자동차이름의 길이는 1-5자까지 가능합니다.";
+    private final String value;
 
-    private final String name;
+    public Name(final String value) {
+        validate(value);
+        this.value = value;
+    }
 
-    public Name(String name) {
-        validateLengthOfName(name);
-        this.name = name;
+    private void validate(final String value) {
+        if (isLengthNotOk(value)) {
+            throw new IllegalArgumentException("[ERROR] 자동차이름의 길이는 1-5자까지 가능합니다.");
+        }
+    }
+
+    private boolean isLengthNotOk(final String name) {
+        return !(MIN_LENGTH_NAME <= name.length() && name.length() <= MAX_LENGTH_NAME);
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Name name1 = (Name) o;
-        return Objects.equals(getName(), name1.getName());
+        return Objects.equals(getValue(), name1.getValue());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName());
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    private void validateLengthOfName(String name) {
-        if (name.length() < MINIMUM_LENGTH_OF_CAR_NAME || name.length() > MAXIMUM_LENGTH_OF_CAR_NAME) {
-            throw new IllegalArgumentException(LENGTH_OF_CAR_NAME_ERROR);
-        }
+        return Objects.hash(getValue());
     }
 }

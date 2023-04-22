@@ -1,8 +1,12 @@
 package racingcar.repository;
 
-import racingcar.domain.CarGroup;
+import racingcar.domain.Cars;
+import racingcar.repository.dto.PlayerDto;
+
+import java.util.List;
 
 public interface PlayerRepository {
+    int[] saveAll(final Cars cars, final int racingGameId);
 
-    boolean save(final CarGroup carGroup, final int racingGameId);
+    List<PlayerDto> findByRacingGameId(final int racingGameId);
 }
