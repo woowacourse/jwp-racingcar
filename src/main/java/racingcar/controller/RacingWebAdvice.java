@@ -1,16 +1,13 @@
 package racingcar.controller;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import racingcar.exception.CustomException;
 import racingcar.exception.ExceptionInfo;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -23,12 +20,13 @@ public class RacingWebAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<String>> handleValidationExceptions(
+    public ResponseEntity<ExceptionInfo> handleValidationExceptions(
             final MethodArgumentNotValidException exception) {
-        final List<String> errors = exception.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getDefaultMessage())
-                .collect(Collectors.toList());
+        final String errorMessage = exception.getBindingResult().getFieldErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(System.lineSeparator()));
+        final ExceptionInfo exceptionInfo = new ExceptionInfo(errorMessage);
 
-        return ResponseEntity.badRequest().body(errors);
+        return exceptionInfo.makeErrorResponse();
     }
 }
