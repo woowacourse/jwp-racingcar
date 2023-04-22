@@ -46,7 +46,7 @@ class RacingCarControllerTest {
 
     @DisplayName("/plays POST 요청 예외 테스트 : 도메인 검증")
     @Test
-    void playHandlingException() throws JSONException {
+    void playHandlingExceptionFromDomain() throws JSONException {
         List<String> carNames = List.of("123456", "a", "b");
         int count = 5;
         String requestJSON = requestJSON(carNames, count).toString();
@@ -60,9 +60,9 @@ class RacingCarControllerTest {
                 .body(equalTo("자동차 이름은 5자 이하여야 합니다."));
     }
 
-    @DisplayName("/plays POST 요청 예외 테스트 : 컨트롤러 어노테이션 검증")
+    @DisplayName("/plays POST 요청 예외 테스트 : Dto 검증")
     @Test
-    void playHandlingException2() throws JSONException {
+    void playHandlingExceptionFromDto() throws JSONException {
         List<String> carNames = Collections.emptyList();
         int count = 5;
         String requestJSON = requestJSON(carNames, count).toString();
@@ -73,7 +73,7 @@ class RacingCarControllerTest {
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body(equalTo("플레이 요청 오류: 자동차 이름 목록은 빈 문자열일 수 없습니다."));
+                .body("names", is("자동차 이름 목록은 빈 문자열일 수 없습니다."));
     }
 
     private JSONObject requestJSON(List<String> carNames, int count) throws JSONException {
