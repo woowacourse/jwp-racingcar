@@ -1,6 +1,6 @@
 package racingcar.global.exception;
 
-import org.springframework.dao.TransientDataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,9 +29,9 @@ public class ExceptionHandlerController {
                              .body(DefaultExceptionResponse.from(exception));
     }
 
-    @ExceptionHandler(TransientDataAccessException.class)
+    @ExceptionHandler(DataAccessResourceFailureException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionResponse handleTransientDataAccessException() {
+    public ExceptionResponse handleDataAccessException() {
         return ExceptionResponse.of(ExceptionStatus.TEMPORARY_DATABASE_CONNECTION_EXCEPTION);
     }
 }

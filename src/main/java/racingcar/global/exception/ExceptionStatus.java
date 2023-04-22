@@ -7,7 +7,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public enum ExceptionStatus {
 
     INVALID_INPUT_VALUE_EXCEPTION(400, "유효하지 않는 입력 값입니다.", BAD_REQUEST),
-    TEMPORARY_DATABASE_CONNECTION_EXCEPTION(512, "일시적인 데이터베이스 오류입니다. 재시도 해주세요.", HttpStatus.INTERNAL_SERVER_ERROR);
+    TEMPORARY_DATABASE_CONNECTION_EXCEPTION(512, "데이터베이스에 문제가 생겼습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 
 
     private final int status;
