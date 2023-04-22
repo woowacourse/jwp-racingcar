@@ -3,19 +3,21 @@ package racingcar.dao;
 import racingcar.dto.GameIdDTO;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LocalGameDao implements GameDao {
 
-    private final List<GameEntity> gameEntities = new ArrayList<>();
+    private final Map<Long, GameEntity> gameEntities = new HashMap<>();
+    private Long id = 0L;
 
     @Override
     public Long insert(final int count) {
         final GameEntity gameEntity = new GameEntity(count);
-        gameEntities.add(gameEntity);
-        return gameEntity.getId();
+        gameEntities.put(++id, gameEntity);
+        return id;
     }
 
     @Override
@@ -30,25 +32,19 @@ public class LocalGameDao implements GameDao {
 
     @Override
     public List<GameIdDTO> findAllGameIds() {
-        return gameEntities.stream()
-                .map(gameEntity -> new GameIdDTO(gameEntity.getId()))
+        return gameEntities.keySet().stream()
+                .map(GameIdDTO::new)
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private class GameEntity {
+    private static class GameEntity {
 
-        private final Long id;
         private final int trialCount;
         private final Timestamp createdAt;
 
         public GameEntity(final int trialCount) {
-            this.id = (long) gameEntities.size();
             this.trialCount = trialCount;
             this.createdAt = new Timestamp(System.currentTimeMillis());
-        }
-
-        public Long getId() {
-            return id;
         }
 
         public int getTrialCount() {
