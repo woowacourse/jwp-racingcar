@@ -76,6 +76,11 @@ public class RacingCars {
                    .collect(Collectors.toUnmodifiableList());
     }
 
+    public boolean isWinner(Car car) {
+        return getWinners().stream()
+                           .anyMatch(it -> it.isSameCar(car));
+    }
+
     public List<Car> getCars() {
         return Collections.unmodifiableList(cars);
     }

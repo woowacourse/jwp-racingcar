@@ -6,15 +6,12 @@ import racingcar.dao.RaceResultDao;
 import racingcar.domain.RacingGame;
 import racingcar.entity.CarEntity;
 import racingcar.entity.RaceResultEntity;
-import racingcar.service.dto.CarStatusResponse;
 import racingcar.service.dto.GameInfoRequest;
 import racingcar.service.dto.RaceResultResponse;
 import racingcar.service.mapper.RaceResultMapper;
 import racingcar.util.NumberGenerator;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class RaceResultService {
@@ -43,26 +40,16 @@ public class RaceResultService {
         racingGame.play();
 
         final RaceResultEntity raceResultEntity = raceResultMapper.mapToRaceResultEntity(racingGame);
-        final int savedId = raceResultDao.save(raceResultEntity);
+        final Long savedId = raceResultDao.save(raceResultEntity);
+
         carService.registerCars(racingGame, savedId);
 
-        final List<CarStatusResponse> carStatusResponses =
-                raceResultMapper.mapToCarStatusResponseFrom(racingGame);
-
-        return new RaceResultResponse(raceResultEntity.getWinners(), carStatusResponses);
+        return raceResultMapper.mapToRaceResultResponse(racingGame);
     }
 
     @Transactional(readOnly = true)
     public List<RaceResultResponse> searchRaceResult() {
-
-        final Map<String, List<CarEntity>> allRaceResult = raceResultDao.findAllRaceResult();
-
-        return allRaceResult.entrySet()
-                            .stream()
-                            .map(it -> new RaceResultResponse(
-                                    it.getKey(),
-                                    raceResultMapper.mapToCarStatusResponseFrom(it.getValue()))
-                            )
-                            .collect(Collectors.toList());
+        final List<CarEntity> carEntities = carService.searchAllCars();
+        return raceResultMapper.mapToRaceResultResponses(carEntities);
     }
 }

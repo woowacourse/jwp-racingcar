@@ -19,10 +19,14 @@ public class CarService {
         this.carMapper = carMapper;
     }
 
-    public void registerCars(final RacingGame racingGame, final Integer savedId) {
+    public void registerCars(final RacingGame racingGame, final Long savedId) {
         final List<CarEntity> carEntities =
                 carMapper.mapToCarEntitiesFrom(racingGame, savedId);
 
         carDao.save(carEntities);
+    }
+
+    public List<CarEntity> searchAllCars() {
+        return carDao.findAll();
     }
 }

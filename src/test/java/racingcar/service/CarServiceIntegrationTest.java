@@ -25,7 +25,7 @@ class CarServiceIntegrationTest {
                 RacingGame.readyToRacingGame("a,b,c",
                                              new RandomNumberGenerator(),
                                              trialCount);
-        final int savedRaceResultId = 3;
+        final Long savedRaceResultId = 3L;
 
         //when & then
         assertDoesNotThrow(() -> carService.registerCars(racingGame, savedRaceResultId));

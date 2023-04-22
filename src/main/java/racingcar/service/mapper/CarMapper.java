@@ -13,18 +13,22 @@ import java.util.stream.Collectors;
 public class CarMapper {
 
     public List<CarEntity> mapToCarEntitiesFrom(final RacingGame racingGame,
-                                                final Integer savedId) {
-
+                                                final Long savedId) {
         return racingGame.getParticipantAllCar()
                          .stream()
-                         .map(it -> mapToCarEntity(savedId, it))
+                         .map(it -> mapToCarEntityFrom(racingGame, savedId, it))
                          .collect(Collectors.toList());
     }
 
-    private CarEntity mapToCarEntity(final Integer savedId, final Car car) {
-        return new CarEntity(car.getName(),
-                             car.getPosition(),
-                             savedId,
-                             LocalDateTime.now());
+    private static CarEntity mapToCarEntityFrom(final RacingGame racingGame,
+                                                final Long savedId,
+                                                final Car car) {
+        return new CarEntity(
+                car.getName(),
+                car.getPosition(),
+                savedId,
+                racingGame.isWinner(car),
+                LocalDateTime.now()
+        );
     }
 }

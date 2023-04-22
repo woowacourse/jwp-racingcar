@@ -4,28 +4,31 @@ import java.time.LocalDateTime;
 
 public class CarEntity {
 
-    private final Integer id;
+    private final Long id;
     private final String name;
     private final int position;
-    private final Integer raceResultId;
+    private final Long raceResultId;
+    private final boolean winner;
     private final LocalDateTime createdAt;
 
-    private CarEntity(final Integer id, final String name,
-                     final int position, final Integer raceResultId,
-                     final LocalDateTime createdAt) {
+    public CarEntity(final Long id, final String name,
+                     final int position, final Long raceResultId,
+                     final boolean winner, final LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.raceResultId = raceResultId;
+        this.winner = winner;
         this.createdAt = createdAt;
     }
 
     public CarEntity(final String name, final int position,
-                     final Integer raceResultId, final LocalDateTime createdAt) {
-        this(null, name, position, raceResultId, createdAt);
+                     final Long raceResultId, final boolean winner,
+                     final LocalDateTime createdAt) {
+        this(null, name, position, raceResultId, winner, createdAt);
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -37,8 +40,12 @@ public class CarEntity {
         return position;
     }
 
-    public Integer getRaceResultId() {
+    public Long getRaceResultId() {
         return raceResultId;
+    }
+
+    public boolean isWinner() {
+        return winner;
     }
 
     public LocalDateTime getCreatedAt() {

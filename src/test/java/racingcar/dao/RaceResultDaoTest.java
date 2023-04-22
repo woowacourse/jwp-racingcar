@@ -35,29 +35,29 @@ class RaceResultDaoTest {
     @DisplayName("save() : 경기 결과를 저장할 수 있다.")
     void test_save() throws Exception {
         //given
-        final RaceResultEntity raceResultEntity = new RaceResultEntity(4, "a,b,c", LocalDateTime.now());
+        final RaceResultEntity raceResultEntity = new RaceResultEntity(4, LocalDateTime.now());
 
         //when
-        final int savedId = raceResultDao.save(raceResultEntity);
+        final Long savedId = raceResultDao.save(raceResultEntity);
 
         //then
-        assertEquals(savedId, 1);
+        assertEquals(1L, savedId);
     }
 
     @Test
     @DisplayName("findAllRaceResult() : 전체 경기 결과를 조회할 수 있다.")
     void test_findAllRaceResult() throws Exception {
         //given
-        final String winner1 = "빙봉";
-        final String winner2 = "a,b,c,d";
+        final List<Long> ids = List.of(3L, 4L);
 
         //when
-        final Map<String, List<CarEntity>> allRaceResult = raceResultDao.findAllRaceResult();
+        final List<RaceResultEntity> raceResultEntities =  raceResultDao.findAllRaceResult();
 
         //then
         assertAll(
-                () -> Assertions.assertThat(allRaceResult).hasSize(2),
-                () -> Assertions.assertThat(allRaceResult).containsOnlyKeys(winner1, winner2)
+                () -> assertEquals(2, raceResultEntities.size()),
+                () -> Assertions.assertThat(raceResultEntities).extracting("id")
+                                .containsExactlyElementsOf(ids)
         );
     }
 }

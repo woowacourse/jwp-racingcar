@@ -47,6 +47,10 @@ public class Car implements Comparable<Car> {
         return this.position == maxPositionCar.position;
     }
 
+    public boolean isSameCar(Car car) {
+        return this.name.equals(car.name);
+    }
+
     public String getName() {
         return name;
     }

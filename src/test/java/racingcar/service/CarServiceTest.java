@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -43,16 +43,16 @@ class CarServiceTest {
                 RacingGame.readyToRacingGame("a,b,c",
                                              new RandomNumberGenerator(),
                                              2);
-        final int savedRaceResultId = 1;
+        final Long savedRaceResultId = 1L;
 
         final List<CarEntity> carEntities = List.of(
-                new CarEntity("a", 3, 1, LocalDateTime.now()),
-                new CarEntity("b", 3, 1, LocalDateTime.now()),
-                new CarEntity("c", 3, 1, LocalDateTime.now())
+                new CarEntity("a", 3, 1L, true, LocalDateTime.now()),
+                new CarEntity("b", 3, 1L, true, LocalDateTime.now()),
+                new CarEntity("c", 3, 1L, true, LocalDateTime.now())
         );
 
         //when
-        when(carMapper.mapToCarEntitiesFrom(any(), anyInt()))
+        when(carMapper.mapToCarEntitiesFrom(any(), anyLong()))
                 .thenReturn(carEntities);
 
         carService.registerCars(racingGame, savedRaceResultId);

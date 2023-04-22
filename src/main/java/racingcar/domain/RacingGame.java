@@ -36,6 +36,10 @@ public class RacingGame {
         return racingCars.getCars();
     }
 
+    public boolean isWinner(Car car) {
+        return racingCars.isWinner(car);
+    }
+
     public Integer getTrialCount() {
         return trialCount;
     }
