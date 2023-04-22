@@ -4,20 +4,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dao.car.dto.CarRegisterRequest;
 import racingcar.domain.Car;
 
-@SpringBootTest
-@Transactional
+@JdbcTest
 class CarDaoTest {
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     private CarDao carDao;
+
+    @BeforeEach
+    void init() {
+        this.carDao = new CarDao(jdbcTemplate);
+    }
 
     @Test
     @DisplayName("자동차 등록 요청을 받아서 자동차를 DB에 저장한다.")
@@ -43,6 +50,7 @@ class CarDaoTest {
     void findAll() {
         // given, when
         carDao.save(new CarRegisterRequest("성하", 5, 1));
+
         carDao.save(new CarRegisterRequest("우르", 5, 1));
         carDao.save(new CarRegisterRequest("코코닥", 5, 1));
         carDao.save(new CarRegisterRequest("제이", 5, 1));
