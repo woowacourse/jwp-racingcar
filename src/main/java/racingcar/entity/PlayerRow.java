@@ -3,7 +3,6 @@ package racingcar.entity;
 
 public final class PlayerRow {
 
-
 	private Long id;
 	private Long gameId;
 	private String name;
