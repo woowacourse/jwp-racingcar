@@ -1,9 +1,9 @@
 package racingcar.presentation;
 
-import racingcar.presentation.dto.CarData;
-import racingcar.presentation.dto.GameResultResponse;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
+import racingcar.presentation.dto.CarData;
+import racingcar.presentation.dto.GameResultResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,10 +11,7 @@ import java.util.stream.Collectors;
 public class ClientResponseConverter {
 
     public static GameResultResponse toGameResultResponse(final RacingGame racingGame) {
-        return new GameResultResponse(
-                toWinnerResponse(racingGame),
-                toCarDataResponse(racingGame)
-        );
+        return new GameResultResponse(toWinnerResponse(racingGame), toCarDataResponse(racingGame));
     }
 
     private static List<CarData> toCarDataResponse(final RacingGame racingGame) {
