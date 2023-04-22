@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class WebControllerAdvice {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleException(final RuntimeException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(exception.getMessage());
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> handleException(final RuntimeException exception) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(exception.getMessage());
 
-    }
+	}
 }
