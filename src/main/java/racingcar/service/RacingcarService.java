@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import racingcar.controller.RacingResponse;
 import racingcar.dao.CarDao;
 import racingcar.dao.CarEntity;
 import racingcar.dao.RacingGameDao;
 import racingcar.dao.RacingGameEntity;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
-import racingcar.dto.RacingResponse;
 import racingcar.model.Car;
 import racingcar.model.RacingGame;
 

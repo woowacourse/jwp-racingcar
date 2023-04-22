@@ -1,6 +1,6 @@
 package racingcar.consolegame.ui;
 
-import racingcar.dto.RacingResponse;
+import racingcar.controller.RacingResponse;
 import racingcar.model.Car;
 
 /**

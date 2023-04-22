@@ -9,7 +9,7 @@ import racingcar.consolegame.dao.CarInMemoryDao;
 import racingcar.consolegame.dao.RacingGameInMemoryDao;
 import racingcar.consolegame.ui.InputView;
 import racingcar.consolegame.ui.OutputView;
-import racingcar.dto.RacingResponse;
+import racingcar.controller.RacingResponse;
 import racingcar.service.RacingcarService;
 
 /**
