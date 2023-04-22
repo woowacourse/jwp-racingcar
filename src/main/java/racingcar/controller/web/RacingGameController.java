@@ -36,7 +36,6 @@ public class RacingGameController {
 
 	@GetMapping("/plays")
 	public ResponseEntity<List<GameResultResponseDto>> showGameHistory () {
-
 		return new ResponseEntity<>(racingCarService.findAllGameResults(), HttpStatus.OK);
 	}
 
