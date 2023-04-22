@@ -4,39 +4,39 @@ import java.time.LocalDateTime;
 
 public class GameResultEntity {
 
-    private final int id;
-    private final int trialCount;
+    private final Integer id;
+    private final Integer trialCount;
     private final String winners;
     private final LocalDateTime createdAt;
 
     public static GameResultEntity ofInward(
-            final int trialCount,
+            final Integer trialCount,
             final String winners
     ) {
-        return new GameResultEntity(-1, trialCount, winners, null);
+        return new GameResultEntity(null, trialCount, winners, null);
     }
 
     public static GameResultEntity ofOutward(
-            final int id,
-            final int trialCount,
+            final Integer id,
+            final Integer trialCount,
             final String winners,
             final LocalDateTime createdAt
     ) {
         return new GameResultEntity(id, trialCount, winners, createdAt);
     }
 
-    private GameResultEntity(final int id, final int trialCount, final String winners, final LocalDateTime createdAt) {
+    private GameResultEntity(final Integer id, final Integer trialCount, final String winners, final LocalDateTime createdAt) {
         this.id = id;
         this.trialCount = trialCount;
         this.winners = winners;
         this.createdAt = createdAt;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getTrialCount() {
+    public Integer getTrialCount() {
         return trialCount;
     }
 

@@ -2,36 +2,36 @@ package racingcar.persistence.entity;
 
 public class PlayerResultEntity {
 
-    private final int id;
+    private final Integer id;
     private final String name;
-    private final int position;
-    private final int gameResultId;
+    private final Integer position;
+    private final Integer gameResultId;
 
     public static PlayerResultEntity ofInward(
             final String name,
-            final int position,
-            final int gameResultId
+            final Integer position,
+            final Integer gameResultId
     ) {
-        return new PlayerResultEntity(-1, name, position, gameResultId);
+        return new PlayerResultEntity(null, name, position, gameResultId);
     }
 
     public static PlayerResultEntity ofOutward(
-            final int id,
+            final Integer id,
             final String name,
-            final int position,
-            final int gameResultId
+            final Integer position,
+            final Integer gameResultId
     ) {
         return new PlayerResultEntity(id, name, position, gameResultId);
     }
 
-    public PlayerResultEntity(final int id, final String name, final int position, final int gameResultId) {
+    private PlayerResultEntity(final Integer id, final String name, final Integer position, final Integer gameResultId) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.gameResultId = gameResultId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -39,11 +39,11 @@ public class PlayerResultEntity {
         return name;
     }
 
-    public int getPosition() {
+    public Integer getPosition() {
         return position;
     }
 
-    public int getGameResultId() {
+    public Integer getGameResultId() {
         return gameResultId;
     }
 }
