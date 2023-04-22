@@ -158,7 +158,8 @@ Content-Type: application/json
         - [x] 인자값으로 인한 요청 오류, 그 외의 서버 오류를 구분하여 다른 HTTP 상태 코드 반환하기
         - [ ] 사용자 정의 예외 사용하기
             - 모든 Exception을 처리하면, 원하지 않는 정보를 사용자에게 노출할 위험이 있으므로 관리 가능한 예외에 대해서만 처리하자.
-    - [ ] ExceptionHandler 전역 처리
+    - [x] RestControllerAdvice 사용하여 ExceptionHandler 전역 처리
+        - 예외 처리 페이지로 리다이렉트 시키려면 ControllerAdvice 를 사용하지만 현재 요구사항이 아니라고 판단하여 예외 관련 정보만 반환함.
     - [x] Dto에 Validation 어노테이션 추가
         - 도메인 검증 로직 이전에 일찍 검증할 수 있는 장점이 있다.
         - [x] 예외 메시지는 도메인 검증 로직과 동일하게 작성해야 할까? 구분할 필요가 있을까?
