@@ -2,41 +2,41 @@ package racingcar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.CarInfoDao;
-import racingcar.dao.RacingDao;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
+import racingcar.domain.*;
+import racingcar.domain.entity.CarInfo;
+import racingcar.domain.entity.Race;
 import racingcar.dto.CarDto;
-import racingcar.dto.CarSavingDto;
 import racingcar.dto.RacingResultDto;
+import racingcar.exception.RepositoryOutOfSpaceException;
+import racingcar.repository.CarInfoRepository;
+import racingcar.repository.RaceRepository;
 import racingcar.utils.NumberGenerator;
-import racingcar.vo.Name;
-import racingcar.vo.Names;
-import racingcar.vo.Trial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class RacingService {
 
     private final NumberGenerator numberGenerator;
-    private final RacingDao racingDao;
-    private final CarInfoDao carInfoDao;
+    private final RaceRepository raceRepository;
+    private final CarInfoRepository carInfoRepository;
 
-    public RacingService(NumberGenerator numberGenerator, RacingDao racingDao, CarInfoDao carInfoDao) {
+    public RacingService(NumberGenerator numberGenerator, RaceRepository raceRepository, CarInfoRepository carInfoRepository) {
         this.numberGenerator = numberGenerator;
-        this.racingDao = racingDao;
-        this.carInfoDao = carInfoDao;
+        this.raceRepository = raceRepository;
+        this.carInfoRepository = carInfoRepository;
     }
 
-    public RacingResultDto race(String names, int count) {
+    public int race(String names, int count) {
         Cars cars = initializeCars(names);
         Trial trial = Trial.of(count);
         playGame(cars, trial);
-        return new RacingResultDto(trial, cars.getWinnerNames(), cars.getCarDtos());
+        return saveResult(trial, cars);
     }
 
     private Cars initializeCars(String names) {
@@ -63,11 +63,49 @@ public class RacingService {
         return new Cars(cars, numberGenerator);
     }
 
-    public void saveResult(RacingResultDto racingResultDto) {
-        final int racingId = racingDao.saveRacing(racingResultDto.getTrial());
-        for (CarDto car : racingResultDto.getRacingCars()) {
-            String name = car.getName();
-            carInfoDao.saveCar(new CarSavingDto(racingId, name, car.getPosition(), racingResultDto.isWinnerContaining(name)));
+    private int saveResult(Trial trial, Cars cars) {
+        final Optional<Integer> raceId = raceRepository.saveRace(new Race(trial));
+        if (raceId.isEmpty()) {
+            throw new RepositoryOutOfSpaceException();
         }
+        int racingId = raceId.get();
+        for (CarDto carDto : cars.getCarDtos()) {
+            String name = carDto.getName();
+            CarInfo carInfo = new CarInfo(racingId, name, carDto.getPosition(), cars.isWinnerContaining(name));
+            Optional<Integer> carInfoId = carInfoRepository.saveCar(carInfo);
+            if (carInfoId.isEmpty()) {
+                throw new RepositoryOutOfSpaceException();
+            }
+        }
+        return racingId;
+    }
+
+    public List<RacingResultDto> findAllResults() {
+        ArrayList<RacingResultDto> racingResults = new ArrayList<>();
+
+        List<Integer> raceIds = raceRepository.findAllId();
+        for (Integer raceId : raceIds) {
+            findRaceById(raceId).ifPresent(racingResults::add);
+        }
+
+        return racingResults;
+    }
+
+    public Optional<RacingResultDto> findRaceById(int raceId) {
+        List<CarInfo> carInfos = carInfoRepository.findAllByRaceId(raceId);
+        if (carInfos.isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<String> winnerNames = carInfos.stream()
+                .filter(CarInfo::getIsWinner)
+                .map(CarInfo::getName)
+                .collect(Collectors.toList());
+
+        List<CarDto> carDtos = carInfos.stream()
+                .map(CarDto::new)
+                .collect(Collectors.toList());
+
+        return Optional.of(new RacingResultDto(winnerNames, carDtos));
     }
 }

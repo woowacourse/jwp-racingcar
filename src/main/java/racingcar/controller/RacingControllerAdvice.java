@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import racingcar.dto.ExceptionResponseDto;
 
-@RestControllerAdvice(assignableTypes = {RacingController.class})
-public class ControllerAdvice {
+@RestControllerAdvice(basePackages = {"racingcar.controller"})
+public class RacingControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponseDto sendExceptionMessage(IllegalArgumentException ex) {

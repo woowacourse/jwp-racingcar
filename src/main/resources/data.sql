@@ -1,8 +1,8 @@
 CREATE TABLE racing
 (
-    `id`         INT      NOT NULL AUTO_INCREMENT,
+    `id`          INT      NOT NULL AUTO_INCREMENT,
     `trial_count` INT      NOT NULL,
-    `created_at` DATETIME NOT NULL DEFAULT current_timestamp,
+    `created_at`  DATETIME NOT NULL DEFAULT current_timestamp,
     PRIMARY KEY (id)
 );
 

@@ -1,8 +1,5 @@
 package racingcar.domain;
 
-import racingcar.vo.Name;
-import racingcar.vo.Position;
-
 public class Car {
     public static final int MIN_REQUIRED_POWER = 3;
 

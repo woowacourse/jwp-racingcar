@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.utils.NumberGenerator;
 import racingcar.utils.RandomNumberGenerator;
-import racingcar.vo.Name;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +30,7 @@ class CarsTest {
     @DisplayName("차 추가 테스트")
     void givenCar_whenSavingCar_thenSavesCar() {
         ArrayList<Car> carHolder = new ArrayList<>();
-        cars = new Cars(carHolder, RandomNumberGenerator.makeInstance());
+        cars = new Cars(carHolder, new RandomNumberGenerator());
 
         cars.saveCar(car);
 

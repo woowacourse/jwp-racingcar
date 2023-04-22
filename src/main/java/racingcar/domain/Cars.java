@@ -4,7 +4,9 @@ import racingcar.dto.CarDto;
 import racingcar.utils.NumberGenerator;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Cars {
@@ -45,6 +47,10 @@ public class Cars {
         return Collections.max(cars.stream()
                 .map((Car::getPosition))
                 .collect(Collectors.toUnmodifiableList()));
+    }
+
+    public boolean isWinnerContaining(String name) {
+        return getWinnerNames().contains(name);
     }
 
     @Override
