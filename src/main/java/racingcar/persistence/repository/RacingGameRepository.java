@@ -32,11 +32,15 @@ public class RacingGameRepository implements GameRepository {
     private GameResultEntity toGameResultEntity(final RacingGame racingGame) {
         return GameResultEntity.ofInward(
                 racingGame.getGameCoin().getGiven(),
-                racingGame.getWinners().stream()
-                        .map(Car::getCarName)
-                        .reduce((o1, o2) -> o1 + "," + o2)
-                        .orElseThrow()
+                formatWinners(racingGame)
         );
+    }
+
+    private String formatWinners(final RacingGame racingGame) {
+        return racingGame.getWinners().stream()
+                .map(Car::getCarName)
+                .reduce((o1, o2) -> o1 + "," + o2)
+                .orElseThrow();
     }
 
     private List<PlayerResultEntity> toPlayerResultEntity(final RacingGame racingGame, final Integer gameResultId) {
