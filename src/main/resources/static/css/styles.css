@@ -1,124 +1,124 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
 }
 
 h1 {
-    margin: 20px 0;
-    font-size: 24px;
-    text-align: center;
+  margin: 20px 0;
+  font-size: 24px;
+  text-align: center;
 }
 
 /* 입력 영역 */
 .input-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 50px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px 0;
 }
 
 .input-area label {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .input-area input[type="text"] {
-    padding: 10px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 30px;
-    font-size: 16px;
-    background-color: transparent;
-    transition: border-bottom-color 0.2s;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 30px;
+  font-size: 16px;
+  background-color: transparent;
+  transition: border-bottom-color 0.2s;
 }
 
 .input-area input[type="text"]:focus {
-    border-bottom-color: #444;
-    outline: none;
+  border-bottom-color: #444;
+  outline: none;
 }
 
 /* 출력 영역 */
 .output-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    color: #444;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  color: #444;
 }
 
 /* 폼 */
 form {
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 form button[type="submit"] {
-    background-color: #444;
-    color: #fff;
-    padding: 10px 15px;
-    margin: auto;
-    display: block;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.2s;
+  background-color: #444;
+  color: #fff;
+  padding: 10px 15px;
+  margin: auto;
+  display: block;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
 }
 
 form button[type="submit"]:hover {
-    background-color: #333;
+  background-color: #333;
 }
 
 table {
-    border-collapse: collapse;
-    margin: 0 auto;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
 }
 
 th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
 }
 
 th {
-    background-color: #f2f2f2;
-    font-weight: bold;
+  background-color: #f2f2f2;
+  font-weight: bold;
 }
 
 /* GNB 스타일 */
 .gnb {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 50px;
-    background-color: #444;
-    color: #fff;
-    padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background-color: #444;
+  color: #fff;
+  padding: 0 20px;
 }
 
 .gnb button {
-    background-color: #444;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+  background-color: #444;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .gnb button:hover {
-    background-color: #444;
+  background-color: #444;
 }
