@@ -27,6 +27,13 @@ public class ExceptionResponse {
                                      ExceptionTargetInfoResponse.from(bindingResult));
     }
 
+    public static ExceptionResponse of(final ExceptionStatus exceptionStatus) {
+        return new ExceptionResponse(exceptionStatus.getStatus(),
+                                     exceptionStatus.getMessage(),
+                                     exceptionStatus.getHttpStatus().name(),
+                                     null);
+    }
+
     public String getMessage() {
         return message;
     }
