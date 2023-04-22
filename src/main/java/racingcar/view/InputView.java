@@ -2,9 +2,7 @@ package racingcar.view;
 
 import java.util.List;
 import java.util.Scanner;
-import org.springframework.stereotype.Component;
 
-@Component
 public final class InputView {
 
 	private Scanner SCANNER = new Scanner(System.in);

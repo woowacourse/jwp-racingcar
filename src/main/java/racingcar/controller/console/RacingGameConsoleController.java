@@ -3,8 +3,6 @@ package racingcar.controller.console;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
@@ -13,14 +11,12 @@ import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-@Controller
 public final class RacingGameConsoleController {
 
 	private final InputView inputView;
 	private final OutputView outputView;
 	private final RacingCarService racingCarService;
 
-	@Autowired
 	public RacingGameConsoleController (final InputView inputView, final OutputView outputView,
 										final RacingCarService racingCarService) {
 		this.inputView = inputView;

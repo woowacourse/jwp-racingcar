@@ -1,10 +1,8 @@
 package racingcar.view;
 
-import org.springframework.stereotype.Component;
 import racingcar.dto.CarStatusResponseDto;
 import racingcar.dto.GameResultResponseDto;
 
-@Component
 public final class OutputView {
 
 	public void printError (final String message) {
