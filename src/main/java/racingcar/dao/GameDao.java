@@ -1,6 +1,7 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.GameEntity;
@@ -13,6 +14,13 @@ import java.util.List;
 public class GameDao {
 
     private final JdbcTemplate jdbcTemplate;
+
+    private final RowMapper<JoinEntity> rowMapper = (resultSet, rowNum) -> new JoinEntity(
+            resultSet.getLong("id"),
+            resultSet.getString("WINNERS"),
+            resultSet.getString("NAME"),
+            resultSet.getInt("POSITION")
+    );
 
     public GameDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -34,14 +42,7 @@ public class GameDao {
     public List<JoinEntity> findGamePlayHistoryAll() {
         final String sql = "SELECT GAME.ID, GAME.WINNERS, PLAYER.NAME, PLAYER.POSITION FROM GAME LEFT JOIN PLAYER ON GAME.ID = PLAYER.GAME_ID";
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            final long id = rs.getLong("id");
-            final String winners = rs.getString("WINNERS");
-            final String name = rs.getString("NAME");
-            final int position = rs.getInt("POSITION");
-
-            return new JoinEntity(id, winners, name, position);
-        });
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
 }
