@@ -34,7 +34,44 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("JdbcRacingGameRepository 는")
 class JdbcRacingGameRepositoryTestFakeVersion {
 
-    // TODO Fake 클래스의 위치는 어디가 적절할까요?
+    private RacingGameRepository racingGameRepository =
+            new JdbcRacingGameRepository(
+                    new FaceRacingGameDao(),
+                    new FaceCarDao(),
+                    new FakeWinnerDao());
+
+    @Test
+    void RacingGame_을_저장한다() {
+        // given
+        final RacingGame racingGame = makeGame();
+
+        // when
+        final Long id = racingGameRepository.save(racingGame);
+
+        // then
+        assertThat(id).isEqualTo(1L);
+    }
+
+    private RacingGame makeGame() {
+        final Cars cars = new Cars(Stream.of("브리", "토미", "브라운")
+                .map(Car::new)
+                .collect(Collectors.toList()));
+        final GameTime gameTime = new GameTime("10");
+        return new RacingGame(cars, gameTime);
+    }
+
+    @Test
+    void 모든_게임을_조회한다() {
+        // given
+        IntStream.range(0, 10).forEach(it -> racingGameRepository.save(makeGame()));
+
+        // when
+        final List<RacingGame> games = racingGameRepository.findAll();
+
+        // then
+        assertThat(games.size()).isEqualTo(10);
+    }
+
     private static class FaceRacingGameDao extends RacingGameDao {
 
         public FaceRacingGameDao() {
@@ -106,43 +143,5 @@ class JdbcRacingGameRepositoryTestFakeVersion {
                     .filter(it -> gameId.equals(it.getGameId()))
                     .collect(Collectors.toList());
         }
-    }
-
-    private RacingGameRepository racingGameRepository =
-            new JdbcRacingGameRepository(
-                    new FaceRacingGameDao(),
-                    new FaceCarDao(),
-                    new FakeWinnerDao());
-
-    @Test
-    void RacingGame_을_저장한다() {
-        // given
-        final RacingGame racingGame = makeGame();
-
-        // when
-        final Long id = racingGameRepository.save(racingGame);
-
-        // then
-        assertThat(id).isEqualTo(1L);
-    }
-
-    private RacingGame makeGame() {
-        final Cars cars = new Cars(Stream.of("브리", "토미", "브라운")
-                .map(Car::new)
-                .collect(Collectors.toList()));
-        final GameTime gameTime = new GameTime("10");
-        return new RacingGame(cars, gameTime);
-    }
-
-    @Test
-    void 모든_게임을_조회한다() {
-        // given
-        IntStream.range(0, 10).forEach(it -> racingGameRepository.save(makeGame()));
-
-        // when
-        final List<RacingGame> games = racingGameRepository.findAll();
-
-        // then
-        assertThat(games.size()).isEqualTo(10);
     }
 }
