@@ -2,7 +2,6 @@ package racingcar.controller.console;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import racingcar.controller.response.RacingGameResponse;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
@@ -11,7 +10,6 @@ import racingcar.view.OutputView;
 import java.util.List;
 import java.util.Map;
 
-@Component
 public class RacingGameConsoleController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final InputView inputView;
