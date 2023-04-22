@@ -2,7 +2,7 @@ package racingcar.entity;
 
 public class Player {
 
-    private final long id;
+    private long id;
     private final long playResultId;
     private final String name;
     private final int position;
@@ -10,6 +10,13 @@ public class Player {
 
     public Player(final long id, final long playResultId, final String name, final int position, final boolean winner) {
         this.id = id;
+        this.playResultId = playResultId;
+        this.name = name;
+        this.position = position;
+        this.winner = winner;
+    }
+
+    public Player(final long playResultId, final String name, final int position, final boolean winner) {
         this.playResultId = playResultId;
         this.name = name;
         this.position = position;

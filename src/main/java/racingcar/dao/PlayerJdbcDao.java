@@ -1,6 +1,8 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.Player;
 
@@ -9,16 +11,23 @@ import java.util.List;
 @Repository
 public class PlayerJdbcDao implements PlayerDao {
 
+    private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
 
     public PlayerJdbcDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("player")
+                .usingGeneratedKeyColumns("id");
     }
 
     @Override
-    public void insert(final long playResultId, final String name, final int position, boolean winner) {
-        String sql = "insert into PLAYER (play_result_id, name, position, winner) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, playResultId, name, position, winner);
+    public void insertAll(final List<Player> players) {
+        final BeanPropertySqlParameterSource[] parameters = players.stream()
+                .map(BeanPropertySqlParameterSource::new)
+                .toArray(BeanPropertySqlParameterSource[]::new);
+
+        simpleJdbcInsert.executeBatch(parameters);
     }
 
     @Override

@@ -39,9 +39,16 @@ public class CarService {
         final long id = insertPlayResult();
         final List<Car> winnerCars = racingGame.getWinnerCars();
         final List<Car> cars = racingGame.getCars();
+        final List<Player> players = mapToPlayers(id, winnerCars, cars);
 
-        cars.forEach(car -> playerDao.insert(id, car.getName(), car.getPosition(), winnerCars.contains(car)));
+        playerDao.insertAll(players);
         return new WinnerCarDto(CarDto.convertCarToCarDto(winnerCars), CarDto.convertCarToCarDto(cars));
+    }
+
+    private static List<Player> mapToPlayers(final long id, final List<Car> winnerCars, final List<Car> cars) {
+        return cars.stream()
+                .map(car -> new Player(id, car.getName(), car.getPosition(), winnerCars.contains(car)))
+                .collect(Collectors.toList());
     }
 
     private long insertPlayResult() {
