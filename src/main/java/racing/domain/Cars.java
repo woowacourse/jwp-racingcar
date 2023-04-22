@@ -1,63 +1,53 @@
 package racing.domain;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import racing.domain.utils.RacingCarNumberGenerator;
 
 public class Cars {
+
+    private static final String CAR_NAME_DUPLICATED = "중복된 자동차 이름이 존재합니다.";
 
     private final List<Car> cars;
 
     public Cars(List<Car> cars) {
+        validateDuplication(cars);
         this.cars = cars;
     }
 
-    // 테스트를 위한 메서드
-    public Car getCar(int n) {
-        return cars.get(n);
+    private void validateDuplication(List<Car> cars) {
+        long distinctCount = (int) cars.stream()
+                .map(Car::getName)
+                .map(String::trim)
+                .distinct()
+                .count();
+
+        if (distinctCount != cars.size()) {
+            throw new IllegalArgumentException(CAR_NAME_DUPLICATED);
+        }
     }
 
-    public void calculator(Random random) {
-        cars.stream()
-                .filter(car -> 4 <= random.nextInt(10))
-                .forEach(Car::move);
-    }
-
-    public List<String> getPrintForm() {
-        List<String> forms = new ArrayList<>();
+    public void moveCarsWith(RacingCarNumberGenerator numberGenerator) {
         for (Car car : cars) {
-            forms.add(car.getCarStepForm());
+            int generatedNumber = numberGenerator.peekNumber();
+            car.moveForwardByNumber(generatedNumber);
         }
-        return forms;
     }
 
-    public List<String> getWinners() {
-        int winnerStep = getWinnerStep();
-        return findWinners(winnerStep);
+    public Cars filterMaxStepCars() {
+        int maxStep = getMaxStep();
+
+        return new Cars(cars.stream()
+                .filter(car -> car.getStep() == maxStep)
+                .collect(Collectors.toList()));
     }
 
-    private int getWinnerStep() {
-        int winnerStep = 0;
-        for (Car car : cars) {
-            winnerStep = car.getCarStep(winnerStep);
-        }
-        return winnerStep;
-    }
-
-    private List<String> findWinners(int winnerStep) {
-        List<String> winners = new ArrayList<>();
-        for (Car car : cars) {
-            if (car.getStep() == winnerStep) {
-                winners.add(car.getName());
-            }
-        }
-        return winners;
-    }
-
-    public void moveCars(int count) {
-        while (count-- > 0) {
-            this.calculator(new Random());
-        }
+    public int getMaxStep() {
+        return cars.stream()
+                .mapToInt(Car::getStep)
+                .max()
+                .orElseThrow(NoSuchElementException::new);
     }
 
     public List<Car> getCars() {

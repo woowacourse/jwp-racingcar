@@ -1,50 +1,44 @@
 package racing.domain;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import racing.ui.output.OutputView;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import racing.domain.fixture.CarFixtureFactory;
+import racing.domain.utils.RacingCarNumberGenerator;
+import racing.domain.utils.ScheduledNumberGenerator;
 
 class CarsTest {
 
-    private Cars cars;
+    private static final int STOP_NUMBER = 1;
+    private static final int MOVE_NUMBER = 9;
 
-    @BeforeEach
-    void init() {
-        List<Car> carList = List.of(
-                new Car("bebe0"),
-                new Car("bebe1"),
-                new Car("bebe2")
-        );
-        cars = new Cars(carList);
+    @DisplayName("이동 전략에 따라 자동차들이 전진한다.")
+    @Test
+    void moveCarsWithTest() {
+        Car carA = CarFixtureFactory.getCarWithName("carA");
+        Car carB = CarFixtureFactory.getCarWithName("carB");
+        Cars cars = new Cars(List.of(carA, carB));
+        RacingCarNumberGenerator scheduledNumberGenerator =
+                new ScheduledNumberGenerator(STOP_NUMBER, MOVE_NUMBER);
+
+        cars.moveCarsWith(scheduledNumberGenerator);
+
+        assertThat(carA.getStep()).isEqualTo(0);
+        assertThat(carB.getStep()).isEqualTo(1);
     }
 
-    @DisplayName("출력 형식이 반환되어야 한다.")
+    @DisplayName("제일 멀리 나간 자동차들을 찾을 수 있다.")
     @Test
-    void getPrintForm() {
-        cars.getCar(0).move();
-        List<String> printForms = this.cars.getPrintForm();
+    void filterMaxStepCarsTest() {
+        Car bebe0 = CarFixtureFactory.getCarWithNameAndStep("carA", 1);
+        Car bebe1 = CarFixtureFactory.getCarWithNameAndStep("carB", 2);
+        Car bebe2 = CarFixtureFactory.getCarWithNameAndStep("carC", 2);
+        Cars cars = new Cars(List.of(bebe0, bebe1, bebe2));
 
-        Assertions.assertAll(
-                () -> assertEquals(printForms.get(0), "bebe0" + OutputView.COLON + OutputView.HYPHEN.repeat(1)),
-                () -> assertEquals(printForms.get(1), "bebe1" + OutputView.COLON + OutputView.HYPHEN.repeat(0)),
-                () -> assertEquals(printForms.get(2), "bebe2" + OutputView.COLON + OutputView.HYPHEN.repeat(0))
-        );
-    }
+        Cars frontCars = cars.filterMaxStepCars();
 
-    @DisplayName("경기 승자를 반환해야 한다.")
-    @Test
-    void getWinners() {
-        cars.getCar(0).move();
-        cars.getCar(1).move();
-        cars.getCar(1).move();
-        cars.getCar(2).move();
-        cars.getCar(2).move();
-        assertEquals(cars.getWinners(), List.of("bebe1", "bebe2"));
+        assertThat(frontCars.getCars()).contains(bebe1, bebe2);
     }
 }

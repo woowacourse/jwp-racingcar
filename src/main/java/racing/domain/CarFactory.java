@@ -1,13 +1,13 @@
 package racing.domain;
 
-import racing.domain.Car;
-import racing.domain.Cars;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CarFactory {
+
+    private CarFactory() {
+    }
 
     public static Cars carFactory(List<String> names) {
         return new Cars(convertToCars(names));
@@ -19,7 +19,8 @@ public class CarFactory {
 
     private static List<Car> convertToCars(List<String> names) {
         final List<Car> cars = new ArrayList<>();
-        for (String carName : names) {
+        for (String name : names) {
+            CarName carName = new CarName(name);
             cars.add(new Car(carName));
         }
         return cars;
