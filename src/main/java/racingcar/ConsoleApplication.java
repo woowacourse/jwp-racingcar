@@ -11,12 +11,12 @@ import java.util.Scanner;
 
 public class ConsoleApplication {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        InputView inputView = new InputView(scanner);
-        OutputView outputView = new OutputView();
-        MovingStrategy movingStrategy = new RandomMovingStrategy();
+        final Scanner scanner = new Scanner(System.in);
+        final InputView inputView = new InputView(scanner);
+        final OutputView outputView = new OutputView();
+        final MovingStrategy movingStrategy = new RandomMovingStrategy();
 
-        RacingConsoleController racingConsoleController
+        final RacingConsoleController racingConsoleController
                 = new RacingConsoleController(inputView, outputView, movingStrategy);
 
         try {

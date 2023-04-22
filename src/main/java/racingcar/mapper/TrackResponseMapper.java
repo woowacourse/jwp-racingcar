@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 
 public class TrackResponseMapper {
 
-    private TrackResponseMapper() {}
+    private TrackResponseMapper() {
+    }
 
     public static TrackResponse from(final Cars cars) {
         final String winnerCarNames = makeWinnerCarNames(cars);
@@ -27,7 +28,7 @@ public class TrackResponseMapper {
 
     private static List<CarResponse> makeCarResponses(final Cars finishedCars) {
         final List<CarResponse> results = finishedCars.getCarsCurrentInfo().stream()
-                .map(car ->  CarResponseMapper.of(car.getCarName(), car.getPosition()))
+                .map(car -> CarResponseMapper.of(car.getCarName(), car.getPosition()))
                 .collect(Collectors.toList());
         return results;
     }

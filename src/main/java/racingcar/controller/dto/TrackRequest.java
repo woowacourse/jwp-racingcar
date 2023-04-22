@@ -8,9 +8,10 @@ import javax.validation.constraints.NotBlank;
 public class TrackRequest {
 
     @NotBlank(message = "참여자 이름을 입력해야합니다.")
-    private String names;
+    private final String names;
+
     @NotBlank(message = "시도할 횟수를 입력해야합니다.")
-    private String count;
+    private final String count;
 
     @JsonCreator
     public TrackRequest(

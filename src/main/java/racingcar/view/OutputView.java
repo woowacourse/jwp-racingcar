@@ -17,7 +17,7 @@ public class OutputView {
     private static final String ERROR_PREFIX = "[ERROR] ";
 
     public void printCurrentCarsPosition(final Cars cars) {
-        StringJoiner stringJoiner = new StringJoiner(LINE_BREAK);
+        final StringJoiner stringJoiner = new StringJoiner(LINE_BREAK);
 
         cars.getCarsCurrentInfo().forEach(car -> {
             stringJoiner.add(String.format(POSITION_CAR_STATE_FORMAT,
@@ -29,7 +29,7 @@ public class OutputView {
     }
 
     public void printWinnerCars(final Cars cars) {
-        String winnerCarsFormat = cars.getWinnerCars().stream()
+        final String winnerCarsFormat = cars.getWinnerCars().stream()
                 .map(Car::getCarName)
                 .collect(Collectors.joining(CAR_SEPARATOR));
 

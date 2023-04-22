@@ -1,7 +1,5 @@
 package racingcar.exception;
 
-import org.springframework.http.HttpStatus;
-
 public class CustomException extends IllegalArgumentException {
     private String errorMessage;
 

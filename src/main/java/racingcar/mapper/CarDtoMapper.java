@@ -4,7 +4,8 @@ import racingcar.dao.dto.CarDto;
 
 public class CarDtoMapper {
 
-    private CarDtoMapper() {}
+    private CarDtoMapper() {
+    }
 
     public static CarDto of(final String name,
                             final int position,
