@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
 import racingcar.model.car.Car;
-import racingcar.model.car.strategy.RandomMovingStrategy;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -53,8 +52,7 @@ public class RacingDao {
                 query, (resultSet, rowNum) -> {
                     Car car = Car.of(
                             resultSet.getString("name"),
-                            resultSet.getInt("position"),
-                            new RandomMovingStrategy()
+                            resultSet.getInt("position")
                     );
                     return car;
                 }, id);

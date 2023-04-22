@@ -3,6 +3,7 @@ package racingcar.model.car;
 import org.springframework.util.StringUtils;
 import racingcar.exception.CustomException;
 import racingcar.model.car.strategy.MovingStrategy;
+import racingcar.model.car.strategy.RandomMovingStrategy;
 
 import java.util.regex.Pattern;
 
@@ -13,26 +14,20 @@ public class Car {
 
     private final String carName;
     private int position;
-    private final MovingStrategy movingStrategy;
 
-    private Car(final String carName, final int position, final MovingStrategy movingStrategy) {
+    private Car(final String carName, final int position) {
         validate(carName);
 
         this.carName = carName;
         this.position = position;
-        this.movingStrategy = movingStrategy;
     }
 
-    public static Car of(final String carName, final int position, final MovingStrategy movingStrategy) {
-        final String stripCarName = carName.strip();
-
-        return new Car(stripCarName, position, movingStrategy);
+    public static Car from(final String carName) {
+        return new Car(carName, POSITION_INIT);
     }
 
-    public static Car of(final String carName, final MovingStrategy movingStrategy) {
-        final String stripCarName = carName.strip();
-
-        return new Car(stripCarName, POSITION_INIT, movingStrategy);
+    public static Car of(final String carName, final int position) {
+        return new Car(carName, position);
     }
 
     private void validate(final String carName) {
@@ -67,7 +62,7 @@ public class Car {
         return position == maxPosition;
     }
 
-    public boolean movable() {
+    public boolean movable(final MovingStrategy movingStrategy) {
         return movingStrategy.movable();
     }
 

@@ -2,6 +2,7 @@ package racingcar.model.track;
 
 import racingcar.exception.CustomException;
 import racingcar.model.car.Cars;
+import racingcar.model.car.strategy.MovingStrategy;
 
 import java.util.regex.Pattern;
 
@@ -12,16 +13,18 @@ public class Track {
 
     private final Cars cars;
     private int trialTimes;
+    private final MovingStrategy movingStrategy;
 
-    private Track(final Cars cars, final String trialTimes) {
+    private Track(final Cars cars, final String trialTimes, final MovingStrategy movingStrategy) {
         validate(trialTimes);
 
         this.cars = cars;
         this.trialTimes = Integer.parseInt(trialTimes);
+        this.movingStrategy = movingStrategy;
     }
 
-    public static Track of(final Cars cars, final String trialTimes) {
-        return new Track(cars, trialTimes);
+    public static Track of(final Cars cars, final String trialTimes, final MovingStrategy movingStrategy) {
+        return new Track(cars, trialTimes, movingStrategy);
     }
 
     private void validate(final String trialTimes) {
@@ -44,7 +47,7 @@ public class Track {
     }
 
     public Cars race() {
-        cars.moveCars();
+        cars.moveCars(movingStrategy);
         removeTrialTimes();
         return cars;
     }

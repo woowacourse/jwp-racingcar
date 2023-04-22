@@ -29,11 +29,11 @@ public class Cars {
         return new Cars(newCars);
     }
 
-    public static Cars of(final String carNames, final MovingStrategy movingStrategy) {
+    public static Cars of(final String carNames) {
         validateEmptyInput(carNames);
 
         final List<Car> cars = Arrays.stream(carNames.split(SEPARATOR, -1))
-                .map(carName -> Car.of(carName, movingStrategy))
+                .map(Car::from)
                 .collect(Collectors.toList());
 
         return new Cars(cars);
@@ -58,9 +58,9 @@ public class Cars {
         }
     }
 
-    public void moveCars() {
+    public void moveCars(final MovingStrategy movingStrategy) {
         cars.stream()
-                .filter(Car::movable)
+                .filter(car -> car.movable(movingStrategy))
                 .forEach(Car::moveForward);
     }
 

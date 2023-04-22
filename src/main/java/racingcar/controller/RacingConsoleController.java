@@ -43,8 +43,8 @@ public class RacingConsoleController {
         final String carNames = trackRequest.getNames();
         final String trialTimes = trackRequest.getCount();
 
-        final Cars cars = Cars.of(carNames, movingStrategy);
-        final Track track = Track.of(cars, trialTimes);
+        final Cars cars = Cars.of(carNames);
+        final Track track = Track.of(cars, trialTimes, movingStrategy);
 
         return track;
     }

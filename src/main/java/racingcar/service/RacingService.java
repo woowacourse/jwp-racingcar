@@ -34,8 +34,8 @@ public class RacingService {
         final String names = trackRequest.getNames();
         final String trialTimes = trackRequest.getCount();
 
-        final Cars cars = Cars.of(names, movingStrategy);
-        final Track track = Track.of(cars, trialTimes);
+        final Cars cars = Cars.of(names);
+        final Track track = Track.of(cars, trialTimes, movingStrategy);
 
         final Integer trackId = saveTrack(track);
         final Cars finishedCars = startRace(track);
