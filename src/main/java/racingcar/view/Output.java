@@ -8,24 +8,20 @@ import racingcar.domain.Car;
 import racingcar.domain.Winner;
 
 public class Output {
+
     private static final String SEPERATOR = ", ";
-    private static final String MOVE_INDICATOR = "-";
+    private static final String RESULT_FORMAT = "%s: %d%n";
 
     public static void printMessage(String message) {
         System.out.println(message);
     }
 
-    public static void printEachTryCarDistance(List<Car> cars, int index) {
-        cars.forEach(car ->
-                System.out.println(car.getName() + " : " + MOVE_INDICATOR.repeat(car.getDistanceRecord(index))));
-        System.out.println();
+    public static void printCarsResult(List<Car> cars) {
+        cars.forEach(Output::printCarResult);
     }
 
-    public static void printEachCarResult(List<Car> cars, int tryCount) {
-        printMessage("실행 결과");
-        for (int index = 0; index < tryCount; index++) {
-            printEachTryCarDistance(cars, index);
-        }
+    private static void printCarResult(Car car) {
+        System.out.printf(RESULT_FORMAT, car.getName(), car.getDistance());
     }
 
     public static void printWinner(Winner winner) {
@@ -34,5 +30,4 @@ public class Output {
                 .collect(Collectors.joining(SEPERATOR));
         System.out.println(winnerNames + "가 최종 우승했습니다.");
     }
-
 }

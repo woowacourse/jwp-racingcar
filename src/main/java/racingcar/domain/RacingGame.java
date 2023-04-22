@@ -8,7 +8,7 @@ public class RacingGame {
     private final NumberGenerator randomNumberGenerator;
     private final Winner winner;
     private final List<Car> cars;
-    private int tryCount;
+    private final int tryCount;
 
     public RacingGame(List<Car> cars, int tryCount, NumberGenerator randomNumberGenerator) {
         winner = new Winner();
@@ -18,8 +18,10 @@ public class RacingGame {
     }
 
     public void run() {
-        while (isGameContinue()) {
+        TryCount tryCount = new TryCount(this.tryCount);
+        while (tryCount.hasNext()) {
             cars.forEach(car -> car.move(randomNumberGenerator.generateNumber()));
+            tryCount = tryCount.next();
         }
         winner.makeWinnerNames(cars);
     }
@@ -28,7 +30,11 @@ public class RacingGame {
         return winner;
     }
 
-    private boolean isGameContinue() {
-        return this.tryCount-- > 0;
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public int getTryCount() {
+        return tryCount;
     }
 }
