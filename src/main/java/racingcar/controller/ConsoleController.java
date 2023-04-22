@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.controller.dto.NamesAndCountRequest;
-import racingcar.controller.dto.ResultResponse;
+import racingcar.controller.dto.GameStartRequest;
+import racingcar.controller.dto.GameResultReponse;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -20,8 +20,8 @@ public class ConsoleController {
     public void plays() {
         String names = inputView.inputCarName();
         int count = inputView.inputGameRound();
-        NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest(names, count);
-        ResultResponse resultResponse = racingCarService.playGame(namesAndCountRequest);
-        outputView.printRoundResult(resultResponse);
+        GameStartRequest gameStartRequest = new GameStartRequest(names, count);
+        GameResultReponse gameResultReponse = racingCarService.playGame(gameStartRequest);
+        outputView.printRoundResult(gameResultReponse);
     }
 }

@@ -2,9 +2,9 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.controller.dto.NamesAndCountRequest;
-import racingcar.controller.dto.RacingCarResponse;
-import racingcar.controller.dto.ResultResponse;
+import racingcar.controller.dto.GameStartRequest;
+import racingcar.controller.dto.CarStateResponse;
+import racingcar.controller.dto.GameResultReponse;
 import racingcar.dao.GameDao;
 import racingcar.dao.ParticipantDao;
 import racingcar.dao.PlayerDao;
@@ -34,7 +34,7 @@ public class RacingCarService {
         this.participantDao = participantDao;
     }
 
-    public List<ResultResponse> searchAllGame() {
+    public List<GameResultReponse> searchAllGame() {
         List<GameEntity> allGames = gameDao.findAll();
         List<PlayerEntity> allPlayers = playerDao.findAll();
         List<ParticipantEntity> allParticipants = participantDao.findAll();
@@ -42,18 +42,18 @@ public class RacingCarService {
         return joinGameAndParticipantAndPlayer(allGames, allPlayers, allParticipants);
     }
 
-    private List<ResultResponse> joinGameAndParticipantAndPlayer(
+    private List<GameResultReponse> joinGameAndParticipantAndPlayer(
             final List<GameEntity> allGames,
             final List<PlayerEntity> allPlayers,
             final List<ParticipantEntity> allParticipants
     ) {
-        List<ResultResponse> resultResponses = new ArrayList<>();
+        List<GameResultReponse> gameResultResponses = new ArrayList<>();
         for (GameEntity game : allGames) {
             List<ParticipantEntity> participantsPerGame = joinGameAndParticipant(allParticipants, game);
-            ResultResponse resultResponse = joinPlayerAndParticipant(allPlayers, participantsPerGame);
-            resultResponses.add(resultResponse);
+            GameResultReponse gameResultReponse = joinPlayerAndParticipant(allPlayers, participantsPerGame);
+            gameResultResponses.add(gameResultReponse);
         }
-        return resultResponses;
+        return gameResultResponses;
     }
 
     private List<ParticipantEntity> joinGameAndParticipant(
@@ -65,21 +65,21 @@ public class RacingCarService {
                 .collect(Collectors.toList());
     }
 
-    private ResultResponse joinPlayerAndParticipant(
+    private GameResultReponse joinPlayerAndParticipant(
             final List<PlayerEntity> allPlayers,
             final List<ParticipantEntity> participantsPerGame
     ) {
         String winners = getWinner(allPlayers, participantsPerGame);
-        List<RacingCarResponse> racingCarResponses = getRacingCarResponses(allPlayers, participantsPerGame);
-        return new ResultResponse(winners, racingCarResponses);
+        List<CarStateResponse> carStateResponses = getRacingCarResponses(allPlayers, participantsPerGame);
+        return new GameResultReponse(winners, carStateResponses);
     }
 
-    private List<RacingCarResponse> getRacingCarResponses(
+    private List<CarStateResponse> getRacingCarResponses(
             final List<PlayerEntity> allPlayers,
             final List<ParticipantEntity> participantsPerGame
     ) {
         return participantsPerGame.stream()
-                .map(participant -> new RacingCarResponse(
+                .map(participant -> new CarStateResponse(
                         getName(allPlayers, participant.getPlayerId()),
                         participant.getPosition()))
                 .collect(Collectors.toList());
@@ -100,7 +100,7 @@ public class RacingCarService {
                 .getName();
     }
 
-    public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
+    public GameResultReponse playGame(final GameStartRequest namesAndCount) {
         final NumberGenerator numberGenerator = new RandomNumberGenerator();
         final Cars cars = Cars.from(List.of(namesAndCount.getNames().split(SEPARATOR)));
         final GameRound gameRound = new GameRound(namesAndCount.getCount());
@@ -108,11 +108,9 @@ public class RacingCarService {
         gameManager.run();
 
         List<Car> allCars = gameManager.getAllCars();
-        System.out.println(allCars);
         List<Car> winnerCars = gameManager.getWinnerCars();
-        System.out.println(winnerCars);
         saveGameAndPlayerAndParticipates(namesAndCount.getCount(), allCars, winnerCars);
-        return ResultResponse.from(allCars, winnerCars);
+        return GameResultReponse.from(allCars, winnerCars);
     }
 
     private void saveGameAndPlayerAndParticipates(final int trialCount, final List<Car> allCars, final List<Car> winnerCars) {

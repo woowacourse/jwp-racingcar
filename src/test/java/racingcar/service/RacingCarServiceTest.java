@@ -7,9 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.controller.dto.NamesAndCountRequest;
-import racingcar.controller.dto.RacingCarResponse;
-import racingcar.controller.dto.ResultResponse;
+import racingcar.controller.dto.GameStartRequest;
+import racingcar.controller.dto.CarStateResponse;
+import racingcar.controller.dto.GameResultReponse;
 import racingcar.dao.GameJdbcTemplateDao;
 import racingcar.dao.ParticipantJdbcTemplateDao;
 import racingcar.dao.PlayerJdbcTemplateDao;
@@ -54,9 +54,9 @@ class RacingCarServiceTest {
                 new ParticipantEntity(2L, 4L, 15, false)));
 
         //when
-        List<ResultResponse> resultResponses = racingCarService.searchAllGame();
-        ResultResponse mangoAndLuca = resultResponses.get(0);
-        ResultResponse sonyAndHyeon9mak = resultResponses.get(1);
+        List<GameResultReponse> gameResultResponses = racingCarService.searchAllGame();
+        GameResultReponse mangoAndLuca = gameResultResponses.get(0);
+        GameResultReponse sonyAndHyeon9mak = gameResultResponses.get(1);
         //then
         assertThat(mangoAndLuca.getWinners()).isEqualTo("망고");
         assertThat(mangoAndLuca.getRacingCars().get(0).getName()).isEqualTo("망고");
@@ -75,18 +75,18 @@ class RacingCarServiceTest {
     @Test
     void playGame() {
         //given
-        NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest("망고,루카,소니,현구막", 10);
+        GameStartRequest gameStartRequest = new GameStartRequest("망고,루카,소니,현구막", 10);
         //mocking
         Mockito.when(gameJdbcTemplateDao.save(Mockito.anyInt())).thenReturn(1L);
         Mockito.when(playerJdbcTemplateDao.save(Mockito.any())).thenReturn(1L, 2L, 3L, 4L);
         Mockito.doNothing().when(participantJdbcTemplateDao).save(Mockito.any());
         //when
-        ResultResponse resultResponse = racingCarService.playGame(namesAndCountRequest);
+        GameResultReponse gameResultReponse = racingCarService.playGame(gameStartRequest);
         //then
-        List<String> names = resultResponse.getRacingCars().stream()
-                .map(RacingCarResponse::getName)
+        List<String> names = gameResultReponse.getRacingCars().stream()
+                .map(CarStateResponse::getName)
                 .collect(Collectors.toList());
-        assertThat(resultResponse.getWinners()).isNotNull(); //어떻게 돌아가는지는 이미 도메인테스트에서 끝남
+        assertThat(gameResultReponse.getWinners()).isNotNull(); //어떻게 돌아가는지는 이미 도메인테스트에서 끝남
         assertThat(names).containsExactly("망고", "루카", "소니", "현구막");
     }
 }

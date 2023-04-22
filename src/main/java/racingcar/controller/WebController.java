@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import racingcar.controller.dto.NamesAndCountRequest;
-import racingcar.controller.dto.ResultResponse;
+import racingcar.controller.dto.GameStartRequest;
+import racingcar.controller.dto.GameResultReponse;
 import racingcar.service.RacingCarService;
 
 import java.util.List;
@@ -24,19 +24,19 @@ public class WebController {
     }
 
     @GetMapping("/plays")
-    public ResponseEntity<List<ResultResponse>> searchAllHistories() {
-        List<ResultResponse> allHistories = racingCarService.searchAllGame();
+    public ResponseEntity<List<GameResultReponse>> searchAllHistories() {
+        List<GameResultReponse> allHistories = racingCarService.searchAllGame();
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(allHistories);
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResultResponse> play(@RequestBody final NamesAndCountRequest namesAndCount) {
-        ResultResponse resultResponse = racingCarService.playGame(namesAndCount);
+    public ResponseEntity<GameResultReponse> play(@RequestBody final GameStartRequest namesAndCount) {
+        GameResultReponse gameResultReponse = racingCarService.playGame(namesAndCount);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(resultResponse);
+                .body(gameResultReponse);
     }
 
     @ExceptionHandler(Exception.class)

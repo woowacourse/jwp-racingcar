@@ -11,9 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import racingcar.controller.dto.NamesAndCountRequest;
-import racingcar.controller.dto.RacingCarResponse;
-import racingcar.controller.dto.ResultResponse;
+import racingcar.controller.dto.GameStartRequest;
+import racingcar.controller.dto.CarStateResponse;
+import racingcar.controller.dto.GameResultReponse;
 import racingcar.service.RacingCarService;
 
 import java.util.List;
@@ -30,16 +30,16 @@ class WebControllerTest {
     @DisplayName("/plays GET 요청 시, 전체 게임에 대하여 승자와 결과를 200 상태 코드로 반환한다.")
     @Test
     void searchAllHistories() throws Exception {
-        List<ResultResponse> resultResponses = List.of(
-                new ResultResponse("망고",
-                        List.of(new RacingCarResponse("망고", 7),
-                                new RacingCarResponse("루카", 5))),
-                new ResultResponse("소니",
-                        List.of(new RacingCarResponse("소니", 20),
-                                new RacingCarResponse("현구막", 15)))
+        List<GameResultReponse> gameResultResponses = List.of(
+                new GameResultReponse("망고",
+                        List.of(new CarStateResponse("망고", 7),
+                                new CarStateResponse("루카", 5))),
+                new GameResultReponse("소니",
+                        List.of(new CarStateResponse("소니", 20),
+                                new CarStateResponse("현구막", 15)))
         );
         //mocking
-        Mockito.when(racingCarService.searchAllGame()).thenReturn(resultResponses);
+        Mockito.when(racingCarService.searchAllGame()).thenReturn(gameResultResponses);
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/plays"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -59,17 +59,17 @@ class WebControllerTest {
     @Test
     void play() throws Exception {
         //given
-        NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest("망고,루카", 10);
-        ResultResponse resultResponse = new ResultResponse(
+        GameStartRequest gameStartRequest = new GameStartRequest("망고,루카", 10);
+        GameResultReponse gameResultReponse = new GameResultReponse(
                 "망고",
-                List.of(new RacingCarResponse("망고", 7),
-                        new RacingCarResponse("루카", 5)));
+                List.of(new CarStateResponse("망고", 7),
+                        new CarStateResponse("루카", 5)));
         //mocking
-        Mockito.when(racingCarService.playGame(Mockito.any())).thenReturn(resultResponse);
+        Mockito.when(racingCarService.playGame(Mockito.any())).thenReturn(gameResultReponse);
         //then
         mockMvc.perform(MockMvcRequestBuilders.post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(namesAndCountRequest)))
+                        .content(new ObjectMapper().writeValueAsString(gameStartRequest)))
                 .andExpect(MockMvcResultMatchers.status().isCreated()) // 200
                 .andExpect(MockMvcResultMatchers.jsonPath("$.winners").value("망고"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.racingCars[0].name").value("망고"))

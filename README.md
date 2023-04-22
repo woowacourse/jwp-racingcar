@@ -153,3 +153,10 @@ Connection: close
 
 요청이 올바르지 않습니다.
 ```
+
+```mermaid
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+    Alice-)John: See you later!
+```
