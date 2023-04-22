@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.domain.numbergenerator.NumberGenerator;
-import racingcar.dto.CarDTO;
-import racingcar.dto.RacingResultDTO;
+import racingcar.service.dto.CarDTO;
+import racingcar.service.dto.RacingResultDTO;
 
 import java.util.List;
 

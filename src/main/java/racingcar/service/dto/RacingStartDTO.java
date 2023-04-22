@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.service.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

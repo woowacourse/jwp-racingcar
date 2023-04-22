@@ -1,7 +1,7 @@
 package racingcar.dao;
 
-import racingcar.dto.CarNameDTO;
-import racingcar.dto.CarNamePositionDTO;
+import racingcar.dao.dto.CarDTO;
+import racingcar.dao.dto.CarNameDTO;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,10 +40,10 @@ public class LocalCarDao implements CarDao {
     }
 
     @Override
-    public List<CarNamePositionDTO> findAllCarNamesAndPositions(final Long gameId) {
+    public List<CarDTO> findAllCarNamesAndPositions(final Long gameId) {
         return carEntities.values().stream()
                 .filter(carEntity -> gameId.equals(carEntity.getGameId()))
-                .map(carEntity -> new CarNamePositionDTO(carEntity.getName(), carEntity.getPosition()))
+                .map(carEntity -> new CarDTO(carEntity.getName(), carEntity.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
     }
 

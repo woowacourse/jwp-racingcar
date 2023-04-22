@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dto.CarNameDTO;
-import racingcar.dto.CarNamePositionDTO;
+import racingcar.dao.dto.CarDTO;
+import racingcar.dao.dto.CarNameDTO;
 
 import java.util.List;
 
@@ -96,7 +96,7 @@ public class JdbcCarDaoTest {
         carDao.insert("kyle", 1, gameId, true);
 
         //when
-        final List<CarNamePositionDTO> allCars = carDao.findAllCarNamesAndPositions(gameId);
+        final List<CarDTO> allCars = carDao.findAllCarNamesAndPositions(gameId);
 
         //then
         assertSoftly(softly -> {
@@ -110,11 +110,11 @@ public class JdbcCarDaoTest {
         });
     }
 
-    private String getName(final List<CarNamePositionDTO> allCars, final int index) {
+    private String getName(final List<CarDTO> allCars, final int index) {
         return allCars.get(index).getName();
     }
 
-    private int getPosition(final List<CarNamePositionDTO> allCars, final int index) {
+    private int getPosition(final List<CarDTO> allCars, final int index) {
         return allCars.get(index).getPosition();
     }
 

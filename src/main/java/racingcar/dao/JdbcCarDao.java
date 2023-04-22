@@ -3,8 +3,8 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import racingcar.dto.CarNameDTO;
-import racingcar.dto.CarNamePositionDTO;
+import racingcar.dao.dto.CarDTO;
+import racingcar.dao.dto.CarNameDTO;
 
 import java.util.List;
 
@@ -45,12 +45,12 @@ public class JdbcCarDao implements CarDao {
     }
 
     @Override
-    public List<CarNamePositionDTO> findAllCarNamesAndPositions(final Long gameId) {
+    public List<CarDTO> findAllCarNamesAndPositions(final Long gameId) {
         final String sql = "select name, position from car where game_id = ?";
         return jdbcTemplate.query(sql, getCarNamePositionDTORowMapper(), gameId);
     }
 
-    private RowMapper<CarNamePositionDTO> getCarNamePositionDTORowMapper() {
-        return (resultSet, rowNum) -> new CarNamePositionDTO(resultSet.getString("name"), resultSet.getInt("position"));
+    private RowMapper<CarDTO> getCarNamePositionDTORowMapper() {
+        return (resultSet, rowNum) -> new CarDTO(resultSet.getString("name"), resultSet.getInt("position"));
     }
 }

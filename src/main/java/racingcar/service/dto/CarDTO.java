@@ -1,11 +1,14 @@
-package racingcar.dto;
+package racingcar.service.dto;
 
-public class CarNamePositionDTO {
+public class CarDTO {
 
-    private final String name;
-    private final int position;
+    private String name;
+    private int position;
 
-    public CarNamePositionDTO(final String name, final int position) {
+    public CarDTO() {
+    }
+
+    public CarDTO(final String name, final int position) {
         this.name = name;
         this.position = position;
     }
@@ -20,7 +23,7 @@ public class CarNamePositionDTO {
 
     @Override
     public String toString() {
-        return "CarNamePositionDTO{" +
+        return "CarDTO{" +
                 "name='" + name + '\'' +
                 ", position=" + position +
                 '}';

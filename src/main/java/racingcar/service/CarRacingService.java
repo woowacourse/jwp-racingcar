@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
+import racingcar.dao.dto.CarDTO;
+import racingcar.dao.dto.CarNameDTO;
+import racingcar.dao.dto.GameIdDTO;
 import racingcar.domain.car.Car;
 import racingcar.domain.carfactory.CarFactory;
 import racingcar.domain.cars.Cars;
@@ -11,7 +14,7 @@ import racingcar.domain.numbergenerator.NumberGenerator;
 import racingcar.domain.record.GameRecorder;
 import racingcar.domain.result.GameResultOfCar;
 import racingcar.domain.system.GameSystem;
-import racingcar.dto.*;
+import racingcar.service.dto.RacingResultDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,14 +76,14 @@ public class CarRacingService {
 
     private RacingResultDTO createResponseDTO(final GameSystem gameSystem) {
         final String winners = String.join(DELIMITER, getWinners(gameSystem));
-        final List<CarDTO> carDTOs = getCarDTOs(gameSystem);
+        final List<racingcar.service.dto.CarDTO> carDTOs = getCarDTOs(gameSystem);
         return new RacingResultDTO(winners, carDTOs);
     }
 
-    private List<CarDTO> getCarDTOs(final GameSystem gameSystem) {
+    private List<racingcar.service.dto.CarDTO> getCarDTOs(final GameSystem gameSystem) {
         List<GameResultOfCar> finalGameResult = gameSystem.getFinalGameResult();
         return finalGameResult.stream()
-                .map(gameResultOfCar -> new CarDTO(gameResultOfCar.getCarName(), gameResultOfCar.getPosition()))
+                .map(gameResultOfCar -> new racingcar.service.dto.CarDTO(gameResultOfCar.getCarName(), gameResultOfCar.getPosition()))
                 .collect(Collectors.toList());
     }
 
@@ -92,10 +95,10 @@ public class CarRacingService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private List<CarDTO> getCarDTOs(final GameIdDTO gameId) {
-        final List<CarNamePositionDTO> carNamesAndPositions = carDao.findAllCarNamesAndPositions(gameId.getId());
+    private List<racingcar.service.dto.CarDTO> getCarDTOs(final GameIdDTO gameId) {
+        final List<CarDTO> carNamesAndPositions = carDao.findAllCarNamesAndPositions(gameId.getId());
         return carNamesAndPositions.stream()
-                .map(carNamePositionDTO -> new CarDTO(carNamePositionDTO.getName(), carNamePositionDTO.getPosition()))
+                .map(carNamePositionDTO -> new racingcar.service.dto.CarDTO(carNamePositionDTO.getName(), carNamePositionDTO.getPosition()))
                 .collect(Collectors.toList());
     }
 

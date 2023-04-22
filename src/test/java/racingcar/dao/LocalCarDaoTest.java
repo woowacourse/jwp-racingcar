@@ -1,8 +1,8 @@
 package racingcar.dao;
 
 import org.junit.jupiter.api.*;
-import racingcar.dto.CarNameDTO;
-import racingcar.dto.CarNamePositionDTO;
+import racingcar.dao.dto.CarDTO;
+import racingcar.dao.dto.CarNameDTO;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ class LocalCarDaoTest {
         carDao.insert("kyle", 1, gameId, true);
 
         //when
-        final List<CarNamePositionDTO> allCars = carDao.findAllCarNamesAndPositions(gameId);
+        final List<CarDTO> allCars = carDao.findAllCarNamesAndPositions(gameId);
 
         //then
         assertSoftly(softly -> {
@@ -98,11 +98,11 @@ class LocalCarDaoTest {
         });
     }
 
-    private String getName(final List<CarNamePositionDTO> allCars, final int index) {
+    private String getName(final List<CarDTO> allCars, final int index) {
         return allCars.get(index).getName();
     }
 
-    private int getPosition(final List<CarNamePositionDTO> allCars, final int index) {
+    private int getPosition(final List<CarDTO> allCars, final int index) {
         return allCars.get(index).getPosition();
     }
 

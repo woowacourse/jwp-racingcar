@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-import racingcar.dto.GameIdDTO;
+import racingcar.dao.dto.GameIdDTO;
 
 import java.sql.Timestamp;
 import java.util.HashMap;

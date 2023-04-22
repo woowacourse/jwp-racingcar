@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.service.dto;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.dto.RacingResultDTO;
 import racingcar.service.CarRacingService;
+import racingcar.service.dto.RacingResultDTO;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
