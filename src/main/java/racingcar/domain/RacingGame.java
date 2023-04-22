@@ -1,34 +1,41 @@
 package racingcar.domain;
 
-import racingcar.domain.engine.Engine;
 import racingcar.domain.engine.RandomMovingEngine;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RacingGame {
     private final Cars cars;
 
-    public RacingGame(List<Name> carNames) {
-        Engine engine = new RandomMovingEngine();
-        List<Car> collect = carNames.stream()
-                .map(name -> new Car(name, engine))
-                .collect(Collectors.toList());
-
-        this.cars = new Cars(collect);
+    public RacingGame(String names) {
+        List<Name> carNames = convertToNames(names);
+        this.cars = new Cars(carNames, new RandomMovingEngine());
     }
 
-    public void moveCars(TryCount tryCount) {
+    public RacingGame(List<Car> cars) {
+        this.cars = new Cars(cars);
+    }
+
+    public void moveCars(int count) {
+        TryCount tryCount = new TryCount(count);
         for (int i = 0; i < tryCount.getCount(); i++) {
             cars.moveCars();
         }
     }
 
-    public Cars decideWinners() {
+    public String decideWinners() {
         return cars.getWinners();
     }
 
     public List<Car> getCars() {
         return cars.getCars();
+    }
+
+    private List<Name> convertToNames(String names) {
+        return Arrays.stream(names.split(","))
+                .map(Name::new)
+                .collect(Collectors.toList());
     }
 }

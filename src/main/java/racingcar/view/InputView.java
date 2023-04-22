@@ -1,22 +1,14 @@
 package racingcar.view;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class InputView {
-    private static final String DELIMITER = ",";
     private static final String NUMERIC_FORMAT = "^[0-9]*$";
     private static final Scanner sc = new Scanner(System.in);
 
-    public static List<String> readCarNames() {
+    public static String readCarNames() {
         printMessage(Message.ASK_CAR_NAMES);
-        List<String> input = Arrays.stream(readLine().split(DELIMITER))
-                .collect(Collectors.toList());
-        validateNames(input);
-
-        return input;
+        return readLine();
     }
 
     public static int readCount() {
@@ -25,12 +17,6 @@ public class InputView {
         validateCount(input);
 
         return Integer.parseInt(input);
-    }
-
-    private static void validateNames(List<String> input) {
-        if (input.size() != input.stream().distinct().count()) {
-            throw new IllegalArgumentException("중복된 이름이 존재합니다.");
-        }
     }
 
     private static void validateCount(String input) {
