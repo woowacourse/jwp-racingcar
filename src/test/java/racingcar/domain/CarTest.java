@@ -14,7 +14,7 @@ class CarTest {
         //when
         car.drive(4);
         //then
-        assertThat(car.getDrivenDistance()).isEqualTo(DRIVING_DISTANCE);
+        assertThat(car.getPosition()).isEqualTo(DRIVING_DISTANCE);
     }
 
     @Test
@@ -24,6 +24,6 @@ class CarTest {
         //when
         car.drive(3);
         //then
-        assertThat(car.getDrivenDistance()).isEqualTo(0);
+        assertThat(car.getPosition()).isEqualTo(0);
     }
 }

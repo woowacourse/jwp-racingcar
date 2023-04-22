@@ -19,7 +19,7 @@ public class PlayerEntity {
     }
 
     public static PlayerEntity of(Car car, int gameId, boolean isWinner) {
-        return new PlayerEntity(null, car.getName(), car.getDrivenDistance(), gameId, isWinner);
+        return new PlayerEntity(null, car.getName(), car.getPosition(), gameId, isWinner);
     }
 
     public Integer getId() {

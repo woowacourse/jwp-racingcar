@@ -51,11 +51,11 @@ public class Participants {
 
     public List<Car> findWinners() {
         int maxDistance = cars.stream()
-                .map(Car::getDrivenDistance)
+                .map(Car::getPosition)
                 .max(Comparator.naturalOrder())
                 .orElse(0);
         return cars.stream()
-                .filter(car -> car.getDrivenDistance() == maxDistance)
+                .filter(car -> car.getPosition() == maxDistance)
                 .collect(Collectors.toUnmodifiableList());
     }
 }
