@@ -1,24 +1,38 @@
 package racingcar;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import racingcar.controller.console.RacingGameConsoleController;
+import racingcar.repository.PlayerMemoryRepository;
+import racingcar.repository.PlayerRepository;
+import racingcar.repository.RacingGameMemoryRepository;
+import racingcar.repository.RacingGameRepository;
+import racingcar.service.GeneralRacingGameService;
+import racingcar.service.RacingGameService;
 
-//@AutoConfigurationPackage()
-public class RacingCarConsoleApplication implements CommandLineRunner {
+public class RacingCarConsoleApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RacingCarConsoleApplication.class, args);
+        final RacingGameConsoleController controller = racingGameConsoleController();
+
+        run(controller);
     }
 
-    private final RacingGameConsoleController consoleController;
-
-    public RacingCarConsoleApplication(final RacingGameConsoleController consoleController) {
-        this.consoleController = consoleController;
+    private static RacingGameConsoleController racingGameConsoleController() {
+        return new RacingGameConsoleController(racingGameService());
     }
 
-    @Override
-    public void run(final String... args) {
-        while (consoleController.run()) {
+    private static RacingGameService racingGameService() {
+        return new GeneralRacingGameService(racingGameRepository(), playerRepository());
+    }
+
+    private static RacingGameRepository racingGameRepository() {
+        return new RacingGameMemoryRepository();
+    }
+
+    private static PlayerRepository playerRepository() {
+        return new PlayerMemoryRepository();
+    }
+
+    public static void run(final RacingGameConsoleController controller) {
+        while (controller.run()) {
             /* RUN UNTIL THROW EXCEPTION */
         }
     }
