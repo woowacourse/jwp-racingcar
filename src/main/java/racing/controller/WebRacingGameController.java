@@ -4,11 +4,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racing.controller.dto.response.GameInfoResponse;
 import racing.util.RandomNumberGenerator;
 import racing.controller.dto.request.RacingGameInfoRequest;
 import racing.controller.dto.response.RacingGameResultResponse;
-import racing.domain.Car;
-import racing.domain.Cars;
 import racing.service.RacingGameService;
 
 import java.util.List;
@@ -27,19 +26,8 @@ public class WebRacingGameController {
 
     @PostMapping("/plays")
     public RacingGameResultResponse start(@RequestBody RacingGameInfoRequest request) {
-        Cars cars = racingGameService.createCars(request.getNames());
-        Long gameId = racingGameService.createRacingGame(request.getCount());
-
-        moveCar(request, cars, generator);
-        return racingGameService.saveCarsState(gameId, cars);
-    }
-
-    private void moveCar(RacingGameInfoRequest request, Cars cars, RandomNumberGenerator generator) {
-        for (int i = 0; i < request.getCount(); i++) {
-            for (Car car : cars.getCars()) {
-                racingGameService.move(generator.generate(), car);
-            }
-        }
+        GameInfoResponse response = racingGameService.execute(request);
+        return racingGameService.saveCarsState(response.getGameId(), response.getCars());
     }
 
     @GetMapping("/plays")

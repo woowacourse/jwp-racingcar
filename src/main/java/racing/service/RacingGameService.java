@@ -2,7 +2,9 @@ package racing.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import racing.controller.dto.request.RacingGameInfoRequest;
 import racing.controller.dto.response.CarResponse;
+import racing.controller.dto.response.GameInfoResponse;
 import racing.dao.CarEntity;
 import racing.controller.dto.response.RacingGameResultResponse;
 import racing.dao.CarDao;
@@ -11,6 +13,7 @@ import racing.domain.CarFactory;
 import racing.controller.dto.request.CarRequest;
 import racing.domain.Car;
 import racing.domain.Cars;
+import racing.util.RandomNumberGenerator;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +44,6 @@ public class RacingGameService {
         if (randomNumber >= 4) {
             car.move();
         }
-
     }
 
     public Long createRacingGame(int count) {
@@ -78,6 +80,21 @@ public class RacingGameService {
                 .collect(toList());
 
         return new RacingGameResultResponse(winners, carResponses);
+    }
+
+    public GameInfoResponse execute(RacingGameInfoRequest request) {
+        Long gameId = createRacingGame(request.getCount());
+        Cars cars = createCars(request.getNames());
+        moveCar(request, cars, new RandomNumberGenerator());
+        return new GameInfoResponse(gameId, cars);
+    }
+
+    private void moveCar(RacingGameInfoRequest request, Cars cars, RandomNumberGenerator generator) {
+        for (int i = 0; i < request.getCount(); i++) {
+            for (Car car : cars.getCars()) {
+                move(generator.generate(), car);
+            }
+        }
     }
 
 }
