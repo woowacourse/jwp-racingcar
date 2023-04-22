@@ -57,7 +57,7 @@ public class RacingGameControllerIntTest {
         // then
         assertAll(
                 () -> assertThat(전체_게임의_수(게임_결과_목록)).isEqualTo(2),
-                () -> assertThat(n번째_게임의_자동차의_수(게임_결과_목록)).isEqualTo(3),
+                () -> assertThat(N_번째_게임의_자동차의_수(0, 게임_결과_목록)).isEqualTo(3),
                 () -> assertThat(게임_결과_목록.statusCode()).isEqualTo(HttpStatus.OK.value())
         );
     }
@@ -86,8 +86,8 @@ public class RacingGameControllerIntTest {
         return 게임_결과.jsonPath().getString("racingCars[" + index + "].name");
     }
 
-    private int n번째_게임의_자동차의_수(final ExtractableResponse<Response> 게임_결과_목록) {
-        return 게임_결과_목록.jsonPath().getInt("[0].racingCars.size()");
+    private int N_번째_게임의_자동차의_수(final int index, final ExtractableResponse<Response> 게임_결과_목록) {
+        return 게임_결과_목록.jsonPath().getInt("[" + index + "].racingCars.size()");
     }
 
     private int 전체_게임의_수(final ExtractableResponse<Response> 게임_결과_목록) {
