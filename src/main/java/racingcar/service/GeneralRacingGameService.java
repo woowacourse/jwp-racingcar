@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
-public class RacingGameDatabaseService implements RacingGameService {
+public class GeneralRacingGameService implements RacingGameService {
     private final RacingGameRepository racingGameRepository;
     private final PlayerRepository playerRepository;
 
-    public RacingGameDatabaseService(
+    public GeneralRacingGameService(
             final RacingGameRepository racingGameRepository,
             final PlayerRepository playerRepository
     ) {
