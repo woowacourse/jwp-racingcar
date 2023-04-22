@@ -1,22 +1,31 @@
 package racingcar.repository.dto;
 
-import racingcar.domain.Name;
-import racingcar.domain.Position;
-
 public class PlayerDto {
-    private final Name name;
-    private final Position position;
+    private final int id;
+    private final String name;
+    private final int position;
+    private final int racingGameId;
 
-    public PlayerDto(final Name name, final Position position) {
+    public PlayerDto(final int id, final String name, final int position, final int racingGameId) {
+        this.id = id;
         this.name = name;
         this.position = position;
+        this.racingGameId = racingGameId;
     }
 
-    public Name getName() {
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public Position getPosition() {
+    public int getPosition() {
         return position;
+    }
+
+    public int getRacingGameId() {
+        return racingGameId;
     }
 }
