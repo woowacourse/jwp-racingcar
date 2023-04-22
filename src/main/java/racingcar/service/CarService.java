@@ -12,7 +12,6 @@ import racingcar.entity.Player;
 import racingcar.model.Car;
 import racingcar.model.RacingGame;
 import racingcar.strategy.RacingNumberGenerator;
-import racingcar.strategy.RacingRandomNumberGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

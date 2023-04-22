@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.PlayResult;

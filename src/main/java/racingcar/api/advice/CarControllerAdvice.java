@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import racingcar.dto.ErrorResult;
-import racingcar.exception.*;
+import racingcar.exception.RacingCarException;
 
 @RestControllerAdvice
 public class CarControllerAdvice {
