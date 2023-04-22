@@ -1,37 +1,41 @@
 package racingcar.domain;
 
-import racingcar.exception.IllegalGameArgumentException;
-import racingcar.exception.IllegalGameStateException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import racingcar.exception.IllegalGameArgumentException;
+import racingcar.exception.IllegalGameStateException;
+
 public class Game {
 
     private final List<Car> cars;
     private final TrialCount initialTrialCount;
-    private TrialCount trialCount;
+    private TrialCount remainingTrialCount;
 
     public Game(List<Car> cars, int trialCount) {
+        this(cars, trialCount, trialCount);
+    }
+
+    public Game(List<Car> cars, int trialCount, int remainingTrialCount) {
         validateCarsLength(cars);
         validateNoDuplicateCar(cars);
         this.cars = new ArrayList<>(cars);
         this.initialTrialCount = new TrialCount(trialCount);
-        this.trialCount = new TrialCount(trialCount);
+        this.remainingTrialCount = new TrialCount(remainingTrialCount);
     }
 
     public void playOnceWith(MoveChance moveChance) {
         for (Car car : cars) {
             car.move(moveChance);
         }
-        trialCount = trialCount.decrease();
+        remainingTrialCount = remainingTrialCount.decrease();
     }
 
-    public boolean isNotDone() {
-        return trialCount.isLeft();
+    public boolean isInProgress() {
+        return remainingTrialCount.isLeft();
     }
 
     public List<Car> findWinners() {
@@ -70,7 +74,12 @@ public class Game {
         return Collections.unmodifiableList(cars);
     }
 
-    public int getTrialCount() {
-        return initialTrialCount.getCount() - trialCount.getCount();
+
+    public int getInitialTrialCount() {
+        return initialTrialCount.getCount();
+    }
+
+    public int getRemainingTrialCount() {
+        return remainingTrialCount.getCount();
     }
 }

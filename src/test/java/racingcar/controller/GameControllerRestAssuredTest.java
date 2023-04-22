@@ -1,21 +1,23 @@
 package racingcar.controller;
 
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.TestDatabaseConfig;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import racingcar.controller.dto.PlayRequest;
 
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
-
-@TestDatabaseConfig
+@AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GameControllerRestAssuredTest {
 
@@ -50,11 +52,24 @@ class GameControllerRestAssuredTest {
                 .given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new PlayRequest("aa,aa", 1))
-
                 .when()
                 .post("/plays")
-
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("get(/plays) 테스트")
+    void get_plays() {
+        post_plays();
+        RestAssured.given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(ContentType.JSON)
+                .when().get("/plays")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("[0].winners", contains("aa"))
+                .body("[0].racingCars.size()", is(1));
+
     }
 }
