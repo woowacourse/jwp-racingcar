@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doReturn;
 
@@ -59,11 +60,13 @@ class RacingCarServiceTest {
         // expect
         RacingResultResponse result =
                 racingCarService.playRacingGame(carNames, tryCount);
-        assertThat(result.getWinners())
-                .containsExactly("raon");
-        assertThat(result.getRacingCars())
-                .hasSize(2)
-                .contains(racingCarDto1, racingCarDto2);
+        assertAll(
+                () -> assertThat(result.getWinners())
+                        .containsExactly("raon"),
+                () -> assertThat(result.getRacingCars())
+                        .hasSize(2)
+                        .contains(racingCarDto1, racingCarDto2)
+        );
     }
 
     @Test
@@ -84,13 +87,15 @@ class RacingCarServiceTest {
         // expect
         List<RacingResultResponse> results = racingCarService.searchGameHistory();
 
-        assertThat(results)
-                .hasSize(1);
-        assertThat(results.get(0).getRacingCars())
-                .hasSize(2)
-                .contains(racingCarDto1, racingCarDto2);
-        assertThat(results.get(0).getWinners())
-                .hasSize(2)
-                .contains("glen", "raon");
+        assertAll(
+                () -> assertThat(results)
+                        .hasSize(1),
+                () -> assertThat(results.get(0).getRacingCars())
+                        .hasSize(2)
+                        .contains(racingCarDto1, racingCarDto2),
+                () -> assertThat(results.get(0).getWinners())
+                        .hasSize(2)
+                        .contains("glen", "raon")
+        );
     }
 }

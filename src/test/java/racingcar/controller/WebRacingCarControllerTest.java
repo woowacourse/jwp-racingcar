@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -75,12 +76,14 @@ class WebRacingCarControllerTest {
         RacingResultResponse racingResultResponse =
                 objectMapper.readValue(contentToString(mvcResult), RacingResultResponse.class);
 
-        assertThat(racingResultResponse.getRacingCars())
-                .usingRecursiveComparison()
-                .isEqualTo(racingCars);
-        assertThat(racingResultResponse.getWinners())
-                .usingRecursiveComparison()
-                .isEqualTo(winners);
+        assertAll(
+                () -> assertThat(racingResultResponse.getRacingCars())
+                        .usingRecursiveComparison()
+                        .isEqualTo(racingCars),
+                () -> assertThat(racingResultResponse.getWinners())
+                        .usingRecursiveComparison()
+                        .isEqualTo(winners)
+        );
     }
 
     @ParameterizedTest
@@ -123,7 +126,8 @@ class WebRacingCarControllerTest {
                 .andReturn();
 
         List<RacingResultResponse> responses =
-                objectMapper.readValue(contentToString(mvcResult), new TypeReference<List<RacingResultResponse>>() {});
+                objectMapper.readValue(contentToString(mvcResult), new TypeReference<>() {
+                });
 
         assertThat(responses).usingRecursiveComparison().isEqualTo(racingResultResponses);
     }

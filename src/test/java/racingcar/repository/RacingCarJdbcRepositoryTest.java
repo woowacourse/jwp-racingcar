@@ -1,6 +1,5 @@
 package racingcar.repository;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @JdbcTest
 class RacingCarJdbcRepositoryTest {
@@ -31,7 +32,7 @@ class RacingCarJdbcRepositoryTest {
     @Test
     @DisplayName("게임이 정상적으로 저장되어야 한다.")
     void saveGame_success() {
-        Assertions.assertDoesNotThrow(() -> racingCarJdbcRepository.saveGame(10));
+        assertDoesNotThrow(() -> racingCarJdbcRepository.saveGame(10));
     }
 
     @Test
@@ -61,10 +62,10 @@ class RacingCarJdbcRepositoryTest {
         racingCarJdbcRepository.saveCars(gameId, List.of(car1, car2));
         List<RacingCarDto> findCars = racingCarJdbcRepository.findRacingCarsByGameId(gameId);
 
-        assertThat(findCars)
-                .hasSize(2);
-        assertThat(findCars.get(0).getName())
-                .containsAnyOf("glen", "raon");
+        assertAll(
+                () -> assertThat(findCars).hasSize(2),
+                () -> assertThat(findCars.get(0).getName()).containsAnyOf("glen", "raon")
+        );
     }
 
     @Test
@@ -83,11 +84,13 @@ class RacingCarJdbcRepositoryTest {
         // expect
         Map<Integer, List<String>> playHistory = racingCarJdbcRepository.findWinners();
 
-        assertThat(playHistory).hasSize(2);
-        assertThat(playHistory.get(gameId1)).hasSize(winnersTest1.size());
-        assertThat(playHistory.get(gameId2)).hasSize(winnersTest2.size());
-        assertThat(playHistory.get(gameId1).get(0)).contains("glen");
-        assertThat(playHistory.get(gameId2).get(0)).contains("raon");
+        assertAll(
+                () -> assertThat(playHistory).hasSize(2),
+                () -> assertThat(playHistory.get(gameId1)).hasSize(winnersTest1.size()),
+                () -> assertThat(playHistory.get(gameId2)).hasSize(winnersTest2.size()),
+                () -> assertThat(playHistory.get(gameId1).get(0)).contains("glen"),
+                () -> assertThat(playHistory.get(gameId2).get(0)).contains("raon")
+        );
     }
 
     @Test
@@ -110,10 +113,12 @@ class RacingCarJdbcRepositoryTest {
         // expect
         Map<Integer, List<RacingCarDto>> playHistory = racingCarJdbcRepository.findRacingCars();
 
-        assertThat(playHistory).hasSize(2);
-        assertThat(playHistory.get(gameId1)).hasSize(carsTest1.size());
-        assertThat(playHistory.get(gameId2)).hasSize(carsTest2.size());
-        assertThat(playHistory.get(gameId1).get(0).getName()).containsAnyOf("glen", "raon");
-        assertThat(playHistory.get(gameId2).get(0).getName()).containsAnyOf("glen", "raon", "test");
+        assertAll(
+                () -> assertThat(playHistory).hasSize(2),
+                () -> assertThat(playHistory.get(gameId1)).hasSize(carsTest1.size()),
+                () -> assertThat(playHistory.get(gameId2)).hasSize(carsTest2.size()),
+                () -> assertThat(playHistory.get(gameId1).get(0).getName()).containsAnyOf("glen", "raon"),
+                () -> assertThat(playHistory.get(gameId2).get(0).getName()).containsAnyOf("glen", "raon", "test")
+        );
     }
 }
