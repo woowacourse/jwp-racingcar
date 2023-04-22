@@ -5,11 +5,11 @@ public class Car {
     private static final int MOVE_CRITERIA = 4;
 
     private final Name name;
-    private final Distance distance;
+    private final Position position;
 
     Car(String name, int distance) {
         this.name = new Name(name);
-        this.distance = new Distance(distance);
+        this.position = new Position(distance);
     }
 
     public Car(String name) {
@@ -18,12 +18,12 @@ public class Car {
 
     public void runForward(int engine) {
         if (engine >= MOVE_CRITERIA) {
-            distance.increaseDistance();
+            position.increaseDistance();
         }
     }
 
-    public Distance getDistance() {
-        return distance;
+    public Position getDistance() {
+        return position;
     }
 
     public Name getName() {
@@ -31,6 +31,6 @@ public class Car {
     }
 
     public boolean isSameDistance(int otherDistance) {
-        return otherDistance == distance.getValue();
+        return otherDistance == position.getValue();
     }
 }
