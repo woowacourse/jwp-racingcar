@@ -30,8 +30,9 @@ public class RacingCarController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponseDto> playGame(@RequestBody GameRequestDtoForPlays gameRequestDtoForPlays) {
+        int savedGameId = racingCarService.plays(gameRequestDtoForPlays);
         return ResponseEntity.ok()
-                .body(racingCarService.plays(gameRequestDtoForPlays));
+                .body(racingCarService.getSavedGameById(savedGameId));
     }
 
 }

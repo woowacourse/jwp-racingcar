@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 public class RacingGameDao {
 
+    private static final int FIRST_GAME_INDEX = 0;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -46,6 +47,11 @@ public class RacingGameDao {
     public int saveGame(GameEntity gameResultEntity) {
         String sqlForSaveGame = "INSERT INTO RACING_GAME(count, created_at) VALUES(?, ?)";
         return getIdAfterInsert(sqlForSaveGame, Integer.toString(gameResultEntity.getCount()), gameResultEntity.getCreatedAt().toString());
+    }
+
+    public GameEntity getRacingGameById(int gameId) {
+        String sqlForGetGame = "SELECT * FROM RACING_GAME WHERE id = ?";
+        return jdbcTemplate.query(sqlForGetGame, ObjectMapper.getGameEntityMapper(), gameId).get(FIRST_GAME_INDEX);
     }
 
 }

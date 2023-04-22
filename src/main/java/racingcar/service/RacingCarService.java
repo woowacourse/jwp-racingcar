@@ -32,13 +32,13 @@ public class RacingCarService {
         this.winnersDao = winnersDao;
     }
 
-    public GameResponseDto plays(GameRequestDtoForPlays gameRequestDtoForPlays) {
+    public int plays(GameRequestDtoForPlays gameRequestDtoForPlays) {
         RacingGame racingGame = RacingGame.from(gameRequestDtoForPlays);
         racingGame.play();
         int gameId = racingGameDao.saveGame(generateRacingGameEntity(racingGame));
         saveCars(gameId, racingGame.getCars());
         saveWinners(gameId, racingGame.getWinners());
-        return generateGameResponseDto(gameId, racingCarDao.findCarsByGameId(gameId), racingGame.getWinners().getWinners());
+        return gameId;
     }
 
     private GameEntity generateRacingGameEntity(RacingGame racingGame) {
@@ -61,11 +61,11 @@ public class RacingCarService {
         }
     }
 
-    private GameResponseDto generateGameResponseDto(int gameId, List<CarEntity> carsByGameId, List<Winner> winnersByGameId) {
+    private GameResponseDto generateGameResponseDto(int gameId, List<CarEntity> cars, List<Winner> winners) {
         return new GameResponseDto(
                 gameId,
-                winnersToString(winnersByGameId),
-                generateRacingCarResponseDtos(carsByGameId)
+                winnersToString(winners),
+                generateRacingCarResponseDtos(cars)
         );
     }
 
@@ -98,6 +98,13 @@ public class RacingCarService {
             gameResponseDtos.add(generateGameResponseDto(gameEntity.getId(), carsByGameId, winnersByGameId));
         }
         return gameResponseDtos;
+    }
+
+    public GameResponseDto getSavedGameById(int gameId) {
+        int racingGameId = racingGameDao.getRacingGameById(gameId).getId();
+        List<Winner> winners = winnersDao.findWinnerNamesByGameId(racingGameId);
+        List<CarEntity> cars = racingCarDao.findCarsByGameId(gameId);
+        return generateGameResponseDto(gameId, cars, winners);
     }
 
 }
