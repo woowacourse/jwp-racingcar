@@ -27,19 +27,16 @@ import java.util.stream.Collectors;
 @Controller
 public class RacingCarController {
     private final RacingCarService racingCarService;
-    private final NumberGenerator numberGenerator;
 
     @Autowired
-    public RacingCarController(final RacingCarService racingCarService, final NumberGenerator numberGenerator) {
+    public RacingCarController(final RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
-        this.numberGenerator = numberGenerator;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<PlayResponseDto> play(@Valid @RequestBody PlayRequestDto playRequestDto) {
         final MoveResponseDto moveResponseDto = racingCarService.moveCar(makeMoveRequestDto(playRequestDto));
         final PlayResponseDto playResponse = makePlayResponseDto(moveResponseDto);
-        OutputView.printWinner(playResponse);
         return ResponseEntity.ok().body(playResponse);
     }
 

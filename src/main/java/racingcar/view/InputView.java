@@ -8,8 +8,8 @@ public class InputView {
 
     static Scanner scanner = new Scanner(System.in);
 
-    public static List<String> inputCarNames() {
-        return List.of(scanner.nextLine().split(CAR_NAME_DELIMITER));
+    public static String inputCarNames() {
+        return scanner.nextLine();
     }
 
     public static int inputTryTimes() {

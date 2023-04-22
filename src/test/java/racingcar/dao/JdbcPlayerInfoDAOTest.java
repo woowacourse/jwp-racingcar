@@ -12,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 import racingcar.domain.Car;
 import racingcar.entity.PlayerInfoEntity;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,17 +21,17 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @JdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("transactional")
-class PlayerInfoDAOTest {
+class JdbcPlayerInfoDAOTest {
 
     private final int playResultId = 1;
-    private PlayerInfoDAO playerInfoDAO;
+    private JdbcPlayerInfoDAO jdbcPlayerInfoDAO;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        playerInfoDAO = new PlayerInfoDAO(jdbcTemplate);
+        jdbcPlayerInfoDAO = new JdbcPlayerInfoDAO(jdbcTemplate);
         final String sql = "insert into play_result (id, count, winners) values (?, ?, ?)";
         jdbcTemplate.update(sql, playResultId, 2, "Test");
     }
@@ -40,10 +39,10 @@ class PlayerInfoDAOTest {
     @Test
     void insert_를_통해_DB_에_유저_정보를_저장한다() {
         //given
-        playerInfoDAO.insert(playResultId, List.of(new Car("car", 1)));
+        jdbcPlayerInfoDAO.insert(playResultId, List.of(new Car("car", 1)));
 
         //when
-        final List<PlayerInfoEntity> playerByPlayResultId = playerInfoDAO.findPlayerByPlayResultId(playResultId);
+        final List<PlayerInfoEntity> playerByPlayResultId = jdbcPlayerInfoDAO.findPlayerByPlayResultId(playResultId);
         final PlayerInfoEntity insertedPlayer = playerByPlayResultId.get(0);
 
         //then
@@ -61,17 +60,17 @@ class PlayerInfoDAOTest {
                 .isInstanceOf(EmptyResultDataAccessException.class);
 
         //expect
-        assertThatThrownBy(() -> playerInfoDAO.insert(10, List.of(new Car("car", 1))))
+        assertThatThrownBy(() -> jdbcPlayerInfoDAO.insert(10, List.of(new Car("car", 1))))
                 .isInstanceOf(DataAccessException.class);
     }
 
     @Test
     void findPlayerByPlayResultId_는_result_id_를_가진_데이터를_가져온다() {
         //given
-        playerInfoDAO.insert(playResultId, List.of(new Car("car", 1)));
+        jdbcPlayerInfoDAO.insert(playResultId, List.of(new Car("car", 1)));
 
         //when
-        final List<PlayerInfoEntity> playerByPlayResultId = playerInfoDAO.findPlayerByPlayResultId(playResultId);
+        final List<PlayerInfoEntity> playerByPlayResultId = jdbcPlayerInfoDAO.findPlayerByPlayResultId(playResultId);
         final PlayerInfoEntity playerInfoEntity = playerByPlayResultId.get(0);
 
         //then
@@ -84,14 +83,14 @@ class PlayerInfoDAOTest {
     @Test
     void findPlayerByPlayResultId_는_같은_result_id_를_가진_데이터를_모두_찾을_수_있다() {
         //given
-        playerInfoDAO.insert(playResultId, List.of(
+        jdbcPlayerInfoDAO.insert(playResultId, List.of(
                 new Car("car", 1),
                 new Car("car2", 2),
                 new Car("car3", 3)
         ));
 
         //when
-        final List<PlayerInfoEntity> playerByPlayResultId = playerInfoDAO.findPlayerByPlayResultId(playResultId);
+        final List<PlayerInfoEntity> playerByPlayResultId = jdbcPlayerInfoDAO.findPlayerByPlayResultId(playResultId);
 
         //then
         assertThat(playerByPlayResultId).hasSize(3);

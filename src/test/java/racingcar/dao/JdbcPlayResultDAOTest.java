@@ -1,6 +1,5 @@
 package racingcar.dao;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +12,14 @@ import racingcar.domain.Car;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @JdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("transactional")
-class PlayResultDAOTest {
+class JdbcPlayResultDAOTest {
 
     @Autowired
     private DataSource dataSource;
@@ -30,11 +27,11 @@ class PlayResultDAOTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private PlayResultDAO playResultDAO;
+    private JdbcPlayResultDAO jdbcPlayResultDAO;
 
     @BeforeEach
     void setUp() {
-        playResultDAO = new PlayResultDAO(dataSource, jdbcTemplate);
+        jdbcPlayResultDAO = new JdbcPlayResultDAO(dataSource, jdbcTemplate);
     }
 
     @Test
@@ -44,7 +41,7 @@ class PlayResultDAOTest {
                 .isInstanceOf(EmptyResultDataAccessException.class);
 
         //when
-        final int generatedKey = playResultDAO.returnTableIdAfterInsert(
+        final int generatedKey = jdbcPlayResultDAO.returnTableIdAfterInsert(
                 2,
                 List.of(new Car("a"), new Car("b"))
         );
@@ -57,8 +54,8 @@ class PlayResultDAOTest {
     @Test
     void findAll_는_모든_저장된_정보를_가져온다() {
         //given
-        playResultDAO.returnTableIdAfterInsert(2, List.of(new Car("a"), new Car("b")));
-        playResultDAO.returnTableIdAfterInsert(2, List.of(new Car("a"), new Car("b")));
+        jdbcPlayResultDAO.returnTableIdAfterInsert(2, List.of(new Car("a"), new Car("b")));
+        jdbcPlayResultDAO.returnTableIdAfterInsert(2, List.of(new Car("a"), new Car("b")));
 
         //when
         final List<Integer> existingRowsId = jdbcTemplate.queryForList("select id from play_result", Integer.class);

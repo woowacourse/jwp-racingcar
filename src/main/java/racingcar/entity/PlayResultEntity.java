@@ -2,13 +2,13 @@ package racingcar.entity;
 
 import java.sql.Timestamp;
 
-public class PlayerResultEntity {
+public class PlayResultEntity {
     private final Integer id;
     private final Integer count;
     private final String winners;
     private final Timestamp dateTime;
 
-    public PlayerResultEntity(final Integer id, final Integer count, final String winners, final Timestamp dateTime) {
+    public PlayResultEntity(final Integer id, final Integer count, final String winners, final Timestamp dateTime) {
         this.id = id;
         this.count = count;
         this.winners = winners;
