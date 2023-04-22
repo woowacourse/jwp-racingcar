@@ -6,8 +6,6 @@ import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.List;
-
 public class ConsoleRacingCarController {
 
     private final InputView inputView;

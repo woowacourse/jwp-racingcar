@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class WebRacingCarRepository implements RacingCarRepository{
+public class WebRacingCarRepository implements RacingCarRepository {
 
     private final RacingGameDao racingGameDao;
     private final CarDao carDao;
@@ -38,10 +38,10 @@ public class WebRacingCarRepository implements RacingCarRepository{
     public List<RacingGame> findAllEndedRacingGame() {
         List<RacingGameEntity> endedRacingGameEntities = racingGameDao.findEndedRacingGameEntities();
         List<CarEntity> endedCarEntities = carDao.findEndedCars();
-        
+
         List<RacingGame> racingGames = new ArrayList<>();
-        
-        for(RacingGameEntity endedRacingGameEntity : endedRacingGameEntities) {
+
+        for (RacingGameEntity endedRacingGameEntity : endedRacingGameEntities) {
             List<Car> cars = getCars(endedRacingGameEntity, endedCarEntities);
             racingGames.add(new RacingGame(new Cars(cars), endedRacingGameEntity.getCount()));
         }

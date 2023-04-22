@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ConsoleRacingCarRepository implements RacingCarRepository {
+
     private final Map<Integer, RacingGame> racingGameData;
     private int id;
 
