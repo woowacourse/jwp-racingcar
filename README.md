@@ -10,52 +10,86 @@
 
 - [x] 자동차 경주 게임을 플레이하기 위한 요청을 받아 우승자와 최종 위치를 응답한다.
 
-    - 요청 형식
-        ```text
-        POST /plays HTTP/1.1
+  - 요청 형식
+      ```text
+      POST /plays HTTP/1.1
         
-        content-type: application/json; charset=UTF-8
-        host: localhost: 8080
+      content-type: application/json; charset=UTF-8
+      host: localhost: 8080
         
-        {
-            "names": "브리,토미,브라운",
-            "count": 10
-        }
-        ```
+      {
+          "names": "브리,토미,브라운",
+          "count": 10
+      }
+      ```
 
-    - 응답 형식
-        ```text
-        HTTP/1.1 200
-        Content-Type: application/json
+  - 응답 형식
+      ```text
+      HTTP/1.1 200
+      Content-Type: application/json
         
-        {
-            "winners": "브리",
-            "racingCars": [
-                {
-                "name": "브리",
-                "position": 9
-                },
-                {
-                "name": "토미",
-                "position": 7
-                }
+      {
+          "winners": "브리",
+          "racingCars": [
+              {
+              "name": "브리",
+              "position": 9
+              },
+              {
+              "name": "토미",
+              "position": 7
+              }
             ]
-        }
-        ```
+      }
+      ```
 
 - [x] DB에 저장된 플레이 이력 요청을 받아 응답한다.
-
-
-
-
+    - 요청 형식
+        ```text
+        GET /plays HTTP/1.1
+      ```
+    - 응답 형식
+        ```text
+      [
+          {
+              "winners": "브리",
+              "racingCars": [
+              {
+                  "name": "브리",
+                  "position": 9
+              },
+              {
+                  "name": "토미",
+                  "position": 7
+              },
+            ]
+          },
+          {
+              "winners": "브리",
+              "racingCars": [
+              {
+                  "name": "브리",
+                  "position": 8
+              },
+              {
+              "name": "토미",
+              "position": 5
+              },
+            ]
+          }
+      ]
+       ```
+      
 ### 서비스
 
 - [x] 자동차 경주 게임을 진행 후 결과를 생성한다.
+- [x] 저장된 자동차 경주 게임 이력을 가져온다. 
 
 ### 레포지토리
 
 - [x] 자동차 경주 게임의 최종 우승자, 시도 횟수, 플레이 시간을 저장한다.
 - [x] 자동차의 이름과 최종 위치를 저장한다.
+- [x] 저장된 자동차 경주 게임의 최종 우승자와 모든 플레이어의 자동차 정보를 가져온다.
 
 ### DB
 
