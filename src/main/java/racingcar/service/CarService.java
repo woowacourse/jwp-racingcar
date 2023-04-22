@@ -11,6 +11,7 @@ import racingcar.entity.PlayResult;
 import racingcar.entity.Player;
 import racingcar.model.Car;
 import racingcar.model.RacingGame;
+import racingcar.strategy.RacingNumberGenerator;
 import racingcar.strategy.RacingRandomNumberGenerator;
 
 import java.util.ArrayList;
@@ -19,17 +20,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class CarService {
+
+    private final RacingNumberGenerator racingNumberGenerator;
     private final PlayerDao playerDao;
     private final PlayResultDao playResultDao;
 
-    public CarService(final PlayerDao playerDao, final PlayResultDao playResultDao) {
+    public CarService(final RacingNumberGenerator racingNumberGenerator, final PlayerDao playerDao, final PlayResultDao playResultDao) {
+        this.racingNumberGenerator = racingNumberGenerator;
         this.playerDao = playerDao;
         this.playResultDao = playResultDao;
     }
 
     public WinnerCarDto playGame(final GameDto gameDto) {
-        final RacingGame racingGame = new RacingGame(gameDto.getNames(), gameDto.getCount(),
-                new RacingRandomNumberGenerator());
+        final RacingGame racingGame = new RacingGame(gameDto.getNames(), gameDto.getCount(), racingNumberGenerator);
         racingGame.play();
 
         return save(racingGame);
