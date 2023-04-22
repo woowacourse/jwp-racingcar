@@ -23,7 +23,7 @@ public class RacingStartDTO {
         return names;
     }
 
-    public int getCount() {
+    public Integer getCount() {
         return count;
     }
 }
