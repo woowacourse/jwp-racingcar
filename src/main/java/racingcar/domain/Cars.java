@@ -1,11 +1,10 @@
 package racingcar.domain;
 
-import racingcar.util.NumberGenerator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.util.NumberGenerator;
 
 public class Cars {
 

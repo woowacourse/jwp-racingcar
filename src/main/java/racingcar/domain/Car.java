@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.CarNameLengthException;
+import racingcar.exception.invalidinput.CarNameLengthException;
 
 public class Car {
     private static final int INIT_POSITION = 0;
@@ -19,6 +19,10 @@ public class Car {
         if (movable(power)) {
             position = position + 1;
         }
+    }
+
+    public boolean isWinner(int winnerPosition) {
+        return this.position == winnerPosition;
     }
 
     private boolean movable(int power) {

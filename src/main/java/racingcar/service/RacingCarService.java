@@ -1,52 +1,75 @@
 package racingcar.service;
 
-import racingcar.domain.Car;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 import racingcar.domain.Cars;
 import racingcar.domain.Count;
+import racingcar.domain.RacingCarGame;
+import racingcar.dto.GamePlayerJoinDto;
 import racingcar.dto.PlayerDto;
-import racingcar.dto.RacingGameDto;
+import racingcar.dto.RacingCarGameRequestDto;
+import racingcar.dto.RacingCarGameResultResponseDto;
 import racingcar.repository.RacingCarRepository;
 import racingcar.util.NumberGenerator;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+@Service
 public class RacingCarService {
 
-    private final Cars cars;
     private final NumberGenerator numberGenerator;
     private final RacingCarRepository racingCarRepository;
 
-    public RacingCarService(Cars cars, NumberGenerator numberGenerator, RacingCarRepository racingCarRepository) {
-        this.cars = cars;
+    public RacingCarService(NumberGenerator numberGenerator, RacingCarRepository racingCarRepository) {
         this.numberGenerator = numberGenerator;
         this.racingCarRepository = racingCarRepository;
     }
 
-    public void play(Count count) {
-        move(count);
-        racingCarRepository.save(new RacingGameDto(getWinners(), count.getCount()), carsToPlayerDtos());
+    public RacingCarGameResultResponseDto play(RacingCarGameRequestDto racingCarGameRequestDto) {
+        Cars cars = Cars.of(splitNameWithComma(racingCarGameRequestDto));
+        Count count = Count.of(racingCarGameRequestDto.getCount());
+        RacingCarGame racingCarGame = new RacingCarGame(cars, count);
+
+        racingCarGame.play(numberGenerator);
+        racingCarRepository.save(racingCarGame);
+
+        return RacingCarGameResultResponseDto.of(racingCarGame);
     }
 
-    private void move(Count count) {
-        for (int i = 0; i < count.getCount(); i++) {
-            cars.moveAll(numberGenerator);
+    public List<RacingCarGameResultResponseDto> readGameResultAll() {
+        List<GamePlayerJoinDto> gamePlayerJoinDtos = racingCarRepository.readGameResultAll();
+        Map<Long, List<GamePlayerJoinDto>> gameIdByGamePlayerJoinDto = gamePlayerJoinDtos.stream()
+            .collect(Collectors.groupingBy(GamePlayerJoinDto::getGameId));
+
+        List<RacingCarGameResultResponseDto> result = new ArrayList<>();
+
+        for (Long gameId : gameIdByGamePlayerJoinDto.keySet()) {
+            List<GamePlayerJoinDto> sameGameData = gameIdByGamePlayerJoinDto.get(gameId);
+            String winners = findWinners(sameGameData);
+            List<PlayerDto> playerDtos = findPlayers(sameGameData);
+            result.add(new RacingCarGameResultResponseDto(winners, playerDtos));
         }
+        return result;
     }
 
-    public String getWinners() {
-        return cars.pickWinners().getAll().stream()
-                .map(Car::getName)
-                .collect(Collectors.joining(","));
+    private List<PlayerDto> findPlayers(final List<GamePlayerJoinDto> sameGameData) {
+        return sameGameData.stream()
+            .map(data -> new PlayerDto(data.getPlayerName(), data.getPosition()))
+            .collect(Collectors.toList());
     }
 
-    private List<PlayerDto> carsToPlayerDtos() {
-        return getCars().stream()
-                .map(car -> new PlayerDto(car.getName(), car.getPosition()))
-                .collect(Collectors.toList());
+    private String findWinners(final List<GamePlayerJoinDto> sameGameData) {
+        return sameGameData.stream()
+            .filter(GamePlayerJoinDto::isWinner)
+            .map(GamePlayerJoinDto::getPlayerName)
+            .collect(Collectors.joining(","));
     }
 
-    public List<Car> getCars() {
-        return cars.getAll();
+    private List<String> splitNameWithComma(RacingCarGameRequestDto racingCarGameRequestDto) {
+        return Arrays.stream(racingCarGameRequestDto.getNames().split(","))
+            .map(String::trim)
+            .collect(Collectors.toList());
     }
 }

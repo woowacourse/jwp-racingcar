@@ -1,12 +1,15 @@
 package racingcar.domain;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatNoException;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import racingcar.exception.CarNameLengthException;
-
-import static org.assertj.core.api.AssertionsForClassTypes.*;
+import racingcar.exception.invalidinput.CarNameLengthException;
 
 class CarTest {
     Car car1;

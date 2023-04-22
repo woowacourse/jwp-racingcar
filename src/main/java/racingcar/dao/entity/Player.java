@@ -7,12 +7,14 @@ public class Player {
     private final Long playerId;
     private final String name;
     private final int position;
+    private final boolean isWinner;
     private final Long gameId;
 
-    public Player(String name, int position, Long gameId) {
+    public Player(String name, int position, boolean isWinner ,Long gameId) {
         this.playerId = null;
         this.name = name;
         this.position = position;
+        this.isWinner = isWinner;
         this.gameId = gameId;
     }
 
@@ -26,6 +28,10 @@ public class Player {
 
     public int getPosition() {
         return position;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
     }
 
     public Long getGameId() {

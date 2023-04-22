@@ -1,23 +1,20 @@
 package racingcar.dao.entity;
 
-import racingcar.dto.RacingGameDto;
-
 import java.util.Optional;
+import racingcar.domain.RacingCarGame;
 
 public class Game {
 
     private final Long gameId;
-    private final int playCount;
-    private final String winners;
+    private final Integer playCount;
 
-    public Game(int playCount, String winners) {
+    private Game(int playCount) {
         this.gameId = null;
         this.playCount = playCount;
-        this.winners = winners;
     }
 
-    public Game(RacingGameDto racingGameDto) {
-        this(racingGameDto.getCount(), racingGameDto.getWinners());
+    public static Game of(RacingCarGame racingCarGame) {
+        return new Game(racingCarGame.getCount());
     }
 
     public Optional<Long> getGameId() {
@@ -26,10 +23,6 @@ public class Game {
 
     public int getPlayCount() {
         return playCount;
-    }
-
-    public String getWinners() {
-        return winners;
     }
 
 }
