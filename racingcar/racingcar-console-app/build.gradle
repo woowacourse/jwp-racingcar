@@ -1,4 +1,4 @@
 dependencies {
     implementation project(':racingcar:racingcar-domain')
-    implementation project(':racingcar:racingcar-domain-h2')
+    implementation project(':racingcar:racingcar-domain-db')
 }
