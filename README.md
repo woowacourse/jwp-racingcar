@@ -24,45 +24,65 @@
         - [x] 이름
         - [x] 위치
 
+- [x] 게임 플레이 이력 조회 API 구현
+- [x] 기존 기능 수정 - 출력 방식 수정
+- [x] 리팩터링 - 중복 코드 제거
+
 # DDL
 
 ```sql
-CREATE TABLE PLAY_RESULT
+DROP TABLE IF EXISTS GAME;
+DROP TABLE IF EXISTS CAR;
+DROP TABLE IF EXISTS WINNER;
+
+CREATE TABLE GAME
 (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    winners     VARCHAR(50) NOT NULL,
-    trial_count INT         NOT NULL,
-    created_at  DATETIME    NOT NULL default current_timestamp,
+    id          INT      NOT NULL AUTO_INCREMENT,
+    trial_count INT      NOT NULL,
+    created_at  DATETIME NOT NULL default current_timestamp,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE CAR_RESULT
+CREATE TABLE CAR
 (
-    id             INT         NOT NULL AUTO_INCREMENT,
-    play_result_id INT         NOT NULL,
-    name           VARCHAR(50) NOT NULL,
-    position       INT         NOT NULL,
-    PRIMARY KEY (id)
+    id       INT         NOT NULL AUTO_INCREMENT,
+    game_id  INT         NOT NULL,
+    name     VARCHAR(50) NOT NULL,
+    position INT         NOT NULL,
+    PRIMARY KEY (id),
+    foreign key (game_id) references GAME (id)
 );
 
+CREATE TABLE WINNER
+(
+    id     INT NOT NULL AUTO_INCREMENT,
+    car_id INT NOT NULL,
+    PRIMARY KEY (id),
+    foreign key (car_id) references CAR (id)
+);
 ```
 
 # DB 구조
 
 ```mermaid
 erDiagram
-    PLAY_RESULT ||--o{ CAR_RESULT: play_result_id
-    PLAY_RESULT {
+    GAME ||--o{ CAR: GAME_id
+    GAME ||--o{ CAR: GAME_id
+    GAME {
         int id
         varchar winners
         int trial_count
         DATETIME created_at
     }
-    CAR_RESULT {
+    CAR {
         int id
-        int play_result_id
+        int game_id
         int name
         int position
+    }
+    WINNER {
+        int id
+        int car_id
     }
 ```
 

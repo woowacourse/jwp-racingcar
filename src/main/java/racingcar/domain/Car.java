@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 public class Car {
-
     public static final int MIN_POSITION = 0;
     private static final int MAX_NAME_LENGTH = 5;
     private static final int MIN_POWER = 4;

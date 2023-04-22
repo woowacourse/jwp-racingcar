@@ -1,4 +1,4 @@
-package racingcar.dto.request;
+package racingcar.api.dto.request;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -8,10 +8,13 @@ import java.util.stream.Collectors;
 public class CarGameRequest {
 
     @NotNull
-    private final String names;
+    private String names;
 
     @Positive
-    private final Integer count;
+    private Integer count;
+
+    public CarGameRequest() {
+    }
 
     public CarGameRequest(String names, Integer count) {
         this.names = trimName(names);
@@ -19,7 +22,7 @@ public class CarGameRequest {
     }
 
     private String trimName(String names) {
-        return Arrays.stream(names.split(","))
+        return Arrays.stream(names.split(",", -1))
                 .map(String::strip)
                 .collect(Collectors.joining(","));
     }

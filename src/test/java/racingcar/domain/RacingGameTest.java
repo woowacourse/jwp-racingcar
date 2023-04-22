@@ -17,12 +17,12 @@ class RacingGameTest {
     void play_with_always_move() {
         int tryCount = 1;
 
-        RacingGame game = new RacingGame(new AlwaysMoveGenerator(), new Cars(carNames), tryCount);
+        RacingGame game = new RacingGame(new AlwaysMoveGenerator(), Cars.from(carNames), tryCount);
         game.play();
 
-        Cars result = game.getCars();
+        List<Car> cars = game.getCars();
 
-        List<Integer> positions = result.getUnmodifiableCars().stream()
+        List<Integer> positions = cars.stream()
                 .map(Car::getPosition)
                 .collect(Collectors.toList());
 
@@ -34,12 +34,12 @@ class RacingGameTest {
     void play_with_always_stop() {
         int tryCount = 1;
 
-        RacingGame game = new RacingGame(new NeverMoveGenerator(), new Cars(carNames), tryCount);
+        RacingGame game = new RacingGame(new NeverMoveGenerator(), Cars.from(carNames), tryCount);
         game.play();
 
-        Cars result = game.getCars();
+        List<Car> cars = game.getCars();
 
-        List<Integer> positions = result.getUnmodifiableCars().stream()
+        List<Integer> positions = cars.stream()
                 .map(Car::getPosition)
                 .collect(Collectors.toList());
 
