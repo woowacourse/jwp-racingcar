@@ -1,7 +1,6 @@
 package racingcar.controller.web;
 
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
@@ -29,9 +28,10 @@ public class RacingGameController {
 
 	@PostMapping("/plays")
 	public ResponseEntity<GameResultResponseDto> startGame (@RequestBody final StartGameRequestDto request) {
-		TryCount tryCount = getTryCount(request.getCount());
-
-		return new ResponseEntity<>(racingCarService.startRace(splitCarNames(request.getNames()), tryCount),
+		TryCount tryCount = new TryCount(request.getCount());
+		String[] carNames = request.getNames().split(REGEX);
+		return new ResponseEntity<>(
+				racingCarService.startRace(Arrays.stream(carNames).collect(Collectors.toList()), tryCount),
 				HttpStatus.OK);
 	}
 
@@ -40,35 +40,13 @@ public class RacingGameController {
 		return new ResponseEntity<>(racingCarService.findAllGameResults(), HttpStatus.OK);
 	}
 
-	private List<String> splitCarNames (final String input) {
-		try {
-			String[] carNames = input.split(REGEX);
-			return Arrays.stream(carNames).collect(Collectors.toList());
-		} catch (IllegalArgumentException exception) {
-			throw new IllegalArgumentException(exception.getMessage());
-		}
-	}
-
-	private TryCount getTryCount (final int input) {
-		try {
-			return new TryCount(input);
-		} catch (IllegalArgumentException | InputMismatchException exception) {
-			throw new IllegalArgumentException(exception.getMessage());
-		}
-	}
-
 	@ExceptionHandler(value = {HttpMessageNotReadableException.class})
 	ResponseEntity<String> handleRequestDtoValues (HttpMessageNotReadableException exception) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
 	}
 
-	@ExceptionHandler(value = {IllegalArgumentException.class, InputMismatchException.class})
-	ResponseEntity<String> handleInputValues (RuntimeException exception) {
+	@ExceptionHandler(value = {IllegalArgumentException.class})
+	ResponseEntity<String> handleInputException (IllegalArgumentException exception) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-	}
-
-	@ExceptionHandler(value = {RuntimeException.class})
-	ResponseEntity<String> handleAnotherException (RuntimeException exception) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
 	}
 }
