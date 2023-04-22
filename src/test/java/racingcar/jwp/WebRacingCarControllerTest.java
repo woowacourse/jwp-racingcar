@@ -9,10 +9,12 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import racingcar.service.GameService;
 import racingcar.service.dto.GameRequestDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,8 +25,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WebRacingCarControllerTest {
 
-    @Value("${local.server.port}")
-    int port;
+    @Autowired
+    private GameService gameService;
+
+    @LocalServerPort
+    private int port;
 
     @BeforeEach
     void setUp() {
@@ -37,7 +42,7 @@ public class WebRacingCarControllerTest {
         final GameRequestDto gameRequestDto = new GameRequestDto("ditoo,leo", 10);
 
         RestAssured
-                .given().log().all()
+                .given().log().headers()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(gameRequestDto)
                 .when().post("/plays")
@@ -55,18 +60,10 @@ public class WebRacingCarControllerTest {
     void getAllTest() {
         // given
         final GameRequestDto gameRequestDto1 = new GameRequestDto("디투,레오", 10);
-        RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(gameRequestDto1)
-                .post("/plays");
+        gameService.createGameResult(gameRequestDto1);
 
         final GameRequestDto gameRequestDto2 = new GameRequestDto("디투,에단,홍실,블랙캣", 10);
-        RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(gameRequestDto2)
-                .post("/plays");
+        gameService.createGameResult(gameRequestDto2);
 
         // when
         ExtractableResponse<Response> response = RestAssured
