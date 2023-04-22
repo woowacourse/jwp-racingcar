@@ -10,12 +10,12 @@ import racingcar.domain.RandomMoveStrategy;
 import racingcar.domain.TryCount;
 import racingcar.dto.GameDto;
 import racingcar.dto.GameResultDto;
-import racingcar.dto.GameResultsDto;
 import racingcar.dto.ResultDto;
 import racingcar.dto.WinnerDto;
 
 @Service
 public final class GameService {
+    public static final RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
     private final GameDao gameDao;
     private final PlayerDao playerDao;
 
@@ -39,10 +39,9 @@ public final class GameService {
     }
 
     private void playGame(final Game game, TryCount tryCount) {
-        RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
         while (tryCount.isAvailable()) {
             game.moveCars(randomMoveStrategy);
-            tryCount.moveUntilZero();
+            tryCount.decrease();
         }
     }
 
@@ -58,7 +57,7 @@ public final class GameService {
         return game.findWinners();
     }
 
-    public GameResultsDto gameHistory() {
+    public List<GameResultDto> gameHistory() {
         final List<Integer> gameIds = gameDao.selectGameIds();
 
         final List<GameResultDto> gameResults = new ArrayList<>();
@@ -69,6 +68,6 @@ public final class GameService {
             gameResults.add(gameResultDto);
         }
 
-        return new GameResultsDto(gameResults);
+        return gameResults;
     }
 }
