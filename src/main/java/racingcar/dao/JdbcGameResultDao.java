@@ -26,7 +26,6 @@ public class JdbcGameResultDao implements GameResultDao {
             new GameResult(
                     resultSet.getLong("id"),
                     resultSet.getInt("trial_count"),
-                    resultSet.getString("winners"),
                     resultSet.getTimestamp("created_at")
             );
 

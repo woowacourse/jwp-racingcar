@@ -6,18 +6,16 @@ import java.util.Objects;
 public class GameResult {
     private final Long id;
     private final int trialCount;
-    private final String winners;
     private final Timestamp createdAt;
 
-    public GameResult(Long id, int trialCount, String winners, Timestamp createdAt) {
+    public GameResult(Long id, int trialCount, Timestamp createdAt) {
         this.id = id;
         this.trialCount = trialCount;
-        this.winners = winners;
         this.createdAt = createdAt;
     }
 
-    public GameResult(int trialCount, String winners, Timestamp createdAt) {
-        this(null, trialCount, winners, createdAt);
+    public GameResult(int trialCount, Timestamp createdAt) {
+        this(null, trialCount, createdAt);
     }
 
     public Long getId() {
@@ -28,9 +26,6 @@ public class GameResult {
         return trialCount;
     }
 
-    public String getWinners() {
-        return winners;
-    }
 
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -46,6 +41,6 @@ public class GameResult {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, trialCount, winners, createdAt);
+        return Objects.hash(id, trialCount, createdAt);
     }
 }

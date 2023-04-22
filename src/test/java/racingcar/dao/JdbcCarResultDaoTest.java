@@ -37,7 +37,7 @@ class JdbcCarResultDaoTest {
 
     @Test
     void saveAndFindById() {
-        GameResult gameResult = new GameResult(10, "juno", Timestamp.valueOf(LocalDateTime.now()));
+        GameResult gameResult = new GameResult(10, Timestamp.valueOf(LocalDateTime.now()));
         long playResultId = webPlayResultDao.save(gameResult);
         CarResult carResult = new CarResult(playResultId, "juno", 3);
         long carId = jdbcCarResultDao.save(carResult);
@@ -47,7 +47,7 @@ class JdbcCarResultDaoTest {
 
     @Test
     void findAllByPlayResultId() {
-        GameResult gameResult = new GameResult(10, "juno,hongo", Timestamp.valueOf(LocalDateTime.now()));
+        GameResult gameResult = new GameResult(10, Timestamp.valueOf(LocalDateTime.now()));
         long playResultId = webPlayResultDao.save(gameResult);
         CarResult carResult1 = new CarResult(playResultId, "juno", 3);
         CarResult carResult2 = new CarResult(playResultId, "hongo", 3);
