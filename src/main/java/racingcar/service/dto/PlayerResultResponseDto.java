@@ -1,19 +1,14 @@
 package racingcar.service.dto;
 
 import racingcar.domain.Car;
-import racingcar.entity.PlayerResult;
 
 public class PlayerResultResponseDto {
     private final String name;
     private final int position;
 
-    private PlayerResultResponseDto(final String name, final int position) {
+    public PlayerResultResponseDto(final String name, final int position) {
         this.name = name;
         this.position = position;
-    }
-
-    public static PlayerResultResponseDto createByEntity(final PlayerResult playerResult) {
-        return new PlayerResultResponseDto(playerResult.getName(), playerResult.getFinalPosition());
     }
 
     public static PlayerResultResponseDto createByDomain(final Car car) {

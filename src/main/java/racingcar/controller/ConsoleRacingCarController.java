@@ -63,7 +63,9 @@ public class ConsoleRacingCarController {
 
     private void showFinalStatus(final Cars cars) {
         final List<PlayerResultResponseDto> playerResultResponseDtos = cars.getLatestResult().stream()
-                .map(PlayerResultResponseDto::createByDomain)
+                .map(car -> new PlayerResultResponseDto(
+                        car.getCarName().getName(),
+                        car.getCurrentPosition().getPosition()))
                 .collect(Collectors.toUnmodifiableList());
         OutputView.printCarStatus(playerResultResponseDtos);
     }

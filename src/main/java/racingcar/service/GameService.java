@@ -14,6 +14,8 @@ import racingcar.repository.GameDao;
 import racingcar.repository.PlayerResultDao;
 import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
+import racingcar.service.dto.PlayerResultResponseDto;
+import racingcar.service.util.PlayerResultResponseConverter;
 import racingcar.util.ListJoiner;
 
 import java.util.LinkedHashMap;
@@ -54,7 +56,7 @@ public class GameService {
             cars.moveCars(numberGenerator);
             lap.reduce();
         }
-        return GameResponseDto.createByDomain(getWinners(cars), cars);
+        return new GameResponseDto(getWinners(cars), PlayerResultResponseConverter.convertByCars(cars));
     }
 
     private static String getWinners(final Cars cars) {
@@ -88,7 +90,9 @@ public class GameService {
             allGames.put(game, playerResultDao.findByGameId(game.getId()));
         }
         return allGames.entrySet().stream()
-                .map(entry -> GameResponseDto.createByEntity(entry.getKey(), entry.getValue()))
+                .map(entry -> new GameResponseDto(
+                        entry.getKey().getWinners(),
+                        PlayerResultResponseConverter.convertByEntities(entry.getValue())))
                 .collect(Collectors.toUnmodifiableList());
     }
 }
