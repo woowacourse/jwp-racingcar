@@ -20,6 +20,7 @@ import racingcar.service.RacingCarService;
 @RestController
 public class RacingGameController {
 
+	private static final String REGEX = ",";
 	private final RacingCarService racingCarService;
 
 	public RacingGameController (final RacingCarService racingCarService) {
@@ -41,7 +42,7 @@ public class RacingGameController {
 
 	private List<String> splitCarNames (final String input) {
 		try {
-			String[] carNames = input.split(",");
+			String[] carNames = input.split(REGEX);
 			return Arrays.stream(carNames).collect(Collectors.toList());
 		} catch (IllegalArgumentException exception) {
 			throw new IllegalArgumentException(exception.getMessage());
