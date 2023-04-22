@@ -26,7 +26,6 @@ public class GameResult {
         return trialCount;
     }
 
-
     public Timestamp getCreatedAt() {
         return createdAt;
     }
