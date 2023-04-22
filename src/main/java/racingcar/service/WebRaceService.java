@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.controller.dto.GameInfoRequest;
 import racingcar.controller.dto.RaceResultResponse;
-import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
 import racingcar.domain.Car;
 import racingcar.domain.RacingCars;
 import racingcar.repository.CarRepository;
@@ -20,7 +19,7 @@ public class WebRaceService extends RaceService {
     private final RaceResultRepository raceResultRepository;
 
     public WebRaceService(final NumberGenerator numberGenerator, final CarRepository carRepository,
-                             final RaceResultRepository raceResultRepository) {
+                          final RaceResultRepository raceResultRepository) {
         super(numberGenerator);
         this.carRepository = carRepository;
         this.raceResultRepository = raceResultRepository;
@@ -28,9 +27,7 @@ public class WebRaceService extends RaceService {
 
     public int saveRaceResult(final GameInfoRequest gameInfoRequest) {
         RacingCars carsAfterMove = race(gameInfoRequest);
-        RaceResultRegisterRequest raceResultRegisterRequest =
-                RaceResultRegisterRequest.create(gameInfoRequest.getCount(), carsAfterMove);
-        int savedPlayResultId = raceResultRepository.save(raceResultRegisterRequest);
+        int savedPlayResultId = raceResultRepository.save(gameInfoRequest.getCount(), carsAfterMove);
         carRepository.saveCars(carsAfterMove, savedPlayResultId);
         return savedPlayResultId;
     }

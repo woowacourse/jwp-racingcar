@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.raceresult.RaceResultDao;
 import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
+import racingcar.domain.RacingCars;
 
 @Repository
 public class RaceResultRepository {
@@ -15,8 +16,8 @@ public class RaceResultRepository {
         this.raceResultDao = raceResultDao;
     }
 
-    public int save(RaceResultRegisterRequest raceResultRegisterRequest) {
-        return raceResultDao.save(raceResultRegisterRequest);
+    public int save(int trialCount, RacingCars racingCars) {
+        return raceResultDao.save(RaceResultRegisterRequest.create(trialCount, racingCars));
     }
 
     public String findWinnersByPlayResultId(int playResultId) {
