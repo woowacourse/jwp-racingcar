@@ -1,42 +1,48 @@
 package racingcar.domain;
 
 import racingcar.strategy.RacingNumberGenerator;
-import racingcar.strategy.RacingRandomNumberGenerator;
+import racingcar.domain.vo.Name;
+import racingcar.domain.vo.Round;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingGame {
 
     private final Cars cars;
     private final Round round;
-    private final RacingNumberGenerator generator;
+
 
     private RacingGame(final Cars cars, final Round round) {
         this.cars = cars;
         this.round = round;
-        this.generator = new RacingRandomNumberGenerator();
     }
 
-    public static RacingGame of(final List<String> carNames, final String count) {
+    public static RacingGame of(final List<String> carNames, final int tryCount) {
         final Cars cars = Cars.from(carNames);
-        final Round round = Round.from(count);
+        final Round round = new Round(tryCount);
 
         return new RacingGame(cars, round);
     }
 
-    public void playGame() {
-        final int round = this.round.getRound();
+    public void playGame(final RacingNumberGenerator generator) {
+        final int round = this.round.getValue();
         for (int count = 0; count < round; count++) {
             cars.race(generator);
         }
     }
 
     public String findWinnerNames() {
-        return cars.findWinnerNames();
+        return cars.findWinnerNames().stream()
+                .map(Name::getValue)
+                .collect(Collectors.joining(","));
     }
 
     public List<Car> getCars() {
         return cars.getCars();
     }
 
+    public Round getRound() {
+        return round;
+    }
 }

@@ -1,34 +1,57 @@
 package racingcar.domain;
 
 import racingcar.strategy.RacingNumberGenerator;
+import racingcar.domain.vo.Name;
+import racingcar.domain.vo.Position;
 
 public class Car {
 
+    private static final int MOVABLE_VALUE = 4;
+    private static final int START_POSITION = 0;
+
     private final Name name;
-    private final Position position;
+    private Position position;
 
-    public Car(String name) {
-        this.name = new Name(name);
-        this.position = new Position();
+    private Car(final Name name, final Position position) {
+        this.name = name;
+        this.position = position;
     }
 
-    public void race(RacingNumberGenerator generator) {
-        position.move(generator);
+    public static Car createCar(final String name) {
+        return new Car(new Name(name), new Position(START_POSITION));
     }
 
-    public int compareTo(Car otherCar) {
-        return this.position.compareTo(otherCar.position);
+    public static Car of(final String name, final int position) {
+        final Name carName = new Name(name);
+        final Position carPosition = new Position(position);
+
+        return new Car(carName, carPosition);
     }
 
-    public boolean isSamePosition(Car otherCar) {
-        return this.position.isSamePosition(otherCar.position);
+    public void race(final RacingNumberGenerator generator) {
+        if (isMovable(generator.generate())) {
+            position = position.move();
+        }
     }
 
-    public String getName() {
-        return name.getName();
+    public int compareTo(final Car other) {
+        return this.position.compareTo(other.position);
     }
 
-    public int getPosition() {
-        return position.getPosition();
+    public boolean isSamePosition(final Car other) {
+        return this.position.isSamePosition(other.position);
     }
+
+    private boolean isMovable(final int value) {
+        return value >= MOVABLE_VALUE;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
 }
