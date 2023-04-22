@@ -30,7 +30,7 @@ public class PlayerInfoDAO {
 
     }
 
-    public List<PlayerInfoEntity> findPlayerByResultId(Integer play_result_id) {
+    public List<PlayerInfoEntity> findPlayerByPlayResultId(Integer play_result_id) {
         String sql = "select * from player_info where play_result_id = ?";
         return jdbcTemplate.query(sql, (result, column) -> {
                     final PlayerInfoEntity playerInfoEntity = new PlayerInfoEntity(

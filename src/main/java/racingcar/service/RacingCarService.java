@@ -63,7 +63,7 @@ public class RacingCarService {
     }
 
     private List<CarDto> makeCarDto(final PlayerResultEntity playerResultEntity) {
-        return playerInfoDAO.findPlayerByResultId(playerResultEntity.getId()).stream()
+        return playerInfoDAO.findPlayerByPlayResultId(playerResultEntity.getId()).stream()
                 .map((playerInfo) -> new CarDto(playerInfo.getName(), playerInfo.getPosition()))
                 .collect(Collectors.toList());
     }
