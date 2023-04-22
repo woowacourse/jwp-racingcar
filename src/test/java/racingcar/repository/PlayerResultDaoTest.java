@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import racingcar.entity.Game;
 import racingcar.entity.PlayerResult;
-import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +46,7 @@ class PlayerResultDaoTest {
     }
 
     @Test
-    @DisplayName("전체 게임 결과를 DB에서 잘 불러오는지 확인")
+    @DisplayName("플레이어 조회 결과를 DB에서 잘 불러오는지 확인")
     void getAll() {
         // given
         final Game game1 = gameDao.save(new Game(10, "디투"));
@@ -62,21 +60,25 @@ class PlayerResultDaoTest {
         final PlayerResult playerResult6 = playerResultDao.save(new PlayerResult("에단", 3, game2.getId()));
 
         // when
-        final List<GetPlayerResultQueryResponseDto> queryResponses = playerResultDao.getAll();
+        final List<PlayerResult> playerResultsOfGame1 = playerResultDao.findByGameId(game1.getId());
+        final List<PlayerResult> playerResultsOfGame2 = playerResultDao.findByGameId(game2.getId());
 
         // then
-        assertThat(queryResponses.size()).isEqualTo(6);
+        assertThat(playerResultsOfGame1).hasSize(2);
+        assertThat(playerResultsOfGame2).hasSize(4);
 
-        assertThat(queryResponses.get(0).getWinners()).isEqualTo(game1.getWinners());
-        assertThat(queryResponses.get(1).getWinners()).isEqualTo(game1.getWinners());
-        assertThat(queryResponses.get(2).getWinners()).isEqualTo(game2.getWinners());
-        assertThat(queryResponses.get(5).getWinners()).isEqualTo(game2.getWinners());
+        assertThat(playerResultsOfGame1.get(0).getGameId()).isEqualTo(game1.getId());
+        assertThat(playerResultsOfGame1.get(1).getGameId()).isEqualTo(game1.getId());
+        assertThat(playerResultsOfGame2.get(0).getGameId()).isEqualTo(game2.getId());
+        assertThat(playerResultsOfGame2.get(1).getGameId()).isEqualTo(game2.getId());
+        assertThat(playerResultsOfGame2.get(2).getGameId()).isEqualTo(game2.getId());
+        assertThat(playerResultsOfGame2.get(3).getGameId()).isEqualTo(game2.getId());
 
-        assertThat(queryResponses.get(0).getName()).isEqualTo(playerResult1.getName());
-        assertThat(queryResponses.get(1).getName()).isEqualTo(playerResult2.getName());
-        assertThat(queryResponses.get(2).getName()).isEqualTo(playerResult3.getName());
-        assertThat(queryResponses.get(3).getName()).isEqualTo(playerResult4.getName());
-        assertThat(queryResponses.get(4).getName()).isEqualTo(playerResult5.getName());
-        assertThat(queryResponses.get(5).getName()).isEqualTo(playerResult6.getName());
+        assertThat(playerResultsOfGame1.get(0).getName()).isEqualTo(playerResult1.getName());
+        assertThat(playerResultsOfGame1.get(1).getName()).isEqualTo(playerResult2.getName());
+        assertThat(playerResultsOfGame2.get(0).getName()).isEqualTo(playerResult3.getName());
+        assertThat(playerResultsOfGame2.get(1).getName()).isEqualTo(playerResult4.getName());
+        assertThat(playerResultsOfGame2.get(2).getName()).isEqualTo(playerResult5.getName());
+        assertThat(playerResultsOfGame2.get(3).getName()).isEqualTo(playerResult6.getName());
     }
 }

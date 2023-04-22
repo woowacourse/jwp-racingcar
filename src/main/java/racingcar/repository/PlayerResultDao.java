@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.PlayerResult;
-import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -37,20 +36,20 @@ public class PlayerResultDao {
         params.put("name", playerResult.getName());
         params.put("final_position", playerResult.getFinalPosition());
         params.put("game_id", playerResult.getGameId());
-        return new HashMap<>(params);
+        return params;
     }
 
-    public List<GetPlayerResultQueryResponseDto> getAll() {
-        final String sql = "select game.id, game.winners, player_result.name, player_result.final_position" +
-                " from game, player_result" +
-                " where game.id = player_result.game_id";
+    public List<PlayerResult> findByGameId(final long gameId) {
+        final String sql = "select *" +
+                " from player_result" +
+                " where game_id = ?";
         return jdbcTemplate.query(
                 sql,
-                (resultSet, rowNum) -> new GetPlayerResultQueryResponseDto(
+                (resultSet, rowNum) -> new PlayerResult(
                         resultSet.getLong("id"),
-                        resultSet.getString("winners"),
                         resultSet.getString("name"),
-                        resultSet.getInt("final_position")
-                ));
+                        resultSet.getInt("final_position"),
+                        resultSet.getLong("game_id")
+                ), gameId);
     }
 }

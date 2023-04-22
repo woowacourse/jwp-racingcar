@@ -1,6 +1,7 @@
 package racingcar.service.dto;
 
 import racingcar.domain.Car;
+import racingcar.entity.PlayerResult;
 import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 
 public class PlayerResultResponseDto {
@@ -12,8 +13,8 @@ public class PlayerResultResponseDto {
         this.position = position;
     }
 
-    public static PlayerResultResponseDto createByQueryResponse(final GetPlayerResultQueryResponseDto queryResponse) {
-        return new PlayerResultResponseDto(queryResponse.getName(), queryResponse.getFinalPosition());
+    public static PlayerResultResponseDto createByEntity(final PlayerResult playerResult) {
+        return new PlayerResultResponseDto(playerResult.getName(), playerResult.getFinalPosition());
     }
 
     public static PlayerResultResponseDto createByDomain(final Car car) {

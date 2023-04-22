@@ -14,6 +14,7 @@ import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -66,15 +67,12 @@ public class GameService {
     }
 
     public List<GameResponseDto> getAll() {
-        final Map<Long, List<GetPlayerResultQueryResponseDto>> allGames = mapByGame(playerResultDao.getAll());
-        return allGames.values().stream()
-                .map(value -> GameResponseDto.createByQueryResponse(value.get(0).getWinners(), value))
+        final Map<Game, List<PlayerResult>> allGames = new LinkedHashMap<>();
+        for (final Game game : gameDao.findAll()) {
+            allGames.put(game, playerResultDao.findByGameId(game.getId()));
+        }
+        return allGames.entrySet().stream()
+                .map(entry -> GameResponseDto.createByEntity(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    private Map<Long, List<GetPlayerResultQueryResponseDto>> mapByGame(
-            final List<GetPlayerResultQueryResponseDto> queryResponses) {
-        return queryResponses.stream()
-                .collect(Collectors.groupingBy(GetPlayerResultQueryResponseDto::getGameId));
     }
 }

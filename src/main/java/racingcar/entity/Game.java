@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 public class Game {
 
     private long id;
-    private final int trialCount;
+    private int trialCount;
     private final String winners;
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
     public Game(final long id, final int trialCount, final String winners, LocalDateTime createdAt) {
         this.id = id;

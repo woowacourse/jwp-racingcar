@@ -2,10 +2,13 @@ package racingcar.service.dto;
 
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
+import racingcar.entity.Game;
+import racingcar.entity.PlayerResult;
 import racingcar.repository.dto.GetPlayerResultQueryResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameResponseDto {
     private final String winners;
@@ -16,13 +19,11 @@ public class GameResponseDto {
         this.racingCars = racingCars;
     }
 
-    public static GameResponseDto createByQueryResponse(
-            final String winners, final List<GetPlayerResultQueryResponseDto> queryResponses) {
-        final List<PlayerResultResponseDto> racingCars = new ArrayList<>();
-        for (GetPlayerResultQueryResponseDto queryResponse : queryResponses) {
-            racingCars.add(PlayerResultResponseDto.createByQueryResponse(queryResponse));
-        }
-        return new GameResponseDto(winners, racingCars);
+    public static GameResponseDto createByEntity(final Game game, final List<PlayerResult> playerResults) {
+        final List<PlayerResultResponseDto> racingCars = playerResults.stream()
+                .map(PlayerResultResponseDto::createByEntity)
+                .collect(Collectors.toUnmodifiableList());
+        return new GameResponseDto(game.getWinners(), racingCars);
     }
 
     public static GameResponseDto createByDomain(final String winners, final Cars cars) {
