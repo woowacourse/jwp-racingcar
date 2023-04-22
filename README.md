@@ -134,8 +134,8 @@ Content-Type: application/json
         - [x] 메서드 네이밍을 구체적으로 수정
         - [x] 한 가지 메서드가 두 가지 기능을 하고 있는 것 아닐까? => id 조회 메서드 분리
             - id 조회 SQL 작성: 가장 최근 시퀀스 값 조회하는 SCOPE_IDENTITY() 와 같은 함수는 DB 제품마다 차이가 크므로 사용하지 않음.
-    - [ ] [관계형 데이터베이스에서 발생하는 테스트 독립성 문제](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165381209)
-    - [ ] [DB 테스트 격리 보장](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
+    - [x] [관계형 데이터베이스에서 발생하는 테스트 독립성 문제](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165381209)
+    - [x] [DB 테스트 격리 보장](https://github.com/woowacourse/jwp-racingcar/pull/82#discussion_r1165371523)
 
 - 2단계 피드백
     - [x] [Dao 클래스 분리 기준 정하기](https://github.com/woowacourse/jwp-racingcar/pull/105#discussion_r1167774162)
@@ -175,4 +175,5 @@ Content-Type: application/json
 - [x] Spring Test 관련 기능 사용
     - [x] 불필요한 ApplicationContext 생성 지양, JdbcTest 사용하기
         - @JdbcTest는 임베디드된 별도의 인메모리 DB를 사용하므로 DB와 테스트 격리 가능
-    - [ ] 테스트 격리 관련
+    - [x] @SpringBootTest 시 테스트 DB에 연결되도록 하기
+        - data.sql은 별도로 작성하지 않아도 main에 있는 파일을 찾아서 초기화시키는 것 같다.
