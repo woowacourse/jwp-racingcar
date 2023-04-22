@@ -7,13 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.dao.RaceResultDao;
-import racingcar.entity.CarEntity;
 import racingcar.entity.RaceResultEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,7 +48,7 @@ class RaceResultDaoTest {
         final List<Long> ids = List.of(3L, 4L);
 
         //when
-        final List<RaceResultEntity> raceResultEntities =  raceResultDao.findAllRaceResult();
+        final List<RaceResultEntity> raceResultEntities = raceResultDao.findAllRaceResult();
 
         //then
         assertAll(

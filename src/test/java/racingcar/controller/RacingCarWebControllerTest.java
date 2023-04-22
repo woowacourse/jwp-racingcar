@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import racingcar.service.RaceResultService;
 import racingcar.service.dto.CarStatusResponse;
 import racingcar.service.dto.GameInfoRequest;
 import racingcar.service.dto.RaceResultResponse;
-import racingcar.service.RaceResultService;
 
 import java.util.List;
 

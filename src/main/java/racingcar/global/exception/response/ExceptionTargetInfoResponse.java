@@ -28,7 +28,8 @@ public class ExceptionTargetInfoResponse {
         return fieldErrors.stream()
                           .map(error -> new ExceptionTargetInfoResponse(
                                   error.getField(),
-                                  Objects.requireNonNullElse(error.getRejectedValue(), DEFAULT_ERROR_MESSAGE).toString(),
+                                  Objects.requireNonNullElse(error.getRejectedValue(), DEFAULT_ERROR_MESSAGE)
+                                         .toString(),
                                   Objects.requireNonNullElse(error.getDefaultMessage(), DEFAULT_ERROR_MESSAGE))
                           )
                           .collect(Collectors.toList());
