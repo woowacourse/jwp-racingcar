@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class CarRacingService {
     private static final String DELIMITER = ",";
     private static final int LIMIT = -1;
@@ -34,6 +33,7 @@ public class CarRacingService {
         this.numberGenerator = numberGenerator;
     }
 
+    @Transactional
     public RacingResultDTO play(final String names, final int count) {
         final GameSystem gameSystem = new GameSystem(count, new GameRecorder(new ArrayList<>()));
         final Long gameId = gameDao.insert(count);
@@ -84,6 +84,7 @@ public class CarRacingService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<RacingResultDTO> showGameResults() {
         final List<GameIdDTO> gameIds = gameDao.findAllGameIds();
         return gameIds.stream()
