@@ -172,7 +172,7 @@ Content-Type: application/json
 - [x] Dao 구현체가 아닌 인터페이스에 의존하도록 변경 (DB 교체 용이하게)
     - [x] 각 Dao를 여러 DB를 적용할 수 있게 인터페이스로 추상화
     - [x] 여러 개의 Dao에 대한 로직을 Repository 클래스로 추상화
-- [ ] Spring Test 관련 기능 사용
-    - [ ] 불필요한 ApplicationContext 생성 지양, JdbcTest 사용하기
-    - [ ] 다른 테스트 어노테이션 학습하고 사용하기
+- [x] Spring Test 관련 기능 사용
+    - [x] 불필요한 ApplicationContext 생성 지양, JdbcTest 사용하기
+        - @JdbcTest는 임베디드된 별도의 인메모리 DB를 사용하므로 DB와 테스트 격리 가능
     - [ ] 테스트 격리 관련
