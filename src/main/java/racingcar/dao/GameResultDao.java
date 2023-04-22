@@ -2,11 +2,11 @@ package racingcar.dao;
 
 import java.util.List;
 import racingcar.domain.TryCount;
-import racingcar.entity.GameResult;
-import racingcar.entity.PlayerResult;
+import racingcar.entity.GameRow;
+import racingcar.entity.PlayerRow;
 
 public interface GameResultDao {
-	void saveGame (final List<PlayerResult> playerResults, final TryCount tryCount);
-	List<GameResult> fetchAllGameResult ();
-	List<PlayerResult> fetchAllPlayerResultByGameId (Long gameId);
+	void saveGame (final List<PlayerRow> playerRows, final TryCount tryCount);
+	List<GameRow> fetchAllGameResult ();
+	List<PlayerRow> fetchAllPlayerResultByGameId (Long gameId);
 }

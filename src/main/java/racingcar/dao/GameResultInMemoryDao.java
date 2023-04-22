@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import racingcar.domain.TryCount;
-import racingcar.entity.GameResult;
-import racingcar.entity.PlayerResult;
+import racingcar.entity.GameRow;
+import racingcar.entity.PlayerRow;
 
 public final class GameResultInMemoryDao implements GameResultDao {
-	private final Map<Long, GameResult> gameData;
-	private final Map<Long, PlayerResult> playerResultData;
+	private final Map<Long, GameRow> gameData;
+	private final Map<Long, PlayerRow> playerResultData;
 
 	public GameResultInMemoryDao () {
 		this.gameData = new HashMap<>();
@@ -18,24 +18,24 @@ public final class GameResultInMemoryDao implements GameResultDao {
 	}
 
 	@Override
-	public void saveGame (final List<PlayerResult> playerResults, final TryCount tryCount) {
+	public void saveGame (final List<PlayerRow> playerRows, final TryCount tryCount) {
 		Long id = (long) gameData.size();
-		gameData.put(id, new GameResult(id, tryCount.getTryCount(), LocalDateTime.now()));
-		for (final PlayerResult playerResult : playerResults) {
-			playerResultData.put((long) playerResults.size(),
-					new PlayerResult((long) playerResults.size(), id, playerResult.getName(),
-							playerResult.getPosition(),
-							playerResult.isWinner()));
+		gameData.put(id, new GameRow(id, tryCount.getTryCount(), LocalDateTime.now()));
+		for (final PlayerRow playerRow : playerRows) {
+			playerResultData.put((long) playerRows.size(),
+					new PlayerRow((long) playerRows.size(), id, playerRow.getName(),
+							playerRow.getPosition(),
+							playerRow.isWinner()));
 		}
 	}
 
 	@Override
-	public List<GameResult> fetchAllGameResult () {
+	public List<GameRow> fetchAllGameResult () {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<PlayerResult> fetchAllPlayerResultByGameId (final Long gameId) {
+	public List<PlayerRow> fetchAllPlayerResultByGameId (final Long gameId) {
 		throw new UnsupportedOperationException();
 	}
 }

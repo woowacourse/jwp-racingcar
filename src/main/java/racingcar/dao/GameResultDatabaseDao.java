@@ -11,8 +11,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.TryCount;
-import racingcar.entity.GameResult;
-import racingcar.entity.PlayerResult;
+import racingcar.entity.GameRow;
+import racingcar.entity.PlayerRow;
 
 @Repository
 public class GameResultDatabaseDao implements GameResultDao{
@@ -23,9 +23,9 @@ public class GameResultDatabaseDao implements GameResultDao{
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public void saveGame (final List<PlayerResult> playerResults, final TryCount tryCount) {
+	public void saveGame (final List<PlayerRow> playerRows, final TryCount tryCount) {
 		int gameId = saveGameHistory(tryCount);
-		savePlayersStatus(playerResults, gameId);
+		savePlayersStatus(playerRows, gameId);
 	}
 
 	private int saveGameHistory (final TryCount tryCount) {
@@ -42,10 +42,10 @@ public class GameResultDatabaseDao implements GameResultDao{
 		return Objects.requireNonNull(keyHolder.getKey()).intValue();
 	}
 
-	private void savePlayersStatus (final List<PlayerResult> playerResults, final int gameId) {
+	private void savePlayersStatus (final List<PlayerRow> playerRows, final int gameId) {
 		String sql = "INSERT INTO player_result (game_id, name, position, is_winner) VALUES (?, ?, ?, ?)";
 
-		playerResults.forEach(racingCar -> {
+		playerRows.forEach(racingCar -> {
 			jdbcTemplate.update(sql,
 					gameId,
 					racingCar.getName(),
@@ -54,20 +54,20 @@ public class GameResultDatabaseDao implements GameResultDao{
 		});
 	}
 
-	public List<GameResult> fetchAllGameResult () {
+	public List<GameRow> fetchAllGameResult () {
 		String sql = "SELECT * FROM game_result";
 
 		return jdbcTemplate.query(sql, (rs, rowNum) ->
-				new GameResult(rs.getLong("id"), rs.getInt("trial_count"),
+				new GameRow(rs.getLong("id"), rs.getInt("trial_count"),
 						rs.getTimestamp("date_time").toLocalDateTime())
 		);
 	}
 
-	public List<PlayerResult> fetchAllPlayerResultByGameId (Long gameId) {
+	public List<PlayerRow> fetchAllPlayerResultByGameId (Long gameId) {
 		String sql = "SELECT * FROM player_result where game_id = ?";
 
 		return jdbcTemplate.query(sql, (rs, rowNum) ->
-						new PlayerResult(rs.getLong("id"), rs.getLong("game_id"), rs.getString("name"), rs.getInt("position"),
+						new PlayerRow(rs.getLong("id"), rs.getLong("game_id"), rs.getString("name"), rs.getInt("position"),
 								rs.getBoolean("is_winner"))
 				, gameId
 		);
