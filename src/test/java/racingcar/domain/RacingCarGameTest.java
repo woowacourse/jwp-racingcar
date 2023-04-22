@@ -25,7 +25,8 @@ class RacingCarGameTest {
         final TestNumberGenerator testNumberGenerator = new TestNumberGenerator(List.of(0, 0, 0));
 
         final RacingCarGame racingCarGame = new RacingCarGame(cars, attemptNumber, testNumberGenerator);
-        final List<String> winners = racingCarGame.findWinners();
+        racingCarGame.play();
+        final List<String> winners = racingCarGame.getResult().getWinners();
 
         assertThat(winners).containsExactly(CAR_A_NAME, CAR_C_NAME);
     }

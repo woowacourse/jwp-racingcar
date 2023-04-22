@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import racingcar.controller.dto.RacingCarGameRequest;
 import racingcar.controller.dto.RacingCarGameResponse;
+import racingcar.domain.dto.RacingCarResult;
 import racingcar.service.MainRacingCarService;
-import racingcar.service.dto.RacingCarResult;
 
 @RestController
 @RequestMapping("/plays")

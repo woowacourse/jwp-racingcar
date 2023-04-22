@@ -17,4 +17,8 @@ public class OutputView {
         System.out.println("racingCars: ");
         carDtos.forEach(System.out::println);
     }
+
+    public static void printError(final Exception e) {
+        System.out.println(e.getMessage());
+    }
 }

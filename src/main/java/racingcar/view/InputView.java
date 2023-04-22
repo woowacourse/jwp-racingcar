@@ -11,13 +11,21 @@ public class InputView {
 
     private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-    public static String readCarNames() throws IOException {
+    public static String readCarNames() {
         System.out.println(READ_CAR_NAME_MESSAGE);
-        return bufferedReader.readLine();
+        try {
+            return bufferedReader.readLine();
+        } catch (IOException e) {
+            return readCarNames();
+        }
     }
 
-    public static int readAttemptNumber() throws IOException {
+    public static int readAttemptNumber() {
         System.out.println(READ_ATTEMPT_NUMBER_MESSAGE);
-        return Integer.parseInt(bufferedReader.readLine());
+        try {
+            return Integer.parseInt(bufferedReader.readLine());
+        } catch (IOException e) {
+            return readAttemptNumber();
+        }
     }
 }

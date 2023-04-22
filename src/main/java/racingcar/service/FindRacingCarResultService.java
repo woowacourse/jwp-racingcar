@@ -8,9 +8,9 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import racingcar.domain.Car;
+import racingcar.domain.dto.RacingCarResult;
 import racingcar.repository.dao.FindAllRecordsDao;
 import racingcar.repository.entity.Record;
-import racingcar.service.dto.RacingCarResult;
 
 @Service
 public class FindRacingCarResultService {

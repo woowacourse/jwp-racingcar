@@ -2,7 +2,7 @@ package racingcar.controller.dto;
 
 import java.util.List;
 
-import racingcar.service.dto.RacingCarResult;
+import racingcar.domain.dto.RacingCarResult;
 
 public class RacingCarGameResponse {
 

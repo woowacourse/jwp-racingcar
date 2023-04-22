@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import racingcar.domain.Car;
-import racingcar.domain.RacingCarGame;
 import racingcar.domain.NumberGenerator;
-import racingcar.service.dto.RacingCarResult;
+import racingcar.domain.RacingCarGame;
+import racingcar.domain.dto.RacingCarResult;
 
 @Service
 public class MainRacingCarService {
@@ -31,11 +30,9 @@ public class MainRacingCarService {
     }
 
     public RacingCarResult raceCar(final List<String> names, final int attempt) {
-
         final RacingCarGame racingCarGame = new RacingCarGame(names, attempt, numberGenerator);
-        final List<String> winners = racingCarGame.findWinners();
-        final List<Car> cars = racingCarGame.getCars();
-        RacingCarResult racingCarResult = new RacingCarResult(winners, cars, attempt);
+        racingCarGame.play();
+        final RacingCarResult racingCarResult = racingCarGame.getResult();
         saveRacingCarResultService.save(racingCarResult);
         return racingCarResult;
     }

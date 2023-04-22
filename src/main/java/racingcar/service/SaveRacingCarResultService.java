@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import racingcar.domain.Car;
+import racingcar.domain.dto.RacingCarResult;
 import racingcar.repository.dao.GameDao;
 import racingcar.repository.dao.PositionDao;
 import racingcar.repository.dao.UserDao;
@@ -20,7 +21,6 @@ import racingcar.repository.entity.GameEntity;
 import racingcar.repository.entity.PositionEntity;
 import racingcar.repository.entity.UserEntity;
 import racingcar.repository.entity.WinnerEntity;
-import racingcar.service.dto.RacingCarResult;
 
 @Service
 public class SaveRacingCarResultService {
