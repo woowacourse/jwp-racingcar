@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PlayerInfoDAOTest {
 
     private final int playResultId = 1;
@@ -95,4 +95,3 @@ class PlayerInfoDAOTest {
         assertThat(playerByPlayResultId).hasSize(3);
     }
 }
-
