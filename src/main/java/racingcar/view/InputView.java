@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public final class InputView {
 
-	private Scanner SCANNER = new Scanner(System.in);
+	private final static Scanner SCANNER = new Scanner(System.in);
 
 	public List<String> inputCarNames () {
 		System.out.println("참가자 이름을 ,로 구분해 입력해 주세요");
