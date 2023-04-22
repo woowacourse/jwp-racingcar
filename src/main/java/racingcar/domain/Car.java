@@ -12,9 +12,9 @@ public final class Car {
         this.position = Position.ZERO;
     }
 
-    public Car(final Name name, final Position position) {
-        this.name = name;
-        this.position = position;
+    public Car(final String nameValue, final int positionValue) {
+        this.name = new Name(nameValue);
+        this.position = new Position(positionValue);
     }
 
     public void move(final NumberGenerator numberGenerator) {

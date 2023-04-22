@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.domain.Cars;
-import racingcar.domain.Name;
-import racingcar.domain.Position;
 import racingcar.repository.dto.PlayerDto;
 
 import java.util.List;
@@ -50,17 +48,16 @@ class PlayerJdbcRepositoryTest {
 
         final List<String> findPlayerNameValues = findPlayers.stream()
                 .map(PlayerDto::getName)
-                .map(Name::getValue)
                 .collect(Collectors.toList());
 
-        final List<Position> findPlayerPositions = findPlayers.stream()
+        final List<Integer> findPlayerPositions = findPlayers.stream()
                 .map(PlayerDto::getPosition)
                 .collect(Collectors.toList());
 
         // then
         assertAll(
                 () -> assertThat(findPlayerNameValues).containsExactly("헤나", "찰리"),
-                () -> assertThat(findPlayerPositions).containsExactly(Position.ZERO, Position.ZERO)
+                () -> assertThat(findPlayerPositions).containsExactly(0, 0)
         );
     }
 }

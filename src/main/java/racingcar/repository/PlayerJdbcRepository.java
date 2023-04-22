@@ -5,8 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Cars;
-import racingcar.domain.Name;
-import racingcar.domain.Position;
 import racingcar.repository.dto.PlayerDto;
 
 import java.sql.PreparedStatement;
@@ -23,8 +21,10 @@ public class PlayerJdbcRepository implements PlayerRepository {
 
     private final RowMapper<PlayerDto> playerRowMapper = (resultSet, rowNum) -> {
         return new PlayerDto(
-                new Name(resultSet.getString("name")),
-                new Position(resultSet.getInt("position"))
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getInt("position"),
+                resultSet.getInt("racing_game_id")
         );
     };
 
