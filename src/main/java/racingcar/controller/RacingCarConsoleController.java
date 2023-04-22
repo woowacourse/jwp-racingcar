@@ -9,6 +9,7 @@ import racingcar.view.OutputView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class RacingCarConsoleController {
 
@@ -27,12 +28,29 @@ public class RacingCarConsoleController {
 
     private List<String> getCarNames() {
         outputView.printReadCarNamesMessage();
-        return inputView.readCarNames();
+        return retryWhenException(inputView::readCarNames);
+    }
+
+    private <T> T retryWhenException(final Supplier<T> supplier) {
+        T result;
+        do {
+            result = checkIllegalArgumentException(supplier);
+        } while (result == null);
+        return result;
+    }
+
+    private <T> T checkIllegalArgumentException(final Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (final IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            return null;
+        }
     }
 
     private int getTrialCount() {
         outputView.printReadTryNumMessage();
-        return inputView.readTryNum();
+        return retryWhenException(inputView::readTryNum);
     }
 
     private void showResult(final RacingCarResult racingCarResult) {

@@ -14,12 +14,12 @@ public class InputView {
     private static final String CAR_NAMES_DELIMITER = ",";
     private static final String ERROR_PREFIX = "[ERROR] ";
     private static final String CAR_NAMES_BLANK_ERROR = ERROR_PREFIX + "경주할 자동차 이름이 입력되지 않았습니다.";
-    private static final String CAR_NAMES_DUPLICATE_ERROR = ERROR_PREFIX + "경주할 자동차 이름이 중복되었습니다.";
-    private static final String CAR_NAME_LENGTH_ERROR = ERROR_PREFIX + "경주할 자동차 이름이 5글자 초과했습니다.";
+    private static final String CAR_NAMES_DUPLICATE_ERROR = ERROR_PREFIX + "경주할 자동차 이름이 중복되었습니다. 입력된 자동차 이름: ";
+    private static final String CAR_NAME_LENGTH_ERROR = ERROR_PREFIX + "경주할 자동차 이름이 5글자 초과했습니다. 입력된 자동차 이름: ";
     private static final String CAR_NAME_BLANK_ERROR = ERROR_PREFIX + "각 자동차 이름은 빈 값일 수 없습니다.";
     private static final String TRY_NUM_BLANK_ERROR = ERROR_PREFIX + "시도할 횟수가 입력되지 않았습니다.";
-    private static final String TRY_NUM_NOT_INTEGER_ERROR = ERROR_PREFIX + "시도할 횟수가 정수가 아닙니다.";
-    private static final String TRY_NUM_NOT_POSITIVE_ERROR = ERROR_PREFIX + "시도할 횟수는 1 이상이어야 합니다.";
+    private static final String TRY_NUM_NOT_INTEGER_ERROR = ERROR_PREFIX + "시도할 횟수가 정수가 아닙니다. 입력된 시도 횟수: ";
+    private static final String TRY_NUM_NOT_POSITIVE_ERROR = ERROR_PREFIX + "시도할 횟수는 1 이상이어야 합니다. 입력된 시도 횟수: ";
 
     private InputView() {
     }
@@ -53,7 +53,7 @@ public class InputView {
             validateCarName(carName);
         }
         if (isDuplicated(splitCarNames)) {
-            throw new IllegalArgumentException(CAR_NAMES_DUPLICATE_ERROR);
+            throw new IllegalArgumentException(CAR_NAMES_DUPLICATE_ERROR + Arrays.toString(splitCarNames));
         }
     }
 
@@ -63,10 +63,10 @@ public class InputView {
 
     private void validateCarName(final String carName) {
         if (isCorrectCarNameLength(carName)) {
-            throw new IllegalArgumentException(CAR_NAME_LENGTH_ERROR);
+            throw new IllegalArgumentException(CAR_NAME_LENGTH_ERROR + carName);
         }
         if (isBlank(carName)) {
-            throw new IllegalArgumentException(CAR_NAME_BLANK_ERROR);
+            throw new IllegalArgumentException(CAR_NAME_BLANK_ERROR + carName);
         }
     }
 
@@ -89,13 +89,13 @@ public class InputView {
 
     private void validateTryNum(final String tryNum) {
         if (isBlank(tryNum)) {
-            throw new IllegalArgumentException(TRY_NUM_BLANK_ERROR);
+            throw new IllegalArgumentException(TRY_NUM_BLANK_ERROR + tryNum);
         }
         if (isNotInteger(tryNum)) {
-            throw new IllegalArgumentException(TRY_NUM_NOT_INTEGER_ERROR);
+            throw new IllegalArgumentException(TRY_NUM_NOT_INTEGER_ERROR + tryNum);
         }
         if (isNotPositive(tryNum)) {
-            throw new IllegalArgumentException(TRY_NUM_NOT_POSITIVE_ERROR);
+            throw new IllegalArgumentException(TRY_NUM_NOT_POSITIVE_ERROR + tryNum);
         }
     }
 
@@ -111,6 +111,4 @@ public class InputView {
     private boolean isNotPositive(final String tryNum) {
         return Integer.parseInt(tryNum) < 1;
     }
-
-
 }

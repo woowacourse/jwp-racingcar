@@ -45,4 +45,8 @@ public class OutputView {
     public void printWinners(final List<String> winners) {
         printMessage(String.join(", ", winners) + PRINT_WINNERS_MESSAGE);
     }
+
+    public void printErrorMessage(final String message) {
+        printMessage(message);
+    }
 }
