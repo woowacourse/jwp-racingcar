@@ -6,13 +6,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CarGameRequest {
+public class GameRequest {
+    private static final String NAME_DELIMITER = ",";
     @NotEmpty
     private String names;
     @NotNull
     private Integer count;
 
-    public CarGameRequest(String names, Integer count) {
+    public GameRequest(String names, Integer count) {
         this.names = names;
         this.count = count;
     }
@@ -21,7 +22,8 @@ public class CarGameRequest {
         return count;
     }
 
-    public String getNames() {
-        return names;
+    public List<String> getNames() {
+        return Arrays.stream(names.split(NAME_DELIMITER))
+                .collect(Collectors.toList());
     }
 }
