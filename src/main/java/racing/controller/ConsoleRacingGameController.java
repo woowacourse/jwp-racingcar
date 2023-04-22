@@ -1,9 +1,9 @@
 package racing.controller;
 
-import racing.ui.input.InputView;
-import racing.util.RandomNumberGenerator;
-import racing.domain.Car;
+import racing.controller.dto.request.RacingGameInfoRequest;
+import racing.controller.dto.response.GameInfoResponse;
 import racing.domain.Cars;
+import racing.ui.input.InputView;
 import racing.service.RacingGameService;
 import racing.ui.output.OutputView;
 
@@ -17,20 +17,9 @@ public class ConsoleRacingGameController {
 
     public void start() {
         OutputView.printPhrase();
-        Cars cars = racingGameService.createCars(InputView.inputCarsName());
-        int count = Integer.parseInt(InputView.inputCount());
-
-        moveCar(cars, count);
+        RacingGameInfoRequest request = new RacingGameInfoRequest(InputView.inputCarsName(), Integer.parseInt(InputView.inputCount()));
+        Cars cars = racingGameService.executeConsoleGame(request);
         OutputView.printResult(cars);
-    }
-
-    private void moveCar(Cars cars, int count) {
-        RandomNumberGenerator generator = new RandomNumberGenerator();
-        for (int i = 0; i < count; i++) {
-            for (Car car : cars.getCars()) {
-                racingGameService.move(generator.generate(), car);
-            }
-        }
     }
 
 }

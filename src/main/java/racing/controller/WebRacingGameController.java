@@ -26,7 +26,7 @@ public class WebRacingGameController {
 
     @PostMapping("/plays")
     public RacingGameResultResponse start(@RequestBody RacingGameInfoRequest request) {
-        GameInfoResponse response = racingGameService.execute(request);
+        GameInfoResponse response = racingGameService.executeWebGame(request);
         return racingGameService.saveCarsState(response.getGameId(), response.getCars());
     }
 
