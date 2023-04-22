@@ -28,7 +28,6 @@ class RacingCarServiceTest {
     private RacingCarService racingCarService;
     private RacingGame racingGame;
 
-
     @BeforeEach
     void setup() {
         final NumberGenerator numberGenerator = new FixNumberGenerator(
@@ -55,7 +54,7 @@ class RacingCarServiceTest {
         );
     }
 
-    @DisplayName("저장된 게임이력을 반환한다.")
+    @DisplayName("저장된 게임이력 반환한다.")
     @Test
     void findAllHistories() {
         racingCarService.play(racingGame);
@@ -69,6 +68,5 @@ class RacingCarServiceTest {
                 () -> assertThat(result.get(0).getRacingCars().get(1).getName()).isEqualTo("루쿠"),
                 () -> assertThat(result.get(0).getRacingCars().get(1).getPosition()).isEqualTo(2));
     }
-
 
 }
