@@ -50,8 +50,7 @@ public class RacingGameRepository implements GameRepository {
     }
 
     public List<RacingGame> selectAllGames() {
-        RacingGameConverter domainConverter = new RacingGameConverter();
-        return domainConverter.convertAll(gameResultDao.selectAll(), playerResultDao.selectAll());
+        return RacingGameConverter.convertEntitiesToRacingGames(gameResultDao.selectAll(), playerResultDao.selectAll());
     }
 }
 

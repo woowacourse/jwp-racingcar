@@ -11,19 +11,27 @@ import java.util.stream.Collectors;
 
 public class RacingGameConverter {
 
-    public List<RacingGame> convertAll(
+    public static List<RacingGame> convertEntitiesToRacingGames(
             final List<GameResultEntity> gameResults,
             final List<PlayerResultEntity> playerResults
     ) {
         return gameResults.stream()
-                .map(gameResult -> new RacingGame(
-                        collectCarNames(playerResults, gameResult.getId()),
-                        gameResult.getTrialCount(),
-                        new RandomNumberGenerator()
-                )).collect(Collectors.toList());
+                .map(gameResult -> makeRacingGame(playerResults, gameResult))
+                .collect(Collectors.toList());
     }
 
-    private List<Car> collectCarNames(
+    private static RacingGame makeRacingGame(
+            final List<PlayerResultEntity> playerResults,
+            final GameResultEntity gameResult
+    ) {
+        return new RacingGame(
+                collectCarNames(playerResults, gameResult.getId()),
+                gameResult.getTrialCount(),
+                new RandomNumberGenerator()
+        );
+    }
+
+    private static List<Car> collectCarNames(
             final List<PlayerResultEntity> playerResults,
             final int gameResultId
     ) {
