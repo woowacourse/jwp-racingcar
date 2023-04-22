@@ -4,31 +4,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dao.RacingGameDao;
+import racingcar.dao.RacingDao;
 import racingcar.domain.RacingGame;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
-import racingcar.dto.RacingGameRequest;
+import racingcar.dto.RacingRequest;
+import racingcar.dto.RacingResultDto;
 
 @Service
-public final class RacingGameService {
+public final class RacingService {
 
-    private final RacingGameDao racingGameDao;
+    private final RacingDao racingDao;
 
     @Autowired
-    public RacingGameService(final RacingGameDao racingGameDao) {
-        this.racingGameDao = racingGameDao;
+    public RacingService(final RacingDao racingDao) {
+        this.racingDao = racingDao;
     }
 
-    public GameResultDto playRacingGame(final RacingGameRequest racingGameRequest) {
-        RacingGame racingGame = createRacingGame(racingGameRequest);
+    public RacingResultDto playRacingGame(final RacingRequest racingRequest) {
+        RacingGame racingGame = createRacingGame(racingRequest);
         play(racingGame);
-        GameResultDto gameResultDto = new GameResultDto(
+        RacingResultDto racingResultDto = new RacingResultDto(
                 mapWinnersToCarDtos(racingGame),
                 mapCarDtosFrom(racingGame)
         );
-        save(gameResultDto, racingGameRequest.getCount());
-        return gameResultDto;
+        save(racingResultDto, racingRequest.getCount());
+        return racingResultDto;
     }
 
     private void play(final RacingGame racingGame) {
@@ -39,8 +39,8 @@ public final class RacingGameService {
         racingGame.order();
     }
 
-    private RacingGame createRacingGame(final RacingGameRequest racingGameRequest) {
-        return RacingGame.from(racingGameRequest);
+    private RacingGame createRacingGame(final RacingRequest racingRequest) {
+        return RacingGame.from(racingRequest);
     }
 
     private List<CarDto> mapCarDtosFrom(final RacingGame racingGame) {
@@ -55,8 +55,8 @@ public final class RacingGameService {
                 .collect(Collectors.toList());
     }
 
-    private void save(final GameResultDto gameResultDto, final int trialCount) {
-        int gameResultId = this.racingGameDao.saveGameResult(gameResultDto, trialCount);
-        this.racingGameDao.savePlayerResults(gameResultDto.getRacingCars(), gameResultId);
+    private void save(final RacingResultDto racingResultDto, final int trialCount) {
+        int gameResultId = this.racingDao.saveGameResult(racingResultDto, trialCount);
+        this.racingDao.savePlayerResults(racingResultDto.getRacingCars(), gameResultId);
     }
 }

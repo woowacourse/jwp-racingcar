@@ -10,26 +10,26 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
+import racingcar.dto.RacingResultDto;
 
 @Repository
-public class JdbcTemplateRacingGameDao implements RacingGameDao {
+public class JdbcTemplateRacingDao implements RacingDao {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcTemplateRacingGameDao(final JdbcTemplate jdbcTemplate) {
+    public JdbcTemplateRacingDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Transactional
-    public int saveGameResult(final GameResultDto gameResultDto, final int trialCount) {
+    public int saveGameResult(final RacingResultDto racingResultDto, final int trialCount) {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql,
                     new String[]{"id"});
-            preparedStatement.setString(1, gameResultDto.getWinners().stream()
+            preparedStatement.setString(1, racingResultDto.getWinners().stream()
                     .map(CarDto::getName)
                     .collect(Collectors.joining(",")));
             preparedStatement.setInt(2, trialCount);
