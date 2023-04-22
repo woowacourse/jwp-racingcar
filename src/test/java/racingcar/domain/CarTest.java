@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import racingcar.domain.exception.RacingCarIllegalArgumentException;
 
 class CarTest {
 
@@ -33,14 +34,14 @@ class CarTest {
         @ValueSource(strings = {"123456", "일이삼사오육"})
         void 자동차_생성_이름길이_예외_테스트(final String name) {
             assertThatThrownBy(() -> Car.ofPositionStart(PLAY_RECORD_ID, name))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(RacingCarIllegalArgumentException.class);
         }
 
         @ParameterizedTest
         @NullAndEmptySource
         void 자동차_생성_이름_공백또는Null_예외_테스트(final String name) {
             assertThatThrownBy(() -> Car.ofPositionStart(PLAY_RECORD_ID, name))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(RacingCarIllegalArgumentException.class);
         }
     }
 

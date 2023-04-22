@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import org.junit.jupiter.api.Test;
+import racingcar.domain.exception.RacingCarIllegalArgumentException;
 
 class RacingCarsTest {
 
@@ -24,13 +25,13 @@ class RacingCarsTest {
     @Test
     void 경주참여_자동차들_생성_중복이름_예외_테스트() {
         assertThatThrownBy(() -> new RacingCars(new RacingCarNames(List.of("자동차", "자동차")).createCars(PLAY_RECORD_ID)))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(RacingCarIllegalArgumentException.class);
     }
 
     @Test
     void 경주참여_자동차들_생성_차량개수_예외_테스트() {
         assertThatThrownBy(() -> new RacingCars(new RacingCarNames(List.of("자동차")).createCars(PLAY_RECORD_ID)))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(RacingCarIllegalArgumentException.class);
     }
 
     @Test

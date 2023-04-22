@@ -1,6 +1,7 @@
 package racingcar.view;
 
 import java.util.Arrays;
+import racingcar.domain.exception.RacingCarIllegalArgumentException;
 
 public enum ConsoleCommand {
 
@@ -21,6 +22,6 @@ public enum ConsoleCommand {
         return Arrays.stream(values())
                 .filter(value -> value.command.equalsIgnoreCase(command))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어를 입력했습니다."));
+                .orElseThrow(() -> new RacingCarIllegalArgumentException("잘못된 명령어를 입력했습니다."));
     }
 }

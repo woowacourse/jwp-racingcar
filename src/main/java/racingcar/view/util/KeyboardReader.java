@@ -1,6 +1,7 @@
 package racingcar.view.util;
 
 import java.util.Scanner;
+import racingcar.domain.exception.RacingCarIllegalArgumentException;
 
 public class KeyboardReader {
 
@@ -17,14 +18,14 @@ public class KeyboardReader {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("입력받은 값이 숫자가 아닙니다.");
+            throw new RacingCarIllegalArgumentException("입력받은 값이 숫자가 아닙니다.");
         }
     }
 
     public static int readNaturalNumber() {
         int readValue = readInt();
         if (readValue <= 0) {
-            throw new IllegalArgumentException("입력받은 값이 자연수가 아닙니다.");
+            throw new RacingCarIllegalArgumentException("입력받은 값이 자연수가 아닙니다.");
         }
         return readValue;
     }

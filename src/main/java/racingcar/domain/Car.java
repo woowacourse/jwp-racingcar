@@ -2,6 +2,7 @@ package racingcar.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import racingcar.domain.exception.RacingCarIllegalArgumentException;
 
 
 @Getter
@@ -32,13 +33,13 @@ public class Car implements Comparable<Car> {
 
     private void validateName(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("자동차 이름이 null입니다.");
+            throw new RacingCarIllegalArgumentException("자동차 이름이 null입니다.");
         }
         if (name.isEmpty()) {
-            throw new IllegalArgumentException("자동차 이름은 빈 문자열일 수 없습니다.");
+            throw new RacingCarIllegalArgumentException("자동차 이름은 빈 문자열일 수 없습니다.");
         }
         if (name.length() > NAME_LENGTH_MAX) {
-            throw new IllegalArgumentException("자동차 이름은 5자 이하여야 합니다.");
+            throw new RacingCarIllegalArgumentException("자동차 이름은 5자 이하여야 합니다.");
         }
     }
 
