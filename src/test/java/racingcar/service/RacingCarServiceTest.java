@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import racingcar.dao.GameJdbcDao;
 import racingcar.dao.PlayerJdbcDao;
-import racingcar.domain.DrivableNumberGenerator;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
 import racingcar.entity.GameEntity;
@@ -27,7 +26,7 @@ public class RacingCarServiceTest {
     void setUp() {
         gameDao = Mockito.mock(GameJdbcDao.class);
         playerDao = Mockito.mock(PlayerJdbcDao.class);
-        racingCarService = new RacingCarService(gameDao, playerDao, new DrivableNumberGenerator());
+        racingCarService = new RacingCarService(gameDao, playerDao, () -> 3);
     }
 
     @Test

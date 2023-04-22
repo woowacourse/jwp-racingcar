@@ -6,17 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class CarsTest {
-
-    private NumberGenerator numberGenerator;
-
-    @BeforeEach
-    void setUp() {
-        numberGenerator = new DrivableNumberGenerator();
-    }
 
     @Test
     void 참가자_등록_테스트() {
