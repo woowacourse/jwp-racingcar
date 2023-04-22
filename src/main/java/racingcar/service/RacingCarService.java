@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.gameresult.GameRowDao;
+import racingcar.dao.playerresult.PlayerRowDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
 import racingcar.dto.CarStatusResponseDto;
@@ -20,10 +21,12 @@ public class RacingCarService {
 
 	private final RandomPowerGenerator randomPowerGenerator;
 	private final GameRowDao gameRowDao;
+	private final PlayerRowDao playerRowDao;
 
-	public RacingCarService (final GameRowDao gameRowDao) {
-		this.randomPowerGenerator = new RandomPowerMaker();
+	public RacingCarService (final GameRowDao gameRowDao, final PlayerRowDao playerRowDao) {
+		this.playerRowDao = playerRowDao;
 		this.gameRowDao = gameRowDao;
+		this.randomPowerGenerator = new RandomPowerMaker();
 	}
 
 	@Transactional
@@ -33,7 +36,7 @@ public class RacingCarService {
 			cars.moveAll(randomPowerGenerator);
 		}
 		List<PlayerRow> playerRows = toPlayerResults(cars);
-		gameRowDao.saveGame(playerRows, tryCount);
+		playerRowDao.savePlayerRows(playerRows, gameRowDao.saveGameRow(tryCount));
 
 		return GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
 	}
@@ -58,7 +61,7 @@ public class RacingCarService {
 	}
 
 	private GameResultResponseDto gameResultInOneGame (final GameRow gameRow) {
-		List<PlayerRow> playerRows = gameRowDao.fetchAllPlayerResultByGameId(gameRow.getId());
+		List<PlayerRow> playerRows = playerRowDao.fetchAllPlayerRowByGameId(gameRow.getId());
 		List<String> winners = new ArrayList<>();
 		List<CarStatusResponseDto> carStatusResponseDtos = new ArrayList<>();
 		for (final PlayerRow playerRow : playerRows) {
