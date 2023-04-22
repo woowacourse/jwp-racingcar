@@ -53,4 +53,8 @@ public class GameCount {
                 && numberOfTimes <= NUMBER_OF_TIME_UPPER_BOUND_INCLUSIVE);
     }
 
+    public int getGameCount() {
+        return numberOfTimes;
+    }
+
 }
