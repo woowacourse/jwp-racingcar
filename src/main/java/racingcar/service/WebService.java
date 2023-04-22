@@ -9,32 +9,33 @@ import racingcar.dto.ServiceControllerDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
 @Service
-public class GameService {
+public class WebService {
     private final GameDao gameDao;
     private final GameLogDao gameLogDao;
     private final WinnersDao winnersDao;
 
-    public GameService(final GameDao gameDao, final GameLogDao gameLogDao, final WinnersDao winnersDao) {
+    public WebService(final GameDao gameDao, final GameLogDao gameLogDao, final WinnersDao winnersDao) {
         this.gameDao = gameDao;
         this.gameLogDao = gameLogDao;
         this.winnersDao = winnersDao;
     }
 
     public ServiceControllerDto play(final int trialCount, final String names) {
+        ServiceControllerDto serviceControllerDto = playOnConsole(trialCount,names);
+        long gameNumber = gameDao.saveGame(trialCount);
+        insertCars(gameNumber, serviceControllerDto.getGameLog());
+        insertWinners(gameNumber, serviceControllerDto.getWinners());
+        return serviceControllerDto;
+    }
+    public static ServiceControllerDto playOnConsole(final int trialCount, final String names){
         validateNotNegativeInteger(trialCount);
         GameLogic gameLogic = new GameLogic(names);
-        long gameNumber = gameDao.saveGame(trialCount);
         playMultipleTimes(trialCount, gameLogic);
-        List<Car> winners = gameLogic.findWinners();
-        List<Car> cars = gameLogic.getCars();
-        insertCars(gameNumber, cars);
-        insertWinners(gameNumber, winners);
-        return new ServiceControllerDto(cars, winners);
+        return new ServiceControllerDto(gameLogic.getCars(),gameLogic.findWinners());
     }
 
     private void insertWinners(long gameNumber, List<Car> winners) {
@@ -49,7 +50,7 @@ public class GameService {
         }
     }
 
-    private void validateNotNegativeInteger(int trialCount) {
+    private static void validateNotNegativeInteger(int trialCount) {
         if (trialCount < MIN_TRIAL_COUNT) {
             throw new IllegalArgumentException("[ERROR] 시도횟수는 음수이면 안됩니다.");
         }
@@ -64,21 +65,14 @@ public class GameService {
     }
 
     private List<Car> makeGameLogList(final Long gameNumber) {
-        return gameLogDao.load(gameNumber)
-                .stream()
-                .map(gameLogEntity -> new Car(gameLogEntity.getPlayerName(), gameLogEntity.getResultPosition()))
-                .collect(Collectors.toList());
+        return gameLogDao.load(gameNumber);
     }
 
     private List<Car> makeWinnersList(final long gameNumber) {
-        return winnersDao
-                .load(gameNumber)
-                .stream()
-                .map(winnerEntity -> new Car(winnerEntity.getWinner()))
-                .collect(Collectors.toList());
+        return winnersDao.load(gameNumber);
     }
 
-    private void playMultipleTimes(final int trialCount, final GameLogic gameLogic) {
+    private static void playMultipleTimes(final int trialCount, final GameLogic gameLogic) {
         for (int i = 0; i < trialCount; i++) {
             gameLogic.playOnce();
         }

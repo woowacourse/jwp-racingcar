@@ -2,7 +2,7 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import racingcar.entity.WinnersEntity;
+import racingcar.domain.Car;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ public class WinnersDao {
         jdbcTemplate.update(sql, gameNumber, winner);
     }
 
-    public List<WinnersEntity> load(final long gameNumber) {
+    public List<Car> load(final long gameNumber) {
         String sql = "select winner from winners where game_number = ?";
         return jdbcTemplate.query(
                 sql,
-                (resultSet, rowNum) -> new WinnersEntity(resultSet.getString("winner"))
+                (resultSet, rowNum) -> new Car(resultSet.getString("winner"))
                 , gameNumber);
     }
 }
