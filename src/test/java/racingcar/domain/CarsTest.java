@@ -9,7 +9,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ParticipantsTest {
+class CarsTest {
 
     private NumberGenerator numberGenerator;
 
@@ -25,8 +25,7 @@ class ParticipantsTest {
         final Car car2 = new Car("test2");
         //when
         //then
-        Participants participants = new Participants(List.of(car1, car2));
-        List<Car> cars = participants.getCars();
+        List<Car> cars = new Cars(List.of(car1, car2)).getCars();
 
         Assertions.assertThat(cars.size()).isEqualTo(2);
         Assertions.assertThat(cars.get(0).getName()).isEqualTo("test1");
@@ -40,7 +39,7 @@ class ParticipantsTest {
         final Car car2 = new Car("test1");
         //when then
         assertThatThrownBy(() -> {
-            new Participants(List.of(car1, car2));
+            new Cars(List.of(car1, car2));
         }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("자동차 이름은 중복될 수 없습니다.");
     }
@@ -51,13 +50,13 @@ class ParticipantsTest {
         final Car car1 = new Car("test1");
         final Car car2 = new Car("test2");
         final Car car3 = new Car("test3");
-        Participants participants = new Participants(List.of(car1, car2, car3));
+        Cars cars = new Cars(List.of(car1, car2, car3));
 
         // when
         car1.drive(4);
         car1.drive(4);
         car2.drive(4);
-        List<Car> winners = participants.findWinners();
+        List<Car> winners = cars.findWinners();
 
         // then
         assertThat(winners.size()).isEqualTo(1);
@@ -70,7 +69,7 @@ class ParticipantsTest {
         final Car car1 = new Car("test1");
         final Car car2 = new Car("test2");
         final Car car3 = new Car("test3");
-        Participants participants = new Participants(List.of(car1, car2, car3));
+        Cars cars = new Cars(List.of(car1, car2, car3));
 
         // when
         car1.drive(4);
@@ -78,7 +77,7 @@ class ParticipantsTest {
         car2.drive(4);
         car2.drive(4);
         car3.drive(4);
-        List<Car> winners = participants.findWinners();
+        List<Car> winners = cars.findWinners();
 
         // then
         assertThat(winners.size()).isEqualTo(2);

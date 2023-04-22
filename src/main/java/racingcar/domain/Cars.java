@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Participants {
+public class Cars {
 
     public static final int MIN_PARTICIPANT_SIZE = 1;
     public static final int MAX_PARTICIPANT_SIZE = 5;
@@ -16,7 +16,7 @@ public class Participants {
 
     private final List<Car> cars;
 
-    public Participants(List<Car> cars) {
+    public Cars(List<Car> cars) {
         validate(cars);
         this.cars = new ArrayList<>(cars);
     }

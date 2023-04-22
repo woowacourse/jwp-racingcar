@@ -38,8 +38,8 @@ public class RacingCarService {
         GameEntity gameEntity = GameEntity.from(request.getCount());
         Long gameId = gameDao.insert(gameEntity);
 
-        List<PlayerEntity> playerEntities = race.getParticipants().stream()
-                .map(participant -> PlayerEntity.of(participant, gameId.intValue(), winners.contains(participant)))
+        List<PlayerEntity> playerEntities = race.getCars().stream()
+                .map(car -> PlayerEntity.of(car, gameId.intValue(), winners.contains(car)))
                 .collect(Collectors.toList());
         playerDao.insert(playerEntities);
 

@@ -11,7 +11,7 @@ public class Race {
             "올바르지 않은 시도횟수입니다.(" + MIN_TRIAL_COUNT + " ~ " + MAX_TRIAL_COUNT + ")";
 
     private final int totalCount;
-    private final Participants participants;
+    private final Cars cars;
     private final NumberGenerator numberGenerator;
     private int currentCount = 0;
 
@@ -22,7 +22,7 @@ public class Race {
         List<Car> cars = carNames.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
-        this.participants = new Participants(cars);
+        this.cars = new Cars(cars);
     }
 
     private void validateRange(final int count) {
@@ -33,17 +33,17 @@ public class Race {
 
     public void play() {
         while (!isFinished()) {
-            participants.drive(numberGenerator);
+            cars.drive(numberGenerator);
             addCount();
         }
     }
 
-    public List<Car> getParticipants() {
-        return participants.getCars();
+    public List<Car> getCars() {
+        return cars.getCars();
     }
 
     public List<Car> findWinners() {
-        return participants.findWinners();
+        return cars.findWinners();
     }
 
     private void addCount() {

@@ -4,15 +4,15 @@ import java.util.List;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Range;
 import racingcar.domain.CarName;
-import racingcar.domain.Participants;
+import racingcar.domain.Cars;
 import racingcar.domain.Race;
 
 public class PlayRequest {
 
     @Size(
-            min = Participants.MIN_PARTICIPANT_SIZE,
-            max = Participants.MAX_PARTICIPANT_SIZE,
-            message = Participants.PARTICIPANT_SIZE_ERROR_MESSAGE)
+            min = Cars.MIN_PARTICIPANT_SIZE,
+            max = Cars.MAX_PARTICIPANT_SIZE,
+            message = Cars.PARTICIPANT_SIZE_ERROR_MESSAGE)
     private final List<@Size(
             min = CarName.MIN_CAR_NAME_LENGTH,
             max = CarName.MAX_CAR_NAME_LENGTH,
