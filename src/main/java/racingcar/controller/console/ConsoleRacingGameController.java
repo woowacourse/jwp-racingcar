@@ -1,27 +1,37 @@
 package racingcar.controller.console;
 
 import org.springframework.stereotype.Controller;
-import racingcar.dto.request.CarGameRequest;
-import racingcar.dto.response.GameResponse;
-import racingcar.service.RacingGameService;
+import racingcar.domain.Cars;
+import racingcar.domain.RacingGame;
+import racingcar.domain.RandomNumberGenerator;
+import racingcar.domain.TryCount;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 @Controller
 public class ConsoleRacingGameController {
-    private final RacingGameService racingGameService;
-
-    public ConsoleRacingGameController(RacingGameService racingGameService) {
-        this.racingGameService = racingGameService;
+    public void playGame() {
+        RacingGame racingGame = requestRacingGame();
+        racingGame.play();
+        OutputView.printWinners(racingGame.getWinnerNames());
+        OutputView.printCarResults(racingGame.getCars());
     }
 
-        public void playGame() {
-        String names = InputView.inputCarNames();
-        int count = InputView.inputTryCount();
+    private RacingGame requestRacingGame() {
+        Cars cars = generateUntilCorrectInput(InputView::inputCarNames, Cars::fromNameValues);
+        TryCount tryCount = generateUntilCorrectInput(InputView::inputTryCount, TryCount::new);
+        return new RacingGame(new RandomNumberGenerator(), cars, tryCount);
+    }
 
-        CarGameRequest carGameRequest = new CarGameRequest(names, count);
-        GameResponse gameResponse = racingGameService.play(carGameRequest);
-
-        OutputView.printCarGameResult(gameResponse);
+    private <T, E> E generateUntilCorrectInput(Supplier<T> inputAction, Function<T, E> generator) {
+        try {
+            return generator.apply(inputAction.get());
+        } catch (Exception exception) {
+            OutputView.printErrorMessage(exception.getMessage());
+            return generateUntilCorrectInput(inputAction, generator);
+        }
     }
 }
