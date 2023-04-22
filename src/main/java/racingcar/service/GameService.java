@@ -14,9 +14,7 @@ import racingcar.repository.GameDao;
 import racingcar.repository.PlayerResultDao;
 import racingcar.service.dto.GameRequestDto;
 import racingcar.service.dto.GameResponseDto;
-import racingcar.service.dto.PlayerResultResponseDto;
 import racingcar.service.util.PlayerResultResponseConverter;
-import racingcar.util.ListJoiner;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,6 +26,7 @@ public class GameService {
 
     private static final int MINIMUM_RANDOM_NUMBER = 0;
     private static final int MAXIMUM_RANDOM_NUMBER = 9;
+    private static final String DELIMITER = ",";
 
     private final GameDao gameDao;
     private final PlayerResultDao playerResultDao;
@@ -62,7 +61,7 @@ public class GameService {
     private static String getWinners(final Cars cars) {
         final WinnerMaker winnerMaker = new WinnerMaker();
         final List<String> winners = winnerMaker.getWinnerCarsName(cars.getLatestResult());
-        return ListJoiner.join(winners);
+        return String.join(DELIMITER, winners);
     }
 
     private void saveGameResult(final int tryCount, final GameResponseDto response) {
