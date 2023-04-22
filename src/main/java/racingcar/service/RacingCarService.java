@@ -32,6 +32,7 @@ public class RacingCarService {
         this.randomNumberGenerator = numberGenerator;
     }
 
+    @Transactional
     public MoveResponseDto moveCar(MoveRequestDto moveRequestDto) {
         Cars cars = new Cars(CarFactory.buildCars(moveRequestDto.getNames()));
         TryCount tryCount = new TryCount(moveRequestDto.getCount());
@@ -47,8 +48,7 @@ public class RacingCarService {
         }
     }
 
-    @Transactional
-    public void saveCarResult(Cars cars, int trialCount) {
+    private void saveCarResult(Cars cars, int trialCount) {
         int tableId = playResultDAO.returnTableIdAfterInsert(trialCount, cars.findWinners());
         playerInfoDAO.insert(tableId, cars.getCars());
     }
