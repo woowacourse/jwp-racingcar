@@ -17,7 +17,8 @@ public class LocalCarDao implements CarDao {
 
     @Override
     public int insert(final String name, final int position, final Long gameId, final boolean isWin) {
-        carEntities.put(++id, new CarEntity(name, position, gameId, isWin));
+        id++;
+        carEntities.put(id, new CarEntity(id, name, position, gameId, isWin));
         return UPDATED_ROWS;
     }
 
@@ -49,16 +50,22 @@ public class LocalCarDao implements CarDao {
 
     private static class CarEntity {
 
+        private final Long id;
         private final String name;
         private final int position;
         private final Long gameId;
         private final boolean isWin;
 
-        public CarEntity(final String name, final int position, final Long gameId, final boolean isWin) {
+        public CarEntity(final Long id, final String name, final int position, final Long gameId, final boolean isWin) {
+            this.id = id;
             this.name = name;
             this.position = position;
             this.gameId = gameId;
             this.isWin = isWin;
+        }
+
+        public Long getId() {
+            return id;
         }
 
         public String getName() {

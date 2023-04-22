@@ -15,8 +15,8 @@ public class LocalGameDao implements GameDao {
 
     @Override
     public Long insert(final int count) {
-        final GameEntity gameEntity = new GameEntity(count);
-        gameEntities.put(++id, gameEntity);
+        id++;
+        gameEntities.put(id, new GameEntity(id, count));
         return id;
     }
 
@@ -39,12 +39,18 @@ public class LocalGameDao implements GameDao {
 
     private static class GameEntity {
 
+        private final Long id;
         private final int trialCount;
         private final Timestamp createdAt;
 
-        public GameEntity(final int trialCount) {
+        public GameEntity(final Long id, final int trialCount) {
+            this.id = id;
             this.trialCount = trialCount;
             this.createdAt = new Timestamp(System.currentTimeMillis());
+        }
+
+        public Long getId() {
+            return id;
         }
 
         public int getTrialCount() {
