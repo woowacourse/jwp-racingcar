@@ -42,7 +42,7 @@ public class Car {
     }
 
     private void validateEmptyInput(final String carName) {
-        if (StringUtils.hasText(carName)) {
+        if (!StringUtils.hasText(carName)) {
             throw new CustomException("비어있는 자동차 이름이 존재합니다.");
         }
     }
