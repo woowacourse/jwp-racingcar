@@ -3,7 +3,6 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 import racingcar.entity.PlayerResultEntity;
@@ -16,12 +15,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-public class PlayerResultDAO {
+public class PlayResultDAO {
 
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
 
-    public PlayerResultDAO(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+    public PlayResultDAO(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("play_result")
                 .usingGeneratedKeyColumns("id");

@@ -4,7 +4,7 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.PlayerInfoDAO;
-import racingcar.dao.PlayerResultDAO;
+import racingcar.dao.PlayResultDAO;
 import racingcar.domain.CarFactory;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 @Service
 public class RacingCarService {
 
-    private final PlayerResultDAO playerResultDAO;
+    private final PlayResultDAO playResultDAO;
     private final PlayerInfoDAO playerInfoDAO;
     private final NumberGenerator randomNumberGenerator;
 
-    public RacingCarService(PlayerResultDAO playerResultDAO, PlayerInfoDAO playerInfoDAO, NumberGenerator numberGenerator) {
-        this.playerResultDAO = playerResultDAO;
+    public RacingCarService(PlayResultDAO playResultDAO, PlayerInfoDAO playerInfoDAO, NumberGenerator numberGenerator) {
+        this.playResultDAO = playResultDAO;
         this.playerInfoDAO = playerInfoDAO;
         this.randomNumberGenerator = numberGenerator;
     }
@@ -49,14 +49,14 @@ public class RacingCarService {
 
     @Transactional
     public void saveCarResult(Cars cars, int trialCount) {
-        int tableId = playerResultDAO.returnTableIdAfterInsert(trialCount, cars.findWinners());
+        int tableId = playResultDAO.returnTableIdAfterInsert(trialCount, cars.findWinners());
         playerInfoDAO.insert(tableId, cars.getCars());
     }
 
     @Transactional
     public List<PlayResponseDto> findAllGameHistory() {
         final ArrayList<PlayResponseDto> playResponseDtos = new ArrayList<>();
-        for (PlayerResultEntity playerResultEntity : playerResultDAO.findAll()) {
+        for (PlayerResultEntity playerResultEntity : playResultDAO.findAll()) {
             playResponseDtos.add(new PlayResponseDto(playerResultEntity.getWinners(), makeCarDto(playerResultEntity)));
         }
         return playResponseDtos;
