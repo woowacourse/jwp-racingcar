@@ -14,17 +14,18 @@ public class Cars {
         this.cars = cars;
     }
 
-    public static Cars from(final List<String> carNames) {
-        List<Car> cars = carNames.stream()
+    public static Cars from (final List<Name> names) {
+        List<Car> cars = names.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
         return new Cars(cars);
     }
 
-    public static Cars from(final String carNames) {
-        List<String> seperatedCarNames = Arrays.stream(carNames.split(NAME_DELIMITER))
+    public static Cars fromNameValues(final List<String> nameValues) {
+        List<Name> names = nameValues.stream()
+                .map(Name::new)
                 .collect(Collectors.toList());
-        return from(seperatedCarNames);
+        return from(names);
     }
 
     private void validateCars(final List<Car> cars) {
@@ -56,7 +57,7 @@ public class Cars {
         }
     }
 
-    public void moveAll(final RandomNumberGenerator generator) {
+    public void moveAll(final NumberGenerator generator) {
         for (Car car : cars) {
             int power = generator.generate();
             car.move(power);

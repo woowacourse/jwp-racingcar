@@ -13,6 +13,10 @@ public class Car {
         this.name = name;
     }
 
+    public static Car from(String name) {
+        return new Car(new Name(name));
+    }
+
     public void move(final int power) {
         if (power >= MIN_POWER) {
             position++;

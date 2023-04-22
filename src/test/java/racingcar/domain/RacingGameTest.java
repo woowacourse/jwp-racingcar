@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class RacingGameTest {
-    private final String carNames = "박스터,포르쉐,소나타";
+    private final List<String> carNames = List.of("포르쉐", "현대", "기아");
 
     @Test
     @DisplayName("play 메소드를 호출하면 모든 자동차의 position이 1 증가한다.")
     void play_with_always_move() {
-        int tryCount = 1;
+        TryCount tryCount = new TryCount(1);
 
-        RacingGame game = new RacingGame(new AlwaysMoveGenerator(), Cars.from(carNames), tryCount);
+        RacingGame game = new RacingGame(new AlwaysMoveGenerator(), Cars.fromNameValues(carNames), tryCount);
         game.play();
 
         List<Car> result = game.getCars();
@@ -24,15 +24,15 @@ class RacingGameTest {
                 .map(Car::getPosition)
                 .collect(Collectors.toList());
 
-        Assertions.assertThat(positions).containsOnly(tryCount);
+        Assertions.assertThat(positions).containsOnly(1);
     }
 
     @Test
     @DisplayName("play 메소드를 호출하면 모든 자동차의 position이 1 증가하지 않는다.")
     void play_with_always_stop() {
-        int tryCount = 1;
+        TryCount tryCount = new TryCount(1);
 
-        RacingGame game = new RacingGame(new NeverMoveGenerator(), Cars.from(carNames), tryCount);
+        RacingGame game = new RacingGame(new NeverMoveGenerator(), Cars.fromNameValues(carNames), tryCount);
         game.play();
 
         List<Car> result = game.getCars();
@@ -44,7 +44,7 @@ class RacingGameTest {
         Assertions.assertThat(positions).containsOnly(0);
     }
 
-    private static class AlwaysMoveGenerator implements RandomNumberGenerator {
+    private static class AlwaysMoveGenerator implements NumberGenerator {
 
         @Override
         public int generate() {
@@ -52,7 +52,7 @@ class RacingGameTest {
         }
     }
 
-    private static class NeverMoveGenerator implements RandomNumberGenerator {
+    private static class NeverMoveGenerator implements NumberGenerator {
 
         @Override
         public int generate() {
