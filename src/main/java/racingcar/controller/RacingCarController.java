@@ -20,10 +20,14 @@ public class RacingCarController {
         );
     }
 
-    public void run() {
-        List<String> carNames = inputCarNames();
-        int roundCount = inputRoundCount();
-        startRound(carNames, roundCount);
+    public void play() {
+        OutputView.printRoundResultMsg();
+        RacingResultResponse racingResultResponse =
+                racingCarService.playRacingGame(
+                        inputCarNames(),
+                        inputTrialCount()
+                );
+        OutputView.printRacingResult(racingResultResponse);
     }
 
     private List<String> inputCarNames() {
@@ -36,22 +40,13 @@ public class RacingCarController {
         }
     }
 
-    private int inputRoundCount() {
+    private int inputTrialCount() {
         OutputView.printRoundCountRequestMsg();
         try {
-            return InputView.readRoundCount();
+            return InputView.readTrialCount();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return inputRoundCount();
+            return inputTrialCount();
         }
-    }
-
-    private void startRound(List<String> carNames, int roundCount) {
-        OutputView.printRoundResultMsg();
-//        RacingCars racingCars = racingCarService.createRacingCars(carNames);
-//        racingCarService.moveCars(racingCars, roundCount);
-        RacingResultResponse racingResultResponse = racingCarService.playRacingGame(carNames, roundCount);
-        OutputView.printRacingResult(racingResultResponse);
-//        OutputView.printRacingResult(racingCars.getCars(), racingCars.getWinners());
     }
 }

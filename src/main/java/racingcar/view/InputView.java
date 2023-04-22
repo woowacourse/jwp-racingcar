@@ -27,7 +27,7 @@ public class InputView {
 			.collect(Collectors.toList());
 	}
 
-	public static int readRoundCount() {
+	public static int readTrialCount() {
 		int roundCount = parseToInt(scanner.nextLine());
 		validateRoundCount(roundCount);
 		return roundCount;
