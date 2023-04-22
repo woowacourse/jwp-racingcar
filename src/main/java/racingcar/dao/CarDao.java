@@ -12,5 +12,5 @@ public interface CarDao {
 
     void insertCar(final CarDto car, final int gameId);
 
-    List<CarDto> findCarsByRacingGameId(final int gameId);
+    List<CarEntity> findCarsByRacingGameId(final int gameId);
 }

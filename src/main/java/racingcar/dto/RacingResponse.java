@@ -2,20 +2,21 @@ package racingcar.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.model.Car;
 
 public class RacingResponse {
 
     private final String winners;
-    private final List<CarDto> racingCars;
+    private final List<Car> racingCars;
 
-    public RacingResponse(final List<CarDto> winnerCars, final List<CarDto> racingCars) {
+    public RacingResponse(final List<Car> winnerCars, final List<Car> racingCars) {
         this.winners = makeWinners(winnerCars);
         this.racingCars = racingCars;
     }
 
-    private String makeWinners(final List<CarDto> winners) {
+    private String makeWinners(final List<Car> winners) {
         return winners.stream()
-                .map(CarDto::getName)
+                .map(Car::getName)
                 .collect(Collectors.joining(", "));
     }
 
@@ -23,7 +24,7 @@ public class RacingResponse {
         return winners;
     }
 
-    public List<CarDto> getRacingCars() {
+    public List<Car> getRacingCars() {
         return racingCars;
     }
 }

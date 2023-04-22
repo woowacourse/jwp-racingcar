@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -33,20 +32,16 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public List<CarDto> findCarsByRacingGameId(final int gameId) {
+    public List<CarEntity> findCarsByRacingGameId(final int gameId) {
         String sql = "select * from Car where game_id = :gameId";
         SqlParameterSource parameterSource = new MapSqlParameterSource("gameId", gameId);
 
-        List<CarEntity> carEntities = namedParameterJdbcTemplate.query(sql, parameterSource, (rs, rowNum) -> {
+        return namedParameterJdbcTemplate.query(sql, parameterSource, (rs, rowNum) -> {
             int id = rs.getInt("id");
             String name = rs.getString("name");
             int position = rs.getInt("position");
             return new CarEntity(id, name, position);
         });
-
-        return carEntities.stream()
-                .map(entity -> CarDto.of(entity.getName(), entity.getPosition()))
-                .collect(Collectors.toList());
     }
 
 }

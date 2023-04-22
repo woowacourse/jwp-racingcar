@@ -32,8 +32,8 @@ class RacingGameDaoImplTest {
         RacingGame racingGame = new RacingGame(3);
         racingGameDao.insertRacingGame(RacingGameDto.of(racingGame.getId(), racingGame.getTrialCount()));
 
-        List<RacingGameDto> racingGames = racingGameDao.selectAllResults();
-        RacingGameDto findRacingGame = racingGames.get(0);
+        List<RacingGameEntity> racingGames = racingGameDao.selectAllResults();
+        RacingGameEntity findRacingGame = racingGames.get(0);
 
         assertThat(findRacingGame.getId()).isGreaterThan(0);
         assertThat(findRacingGame.getTrialCount()).isEqualTo(racingGame.getTrialCount());
@@ -47,7 +47,7 @@ class RacingGameDaoImplTest {
         racingGameDao.insertRacingGame(RacingGameDto.of(racingGame1.getId(), racingGame1.getTrialCount()));
         racingGameDao.insertRacingGame(RacingGameDto.of(racingGame2.getId(), racingGame2.getTrialCount()));
 
-        List<RacingGameDto> racingGames = racingGameDao.selectAllResults();
+        List<RacingGameEntity> racingGames = racingGameDao.selectAllResults();
 
         assertThat(racingGames).hasSize(2);
     }

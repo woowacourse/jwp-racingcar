@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import racingcar.dao.CarDao;
 import racingcar.dao.CarEntity;
 import racingcar.dto.CarDto;
@@ -32,12 +31,10 @@ public class CarInMemoryDao implements CarDao {
     }
 
     @Override
-    public List<CarDto> findCarsByRacingGameId(final int gameId) {
+    public List<CarEntity> findCarsByRacingGameId(final int gameId) {
         for (Entry<Integer, List<CarEntity>> carEntries : cars.entrySet()) {
             if (carEntries.getKey() == gameId) {
-                return carEntries.getValue().stream()
-                        .map(carEntity -> CarDto.of(carEntity.getName(), carEntity.getPosition()))
-                        .collect(Collectors.toList());
+                return carEntries.getValue();
             }
         }
         throw new IllegalArgumentException("게임 아이디를 확인해주세요.");

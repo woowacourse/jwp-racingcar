@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -20,7 +19,7 @@ public class RacingGameDaoImpl implements RacingGameDao {
     }
 
     @Override
-    public RacingGameDto insertRacingGame(final RacingGameDto racingGameDto) {
+    public RacingGameEntity insertRacingGame(final RacingGameDto racingGameDto) {
         String sql = "INSERT INTO RACING_GAME (trial_count) VALUES(:trialCount)";
 
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(racingGameDto);
@@ -29,22 +28,18 @@ public class RacingGameDaoImpl implements RacingGameDao {
         namedParameterJdbcTemplate.update(sql, parameterSource, keyHolder);
         int id = (int) keyHolder.getKeys().get("id");
 
-        return RacingGameDto.of(id, racingGameDto.getTrialCount());
+        return new RacingGameEntity(id, racingGameDto.getTrialCount());
     }
 
     @Override
-    public List<RacingGameDto> selectAllResults() {
+    public List<RacingGameEntity> selectAllResults() {
         String sql = "select * from RACING_GAME order by id desc";
 
-        List<RacingGameEntity> entities = namedParameterJdbcTemplate.query(sql, (rs, rowNum) -> {
+        return namedParameterJdbcTemplate.query(sql, (rs, rowNum) -> {
             int id = rs.getInt("id");
             int trialCount = rs.getInt("trial_count");
             return new RacingGameEntity(id, trialCount);
         });
-
-        return entities.stream()
-                .map(entity -> RacingGameDto.of(entity.getId(), entity.getTrialCount()))
-                .collect(Collectors.toList());
     }
 
 }

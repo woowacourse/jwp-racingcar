@@ -33,7 +33,7 @@ class CarDaoImplTest {
     @Autowired
     CarDao carDaoImpl;
 
-    private RacingGameDto racingGameDto;
+    private RacingGameEntity racingGameEntity;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -43,14 +43,14 @@ class CarDaoImplTest {
         jdbcTemplate.execute("delete from CAR");
         jdbcTemplate.execute("delete from RACING_GAME");
         RacingGame racingGame = new RacingGame(10);
-        racingGameDto = racingGameDaoImpl.insertRacingGame(RacingGameDto.from(racingGame.getTrialCount()));
+        racingGameEntity = racingGameDaoImpl.insertRacingGame(RacingGameDto.from(racingGame.getTrialCount()));
     }
 
     @Test
     void insertPlayer() {
         Car actual = new Car("우가");
-        carDaoImpl.insertCar(makeCarDto(actual), racingGameDto.getId());
-        List<CarDto> carsByRacingGameId = carDaoImpl.findCarsByRacingGameId(racingGameDto.getId());
+        carDaoImpl.insertCar(makeCarDto(actual), racingGameEntity.getId());
+        List<CarEntity> carsByRacingGameId = carDaoImpl.findCarsByRacingGameId(racingGameEntity.getId());
 
         assertThat(carsByRacingGameId.get(0).getName()).isEqualTo(actual.getName());
     }
@@ -59,10 +59,10 @@ class CarDaoImplTest {
     void selectPlayerResultByPlayResultIdTest() {
         Car car = new Car("name1", 10);
         Car car2 = new Car("name2", 10);
-        carDaoImpl.insertCar(makeCarDto(car), racingGameDto.getId());
-        carDaoImpl.insertCar(makeCarDto(car2), racingGameDto.getId());
+        carDaoImpl.insertCar(makeCarDto(car), racingGameEntity.getId());
+        carDaoImpl.insertCar(makeCarDto(car2), racingGameEntity.getId());
 
-        List<CarDto> carsByRacingGameId = carDaoImpl.findCarsByRacingGameId(racingGameDto.getId());
+        List<CarEntity> carsByRacingGameId = carDaoImpl.findCarsByRacingGameId(racingGameEntity.getId());
 
         assertThat(carsByRacingGameId).hasSize(2);
     }

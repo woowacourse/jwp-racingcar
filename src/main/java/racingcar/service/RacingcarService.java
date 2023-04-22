@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
+import racingcar.dao.CarEntity;
 import racingcar.dao.RacingGameDao;
+import racingcar.dao.RacingGameEntity;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameDto;
 import racingcar.dto.RacingResponse;
@@ -38,15 +40,12 @@ public class RacingcarService {
 
         insertCar(cars, racingGame);
 
-        List<CarDto> winnerCarsDtos = makeCarsDtos(winners);
-        List<CarDto> carsDtos = makeCarsDtos(cars);
-
-        return new RacingResponse(winnerCarsDtos, carsDtos);
+        return new RacingResponse(winners, cars);
     }
 
     private RacingGame insertRacingGame(final int count) {
-        RacingGameDto racingGameDto = racingGameDao.insertRacingGame(RacingGameDto.from(count));
-        return new RacingGame(racingGameDto.getId(), count);
+        RacingGameEntity savedRacingGameEntity = racingGameDao.insertRacingGame(RacingGameDto.from(count));
+        return new RacingGame(savedRacingGameEntity.getId(), count);
     }
 
     private void insertCar(final List<Car> cars, final RacingGame racingGame) {
@@ -88,40 +87,33 @@ public class RacingcarService {
     }
 
     public List<RacingResponse> allResults() {
-        Map<Integer, List<CarDto>> results = new LinkedHashMap<>();
-        List<RacingGameDto> racingGameDtos = racingGameDao.selectAllResults();
-        for (RacingGameDto racingGameDto : racingGameDtos) {
-            results.put(racingGameDto.getId(), carDao.findCarsByRacingGameId(racingGameDto.getId()));
+        Map<Integer, List<CarEntity>> results = new LinkedHashMap<>();
+        List<RacingGameEntity> racingGameEntities = racingGameDao.selectAllResults();
+        for (RacingGameEntity racingGameEntity : racingGameEntities) {
+            results.put(racingGameEntity.getId(), carDao.findCarsByRacingGameId(racingGameEntity.getId()));
         }
         return makeRacingResponses(results);
     }
 
-    private List<RacingResponse> makeRacingResponses(final Map<Integer, List<CarDto>> results) {
+    private List<RacingResponse> makeRacingResponses(final Map<Integer, List<CarEntity>> results) {
         return results.values().stream()
-                .map(carDtos -> {
-                    List<Car> findCars = carDtos.stream()
+                .map(carEntities -> {
+                    List<Car> findCars = carEntities.stream()
                             .map(this::makeCar)
                             .collect(Collectors.toList());
                     List<Car> winners = findWinners(findCars);
-                    List<CarDto> findWinnerCarsDtos = makeCarsDtos(winners);
-                    List<CarDto> findCarsDtos = makeCarsDtos(findCars);
-                    return new RacingResponse(findWinnerCarsDtos, findCarsDtos);
+                    return new RacingResponse(winners, findCars);
                 })
                 .collect(Collectors.toList());
     }
 
-    private Car makeCar(final CarDto carDto) {
-        return new Car(carDto.getName(), carDto.getPosition());
+    private Car makeCar(final CarEntity carEntity) {
+        return new Car(carEntity.getName(), carEntity.getPosition());
     }
 
     private CarDto makeCarDto(final Car car) {
         return CarDto.of(car.getName(), car.getPosition());
     }
 
-    private List<CarDto> makeCarsDtos(final List<Car> cars) {
-        return cars.stream()
-                .map(this::makeCarDto)
-                .collect(Collectors.toList());
-    }
 
 }

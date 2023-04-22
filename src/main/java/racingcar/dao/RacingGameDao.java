@@ -10,7 +10,7 @@ import racingcar.dto.RacingGameDto;
  */
 public interface RacingGameDao {
 
-    RacingGameDto insertRacingGame(final RacingGameDto racingGameDto);
+    RacingGameEntity insertRacingGame(final RacingGameDto racingGameDto);
 
-    List<RacingGameDto> selectAllResults();
+    List<RacingGameEntity> selectAllResults();
 }

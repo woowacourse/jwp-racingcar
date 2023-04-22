@@ -1,7 +1,7 @@
 package racingcar.consolegame.ui;
 
-import racingcar.dto.CarDto;
 import racingcar.dto.RacingResponse;
+import racingcar.model.Car;
 
 /**
  * @author 우가
@@ -29,8 +29,8 @@ public class OutputView {
     }
 
     public void result(final RacingResponse finishedCars) {
-        for (CarDto carDto : finishedCars.getRacingCars()) {
-            System.out.println(carDto.getName() + ": " + CAR_BASE_STATUS.repeat(carDto.getPosition()));
+        for (Car car : finishedCars.getRacingCars()) {
+            System.out.println(car.getName() + ": " + CAR_BASE_STATUS.repeat(car.getPosition()));
         }
     }
 }
