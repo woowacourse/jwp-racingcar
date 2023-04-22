@@ -1,16 +1,20 @@
 package racingcar.dao;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.domain.Car;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @JdbcTest
 class RacingCarDaoTest {
@@ -18,61 +22,38 @@ class RacingCarDaoTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private RacingCarDao racingCarDao;
+    private RacingGameDao racingGameDao;
 
     @BeforeEach
     void setUp() {
         racingCarDao = new RacingCarDao(jdbcTemplate);
+        racingGameDao = new RacingGameDao(jdbcTemplate);
     }
 
     @Test
+    @DisplayName("car 테이블에 car 객체 저장")
     void saveGame() {
-        GameEntity gameEntity = generateGameEntity();
+        racingGameDao.saveGame(new GameEntity(1, 10, "merry", LocalDateTime.now()));
 
-        Assertions.assertDoesNotThrow(() -> racingCarDao.saveGame(gameEntity));
+        Car car = new Car("merry");
+        int gameId = 1;
+
+        assertDoesNotThrow(() -> racingCarDao.saveCar(gameId, car));
     }
 
     @Test
+    @DisplayName("저장된 모든 Car 조회")
     void findAll() {
+        racingGameDao.saveGame(new GameEntity(2, 10, "merry", LocalDateTime.now()));
+
+        int gameId = 2;
         for (int i = 0; i < 2; i++) {
-            racingCarDao.saveGame(generateGameEntity());
+            racingCarDao.saveCar(gameId, new Car(String.valueOf(i), i));
         }
 
-        List<GameEntity> result = racingCarDao.findAll();
+        List<CarEntity> result = racingCarDao.findCarsByGameId(gameId);
 
-        Assertions.assertEquals(result.size(), 2);
-        Assertions.assertEquals(result.get(0).getRacingCars().size(), 2);
-        Assertions.assertEquals(result.get(1).getRacingCars().size(), 2);
-    }
-
-    @Test
-    void findAll반환값은_생성순서를_기준으로_정렬된다() {
-        for (int i = 0; i < 4; i++) {
-            racingCarDao.saveGame(generateGameEntity());
-        }
-
-        List<GameEntity> result = racingCarDao.findAll();
-
-        for (int i = 0; i < 2; i++) {
-            Assertions.assertTrue(result.get(i).getCreatedAt().isBefore(result.get(i + 1).getCreatedAt()));
-        }
-    }
-
-    public static GameEntity generateGameEntity() {
-        return new GameEntity.Builder()
-                .count(10)
-                .winners("메리")
-                .racingCars(new ArrayList<>(List.of(
-                                new CarEntity.Builder()
-                                        .name("메리")
-                                        .position(5)
-                                        .build(),
-                                new CarEntity.Builder()
-                                        .name("매튜")
-                                        .position(4)
-                                        .build())
-                        )
-                )
-                .build();
+        assertEquals(result.size(), 2);
     }
 
 }
