@@ -1,11 +1,10 @@
 package racingcar.dto.response;
 
-import racingcar.domain.Car;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GameResponse {
+    private static final String NAME_DELIMITER = ",";
+
     private final String winners;
     private final List<CarResponse> racingCars;
 
@@ -14,11 +13,12 @@ public class GameResponse {
         this.racingCars = racingCars;
     }
 
-    public static GameResponse of(String winners, List<Car> racingCars) {
-        List<CarResponse> carResultRespons = racingCars.stream()
-                .map(CarResponse::fromCar)
-                .collect(Collectors.toList());
-        return new GameResponse(winners, carResultRespons);
+    public static GameResponse of(List<String> winnerNames, List<CarResponse> racingCars) {
+        return new GameResponse(getCombinedNames(winnerNames), racingCars);
+    }
+
+    public static String getCombinedNames(List<String> winnerNames) {
+        return String.join(NAME_DELIMITER, winnerNames);
     }
 
     public String getWinners() {
