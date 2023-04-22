@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.GameResponseDto;
+import racingcar.controller.dto.RacingGameResultDto;
 import racingcar.service.RacingCarService;
 
 import java.util.List;
@@ -30,7 +31,8 @@ public class RacingCarController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponseDto> playGame(@RequestBody GameRequestDtoForPlays gameRequestDtoForPlays) {
-        int savedGameId = racingCarService.plays(gameRequestDtoForPlays);
+        RacingGameResultDto racingGameResultDto = racingCarService.plays(gameRequestDtoForPlays);
+        int savedGameId = racingCarService.saveGameResult(racingGameResultDto);
         return ResponseEntity.ok()
                 .body(racingCarService.getSavedGameById(savedGameId));
     }

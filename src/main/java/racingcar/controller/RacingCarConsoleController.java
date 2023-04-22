@@ -2,12 +2,16 @@ package racingcar.controller;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.controller.dto.GameRequestDtoForPlays;
-import racingcar.controller.dto.GameResponseDto;
+import racingcar.controller.dto.RacingGameResultDto;
 import racingcar.dao.RacingCarDao;
-import racingcar.entity.GameEntity;
+import racingcar.dao.RacingGameDao;
+import racingcar.dao.WinnersDao;
+import racingcar.domain.Winner;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
+
+import java.util.stream.Collectors;
 
 public class RacingCarConsoleController {
 
@@ -18,21 +22,32 @@ public class RacingCarConsoleController {
     public RacingCarConsoleController() {
         inputView = new InputView(System.in);
         outputView = new OutputView();
-        this.racingCarService = new RacingCarService(new RacingCarDao(new JdbcTemplate()), racingGameDao);
+        // TODO : 수정 필요
+        this.racingCarService = new RacingCarService(new RacingCarDao(new JdbcTemplate()), new RacingGameDao(new JdbcTemplate()), new WinnersDao(new JdbcTemplate()));
     }
 
     public void run() {
-        String carNames = inputView.requestCarNames();
-        String numberOfTimes = inputView.requestNumberOfTimes();
-        GameEntity gameResultEntity = racingCarService.getGameResultEntity(
-                new GameRequestDtoForPlays(carNames, numberOfTimes)
-        );
-        printResults(racingCarService.generateRacingGameResponseDto(gameResultEntity));
+        RacingGameResultDto racingGameResultDto = racingCarService.plays(generateGameRequestDto());
+        printResults(racingGameResultDto);
     }
 
-    private void printResults(GameResponseDto gameResponseDto) {
-        outputView.printWinners(gameResponseDto.getWinners());
-        outputView.printResult(gameResponseDto.getRacingCars());
+    private GameRequestDtoForPlays generateGameRequestDto() {
+        String carNames = inputView.requestCarNames();
+        String numberOfTimes = inputView.requestNumberOfTimes();
+        return new GameRequestDtoForPlays(carNames, numberOfTimes);
+    }
+
+    private void printResults(RacingGameResultDto racingGameResultDto) {
+        printWinners(racingGameResultDto);
+        outputView.printResult(racingGameResultDto.getCars().getCars());
+    }
+
+    private void printWinners(RacingGameResultDto racingGameResultDto) {
+        String winners = racingGameResultDto.getWinners()
+                .getWinners().stream()
+                .map(Winner::getName)
+                .collect(Collectors.joining(", "));
+        outputView.printWinners(winners);
     }
 
 }

@@ -5,10 +5,14 @@ import org.springframework.stereotype.Service;
 import racingcar.controller.dto.CarResponseDto;
 import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.GameResponseDto;
+import racingcar.controller.dto.RacingGameResultDto;
 import racingcar.dao.RacingCarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.dao.WinnersDao;
-import racingcar.domain.*;
+import racingcar.domain.Cars;
+import racingcar.domain.RacingGame;
+import racingcar.domain.Winner;
+import racingcar.domain.Winners;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
@@ -32,18 +36,30 @@ public class RacingCarService {
         this.winnersDao = winnersDao;
     }
 
-    public int plays(GameRequestDtoForPlays gameRequestDtoForPlays) {
+    public RacingGameResultDto plays(GameRequestDtoForPlays gameRequestDtoForPlays) {
         RacingGame racingGame = RacingGame.from(gameRequestDtoForPlays);
         racingGame.play();
-        int gameId = racingGameDao.saveGame(generateRacingGameEntity(racingGame));
-        saveCars(gameId, racingGame.getCars());
-        saveWinners(gameId, racingGame.getWinners());
+        return generateRacingGameResultDto(racingGame);
+    }
+
+    private RacingGameResultDto generateRacingGameResultDto(RacingGame racingGame) {
+        return new RacingGameResultDto(
+                racingGame.getCount(),
+                racingGame.getCars(),
+                racingGame.getWinners()
+        );
+    }
+
+    public int saveGameResult(RacingGameResultDto racingGameResultDto) {
+        int gameId = racingGameDao.saveGame(generateRacingGameEntity(racingGameResultDto));
+        saveCars(gameId, racingGameResultDto.getCars());
+        saveWinners(gameId, racingGameResultDto.getWinners());
         return gameId;
     }
 
-    private GameEntity generateRacingGameEntity(RacingGame racingGame) {
+    private GameEntity generateRacingGameEntity(RacingGameResultDto racingGameResultDto) {
         return new GameEntity.Builder()
-                .count(racingGame.getCount())
+                .count(racingGameResultDto.getCount())
                 .build();
     }
 
