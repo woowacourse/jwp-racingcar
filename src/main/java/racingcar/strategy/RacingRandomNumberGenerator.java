@@ -1,7 +1,10 @@
 package racingcar.strategy;
 
+import org.springframework.stereotype.Component;
+
 import java.util.concurrent.ThreadLocalRandom;
 
+@Component
 public class RacingRandomNumberGenerator implements RacingNumberGenerator {
 
     private static final int LOWER_NUMBER = 0;
