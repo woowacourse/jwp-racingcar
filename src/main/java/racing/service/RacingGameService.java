@@ -82,19 +82,12 @@ public class RacingGameService {
         return new RacingGameResultResponse(winners, carResponses);
     }
 
-    public GameInfoResponse executeWebGame(RacingGameInfoRequest request) {
+    public GameInfoResponse execute(RacingGameInfoRequest request) {
         Long gameId = createRacingGame(request.getCount());
         Cars cars = createCars(request.getNames());
         int count = request.getCount();
         moveCar(count, cars, new RandomNumberGenerator());
         return new GameInfoResponse(gameId, cars);
-    }
-
-    public Cars executeConsoleGame(RacingGameInfoRequest request) {
-        int count = request.getCount();
-        Cars cars = createCars(request.getNames());
-        moveCar(count, cars, new RandomNumberGenerator());
-        return cars;
     }
 
     private void moveCar(int count, Cars cars, RandomNumberGenerator generator) {
