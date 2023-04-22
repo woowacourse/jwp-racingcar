@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.MoveRequestDto;
 import racingcar.dto.MoveResponseDto;
 import racingcar.dto.PlayResponseDto;
@@ -15,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
+@Transactional
 class RacingCarServiceTest {
 
     @Autowired
