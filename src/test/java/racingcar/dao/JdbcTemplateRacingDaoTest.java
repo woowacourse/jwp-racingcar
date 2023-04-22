@@ -10,29 +10,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dto.CarDto;
-import racingcar.dto.GameResultDto;
+import racingcar.dto.RacingResultDto;
 
 @JdbcTest
-class JdbcTemplateRacingGameDaoTest {
+class JdbcTemplateRacingDaoTest {
 
-    private JdbcTemplateRacingGameDao jdbcTemplateRacingGameDao;
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplateRacingDao jdbcTemplateRacingDao;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcTemplateRacingGameDaoTest(final JdbcTemplate jdbcTemplate) {
+    public JdbcTemplateRacingDaoTest(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.jdbcTemplateRacingGameDao = new JdbcTemplateRacingGameDao(jdbcTemplate);
+        this.jdbcTemplateRacingDao = new JdbcTemplateRacingDao(jdbcTemplate);
     }
 
     @Test
     @DisplayName("게임 결과가 데이터베이스에 저장될 수 있다")
     void shouldSaveGameResultWhenRequest() {
 
-        GameResultDto gameResultDto = new GameResultDto(
+        RacingResultDto racingResultDto = new RacingResultDto(
                 List.of(new CarDto("브리", 2), new CarDto("브라운", 1)),
                 List.of(new CarDto("브리", 2), new CarDto("브라운", 1), new CarDto("토미", 0))
         );
-        jdbcTemplateRacingGameDao.saveGameResult(gameResultDto, 3);
+        jdbcTemplateRacingDao.saveGameResult(racingResultDto, 3);
 
         String actualWinners = jdbcTemplate.queryForObject("SELECT winners FROM GAME_RESULT", String.class);
         int trialCount = jdbcTemplate.queryForObject("SELECT trial_count FROM GAME_RESULT", Integer.class);
@@ -53,11 +53,11 @@ class JdbcTemplateRacingGameDaoTest {
                 new CarDto("토미", 1),
                 new CarDto("브라운", 2)
         );
-        GameResultDto gameResultDto = new GameResultDto(winnersCarDtos, carDtos);
-        int gameResultKey = jdbcTemplateRacingGameDao.saveGameResult(gameResultDto, 3);
+        RacingResultDto racingResultDto = new RacingResultDto(winnersCarDtos, carDtos);
+        int gameResultKey = jdbcTemplateRacingDao.saveGameResult(racingResultDto, 3);
 
         // 저장한 GAME_RESULT 을 참조하는 PLAYER_RESULT 를 저장한다
-        jdbcTemplateRacingGameDao.savePlayerResults(carDtos, gameResultKey);
+        jdbcTemplateRacingDao.savePlayerResults(carDtos, gameResultKey);
 
         int positionOfBri = jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '브리'",
                 Integer.class);

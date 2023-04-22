@@ -3,24 +3,24 @@ package racingcar.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class RacingGameResponse {
+public final class RacingResponse {
 
     private final String winners;
     private final List<CarResponse> racingCars;
 
-    public RacingGameResponse(final String winners, final List<CarResponse> racingCars) {
+    public RacingResponse(final String winners, final List<CarResponse> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public static RacingGameResponse from(GameResultDto gameResultDto) {
-        String winners = gameResultDto.getWinners().stream()
+    public static RacingResponse from(RacingResultDto racingResultDto) {
+        String winners = racingResultDto.getWinners().stream()
                 .map(CarDto::getName)
                 .collect(Collectors.joining(","));
-        List<CarResponse> carResponses = gameResultDto.getRacingCars().stream()
+        List<CarResponse> carResponses = racingResultDto.getRacingCars().stream()
                 .map(carDto -> new CarResponse(carDto.getName(), carDto.getPosition()))
                 .collect(Collectors.toList());
-        return new RacingGameResponse(winners, carResponses);
+        return new RacingResponse(winners, carResponses);
     }
 
     public String getWinners() {

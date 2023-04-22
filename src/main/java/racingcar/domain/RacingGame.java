@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.dto.RacingGameRequest;
+import racingcar.dto.RacingRequest;
 import racingcar.exception.NoCarsExistException;
 
 public class RacingGame {
@@ -23,12 +23,12 @@ public class RacingGame {
         this.gameCoin = gameCoin;
     }
 
-    public static RacingGame from(RacingGameRequest racingGameRequest) {
-        List<String> carNames = List.of(racingGameRequest.getNames().split(","));
+    public static RacingGame from(RacingRequest racingRequest) {
+        List<String> carNames = List.of(racingRequest.getNames().split(","));
         List<Car> cars = carNames.stream()
                 .map(carName -> new Car(carName, DEFAULT_START_LINE))
                 .collect(Collectors.toList());
-        return new RacingGame(cars, RANDOM_NUMBER_GENERATOR, new Coin(racingGameRequest.getCount()));
+        return new RacingGame(cars, RANDOM_NUMBER_GENERATOR, new Coin(racingRequest.getCount()));
     }
 
     public void start() {
