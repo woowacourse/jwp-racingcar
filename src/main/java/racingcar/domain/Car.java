@@ -7,13 +7,13 @@ public class Car {
     private final Name name;
     private final Distance distance;
 
-    public Car(String name) {
-        this(name, DISTANCE_DEFAULT);
-    }
-
-    public Car(String name, int distance) {
+    Car(String name, int distance) {
         this.name = new Name(name);
         this.distance = new Distance(distance);
+    }
+
+    public Car(String name) {
+        this(name, DISTANCE_DEFAULT);
     }
 
     public void runForward(int engine) {

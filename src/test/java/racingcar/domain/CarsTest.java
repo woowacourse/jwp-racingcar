@@ -7,7 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CarsTest {
-    Cars cars = new Cars(List.of(new Car("tori", 10), new Car("mango", 20)));
+
+    final Cars cars = new Cars(List.of(new Car("tori", 10), new Car("mango", 20)));
 
     @Test
     @DisplayName("우승자의 이름을 Return")
