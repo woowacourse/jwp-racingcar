@@ -1,10 +1,12 @@
 package racingcar.view;
 
-import static java.text.MessageFormat.format;
+import racingcar.dto.response.RacingCarResponse;
+import racingcar.dto.response.RacingGameResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.dto.PositionOfCar;
+
+import static java.text.MessageFormat.format;
 
 public class OutputView {
 
@@ -13,34 +15,30 @@ public class OutputView {
     private static final String POSITION_SYMBOL = "-";
     private static final String POSITION_MESSAGE_DELIMITER = "\n";
     private static final String WINNERS_MESSAGE_FORMAT = "{0}가 최종 우승했습니다.";
-    private static final String WINNERS_MESSAGE_DELIMITER = ", ";
     private static final String ERROR_MESSAGE = "[ERROR] ";
 
-    public void printResultMessage() {
+    public void printRacingGameResult(final RacingGameResponse racingGameResponse) {
         System.out.println(RESULT_MESSAGE);
+        System.out.println(format(WINNERS_MESSAGE_FORMAT, racingGameResponse.getWinners()));
+        printPosition(racingGameResponse.getRacingCars());
     }
 
-    public void printPosition(final List<PositionOfCar> positionOfCars) {
-        System.out.println(generatePositionMessages(positionOfCars) + POSITION_MESSAGE_DELIMITER);
+    private void printPosition(final List<RacingCarResponse> racingCarResponses) {
+        System.out.println(generatePositionMessages(racingCarResponses) + POSITION_MESSAGE_DELIMITER);
     }
 
-    private String generatePositionMessages(final List<PositionOfCar> positionOfCars) {
-        return positionOfCars.stream()
+    private String generatePositionMessages(final List<RacingCarResponse> racingCarResponses) {
+        return racingCarResponses.stream()
                 .map(this::generatePositionMessage)
                 .collect(Collectors.joining(POSITION_MESSAGE_DELIMITER));
     }
 
-    private String generatePositionMessage(final PositionOfCar positionOfCar) {
+    private String generatePositionMessage(final RacingCarResponse racingCarResponse) {
         return format(
                 POSITION_MESSAGE_FORMAT,
-                positionOfCar.getCarName(),
-                POSITION_SYMBOL.repeat(positionOfCar.getPosition())
+                racingCarResponse.getName(),
+                POSITION_SYMBOL.repeat(racingCarResponse.getPosition())
         );
-    }
-
-    public void printWinnersMessage(final List<String> winners) {
-        final String winnersMessage = String.join(WINNERS_MESSAGE_DELIMITER, winners);
-        System.out.println(format(WINNERS_MESSAGE_FORMAT, winnersMessage));
     }
 
     public void printErrorMessage(final String message) {

@@ -1,13 +1,12 @@
 package racingcar.domain;
 
-import static java.text.MessageFormat.format;
-import static java.util.stream.Collectors.toList;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+import static java.text.MessageFormat.format;
+import static java.util.stream.Collectors.toList;
 
 public class Cars {
 
@@ -19,20 +18,13 @@ public class Cars {
 
     private final List<Car> cars;
 
-    public Cars(final List<String> carNames) {
-        final List<Car> cars = generateCars(carNames);
-        validate(cars, carNames);
+    public Cars(final List<Car> cars) {
+        validate(cars);
         this.cars = cars;
     }
 
-    private List<Car> generateCars(final List<String> carNames) {
-        return carNames.stream()
-                .map(Car::new)
-                .collect(Collectors.toList());
-    }
-
-    private void validate(final List<Car> cars, final List<String> carNames) {
-        if (isDuplicate(cars, carNames)) {
+    private void validate(final List<Car> cars) {
+        if (isDuplicate(cars)) {
             throw new IllegalArgumentException(format(DUPLICATE_CAR_NAME_MESSAGE, cars));
         }
         if (hasSmallSize(cars.size()) || hasLargeSize(cars.size())) {
@@ -40,9 +32,9 @@ public class Cars {
         }
     }
 
-    private boolean isDuplicate(final List<Car> cars, final List<String> carNames) {
+    private boolean isDuplicate(final List<Car> cars) {
         final Set<Car> uniqueCars = new HashSet<>(cars);
-        return uniqueCars.size() != carNames.size();
+        return uniqueCars.size() != cars.size();
     }
 
     private boolean hasSmallSize(final int carSize) {

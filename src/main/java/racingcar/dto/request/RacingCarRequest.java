@@ -1,8 +1,15 @@
 package racingcar.dto.request;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+
 public class RacingCarRequest {
 
+    @NotNull
     private String names;
+
+    @NotNull
+    @PositiveOrZero
     private Integer count;
 
     public RacingCarRequest() {
