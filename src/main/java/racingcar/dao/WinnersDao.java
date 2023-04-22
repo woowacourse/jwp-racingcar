@@ -17,7 +17,7 @@ public class WinnersDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Winner> findWinnerNamesByGameId(int gameId) {
+    public List<Winner> getWinnerNamesByGameId(int gameId) {
         final String sqlForWinnersByGameId = "SELECT name " +
                 "FROM WINNERS w " +
                 "INNER JOIN racing_game g " +
@@ -26,6 +26,7 @@ public class WinnersDao {
                 "ON w.racing_car_id = c.id " +
                 "WHERE w.racing_game_id = ?";
         List<Winner> winners = jdbcTemplate.query(sqlForWinnersByGameId, ObjectMapper.getWinnersEntityMapper(), gameId);
+        System.out.println(winners);
         return winners;
     }
 

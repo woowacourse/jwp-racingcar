@@ -23,6 +23,16 @@ public class RacingGameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public List<GameEntity> findAll() {
+        String sqlForGameEntities = "SELECT * FROM RACING_GAME";
+        return jdbcTemplate.query(sqlForGameEntities, ObjectMapper.getGameEntityMapper());
+    }
+
+    public int saveGame(GameEntity gameResultEntity) {
+        String sqlForSaveGame = "INSERT INTO RACING_GAME(count, created_at) VALUES(?, ?)";
+        return getIdAfterInsert(sqlForSaveGame, Integer.toString(gameResultEntity.getCount()), gameResultEntity.getCreatedAt().toString());
+    }
+
     private int getIdAfterInsert(String sqlForRacingGameEntity, String... sqlParameters) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -37,16 +47,6 @@ public class RacingGameDao {
         for (int parameterIndex = 1; parameterIndex <= sqlParameters.length; parameterIndex++) {
             preparedStatement.setString(parameterIndex, sqlParameters[parameterIndex - 1]);
         }
-    }
-
-    public List<GameEntity> findAll() {
-        String sqlForGameEntities = "SELECT * FROM RACING_GAME";
-        return jdbcTemplate.query(sqlForGameEntities, ObjectMapper.getGameEntityMapper());
-    }
-
-    public int saveGame(GameEntity gameResultEntity) {
-        String sqlForSaveGame = "INSERT INTO RACING_GAME(count, created_at) VALUES(?, ?)";
-        return getIdAfterInsert(sqlForSaveGame, Integer.toString(gameResultEntity.getCount()), gameResultEntity.getCreatedAt().toString());
     }
 
     public GameEntity getRacingGameById(int gameId) {

@@ -110,7 +110,7 @@ public class RacingCarService {
         List<GameResponseDto> gameResponseDtos = new ArrayList<>();
         for (GameEntity gameEntity : gameEntities) {
             List<CarEntity> carsByGameId = racingCarDao.findCarsByGameId(gameEntity.getId());
-            List<Winner> winnersByGameId = winnersDao.findWinnerNamesByGameId(gameEntity.getId());
+            List<Winner> winnersByGameId = winnersDao.getWinnerNamesByGameId(gameEntity.getId());
             gameResponseDtos.add(generateGameResponseDto(gameEntity.getId(), carsByGameId, winnersByGameId));
         }
         return gameResponseDtos;
@@ -118,7 +118,7 @@ public class RacingCarService {
 
     public GameResponseDto getSavedGameById(int gameId) {
         int racingGameId = racingGameDao.getRacingGameById(gameId).getId();
-        List<Winner> winners = winnersDao.findWinnerNamesByGameId(racingGameId);
+        List<Winner> winners = winnersDao.getWinnerNamesByGameId(racingGameId);
         List<CarEntity> cars = racingCarDao.findCarsByGameId(gameId);
         return generateGameResponseDto(gameId, cars, winners);
     }
