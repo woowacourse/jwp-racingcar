@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.gameresult;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -8,11 +8,11 @@ import racingcar.domain.TryCount;
 import racingcar.entity.GameRow;
 import racingcar.entity.PlayerRow;
 
-public final class GameResultInMemoryDao implements GameResultDao {
+public final class GameRowInMemoryDao implements GameRowDao {
 	private final Map<Long, GameRow> gameData;
 	private final Map<Long, PlayerRow> playerResultData;
 
-	public GameResultInMemoryDao () {
+	public GameRowInMemoryDao () {
 		this.gameData = new HashMap<>();
 		this.playerResultData = new HashMap<>();
 	}
@@ -30,7 +30,7 @@ public final class GameResultInMemoryDao implements GameResultDao {
 	}
 
 	@Override
-	public List<GameRow> fetchAllGameResult () {
+	public List<GameRow> fetchAllGameRow () {
 		throw new UnsupportedOperationException();
 	}
 

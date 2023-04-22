@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.gameresult;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -15,11 +15,11 @@ import racingcar.entity.GameRow;
 import racingcar.entity.PlayerRow;
 
 @Repository
-public class GameResultDatabaseDao implements GameResultDao{
+public class GameRowDatabaseDao implements GameRowDao {
 
 	private final JdbcTemplate jdbcTemplate;
 
-	public GameResultDatabaseDao (JdbcTemplate jdbcTemplate) {
+	public GameRowDatabaseDao (JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
@@ -54,7 +54,7 @@ public class GameResultDatabaseDao implements GameResultDao{
 		});
 	}
 
-	public List<GameRow> fetchAllGameResult () {
+	public List<GameRow> fetchAllGameRow () {
 		String sql = "SELECT * FROM game_result";
 
 		return jdbcTemplate.query(sql, (rs, rowNum) ->
