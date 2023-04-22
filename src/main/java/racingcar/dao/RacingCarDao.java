@@ -34,17 +34,17 @@ public class RacingCarDao {
         return insertActor.executeAndReturnKey(parameters).longValue();
     }
 
-    public List<RacingCarResponseDto> findCars(final Long gameId) {
-        String sql = "select * from racing_car where game_id = ?";
+    public List<RacingCarResponseDto> findAllCars() {
+        String sql = "select * from racing_car";
         return jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> {
                     RacingCarResponseDto racingCarResponseDto = new RacingCarResponseDto(
                             resultSet.getString("name"),
-                            resultSet.getInt("position"));
+                            resultSet.getInt("position"),
+                            resultSet.getLong("game_id"));
                     return racingCarResponseDto;
-                },
-                gameId);
+                });
     }
 
 }

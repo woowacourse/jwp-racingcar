@@ -8,6 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import racingcar.domain.Car;
+import racingcar.dto.response.RacingCarResponseDto;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,11 +38,14 @@ class RacingCarDaoTest {
     }
 
     @Test
-    @DisplayName("자동차들 정보를 가져온다.")
-    void find() {
+    @DisplayName("모든 자동차 정보를 가져온다.")
+    void findAllCars() {
         racingCarDao.save(gameId, new Car("다즐"));
+        racingCarDao.save(gameId, new Car("루쿠"));
 
-        assertThat(racingCarDao.findCars(gameId).get(0).getName()).isEqualTo("다즐");
+        List<RacingCarResponseDto> result = racingCarDao.findAllCars();
+        assertThat(result.get(0).getName()).isEqualTo("다즐");
+        assertThat(result.get(1).getName()).isEqualTo("루쿠");
     }
 
 }
