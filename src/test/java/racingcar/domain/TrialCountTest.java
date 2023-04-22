@@ -1,11 +1,12 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import racingcar.exception.IllegalGameArgumentException;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class TrialCountTest {
 
@@ -14,7 +15,7 @@ public class TrialCountTest {
     @Test
     void 시도_횟수는_음이_아니어야_한다() {
         assertThatThrownBy(() -> new TrialCount(NEGATIVE_COUNT))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalGameArgumentException.class);
     }
 
     @Test

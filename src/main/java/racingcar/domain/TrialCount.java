@@ -1,5 +1,7 @@
 package racingcar.domain;
 
+import racingcar.exception.IllegalGameArgumentException;
+
 public class TrialCount {
 
     private static final int MIN_TRIAL_COUNT = 0;
@@ -7,14 +9,14 @@ public class TrialCount {
 
     private final int count;
 
-    public TrialCount(int count) {
+    public TrialCount(final int count) {
         validateNotNegative(count);
         this.count = count;
     }
 
-    private void validateNotNegative(int count) {
+    private void validateNotNegative(final int count) {
         if (count < MIN_TRIAL_COUNT) {
-            throw new IllegalArgumentException("시도횟수는 음수이면 안됩니다");
+            throw new IllegalGameArgumentException("시도횟수는 음수이면 안됩니다");
         }
     }
 

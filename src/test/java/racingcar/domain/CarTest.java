@@ -1,12 +1,13 @@
 package racingcar.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import racingcar.exception.IllegalGameArgumentException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CarTest {
 
@@ -38,7 +39,7 @@ public class CarTest {
     @DisplayName("위치는 시작점보다 작은지 확인하는 테스트")
     void 위치는_시작점보다_작으면_안된다() {
         assertThatThrownBy(() -> new Car("포비", -1))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalGameArgumentException.class);
     }
 
     @Test

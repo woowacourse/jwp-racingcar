@@ -1,11 +1,15 @@
 package racingcar.controller.dto;
 
-public class PlayRequest {
+import javax.validation.constraints.NotNull;
 
+public class GamePlayRequest {
+
+    @NotNull
     private final String names;
-    private final int count;
+    @NotNull
+    private final Integer count;
 
-    public PlayRequest(String names, int count) {
+    public GamePlayRequest(final String names, final Integer count) {
         this.names = names;
         this.count = count;
     }

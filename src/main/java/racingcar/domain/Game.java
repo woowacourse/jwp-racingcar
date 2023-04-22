@@ -1,5 +1,8 @@
 package racingcar.domain;
 
+import racingcar.exception.IllegalGameArgumentException;
+import racingcar.exception.IllegalGameStateException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,7 +15,7 @@ public class Game {
     private final TrialCount initialTrialCount;
     private TrialCount trialCount;
 
-    public Game(List<Car> cars, int trialCount) {
+    public Game(final List<Car> cars, final int trialCount) {
         validateCarsLength(cars);
         validateNoDuplicateCar(cars);
         this.cars = new ArrayList<>(cars);
@@ -21,7 +24,7 @@ public class Game {
     }
 
     public void playOnceWith(MoveChance moveChance) {
-        for (Car car : cars) {
+        for (final Car car : cars) {
             car.move(moveChance);
         }
         trialCount = trialCount.decrease();
@@ -32,7 +35,7 @@ public class Game {
     }
 
     public List<Car> findWinners() {
-        Car farthestCar = findFarthestCar();
+        final Car farthestCar = findFarthestCar();
         return cars.stream()
                 .filter(car -> car.hasSamePositionWith(farthestCar))
                 .collect(Collectors.toList());
@@ -41,25 +44,25 @@ public class Game {
     private Car findFarthestCar() {
         return cars.stream()
                 .reduce(this::getFartherCar)
-                .orElseThrow(() -> new IllegalStateException("차량이 없습니다"));
+                .orElseThrow(() -> new IllegalGameStateException("차량이 없습니다"));
     }
 
-    private Car getFartherCar(Car car, Car other) {
+    private Car getFartherCar(final Car car, final Car other) {
         if (car.isFartherThan(other)) {
             return car;
         }
         return other;
     }
 
-    private void validateNoDuplicateCar(List<Car> cars) {
+    private void validateNoDuplicateCar(final List<Car> cars) {
         if (cars.size() > new HashSet<>(cars).size()) {
-            throw new IllegalArgumentException("자동차 이름은 중복되면 안됩니다");
+            throw new IllegalGameArgumentException("자동차 이름은 중복되면 안됩니다");
         }
     }
 
-    private void validateCarsLength(List<Car> cars) {
+    private void validateCarsLength(final List<Car> cars) {
         if (cars.isEmpty()) {
-            throw new IllegalArgumentException("차량이 없습니다");
+            throw new IllegalGameArgumentException("차량이 없습니다");
         }
     }
 

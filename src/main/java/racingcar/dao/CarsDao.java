@@ -1,29 +1,14 @@
 package racingcar.dao;
 
-import javax.sql.DataSource;
+import racingcar.dto.CarDto;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
-public class CarsDao {
+public interface CarsDao {
 
-    private final SimpleJdbcInsert simpleJdbcInsert;
+    int insert(final int gameId, final CarDto carInfo, final boolean isWin);
 
-    public CarsDao(DataSource dataSource) {
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("cars")
-                .usingGeneratedKeyColumns("id");
-    }
+    List<CarDto> findAllByGameId(final int gameId);
 
-    public int insert(int gameId, String name, int position) {
-        final SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("game_id", gameId)
-                .addValue("name", name)
-                .addValue("position", position);
-
-        return simpleJdbcInsert.executeAndReturnKey(parameterSource).intValue();
-    }
+    List<String> findWinnerNamesByGameId(final int gameId);
 }
