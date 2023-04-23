@@ -9,17 +9,17 @@ public class ObjectMapper {
 
     public static RowMapper<CarEntity> getCarEntityMapper() {
         return (resultSet, rowNum) -> new CarEntity.Builder()
-                        .id(resultSet.getInt("id"))
-                        .name(resultSet.getString("name"))
-                        .position(resultSet.getInt("position"))
-                        .build();
+                .id(resultSet.getInt("id"))
+                .name(resultSet.getString("name"))
+                .position(resultSet.getInt("position"))
+                .build();
     }
 
     public static RowMapper<GameEntity> getGameEntityMapper() {
         return (resultSet, rowNum) -> new GameEntity.Builder()
-                    .id(resultSet.getInt("id"))
-                    .count(resultSet.getInt("count"))
-                    .build();
+                .id(resultSet.getInt("id"))
+                .count(resultSet.getInt("count"))
+                .build();
     }
 
     public static RowMapper<Winner> getWinnersEntityMapper() {

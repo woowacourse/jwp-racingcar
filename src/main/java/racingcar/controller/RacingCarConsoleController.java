@@ -1,11 +1,7 @@
 package racingcar.controller;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.RacingGameResultDto;
-import racingcar.dao.RacingCarDao;
-import racingcar.dao.RacingGameDao;
-import racingcar.dao.WinnersDao;
 import racingcar.domain.Winner;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
@@ -19,10 +15,10 @@ public class RacingCarConsoleController {
     private final OutputView outputView;
     private final RacingCarService racingCarService;
 
-    public RacingCarConsoleController() {
-        inputView = new InputView(System.in);
-        outputView = new OutputView();
-        this.racingCarService = new RacingCarService(new RacingCarDao(new JdbcTemplate()), new RacingGameDao(new JdbcTemplate()), new WinnersDao(new JdbcTemplate()));
+    public RacingCarConsoleController(InputView inputView, OutputView outputView, RacingCarService racingCarService) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.racingCarService = racingCarService;
     }
 
     public void run() {

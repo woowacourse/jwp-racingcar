@@ -19,18 +19,18 @@ class RacingCarServiceTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private RacingCarService racingCarService;
+    private RacingCarService RacingCarService;
 
     @BeforeEach
     public void setUp() {
-        racingCarService = new RacingCarService(new RacingCarDao(jdbcTemplate), new RacingGameDao(jdbcTemplate), new WinnersDao(jdbcTemplate));
+        RacingCarService = new WebService(new RacingCarDao(jdbcTemplate), new RacingGameDao(jdbcTemplate), new WinnersDao(jdbcTemplate));
     }
 
     @Test
     @DisplayName("/plays 요청시 실행한 게임 결과 반환")
     void plays() {
         GameRequestDtoForPlays gameRequestDtoForPlays = new GameRequestDtoForPlays("메투,매투", "10");
-        RacingGameResultDto racingGameResultDto = racingCarService.plays(gameRequestDtoForPlays);
+        RacingGameResultDto racingGameResultDto = RacingCarService.plays(gameRequestDtoForPlays);
 
         assertThat(racingGameResultDto.getWinners()).isNotNull();
         assertThat(racingGameResultDto.getRacingCars()).isNotNull();
