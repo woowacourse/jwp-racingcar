@@ -52,7 +52,7 @@ public class RacingGameService {
         winnerDao.insert(racingGame.getWinnerNames(), gameId);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<RacingGameResultDto> queryHistory() {
         List<RacingGameResultDto> racingGameResultDtos = new ArrayList<>();
         for (GameEntity gameEntity : gameDao.selectAll()) {
