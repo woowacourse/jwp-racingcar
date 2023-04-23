@@ -3,7 +3,8 @@ package racingcar.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import racingcar.dao.RacingCarDao;
+import racingcar.dao.RacingCarGameDao;
+import racingcar.dao.RacingCarPlayerDao;
 import racingcar.domain.Name;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
@@ -14,10 +15,12 @@ import racingcar.dto.RacingCarResponse;
 @Service
 public class RacingGameService {
 
-    private final RacingCarDao racingCarDao;
+    private final RacingCarGameDao racingCarDao;
+    private final RacingCarPlayerDao racingCarPlayerDao;
 
-    public RacingGameService(final RacingCarDao racingCarDao) {
+    public RacingGameService(final RacingCarGameDao racingCarDao, final RacingCarPlayerDao racingCarPlayerDao) {
         this.racingCarDao = racingCarDao;
+        this.racingCarPlayerDao = racingCarPlayerDao;
     }
 
     public RacingCarResponse play(final List<String> inputNames, final int inputCount) {
@@ -26,7 +29,8 @@ public class RacingGameService {
 
         moveAllCars(racingCars, tryCount);
 
-        racingCarDao.insertGame(racingCars, tryCount);
+        final int gameId = racingCarDao.insertGame(racingCars, tryCount);
+        racingCarPlayerDao.insertGameLog(racingCars, gameId);
 
         return createRacingCarResponse(racingCars);
     }
