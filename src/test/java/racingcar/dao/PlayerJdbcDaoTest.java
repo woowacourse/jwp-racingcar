@@ -61,7 +61,7 @@ class PlayerJdbcDaoTest {
         playerJdbcDao.save(firstCarGroup, firstRacingGameId);
 
         // when
-        List<PlayerDtoMapper> firstPlayerDtoMappers = playerJdbcDao.findAllById(firstRacingGameId);
+        List<PlayerDtoMapper> firstPlayerDtoMappers = playerJdbcDao.findAllByRacingGameId(firstRacingGameId);
 
         // then
         assertThat(firstPlayerDtoMappers).hasSize(gameCount);

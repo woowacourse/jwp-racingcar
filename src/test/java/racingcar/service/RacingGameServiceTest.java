@@ -72,13 +72,13 @@ class RacingGameServiceTest {
                         new RacingGameDtoMapper(secondGameId, "디노,우가")
                 )
         );
-        given(playerDao.findAllById(firstGameId)).willReturn(
+        given(playerDao.findAllByRacingGameId(firstGameId)).willReturn(
                 List.of(
                         new PlayerDtoMapper("저문", 3, firstGameId),
                         new PlayerDtoMapper("헤나", 7, firstGameId)
                 )
         );
-        given(playerDao.findAllById(secondGameId)).willReturn(
+        given(playerDao.findAllByRacingGameId(secondGameId)).willReturn(
                 List.of(
                         new PlayerDtoMapper("저문", 6, secondGameId),
                         new PlayerDtoMapper("헤나", 4, secondGameId),

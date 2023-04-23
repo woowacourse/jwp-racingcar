@@ -89,7 +89,7 @@ public class RacingGameService {
     private List<List<CarDto>> getPlayerHistories(final List<Integer> gameHistoryIds) {
         final List<List<CarDto>> playerHistories = new ArrayList<>();
         for (final Integer gameHistoryId : gameHistoryIds) {
-            final List<PlayerDtoMapper> playerDtoMappers = playerDao.findAllById(gameHistoryId);
+            final List<PlayerDtoMapper> playerDtoMappers = playerDao.findAllByRacingGameId(gameHistoryId);
             final List<CarDto> carDtos = createCarDtos(playerDtoMappers);
             playerHistories.add(carDtos);
         }

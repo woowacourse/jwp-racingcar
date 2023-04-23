@@ -55,8 +55,10 @@ class RacingGameWebControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("winners", equalTo("헤나"))
                 .rootPath("racingCars")
-                .body("[0].name", equalTo("헤나"), "[0].position", equalTo(5))
-                .body("[1].name", equalTo("저문"), "[1].position", equalTo(3));
+                .body("[0].name", equalTo("헤나"),
+                        "[0].position", equalTo(5))
+                .body("[1].name", equalTo("저문"),
+                        "[1].position", equalTo(3));
     }
 
     @DisplayName("사용자 이름의 수가 올바르지 않을 때 400을 반환한다.")

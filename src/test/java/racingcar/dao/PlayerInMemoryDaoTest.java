@@ -44,7 +44,7 @@ class PlayerInMemoryDaoTest {
         playerInMemoryDao.save(carGroup, racingGameId);
 
         // when
-        List<PlayerDtoMapper> foundPlayers = playerInMemoryDao.findAllById(racingGameId);
+        List<PlayerDtoMapper> foundPlayers = playerInMemoryDao.findAllByRacingGameId(racingGameId);
 
         // then
         assertThat(foundPlayers).hasSize(2);

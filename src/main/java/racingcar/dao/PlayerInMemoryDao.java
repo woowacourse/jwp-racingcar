@@ -24,7 +24,7 @@ public class PlayerInMemoryDao implements PlayerDao {
     }
 
     @Override
-    public List<PlayerDtoMapper> findAllById(int id) {
+    public List<PlayerDtoMapper> findAllByRacingGameId(int id) {
         return players.stream()
                 .filter(player -> player.getRacingGameId() == id)
                 .collect(Collectors.toList());

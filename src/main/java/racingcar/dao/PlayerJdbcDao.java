@@ -49,7 +49,7 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
-    public List<PlayerDtoMapper> findAllById(final int id) {
+    public List<PlayerDtoMapper> findAllByRacingGameId(final int id) {
         final String sql = "SELECT * FROM PLAYER where racing_game_id = ?";
         return jdbcTemplate.query(sql, playerRowMapper, id);
     }
