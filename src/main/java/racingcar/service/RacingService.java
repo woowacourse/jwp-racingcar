@@ -3,12 +3,13 @@ package racingcar.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.RacingGame;
 import racingcar.persistence.RacingDao;
 import racingcar.persistence.entity.GameResultEntity;
 
 @Service
-public final class RacingService {
+public class RacingService {
 
     private final RacingDao racingDao;
 
@@ -17,6 +18,7 @@ public final class RacingService {
         this.racingDao = racingDao;
     }
 
+    @Transactional
     public RacingGame playRacingGame(final String carNamesText, final int tryCount) {
         RacingGame racingGame = RacingGame.of(
                 List.of(carNamesText.split(",")),
