@@ -3,6 +3,7 @@ package racingcar.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.dao.entity.CarEntity;
@@ -13,6 +14,7 @@ import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
 
 @Service
+@Transactional
 public class RacingGameAddService {
     private final CarDao carDao;
     private final RacingGameDao racingGameDao;
