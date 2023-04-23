@@ -25,7 +25,7 @@ public class RacingGame {
     }
 
     public Winners findWinner() {
-        return new Winners(cars.findWinner());
+        return new Winners(gameId, cars.findWinner());
     }
 
     public Count getCount() {

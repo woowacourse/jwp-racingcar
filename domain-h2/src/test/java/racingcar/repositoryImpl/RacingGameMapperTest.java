@@ -13,6 +13,7 @@ import racingcar.dao.entity.GameId;
 import racingcar.dao.entity.WinnerEntity;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
+import racingcar.domain.Winners;
 
 @SuppressWarnings({"NonAsciiCharacters", "SpellCheckingInspection"})
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -48,12 +49,15 @@ class RacingGameMapperTest {
 
     @Test
     void toWinnerEntity로_승리자를_엔티티로_바꾼다() {
-        final List<WinnerEntity> result = RacingGameMapper.toWinnerEntity(racingGame);
+        final List<WinnerEntity> result = RacingGameMapper.toWinnerEntity(
+                new Winners(new racingcar.domain.GameId(3), cars));
 
         assertAll(
-                () -> assertThat(result).hasSize(1),
+                () -> assertThat(result).hasSize(2),
                 () -> assertThat(result.get(0).getGameId().getValue()).isEqualTo(3),
-                () -> assertThat(result.get(0).getCarId().getValue()).isEqualTo(2)
+                () -> assertThat(result.get(0).getCarId().getValue()).isEqualTo(1),
+                () -> assertThat(result.get(1).getGameId().getValue()).isEqualTo(3),
+                () -> assertThat(result.get(1).getCarId().getValue()).isEqualTo(2)
         );
     }
 

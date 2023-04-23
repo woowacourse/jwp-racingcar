@@ -1,7 +1,5 @@
 package racingcar.dao.entity;
 
-import racingcar.domain.Car;
-
 public class WinnerEntity {
 
     private final WinnerId winnerId;
@@ -20,10 +18,6 @@ public class WinnerEntity {
         this.winnerId = winnerId;
         this.gameId = gameId;
         this.carId = carId;
-    }
-
-    public static WinnerEntity fromDomain(final Car car, final Integer gameId) {
-        return new WinnerEntity(gameId, car.getCarId().getValue());
     }
 
     public GameId getGameId() {

@@ -9,6 +9,7 @@ import racingcar.dao.entity.GameId;
 import racingcar.dao.entity.WinnerEntity;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
+import racingcar.domain.Winners;
 
 public class RacingGameMapper {
 
@@ -25,11 +26,10 @@ public class RacingGameMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<WinnerEntity> toWinnerEntity(final RacingGame racingGame) {
-        return racingGame.findWinner()
-                .getCars()
+    public static List<WinnerEntity> toWinnerEntity(final Winners winners) {
+        return winners.getCars()
                 .stream()
-                .map(car -> WinnerEntity.fromDomain(car, racingGame.getGameId().getValue()))
+                .map(car -> new WinnerEntity(winners.getGameId().getValue(), car.getCarId().getValue()))
                 .collect(Collectors.toList());
     }
 

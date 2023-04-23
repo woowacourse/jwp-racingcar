@@ -22,7 +22,7 @@ class RaceAddServiceTest {
     @BeforeEach
     void setUp() {
         raceAddService = new RaceAddService(new StubNumberPicker(10),
-                new StubRacingGameRepository());
+                new StubRacingGameRepository(), new DummyWinnerRepository());
     }
 
     @Test
