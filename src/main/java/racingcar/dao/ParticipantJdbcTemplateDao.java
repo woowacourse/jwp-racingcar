@@ -45,16 +45,6 @@ public class ParticipantJdbcTemplateDao implements ParticipantDao {
         return jdbcTemplate.query(sql, participantEntityRowMapper);
     }
 
-    public void save(final ParticipantEntity participantEntity) {
-        final String sql = "INSERT INTO PARTICIPANT(game_id, player_id, position, is_winner) VALUES(?, ?, ?, ?) ";
-        jdbcTemplate.update(sql,
-                participantEntity.getGameId(),
-                participantEntity.getPlayerId(),
-                participantEntity.getPosition(),
-                participantEntity.getWinner()
-        );
-    }
-
     @Override
     public void saveAll(final List<ParticipantEntity> participantEntities) {
         final String sql = "INSERT INTO PARTICIPANT(game_id, player_id, position, is_winner) VALUES(?, ?, ?, ?) ";

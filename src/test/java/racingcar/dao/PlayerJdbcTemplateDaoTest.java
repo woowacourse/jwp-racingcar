@@ -63,34 +63,4 @@ class PlayerJdbcTemplateDaoTest {
         //then
         assertThat(playerDto).isEmpty();
     }
-
-    @DisplayName("id를 입력받아 조회한다.")
-    @Test
-    void findById() {
-        //given
-        String name = "포비";
-        String preSql = "INSERT INTO PLAYER(name) VALUES(?) ";
-        KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(preSql, new String[]{"id"});
-            preparedStatement.setString(1, name);
-            return preparedStatement;
-        }, generatedKeyHolder);
-        Long id = (Long) generatedKeyHolder.getKey();
-        //when
-        PlayerEntity playerEntity = playerJdbcTemplateDao.findById(id).orElseThrow();
-        //then
-        assertThat(playerEntity.getId()).isEqualTo(id);
-        assertThat(playerEntity.getName()).isEqualTo(name);
-    }
-
-
-    @DisplayName("id을 입력받아 조회한 결과가 없을 때, empty를 반환한다.")
-    @Test
-    void findByIdWhenEmpty() {
-        //when
-        Optional<PlayerEntity> playerDto = playerJdbcTemplateDao.findById(1_000_000L);
-        //then
-        assertThat(playerDto).isEmpty();
-    }
 }

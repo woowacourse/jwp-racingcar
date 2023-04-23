@@ -51,16 +51,6 @@ public class PlayerJdbcTemplateDao implements PlayerDao {
         }
     }
 
-    public Optional<PlayerEntity> findById(final Long id) {
-        final String sql = "SELECT * FROM PLAYER WHERE id = ? ";
-        try {
-            PlayerEntity playerEntity = jdbcTemplate.queryForObject(sql, actorRowMapper, id);
-            return Optional.ofNullable(playerEntity);
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
-
     public List<PlayerEntity> findAll() {
         final String sql = "SELECT * FROM PLAYER ";
         try {

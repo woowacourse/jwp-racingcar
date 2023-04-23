@@ -18,11 +18,6 @@ public class PlayerConsoleDao implements PlayerDao {
     }
 
     @Override
-    public Optional<PlayerEntity> findById(final Long id) {
-        return Optional.empty();
-    }
-
-    @Override
     public List<PlayerEntity> findAll() {
         return Collections.emptyList();
     }

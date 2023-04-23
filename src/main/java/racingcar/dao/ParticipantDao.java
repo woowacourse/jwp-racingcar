@@ -9,7 +9,5 @@ public interface ParticipantDao {
 
     List<ParticipantEntity> findAll();
 
-    void save(final ParticipantEntity participantEntity);
-
     void saveAll (final List<ParticipantEntity> participantEntities);
 }

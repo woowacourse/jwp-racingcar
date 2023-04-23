@@ -10,7 +10,5 @@ public interface PlayerDao {
 
     Optional<PlayerEntity> findByName(final String name);
 
-    Optional<PlayerEntity> findById(final Long id);
-
     List<PlayerEntity> findAll();
 }
