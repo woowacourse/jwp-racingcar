@@ -1,11 +1,9 @@
 package racingcar.domain;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.dto.RacingRequest;
-import racingcar.exception.NoCarsExistException;
 
 public class RacingGame {
 
@@ -53,7 +51,7 @@ public class RacingGame {
     }
 
     private void order() {
-        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
+        this.cars.sort(Comparator.comparing(Car::getPosition).reversed());
     }
 
     public List<Car> getCars() {
@@ -71,6 +69,6 @@ public class RacingGame {
     private Car getFurthestCar() {
         return this.cars.stream()
                 .max(Car::comparePosition)
-                .orElseThrow(NoCarsExistException::new);
+                .orElseThrow(() -> new IllegalStateException("자동차가 존재하지 않습니다."));
     }
 }

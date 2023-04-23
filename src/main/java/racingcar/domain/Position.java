@@ -1,7 +1,5 @@
 package racingcar.domain;
 
-import racingcar.exception.PositionInvalidException;
-
 public class Position {
 
     private int position;
@@ -17,7 +15,7 @@ public class Position {
 
     private void validatePositionIsNotNegative(int position) {
         if (position < 0) {
-            throw new PositionInvalidException();
+            throw new IllegalStateException("위치는 음수일 수 없습니다.");
         }
     }
 
