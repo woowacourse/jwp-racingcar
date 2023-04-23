@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.dao.entity.CarEntity;
-import racingcar.dao.entity.RacingGameEntity;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
@@ -28,8 +27,9 @@ public class RacingGameAddService {
         RacingGame racingGame = new RacingGame(racingGameRequest.getCount(), cars);
         racingGame.run();
 
-        save(racingGameRequest, racingGame);
-        return RacingGameResponse.of(racingGame);
+        Long racingGameId = racingGameDao.save(new racingcar.dao.entity.RacingGameEntity(racingGameRequest.getCount()));
+        carDao.saveAll(toCarEntities(racingGame, racingGameId));
+        return RacingGameResponse.of(racingGame, racingGameId);
     }
 
     private Cars toCars(RacingGameRequest racingGameRequest) {
@@ -37,11 +37,6 @@ public class RacingGameAddService {
                 .map(Car::new)
                 .collect(Collectors.toList());
         return new Cars(cars);
-    }
-
-    private void save(RacingGameRequest racingGameRequest, RacingGame racingGame) {
-        Long racingGameId = racingGameDao.save(new RacingGameEntity(racingGameRequest.getCount()));
-        carDao.saveAll(toCarEntities(racingGame, racingGameId));
     }
 
     private List<CarEntity> toCarEntities(RacingGame game, Long racingGameId) {

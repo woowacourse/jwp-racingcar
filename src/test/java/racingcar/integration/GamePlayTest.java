@@ -48,7 +48,7 @@ class GamePlayTest {
                 .when().post("/plays")
 
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.CREATED.value())
                 .body("winners", notNullValue())
                 .body("racingCars", hasSize(3));
     }

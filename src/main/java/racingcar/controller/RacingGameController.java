@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class RacingGameController {
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponse> play(@RequestBody RacingGameRequest racingGameRequest) {
         RacingGameResponse response = racingGameAddService.play(racingGameRequest);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.created(URI.create("/plays/" + response.getGameId())).body(response);
     }
 
     @GetMapping("/plays")

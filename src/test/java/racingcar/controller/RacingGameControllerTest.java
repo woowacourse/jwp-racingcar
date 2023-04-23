@@ -44,7 +44,7 @@ public class RacingGameControllerTest {
     public void plays() throws Exception {
         RacingGameRequest request = new RacingGameRequest(List.of("현구막", "박스터"), 10);
         RacingGameResponse expectedResponse = new RacingGameResponse(
-                List.of("현구막"),
+                1L, List.of("현구막"),
                 List.of(new CarDto("현구막", 10), new CarDto("박스터", 7))
         );
         String requestString = objectMapper.writeValueAsString(request);
@@ -54,7 +54,7 @@ public class RacingGameControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestString))
 
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.winners[0]", is("현구막")))
                 .andExpect(jsonPath("$.racingCars", hasSize(2)));
     }
@@ -63,11 +63,11 @@ public class RacingGameControllerTest {
     @DisplayName("자동차 경주 경기 이력을 반환한다.")
     public void findHistory() throws Exception {
         RacingGameResponse firstGameResponse = new RacingGameResponse(
-                List.of("현구막"),
+                1L, List.of("현구막"),
                 List.of(new CarDto("현구막", 10), new CarDto("박스터", 7))
         );
         RacingGameResponse secondGameResponse = new RacingGameResponse(
-                List.of("박스터"),
+                2L, List.of("박스터"),
                 List.of(new CarDto("현구막", 6), new CarDto("박스터", 8))
         );
         List<RacingGameResponse> history = List.of(firstGameResponse, secondGameResponse);
