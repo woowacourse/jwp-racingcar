@@ -16,7 +16,6 @@ import racingcar.controller.dto.TrackRequest;
 
 import static org.hamcrest.Matchers.is;
 
-@Sql("/truncate.sql")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RacingWebControllerApiTest {
