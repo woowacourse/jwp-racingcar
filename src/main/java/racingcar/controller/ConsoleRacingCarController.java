@@ -1,12 +1,17 @@
 package racingcar.controller;
 
 import racingcar.domain.strategy.move.RandomBasedMoveStrategy;
+import racingcar.dto.GameInputDto;
+import racingcar.dto.GameOutputDto;
 import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ConsoleRacingCarController {
     private final RacingCarService racingCarService;
@@ -21,12 +26,20 @@ public class ConsoleRacingCarController {
     
     public void run() {
         repeatJustRunnableAtException(this::playGame);
-        outputView.printGameResult(racingCarService.findAllGameResult());
+        outputView.printGameResult(parseGameResponseDtos(racingCarService.findAllGameResult()));
+    }
+    
+    private List<GameResponseDto> parseGameResponseDtos(final List<GameOutputDto> gameOutputDtos) {
+        return gameOutputDtos.stream()
+                .map(gameOutputDto -> new GameResponseDto(gameOutputDto.getWinners(), gameOutputDto.getRacingCars()))
+                .collect(Collectors.toUnmodifiableList());
     }
     
     private void playGame() {
         final GameRequestDto gameRequestDto = getGameInputDto();
-        racingCarService.playGame(gameRequestDto, new RandomBasedMoveStrategy());
+        final String names = gameRequestDto.getNames();
+        final String count = gameRequestDto.getCount();
+        racingCarService.playGame(new GameInputDto(names, count), new RandomBasedMoveStrategy());
     }
     
     private GameRequestDto getGameInputDto() {

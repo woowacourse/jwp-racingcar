@@ -30,9 +30,9 @@ public class RacingCarService {
     }
     
     @Transactional
-    public GameResponseDto playGame(final GameRequestDto gameRequestDto, final MoveStrategy moveStrategy) {
-        final String names = gameRequestDto.getNames();
-        final int count = Integer.parseInt(gameRequestDto.getCount());
+    public GameOutputDto playGame(final GameInputDto gameInputDto, final MoveStrategy moveStrategy) {
+        final String names = gameInputDto.getNames();
+        final int count = Integer.parseInt(gameInputDto.getCount());
         final RacingGame racingGame = new RacingGame(names, count);
         
         racingGame.race(moveStrategy);
@@ -42,7 +42,7 @@ public class RacingCarService {
         saveCarDao(cars, gameId);
         saveWinnerDao(cars, gameId);
         
-        return new GameResponseDto(cars.getWinners(), cars.getCars());
+        return new GameOutputDto(cars.getWinners(), cars.getCars());
     }
     
     private void saveCarDao(final Cars cars, final long gameId) {
@@ -60,18 +60,18 @@ public class RacingCarService {
     }
     
     @Transactional(readOnly = true)
-    public List<GameResponseDto> findAllGameResult() {
+    public List<GameOutputDto> findAllGameResult() {
         return findGameResults(gameDao.findAllId());
     }
     
-    private List<GameResponseDto> findGameResults(final List<Long> gameIds) {
-        final List<GameResponseDto> gameResults = new LinkedList<>();
+    private List<GameOutputDto> findGameResults(final List<Long> gameIds) {
+        final List<GameOutputDto> gameResults = new LinkedList<>();
         for (long gameId : gameIds) {
             final List<WinnerDto> winnerDtos = winnerDao.findWinnerDtosByGameId(gameId);
             final List<Car> winnerCars = getWinnerCars(winnerDtos);
             final List<Car> cars = getCars(gameId);
             
-            gameResults.add(new GameResponseDto(winnerCars, cars));
+            gameResults.add(new GameOutputDto(winnerCars, cars));
         }
         
         return gameResults;

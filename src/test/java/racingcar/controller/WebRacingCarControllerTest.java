@@ -11,8 +11,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import racingcar.domain.car.Cars;
 import racingcar.domain.racinggame.RacingGame;
+import racingcar.dto.GameOutputDto;
 import racingcar.dto.GameRequestDto;
-import racingcar.dto.GameResponseDto;
 import racingcar.service.RacingCarService;
 
 import java.util.List;
@@ -39,9 +39,9 @@ class WebRacingCarControllerTest {
         GameRequestDto gameRequestDto = new GameRequestDto("아벨,스플릿,포비", "12");
         final RacingGame racingGame = new RacingGame("아벨,스플릿,포비", 0);
         final Cars cars = racingGame.getCars();
-        GameResponseDto gameResponseDto = new GameResponseDto(cars.getWinners(), cars.getCars());
+        GameOutputDto gameOutputDto = new GameOutputDto(cars.getWinners(), cars.getCars());
         
-        given(racingCarService.playGame(any(), any())).willReturn(gameResponseDto);
+        given(racingCarService.playGame(any(), any())).willReturn(gameOutputDto);
         
         RestAssuredMockMvc.given().log().all()
                 .contentType(ContentType.JSON)
@@ -58,14 +58,14 @@ class WebRacingCarControllerTest {
     void 진행했던_모든_게임의_결과를_반환한다() {
         final RacingGame firstRacingGame = new RacingGame("아벨,스플릿", 20);
         final Cars firstCars = firstRacingGame.getCars();
-        GameResponseDto firstResult = new GameResponseDto(firstCars.getWinners(), firstCars.getCars());
+        GameOutputDto firstResult = new GameOutputDto(firstCars.getWinners(), firstCars.getCars());
         
         final RacingGame secondRacingGame = new RacingGame("아벨,스플릿,포비", 20);
         final Cars secondCars = secondRacingGame.getCars();
-        GameResponseDto secondResult = new GameResponseDto(secondCars.getWinners(), secondCars.getCars());
-        List<GameResponseDto> gameResponseDtos = List.of(firstResult, secondResult);
+        GameOutputDto secondResult = new GameOutputDto(secondCars.getWinners(), secondCars.getCars());
+        List<GameOutputDto> gameOutputDtos = List.of(firstResult, secondResult);
         
-        given(racingCarService.findAllGameResult()).willReturn(gameResponseDtos);
+        given(racingCarService.findAllGameResult()).willReturn(gameOutputDtos);
         
         RestAssuredMockMvc.given().log().all()
                 .when().get("/plays")

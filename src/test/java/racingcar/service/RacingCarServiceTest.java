@@ -3,12 +3,11 @@ package racingcar.service;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import racingcar.dao.car.MemoryCarDao;
 import racingcar.dao.game.MemoryGameDao;
 import racingcar.dao.winner.MemoryWinnerDao;
-import racingcar.dto.GameRequestDto;
-import racingcar.dto.GameResponseDto;
+import racingcar.dto.GameInputDto;
+import racingcar.dto.GameOutputDto;
 
 import java.util.List;
 
@@ -27,14 +26,14 @@ class RacingCarServiceTest {
         final RacingCarService racingCarService = new RacingCarService(gameDao, carDao, winnerDao);
         
         // when
-        racingCarService.playGame(new GameRequestDto("아벨,스플릿,포비", "20"), () -> true);
-        final List<GameResponseDto> gameResponseDtos = racingCarService.findAllGameResult();
+        racingCarService.playGame(new GameInputDto("아벨,스플릿,포비", "20"), () -> true);
+        final List<GameOutputDto> gameOutputDtos = racingCarService.findAllGameResult();
         
         // then
         assertAll(
-                () -> assertThat(gameResponseDtos).hasSize(1),
-                () -> assertThat(gameResponseDtos.get(0).getRacingCars()).hasSize(3),
-                () -> assertThat(gameResponseDtos.get(0).getWinners()).isEqualTo("아벨, 스플릿, 포비")
+                () -> assertThat(gameOutputDtos).hasSize(1),
+                () -> assertThat(gameOutputDtos.get(0).getRacingCars()).hasSize(3),
+                () -> assertThat(gameOutputDtos.get(0).getWinners()).isEqualTo("아벨, 스플릿, 포비")
         );
         
         gameDao.deleteAll();
