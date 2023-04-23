@@ -3,6 +3,7 @@ package racingcar.controller;
 import racingcar.controller.dto.TrackRequest;
 import racingcar.exception.CustomException;
 import racingcar.mapper.TrackRequestMapper;
+import racingcar.model.TrialTimes;
 import racingcar.model.car.Cars;
 import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.track.Track;
@@ -41,9 +42,10 @@ public class RacingConsoleController {
 
     private Track makeTrack(final TrackRequest trackRequest) {
         final String carNames = trackRequest.getNames();
-        final String trialTimes = trackRequest.getCount();
+        final String count = trackRequest.getCount();
 
         final Cars cars = Cars.of(carNames);
+        final TrialTimes trialTimes = TrialTimes.from(count);
         final Track track = Track.of(cars, trialTimes, movingStrategy);
 
         return track;

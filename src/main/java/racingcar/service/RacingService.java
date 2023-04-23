@@ -10,6 +10,7 @@ import racingcar.dao.dto.TrackDto;
 import racingcar.mapper.CarDtoMapper;
 import racingcar.mapper.TrackDtoMapper;
 import racingcar.mapper.TrackResponseMapper;
+import racingcar.model.TrialTimes;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.car.strategy.MovingStrategy;
@@ -32,9 +33,10 @@ public class RacingService {
     @Transactional
     public TrackResponse play(final TrackRequest trackRequest) {
         final String names = trackRequest.getNames();
-        final String trialTimes = trackRequest.getCount();
+        final String count = trackRequest.getCount();
 
         final Cars cars = Cars.of(names);
+        final TrialTimes trialTimes = TrialTimes.from(count);
         final Track track = Track.of(cars, trialTimes, movingStrategy);
 
         final Integer trackId = saveTrack(track);
@@ -53,7 +55,7 @@ public class RacingService {
     }
 
     private Integer saveTrack(final Track track) {
-        final int trialTimes = track.getTrialTimes();
+        final TrialTimes trialTimes = track.getTrialTimes();
         final TrackDto trackDto = TrackDtoMapper.from(trialTimes);
 
         return racingDao.save(trackDto);
