@@ -14,11 +14,11 @@ import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
 
 @Service
-public class RacingGameService {
+public class RacingGameAddService {
     private final CarDao carDao;
     private final RacingGameDao racingGameDao;
 
-    public RacingGameService(CarDao carDao, RacingGameDao racingGameDao) {
+    public RacingGameAddService(CarDao carDao, RacingGameDao racingGameDao) {
         this.carDao = carDao;
         this.racingGameDao = racingGameDao;
     }
@@ -48,16 +48,6 @@ public class RacingGameService {
         List<Car> winners = game.findWinners();
         return game.getCars().stream()
                 .map(car -> new CarEntity(car.getName(), car.getPosition(), winners.contains(car), racingGameId))
-                .collect(Collectors.toList());
-    }
-
-    public List<RacingGameResponse> findHistory() {
-        List<RacingGameEntity> racingGameEntities = racingGameDao.findAllByCreatedTimeAsc();
-
-        return racingGameEntities.stream()
-                .map(RacingGameEntity::getId)
-                .map(carDao::findByRacingGameId)
-                .map(RacingGameResponse::of)
                 .collect(Collectors.toList());
     }
 }

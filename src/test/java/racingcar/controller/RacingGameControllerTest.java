@@ -21,7 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
-import racingcar.service.RacingGameService;
+import racingcar.service.RacingGameAddService;
+import racingcar.service.RacingGameFindService;
 
 @WebMvcTest(RacingGameController.class)
 public class RacingGameControllerTest {
@@ -33,7 +34,10 @@ public class RacingGameControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private RacingGameService racingGameService;
+    private RacingGameAddService racingGameService;
+
+    @MockBean
+    private RacingGameFindService racingGameFindService;
 
     @Test
     @DisplayName("자동차 경주를 실행하고 결과를 반환한다.")
@@ -68,7 +72,7 @@ public class RacingGameControllerTest {
         );
         List<RacingGameResponse> history = List.of(firstGameResponse, secondGameResponse);
 
-        when(racingGameService.findHistory()).thenReturn(history);
+        when(racingGameFindService.findHistory()).thenReturn(history);
 
         mockMvc.perform(get("/plays"))
 

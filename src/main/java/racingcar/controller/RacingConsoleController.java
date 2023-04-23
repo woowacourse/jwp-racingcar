@@ -3,16 +3,16 @@ package racingcar.controller;
 import java.util.List;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
-import racingcar.service.RacingGameService;
+import racingcar.service.RacingGameAddService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingConsoleController {
 
-    private final RacingGameService racingGameService;
+    private final RacingGameAddService racingGameAddService;
 
-    public RacingConsoleController(RacingGameService racingGameService) {
-        this.racingGameService = racingGameService;
+    public RacingConsoleController(RacingGameAddService racingGameAddService) {
+        this.racingGameAddService = racingGameAddService;
     }
 
     public void run() {
@@ -20,7 +20,7 @@ public class RacingConsoleController {
         int count = InputView.inputTryCount();
         RacingGameRequest racingGameRequest = new RacingGameRequest(names, count);
 
-        RacingGameResponse racingGameResponse = racingGameService.play(racingGameRequest);
+        RacingGameResponse racingGameResponse = racingGameAddService.play(racingGameRequest);
 
         OutputView.printRacing(racingGameResponse.getRacingCars());
         OutputView.printWinners(racingGameResponse.getWinners());
