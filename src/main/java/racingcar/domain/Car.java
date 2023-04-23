@@ -1,5 +1,7 @@
 package racingcar.domain;
 
+import java.util.Objects;
+
 public class Car {
     private static final int MINIMUM_NUMBER_TO_MOVE = 4;
 
@@ -11,17 +13,8 @@ public class Car {
         this.currentPosition = new Position();
     }
 
-    public CarName getCarName() {
-        return carName;
-    }
-
-    public Position getCurrentPosition() {
-        return currentPosition;
-    }
-
-    public void move(final NumberGenerator numberGenerator) {
-        int number = numberGenerator.generate();
-        if (isMovable(number)) {
+    public void move(final int moveNumber) {
+        if (isMovable(moveNumber)) {
             currentPosition.move();
         }
     }
@@ -32,5 +25,26 @@ public class Car {
 
     private boolean isMovable(final int number) {
         return number >= MINIMUM_NUMBER_TO_MOVE;
+    }
+
+    public CarName getCarName() {
+        return carName;
+    }
+
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(carName.getName(), car.carName.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(carName.getName());
     }
 }

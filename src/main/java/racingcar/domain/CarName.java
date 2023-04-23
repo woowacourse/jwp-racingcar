@@ -1,10 +1,8 @@
 package racingcar.domain;
 
-import racingcar.constant.ErrorConstant;
-
 public class CarName {
-    private static final int MAXIMUM_NAME_LENGTH = 5;
     private static final int MINIMUM_NAME_LENGTH = 1;
+    private static final int MAXIMUM_NAME_LENGTH = 10;
 
     private final String name;
 
@@ -20,7 +18,8 @@ public class CarName {
     private void validateName(final String input) {
         String name = removeBlank(input);
         if (name.length() > MAXIMUM_NAME_LENGTH || name.length() < MINIMUM_NAME_LENGTH) {
-            throw new IllegalArgumentException(ErrorConstant.ERROR_PREFIX + "이름의 길이는 1이상 5이하여야 합니다.");
+            String errorMessage = String.format("이름의 길이는 %d이상 %d이하여야 합니다.", MINIMUM_NAME_LENGTH, MAXIMUM_NAME_LENGTH);
+            throw new IllegalArgumentException(errorMessage);
         }
     }
 

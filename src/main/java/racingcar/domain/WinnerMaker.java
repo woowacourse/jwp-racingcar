@@ -1,7 +1,5 @@
 package racingcar.domain;
 
-import racingcar.constant.ErrorConstant;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +17,6 @@ public class WinnerMaker {
         return cars.stream()
                 .map(Car::getCurrentPosition)
                 .max(Position::compareTo)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorConstant.ERROR_PREFIX + "비교할 자동차가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("비교할 자동차가 없습니다."));
     }
 }

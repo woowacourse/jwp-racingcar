@@ -10,12 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import racingcar.controller.ApiController;
+import racingcar.controller.RacingGameWebController;
 import racingcar.dto.request.GameRequestDto;
-import racingcar.service.GameService;
+import racingcar.service.GameFindService;
+import racingcar.service.GamePlayService;
 
-@WebMvcTest(ApiController.class)
-public class ApiControllerTest {
+@WebMvcTest(RacingGameWebController.class)
+public class RacingGameWebControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -24,7 +25,9 @@ public class ApiControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private GameService gameService;
+    GameFindService gameFindService;
+    @MockBean
+    GamePlayService gamePlayService;
 
     @Test
     @DisplayName("게임 실행 테스트")

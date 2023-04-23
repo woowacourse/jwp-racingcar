@@ -13,11 +13,11 @@ public class CarNameTest {
     @DisplayName("자동차 이름에 대한 예외 테스트")
     class CarNameLengthTest {
         @Test
-        @DisplayName("자동차 이름의 길이가 5자를 초과하면 예외가 발생한다.")
+        @DisplayName("자동차 이름의 길이가 10자를 초과하면 예외가 발생한다.")
         void overLengthCarNameTest() {
             assertThatThrownBy(() -> new CarName("hello world"))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("이름의 길이는 1이상 5이하여야 합니다.");
+                    .hasMessageContaining("이름의 길이는 1이상 10이하여야 합니다.");
         }
 
         @ParameterizedTest
@@ -26,7 +26,7 @@ public class CarNameTest {
         void underLengthCarNameTest(String name) {
             assertThatThrownBy(() -> new CarName(name))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("이름의 길이는 1이상 5이하여야 합니다.");
+                    .hasMessageContaining("이름의 길이는 1이상 10이하여야 합니다.");
         }
     }
 }
