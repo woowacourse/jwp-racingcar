@@ -60,7 +60,7 @@ class GameSystemTest {
     }
 
     private int getMaxPosition(final GameSystem gameSystem) {
-        List<GameResultOfCar> finalGameResult = gameSystem.getFinalGameResult();
+        List<GameResultOfCar> finalGameResult = gameSystem.getFinalGameResults();
         return finalGameResult.stream()
                 .map(GameResultOfCar::getPosition)
                 .max(Integer::compareTo)

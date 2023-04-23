@@ -41,14 +41,14 @@ public class GameSystem {
     }
 
     public List<GameResultOfCar> getWinnersGameResult() {
-        List<GameResultOfCar> gameResultOfFinalRound = getFinalGameResult();
+        List<GameResultOfCar> gameResultOfFinalRound = getFinalGameResults();
 
         int position = findTopPosition(gameResultOfFinalRound);
 
         return findGameResultOfTopPositionedCars(gameResultOfFinalRound, position);
     }
 
-    public List<GameResultOfCar> getFinalGameResult() {
+    public List<GameResultOfCar> getFinalGameResults() {
         final List<GameResultOfCar> records = gameRecorder.getRecords();
         return records.stream()
                 .filter(gameResultOfCar -> gameResultOfCar.isSameGameRound(finalRound))
