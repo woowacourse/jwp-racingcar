@@ -10,12 +10,12 @@ public class ControllerAdvice {
 
     @ExceptionHandler
     public ResponseEntity<String> handleValidationExceptions(Exception e) {
-        return ResponseEntity.internalServerError().body(e.getMessage());
+        return ResponseEntity.internalServerError().body("예상치 못한 오류가 발생했습니다");
     }
 
     @ExceptionHandler
     public ResponseEntity<String> handleValidationExceptions(RuntimeException e) {
-        return ResponseEntity.internalServerError().body(e.getMessage());
+        return ResponseEntity.internalServerError().body("예상치 못한 오류가 발생했습니다");
     }
 
     @ExceptionHandler
@@ -24,7 +24,7 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> processValidationError(MethodArgumentNotValidException e) {
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException e) {
         return ResponseEntity.badRequest().body(e.getBindingResult().getFieldError().getDefaultMessage());
     }
 }
