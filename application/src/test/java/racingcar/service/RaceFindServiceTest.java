@@ -32,7 +32,7 @@ class RaceFindServiceTest {
 
         assertAll(
                 () -> assertThat(allRace).hasSize(1),
-                () -> assertThat(allRace.get(0).findWinner()).hasSize(3)
+                () -> assertThat(allRace.get(0).findWinner().getCars()).hasSize(3)
         );
     }
 }

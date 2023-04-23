@@ -27,6 +27,7 @@ public class RacingGameMapper {
 
     public static List<WinnerEntity> toWinnerEntity(final RacingGame racingGame) {
         return racingGame.findWinner()
+                .getCars()
                 .stream()
                 .map(car -> WinnerEntity.fromDomain(car, racingGame.getGameId().getValue()))
                 .collect(Collectors.toList());

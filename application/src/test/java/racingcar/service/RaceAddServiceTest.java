@@ -28,7 +28,7 @@ class RaceAddServiceTest {
     @Test
     void 레이스_진행() {
         final RacingGame racingGame = raceAddService.addRace(carsName, count);
-        final List<Car> winners = racingGame.findWinner();
+        final List<Car> winners = racingGame.findWinner().getCars();
         assertAll(
                 () -> assertThat(winners).hasSize(3),
                 () -> assertThat(winners.get(0).getCarName()).isEqualTo("브리"),

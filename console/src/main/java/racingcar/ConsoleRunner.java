@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 import racingcar.service.RaceAddService;
+import racingcar.service.RaceFindService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -16,16 +17,19 @@ import racingcar.view.OutputView;
 public class ConsoleRunner {
 
     private final RaceAddService raceAddService;
+    private final RaceFindService raceFindService;
 
-    public ConsoleRunner(final RaceAddService raceAddService) {
+    public ConsoleRunner(final RaceAddService raceAddService, final RaceFindService raceFindService) {
         this.raceAddService = raceAddService;
+        this.raceFindService = raceFindService;
     }
 
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
             final RacingGame racingGame = raceAddService.addRace(InputView.inputCarName(), InputView.inputTryCount());
-            final List<String> winnerNames = racingGame.findWinner()
+            final List<String> winnerNames = raceFindService.findWinners(racingGame)
+                    .getCars()
                     .stream()
                     .map(Car::getCarName)
                     .collect(Collectors.toList());
