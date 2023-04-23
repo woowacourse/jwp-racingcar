@@ -3,7 +3,10 @@ package racingcar.controller;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import racingcar.dao.GameDao;
+import racingcar.dao.PlayerDao;
+import racingcar.domain.TestNumberGenerator;
+import racingcar.dto.CarDto;
 import racingcar.dto.GamePlayRequestDto;
 import racingcar.dto.GamePlayResponseDto;
 import racingcar.service.CarService;
@@ -26,7 +34,21 @@ class WebCarControllerTest {
 	private TestRestTemplate restTemplate;
 
 	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	private CarService carService;
+
+	@BeforeEach
+	void setUp() {
+		carService = new CarService(new PlayerDao(jdbcTemplate), new GameDao(jdbcTemplate),
+			new TestNumberGenerator(List.of(6, 2)));
+	}
+
+	@AfterEach
+	void tearDown() {
+		jdbcTemplate.update("DELETE FROM PLAYER;");
+		jdbcTemplate.update("DELETE FROM GAME;");
+	}
 
 	@Test
 	void playsTest() {
@@ -40,9 +62,15 @@ class WebCarControllerTest {
 
 		// then
 		final List<GamePlayResponseDto> gamePlayHistoryAll = carService.findGamePlayHistoryAll();
-		final String name = gamePlayHistoryAll.get(0).getRacingCars().get(0).getName();
+		int size = gamePlayHistoryAll.get(0).getRacingCars().size();
+		List<String> racingCars = gamePlayHistoryAll.get(0)
+			.getRacingCars()
+			.stream()
+			.map(CarDto::getName)
+			.collect(Collectors.toList());
 
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-		assertThat(name).isEqualTo("준팍");
+		assertThat(size).isEqualTo(2);
+		assertThat(racingCars).isEqualTo(List.of("준팍", "무민"));
 	}
 }
