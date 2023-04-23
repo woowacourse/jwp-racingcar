@@ -4,7 +4,7 @@ import racingcar.dao.entity.CarEntity;
 
 import java.util.List;
 
-public interface CarDao {
+public interface CarRepository {
 
     List<Integer>  saveAll(List<CarEntity> carEntities);
 

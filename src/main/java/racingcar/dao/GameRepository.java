@@ -4,7 +4,7 @@ import racingcar.dao.entity.GameEntity;
 
 import java.util.List;
 
-public interface GameDao {
+public interface GameRepository {
 
     int save(GameEntity gameEntity);
 

@@ -1,6 +1,6 @@
 package racingcar.dao.console;
 
-import racingcar.dao.WinnerDao;
+import racingcar.dao.WinnerRepository;
 import racingcar.dao.entity.WinnerEntity;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ConsoleWinnerDao implements WinnerDao {
+public class ConsoleWinnerRepository implements WinnerRepository {
 
     private static final Integer START_ID = 1;
     Map<Integer,WinnerEntity> winners = new HashMap<>();

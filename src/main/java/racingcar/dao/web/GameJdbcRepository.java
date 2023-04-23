@@ -5,16 +5,16 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dao.GameDao;
+import racingcar.dao.GameRepository;
 import racingcar.dao.entity.GameEntity;
 
 import java.util.List;
 
 @Repository
-public class GameJdbcDao implements GameDao {
+public class GameJdbcRepository implements GameRepository {
     private final SimpleJdbcInsert insertActor;
     private final JdbcTemplate jdbcTemplate;
-    public GameJdbcDao(final JdbcTemplate jdbcTemplate) {
+    public GameJdbcRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("game")

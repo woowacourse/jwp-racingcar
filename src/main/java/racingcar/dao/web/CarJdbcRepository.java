@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.dao.CarDao;
+import racingcar.dao.CarRepository;
 import racingcar.dao.entity.CarEntity;
 
 import java.util.Arrays;
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class CarJdbcDao implements CarDao {
+public class CarJdbcRepository implements CarRepository {
     private final SimpleJdbcInsert insertActor;
     private final JdbcTemplate jdbcTemplate;
 
-    public CarJdbcDao(final JdbcTemplate jdbcTemplate) {
+    public CarJdbcRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("car")

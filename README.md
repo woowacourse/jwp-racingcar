@@ -46,7 +46,7 @@
   
 
 # 2단계 1차 수정 목록
-- [] dao repository로 이름 변경
+- [x] dao repository로 이름 변경
 - [] consoleDao에 AtomicInteger atomicInteger 사용하기
 - [] 테스트 코드 작성
   - [] jdbcDao테스트
@@ -55,9 +55,9 @@
   - [] 컨트롤러 테스트
   - [] 통합 테스트
 - [] jdbcTemplate 객체 사용하기
-  - [] carDao 변경
-  - [] gameDao 변경
-  - [] winnerDao 변경
+  - [] carRepository 변경
+  - [] gameRepository 변경
+  - [] winnerRepository 변경
 
 
 시도해보기2

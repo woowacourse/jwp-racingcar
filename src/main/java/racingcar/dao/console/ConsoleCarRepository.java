@@ -1,13 +1,13 @@
 package racingcar.dao.console;
 
-import racingcar.dao.CarDao;
+import racingcar.dao.CarRepository;
 import racingcar.dao.entity.CarEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConsoleCarDao implements CarDao {
+public class ConsoleCarRepository implements CarRepository {
 
     private static final Integer START_ID = 1;
     List<CarEntity> cars = new ArrayList<>();
