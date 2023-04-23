@@ -100,44 +100,63 @@ public class RacingCarService {
                 .getName();
     }
 
-    public GameResultReponse playGame(final GameStartRequest namesAndCount) {
+    // TODO: 4/23/23 [문제1] INSERT로 여러번 DB 접근하는 문제
+    // TODO: 4/23/23 [문제1 관련] 도메인에서 조회한 결과를 각각에 디비에 저장할 후, Car <-> PlayerEntity가 매칭이 안됨. 
+    public GameResultReponse playGame(final GameStartRequest gameStartRequest) {
         final NumberGenerator numberGenerator = new RandomNumberGenerator();
-        final Cars cars = Cars.from(List.of(namesAndCount.getNames().split(SEPARATOR)));
-        final GameRound gameRound = new GameRound(namesAndCount.getCount());
+        final Cars cars = Cars.from(List.of(gameStartRequest.getNames().split(SEPARATOR)));
+        final GameRound gameRound = new GameRound(gameStartRequest.getCount());
         final GameManager gameManager = new GameManager(numberGenerator, cars, gameRound);
         gameManager.run();
-
         List<Car> allCars = gameManager.getAllCars();
         List<Car> winnerCars = gameManager.getWinnerCars();
-        saveGameAndPlayerAndParticipates(namesAndCount.getCount(), allCars, winnerCars);
+
+        Long gameId = gameDao.save(gameStartRequest.getCount()); // TODO: 4/23/23  [문제1 관련] 게임 저장 1번 접근
+        List<Long> playerIds = savePlayers(allCars); // TODO: 4/23/23  [문제1 관련] 플레이어 저장 혹은 조회 2 x N번 접근
+        participantDao.saveAll(convertParticipantEntities(gameId, playerIds, allCars, winnerCars)); // TODO: 4/23/23 [문제1 관련] 결과 저장 1번 접근
+        // TODO: 4/23/23 [문제1 관련] 개선한 점 : 1 + (2 x N) + N 번 접근 -> 1 + (2 x N) + 1 번 접근
+
         return GameResultReponse.from(allCars, winnerCars);
     }
 
-    private void saveGameAndPlayerAndParticipates(final int trialCount, final List<Car> allCars, final List<Car> winnerCars) {
-        Long gameId = gameDao.save(trialCount);
+    private List<ParticipantEntity> convertParticipantEntities(
+            final Long gameId,
+            final List<Long> playerIds,
+            final List<Car> allCars,
+            final List<Car> winnerCars) {
+        List<ParticipantEntity> participantEntities = new ArrayList<>();
+        // TODO: 4/23/23 [문제 1 관련] playerIds와 allCars가 순서가 동일하다고 가정 해야 됨 (여기가 제일 문제 같음)
+        for (int index = 0; index < playerIds.size(); index++) {
+            Long playerId = playerIds.get(index);
+            Car car = allCars.get(index);
+            participantEntities.add(new ParticipantEntity(gameId, playerId, car.getPosition(), isWinner(winnerCars, car)));
+        }
+        return participantEntities;
+    }
+
+    // TODO: 4/23/23 [문제1 관련]여기선 플레이어 갯수의 두배(조회 + 저장, 있는지 확인해야 함)만큼  발생
+    private List<Long> savePlayers(final List<Car> allCars) {
+        List<Long> playerIds = new ArrayList<>();
         for (Car car : allCars) {
             String carName = car.getName();
-            int carPosition = car.getPosition();
             Long playerId = findOrSavePlayer(carName);
-            ParticipantEntity participantEntity = new ParticipantEntity(gameId, playerId, carPosition, isWinner(winnerCars, car));
-            participantDao.save(participantEntity);
+            playerIds.add(playerId);
         }
+        return playerIds;
     }
 
     private Long findOrSavePlayer(final String carName) {
-        Optional<PlayerEntity> playerDtoOptional = playerDao.findByName(carName);
-        if (playerDtoOptional.isEmpty()) {
+        Optional<PlayerEntity> player = playerDao.findByName(carName);
+        if (player.isEmpty()) {
             return playerDao.save(carName);
         }
-        return playerDtoOptional.orElseThrow().getId();
+        return player.orElseThrow().getId();
     }
 
     private boolean isWinner(final List<Car> winnerCars, final Car car) {
-        for (Car winnerCar : winnerCars) {
-            if (winnerCar.getName().equals(car.getName())) {
-                return true;
-            }
-        }
-        return false;
+        String name = car.getName();
+        return winnerCars.stream()
+                .map(Car::getName)
+                .anyMatch(winnerName -> winnerName.equals(name));
     }
 }
