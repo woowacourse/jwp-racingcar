@@ -1,11 +1,8 @@
 package racingcar.model;
 
 public class RacingCarRequest {
-    private String names;
-    private int count;
-
-    RacingCarRequest() {
-    }
+    private final String names;
+    private final int count;
 
     public RacingCarRequest(final String names, final int count) {
         this.names = names;
