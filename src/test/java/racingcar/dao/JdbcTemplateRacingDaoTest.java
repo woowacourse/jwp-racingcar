@@ -13,6 +13,8 @@ import racingcar.domain.Car;
 import racingcar.domain.Coin;
 import racingcar.domain.DeterminedNumberGenerator;
 import racingcar.domain.RacingGame;
+import racingcar.persistence.JdbcTemplateRacingDao;
+import racingcar.persistence.entity.GameResultEntity;
 
 @JdbcTest
 class JdbcTemplateRacingDaoTest {
@@ -69,10 +71,10 @@ class JdbcTemplateRacingDaoTest {
                 new Coin(3)
         );
         racingGame.play();
-        int gameResultKey = jdbcTemplateRacingDao.saveGameResult(racingGame, 3);
+        GameResultEntity gameResultEntity = jdbcTemplateRacingDao.saveGameResult(racingGame, 3);
 
         // 저장한 GAME_RESULT 을 참조하는 PLAYER_RESULT 를 저장한다
-        jdbcTemplateRacingDao.savePlayerResults(racingGame, gameResultKey);
+        jdbcTemplateRacingDao.savePlayerResults(racingGame, gameResultEntity.getId());
 
         int positionOfBri = jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '브리'",
                 Integer.class);
