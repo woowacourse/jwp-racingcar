@@ -2,42 +2,41 @@ package racingcar.model;
 
 public class Car {
 
-    private String name;
+    private static final int MIN_MOVING_NUM = 4;
+    private final String name;
     private int position;
 
-    private static final int MIN_MOVING_NUM = 4;
-
-    public Car(String name, int startPosition) {
+    public Car(final String name, final int startPosition) {
         this.name = name;
         this.position = startPosition;
     }
 
-    public boolean canMoving(int randomValue) {
+    public boolean canMoving(final int randomValue) {
         return randomValue >= MIN_MOVING_NUM;
     }
 
-    public void move(boolean isMoving) {
+    public void move(final boolean isMoving) {
         if (isMoving) {
             this.position++;
         }
     }
 
-    public Car getLargerCar(Car compareCar) {
+    public Car getLargerCar(final Car compareCar) {
         if (this.position > compareCar.getPosition()) {
             return this;
         }
         return compareCar;
     }
 
-    public boolean isSamePositionCar(Car maxPositionCar) {
+    public int getPosition() {
+        return position;
+    }
+
+    public boolean isSamePositionCar(final Car maxPositionCar) {
         return this.position == maxPositionCar.getPosition();
     }
 
     public String getName() {
         return name;
-    }
-
-    public int getPosition() {
-        return position;
     }
 }
