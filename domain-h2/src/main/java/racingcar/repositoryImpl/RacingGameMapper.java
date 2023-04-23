@@ -22,7 +22,7 @@ public class RacingGameMapper {
 
     public static List<CarEntity> toCarEntities(final List<Car> cars, final GameId gameId) {
         return cars.stream()
-                .map(car -> CarEntity.fromDomain(car, gameId))
+                .map(car -> CarEntity.of(car, gameId))
                 .collect(Collectors.toList());
     }
 
