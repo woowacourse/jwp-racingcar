@@ -19,11 +19,11 @@ class RacingCarDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private RacingCarDao racingCarDao;
+    private RacingCarGameJdbcDao racingCarDao;
 
     @BeforeEach
     void setUp() {
-        racingCarDao = new RacingCarDao(jdbcTemplate);
+        racingCarDao = new RacingCarGameJdbcDao(jdbcTemplate);
     }
 
     @DisplayName("게임 플레이 인원수 만큼 LOG 테이블에 정보가 레코드된다.")
