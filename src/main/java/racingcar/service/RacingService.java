@@ -3,8 +3,9 @@ package racingcar.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.dao.RacingDao;
 import racingcar.domain.RacingGame;
+import racingcar.persistence.RacingDao;
+import racingcar.persistence.entity.GameResultEntity;
 
 @Service
 public final class RacingService {
@@ -26,7 +27,7 @@ public final class RacingService {
     }
 
     private void save(final RacingGame racingGame, final int trialCount) {
-        int gameResultId = this.racingDao.saveGameResult(racingGame, trialCount);
-        this.racingDao.savePlayerResults(racingGame, gameResultId);
+        GameResultEntity gameResultEntity = this.racingDao.saveGameResult(racingGame, trialCount);
+        this.racingDao.savePlayerResults(racingGame, gameResultEntity.getId());
     }
 }
