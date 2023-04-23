@@ -1,10 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.model.Car;
-import racingcar.model.CarRandomNumberGenerator;
-import racingcar.model.RacingCarResult;
-import racingcar.model.RacingCars;
+import racingcar.model.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,8 +9,16 @@ import java.util.stream.Collectors;
 @Service
 public class RacingCarService {
     private static final int START_POSITION = 0;
-    
-    private final CarRandomNumberGenerator carRandomNumberGenerator = new CarRandomNumberGenerator();
+
+    private final CarNumberGenerator carNumberGenerator;
+
+    public RacingCarService() {
+        this.carNumberGenerator = new CarRandomNumberGenerator();
+    }
+
+    public RacingCarService(final CarNumberGenerator carNumberGenerator) {
+        this.carNumberGenerator = carNumberGenerator;
+    }
 
     public RacingCarResult playRacingCar(final List<String> names, final int trialCount) {
         final RacingCars racingCars = generateRacingCars(names);
@@ -32,7 +37,7 @@ public class RacingCarService {
 
     private void race(final RacingCars racingCars, final int trialCount) {
         for (int i = 0; i < trialCount; i++) {
-            racingCars.tryOneTime(carRandomNumberGenerator);
+            racingCars.tryOneTime(carNumberGenerator);
         }
     }
 
