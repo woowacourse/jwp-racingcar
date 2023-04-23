@@ -4,11 +4,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 import racingcar.dto.CarResponse;
-import racingcar.dto.PlayRecordsResponse;
 
 import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class PlayResultDao {
@@ -33,20 +31,17 @@ public class PlayResultDao {
         return (int) keyHolder.getKey();
     }
 
-    public List<PlayRecordsResponse> findAllPlayRecords() {
+    public List<String> findAllPlayRecords() {
         String sql = "select winners from play_result";
-        List<String> winnersBundle = this.jdbcTemplate.query(sql,
+        return this.jdbcTemplate.query(sql,
                 (resultSet, rowNum) -> resultSet.getString("winners"));
-        return winnersBundle.stream()
-                .map(this::findPlayRecordsByWinner)
-                .collect(Collectors.toList());
     }
 
-    private PlayRecordsResponse findPlayRecordsByWinner(String winners) {
+    public List<CarResponse> findPlayRecordsByWinner(String winners, int gameId) {
         String sql = "select play_result.winners, players_info.name, players_info.position from play_result "
-                + "join players_info on play_result.id = players_info.play_result_id where play_result.winners = ?";
-        List<CarResponse> carResponses = this.jdbcTemplate.query(sql,
-                (resultSet, rowNum) -> new CarResponse(resultSet.getString("name"), resultSet.getInt("position")), winners);
-        return new PlayRecordsResponse(winners, carResponses);
+                + "join players_info on play_result.id = players_info.play_result_id"
+                + " where play_result.winners = ? and play_result.id = ?";
+        return this.jdbcTemplate.query(sql,
+                (resultSet, rowNum) -> new CarResponse(resultSet.getString("name"), resultSet.getInt("position")), winners, gameId);
     }
 }

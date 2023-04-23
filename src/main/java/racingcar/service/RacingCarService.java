@@ -11,6 +11,7 @@ import racingcar.dto.*;
 import racingcar.genertor.NumberGenerator;
 import racingcar.genertor.RandomNumberGenerator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,6 +60,14 @@ public class RacingCarService {
     }
 
     public List<PlayRecordsResponse> showPlayRecords() {
-        return playResultDao.findAllPlayRecords();
+        List<String> allWinners = playResultDao.findAllPlayRecords();
+        List<PlayRecordsResponse> playRecordsResponses = new ArrayList<>();
+        for (int i = 0; i < allWinners.size(); i++) {
+            String winners = allWinners.get(i);
+            int gameId = i + 1;
+            PlayRecordsResponse playRecordsResponse = new PlayRecordsResponse(winners, playResultDao.findPlayRecordsByWinner(winners, gameId));
+            playRecordsResponses.add(playRecordsResponse);
+        }
+        return playRecordsResponses;
     }
 }
