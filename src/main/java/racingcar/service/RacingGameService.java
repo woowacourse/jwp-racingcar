@@ -32,7 +32,7 @@ public class RacingGameService {
     }
 
     @Transactional
-    public Long saveUserInput(UserInputDto inputDto) {
+    public Long addGameResultAndCars(UserInputDto inputDto) {
         RacingGame racingGame = getRacingGame(inputDto);
         TryCount tryCount = new TryCount(inputDto.getCount());
 
@@ -63,7 +63,8 @@ public class RacingGameService {
                 .forEach(carDao::insert);
     }
 
-    public ResultDto getResult(Long gameResultId) {
+    @Transactional(readOnly = true)
+    public ResultDto findResults(Long gameResultId) {
         List<CarDto> finalResult = carDao.findByGameResultId(gameResultId)
                 .stream()
                 .map(carEntity -> new CarDto(carEntity.getPlayerName(), carEntity.getFinalPosition()))
@@ -76,7 +77,8 @@ public class RacingGameService {
         return racingGame.start(new DefaultMovingStrategy());
     }
 
-    public List<ResultDto> getHistory() {
+    @Transactional(readOnly = true)
+    public List<ResultDto> findHistories() {
         List<ResultDto> maps = new ArrayList<>();
         List<Map<Long, GameResultEntity>> gameResults = gameResultDao.findAll();
         for (Map<Long, GameResultEntity> gameResult : gameResults) {

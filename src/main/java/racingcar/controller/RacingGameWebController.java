@@ -24,14 +24,14 @@ public class RacingGameWebController {
     @PostMapping("/plays")
     @ResponseBody
     public ResponseEntity<ResultDto> racingGame(@RequestBody UserInputDto inputDto) {
-        final Long gameResultId = racingGameService.saveUserInput(inputDto);
-        final ResultDto resultDto = racingGameService.getResult(gameResultId);
+        final Long gameResultId = racingGameService.addGameResultAndCars(inputDto);
+        final ResultDto resultDto = racingGameService.findResults(gameResultId);
         return ResponseEntity.ok(resultDto);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<ResultDto>> historyInquiry() {
-        final List<ResultDto> histories = racingGameService.getHistory();
+        final List<ResultDto> histories = racingGameService.findHistories();
         return ResponseEntity.ok(histories);
     }
 }

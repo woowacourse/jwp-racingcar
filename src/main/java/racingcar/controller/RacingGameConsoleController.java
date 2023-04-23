@@ -20,8 +20,8 @@ public class RacingGameConsoleController {
     public void run() {
         String carNames = inputView.readCarNames();
         int tryCount = inputView.readTryCount();
-        Long resultId = racingGameService.saveUserInput(new UserInputDto(carNames, tryCount));
-        ResultDto resultDto = racingGameService.getResult(resultId);
+        Long resultId = racingGameService.addGameResultAndCars(new UserInputDto(carNames, tryCount));
+        ResultDto resultDto = racingGameService.findResults(resultId);
         outputView.printWinners(resultDto);
     }
 }
