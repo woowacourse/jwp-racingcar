@@ -1,5 +1,10 @@
 package racingcar.entity;
 
+import racingcar.model.car.Car;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CarEntity {
 
     private final Long id;
@@ -12,6 +17,16 @@ public class CarEntity {
         this.gameId = gameId;
         this.name = name;
         this.position = position;
+    }
+
+    public static CarEntity from(Car car){
+        return new CarEntity(null, null, car.getName(), car.getPosition());
+    }
+
+    public static List<CarEntity> from(List<Car> cars) {
+        return cars.stream()
+                .map(CarEntity::from)
+                .collect(Collectors.toList());
     }
 
     public long getId() {

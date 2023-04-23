@@ -5,11 +5,11 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
 import racingcar.dao.WinnerDao;
+import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameResultDto;
 import racingcar.dto.RacingGameSetUpDto;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
-import racingcar.mapper.CarMapper;
 import racingcar.mapper.RacingGameMapper;
 import racingcar.model.MoveCount;
 import racingcar.model.RacingGame;
@@ -48,7 +48,7 @@ public class RacingGameService {
 
     private void save(RacingGame racingGame) {
         long gameId = gameDao.insert(racingGame.getMoveCount());
-        carDao.insert(CarMapper.mapCarsToCarEntities(racingGame.getCars()), gameId);
+        carDao.insert(CarEntity.from(racingGame.getCars()), gameId);
         winnerDao.insert(racingGame.getWinnerNames(), gameId);
     }
 
@@ -58,7 +58,7 @@ public class RacingGameService {
         for (GameEntity gameEntity : gameDao.selectAll()) {
             List<CarEntity> carEntities = carDao.selectByGameId(gameEntity.getId());
             List<String> winners = winnerDao.selectByGameId(gameEntity.getId());
-            racingGameResultDtos.add(new RacingGameResultDto(winners, CarMapper.mapCarEntitiesToCarDtos(carEntities), gameEntity.getMoveCount()));
+            racingGameResultDtos.add(new RacingGameResultDto(winners, CarDto.fromEntity(carEntities), gameEntity.getMoveCount()));
         }
         return racingGameResultDtos;
     }
