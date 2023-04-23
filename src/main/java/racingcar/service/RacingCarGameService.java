@@ -96,35 +96,4 @@ public class RacingCarGameService {
                 .map(playerEntity -> new GameWinnerEntity(gameId, playerEntity.getId()))
                 .forEach(gameWinnerDao::save);
     }
-
-    public List<GameResultResponse> searchGameHistory() {
-        return gameDao.findAll().stream()
-                .map(GameEntity::getId)
-                .map(gameId -> new GameResultResponse(getWinners(gameId), getCars(gameId)))
-                .collect(Collectors.toList());
-    }
-
-    private List<Car> getCars(final long gameId) {
-        final Map<String, Integer> positionByName = playerPositionDao.findByGameId(gameId).stream()
-                .collect(Collectors.toMap(this::getPlayerName, PlayerPositionEntity::getPosition));
-
-        final List<Car> cars = new ArrayList<>();
-        positionByName.forEach((name, position) -> cars.add(Car.of(name, position)));
-
-        return cars;
-    }
-
-    private String getPlayerName(final PlayerPositionEntity playerPositionEntity) {
-        final long playerId = playerPositionEntity.getUserId();
-        final PlayerEntity playerEntity = playerDao.findById(playerId);
-        return playerEntity.getName();
-    }
-
-    private List<String> getWinners(final long gameId) {
-        return gameWinnerDao.findByGameId(gameId).stream()
-                .map(GameWinnerEntity::getUserId)
-                .map(playerDao::findById)
-                .map(PlayerEntity::getName)
-                .collect(Collectors.toList());
-    }
 }

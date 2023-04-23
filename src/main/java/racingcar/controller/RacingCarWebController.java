@@ -9,14 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GameInitializationRequest;
 import racingcar.dto.GameResultResponse;
 import racingcar.service.RacingCarGameService;
+import racingcar.service.SearchingGameHistoryService;
 
 @RestController
 public class RacingCarWebController {
 
     private final RacingCarGameService racingCarGameService;
+    private final SearchingGameHistoryService searchingGameHistoryService;
 
-    public RacingCarWebController(final RacingCarGameService racingCarGameService) {
+    public RacingCarWebController(final RacingCarGameService racingCarGameService,
+                                  final SearchingGameHistoryService searchingGameHistoryService) {
         this.racingCarGameService = racingCarGameService;
+        this.searchingGameHistoryService = searchingGameHistoryService;
     }
 
     @PostMapping("/plays")
@@ -28,7 +32,7 @@ public class RacingCarWebController {
 
     @GetMapping("/plays")
     public ResponseEntity<List<GameResultResponse>> searchGameHistory() {
-        final List<GameResultResponse> gameResultResponses = racingCarGameService.searchGameHistory();
+        final List<GameResultResponse> gameResultResponses = searchingGameHistoryService.searchGameHistory();
         return ResponseEntity.ok().body(gameResultResponses);
     }
 }
