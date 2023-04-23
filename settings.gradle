@@ -12,3 +12,5 @@ include 'web'
 include 'console'
 include 'domain-h2'
 include 'domain'
+include 'application'
+

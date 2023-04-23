@@ -1,16 +1,8 @@
-group 'racingcar'
-
-repositories {
-    mavenCentral()
-}
 dependencies {
     testImplementation 'io.rest-assured:rest-assured:4.4.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    implementation project(":application")
     implementation project(":domain")
     implementation project(":domain-h2")
-}
-
-tasks.named("test") {
-    useJUnitPlatform()
 }
