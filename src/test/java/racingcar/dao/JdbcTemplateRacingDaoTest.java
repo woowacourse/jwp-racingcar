@@ -25,7 +25,7 @@ class JdbcTemplateRacingDaoTest {
     }
 
     @Test
-    @DisplayName("게임 결과가 데이터베이스에 저장될 수 있다")
+    @DisplayName("게임 결과를 저장한다.")
     void shouldSaveGameResultWhenRequest() {
 
         RacingResultDto racingResultDto = new RacingResultDto(
@@ -41,7 +41,7 @@ class JdbcTemplateRacingDaoTest {
     }
 
     @Test
-    @DisplayName("플레이어 별 정보가 데이터베이스에 저장될 수 있다")
+    @DisplayName("플레이어 별 정보를 저장한다.")
     void shouldSaveEachPlayerResultWhenRequest() {
         // GAME_RESULT 를 저장한다
         List<CarDto> winnersCarDtos = List.of(
