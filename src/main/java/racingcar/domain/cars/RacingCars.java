@@ -13,6 +13,9 @@ public class RacingCars {
     }
 
     private void validate(List<RacingCar> racingCars) {
+        if (racingCars.isEmpty()) {
+            throw new IllegalArgumentException("자동차는 한 대 이상이어야 합니다.");
+        }
         if (hasSameName(racingCars)) {
             throw new IllegalArgumentException("자동차의 이름은 중복일 수 없습니다.");
         }
@@ -27,12 +30,12 @@ public class RacingCars {
     }
 
     public void moveCars(NumberGenerator numberGenerator) {
-        for(RacingCar racingCar: racingCars) {
+        for (RacingCar racingCar : racingCars) {
             racingCar.moveDependingOn(numberGenerator.generateNumber());
         }
     }
 
-    public boolean isWinner(RacingCar car){
+    public boolean isWinner(RacingCar car) {
         if (!racingCars.contains(car)) {
             throw new IllegalArgumentException("포함되어있지 않은 차입니다.");
         }
@@ -40,7 +43,8 @@ public class RacingCars {
     }
 
     private int calculateMaxPosition() {
-        return racingCars.stream().mapToInt(RacingCar::getPosition).max().orElse(0);
+        return racingCars.stream().mapToInt(RacingCar::getPosition).max()
+                .orElseThrow(() -> new IllegalStateException("자동차 리스트가 비어있습니다."));
     }
 
     public List<RacingCar> getCars() {

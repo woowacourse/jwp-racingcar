@@ -45,4 +45,11 @@ class RacingCarsTest {
 
         assertThat(isWinner).isFalse();
     }
+
+    @DisplayName("빈 리스트가 들어오는 경우")
+    @Test
+    void testCreateWithEmptyList() {
+        assertThatThrownBy(() -> new RacingCars(List.of()))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
