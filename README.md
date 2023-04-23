@@ -38,7 +38,7 @@ Dto
 - [x] CacheDao, InMemoryDao 클래스명 변경
 - [x] Exception.class를 잡는 ExceptionHandler에서 어떤 예외가 발생하는지 알 수 있도록 수정
   - 고객에게 오류에 대한 메시지가 전달되어도 될지에 대해 고민
-- [ ] cars.moveResut를 실행하는 Game 객체 생성
+- [x] cars.moveResut를 실행하는 Game 객체 생성
 
 ## 궁금한 내용
 - [x] CAR_RESULT와 PLAY_RESULT를 조인해서 조회하는 책임은 어떤 Dao 클래스가 가지는 것이 좋을까?

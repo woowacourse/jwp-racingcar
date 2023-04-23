@@ -10,6 +10,7 @@ import racingcar.dao.car.CarDao;
 import racingcar.dao.game.GameDao;
 import racingcar.dao.dto.GameFinishedCarDto;
 import racingcar.model.Cars;
+import racingcar.model.RacingCarGame;
 import racingcar.model.TryCount;
 import racingcar.util.NumberGenerator;
 
@@ -28,9 +29,9 @@ public class GameService {
     }
 
     public void executeRacingGame(Cars cars, TryCount tryCount) {
-        for (int count = 0; count < tryCount.getValue(); count++) {
-            cars.moveResult(numberGenerator);
-        }
+        final RacingCarGame racingCarGame = new RacingCarGame(cars, tryCount, numberGenerator);
+        racingCarGame.execute();
+
         int gameId = gameDao.save(tryCount.getValue());
         carDao.saveAll(gameId, cars.getCars(), cars.getWinners());
     }
