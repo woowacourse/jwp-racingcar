@@ -2,7 +2,7 @@ package racingcar.dao.entity;
 
 public class JoinEntity {
 
-	private long gameId;
+	private Long gameId;
 	private String winners;
 	private String name;
 	private int position;

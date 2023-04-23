@@ -3,7 +3,7 @@ package racingcar.dao.entity;
 public class PlayerEntity {
 
 	private Long id;
-	private long gameId;
+	private Long gameId;
 	private String name;
 	private int position;
 
