@@ -22,7 +22,7 @@ public class InsertGameDao {
         final LocalDateTime createAt = LocalDateTime.now();
         parameters.put("game_id", gameEntity.getGameId().getValue());
         parameters.put("trial_count", gameEntity.getTrialCount());
-        parameters.put("created_at", createAt);
+        parameters.put("created_at", gameEntity.getCreatedAt());
 
         return new GameEntity(insertActor.executeAndReturnKey(parameters).intValue(), gameEntity.getTrialCount());
     }
