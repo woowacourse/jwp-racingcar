@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
@@ -24,6 +25,7 @@ public class RacingCarService {
         this.numberGenerator = numberGenerator;
     }
 
+    @Transactional
     public RacingGameResponse play(final RacingGameRequest racingGameRequest) {
         final RacingGame racingGame = racingGameRequest.toEntity();
         racingGame.play(numberGenerator);
@@ -42,6 +44,7 @@ public class RacingCarService {
         return new RacingGameEntity(carEntities, racingGame.getTotalRound());
     }
 
+    @Transactional(readOnly = true)
     public List<RacingGameResponse> findGameResults() {
         final List<RacingGameEntity> racingGameEntities = racingCarRepository.findAll();
 

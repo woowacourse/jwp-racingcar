@@ -12,6 +12,7 @@ import racingcar.domain.RacingGame;
 
 public class RacingGameRequest {
 
+    private static final String NAME_DELIMITER = ",";
     @NotBlank(message = "이름을 입력해주세요.")
     private final String names;
 
@@ -24,7 +25,7 @@ public class RacingGameRequest {
     }
 
     public RacingGame toEntity() {
-        final Cars cars = Arrays.stream(names.split(","))
+        final Cars cars = Arrays.stream(names.split(NAME_DELIMITER))
                 .map(Car::new)
                 .collect(collectingAndThen(toList(), Cars::new));
 
