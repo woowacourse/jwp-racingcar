@@ -1,5 +1,6 @@
 package racingcar.dao.console;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import racingcar.dao.CarRepository;
 import racingcar.dao.entity.CarEntity;
 
@@ -9,19 +10,18 @@ import java.util.stream.Collectors;
 
 public class ConsoleCarRepository implements CarRepository {
 
-    private static final Integer START_ID = 1;
     List<CarEntity> cars = new ArrayList<>();
-    private int serialNumber = START_ID;
+    private AtomicInteger serialNumber = new AtomicInteger(1);
 
     @Override
     public List<Integer> saveAll(final List<CarEntity> carEntities) {
         List<Integer> carIds = new ArrayList<>();
         for(CarEntity carEntity : carEntities) {
-            int carId = serialNumber;
+            int carId = serialNumber.get();
             CarEntity car = new CarEntity(carId, carEntity.getName(), carEntity.getPosition(), carEntity.getGameId());
             cars.add(car);
             carIds.add(carId);
-            serialNumber++;
+            serialNumber.incrementAndGet();
         }
         return carIds;
     }

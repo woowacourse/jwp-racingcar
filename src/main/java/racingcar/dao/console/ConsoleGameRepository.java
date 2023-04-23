@@ -1,5 +1,6 @@
 package racingcar.dao.console;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import racingcar.dao.GameRepository;
 import racingcar.dao.entity.GameEntity;
 
@@ -9,16 +10,15 @@ import java.util.stream.Collectors;
 
 public class ConsoleGameRepository implements GameRepository {
 
-    private static final Integer START_ID = 1;
     private List<GameEntity> games = new ArrayList<>();
-    private int serialNumber = START_ID;
+    private AtomicInteger serialNumber = new AtomicInteger(1);
 
     @Override
     public int save(final GameEntity gameEntity) {
-        int gameId = serialNumber;
+        int gameId = serialNumber.get();
         GameEntity game = new GameEntity(gameId, gameEntity.getTryCount(), gameEntity.getCreatedAt());
         games.add(game);
-        serialNumber ++;
+        serialNumber.incrementAndGet();
         return gameId;
     }
 

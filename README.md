@@ -47,7 +47,7 @@
 
 # 2단계 1차 수정 목록
 - [x] dao repository로 이름 변경
-- [] consoleDao에 AtomicInteger atomicInteger 사용하기
+- [x] consoleRepository에 AtomicInteger 사용하기
 - [] 테스트 코드 작성
   - [] jdbcDao테스트
   - [] consoleDao 테스트
