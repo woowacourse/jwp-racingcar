@@ -2,19 +2,19 @@ package racingcar.repository.entity;
 
 public class PlayerEntity {
 
-    private final long id;
+    private final Long id;
     private final String name;
 
-    public PlayerEntity(final long id, final String name) {
+    public PlayerEntity(final Long id, final String name) {
         this.id = id;
         this.name = name;
     }
 
     public PlayerEntity(final String name) {
-        this(0, name);
+        this(0L, name);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
