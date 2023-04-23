@@ -1,5 +1,8 @@
 package racingcar.dto;
 
+import racingcar.model.RacingGame;
+import racingcar.model.car.Car;
+
 import java.util.List;
 
 public class RacingGameResultDto {
@@ -12,6 +15,13 @@ public class RacingGameResultDto {
         this.winners = winners;
         this.cars = cars;
         this.moveCount = moveCount;
+    }
+
+    public static RacingGameResultDto from(RacingGame racingGame) {
+        List<String> winners = racingGame.getWinnerNames();
+        List<Car> cars = racingGame.getCars();
+        int moveCount = racingGame.getMoveCount();
+        return new RacingGameResultDto(winners, CarDto.fromDomain(cars), moveCount);
     }
 
     public List<String> getWinnerNames() {

@@ -9,7 +9,6 @@ import racingcar.dto.RacingGameResultDto;
 import racingcar.dto.RacingGameSetUpDto;
 import racingcar.dto.view.PlayRequest;
 import racingcar.dto.view.PlaySuccessResponse;
-import racingcar.mapper.RacingGameMapper;
 import racingcar.services.RacingGameService;
 import racingcar.util.ValueEditor;
 
@@ -28,15 +27,13 @@ public class WebController {
     public ResponseEntity<PlaySuccessResponse> play(@RequestBody PlayRequest playRequest) {
         List<String> names = ValueEditor.splitByComma(playRequest.getNames());
         RacingGameResultDto racingGameDto = racingGameService.play(new RacingGameSetUpDto(names, playRequest.getCount()));
-        PlaySuccessResponse playSuccessResponseDto = RacingGameMapper.toResponse(racingGameDto);
-        return ResponseEntity.ok().body(playSuccessResponseDto);
+        return ResponseEntity.ok().body(PlaySuccessResponse.from(racingGameDto));
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<PlaySuccessResponse>> queryHistory() {
         List<RacingGameResultDto> racingGameDtos = racingGameService.queryHistory();
-        List<PlaySuccessResponse> playSuccessResponseDtos = RacingGameMapper.toResponse(racingGameDtos);
-        return ResponseEntity.ok().body(playSuccessResponseDtos);
+        return ResponseEntity.ok().body(PlaySuccessResponse.from(racingGameDtos));
     }
 
 }

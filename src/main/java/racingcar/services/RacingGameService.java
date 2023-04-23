@@ -10,7 +10,6 @@ import racingcar.dto.RacingGameResultDto;
 import racingcar.dto.RacingGameSetUpDto;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
-import racingcar.mapper.RacingGameMapper;
 import racingcar.model.MoveCount;
 import racingcar.model.RacingGame;
 import racingcar.model.car.Cars;
@@ -37,7 +36,7 @@ public class RacingGameService {
         RacingGame racingGame = createRacingGame(racingGameSetUpDto);
         racingGame.play();
         save(racingGame);
-        return RacingGameMapper.toRacingGameResultDto(racingGame);
+        return RacingGameResultDto.from(racingGame);
     }
 
     private RacingGame createRacingGame(RacingGameSetUpDto racingGameSetUpDto) {

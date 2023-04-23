@@ -19,7 +19,7 @@ public class CarEntity {
         this.position = position;
     }
 
-    public static CarEntity from(Car car){
+    public static CarEntity from(Car car) {
         return new CarEntity(null, null, car.getName(), car.getPosition());
     }
 
