@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.config;
 
 import javax.sql.DataSource;
 

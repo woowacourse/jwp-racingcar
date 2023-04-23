@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import racingcar.controller.ConsoleCarController;
-import racingcar.dao.DataSourceConfig;
+import racingcar.config.DataSourceConfig;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.service.CarService;
