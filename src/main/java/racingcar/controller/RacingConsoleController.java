@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import java.util.List;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
 import racingcar.service.RacingGameService;
@@ -15,7 +16,7 @@ public class RacingConsoleController {
     }
 
     public void run() {
-        String names = InputView.inputNames();
+        List<String> names = InputView.inputNames();
         int count = InputView.inputTryCount();
         RacingGameRequest racingGameRequest = new RacingGameRequest(names, count);
 

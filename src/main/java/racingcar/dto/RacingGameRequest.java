@@ -1,14 +1,12 @@
 package racingcar.dto;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RacingGameRequest {
-    private String names;
+    private List<String> names;
     private int count;
 
-    public RacingGameRequest(String names, int count) {
+    public RacingGameRequest(List<String> names, int count) {
         this.names = names;
         this.count = count;
     }
@@ -17,13 +15,7 @@ public class RacingGameRequest {
 
     }
 
-    public List<String> toNameList() {
-        return Arrays.stream(names.split(","))
-                .map(String::strip)
-                .collect(Collectors.toList());
-    }
-
-    public String getNames() {
+    public List<String> getNames() {
         return names;
     }
 

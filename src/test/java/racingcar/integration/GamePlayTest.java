@@ -40,7 +40,7 @@ class GamePlayTest {
     @Test
     @DisplayName("자동차 경주 게임을 진행한다.")
     void playGame() {
-        RacingGameRequest request = new RacingGameRequest("브리,토미,브라운", 10);
+        RacingGameRequest request = new RacingGameRequest(List.of("브리", "토미", "브라운"), 10);
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)

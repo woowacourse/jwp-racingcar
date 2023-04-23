@@ -33,7 +33,7 @@ public class RacingGameService {
     }
 
     private Cars toCars(RacingGameRequest racingGameRequest) {
-        List<Car> cars = racingGameRequest.toNameList().stream()
+        List<Car> cars = racingGameRequest.getNames().stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
         return new Cars(cars);

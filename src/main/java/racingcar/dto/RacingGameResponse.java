@@ -7,12 +7,11 @@ import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
 
 public class RacingGameResponse {
-
-    private final String winners;
+    private final List<String> winners;
     private final List<CarDto> racingCars;
 
     public RacingGameResponse(List<String> winners, List<CarDto> racingCars) {
-        this.winners = String.join(",", winners);
+        this.winners = winners;
         this.racingCars = racingCars;
     }
 
@@ -37,7 +36,7 @@ public class RacingGameResponse {
         return new RacingGameResponse(winners, carDtos);
     }
 
-    public String getWinners() {
+    public List<String> getWinners() {
         return winners;
     }
 

@@ -18,7 +18,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printWinners(String names) {
+    public static void printWinners(List<String> names) {
         String winners = String.join(WINNER_DELIMITER, names);
         System.out.printf(WINNER_FORMAT, winners);
     }

@@ -34,7 +34,7 @@ class RacingGameServiceTest {
     @Test
     @DisplayName("이름과 실행 횟수를 받아 게임의 결과를 반환한다")
     void playTest() {
-        RacingGameRequest racingGameRequest = new RacingGameRequest("박스터,엔초", 10);
+        RacingGameRequest racingGameRequest = new RacingGameRequest(List.of("박스터", "엔초"), 10);
 
         RacingGameResponse play = racingGameService.play(racingGameRequest);
 
@@ -58,7 +58,7 @@ class RacingGameServiceTest {
         assertAll(
                 () -> assertThat(history).hasSize(1),
                 () -> assertThat(history.get(0).getRacingCars()).hasSize(2),
-                () -> assertThat(history.get(0).getWinners()).isEqualTo("현구막")
+                () -> assertThat(history.get(0).getWinners()).containsExactly("현구막")
         );
     }
 }
