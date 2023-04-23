@@ -46,8 +46,10 @@ public class RacingCarControllerAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    private ResponseEntity<ExceptionResponse<String>> handleMethodArgumentTypeMismatchException() {
-        log.info("올바른 타입을 입력해주세요.");
+    private ResponseEntity<ExceptionResponse<String>> handleMethodArgumentTypeMismatchException(
+            final MethodArgumentTypeMismatchException e
+    ) {
+        log.info("올바른 타입을 입력해주세요.", e);
         return ResponseEntity.badRequest().body(new ExceptionResponse<>("올바른 타입을 입력해주세요."));
     }
 }
