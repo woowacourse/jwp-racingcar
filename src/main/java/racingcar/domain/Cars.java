@@ -9,11 +9,21 @@ import racingcar.utils.RandomPowerGenerator;
 
 public class Cars {
 
+    private static final int DEFAULT_DISTANCE_VALUE = 0;
+
     private final List<Car> cars;
 
-    public Cars(final List<Car> cars) {
+    private Cars(final List<Car> cars) {
         validate(cars);
         this.cars = cars;
+    }
+
+    public static Cars createByNames(List<String> carNames) {
+        List<Car> cars = carNames.stream()
+                .map(carName -> new Car(carName, DEFAULT_DISTANCE_VALUE))
+                .collect(Collectors.toList());
+
+        return new Cars(cars);
     }
 
     private void validate(List<Car> cars) {
@@ -64,5 +74,9 @@ public class Cars {
 
     public List<Car> getCars() {
         return cars;
+    }
+
+    public boolean isWinner (final Car car) {
+        return getWinnerNames().contains(car.getCarName());
     }
 }

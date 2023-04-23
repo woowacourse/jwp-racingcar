@@ -1,39 +1,76 @@
 package racingcar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.GameResultDao;
+import racingcar.dao.gameresult.GameRowDao;
+import racingcar.dao.playerresult.PlayerRowDao;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.dto.CarStatusResponseDto;
 import racingcar.dto.GameResultResponseDto;
+import racingcar.entity.GameRow;
+import racingcar.entity.PlayerRow;
 import racingcar.utils.RandomPowerGenerator;
 import racingcar.utils.RandomPowerMaker;
 
 @Service
 public class RacingCarService {
 
-    private final RandomPowerGenerator randomPowerGenerator;
-    private final GameResultDao gameResultDao;
+	private final RandomPowerGenerator randomPowerGenerator;
+	private final GameRowDao gameRowDao;
+	private final PlayerRowDao playerRowDao;
 
-    @Autowired
-    public RacingCarService(final GameResultDao gameResultDao) {
-        this.randomPowerGenerator = new RandomPowerMaker();
-        this.gameResultDao = gameResultDao;
-    }
+	public RacingCarService (final GameRowDao gameRowDao, final PlayerRowDao playerRowDao) {
+		this.playerRowDao = playerRowDao;
+		this.gameRowDao = gameRowDao;
+		this.randomPowerGenerator = new RandomPowerMaker();
+	}
 
-    @Transactional
-    public GameResultResponseDto startRace(final Cars cars, final TryCount tryCount) {
-        moveCars(cars, tryCount);
-        GameResultResponseDto gameResult = GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
+	@Transactional
+	public GameResultResponseDto startRace (final List<String> carNames, final TryCount tryCount) {
+		Cars cars = Cars.createByNames(carNames);
+		for (int i = 0; i < tryCount.getTryCount(); i++) {
+			cars.moveAll(randomPowerGenerator);
+		}
+		List<PlayerRow> playerRows = toPlayerResults(cars);
+		playerRowDao.savePlayerRows(playerRows, gameRowDao.saveGameRow(tryCount));
 
-        gameResultDao.saveGame(tryCount, gameResult);
-        return gameResult;
-    }
+		return GameResultResponseDto.toDto(cars.getWinnerNames(), cars);
+	}
 
-    private void moveCars(final Cars cars, final TryCount tryCount) {
-        for (int i = 0; i < tryCount.getTryCount(); i++) {
-            cars.moveAll(randomPowerGenerator);
-        }
-    }
+	private List<PlayerRow> toPlayerResults (Cars cars) {
+		return cars.getCars().stream()
+				.map((car -> {
+					return new PlayerRow(car.getCarName(), car.getDistance(),
+							cars.isWinner(car));
+				}))
+				.collect(Collectors.toList());
+	}
+
+	public List<GameResultResponseDto> findAllGameResults () {
+		List<GameRow> gameRows = gameRowDao.fetchAllGameRow();
+		List<GameResultResponseDto> gameResultResponseDtos = new ArrayList<>();
+		for (final GameRow gameRow : gameRows) {
+			gameResultResponseDtos.add(gameResultInOneGame(gameRow));
+		}
+
+		return gameResultResponseDtos;
+	}
+
+	private GameResultResponseDto gameResultInOneGame (final GameRow gameRow) {
+		List<PlayerRow> playerRows = playerRowDao.fetchAllPlayerRowByGameId(gameRow.getId());
+		List<String> winners = new ArrayList<>();
+		List<CarStatusResponseDto> carStatusResponseDtos = new ArrayList<>();
+		for (final PlayerRow playerRow : playerRows) {
+			if (playerRow.isWinner()) {
+				winners.add(playerRow.getName());
+			}
+			carStatusResponseDtos.add(CarStatusResponseDto.toDto(playerRow));
+		}
+
+		return GameResultResponseDto.toDto(winners, carStatusResponseDtos);
+	}
 }
