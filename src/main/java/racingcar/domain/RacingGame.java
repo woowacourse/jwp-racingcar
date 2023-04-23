@@ -11,8 +11,6 @@ import static java.util.stream.Collectors.toList;
 
 public class RacingGame {
 
-    private static RacingGame racingGame;
-
     private final Cars cars;
     private final GameCount gameCount;
 
@@ -22,8 +20,7 @@ public class RacingGame {
     }
 
     public static RacingGame from(GameRequestDtoForPlays gameRequestDtoForPlays) {
-        racingGame = new RacingGame(generateCars(gameRequestDtoForPlays), new GameCount(gameRequestDtoForPlays.getCount()));
-        return racingGame;
+        return new RacingGame(generateCars(gameRequestDtoForPlays), new GameCount(gameRequestDtoForPlays.getCount()));
     }
 
     private static Cars generateCars(GameRequestDtoForPlays gameRequestDtoForPlays) {
