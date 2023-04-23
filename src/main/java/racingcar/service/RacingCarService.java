@@ -38,13 +38,13 @@ public class RacingCarService {
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoForRequest.getCount();
         gamePlay.play(cars, count, numberGenerator);
-        List<CarForNameAndPosition> carRespons = cars.getCars().stream()
+        List<CarForNameAndPosition> carResponse = cars.getCars().stream()
                 .map(CarForNameAndPosition::new)
                 .collect(Collectors.toList());
         List<CarForNameAndPosition> winners = cars.findWinners().stream()
                 .map(CarForNameAndPosition::new)
                 .collect(Collectors.toList());
-        saveResult(count, carRespons, winners);
+        saveResult(count, carResponse, winners);
         return new GameResultForResponse(cars.findWinners(), cars.getCars());
     }
 
