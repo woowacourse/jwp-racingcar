@@ -1,11 +1,11 @@
 package racingcar.dao.dto;
 
-public class CarDTO {
+public class CarInfoDTO {
 
     private final String name;
     private final int position;
 
-    public CarDTO(final String name, final int position) {
+    public CarInfoDTO(final String name, final int position) {
         this.name = name;
         this.position = position;
     }

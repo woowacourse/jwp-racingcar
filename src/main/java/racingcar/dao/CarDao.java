@@ -1,6 +1,6 @@
 package racingcar.dao;
 
-import racingcar.dao.dto.CarDTO;
+import racingcar.dao.dto.CarInfoDTO;
 import racingcar.dao.dto.CarNameDTO;
 
 import java.util.List;
@@ -15,5 +15,5 @@ public interface CarDao {
 
     List<CarNameDTO> findWinners(final Long gameId);
 
-    List<CarDTO> findAllCarNamesAndPositions(final Long gameId);
+    List<CarInfoDTO> findAllCarNamesAndPositions(final Long gameId);
 }

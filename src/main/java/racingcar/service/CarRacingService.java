@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.GameDao;
-import racingcar.dao.dto.CarDTO;
+import racingcar.dao.dto.CarInfoDTO;
 import racingcar.dao.dto.CarNameDTO;
 import racingcar.dao.dto.GameIdDTO;
 import racingcar.domain.car.Car;
@@ -14,6 +14,7 @@ import racingcar.domain.numbergenerator.NumberGenerator;
 import racingcar.domain.record.GameRecorder;
 import racingcar.domain.result.GameResultOfCar;
 import racingcar.domain.system.GameSystem;
+import racingcar.service.dto.CarDTO;
 import racingcar.service.dto.RacingResultDTO;
 
 import java.util.ArrayList;
@@ -45,7 +46,21 @@ public class CarRacingService {
         gameSystem.executeRace(cars, numberGenerator);
         insertCar(cars, gameId, gameSystem);
 
-        return createResponseDTO(gameSystem);
+        return new RacingResultDTO(
+                mapToWinners(carDao.findWinners(gameId)),
+                mapToCarDTOs(carDao.findAllCarNamesAndPositions(gameId)));
+    }
+
+    private String mapToWinners(final List<CarNameDTO> winners) {
+        return winners.stream()
+                .map(CarNameDTO::getName)
+                .collect(Collectors.joining(DELIMITER));
+    }
+
+    private List<CarDTO> mapToCarDTOs(final List<CarInfoDTO> carInfoDTOs) {
+        return carInfoDTOs.stream()
+                .map(carInfoDTO -> new CarDTO(carInfoDTO.getName(), carInfoDTO.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private Cars makeCars(final String names) {
@@ -63,49 +78,20 @@ public class CarRacingService {
     }
 
     private boolean isWin(final Car car, final GameSystem gameSystem) {
-        List<String> winners = getWinners(gameSystem);
-        return winners.contains(car.getName());
-    }
-
-    private List<String> getWinners(final GameSystem gameSystem) {
         List<GameResultOfCar> winnersGameResult = gameSystem.getWinnersGameResult();
         return winnersGameResult.stream()
                 .map(GameResultOfCar::getCarName)
-                .collect(Collectors.toList());
-    }
-
-    private RacingResultDTO createResponseDTO(final GameSystem gameSystem) {
-        final String winners = String.join(DELIMITER, getWinners(gameSystem));
-        final List<racingcar.service.dto.CarDTO> carDTOs = getCarDTOs(gameSystem);
-        return new RacingResultDTO(winners, carDTOs);
-    }
-
-    private List<racingcar.service.dto.CarDTO> getCarDTOs(final GameSystem gameSystem) {
-        List<GameResultOfCar> finalGameResult = gameSystem.getFinalGameResult();
-        return finalGameResult.stream()
-                .map(gameResultOfCar -> new racingcar.service.dto.CarDTO(gameResultOfCar.getCarName(), gameResultOfCar.getPosition()))
-                .collect(Collectors.toList());
+                .anyMatch(winner -> winner.equals(car.getName()));
     }
 
     @Transactional(readOnly = true)
     public List<RacingResultDTO> showGameResults() {
         final List<GameIdDTO> gameIds = gameDao.findAllGameIds();
+
         return gameIds.stream()
-                .map(gameIdDTO -> new RacingResultDTO(getWinners(gameIdDTO), getCarDTOs(gameIdDTO)))
+                .map(gameIdDTO -> new RacingResultDTO(
+                        mapToWinners(carDao.findWinners(gameIdDTO.getId())),
+                        mapToCarDTOs(carDao.findAllCarNamesAndPositions(gameIdDTO.getId()))))
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    private List<racingcar.service.dto.CarDTO> getCarDTOs(final GameIdDTO gameId) {
-        final List<CarDTO> carNamesAndPositions = carDao.findAllCarNamesAndPositions(gameId.getId());
-        return carNamesAndPositions.stream()
-                .map(carNamePositionDTO -> new racingcar.service.dto.CarDTO(carNamePositionDTO.getName(), carNamePositionDTO.getPosition()))
-                .collect(Collectors.toList());
-    }
-
-    private String getWinners(final GameIdDTO gameId) {
-        final List<CarNameDTO> winnerNames = carDao.findWinners(gameId.getId());
-        return winnerNames.stream()
-                .map(CarNameDTO::getName)
-                .collect(Collectors.joining(DELIMITER));
     }
 }
