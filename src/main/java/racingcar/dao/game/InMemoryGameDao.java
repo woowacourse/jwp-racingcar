@@ -1,31 +1,19 @@
 package racingcar.dao.game;
 
-import java.sql.PreparedStatement;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
+import java.util.HashMap;
+import java.util.Map;
+import racingcar.model.TryCount;
 
-@Repository
 public class InMemoryGameDao implements GameDao {
-    private final JdbcTemplate jdbcTemplate;
-    @Autowired
-    public InMemoryGameDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+
+    private static final Map<Integer, GameEntity> GAME_CACHE = new HashMap<>();
 
     @Override
-    public int save(int tryCount) {
-        String sql = "insert into PLAY_RESULT (trial_Count) values (?)";
+    public int save(final int tryCount) {
+        final GameEntity game = new GameEntity(new TryCount(tryCount));
+        final int gameId = game.getId();
+        GAME_CACHE.put(gameId, game);
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setInt(1, tryCount);
-            return ps;
-        }, keyHolder);
-
-        return keyHolder.getKey().intValue();
+        return gameId;
     }
 }

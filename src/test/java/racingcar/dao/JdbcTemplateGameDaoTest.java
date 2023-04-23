@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import racingcar.dao.game.GameDao;
 
 @SpringBootTest
-class InMemoryGameDaoTest {
+class JdbcTemplateGameDaoTest {
 
     @Autowired
     private GameDao gameDao;

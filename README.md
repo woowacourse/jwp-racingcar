@@ -35,6 +35,10 @@ Dto
   - Exception.class를 catch 했다는 것은 예상치 못한 예외가 발생했다는 것이므로, 이에 대해서는 log를 남기도록 결정
   - 각 상황에 맞는 예외 메세지를 응답하고, 로그를 남겨야겠지만 어떤 예외인지 모르는 상황에서는 어떻게 처리하는 것이 최선일까? 
 - [x] CacheDao에서 Cache(Map)에 저장하기 위해 Entity 클래스를 생성
+- [x] CacheDao, InMemoryDao 클래스명 변경
+- [ ] Exception.class를 잡는 ExceptionHandler에서 어떤 예외가 발생하는지 알 수 있도록 수정
+  - 고객에게 오류에 대한 메시지가 전달되어도 될지에 대해 고민
+- [ ] cars.moveResut를 실행하는 Game 객체 생성
 
 ## 궁금한 내용
 - [x] CAR_RESULT와 PLAY_RESULT를 조인해서 조회하는 책임은 어떤 Dao 클래스가 가지는 것이 좋을까?

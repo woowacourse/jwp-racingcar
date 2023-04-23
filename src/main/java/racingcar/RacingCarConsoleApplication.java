@@ -1,8 +1,8 @@
 package racingcar;
 
 import racingcar.controller.ConsoleController;
-import racingcar.dao.car.CacheCarDao;
-import racingcar.dao.game.CacheGameDao;
+import racingcar.dao.car.InMemoryCarDao;
+import racingcar.dao.game.InMemoryGameDao;
 import racingcar.service.GameService;
 import racingcar.util.RandomNumberGenerator;
 import racingcar.view.InputView;
@@ -14,7 +14,7 @@ public class RacingCarConsoleApplication {
         final ConsoleController controller = new ConsoleController(
                 new InputView(),
                 new OutputView(),
-                new GameService(new RandomNumberGenerator(), new CacheCarDao(), new CacheGameDao())
+                new GameService(new RandomNumberGenerator(), new InMemoryCarDao(), new InMemoryGameDao())
         );
 
         controller.run();
