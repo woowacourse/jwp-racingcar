@@ -11,7 +11,7 @@ import racingcar.dto.RacingResultDto;
 class RacingServiceTest {
 
     @Test
-    @DisplayName("플레이어가 한명일 때 GameResultDto가 잘 반환된다")
+    @DisplayName("플레이어가 한명일 때 GameResultDto를 반환한다.")
     void shouldReturnCorrectlyWhenInputOnePlayer() {
         RacingService racingService = new RacingService(new DummyRacingDao());
         RacingRequest racingRequest = new RacingRequest(
@@ -27,7 +27,7 @@ class RacingServiceTest {
     }
 
     @Test
-    @DisplayName("플레이어가 여려명일 때 GameResultDto가 잘 반환된다")
+    @DisplayName("플레이어가 여려명일 때 GameResultDto를 반환한다.")
     void shouldReturnCorrectlyWhenInputManyPlayer() {
         RacingService racingService = new RacingService(new DummyRacingDao());
         RacingRequest racingRequest = new RacingRequest(
