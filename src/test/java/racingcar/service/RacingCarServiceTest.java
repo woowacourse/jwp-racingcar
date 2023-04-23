@@ -79,7 +79,7 @@ class RacingCarServiceTest {
         //mocking
         Mockito.when(gameJdbcTemplateDao.save(Mockito.anyInt())).thenReturn(1L);
         Mockito.when(playerJdbcTemplateDao.save(Mockito.any())).thenReturn(1L, 2L, 3L, 4L);
-        Mockito.doNothing().when(participantJdbcTemplateDao).save(Mockito.any());
+        Mockito.doNothing().when(participantJdbcTemplateDao).saveAll(Mockito.any());
         //when
         GameResultReponse gameResultReponse = racingCarService.playGame(gameStartRequest);
         //then
