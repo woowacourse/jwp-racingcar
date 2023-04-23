@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.GameHistoryDto;
-import racingcar.dto.PostGameRequest;
+import racingcar.dto.GameRequest;
 import racingcar.dto.RacingGameDto;
 import racingcar.service.RacingGameService;
 import racingcar.utils.Parser;
@@ -24,8 +24,8 @@ public class RacingGameWebController {
     }
 
     @PostMapping("/plays")
-    public GameHistoryDto doGame(@RequestBody final PostGameRequest postGameRequest) {
-        RacingGameDto racingGameDto = new RacingGameDto(Parser.sliceByComma(postGameRequest.getNames()), postGameRequest.getCount(), applicationType);
+    public GameHistoryDto doGame(@RequestBody final GameRequest gameRequest) {
+        RacingGameDto racingGameDto = new RacingGameDto(Parser.sliceByComma(gameRequest.getNames()), gameRequest.getCount(), applicationType);
         return racingGameService.playGame(racingGameDto);
     }
 

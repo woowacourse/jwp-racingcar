@@ -1,15 +1,14 @@
 package racingcar.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PostGameRequest {
+public class GameRequest {
 
     private final String names;
     private final int count;
 
     @JsonCreator
-    public PostGameRequest(final String names, final int count) {
+    public GameRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }

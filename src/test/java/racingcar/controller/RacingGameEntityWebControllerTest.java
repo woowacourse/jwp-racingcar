@@ -13,7 +13,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.PostGameRequest;
+import racingcar.dto.GameRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -33,11 +33,11 @@ class RacingGameEntityWebControllerTest {
 
         String names = "브리,토미,브라운";
         int count = 10;
-        PostGameRequest postGameRequest = new PostGameRequest(names, count);
+        GameRequest gameRequest = new GameRequest(names, count);
 
         final ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(postGameRequest)
+                .body(gameRequest)
                 .when().post("/plays")
                 .then().log().all()
                 .extract();
@@ -57,16 +57,16 @@ class RacingGameEntityWebControllerTest {
     void findGame_WhenCall_thenReturnResult() {
         String names = "브리,토미,브라운";
         int count = 10;
-        PostGameRequest postGameRequest = new PostGameRequest(names, count);
+        GameRequest gameRequest = new GameRequest(names, count);
 
         RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(postGameRequest)
+                .body(gameRequest)
                 .when().post("/plays");
 
         RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(postGameRequest)
+                .body(gameRequest)
                 .when().post("/plays");
 
 
