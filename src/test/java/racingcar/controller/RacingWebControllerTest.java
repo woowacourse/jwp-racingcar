@@ -49,7 +49,7 @@ class RacingWebControllerTest {
         when(racingService.play(any()))
                 .thenReturn(TrackResponseMapper.from(mockData));
 
-        performPost(trackRequest)
+        performPost("/plays", trackRequest)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.winners", is("logan")))
                 .andExpect(jsonPath("$.racingCars", hasSize(3)));
@@ -69,7 +69,7 @@ class RacingWebControllerTest {
         when(racingService.play(any()))
                 .thenThrow(new CustomException(exceptionMessage));
 
-        performPost(trackRequest)
+        performPost("/plays", trackRequest)
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", is(exceptionMessage)));
     }
@@ -85,7 +85,7 @@ class RacingWebControllerTest {
         when(racingService.play(any()))
                 .thenThrow(new CustomException(exceptionMessage));
 
-        performPost(trackRequest)
+        performPost("/plays", trackRequest)
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", is(exceptionMessage)));
     }
@@ -97,8 +97,8 @@ class RacingWebControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private ResultActions performPost(final TrackRequest trackRequest) throws Exception {
-        return mockMvc.perform(post("/plays")
+    private ResultActions performPost(final String path, final TrackRequest trackRequest) throws Exception {
+        return mockMvc.perform(post(path)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(makeBodyData(trackRequest)));
     }
