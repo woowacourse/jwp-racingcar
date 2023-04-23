@@ -61,6 +61,6 @@ class CarServiceTest {
 
 		//then
 		assertThat(winners).isEqualTo(String.join(",", carNames.get(0), carNames.get(1)));
-		assertThat(racingCars).hasSize(4);
+		assertThat(racingCars).hasSize(carNames.size());
 	}
 }

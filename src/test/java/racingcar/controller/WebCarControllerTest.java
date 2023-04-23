@@ -5,24 +5,21 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import racingcar.dto.GamePlayRequestDto;
 import racingcar.dto.GamePlayResponseDto;
 import racingcar.service.CarService;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class WebCarControllerTest {
 
-	@LocalServerPort
+	@Value("${local.server.port}")
 	private int port;
 
 	@Autowired
@@ -45,7 +42,7 @@ class WebCarControllerTest {
 		final List<GamePlayResponseDto> gamePlayHistoryAll = carService.findGamePlayHistoryAll();
 		final String name = gamePlayHistoryAll.get(0).getRacingCars().get(0).getName();
 
-		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 		assertThat(name).isEqualTo("준팍");
 	}
 }
