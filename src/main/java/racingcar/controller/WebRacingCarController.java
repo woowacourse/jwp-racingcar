@@ -28,12 +28,14 @@ public class WebRacingCarController {
 
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponse> play(@RequestBody @Valid final RacingGameRequest racingGameRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(racingCarService.play(racingGameRequest));
+        final RacingGameResponse racingGameResponse = racingCarService.play(racingGameRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(racingGameResponse);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<RacingGameResponse>> findGameResults() {
-        return ResponseEntity.ok().body(racingCarService.findGameResults());
+        final List<RacingGameResponse> racingGameResponses = racingCarService.findGameResults();
+        return ResponseEntity.status(HttpStatus.OK).body(racingGameResponses);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
