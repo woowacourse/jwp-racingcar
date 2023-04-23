@@ -7,6 +7,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @JdbcTest
 @Sql(scripts = {"classpath:data.sql"})
 class RacingGameDaoTest {
@@ -18,7 +20,10 @@ class RacingGameDaoTest {
     }
 
     @Test
-    void gameInsert() {
+    void gameInsertTest() {
+        final int count = racingGameDao.selectGameIds().size();
+
         Assertions.assertDoesNotThrow(() -> racingGameDao.insert(10));
+        assertThat(racingGameDao.selectGameIds().size()).isEqualTo(count + 1);
     }
 }
