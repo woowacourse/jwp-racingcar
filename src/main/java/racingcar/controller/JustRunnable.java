@@ -1,4 +1,4 @@
-package racingcar.view.repeatinput;
+package racingcar.controller;
 
 public interface JustRunnable {
     void run();

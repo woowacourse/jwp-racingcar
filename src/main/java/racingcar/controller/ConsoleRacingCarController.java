@@ -5,7 +5,8 @@ import racingcar.dto.GameRequestDto;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-import racingcar.view.repeatinput.Repeat;
+
+import java.util.function.Supplier;
 
 public class ConsoleRacingCarController {
     private final RacingCarService racingCarService;
@@ -19,7 +20,7 @@ public class ConsoleRacingCarController {
     }
     
     public void run() {
-        Repeat.repeatJustRunnableAtException(this::playGame);
+        repeatJustRunnableAtException(this::playGame);
         outputView.printGameResult(racingCarService.findAllGameResult());
     }
     
@@ -29,8 +30,8 @@ public class ConsoleRacingCarController {
     }
     
     private GameRequestDto getGameInputDto() {
-        final String carNames = Repeat.repeatSupplierAtException(inputView::inputCarNames);
-        final int count = Repeat.repeatSupplierAtException(inputView::inputCount);
+        final String carNames = repeatSupplierAtException(inputView::inputCarNames);
+        final int count = repeatSupplierAtException(inputView::inputCount);
         return getGameInputDto(carNames, count);
     }
     
@@ -39,5 +40,23 @@ public class ConsoleRacingCarController {
                 .names(carNames)
                 .count(String.valueOf(count))
                 .build();
+    }
+    
+    public <T> T repeatSupplierAtException(Supplier<T> inputProcess) {
+        try {
+            return inputProcess.get();
+        } catch (IllegalArgumentException illegalArgumentException) {
+            System.out.println("[ERROR] " + illegalArgumentException);
+            return repeatSupplierAtException(inputProcess);
+        }
+    }
+    
+    public void repeatJustRunnableAtException(JustRunnable inputProcess) {
+        try {
+            inputProcess.run();
+        } catch (IllegalArgumentException illegalArgumentException) {
+            System.out.println("[ERROR] " + illegalArgumentException);
+            repeatJustRunnableAtException(inputProcess);
+        }
     }
 }
