@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import racingcar.controller.ApplicationType;
 import racingcar.entity.Game;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
@@ -27,7 +28,8 @@ class JdbcGameDao extends JdbcTemplateDao implements GameDao {
 
         final KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(sql, gameParameters, keyHolder);
-        return (long) keyHolder.getKeys().get("id");
+
+        return Long.parseLong(String.valueOf(keyHolder.getKeys().get("GENERATED_KEY")));
     }
 
     @Override

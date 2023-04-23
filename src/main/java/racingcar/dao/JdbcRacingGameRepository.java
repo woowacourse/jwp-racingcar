@@ -30,9 +30,10 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
 
     public static DataSource generateDataSource() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(org.h2.Driver.class);
-        dataSource.setUrl("jdbc:h2:mem:testdb");
-        dataSource.setUsername("sa");
+        dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
+        dataSource.setUrl("jdbc:mysql://localhost:3306/racingcar");
+        dataSource.setUsername("root");
+        dataSource.setPassword("xxxx");
         return dataSource;
     }
 
