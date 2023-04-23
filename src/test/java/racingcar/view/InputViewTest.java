@@ -1,12 +1,12 @@
 package racingcar.view;
 
+import org.apache.http.impl.io.EmptyInputStream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import racingcar.view.mock.SystemInMock;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -36,7 +36,7 @@ class InputViewTest {
     @Test
     void 자동차_이름_입력_시_null일_때_예외가_발생한다() {
         // given
-        inputStream = new SystemInMock(true);
+        inputStream = EmptyInputStream.INSTANCE;
         System.setIn(inputStream);
         
         // when, then
@@ -87,7 +87,7 @@ class InputViewTest {
     @Test
     void 시도_횟수_입력_시_null일_때_예외가_발생한다() {
         // given
-        inputStream = new SystemInMock(true);
+        inputStream = EmptyInputStream.INSTANCE;
         System.setIn(inputStream);
         
         // when, then
