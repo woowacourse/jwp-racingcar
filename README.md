@@ -45,9 +45,19 @@
     - [x] dao를 인터페이스로 만들어 웹dao와 콘솔 dao 분리
   
 
-# 2단계 리팩터링 때 할 것
-- [] jdbcTemplate 객체 사용하기
+# 2단계 1차 수정 목록
+- [] dao repository로 이름 변경
+- [] consoleDao에 AtomicInteger atomicInteger 사용하기
 - [] 테스트 코드 작성
+  - [] jdbcDao테스트
+  - [] consoleDao 테스트
+  - [] 서비스 테스트
+  - [] 컨트롤러 테스트
+  - [] 통합 테스트
+- [] jdbcTemplate 객체 사용하기
+  - [] carDao 변경
+  - [] gameDao 변경
+  - [] winnerDao 변경
 
 
 시도해보기2
