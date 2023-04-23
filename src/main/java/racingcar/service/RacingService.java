@@ -30,4 +30,8 @@ public class RacingService {
     private void save(final RacingGame racingGame, final int trialCount) {
         this.racingRepository.saveGameResult(racingGame, trialCount);
     }
+
+    public List<RacingGame> getAllRacingGame() {
+        return this.racingRepository.findAllRacingGames();
+    }
 }

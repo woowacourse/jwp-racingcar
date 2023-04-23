@@ -9,4 +9,8 @@ public interface RacingDao {
     GameResultEntity saveGameResult(final GameResultEntity gameResultEntity);
 
     void savePlayerResults(final List<PlayerResultEntity> playerResultEntities);
+
+    List<GameResultEntity> getAllGameResults();
+
+    List<PlayerResultEntity> getPlayerResultsBy(long gameResultId);
 }
