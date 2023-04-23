@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.RacingRequest;
-import racingcar.dto.RacingResponse;
-import racingcar.dto.RacingResultDto;
+import racingcar.controller.dto.RacingRequest;
+import racingcar.controller.dto.RacingResponse;
+import racingcar.domain.RacingGame;
 import racingcar.service.RacingService;
 
 @RestController
@@ -23,7 +23,9 @@ public final class RacingController {
     @PostMapping(path = "/plays")
     public RacingResponse playRacingGame(
             @Valid @RequestBody final RacingRequest racingRequest) {
-        RacingResultDto racingResultDto = this.racingService.playRacingGame(racingRequest);
-        return RacingResponse.from(racingResultDto);
+        RacingGame racingGame = this.racingService.playRacingGame(
+                racingRequest.getNames(),
+                racingRequest.getCount());
+        return RacingResponse.from(racingGame);
     }
 }
