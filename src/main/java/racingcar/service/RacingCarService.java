@@ -101,7 +101,7 @@ public class RacingCarService {
         return new CarResponseDto(carEntity.getId(), carEntity.getName(), carEntity.getPosition());
     }
 
-    public List<GameResponseDto> getPreviousGameResults() {
+    public List<GameResponseDto> getGameHistory() {
         List<GameEntity> gameEntities = racingGameDao.findAll();
         return generateGameResultsPerGame(gameEntities);
     }
