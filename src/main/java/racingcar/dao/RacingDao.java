@@ -39,10 +39,12 @@ public class RacingDao {
         return keyHolder.getKey().intValue();
     }
 
-    public Optional<Integer> findMaxId() {
-        final String query = "SELECT max(id) FROM TRACK";
+    public List<Integer> findAllId() {
+        final String query = "SELECT id FROM TRACK";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(query, Integer.class));
+        return jdbcTemplate.query(
+                query, (resultSet, rowNum) -> resultSet.getInt("id")
+        );
     }
 
     public List<Car> findAllById(final int id) {

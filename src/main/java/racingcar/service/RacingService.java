@@ -71,9 +71,9 @@ public class RacingService {
 
     public List<TrackResponse> findAll() {
         final List<TrackResponse> trackResponses = new ArrayList<>();
-        final int maxId = racingDao.findMaxId().orElse(0);
+        final List<Integer> gameIds = racingDao.findAllId();
 
-        for (int id = 1; id <= maxId; id++) {
+        for (int id: gameIds) {
             final Cars cars = Cars.from(racingDao.findAllById(id));
             final TrackResponse response = TrackResponseMapper.from(cars);
 
