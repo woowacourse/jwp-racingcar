@@ -11,7 +11,9 @@ public class Coin {
     public void use() {
         if (isLeft()) {
             this.remaining--;
+            return;
         }
+        throw new IllegalStateException("사용 불가능한 코인입니다.");
     }
 
     public boolean isLeft() {

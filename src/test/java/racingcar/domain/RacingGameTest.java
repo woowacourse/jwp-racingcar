@@ -24,9 +24,7 @@ class RacingGameTest {
         RacingGame racingGame = new RacingGame(cars, determinedNumberGenerator, new Coin(gameTry));
         determinedNumberGenerator.readRepository(determinedNumbers);
 
-        while (racingGame.isGameOnGoing()) {
-            racingGame.start();
-        }
+        racingGame.play();
 
         assertEquals(
                 racingGame.getWinners().stream().map(Car::getCarName).collect(Collectors.toList()), expectedWinners
