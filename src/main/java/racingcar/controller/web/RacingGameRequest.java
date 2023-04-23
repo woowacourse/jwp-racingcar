@@ -18,6 +18,7 @@ public class RacingGameRequest {
     }
 
     public List<String> readSplitNames() {
+        names = names.replaceAll("\\s+", "");
         String regex = ",";
         return List.of(names.split(regex));
     }
