@@ -1,14 +1,13 @@
 package racingcar.domain;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.dto.RacingRequest;
 
 public class RacingGame {
 
     private static final RandomNumberGenerator RANDOM_NUMBER_GENERATOR = new RandomNumberGenerator();
-    private static final int DEFAULT_START_LINE = 0;
     private static final int MOVABLE_BOUND = 4;
 
     private final List<Car> cars;
@@ -21,12 +20,11 @@ public class RacingGame {
         this.gameCoin = gameCoin;
     }
 
-    public static RacingGame from(RacingRequest racingRequest) {
-        List<String> carNames = List.of(racingRequest.getNames().split(","));
+    public static RacingGame of(final List<String> carNames, final int tryCount) {
         List<Car> cars = carNames.stream()
-                .map(carName -> new Car(carName, DEFAULT_START_LINE))
+                .map(Car::createBy)
                 .collect(Collectors.toList());
-        return new RacingGame(cars, RANDOM_NUMBER_GENERATOR, new Coin(racingRequest.getCount()));
+        return new RacingGame(cars, RANDOM_NUMBER_GENERATOR, new Coin(tryCount));
     }
 
     public void play() {
@@ -51,7 +49,7 @@ public class RacingGame {
     }
 
     private void order() {
-        this.cars.sort(Comparator.comparing(Car::getPosition).reversed());
+        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
     }
 
     public List<Car> getCars() {
