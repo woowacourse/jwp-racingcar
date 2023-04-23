@@ -15,9 +15,13 @@ public class RacingGameConsoleController {
     private static final ApplicationType applicationType = ApplicationType.CONSOLE;
 
     private final RacingGameService racingGameService;
+    private final InputView inputView;
+    private final OutputView outputView;
 
-    public RacingGameConsoleController(RacingGameService racingGameService) {
+    public RacingGameConsoleController(RacingGameService racingGameService, InputView inputView, OutputView outputView) {
         this.racingGameService = racingGameService;
+        this.inputView = inputView;
+        this.outputView = outputView;
     }
 
     public void run() {
@@ -30,7 +34,7 @@ public class RacingGameConsoleController {
         try {
             RacingGameDto racingGameDto = new RacingGameDto(inputCarNames(), requestTryCount(), applicationType);
             GameHistoryDto gameHistoryDto = racingGameService.playGame(racingGameDto);
-            OutputView.printWinner(gameHistoryDto);
+            outputView.printWinner(gameHistoryDto);
         } catch (IllegalArgumentException exception) {
             ExceptionInformation exceptionInformation = ExceptionInformation.findByMessage(exception.getMessage());
             System.out.println(exceptionInformation.getExceptionMessage());
@@ -40,10 +44,10 @@ public class RacingGameConsoleController {
     }
 
     private List<String> inputCarNames() {
-        return InputView.requestCarName();
+        return inputView.requestCarName();
     }
 
     private int requestTryCount() {
-        return InputView.requestTryCount();
+        return inputView.requestTryCount();
     }
 }

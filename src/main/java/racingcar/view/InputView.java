@@ -10,19 +10,25 @@ public class InputView {
     private static final String requestCarNameMessage = "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).";
     private static final String requestTryCountMessage = "시도할 회수는 몇회인가요?";
 
-    private static final Scanner scanner = new Scanner(System.in);
+    private final Parser parser;
+    private final Scanner scanner;
 
-    public static List<String> requestCarName() {
+    public InputView(Parser parser, Scanner scanner) {
+        this.parser = parser;
+        this.scanner = scanner;
+    }
+
+    public List<String> requestCarName() {
         System.out.println(requestCarNameMessage);
-        return Parser.sliceByComma(input());
+        return parser.sliceByComma(input());
     }
 
-    public static int requestTryCount() {
+    public int requestTryCount() {
         System.out.println(requestTryCountMessage);
-        return Parser.parseIntFrom(input());
+        return parser.parseIntFrom(input());
     }
 
-    private static String input() {
+    private String input() {
         return scanner.nextLine();
     }
 }

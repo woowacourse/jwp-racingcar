@@ -18,14 +18,16 @@ public class RacingGameWebController {
     private static final ApplicationType applicationType = ApplicationType.WEB;
 
     private final RacingGameService racingGameService;
+    private final Parser parser;
 
-    public RacingGameWebController(final RacingGameService racingGameService) {
+    public RacingGameWebController(final RacingGameService racingGameService, Parser parser) {
         this.racingGameService = racingGameService;
+        this.parser = parser;
     }
 
     @PostMapping("/plays")
     public GameHistoryDto doGame(@RequestBody final GameRequest gameRequest) {
-        RacingGameDto racingGameDto = new RacingGameDto(Parser.sliceByComma(gameRequest.getNames()), gameRequest.getCount(), applicationType);
+        RacingGameDto racingGameDto = new RacingGameDto(parser.sliceByComma(gameRequest.getNames()), gameRequest.getCount(), applicationType);
         return racingGameService.playGame(racingGameDto);
     }
 
