@@ -1,16 +1,18 @@
-CREATE TABLE PLAY_RESULT (
+drop table if exists CAR;
+drop table if exists RACING_GAME;
+
+CREATE TABLE if not exists RACING_GAME (
     id          INT         NOT NULL AUTO_INCREMENT,
-    winners     VARCHAR(50) NOT NULL,
     trial_count INT         NOT NULL,
-    played_time  DATETIME   NOT NULL,
+    played_time  DATETIME   NOT NULL default CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE PLAYER_RESULT (
+CREATE TABLE if not exists CAR (
      id          INT         NOT NULL AUTO_INCREMENT,
-     play_result_id INT      NOT NULL,
+     game_id  INT            NOT NULL,
      name     VARCHAR(50)    NOT NULL,
      position INT            NOT NULL,
      PRIMARY KEY (id),
-     FOREIGN KEY (play_result_id) REFERENCES PLAY_RESULT(id)
+     FOREIGN KEY (game_id) REFERENCES RACING_GAME(id)
 );
