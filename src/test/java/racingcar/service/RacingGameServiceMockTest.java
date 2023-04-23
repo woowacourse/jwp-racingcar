@@ -37,7 +37,7 @@ class RacingGameServiceMockTest {
     void insertRacingGameResult() {
         //given
         List<String> carNames = List.of("로지", "바론");
-        given(racingGameRepository.save(any(RacingGame.class)))
+        given(racingGameRepository.create(any(RacingGame.class)))
                 .willReturn(RacingGame.of(10, carNames));
         //when
         RacingGameDto result = racingGameService.play(10, carNames);

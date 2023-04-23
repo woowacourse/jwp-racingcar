@@ -22,8 +22,8 @@ public class RacingGameService {
     public RacingGameDto play(int trialCount, List<String> names) {
         RacingGame game = RacingGame.of(trialCount, names);
         game.play(numberGenerator);
-        RacingGame savedGame = racingGameRepository.save(game);
-        return RacingGameDto.from(savedGame);
+        RacingGame createdGame = racingGameRepository.create(game);
+        return RacingGameDto.from(createdGame);
     }
 
     public List<RacingGameDto> readGameHistory() {

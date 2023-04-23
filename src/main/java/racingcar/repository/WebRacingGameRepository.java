@@ -4,7 +4,6 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Function;
@@ -32,20 +31,19 @@ public class WebRacingGameRepository implements RacingGameRepository {
     }
 
     @Override
-    public RacingGame save(RacingGame racingGame) {
+    public RacingGame create(RacingGame racingGame) {
         Long historyId = racingGameHistoryDao.insert(racingGame.getTrialCount(), LocalDateTime.now());
-        List<RacingCar> savedCars = getSavedCars(racingGame, historyId);
-        return new RacingGame(historyId, racingGame.getTrialCount(), savedCars, racingGame.getPlayTime());
+        List<RacingCar> createdCars = getCreatedCars(racingGame, historyId);
+        return new RacingGame(historyId, racingGame.getTrialCount(), createdCars, racingGame.getPlayTime());
     }
 
-    private List<RacingCar> getSavedCars(RacingGame racingGame, Long historyId) {
-        List<RacingCar> savedCars = new ArrayList<>();
-        for (RacingCar racingCar : racingGame.getRacingCars()) {
-            Long savedId = racingCarRecordDao.insert(historyId, racingCar, racingGame.isWinner(racingCar));
-            RacingCar savedCar = new RacingCar(savedId, racingCar.getName(), racingCar.getPosition());
-            savedCars.add(savedCar);
-        }
-        return savedCars;
+    private List<RacingCar> getCreatedCars(RacingGame racingGame, Long historyId) {
+        return racingGame.getRacingCars().stream()
+                .map(racingCar -> {
+                    Long createdId = racingCarRecordDao.insert(historyId, racingCar, racingGame.isWinner(racingCar));
+                    return new RacingCar(createdId, racingCar.getName(), racingCar.getPosition());
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
