@@ -61,13 +61,13 @@ public class RacingCarService {
 
     public List<PlayRecordsForResponse> showPlayRecords() {
         List<String> allWinners = playResultDao.findAllPlayRecords();
-        List<PlayRecordsForResponse> playRecordsForRespons = new ArrayList<>();
+        List<PlayRecordsForResponse> playRecordsForResponses = new ArrayList<>();
         for (int i = 0; i < allWinners.size(); i++) {
             String winners = allWinners.get(i);
             int gameId = i + 1;
             PlayRecordsForResponse playRecordsForResponse = new PlayRecordsForResponse(winners, playResultDao.findPlayRecordsByWinner(winners, gameId));
-            playRecordsForRespons.add(playRecordsForResponse);
+            playRecordsForResponses.add(playRecordsForResponse);
         }
-        return playRecordsForRespons;
+        return playRecordsForResponses;
     }
 }
