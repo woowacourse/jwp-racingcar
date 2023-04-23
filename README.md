@@ -36,7 +36,7 @@ Dto
   - 각 상황에 맞는 예외 메세지를 응답하고, 로그를 남겨야겠지만 어떤 예외인지 모르는 상황에서는 어떻게 처리하는 것이 최선일까? 
 - [x] CacheDao에서 Cache(Map)에 저장하기 위해 Entity 클래스를 생성
 - [x] CacheDao, InMemoryDao 클래스명 변경
-- [ ] Exception.class를 잡는 ExceptionHandler에서 어떤 예외가 발생하는지 알 수 있도록 수정
+- [x] Exception.class를 잡는 ExceptionHandler에서 어떤 예외가 발생하는지 알 수 있도록 수정
   - 고객에게 오류에 대한 메시지가 전달되어도 될지에 대해 고민
 - [ ] cars.moveResut를 실행하는 Game 객체 생성
 
@@ -49,8 +49,10 @@ Dto
 - [ ] GamePlayResponseDto(View - Controller - Service 계층이 주고받는 Dto)의 생성자로 List<GameFinishedCarDto>(Service - Repository 계층이 주고받는 Dto)를 넘겨줘도 괜찮을까?
   - GamePlayResponseDto 생성자 내에 데이터를 변환하는 로직이 생기는 것에 대해 의문이 생긴다. 하지만, 서비스에 두기에는 서비스의 코드가 지저분해지는 것 같다.
 - [x] BatchUpdate 사용해보기
-- [ ] BatchUpdate를 통해 여러 건의 데이터를 insert할 때 성능을 개선할 수 있다는 것은 알게 되었다. 그래서 학습을 위해 BatchUpdate를 사용했는데 10개 정도의 데이터를 저장할 땐 성능 차이가 크지 않았던 것 같다. 현업에서는 어떤 기준으로 성능 개선을 고려할까?
-
+- [x] BatchUpdate를 통해 여러 건의 데이터를 insert할 때 성능을 개선할 수 있다는 것은 알게 되었다. 그래서 학습을 위해 BatchUpdate를 사용했는데 10개 정도의 데이터를 저장할 땐 성능 차이가 크지 않았던 것 같다. 현업에서는 어떤 기준으로 성능 개선을 고려할까?
+- [ ] 고객에게 예외 메세지가 전달되면 안 되는 이유?
+  - 예외 메세지는 개발자가 보는 것인데, 이를 고객에게 전달하면 의도치 않은 정보까지 전달될 수 있기 때문? -> 보안의 문제
+  - 그렇다면, 예외 메세지는 개발자가 보기 위해서만 쓰는 것?
 ## 2단계 요구사항
 - [x] 게임 플레이 이력 조회 API 구현
   - [x] Request: GET /plays HTTP/1.1

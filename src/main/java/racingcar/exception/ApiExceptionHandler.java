@@ -21,9 +21,9 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleUnCaughtException(Exception e) {
-        logger.error("정의하지 않은 예외가 발생했습니다.");
-        final ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        logger.error("정의하지 않은 예외 발생: " + e.getClass());
+        final ExceptionResponse exceptionResponse = new ExceptionResponse("네트워크, 또는 서버의 문제로 정상적인 응답이 이루어질 수 없습니다.");
+        return ResponseEntity.internalServerError()
                 .body(exceptionResponse);
     }
 }
