@@ -76,7 +76,7 @@ class RacingGameMapperTest {
     }
 
     @Test
-    void toDomain_객체로_게임의_List_형태로_바군다() {
+    void toDomain_객체로_게임의_List_형태로_바꾼다() {
         final List<GameEntity> gameEntities = List.of(new GameEntity(1, 5), new GameEntity(2, 5));
         final List<CarEntity> carEntities = List.of(
                 new CarEntity(1, "ㅁㄴㅇㄹ", 3, 1),
