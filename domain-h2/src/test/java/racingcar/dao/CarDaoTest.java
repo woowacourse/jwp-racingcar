@@ -23,11 +23,13 @@ import racingcar.repositoryImpl.RacingGameMapper;
 @DisplayNameGeneration(ReplaceUnderscores.class)
 class CarDaoTest {
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     private int gameId;
     private CarDao carDao;
 
-    @Autowired
-    void setUp(final JdbcTemplate jdbcTemplate) {
+    @BeforeEach
+    void setUp() {
         final GameEntity gameEntity = RacingGameMapper.toGameEntity(new RacingGame(List.of("브리"), 5));
 
         gameId = RepositoryFactory.gamesDao(jdbcTemplate).insert(gameEntity).getGameId().getValue();

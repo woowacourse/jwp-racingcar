@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
@@ -22,12 +23,14 @@ import racingcar.repositoryImpl.RacingGameMapper;
 @DisplayNameGeneration(ReplaceUnderscores.class)
 class WinnerDaoTest {
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     private WinnerDao winnerDao;
     private int gameId;
     private int carId;
 
-    @Autowired
-    void setUp(final JdbcTemplate jdbcTemplate) {
+    @BeforeEach
+    void setUp() {
         final GameEntity gameEntity = RacingGameMapper.toGameEntity(new RacingGame(List.of("브리"), 5));
 
         gameId = RepositoryFactory.gamesDao(jdbcTemplate).insert(gameEntity).getGameId().getValue();

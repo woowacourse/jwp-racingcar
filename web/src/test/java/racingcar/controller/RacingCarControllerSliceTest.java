@@ -15,7 +15,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import racingcar.domain.Car;
+import racingcar.domain.GameId;
 import racingcar.domain.RacingGame;
+import racingcar.domain.Winners;
 import racingcar.dto.GameResponse;
 import racingcar.dto.PlayGameRequest;
 import racingcar.service.RaceAddService;
@@ -53,6 +56,12 @@ class RacingCarControllerSliceTest {
                 new racingcar.domain.Car("토미", 5),
                 new racingcar.domain.Car("브라운", 5)
         ), 10));
+        given(raceFindService.findWinners(any(RacingGame.class))).willReturn(
+                new Winners(new GameId(1), List.of(
+                        new Car("브리", 5),
+                        new Car("토미", 5),
+                        new Car("브라운", 5
+                        ))));
 
         //expect
         mockMvc.perform(post("/plays")
@@ -78,6 +87,12 @@ class RacingCarControllerSliceTest {
                         new racingcar.domain.Car("브라운", 5)
                 ), 10)
         ));
+        given(raceFindService.findWinners(any(RacingGame.class))).willReturn(
+                new Winners(new GameId(1), List.of(
+                        new Car("브리", 5),
+                        new Car("토미", 5),
+                        new Car("브라운", 5
+                        ))));
 
         //expect
         mockMvc.perform(get("/plays"))
