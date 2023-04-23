@@ -21,6 +21,6 @@ class NamesTest {
     @Test
     @DisplayName("1명이상이 참여하면 익셉션이 발생하지 않는다.")
     void notThrowExceptionWhenOneMoreName() {
-        assertDoesNotThrow(() -> new Names("pobi, honux, bkcat"));
+        assertDoesNotThrow(() -> new Names("pobi,honux,bkcat"));
     }
 }

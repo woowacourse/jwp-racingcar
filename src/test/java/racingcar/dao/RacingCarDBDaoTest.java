@@ -13,37 +13,39 @@ import racingcar.domain.Name;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
+import racingcar.dto.RacingCarsDto;
+import racingcar.dto.TryCountDto;
 
 @SpringBootTest
-class RacingCarDaoTest {
-    private RacingCarDao racingCarDao;
+class RacingCarDBDaoTest {
+    private RacingCarDBDao racingCarDBDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        racingCarDao = new RacingCarDao(jdbcTemplate);
+        racingCarDBDao = new RacingCarDBDao(jdbcTemplate);
 
-        jdbcTemplate.execute("DROP TABLE LOG IF EXISTS");
-        jdbcTemplate.execute("DROP TABLE PLAY_RESULT IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE PLAY_RESULT("
+        jdbcTemplate.execute("DROP TABLE RACING_CAR IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE RACING_INFO IF EXISTS");
+        jdbcTemplate.execute("CREATE TABLE RACING_INFO("
                 + "    id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,"
                 + "    winners     VARCHAR(50) NOT NULL,"
                 + "    trial_count INT         NOT NULL,"
                 + "    created_at  DATETIME    NOT NULL,"
                 + "    PRIMARY KEY (id))");
 
-        jdbcTemplate.execute("CREATE TABLE LOG("
+        jdbcTemplate.execute("CREATE TABLE RACING_CAR("
                 + "    id      INT         NOT NULL AUTO_INCREMENT,"
                 + "    game_id INT         NOT NULL,"
                 + "    name    VARCHAR(50) NOT NULL,"
                 + "    move    INT         NOT NULL,"
                 + "    PRIMARY KEY (id),"
-                + "    FOREIGN KEY (game_id) REFERENCES PLAY_RESULT (id))");
+                + "    FOREIGN KEY (game_id) REFERENCES RACING_INFO (id))");
     }
 
-    @DisplayName("게임 플레이 인원수 만큼 LOG 테이블에 정보가 레코드된다.")
+    @DisplayName("게임 플레이 인원수 만큼 RACING_CAR 테이블에 정보가 레코드된다.")
     @Test
     void insertDBTest() {
         //given
@@ -52,10 +54,10 @@ class RacingCarDaoTest {
                         new RacingCar(new Name("리오"))
                 ));
         final TryCount tryCount = new TryCount(3);
-        final String sql = "SELECT COUNT(*) FROM LOG";
+        final String sql = "SELECT COUNT(*) FROM RACING_CAR";
 
         //when
-        racingCarDao.insertGame(racingCars, tryCount);
+        racingCarDBDao.insertGame(new RacingCarsDto(racingCars), new TryCountDto(tryCount));
         final int count = jdbcTemplate.queryForObject(sql, Integer.class);
 
         //then

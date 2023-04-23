@@ -7,21 +7,24 @@ import java.util.Collections;
 import java.util.List;
 
 public class Names {
-
-    private static final String ENTER_NAME_WITH_COMMA = "쉼표로 이름을 구분해주세요.";
-    private static final String COMMA = ",";
+    private static final String DELIMITER = ",";
     private static final int MIN_PARTICIPANT = 2;
 
     private final List<Name> names = new ArrayList<>();
 
     public Names(final String names) {
-        validateNotNull(names);
-        final List<String> splitNames = sliceNameByComma(names);
-        validateMinParticipantNumber(splitNames);
-        validateDuplicateName(splitNames);
+        final List<String> splitNames = validateAndSplit(names);
         splitNames.stream()
                 .map(Name::new)
                 .forEach(this.names::add);
+    }
+
+    private List<String> validateAndSplit(final String names) {
+        validateNotNull(names);
+        final List<String> splitNames = splitNames(names);
+        validateMinParticipantNumber(splitNames);
+        validateDuplicateName(splitNames);
+        return splitNames;
     }
 
     private void validateNotNull(final String names) {
@@ -42,24 +45,12 @@ public class Names {
         }
     }
 
-    private List<String> sliceNameByComma(final String names) {
-        validateComma(names);
-
-        return getSplitName(names);
-    }
-
-    private static List<String> getSplitName(final String names) {
+    private List<String> splitNames(final String names) {
         List<String> splitNames = new ArrayList<>();
 
-        addAll(splitNames, names.split(COMMA));
+        addAll(splitNames, names.split(DELIMITER));
 
         return splitNames;
-    }
-
-    private void validateComma(final String names) {
-        if (!names.contains(COMMA)) {
-            throw new IllegalArgumentException(ENTER_NAME_WITH_COMMA);
-        }
     }
 
     public List<Name> getNames() {
