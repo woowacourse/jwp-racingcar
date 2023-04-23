@@ -1,11 +1,11 @@
 package racingcar.view;
 
-import racingcar.domain.Car;
+import static racingcar.option.Option.CAR_INFIX;
+import static racingcar.option.Option.WINNER_DELIMITER;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static racingcar.option.Option.*;
+import racingcar.domain.Car;
 
 public class OutputView {
     public void noticeResult() {
@@ -21,21 +21,22 @@ public class OutputView {
 
     private void printCar(Car car) {
         System.out.print(car.getName() + CAR_INFIX);
-        for (int i = 0; i < car.getPosition(); i++) {
-            System.out.print(POSITION_CHARACTER);
-        }
-        System.out.println();
+        System.out.println(car.getPosition());
     }
 
     public void printWinners(List<Car> winners) {
-        List<String> winnerNames = getCarNamesOf(winners);
+        List<String> winnerNames = getCarNames(winners);
         String joinedNames = String.join(WINNER_DELIMITER, winnerNames);
         System.out.println(joinedNames + "가 최종 우승했습니다.");
     }
 
-    private List<String> getCarNamesOf(List<Car> cars) {
-        return cars.stream()
+    private List<String> getCarNames(List<Car> winners) {
+        return winners.stream()
                 .map(Car::getName)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
     }
 }

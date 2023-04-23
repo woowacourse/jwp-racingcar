@@ -1,28 +1,36 @@
 package racingcar.controller;
 
+import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.SpringService;
-import racingcar.dto.RequestDto;
-import racingcar.dto.ResponseDto;
+import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
+import racingcar.service.RacingGameService;
 
 @RestController
+@RequestMapping("/plays")
 public class SpringController {
 
-    private final SpringService springService;
+    private final RacingGameService racingGameService;
 
-    public SpringController(SpringService springService) {
-        this.springService = springService;
+    public SpringController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
     }
 
-    @PostMapping("/plays")
-    public ResponseEntity<ResponseDto> postInput(@RequestBody RequestDto requestDto) {
-        springService.setUpGame(requestDto.getNames());
-        springService.play(requestDto.getCount());
-        ResponseDto responseDto = new ResponseDto(springService.findWinners(), springService.getCars());
+    @PostMapping
+    public ResponseEntity<GameResponseDto> postInput(@RequestBody GameRequestDto gameRequestDto) {
+        GameResponseDto gameResponseDto = racingGameService.play(gameRequestDto);
         return ResponseEntity.ok()
-                .body(responseDto);
+                .body(gameResponseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GameResponseDto>> getWinner() {
+        return ResponseEntity.ok()
+                .body(racingGameService.getGameLog());
     }
 }

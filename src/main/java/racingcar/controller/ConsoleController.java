@@ -1,57 +1,36 @@
 package racingcar.controller;
 
-import racingcar.domain.Car;
-import racingcar.domain.ConsoleService;
-import racingcar.domain.RandomMoveChance;
+import racingcar.dto.GameResponseDto;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static racingcar.option.Option.MIN_TRIAL_COUNT;
 
 public class ConsoleController {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
 
-    private final ConsoleService consoleService;
-    private final int trialCount;
+    private final RacingGameService racingGameService;
 
     public ConsoleController() {
-        List<String> carNames = List.of(inputView.inputCarNames());
-        consoleService = new ConsoleService(makeCarsWith(carNames), new RandomMoveChance());
-        trialCount = inputView.inputTrialCount();
-        validateNotNegativeInteger(trialCount);
+        this.racingGameService = new RacingGameService();
     }
 
-    public void play() {
+    public void execute() {
+        try {
+            String carNames = inputView.inputCarNames();
+            int trialCount = inputView.inputTrialCount();
+            GameResponseDto gameResponse = racingGameService.playGame(carNames, trialCount);
+            showResults(gameResponse);
+        } catch (IllegalArgumentException exception) {
+            outputView.printErrorMessage(exception.getMessage());
+            execute();
+        }
+    }
+
+    private void showResults(GameResponseDto gameResponse) {
         outputView.noticeResult();
-        playMultipleTimes();
-    }
-
-    public void showResult() {
-        outputView.printCars(consoleService.getCars());
-        outputView.printWinners(consoleService.findWinners());
-    }
-
-    private List<Car> makeCarsWith(List<String> carNames) {
-        return carNames.stream()
-                .map(Car::new)
-                .collect(Collectors.toList());
-    }
-
-    private void validateNotNegativeInteger(int trialCount) {
-        if (trialCount < MIN_TRIAL_COUNT) {
-            throw new IllegalArgumentException("[ERROR] 시도횟수는 음수이면 안됩니다.");
-        }
-    }
-
-    private void playMultipleTimes() {
-        for (int i = 0; i < trialCount; i++) {
-            consoleService.playOnce();
-            outputView.printCars(consoleService.getCars());
-        }
+        outputView.printCars(racingGameService.getCars(gameResponse.getCars()));
+        outputView.printWinners(racingGameService.getWinners(gameResponse.getCars()));
     }
 }

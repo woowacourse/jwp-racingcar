@@ -4,15 +4,15 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import racingcar.domain.TrialCount;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
-public class GameDAOTest {
+public class GameDaoTest {
 
     @Autowired
-    private GameDAO gameDao;
+    private GameDao gameDao;
 
     @Test
     void saveGameTest() {
