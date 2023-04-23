@@ -5,11 +5,11 @@ import racingcar.dto.CarDto;
 import java.util.List;
 
 public interface CarDao {
-    void save(CarDto carDto);
+    void save(final CarDto carDto);
     
-    long findIdByGameIdAndName(long gameId, String name);
+    long findIdByGameIdAndName(final long gameId, final String name);
     
-    List<CarDto> findCarDtosByCarIds(List<Long> gameIds);
+    List<CarDto> findCarDtosByCarIds(final List<Long> gameIds);
     
-    List<CarDto> findCarDtosByGameId(long gameId);
+    List<CarDto> findCarDtosByGameId(final long gameId);
 }

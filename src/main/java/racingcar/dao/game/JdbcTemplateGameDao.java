@@ -22,11 +22,11 @@ public class JdbcTemplateGameDao implements GameDao {
     }
     
     @Override
-    public long save(GameDto gameInputDto) {
+    public long save(GameDto gameDto) {
         final String sql = "INSERT INTO GAME(count) values (:count)";
         final KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         final SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("count", gameInputDto.getCount());
+                .addValue("count", gameDto.getCount());
         namedParameterJdbcTemplate.update(sql, params, generatedKeyHolder, new String[]{"id"});
         
         return Objects.requireNonNull(generatedKeyHolder.getKey()).intValue();

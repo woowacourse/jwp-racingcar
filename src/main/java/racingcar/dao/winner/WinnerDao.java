@@ -5,7 +5,7 @@ import racingcar.dto.WinnerDto;
 import java.util.List;
 
 public interface WinnerDao {
-    void save(WinnerDto winnerDto);
+    void save(final WinnerDto winnerDto);
     
-    List<WinnerDto> findWinnerDtosByGameId(long gameId);
+    List<WinnerDto> findWinnerDtosByGameId(final long gameId);
 }
