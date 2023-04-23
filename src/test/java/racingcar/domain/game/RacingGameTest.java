@@ -16,7 +16,7 @@ class RacingGameTest {
         @DisplayName("이름이 중복으로 입력되었을 때 예외 발생")
         void throwExceptionWhenDuplicateNameExists() {
             assertThatThrownBy(
-                            () -> RacingGame.from(List.of("rosie", "hong", "rosie")))
+                            () -> RacingGame.of(10, List.of("rosie", "hong", "rosie")))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -26,9 +26,9 @@ class RacingGameTest {
     void testGameProgress() {
         //given
         int trialCount = 10;
-        RacingGame race = RacingGame.from(List.of("바론", "론이", "로니", "로지"));
+        RacingGame race = RacingGame.of(trialCount, List.of("바론", "론이", "로니", "로지"));
         //when
-        race.play(trialCount, new RandomNumberGenerator());
+        race.play(new RandomNumberGenerator());
         //then
         boolean isAllInTrialCount = race.getRacingCars().stream()
                 .allMatch(car -> 0 <= car.getPosition() && car.getPosition() <= trialCount);
@@ -40,7 +40,7 @@ class RacingGameTest {
     @Test
     void testCreateInstanceOfIdAndCarNames() {
         List<String> carNames = List.of("서브웨이", "로지", "키아라", "연어");
-        var racingGame = RacingGame.from(carNames);
+        var racingGame = RacingGame.of(1, carNames);
 
         assertThat(racingGame)
                 .isNotNull()

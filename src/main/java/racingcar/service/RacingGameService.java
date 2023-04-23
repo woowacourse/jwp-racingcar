@@ -20,9 +20,9 @@ public class RacingGameService {
     }
 
     public RacingGameDto play(int trialCount, List<String> names) {
-        RacingGame game = RacingGame.from(names);
-        game.play(trialCount, numberGenerator);
-        RacingGame savedGame = racingGameRepository.save(game, trialCount);
+        RacingGame game = RacingGame.of(trialCount, names);
+        game.play(numberGenerator);
+        RacingGame savedGame = racingGameRepository.save(game);
         return RacingGameDto.from(savedGame);
     }
 

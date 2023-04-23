@@ -52,7 +52,7 @@ class RacingGameControllerTest {
 
         @BeforeEach
         void setUp() {
-            RacingGame mockRacingGame = RacingGame.from(List.of("브리", "로지", "바론"));
+            RacingGame mockRacingGame = RacingGame.of(10, List.of("브리", "로지", "바론"));
             RacingGameDto racingGameDto = RacingGameDto.from(mockRacingGame);
             given(racingGameService.play(anyInt(), anyList())).willReturn(racingGameDto);
 
@@ -118,6 +118,7 @@ class RacingGameControllerTest {
             MockitoAnnotations.openMocks(this);
             mockMvc = MockMvcBuilders.standaloneSetup(racingGameController).build();
         }
+
         @DisplayName("게임 이력을 올바른 형태로 반환한다.")
         @Test
         void testReadHistory() throws Exception {

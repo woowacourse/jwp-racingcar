@@ -12,27 +12,41 @@ public class RacingGame {
     private Long id;
     private final RacingCars racingCars;
     private final LocalDateTime playTime;
+    private final int trialCount;
 
 
-    public RacingGame(List<RacingCar> racingCars) {
+    public RacingGame(int trialCount, List<RacingCar> racingCars) {
+        validate(trialCount);
+        this.trialCount = trialCount;
         this.racingCars = new RacingCars(racingCars);
         this.playTime = LocalDateTime.now();
     }
 
-    public RacingGame(Long id, List<RacingCar> racingCars) {
+    public RacingGame(Long id, int trialCount, List<RacingCar> racingCars) {
+        validate(trialCount);
         this.id = id;
+        this.trialCount = trialCount;
         this.racingCars = new RacingCars(racingCars);
         this.playTime = LocalDateTime.now();
     }
-    public RacingGame(Long id, List<RacingCar> racingCars, LocalDateTime playTime) {
+
+    public RacingGame(Long id, int trialCount, List<RacingCar> racingCars, LocalDateTime playTime) {
+        validate(trialCount);
         this.id = id;
+        this.trialCount = trialCount;
         this.racingCars = new RacingCars(racingCars);
         this.playTime = playTime;
     }
 
-    public static RacingGame from(List<String> carNames) {
+    private void validate(int trialCount) {
+        if (trialCount < 0) {
+            throw new IllegalArgumentException("시도 횟수는 음수일 수 없습니다.");
+        }
+    }
+
+    public static RacingGame of(int trialCount, List<String> carNames) {
         List<RacingCar> racingCars = createRacingCars(carNames);
-        return new RacingGame(racingCars);
+        return new RacingGame(trialCount, racingCars);
     }
 
     private static List<RacingCar> createRacingCars(List<String> carNames) {
@@ -42,19 +56,10 @@ public class RacingGame {
         return racingCars;
     }
 
-    public void play(int trialCount, NumberGenerator numberGenerator) {
-        validate(trialCount);
+    public void play(NumberGenerator numberGenerator) {
         for (int count = 0; count < trialCount; count++) {
-            List<Integer> numbers = numberGenerator.generateNumbers(getRacingCars().size());
-            racingCars.moveCars(numbers);
+            racingCars.moveCars(numberGenerator);
         }
-    }
-
-    private int validate(int trialCount) {
-        if (trialCount < 0) {
-            throw new IllegalArgumentException("시도 횟수는 음수일 수 없습니다.");
-        }
-        return trialCount;
     }
 
     public boolean isWinner(RacingCar racingCar) {
@@ -83,6 +88,10 @@ public class RacingGame {
 
     public Long getId() {
         return id;
+    }
+
+    public int getTrialCount() {
+        return trialCount;
     }
 
     public List<RacingCar> getRacingCars() {

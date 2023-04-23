@@ -31,8 +31,8 @@ public class WebRacingGameRepository implements RacingGameRepository {
     }
 
     @Override
-    public RacingGame save(RacingGame racingGame, int trialCount) {
-        Long historyId = racingGameHistoryDao.insert(trialCount, LocalDateTime.now());
+    public RacingGame save(RacingGame racingGame) {
+        Long historyId = racingGameHistoryDao.insert(racingGame.getTrialCount(), LocalDateTime.now());
         racingGame.setId(historyId);
         for (RacingCar racingCar : racingGame.getRacingCars()) {
             Long savedId = racingCarRecordDao.insert(racingGame.getId(), racingCar, racingGame.isWinner(racingCar));
@@ -65,11 +65,12 @@ public class WebRacingGameRepository implements RacingGameRepository {
 
     private Function<Entry<Long, List<CarRecordWithGameHistoryDto>>, RacingGame> racingGameMapper() {
         return historyIdToCarRecords -> {
+            int trialCount = historyIdToCarRecords.getValue().get(0).getTrialCount();
             List<RacingCar> racingCars = historyIdToCarRecords.getValue().stream()
                     .map(c -> new RacingCar(c.getId(), c.getName(), c.getPosition()))
                     .collect(Collectors.toList());
             LocalDateTime playTime = historyIdToCarRecords.getValue().get(0).getPlayTime();
-            return new RacingGame(historyIdToCarRecords.getKey(), racingCars, playTime);
+            return new RacingGame(historyIdToCarRecords.getKey(), trialCount, racingCars, playTime);
         };
     }
 

@@ -3,6 +3,9 @@ package racingcar.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -113,7 +116,14 @@ public class RacingGameServiceTest {
 
         @BeforeEach
         void setUp() {
-            numberGenerator = (size) -> List.of(1, 4, 5);
+            numberGenerator = new NumberGenerator() {
+                Deque<Integer> numbers = new ArrayDeque<>(Arrays.asList(1, 4, 5));
+
+                @Override
+                public int generateNumber() {
+                    return numbers.pollFirst();
+                }
+            };
             racingGameService = new RacingGameService(racingGameRepository, numberGenerator);
         }
 

@@ -2,7 +2,6 @@ package racingcar.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
 
@@ -38,7 +37,8 @@ class RacingGameServiceMockTest {
     void insertRacingGameResult() {
         //given
         List<String> carNames = List.of("로지", "바론");
-        given(racingGameRepository.save(any(RacingGame.class), anyInt())).willReturn(RacingGame.from(carNames));
+        given(racingGameRepository.save(any(RacingGame.class)))
+                .willReturn(RacingGame.of(10, carNames));
         //when
         RacingGameDto result = racingGameService.play(10, carNames);
         //then
@@ -53,7 +53,7 @@ class RacingGameServiceMockTest {
     void readRacingGameResult() {
         //given
         given(racingGameRepository.findAll()).willReturn(
-                List.of(RacingGame.from(List.of("이름", "이름2", "이름3")))
+                List.of(RacingGame.of(10, List.of("이름", "이름2", "이름3")))
         );
 
         //when

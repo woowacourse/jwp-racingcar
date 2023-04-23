@@ -9,7 +9,7 @@ public class ConsoleRacingGameRepository implements RacingGameRepository {
     private final List<RacingGame> gameHistory = new ArrayList<>();
 
     @Override
-    public RacingGame save(RacingGame racingGame, int trialCount) {
+    public RacingGame save(RacingGame racingGame) {
         racingGame.setId(gameHistory.size() + 1L);
         gameHistory.add(racingGame);
         return racingGame;

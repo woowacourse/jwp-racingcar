@@ -2,6 +2,7 @@ package racingcar.domain.cars;
 
 import java.util.Collections;
 import java.util.List;
+import racingcar.domain.game.NumberGenerator;
 
 public class RacingCars {
     private final List<RacingCar> racingCars;
@@ -25,9 +26,9 @@ public class RacingCars {
         return racingCars.size() != distinctNameCount;
     }
 
-    public void moveCars(List<Integer> numbers) {
-        for (int index = 0; index < racingCars.size(); index++) {
-            racingCars.get(index).moveDependingOn(numbers.get(index));
+    public void moveCars(NumberGenerator numberGenerator) {
+        for(RacingCar racingCar: racingCars) {
+            racingCar.moveDependingOn(numberGenerator.generateNumber());
         }
     }
 
