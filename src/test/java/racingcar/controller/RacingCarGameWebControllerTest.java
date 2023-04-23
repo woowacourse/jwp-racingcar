@@ -26,7 +26,7 @@ class RacingCarGameWebControllerTest {
         RestAssured.port = this.port;
     }
     
-    @DisplayName("Http Method - POST")
+    @DisplayName("POST /plays - 게임 실행")
     @Test
     void playRacingCarGameTest() {
         final GameRequestDTO gameRequestDTO = new GameRequestDTO("echo,io", 10);
@@ -39,7 +39,7 @@ class RacingCarGameWebControllerTest {
                 .body("racingCars.size()", is(2));
     }
     
-    @DisplayName("IllegalArgumentException handling - 이름 1개")
+    @DisplayName("이름이 1개 이하인 경우 예외 발생")
     @Test
     void handleIllegalArgumentExceptionTest() {
         final GameRequestDTO gameRequestDTO = new GameRequestDTO("io", 2);
@@ -53,7 +53,7 @@ class RacingCarGameWebControllerTest {
                 .body(is("자동차는 2대 이상이어야 합니다."));
     }
     
-    @DisplayName("IllegalArgumentException handling - 이름 없는 경우")
+    @DisplayName("이름 없는 경우 예외 발생")
     @Test
     void handleIllegalArgumentExceptionTest2() {
         final GameRequestDTO gameRequestDTO = new GameRequestDTO("", 2);
@@ -67,7 +67,7 @@ class RacingCarGameWebControllerTest {
                 .body(is("자동차는 2대 이상이어야 합니다."));
     }
     
-    @DisplayName("IllegalArgumentException handling - 이름 5자 초과")
+    @DisplayName("이름 5자 초과 예외 발생")
     @Test
     void handleIllegalArgumentExceptionTest3() {
         final GameRequestDTO gameRequestDTO = new GameRequestDTO("eeeeeeee,eee", 2);
@@ -81,7 +81,7 @@ class RacingCarGameWebControllerTest {
                 .body(is("자동차 이름은 5자를 초과할 수 없습니다."));
     }
     
-    @DisplayName("IllegalArgumentException handling - 이름 중복")
+    @DisplayName("이름 중복인 경우 예외 발생")
     @Test
     void handleIllegalArgumentExceptionTest4() {
         final GameRequestDTO gameRequestDTO = new GameRequestDTO("echo,io,echo", 2);
@@ -95,7 +95,7 @@ class RacingCarGameWebControllerTest {
                 .body(is("중복된 자동차 이름이 있습니다."));
     }
     
-    @DisplayName("IllegalArgumentException handling - 시도 횟수 0")
+    @DisplayName("시도 횟수 0인 경우 예외 발생")
     @Test
     void handleIllegalArgumentExceptionTest5() {
         final GameRequestDTO gameRequestDTO = new GameRequestDTO("echo,io", 0);
@@ -109,7 +109,7 @@ class RacingCarGameWebControllerTest {
                 .body(is("시도 횟수는 1 이상이어야 합니다."));
     }
     
-    @DisplayName("IllegalArgumentException handling - 시도 횟수 음수")
+    @DisplayName("시도 횟수 음수인 경우 예외 발생")
     @Test
     void handleIllegalArgumentExceptionTest6() {
         final GameRequestDTO gameRequestDTO = new GameRequestDTO("echo,io", -1);
