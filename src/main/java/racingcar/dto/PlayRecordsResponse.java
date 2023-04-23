@@ -4,9 +4,9 @@ import java.util.List;
 
 public class PlayRecordsResponse {
     private final String winners;
-    private final List<CarResponse> racingCars;
+    private final List<CarForNameAndPosition> racingCars;
 
-    public PlayRecordsResponse(String winners, List<CarResponse> racingCars) {
+    public PlayRecordsResponse(String winners, List<CarForNameAndPosition> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
@@ -15,7 +15,7 @@ public class PlayRecordsResponse {
         return winners;
     }
 
-    public List<CarResponse> getRacingCars() {
+    public List<CarForNameAndPosition> getRacingCars() {
         return racingCars;
     }
 }

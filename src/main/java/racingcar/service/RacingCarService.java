@@ -38,24 +38,24 @@ public class RacingCarService {
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoRequest.getCount();
         gamePlay.play(cars, count, numberGenerator);
-        List<CarResponse> carResponses = cars.getCars().stream()
-                .map(CarResponse::new)
+        List<CarForNameAndPosition> carRespons = cars.getCars().stream()
+                .map(CarForNameAndPosition::new)
                 .collect(Collectors.toList());
-        List<CarResponse> winners = cars.findWinners().stream()
-                .map(CarResponse::new)
+        List<CarForNameAndPosition> winners = cars.findWinners().stream()
+                .map(CarForNameAndPosition::new)
                 .collect(Collectors.toList());
-        saveResult(count, carResponses, winners);
+        saveResult(count, carRespons, winners);
         return new GameResultResponse(cars.findWinners(), cars.getCars());
     }
 
-    private void saveResult(int trialCount, List<CarResponse> cars, List<CarResponse> winners) {
+    private void saveResult(int trialCount, List<CarForNameAndPosition> cars, List<CarForNameAndPosition> winners) {
         int playerResultId = playResultDao.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
         playersInfoDao.insert(playerResultId, cars);
     }
 
-    private String makeWinnersString(List<CarResponse> winners) {
+    private String makeWinnersString(List<CarForNameAndPosition> winners) {
         return winners.stream()
-                .map(CarResponse::getName)
+                .map(CarForNameAndPosition::getName)
                 .collect(Collectors.joining(DELIMITER));
     }
 
