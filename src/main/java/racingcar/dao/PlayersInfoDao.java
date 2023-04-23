@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import racingcar.dto.CarForNameAndPosition;
+import racingcar.entity.PlayersInfo;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -37,6 +38,17 @@ public class PlayersInfoDao {
                 return carResponse.size();
             }
         });
+    }
+
+    public List<PlayersInfo> findPlayersInfosByPlayResultId(int playResultId) {
+        String sql = "select * from players_info where play_result_id = ?";
+        return this.jdbcTemplate.query(sql,
+                (resultSet, rowNum) -> {
+                    Integer id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    Integer position = resultSet.getInt("position");
+                    return new PlayersInfo(id, name, position, playResultId);
+                }, playResultId);
     }
 
 }

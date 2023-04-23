@@ -3,9 +3,10 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.dto.CarForNameAndPosition;
+import racingcar.entity.PlayResult;
 
 import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -31,17 +32,15 @@ public class PlayResultDao {
         return (int) keyHolder.getKey();
     }
 
-    public List<String> findAllPlayRecords() {
-        String sql = "select winners from play_result";
+    public List<PlayResult> findAllPlayResults() {
+        String sql = "select * from play_result";
         return this.jdbcTemplate.query(sql,
-                (resultSet, rowNum) -> resultSet.getString("winners"));
-    }
-
-    public List<CarForNameAndPosition> findPlayRecordsByWinner(String winners, int gameId) {
-        String sql = "select play_result.winners, players_info.name, players_info.position from play_result "
-                + "join players_info on play_result.id = players_info.play_result_id"
-                + " where play_result.winners = ? and play_result.id = ?";
-        return this.jdbcTemplate.query(sql,
-                (resultSet, rowNum) -> new CarForNameAndPosition(resultSet.getString("name"), resultSet.getInt("position")), winners, gameId);
+                (resultSet, rowNum) -> {
+                    Integer id = resultSet.getInt("id");
+                    Integer count = resultSet.getInt("count");
+                    String winners = resultSet.getString("winners");
+                    LocalDateTime createdAt = resultSet.getObject("created_at", LocalDateTime.class);
+                    return new PlayResult(id, count, winners, createdAt);
+                });
     }
 }

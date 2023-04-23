@@ -8,6 +8,8 @@ import racingcar.dao.PlayersInfoDao;
 import racingcar.domain.CarsFactory;
 import racingcar.domain.Cars;
 import racingcar.dto.*;
+import racingcar.entity.PlayResult;
+import racingcar.entity.PlayersInfo;
 import racingcar.genertor.NumberGenerator;
 import racingcar.genertor.RandomNumberGenerator;
 
@@ -48,9 +50,9 @@ public class RacingCarService {
         return new GameResultForResponse(cars.findWinners(), cars.getCars());
     }
 
-    private void saveResult(int trialCount, List<CarForNameAndPosition> cars, List<CarForNameAndPosition> winners) {
+    private void saveResult(int trialCount, List<CarForNameAndPosition> carForNameAndPositions, List<CarForNameAndPosition> winners) {
         int playerResultId = playResultDao.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
-        playersInfoDao.insert(playerResultId, cars);
+        playersInfoDao.insert(playerResultId, carForNameAndPositions);
     }
 
     private String makeWinnersString(List<CarForNameAndPosition> winners) {
@@ -60,12 +62,17 @@ public class RacingCarService {
     }
 
     public List<PlayRecordsForResponse> showPlayRecords() {
-        List<String> allWinners = playResultDao.findAllPlayRecords();
+        List<String> allWinners = playResultDao.findAllPlayResults().stream()
+                .map(PlayResult::getWinners).collect(Collectors.toList());
         List<PlayRecordsForResponse> playRecordsForResponses = new ArrayList<>();
         for (int i = 0; i < allWinners.size(); i++) {
             String winners = allWinners.get(i);
-            int gameId = i + 1;
-            PlayRecordsForResponse playRecordsForResponse = new PlayRecordsForResponse(winners, playResultDao.findPlayRecordsByWinner(winners, gameId));
+            int playResultId = i + 1;
+            List<PlayersInfo> playersInfos = playersInfoDao.findPlayersInfosByPlayResultId(playResultId);
+            List<CarForNameAndPosition> carForNameAndPositions = playersInfos.stream()
+                    .map(playersInfo -> new CarForNameAndPosition(playersInfo.getName(), playersInfo.getPosition()))
+                    .collect(Collectors.toList());
+            PlayRecordsForResponse playRecordsForResponse = new PlayRecordsForResponse(winners, carForNameAndPositions);
             playRecordsForResponses.add(playRecordsForResponse);
         }
         return playRecordsForResponses;
