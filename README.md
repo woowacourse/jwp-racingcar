@@ -33,19 +33,20 @@
 - 게임하기
   - 요청
     ```text
-    Request Method: POST
-    Request URI: /plays
+    POST 127.0.0.1:8080/plays
     Content-Type: application/json; charset=UTF-8
-    Body: {
-      "names": "gray, hoy, logan",
-      "count": "10"
+    
+    {
+        "names": "gray, hoy, logan",
+        "count": "10"
     }
     ```
   - 응답
     ```text
-    HTTP/1.1 200
-    Content-Type: application/json
-    Body: {
+    GET 127.0.0.1:8080/plays
+    Content-Type: application/json; charset=UTF-8
+
+    {
       "winners": "logan",
       "racingCars": [
           {
@@ -73,37 +74,39 @@
     ```text
     HTTP/1.1 200
     Content-Type: application/json
-    Body: [
-    {
-      "winners": "브리",
-      "racingCars": [
-          {
-            "name": "브리",
-            "position": 6
-          },
-          {
-            "name": "토미",
-            "position": 4
-          },
-          {
-            "name": "브라운",
-            "position": 3
-          }]
-    },
-    {
-      "winners": "브리,토미,브라운",
-      "racingCars": [
-          {
-            "name": "브리",
-            "position": 6
-          },
-          {
-            "name": "토미",
-            "position": 6
-          },
-          {
-            "name": "브라운",
-            "position": 6
-          }]
-    }]
+
+    [
+        {
+          "winners": "브리",
+          "racingCars": [
+              {
+                "name": "브리",
+                "position": 6
+              },
+              {
+                "name": "토미",
+                "position": 4
+              },
+              {
+                "name": "브라운",
+                "position": 3
+              }]
+        },
+        {
+          "winners": "브리,토미,브라운",
+          "racingCars": [
+              {
+                "name": "브리",
+                "position": 6
+              },
+              {
+                "name": "토미",
+                "position": 6
+              },
+              {
+                "name": "브라운",
+                "position": 6
+              }]
+        }
+    ]
     ```
