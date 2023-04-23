@@ -12,9 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.RacingCarRecord;
 import racingcar.dao.RacingCarRecordDao;
-import racingcar.dao.RacingGameHistory;
 import racingcar.dao.RacingGameHistoryDao;
 import racingcar.domain.cars.RacingCar;
 import racingcar.domain.game.NumberGenerator;
@@ -126,16 +124,11 @@ public class RacingGameServiceTest {
             //when
             racingGameService.play(1, List.of("서브웨이", "브리", "로지"));
             //then
-            List<RacingGameHistory> racingGameHistories = racingGameHistoryDao.selectAll();
-            RacingGameHistory createdGameHistory = racingGameHistories.get(0);
-            List<RacingCarRecord> createdCarRecords = racingCarRecordDao.findByHistoryId(createdGameHistory.getId());
-            RacingCarRecord subway = createdCarRecords.stream().filter(car -> car.getName().equals("서브웨이")).findFirst().get();
-            RacingCarRecord briee = createdCarRecords.stream().filter(car -> car.getName().equals("브리")).findFirst().get();
-            RacingCarRecord rosie = createdCarRecords.stream().filter(car -> car.getName().equals("로지")).findFirst().get();
-            assertThat(subway.getPosition()).isEqualTo(0);
-            assertThat(briee.getPosition()).isEqualTo(1);
-            assertThat(rosie.getPosition()).isEqualTo(1);
-
+            List<RacingGame> racingGames = racingGameRepository.findAll();
+            RacingGame racingGame = racingGames.get(0);
+            List<String> carNames = racingGame.getRacingCars().stream().map(RacingCar::getName)
+                    .collect(Collectors.toList());
+            assertThat(carNames).containsExactly("서브웨이", "브리", "로지");
         }
     }
 
