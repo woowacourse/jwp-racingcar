@@ -29,10 +29,6 @@ public class RacingCarConsoleDao implements RacingCarDao {
         return racingCarConsoleDao;
     }
 
-    private int getId() {
-        return id++;
-    }
-
     @Override
     public List<CarEntity> findCarsByGameId(int gameId) {
         return cars.stream()
@@ -56,7 +52,7 @@ public class RacingCarConsoleDao implements RacingCarDao {
         return cars.stream()
                 .filter(carEntity -> carEntity.getName().equals(name))
                 .findFirst()
-                .map(carEntity -> carEntity.getId())
+                .map(CarEntity::getId)
                 .orElseThrow(() -> new IllegalArgumentException("찾는 이름의 차가 없습니다."));
     }
 
@@ -64,8 +60,12 @@ public class RacingCarConsoleDao implements RacingCarDao {
         return cars.stream()
                 .filter(carEntity -> carEntity.getId() == id)
                 .findFirst()
-                .map(carEntity -> carEntity.getName())
-                .orElseThrow(() -> new IllegalArgumentException("찾는 아이디의 차가 없습니다." + id));
+                .map(CarEntity::getName)
+                .orElseThrow(() -> new IllegalArgumentException("찾는 아이디의 차가 없습니다."));
+    }
+
+    private int getId() {
+        return id++;
     }
 
 }

@@ -2,7 +2,7 @@ package racingcar.entity;
 
 public class CarEntity {
 
-    private int id;
+    private final int id;
     private final String name;
     private final int position;
     private final int racingGameId;
@@ -28,10 +28,6 @@ public class CarEntity {
 
     public int getRacingGameId() {
         return racingGameId;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override

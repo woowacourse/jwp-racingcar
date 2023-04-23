@@ -60,20 +60,20 @@ public class RacingCarService {
                 .forEach(car -> racingCarDao.saveCar(generateRacingCarEntity(gameId, car)));
     }
 
-    private void saveWinners(int gameId, Winners winners) {
-        for (Winner winner : winners.getWinners()) {
-            String name = winner.getName();
-            int carId = racingCarDao.findIdByName(name);
-            winnersDao.saveWinners(gameId, carId);
-        }
-    }
-
     private CarEntity generateRacingCarEntity(int gameId, Car car) {
         return new CarEntity.Builder()
                 .name(car.getName())
                 .position(car.getPosition())
                 .racingGameId(gameId)
                 .build();
+    }
+
+    private void saveWinners(int gameId, Winners winners) {
+        for (Winner winner : winners.getWinners()) {
+            String name = winner.getName();
+            int carId = racingCarDao.findIdByName(name);
+            winnersDao.saveWinners(gameId, carId);
+        }
     }
 
     public GameResponseDto getSavedGameById(int gameId) {

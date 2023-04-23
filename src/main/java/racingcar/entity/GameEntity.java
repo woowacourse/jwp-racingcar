@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class GameEntity {
 
-    private int id;
+    private final int id;
     private final int count;
     private final LocalDateTime createdAt;
 
@@ -24,10 +24,6 @@ public class GameEntity {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override

@@ -29,10 +29,6 @@ public class RacingGameConsoleDao implements RacingGameDao {
         return racingGameConsoleDao;
     }
 
-    private int getId() {
-        return id++;
-    }
-
     @Override
     public List<GameEntity> findAll() {
         return gameEntities;
@@ -54,6 +50,10 @@ public class RacingGameConsoleDao implements RacingGameDao {
                 .filter(gameEntity -> gameEntity.getId() == gameId)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("찾는 게임이 없습니다."));
+    }
+
+    private int getId() {
+        return id++;
     }
 
 }
