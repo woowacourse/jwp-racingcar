@@ -1,23 +1,32 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.car.CarDao;
-import racingcar.dao.car.dto.CarRegisterRequest;
-import racingcar.domain.Car;
-import racingcar.domain.RacingCars;
+import racingcar.dao.CarDao;
+import racingcar.domain.RacingGame;
+import racingcar.entity.CarEntity;
+import racingcar.service.mapper.CarMapper;
+
+import java.util.List;
 
 @Service
 public class CarService {
 
     private final CarDao carDao;
+    private final CarMapper carMapper;
 
-    public CarService(final CarDao carDao) {
+    public CarService(final CarDao carDao, final CarMapper carMapper) {
         this.carDao = carDao;
+        this.carMapper = carMapper;
     }
 
-    public void registerCars(final RacingCars racingCars, final int savedId) {
-        for (final Car car : racingCars.getCars()) {
-            carDao.save(new CarRegisterRequest(car.getName(), car.getPosition(), savedId));
-        }
+    public void registerCars(final RacingGame racingGame, final Long savedId) {
+        final List<CarEntity> carEntities =
+                carMapper.mapToCarEntitiesFrom(racingGame, savedId);
+
+        carDao.save(carEntities);
+    }
+
+    public List<CarEntity> searchAllCars() {
+        return carDao.findAll();
     }
 }

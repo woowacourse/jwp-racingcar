@@ -1,12 +1,13 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.controller.dto.CarStatusResponse;
-import racingcar.controller.dto.GameInfoRequest;
-import racingcar.controller.dto.RaceResultResponse;
-import racingcar.dao.raceresult.RaceResultDao;
-import racingcar.dao.raceresult.dto.RaceResultRegisterRequest;
-import racingcar.domain.RacingCars;
+import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.RaceResultDao;
+import racingcar.domain.RacingGame;
+import racingcar.entity.CarEntity;
+import racingcar.entity.RaceResultEntity;
+import racingcar.service.dto.GameInfoRequest;
+import racingcar.service.dto.RaceResultResponse;
 import racingcar.service.mapper.RaceResultMapper;
 import racingcar.util.NumberGenerator;
 
@@ -14,7 +15,6 @@ import java.util.List;
 
 @Service
 public class RaceResultService {
-
 
     private final RaceResultDao raceResultDao;
     private final CarService carService;
@@ -29,24 +29,27 @@ public class RaceResultService {
         this.raceResultMapper = raceResultMapper;
     }
 
+    @Transactional
     public RaceResultResponse createRaceResult(final GameInfoRequest gameInfoRequest) {
 
-        final String names = gameInfoRequest.getNames();
-        final RacingCars racingCars = RacingCars.makeCars(names);
+        final RacingGame racingGame = RacingGame.readyToRacingGame(
+                gameInfoRequest.getNames(),
+                numberGenerator,
+                gameInfoRequest.getCount()
+        );
+        racingGame.play();
 
-        final int tryCount = gameInfoRequest.getCount();
+        final RaceResultEntity raceResultEntity = raceResultMapper.mapToRaceResultEntity(racingGame);
+        final Long savedId = raceResultDao.save(raceResultEntity);
 
-        racingCars.moveAllCars(tryCount, numberGenerator);
+        carService.registerCars(racingGame, savedId);
 
-        final RaceResultRegisterRequest raceResultRegisterRequest =
-                raceResultMapper.mapToRaceResult(tryCount, racingCars);
+        return raceResultMapper.mapToRaceResultResponse(racingGame);
+    }
 
-        final int savedId = raceResultDao.save(raceResultRegisterRequest);
-
-        carService.registerCars(racingCars, savedId);
-
-        final List<CarStatusResponse> carStatusResponses = raceResultMapper.mapToCarStatus(racingCars);
-
-        return new RaceResultResponse(raceResultRegisterRequest.getWinners(), carStatusResponses);
+    @Transactional(readOnly = true)
+    public List<RaceResultResponse> searchRaceResult() {
+        final List<CarEntity> carEntities = carService.searchAllCars();
+        return raceResultMapper.mapToRaceResultResponses(carEntities);
     }
 }
