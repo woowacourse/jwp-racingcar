@@ -19,4 +19,8 @@ public class ParticipantConsoleDao implements ParticipantDao {
     @Override
     public void save(final ParticipantEntity participantEntity) {
     }
+
+    @Override
+    public void saveAll(final List<ParticipantEntity> participantEntities) {
+    }
 }

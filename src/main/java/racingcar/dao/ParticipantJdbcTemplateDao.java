@@ -1,11 +1,14 @@
 package racingcar.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.entity.ParticipantEntity;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -50,5 +53,24 @@ public class ParticipantJdbcTemplateDao implements ParticipantDao {
                 participantEntity.getPosition(),
                 participantEntity.getWinner()
         );
+    }
+
+    @Override
+    public void saveAll(final List<ParticipantEntity> participantEntities) {
+        final String sql = "INSERT INTO PARTICIPANT(game_id, player_id, position, is_winner) VALUES(?, ?, ?, ?) ";
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setLong(1, participantEntities.get(i).getGameId());
+                ps.setLong(2, participantEntities.get(i).getPlayerId());
+                ps.setInt(3, participantEntities.get(i).getPosition());
+                ps.setBoolean(4, participantEntities.get(i).getWinner());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return participantEntities.size();
+            }
+        });
     }
 }
