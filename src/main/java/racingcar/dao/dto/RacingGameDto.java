@@ -1,11 +1,11 @@
-package racingcar.dao.mapper;
+package racingcar.dao.dto;
 
-public class RacingGameDtoMapper {
+public class RacingGameDto {
 
     private final int id;
     private final String winners;
 
-    public RacingGameDtoMapper(final int id, final String winners) {
+    public RacingGameDto(final int id, final String winners) {
         this.id = id;
         this.winners = winners;
     }

@@ -12,8 +12,8 @@ import racingcar.controller.dto.CarDto;
 import racingcar.controller.dto.RacingGameResponse;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.RacingGameDao;
-import racingcar.dao.mapper.PlayerDtoMapper;
-import racingcar.dao.mapper.RacingGameDtoMapper;
+import racingcar.dao.dto.PlayerDto;
+import racingcar.dao.dto.RacingGameDto;
 import racingcar.domain.CarGroup;
 import racingcar.domain.Name;
 import racingcar.domain.RacingGame;
@@ -49,7 +49,7 @@ public class RacingGameService {
     }
 
     public List<RacingGameResponse> findHistory() {
-        final List<RacingGameDtoMapper> gameHistories = racingGameDao.findAll();
+        final List<RacingGameDto> gameHistories = racingGameDao.findAll();
         final List<Integer> gameHistoryIds = getGameHistoryIds(gameHistories);
         final List<List<CarDto>> playerHistories = getPlayerHistories(gameHistoryIds);
 
@@ -78,9 +78,9 @@ public class RacingGameService {
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> getGameHistoryIds(final List<RacingGameDtoMapper> gameHistories) {
+    private List<Integer> getGameHistoryIds(final List<RacingGameDto> gameHistories) {
         final List<Integer> gameHistoryIds = new ArrayList<>();
-        for (final RacingGameDtoMapper gameHistory : gameHistories) {
+        for (final RacingGameDto gameHistory : gameHistories) {
             gameHistoryIds.add(gameHistory.getId());
         }
         return gameHistoryIds;
@@ -89,17 +89,17 @@ public class RacingGameService {
     private List<List<CarDto>> getPlayerHistories(final List<Integer> gameHistoryIds) {
         final List<List<CarDto>> playerHistories = new ArrayList<>();
         for (final Integer gameHistoryId : gameHistoryIds) {
-            final List<PlayerDtoMapper> playerDtoMappers = playerDao.findAllByRacingGameId(gameHistoryId);
-            final List<CarDto> carDtos = createCarDtos(playerDtoMappers);
+            final List<PlayerDto> playerDtos = playerDao.findAllByRacingGameId(gameHistoryId);
+            final List<CarDto> carDtos = createCarDtos(playerDtos);
             playerHistories.add(carDtos);
         }
         return playerHistories;
     }
 
-    private List<CarDto> createCarDtos(final List<PlayerDtoMapper> playerDtoMappers) {
+    private List<CarDto> createCarDtos(final List<PlayerDto> playerDtos) {
         final List<CarDto> carDtos = new ArrayList<>();
-        for (final PlayerDtoMapper playerDtoMapper : playerDtoMappers) {
-            final CarDto carDto = new CarDto(playerDtoMapper.getName(), playerDtoMapper.getPosition());
+        for (final PlayerDto playerDto : playerDtos) {
+            final CarDto carDto = new CarDto(playerDto.getName(), playerDto.getPosition());
             carDtos.add(carDto);
         }
         return carDtos;

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import racingcar.dao.mapper.RacingGameDtoMapper;
+import racingcar.dao.dto.RacingGameDto;
 
 class RacingGameInMemoryDaoTest {
 
@@ -45,14 +45,14 @@ class RacingGameInMemoryDaoTest {
         int savedId = racingGameInMemoryDao.save(winners, trial);
 
         // when
-        Optional<RacingGameDtoMapper> maybeRacingGameDtoMapper = racingGameInMemoryDao.findById(savedId);
+        Optional<RacingGameDto> maybeRacingGameDtoMapper = racingGameInMemoryDao.findById(savedId);
 
         assertTrue(maybeRacingGameDtoMapper.isPresent());
 
-        RacingGameDtoMapper racingGameDtoMapper = maybeRacingGameDtoMapper.get();
+        RacingGameDto racingGameDto = maybeRacingGameDtoMapper.get();
 
         // then
-        assertThat(racingGameDtoMapper)
+        assertThat(racingGameDto)
                 .hasFieldOrPropertyWithValue("id", savedId)
                 .hasFieldOrPropertyWithValue("winners", winners);
     }
@@ -71,14 +71,14 @@ class RacingGameInMemoryDaoTest {
         int secondSavedId = racingGameInMemoryDao.save(secondWinners, secondTrial);
 
         // when
-        List<RacingGameDtoMapper> racingGameDtoMappers = racingGameInMemoryDao.findAll();
+        List<RacingGameDto> racingGameDtos = racingGameInMemoryDao.findAll();
 
         // then
         assertSoftly(softly -> {
-            softly.assertThat(racingGameDtoMappers.get(0))
+            softly.assertThat(racingGameDtos.get(0))
                     .hasFieldOrPropertyWithValue("id", firstSavedId)
                     .hasFieldOrPropertyWithValue("winners", firstWinners);
-            softly.assertThat(racingGameDtoMappers.get(1))
+            softly.assertThat(racingGameDtos.get(1))
                     .hasFieldOrPropertyWithValue("id", secondSavedId)
                     .hasFieldOrPropertyWithValue("winners", secondWinners);
         });

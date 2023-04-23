@@ -15,8 +15,8 @@ import racingcar.controller.dto.CarDto;
 import racingcar.controller.dto.RacingGameResponse;
 import racingcar.dao.PlayerDao;
 import racingcar.dao.RacingGameDao;
-import racingcar.dao.mapper.PlayerDtoMapper;
-import racingcar.dao.mapper.RacingGameDtoMapper;
+import racingcar.dao.dto.PlayerDto;
+import racingcar.dao.dto.RacingGameDto;
 import racingcar.domain.CarGroup;
 
 class RacingGameServiceTest {
@@ -68,22 +68,22 @@ class RacingGameServiceTest {
 
         given(racingGameDao.findAll()).willReturn(
                 List.of(
-                        new RacingGameDtoMapper(firstGameId, "헤나"),
-                        new RacingGameDtoMapper(secondGameId, "디노,우가")
+                        new RacingGameDto(firstGameId, "헤나"),
+                        new RacingGameDto(secondGameId, "디노,우가")
                 )
         );
         given(playerDao.findAllByRacingGameId(firstGameId)).willReturn(
                 List.of(
-                        new PlayerDtoMapper("저문", 3, firstGameId),
-                        new PlayerDtoMapper("헤나", 7, firstGameId)
+                        new PlayerDto("저문", 3, firstGameId),
+                        new PlayerDto("헤나", 7, firstGameId)
                 )
         );
         given(playerDao.findAllByRacingGameId(secondGameId)).willReturn(
                 List.of(
-                        new PlayerDtoMapper("저문", 6, secondGameId),
-                        new PlayerDtoMapper("헤나", 4, secondGameId),
-                        new PlayerDtoMapper("디노", 8, secondGameId),
-                        new PlayerDtoMapper("우가", 8, secondGameId)
+                        new PlayerDto("저문", 6, secondGameId),
+                        new PlayerDto("헤나", 4, secondGameId),
+                        new PlayerDto("디노", 8, secondGameId),
+                        new PlayerDto("우가", 8, secondGameId)
                 )
         );
 

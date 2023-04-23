@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import racingcar.dao.mapper.PlayerDtoMapper;
+import racingcar.dao.dto.PlayerDto;
 import racingcar.domain.CarGroup;
 
 @Transactional
@@ -61,9 +61,9 @@ class PlayerJdbcDaoTest {
         playerJdbcDao.save(firstCarGroup, firstRacingGameId);
 
         // when
-        List<PlayerDtoMapper> firstPlayerDtoMappers = playerJdbcDao.findAllByRacingGameId(firstRacingGameId);
+        List<PlayerDto> firstPlayerDtos = playerJdbcDao.findAllByRacingGameId(firstRacingGameId);
 
         // then
-        assertThat(firstPlayerDtoMappers).hasSize(gameCount);
+        assertThat(firstPlayerDtos).hasSize(gameCount);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import racingcar.dao.mapper.PlayerDtoMapper;
+import racingcar.dao.dto.PlayerDto;
 import racingcar.domain.CarGroup;
 
 @Repository
@@ -21,7 +21,7 @@ public class PlayerJdbcDao implements PlayerDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<PlayerDtoMapper> playerRowMapper = (resultSet, rowNum) -> new PlayerDtoMapper(
+    private final RowMapper<PlayerDto> playerRowMapper = (resultSet, rowNum) -> new PlayerDto(
             resultSet.getString("name"),
             resultSet.getInt("position"),
             resultSet.getInt("racing_game_id")
@@ -49,7 +49,7 @@ public class PlayerJdbcDao implements PlayerDao {
     }
 
     @Override
-    public List<PlayerDtoMapper> findAllByRacingGameId(final int id) {
+    public List<PlayerDto> findAllByRacingGameId(final int id) {
         final String sql = "SELECT * FROM PLAYER where racing_game_id = ?";
         return jdbcTemplate.query(sql, playerRowMapper, id);
     }

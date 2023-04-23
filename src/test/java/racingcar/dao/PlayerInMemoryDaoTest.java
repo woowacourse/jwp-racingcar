@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import racingcar.dao.mapper.PlayerDtoMapper;
+import racingcar.dao.dto.PlayerDto;
 import racingcar.domain.CarGroup;
 
 class PlayerInMemoryDaoTest {
@@ -44,7 +44,7 @@ class PlayerInMemoryDaoTest {
         playerInMemoryDao.save(carGroup, racingGameId);
 
         // when
-        List<PlayerDtoMapper> foundPlayers = playerInMemoryDao.findAllByRacingGameId(racingGameId);
+        List<PlayerDto> foundPlayers = playerInMemoryDao.findAllByRacingGameId(racingGameId);
 
         // then
         assertThat(foundPlayers).hasSize(2);

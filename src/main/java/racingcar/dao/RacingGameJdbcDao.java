@@ -10,7 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import racingcar.dao.mapper.RacingGameDtoMapper;
+import racingcar.dao.dto.RacingGameDto;
 
 @Repository
 public class RacingGameJdbcDao implements RacingGameDao {
@@ -21,7 +21,7 @@ public class RacingGameJdbcDao implements RacingGameDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<RacingGameDtoMapper> racingGameRowMapper = (resultSet, rowNum) -> new RacingGameDtoMapper(
+    private final RowMapper<RacingGameDto> racingGameRowMapper = (resultSet, rowNum) -> new RacingGameDto(
             resultSet.getInt("id"),
             resultSet.getString("winners")
     );
@@ -42,13 +42,13 @@ public class RacingGameJdbcDao implements RacingGameDao {
     }
 
     @Override
-    public Optional<RacingGameDtoMapper> findById(final int id) {
+    public Optional<RacingGameDto> findById(final int id) {
         final String sql = "SELECT * FROM RACING_GAME WHERE id = ?";
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, racingGameRowMapper, id));
     }
 
     @Override
-    public List<RacingGameDtoMapper> findAll() {
+    public List<RacingGameDto> findAll() {
         final String sql = "SELECT * FROM RACING_GAME";
         return jdbcTemplate.query(sql, racingGameRowMapper);
     }

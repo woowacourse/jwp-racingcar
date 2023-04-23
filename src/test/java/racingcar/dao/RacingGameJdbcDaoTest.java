@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import racingcar.dao.mapper.RacingGameDtoMapper;
+import racingcar.dao.dto.RacingGameDto;
 
 @Transactional
 @SpringBootTest
@@ -41,14 +41,14 @@ class RacingGameJdbcDaoTest {
 
         // when
         final int savedId = racingGameJdbcDao.save(winners, trial);
-        final Optional<RacingGameDtoMapper> maybeRacingGameInfo = racingGameJdbcDao.findById(savedId);
+        final Optional<RacingGameDto> maybeRacingGameInfo = racingGameJdbcDao.findById(savedId);
 
         assertTrue(maybeRacingGameInfo.isPresent());
 
-        final RacingGameDtoMapper racingGameDtoMapper = maybeRacingGameInfo.get();
+        final RacingGameDto racingGameDto = maybeRacingGameInfo.get();
 
         // then
-        assertThat(racingGameDtoMapper)
+        assertThat(racingGameDto)
                 .hasFieldOrPropertyWithValue("id", savedId)
                 .hasFieldOrPropertyWithValue("winners", winners);
     }
@@ -62,9 +62,9 @@ class RacingGameJdbcDaoTest {
         racingGameJdbcDao.save("저문,디노,베베,우가", 10);
 
         // when
-        List<RacingGameDtoMapper> racingGameDtoMappers = racingGameJdbcDao.findAll();
+        List<RacingGameDto> racingGameDtos = racingGameJdbcDao.findAll();
 
         //then
-        assertThat(racingGameDtoMappers).hasSize(3);
+        assertThat(racingGameDtos).hasSize(3);
     }
 }

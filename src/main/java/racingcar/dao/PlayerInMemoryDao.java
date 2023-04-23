@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import racingcar.dao.mapper.PlayerDtoMapper;
+import racingcar.dao.dto.PlayerDto;
 import racingcar.domain.Car;
 import racingcar.domain.CarGroup;
 
 public class PlayerInMemoryDao implements PlayerDao {
 
-    private List<PlayerDtoMapper> players = new ArrayList<>();
+    private List<PlayerDto> players = new ArrayList<>();
 
     @Override
     public boolean save(CarGroup carGroup, int racingGameId) {
         for (final Car car : carGroup.getCars()) {
-            final PlayerDtoMapper player =
-                    new PlayerDtoMapper(car.getName().getName(), car.getPosition().getPosition(), racingGameId);
+            final PlayerDto player =
+                    new PlayerDto(car.getName().getName(), car.getPosition().getPosition(), racingGameId);
             players.add(player);
         }
 
@@ -24,7 +24,7 @@ public class PlayerInMemoryDao implements PlayerDao {
     }
 
     @Override
-    public List<PlayerDtoMapper> findAllByRacingGameId(int id) {
+    public List<PlayerDto> findAllByRacingGameId(int id) {
         return players.stream()
                 .filter(player -> player.getRacingGameId() == id)
                 .collect(Collectors.toList());
