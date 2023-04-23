@@ -1,16 +1,15 @@
 package racingcar.dao.car;
 
 import racingcar.dto.CarDto;
-import racingcar.dto.WinnerDto;
 
 import java.util.List;
 
 public interface CarDao {
     void save(CarDto carDto);
     
-    long findIdByCarDto(CarDto carDto);
+    long findIdByGameIdAndName(long gameId, String name);
     
-    List<CarDto> findCarDtosByWinnerDtos(List<WinnerDto> winnerDtos);
+    List<CarDto> findCarDtosByCarIds(List<Long> gameIds);
     
     List<CarDto> findCarDtosByGameId(long gameId);
 }

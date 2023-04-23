@@ -53,7 +53,8 @@ public class RacingCarService {
     
     private void saveWinnerDao(final Cars cars, final long gameId) {
         for (Car car : cars.getWinners()) {
-            final long carId = carDao.findIdByCarDto(new CarDto(gameId, car));
+            final Name name = car.getName();
+            final long carId = carDao.findIdByGameIdAndName(gameId, name.getName());
             winnerDao.save(new WinnerDto(gameId, carId));
         }
     }
@@ -77,8 +78,14 @@ public class RacingCarService {
     }
     
     private List<Car> getWinnerCars(final List<WinnerDto> winnerDtos) {
-        return carDao.findCarDtosByWinnerDtos(winnerDtos).stream()
+        return carDao.findCarDtosByCarIds(getCarIds(winnerDtos)).stream()
                 .map(carDto -> new Car(new Name(carDto.getName()), new Position(carDto.getPosition())))
+                .collect(Collectors.toUnmodifiableList());
+    }
+    
+    private List<Long> getCarIds(final List<WinnerDto> winnerDtos) {
+        return winnerDtos.stream()
+                .map(WinnerDto::getCarId)
                 .collect(Collectors.toUnmodifiableList());
     }
     

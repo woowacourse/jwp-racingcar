@@ -4,7 +4,6 @@ import org.junit.jupiter.api.*;
 import racingcar.domain.car.Car;
 import racingcar.domain.car.Name;
 import racingcar.dto.CarDto;
-import racingcar.dto.WinnerDto;
 
 import java.util.List;
 
@@ -17,6 +16,7 @@ class MemoryCarDaoTest {
     
     @BeforeEach
     void setUp() {
+        // given
         carDao = new MemoryCarDao();
         carDao.save(new CarDto(1L, new Car(new Name("아벨"))));
         carDao.save(new CarDto(1L, new Car(new Name("스플릿"))));
@@ -26,26 +26,22 @@ class MemoryCarDaoTest {
     }
     
     @Test
-    void CarDto를_전달하면_carId를_반환한다() {
-        // given
-        final CarDto carDto = new CarDto(1L, new Car(new Name("포비")));
-        
+    void GameId와_Name을_전달하면_carId를_반환한다() {
         // when
-        final long carId = carDao.findIdByCarDto(carDto);
+        final long carId = carDao.findIdByGameIdAndName(1L, "포비");
         
         // then
         assertThat(carId).isEqualTo(3L);
     }
     
     @Test
-    void WinnerDtos를_전달하면_CarDtos를_전달한다() {
+    void CarIds를_전달하면_CarDtos를_전달한다() {
         // given
-        final List<WinnerDto> winnerDtos = List.of(new WinnerDto(1L, 2L), new WinnerDto(1L, 4L));
         final CarDto expectedSplitDto = new CarDto(1L, new Car(new Name("스플릿")));
         final CarDto expectedPobiDto = new CarDto(2L, new Car(new Name("포비")));
         
         // when
-        final List<CarDto> carDtos = carDao.findCarDtosByWinnerDtos(winnerDtos);
+        final List<CarDto> carDtos = carDao.findCarDtosByCarIds(List.of(2L, 4L));
         
         // then
         assertThat(carDtos).containsExactly(expectedSplitDto, expectedPobiDto);

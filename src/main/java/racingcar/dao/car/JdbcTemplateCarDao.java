@@ -34,23 +34,23 @@ public class JdbcTemplateCarDao implements CarDao {
     }
     
     @Override
-    public long findIdByCarDto(final CarDto carDto) {
+    public long findIdByGameIdAndName(final long gameId, final String name) {
         final String sql = "SELECT id FROM CAR WHERE game_id=:gameId and name=:name";
         final SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("gameId", carDto.getGameId())
-                .addValue("name", carDto.getName());
+                .addValue("gameId", gameId)
+                .addValue("name", name);
         
         return namedParameterJdbcTemplate.queryForObject(sql, params, long.class);
     }
     
     @Override
-    public List<CarDto> findCarDtosByWinnerDtos(final List<WinnerDto> winnerDtos) {
+    public List<CarDto> findCarDtosByCarIds(final List<Long> carIds) {
         final String sql = "SELECT game_id, name, position FROM CAR WHERE id=:carId";
         final List<CarDto> carDtos = new ArrayList<>();
         
-        for (WinnerDto winnerDto : winnerDtos) {
+        for (long carId : carIds) {
             final SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("carId", winnerDto.getCarId());
+                    .addValue("carId", carId);
             
             final CarDto carDto = namedParameterJdbcTemplate.queryForObject(sql, params, (rs, rowNum)
                     -> new CarDto(rs.getLong("game_id"), rs.getString("name"), rs.getInt("position")));

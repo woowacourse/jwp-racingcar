@@ -15,7 +15,6 @@ import racingcar.domain.car.Position;
 import racingcar.domain.racinggame.RacingGame;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameDto;
-import racingcar.dto.WinnerDto;
 
 import java.util.List;
 
@@ -49,24 +48,18 @@ class JdbcTemplateCarDaoTest {
     }
     
     @Test
-    void CarDto를_전달하면_Car의_id를_반환한다() {
-        // given
-        final CarDto carDto = new CarDto(2L, new Car(new Name("아벨"), new Position(3)));
-        
+    void GameId와_Name을_전달하면_Car의_id를_반환한다() {
         // when
-        final long carId = carDao.findIdByCarDto(carDto);
+        final long carId = carDao.findIdByGameIdAndName(2L, "아벨");
         
         // then
         assertThat(carId).isEqualTo(4L);
     }
     
     @Test
-    void WinnerDtos를_전달하면_CarDtosfmf_반환한다() {
-        // given
-        final List<WinnerDto> winnerDtos = List.of(new WinnerDto(1L, 3L), new WinnerDto(1L, 4L));
-        
+    void CarIds를_전달하면_CarDtosfmf_반환한다() {
         // when
-        final List<CarDto> carDtos = carDao.findCarDtosByWinnerDtos(winnerDtos);
+        final List<CarDto> carDtos = carDao.findCarDtosByCarIds(List.of(3L, 4L));
         
         // then
         final CarDto expectedFirstCarDto = new CarDto(1L, new Car(new Name("포비"), new Position(2)));

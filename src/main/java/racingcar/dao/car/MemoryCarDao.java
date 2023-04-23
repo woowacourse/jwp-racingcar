@@ -18,18 +18,20 @@ public class MemoryCarDao implements CarDao {
     }
     
     @Override
-    public long findIdByCarDto(final CarDto carDto) {
+    public long findIdByGameIdAndName(final long gameId, final String name) {
         return car.entrySet().stream()
-                .filter(entry -> entry.getValue().equals(carDto))
+                .filter(entry -> {
+                    final CarDto value = entry.getValue();
+                    return value.getGameId() == gameId && value.getName().equals(name);
+                })
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 데이터입니다."));
     }
     
     @Override
-    public List<CarDto> findCarDtosByWinnerDtos(final List<WinnerDto> winnerDtos) {
-        return winnerDtos.stream()
-                .map(WinnerDto::getCarId)
+    public List<CarDto> findCarDtosByCarIds(final List<Long> carIds) {
+        return carIds.stream()
                 .map(car::get)
                 .collect(Collectors.toUnmodifiableList());
     }
