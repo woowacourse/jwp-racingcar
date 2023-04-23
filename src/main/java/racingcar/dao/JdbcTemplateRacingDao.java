@@ -1,7 +1,6 @@
 package racingcar.dao;
 
 import java.sql.PreparedStatement;
-import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,8 +8,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dto.CarDto;
-import racingcar.dto.RacingResultDto;
+import racingcar.domain.Car;
+import racingcar.domain.RacingGame;
 
 @Repository
 public class JdbcTemplateRacingDao implements RacingDao {
@@ -23,14 +22,14 @@ public class JdbcTemplateRacingDao implements RacingDao {
     }
 
     @Transactional
-    public int saveGameResult(final RacingResultDto racingResultDto, final int trialCount) {
+    public int saveGameResult(final RacingGame racingGame, final int trialCount) {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql,
                     new String[]{"id"});
-            preparedStatement.setString(1, racingResultDto.getWinners().stream()
-                    .map(CarDto::getName)
+            preparedStatement.setString(1, racingGame.getWinners().stream()
+                    .map(Car::getCarName)
                     .collect(Collectors.joining(",")));
             preparedStatement.setInt(2, trialCount);
             return preparedStatement;
@@ -42,10 +41,10 @@ public class JdbcTemplateRacingDao implements RacingDao {
     }
 
     @Transactional
-    public void savePlayerResults(final List<CarDto> racingCars, final int gameResultId) {
+    public void savePlayerResults(final RacingGame racingGame, final int gameResultId) {
         String sqlToInsertPlayerResult = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
-        for (CarDto carDto : racingCars) {
-            jdbcTemplate.update(sqlToInsertPlayerResult, carDto.getName(), carDto.getPosition(), gameResultId);
+        for (Car car : racingGame.getCars()) {
+            jdbcTemplate.update(sqlToInsertPlayerResult, car.getCarName(), car.getPosition(), gameResultId);
         }
     }
 }

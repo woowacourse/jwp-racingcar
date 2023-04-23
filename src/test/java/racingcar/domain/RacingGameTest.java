@@ -17,12 +17,13 @@ class RacingGameTest {
     @MethodSource("parameterProvider")
     void getWinnersTest(List<String> carNames, List<Integer> determinedNumbers, int gameTry,
                         List<String> expectedWinners) {
-        DeterminedNumberGenerator determinedNumberGenerator = new DeterminedNumberGenerator();
+        DeterminedNumberGenerator determinedNumberGenerator = DeterminedNumberGenerator.createByList(determinedNumbers
+
+        );
         List<Car> cars = carNames.stream()
-                .map(carName -> new Car(carName, 0))
+                .map(Car::createBy)
                 .collect(Collectors.toList());
         RacingGame racingGame = new RacingGame(cars, determinedNumberGenerator, new Coin(gameTry));
-        determinedNumberGenerator.readRepository(determinedNumbers);
 
         racingGame.play();
 

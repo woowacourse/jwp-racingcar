@@ -1,17 +1,30 @@
 package racingcar.domain;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 
 public class DeterminedNumberGenerator implements NumberGenerator {
 
-    private List<Integer> repository;
-    private int index = 0;
+    private final Deque<Integer> numbers;
 
-    public void readRepository(List<Integer> repository) {
-        this.repository = repository;
+    private DeterminedNumberGenerator(Deque<Integer> numbers) {
+        this.numbers = numbers;
+    }
+
+    public static DeterminedNumberGenerator createByNumbers(int... numbersToMake) {
+        Deque<Integer> numbers = new ArrayDeque<>();
+        for (int number : numbersToMake) {
+            numbers.add(number);
+        }
+        return new DeterminedNumberGenerator(numbers);
+    }
+
+    public static DeterminedNumberGenerator createByList(List<Integer> numbersToMake) {
+        return new DeterminedNumberGenerator(new ArrayDeque<>(numbersToMake));
     }
 
     public int makeDigit() {
-        return repository.get(index++);
+        return numbers.pop();
     }
 }

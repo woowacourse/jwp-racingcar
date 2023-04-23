@@ -12,7 +12,7 @@ class CarTest {
     @ParameterizedTest
     @CsvSource(value = {"3,3", "0,0", "213,213"}, delimiter = ',')
     void carMoveTest(int moveCount, int expectedPosition) {
-        Car car = new Car("dummy", 0);
+        Car car = Car.createBy("dummy");
 
         for (int i = 0; i < moveCount; i++) {
             car.move();
