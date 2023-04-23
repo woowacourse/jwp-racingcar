@@ -22,21 +22,13 @@ public final class RacingService {
 
     public RacingResultDto playRacingGame(final RacingRequest racingRequest) {
         RacingGame racingGame = createRacingGame(racingRequest);
-        play(racingGame);
+        racingGame.play();
         RacingResultDto racingResultDto = new RacingResultDto(
                 mapWinnersToCarDtos(racingGame),
                 mapCarDtosFrom(racingGame)
         );
         save(racingResultDto, racingRequest.getCount());
         return racingResultDto;
-    }
-
-    private void play(final RacingGame racingGame) {
-        // TODO: 검증 로직 도메인 내로 이동 (미션 요구사항에 따라 2단계에서 수정 예정)
-        while (racingGame.isGameOnGoing()) {
-            racingGame.start();
-        }
-        racingGame.order();
     }
 
     private RacingGame createRacingGame(final RacingRequest racingRequest) {

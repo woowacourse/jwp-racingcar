@@ -31,11 +31,18 @@ public class RacingGame {
         return new RacingGame(cars, RANDOM_NUMBER_GENERATOR, new Coin(racingRequest.getCount()));
     }
 
-    public void start() {
+    public void play() {
+        while (gameCoin.isLeft()) {
+            moveEachCar();
+            this.gameCoin.use();
+        }
+        this.order();
+    }
+
+    private void moveEachCar() {
         for (Car car : this.cars) {
             moveCar(car);
         }
-        this.gameCoin.use();
     }
 
     private void moveCar(Car car) {
@@ -45,8 +52,8 @@ public class RacingGame {
         }
     }
 
-    public boolean isGameOnGoing() {
-        return gameCoin.isLeft();
+    private void order() {
+        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
     }
 
     public List<Car> getCars() {
@@ -65,9 +72,5 @@ public class RacingGame {
         return this.cars.stream()
                 .max(Car::comparePosition)
                 .orElseThrow(NoCarsExistException::new);
-    }
-
-    public void order() {
-        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
     }
 }
