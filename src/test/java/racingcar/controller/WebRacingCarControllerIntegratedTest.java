@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
-class WebRacingCarControllerRestTest {
+class WebRacingCarControllerIntegratedTest {
     @LocalServerPort
     private int port;
     
