@@ -4,17 +4,17 @@ import java.time.LocalDateTime;
 
 public class RacingGameHistory {
 
-    private final long id;
+    private final Long id;
     private final int trialCount;
     private final LocalDateTime playTime;
 
-    public RacingGameHistory(long id, int trialCount, LocalDateTime playTime) {
+    public RacingGameHistory(Long id, int trialCount, LocalDateTime playTime) {
         this.id = id;
         this.trialCount = trialCount;
         this.playTime = playTime;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
