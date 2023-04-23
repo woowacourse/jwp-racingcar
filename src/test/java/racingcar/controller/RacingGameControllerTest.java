@@ -21,10 +21,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import racingcar.dto.CarDto;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
-import racingcar.service.RacingGameAddService;
 import racingcar.service.RacingGameFindService;
+import racingcar.service.RacingGamePlayService;
 
-@WebMvcTest(RacingGameController.class)
+@WebMvcTest(RacingGameWebController.class)
 public class RacingGameControllerTest {
 
     @Autowired
@@ -34,7 +34,7 @@ public class RacingGameControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private RacingGameAddService racingGameService;
+    private RacingGamePlayService racingPlayService;
 
     @MockBean
     private RacingGameFindService racingGameFindService;
@@ -48,7 +48,7 @@ public class RacingGameControllerTest {
                 List.of(new CarDto("현구막", 10), new CarDto("박스터", 7))
         );
         String requestString = objectMapper.writeValueAsString(request);
-        when(racingGameService.play(any())).thenReturn(expectedResponse);
+        when(racingPlayService.play(any())).thenReturn(expectedResponse);
 
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -40,6 +40,17 @@ public class RacingGameResponse {
         return new RacingGameResponse(racingGameId, winners, carDtos);
     }
 
+    public static RacingGameResponse from(RacingGame racingGame) {
+        List<String> winners = racingGame.findWinners().stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+
+        List<CarDto> carDtos = racingGame.getCars().stream()
+                .map(car -> new CarDto(car.getName(), car.getPosition()))
+                .collect(Collectors.toList());
+        return new RacingGameResponse(null, winners, carDtos);
+    }
+
     public List<String> getWinners() {
         return winners;
     }

@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
-import racingcar.dto.RacingGameRequest;
+import racingcar.domain.RacingGame;
 import racingcar.dto.RacingGameResponse;
 
 
-class RacingGameServiceTest {
+class RacingGameAddServiceTest {
 
     RacingGameAddService racingGameAddService;
     RacingGameDao racingGameDao;
@@ -30,9 +30,9 @@ class RacingGameServiceTest {
     @Test
     @DisplayName("이름과 실행 횟수를 받아 게임의 결과를 반환한다")
     void playTest() {
-        RacingGameRequest racingGameRequest = new RacingGameRequest(List.of("박스터", "엔초"), 10);
+        RacingGame racingGame = RacingGame.of(List.of("박스터", "엔초"), 10);
 
-        RacingGameResponse play = racingGameAddService.play(racingGameRequest);
+        RacingGameResponse play = racingGameAddService.addGame(racingGame, 10);
 
         assertAll(
                 () -> assertThat(play.getWinners()).isNotEmpty(),

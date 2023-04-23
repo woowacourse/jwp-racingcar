@@ -7,10 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
 import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.RacingGameEntity;
 import racingcar.domain.Car;
-import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
-import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
 
 @Service
@@ -24,21 +23,10 @@ public class RacingGameAddService {
         this.racingGameDao = racingGameDao;
     }
 
-    public RacingGameResponse play(RacingGameRequest racingGameRequest) {
-        Cars cars = toCars(racingGameRequest);
-        RacingGame racingGame = new RacingGame(racingGameRequest.getCount(), cars);
-        racingGame.run();
-
-        Long racingGameId = racingGameDao.save(new racingcar.dao.entity.RacingGameEntity(racingGameRequest.getCount()));
+    public RacingGameResponse addGame(RacingGame racingGame, int tryCount) {
+        Long racingGameId = racingGameDao.save(new RacingGameEntity(tryCount));
         carDao.saveAll(toCarEntities(racingGame, racingGameId));
         return RacingGameResponse.of(racingGame, racingGameId);
-    }
-
-    private Cars toCars(RacingGameRequest racingGameRequest) {
-        List<Car> cars = racingGameRequest.getNames().stream()
-                .map(Car::new)
-                .collect(Collectors.toList());
-        return new Cars(cars);
     }
 
     private List<CarEntity> toCarEntities(RacingGame game, Long racingGameId) {

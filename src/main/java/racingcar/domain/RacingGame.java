@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingGame {
     public static final int MAX_TRY_COUNT_BOUND = 100;
@@ -18,6 +19,13 @@ public class RacingGame {
 
     public RacingGame(int tryCount, Cars cars) {
         this(new RandomNumberGenerator(), tryCount, cars);
+    }
+
+    public static RacingGame of(List<String> names, int tryCount) {
+        List<Car> cars = names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
+        return new RacingGame(tryCount, new Cars(cars));
     }
 
     private void validateTryCount(int tryCount) {
@@ -48,5 +56,4 @@ public class RacingGame {
     public List<Car> getCars() {
         return cars.getCars();
     }
-
 }
