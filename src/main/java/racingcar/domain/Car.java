@@ -2,12 +2,18 @@ package racingcar.domain;
 
 public class Car {
 
+    private static final int DEFAULT_START_LINE = 0;
+
     private final CarName carName;
     private final Position position;
 
-    public Car(String name, int position) {
+    private Car(String name, int position) {
         this.carName = new CarName(name);
         this.position = new Position(position);
+    }
+
+    public static Car createBy(String name) {
+        return new Car(name, DEFAULT_START_LINE);
     }
 
     public void move() {
