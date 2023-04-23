@@ -1,23 +1,34 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.9'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'java-library'
+    id 'org.springframework.boot' version '2.7.9' apply false
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE' apply false
 }
 
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	runtimeOnly 'com.h2database:h2'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-}
+def realSubProjects = subprojects.findAll { it.childProjects.isEmpty() }
 
-tasks.named('test') {
-	useJUnitPlatform()
+configure(realSubProjects) {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 }

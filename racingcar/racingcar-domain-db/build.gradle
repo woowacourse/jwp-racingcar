@@ -1,0 +1,8 @@
+dependencies {
+    implementation project(':racingcar:racingcar-domain')
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'com.h2database:h2'
+}
+bootJar { enabled = false }
+jar { enabled = true }
+

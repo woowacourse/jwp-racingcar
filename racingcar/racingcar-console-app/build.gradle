@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':racingcar:racingcar-domain')
+    implementation project(':racingcar:racingcar-domain-db')
+}
