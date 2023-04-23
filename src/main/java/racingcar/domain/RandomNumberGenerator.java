@@ -8,6 +8,7 @@ public class RandomNumberGenerator implements NumberGenerator {
 
     private static final int RANDOM_NUMBER_MAX_RANGE = 10;
 
+    //TODO: static vs static final 차이 고민
     private final Random random = new Random();
 
     @Override

@@ -12,12 +12,17 @@ public class RacingGameEntity {
     private LocalDateTime createdAt;
 
     public RacingGameEntity(final List<CarEntity> carEntities, final Integer count) {
-        this.carEntities = carEntities;
-        this.count = count;
+        this(null, carEntities, count, null);
     }
 
     public RacingGameEntity(final Integer id, final Integer count, final LocalDateTime createdAt) {
+        this(id, null, count, createdAt);
+    }
+
+    public RacingGameEntity(final Integer id, final List<CarEntity> carEntities, final Integer count,
+                            final LocalDateTime createdAt) {
         this.id = id;
+        this.carEntities = carEntities;
         this.count = count;
         this.createdAt = createdAt;
     }

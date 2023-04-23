@@ -9,17 +9,17 @@ import racingcar.domain.entity.RacingGameEntity;
 
 public class ConsoleRacingGameDao implements RacingGameDao {
 
-    private final Map<Integer, RacingGameEntity> console = new HashMap<>();
+    private final Map<Integer, RacingGameEntity> db = new HashMap<>();
     private int id = 1;
 
     @Override
     public int save(final int count) {
-        console.put(id, new RacingGameEntity(id, count, LocalDateTime.now()));
+        db.put(id, new RacingGameEntity(id, count, LocalDateTime.now()));
         return id++;
     }
 
     @Override
     public List<RacingGameEntity> findAll() {
-        return new ArrayList<>(console.values());
+        return new ArrayList<>(db.values());
     }
 }

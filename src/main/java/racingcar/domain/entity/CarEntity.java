@@ -43,7 +43,6 @@ public class CarEntity {
         return isWin;
     }
 
-
     @Override
     public boolean equals(final Object other) {
         if (this == other) {
