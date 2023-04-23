@@ -38,6 +38,6 @@ class RacingServiceTest {
         RacingResultDto racingResultDto = racingService.playRacingGame(racingRequest);
 
         assertThat(racingResultDto.getRacingCars()).hasSize(3);
-        assertThat(racingResultDto.getWinners()).isNotNull();
+        assertThat(racingResultDto.getWinners()).hasSizeBetween(1, 3);
     }
 }
