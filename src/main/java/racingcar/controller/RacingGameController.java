@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import java.net.URI;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class RacingGameController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingGameResponse> play(@RequestBody RacingGameRequest racingGameRequest) {
+    public ResponseEntity<RacingGameResponse> play(@RequestBody @Valid RacingGameRequest racingGameRequest) {
         RacingGameResponse response = racingGameAddService.play(racingGameRequest);
         return ResponseEntity.created(URI.create("/plays/" + response.getGameId())).body(response);
     }

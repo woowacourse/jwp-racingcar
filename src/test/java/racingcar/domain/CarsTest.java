@@ -58,12 +58,12 @@ class CarsTest {
     }
 
     @Test
-    @DisplayName("car의 수가 1보다 작으면 예외를 발생한다")
+    @DisplayName("car의 수가 2보다 작으면 예외를 발생한다")
     void carSizeEx() {
-        List<Car> cars = List.of();
+        List<Car> cars = List.of(new Car("박스터"));
 
         assertThatThrownBy(() -> new Cars(cars))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("최소 하나의 자동차가 있어야 합니다.");
+                .hasMessage("최소 2대의 자동차가 있어야 합니다.");
     }
 }
