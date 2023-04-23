@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.service.dto.RacingStartDTO;
+import racingcar.controller.dto.RacingStartDTO;
 
 import java.util.List;
 
