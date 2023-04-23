@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 public class TryCount {
+
     private static final int TRY_COUNT_MIN = 0;
 
     private final int value;

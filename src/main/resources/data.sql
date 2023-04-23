@@ -1,9 +1,8 @@
 CREATE TABLE PLAY_RESULT
 (
-    id         INT         NOT NULL AUTO_INCREMENT,
-    trialCount INT         NOT NULL,
-    winners    VARCHAR(50) NOT NULL,
-    created_at DATETIME    NOT NULL default current_timestamp,
+    id         INT          NOT NULL AUTO_INCREMENT,
+    winners    VARCHAR(255) NOT NULL,
+    created_at DATETIME     NOT NULL default current_timestamp,
     PRIMARY KEY (id)
 );
 

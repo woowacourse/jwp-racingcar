@@ -3,41 +3,17 @@
 ## 1단계 기능 요구사항
 
 - [x] 자동차 경주 가져오기
-- [x] 웹 요청 구현하기
-
-    ```http request
-    POST /plays HTTP/1.1
-    content-type: application/json; charset=UTF-8
-    host: localhost:8080
-    
-    {
-        "names": "브리,토미,브라운",
-        "count": 10
-    }
-    ```
-- [x] 웹 응답 구현하기
-  - [x] JSON 형식으로 반환
-    ```http request
-    HTTP/1.1 200 
-    Content-Type: application/json
-    
-    {
-        "winners": "브리",
-        "racingCars": [
-            {
-                "name": "브리",
-                "position": 9
-            },
-            {
-                "name": "토미",
-                "position": 7
-            },
-            {
-                "name": "브라운",
-                "position": 3
-            },
-        ]
-    }
-    ```
+- [x] 웹 요청/응답 구현하기
+    - [x] 게임 실행 기능
+        - [x] 게임 실행 요청 구현
+        - [x] 게임 저장 기능 구현
+        - [x] 게임 실행 결과 반환 기능 구현
+    - [x] 게임 이력 조회 기능
+        - [x] 이전 게임의 결과들을 조회하는 기능 구현
+- [x] 콘솔과 웹의 중복 제거
+- [x] 콘솔의 출력을 변경합니다.
+    - [x] 콘솔에서 플레이의 중간 과정을 출력하는 로직을 제거
+    - [x] 콘솔에서 최종 이동거리를 출력하도록 수정
 - [x] DB 연동하기
-  - [x] 자동차 경주 게임의 플레이 이력을 DB에 저장
+    - [x] 자동차 경주 게임의 플레이 이력을 DB에 저장
+    - [x] 자동차 경주 게임 플레이 이력을 전부 조회하는 기능
