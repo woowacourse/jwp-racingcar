@@ -1,15 +1,14 @@
-package racingcar.persistence;
+package racingcar.persistence.dao;
 
 import java.sql.PreparedStatement;
-import java.util.stream.Collectors;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import racingcar.domain.Car;
-import racingcar.domain.RacingGame;
 import racingcar.persistence.entity.GameResultEntity;
+import racingcar.persistence.entity.PlayerResultEntity;
 
 @Repository
 public class JdbcTemplateRacingDao implements RacingDao {
@@ -21,22 +20,19 @@ public class JdbcTemplateRacingDao implements RacingDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public GameResultEntity saveGameResult(final RacingGame racingGame, final int trialCount) {
+    public GameResultEntity saveGameResult(final GameResultEntity gameResultEntityToSave) {
         final String sql = "INSERT INTO GAME_RESULT (winners, trial_count) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
-            preparedStatement.setString(1, racingGame.getWinners().stream()
-                    .map(Car::getCarName)
-                    .collect(Collectors.joining(",")));
-            preparedStatement.setInt(2, trialCount);
+            preparedStatement.setString(1, gameResultEntityToSave.getWinners());
+            preparedStatement.setInt(2, gameResultEntityToSave.getTrialCount());
             return preparedStatement;
         }, keyHolder);
         if (keyHolder.getKey() == null) {
             throw new IllegalStateException("게임 결과 저장에 실패했습니다.");
         }
-        GameResultEntity gameResultEntity = getGameResultEntityById(keyHolder.getKey().longValue());
-        return gameResultEntity;
+        return getGameResultEntityById(keyHolder.getKey().longValue());
     }
 
     private GameResultEntity getGameResultEntityById(long gameResultId) {
@@ -53,10 +49,13 @@ public class JdbcTemplateRacingDao implements RacingDao {
         return gameResultEntity;
     }
 
-    public void savePlayerResults(final RacingGame racingGame, final long gameResultId) {
+    public void savePlayerResults(final List<PlayerResultEntity> playerResultEntities) {
         String sqlToInsertPlayerResult = "INSERT INTO PLAYER_RESULT (name, position, game_result_id) values (?, ?, ?)";
-        for (Car car : racingGame.getCars()) {
-            jdbcTemplate.update(sqlToInsertPlayerResult, car.getCarName(), car.getPosition(), gameResultId);
+        for (PlayerResultEntity playerResultEntity : playerResultEntities) {
+            jdbcTemplate.update(sqlToInsertPlayerResult,
+                    playerResultEntity.getName(),
+                    playerResultEntity.getPosition(),
+                    playerResultEntity.getGameResultId());
         }
     }
 }

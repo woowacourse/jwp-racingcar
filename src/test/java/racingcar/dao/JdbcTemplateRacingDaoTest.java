@@ -3,7 +3,9 @@ package racingcar.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,9 @@ import racingcar.domain.Car;
 import racingcar.domain.Coin;
 import racingcar.domain.DeterminedNumberGenerator;
 import racingcar.domain.RacingGame;
-import racingcar.persistence.JdbcTemplateRacingDao;
+import racingcar.persistence.dao.JdbcTemplateRacingDao;
 import racingcar.persistence.entity.GameResultEntity;
+import racingcar.persistence.entity.PlayerResultEntity;
 
 @JdbcTest
 class JdbcTemplateRacingDaoTest {
@@ -47,7 +50,7 @@ class JdbcTemplateRacingDaoTest {
         );
         racingGame.play();
 
-        jdbcTemplateRacingDao.saveGameResult(racingGame, 3);
+        jdbcTemplateRacingDao.saveGameResult(GameResultEntity.createToSave(racingGame, 3));
 
         String actualWinners = jdbcTemplate.queryForObject("SELECT winners FROM GAME_RESULT", String.class);
         int trialCount = jdbcTemplate.queryForObject("SELECT trial_count FROM GAME_RESULT", Integer.class);
@@ -71,10 +74,19 @@ class JdbcTemplateRacingDaoTest {
                 new Coin(3)
         );
         racingGame.play();
-        GameResultEntity gameResultEntity = jdbcTemplateRacingDao.saveGameResult(racingGame, 3);
+        GameResultEntity gameResultEntity = jdbcTemplateRacingDao.saveGameResult(
+                GameResultEntity.createToSave(racingGame, 3)
+        );
 
         // 저장한 GAME_RESULT 을 참조하는 PLAYER_RESULT 를 저장한다
-        jdbcTemplateRacingDao.savePlayerResults(racingGame, gameResultEntity.getId());
+        List<PlayerResultEntity> playerResultEntities = new ArrayList<>();
+        for (Car car : racingGame.getCars()) {
+            playerResultEntities.add(PlayerResultEntity.createToSave(
+                    car,
+                    gameResultEntity.getId())
+            );
+        }
+        jdbcTemplateRacingDao.savePlayerResults(playerResultEntities);
 
         int positionOfBri = jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '브리'",
                 Integer.class);

@@ -5,17 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.RacingGame;
-import racingcar.persistence.RacingDao;
-import racingcar.persistence.entity.GameResultEntity;
+import racingcar.persistence.repository.RacingRepository;
 
 @Service
 public class RacingService {
 
-    private final RacingDao racingDao;
+    private final RacingRepository racingRepository;
 
     @Autowired
-    public RacingService(final RacingDao racingDao) {
-        this.racingDao = racingDao;
+    public RacingService(final RacingRepository racingRepository) {
+        this.racingRepository = racingRepository;
     }
 
     @Transactional
@@ -29,7 +28,6 @@ public class RacingService {
     }
 
     private void save(final RacingGame racingGame, final int trialCount) {
-        GameResultEntity gameResultEntity = this.racingDao.saveGameResult(racingGame, trialCount);
-        this.racingDao.savePlayerResults(racingGame, gameResultEntity.getId());
+        this.racingRepository.saveGameResult(racingGame, trialCount);
     }
 }
