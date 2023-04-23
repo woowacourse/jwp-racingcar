@@ -4,14 +4,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import racingcar.entity.GameResultEntity;
 
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Repository
 public class GameResultJdbcDao implements GameResultDao {
 
     private final JdbcTemplate jdbcTemplate;
