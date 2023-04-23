@@ -1,38 +1,22 @@
 package racingcar.view;
 
-import racingcar.constant.ExceptionMessage;
-
-import java.util.Arrays;
-import java.util.List;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InputView {
-    private static final String SPLIT_NAME_INDICATOR = ",";
-    private static final int NEGATIVE_NUMBER_INDICATOR = 0;
+    private final Scanner scanner = new Scanner(System.in);
 
-    private Scanner scanner = new Scanner(System.in);
-
-    public List<String> inputCarName() {
-        return splitCarName(scanner.nextLine());
-    }
-
-    private List<String> splitCarName(String carsName) {
-        return Arrays.asList(carsName.split(SPLIT_NAME_INDICATOR));
+    public String inputCarName() {
+        return scanner.next();
     }
 
     public int inputTryCount() {
         try {
-            int tryCount = Integer.parseInt(scanner.nextLine());
-            return validPositiveNumber(tryCount);
-        } catch (Exception e) {
-            throw new IllegalArgumentException(ExceptionMessage.EXCEPTION_NOT_NUMBER_MESSAGE.getExceptionMessage());
+            return scanner.nextInt();
+        } catch (InputMismatchException inputMismatchException) {
+            throw new IllegalArgumentException(inputMismatchException);
         }
-    }
-
-    private int validPositiveNumber(int number) {
-        if (number <= NEGATIVE_NUMBER_INDICATOR) {
-            throw new IllegalArgumentException(ExceptionMessage.EXCEPTION_TRY_COUNT_MESSAGE.getExceptionMessage());
-        }
-        return number;
     }
 }

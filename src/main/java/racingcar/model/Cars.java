@@ -1,22 +1,17 @@
 package racingcar.model;
 
-import racingcar.util.NumberGenerator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.util.NumberGenerator;
 
 public class Cars {
     private final List<Car> cars = new ArrayList<>();
 
-    public Cars(List<String> carsName) {
-        for (String name : carsName) {
+    public Cars(Names carsName) {
+        for (String name : carsName.getNames()) {
             cars.add(new Car(name));
         }
-    }
-
-    public List<Car> getCars() {
-        return List.copyOf(cars);
     }
 
     public void moveResult(NumberGenerator numberGenerator) {
@@ -26,14 +21,18 @@ public class Cars {
     }
 
     public List<String> getWinners() {
-        return cars.stream().filter(car -> car.checkLocationEqual(getMaxLocation()))
+        return cars.stream().filter(car -> car.checkPositionEqual(getMaxPosition()))
                 .map(Car::getName)
                 .collect(Collectors.toList());
     }
 
-    private Car getMaxLocation() {
+    private Car getMaxPosition() {
         return cars.stream()
                 .max(Car::compareTo)
                 .get();
+    }
+
+    public List<Car> getCars() {
+        return List.copyOf(cars);
     }
 }

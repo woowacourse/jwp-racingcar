@@ -8,23 +8,14 @@ public class Name {
     private final String name;
 
     public Name(String name) {
-        validCarName(name);
-        this.name = name.trim();
+        validateLength(name);
+        this.name = name;
     }
 
-    private void validCarName(String name) {
+    private void validateLength(String name) {
         if (name.isEmpty() || name.length() > CAR_MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException(
-                    ExceptionMessage.EXCEPTION_MESSAGE.getExceptionMessage());
+            throw new IllegalArgumentException(ExceptionMessage.EXCEPTION_MESSAGE.getExceptionMessage());
         }
-        if (isOnlySpace(name)) {
-            throw new IllegalArgumentException(
-                    ExceptionMessage.EXCEPTION_SPACE_MESSAGE.getExceptionMessage());
-        }
-    }
-
-    private boolean isOnlySpace(String name) {
-        return name.isBlank();
     }
 
     public String getName() {

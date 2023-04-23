@@ -6,16 +6,16 @@ public class Car implements Comparable<Car> {
     private static final int CAR_MOVE_STANDARD_LENGTH = 4;
 
     private final Name name;
-    private final Location location;
+    private final Position position;
 
     public Car(String name) {
         this.name = new Name(name);
-        this.location = new Location(CAR_INITIAL_LENGTH);
+        this.position = new Position(CAR_INITIAL_LENGTH);
     }
 
     public void moveByNumber(int moveForNum) {
         if (moveForNum >= CAR_MOVE_STANDARD_LENGTH) {
-            location.moveCarLocation();
+            position.moveCarLocation();
         }
     }
 
@@ -23,16 +23,16 @@ public class Car implements Comparable<Car> {
         return name.getName();
     }
 
-    public int getLocation() {
-        return location.getLocation();
+    public int getPosition() {
+        return position.getPosition();
     }
 
-    public boolean checkLocationEqual(Car car) {
-        return location.checkEqual(car.location);
+    public boolean checkPositionEqual(Car car) {
+        return position.checkEqual(car.position);
     }
 
     @Override
     public int compareTo(Car car) {
-        return location.getLocation() - car.getLocation();
+        return position.getPosition() - car.getPosition();
     }
 }

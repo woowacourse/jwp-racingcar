@@ -1,11 +1,11 @@
 package racingcar.model;
 
-public class Location {
+public class Position {
     private static final int CAR_MOVE_LENGTH = 1;
 
     private int location;
 
-    public Location(int location) {
+    public Position(int location) {
         this.location = location;
     }
 
@@ -13,11 +13,11 @@ public class Location {
         location += CAR_MOVE_LENGTH;
     }
 
-    public boolean checkEqual(Location comparator) {
+    public boolean checkEqual(Position comparator) {
         return this.location == comparator.location;
     }
 
-    public int getLocation() {
+    public int getPosition() {
         return this.location;
     }
 }
