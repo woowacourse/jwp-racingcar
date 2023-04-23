@@ -12,24 +12,24 @@ public class Car implements Comparable<Car> {
     private final String name;
     private int position = 0;
 
-    public Car(final String name) {
+    public Car(String name) {
         validateName(name);
         this.name = name;
     }
 
-    private void validateName(final String name) {
+    private void validateName(String name) {
         if (name.length() < NAME_MIN_LENGTH || name.length() > NAME_MAX_LENGTH) {
             throw new IllegalArgumentException(NAME_LENGTH_ERROR);
         }
     }
 
-    public void move(final int number) {
+    public void move(int number) {
         if (number >= MOVABLE_MIN_NUMBER) {
             position++;
         }
     }
 
-    public boolean isSamePosition(final Car otherCar) {
+    public boolean isSamePosition(Car otherCar) {
         return this.position == otherCar.position;
     }
 
@@ -42,12 +42,12 @@ public class Car implements Comparable<Car> {
     }
 
     @Override
-    public int compareTo(final Car otherCar) {
+    public int compareTo(Car otherCar) {
         return this.position - otherCar.position;
     }
 
     @Override
-    public boolean equals(final Object other) {
+    public boolean equals(Object other) {
         if (this == other) {
             return true;
         }

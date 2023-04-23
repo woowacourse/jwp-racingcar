@@ -13,7 +13,7 @@ public class ConsoleRacingGameDao implements RacingGameDao {
     private int id = 1;
 
     @Override
-    public int save(final int count) {
+    public int save(int count) {
         db.put(id, new RacingGameEntity(id, count, LocalDateTime.now()));
         return id++;
     }

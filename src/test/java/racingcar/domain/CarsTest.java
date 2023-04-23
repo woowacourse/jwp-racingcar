@@ -9,10 +9,9 @@ import org.junit.jupiter.api.Test;
 
 class CarsTest {
 
-
     @Test
     @DisplayName("자동차가 2대 미만이면 예외가 발생한다.")
-    void create_fail_by_size() {
+    void wcreate_fail_by_size() {
         //when && then
         assertThatThrownBy(() -> new Cars(List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -33,7 +32,7 @@ class CarsTest {
     void decideWinnerTest() {
         //given
         Cars cars = new Cars(List.of(new Car("A"), new Car("B"), new Car("C")));
-        final TestNumberGenerator numberGenerator = new TestNumberGenerator(List.of(3, 4, 5));
+        TestNumberGenerator numberGenerator = new TestNumberGenerator(List.of(3, 4, 5));
 
         //when
         cars.move(numberGenerator);

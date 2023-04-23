@@ -15,12 +15,12 @@ public class RacingGameResponse {
     private final List<CarResponse> carResponses;
     private final String winners;
 
-    private RacingGameResponse(final List<CarResponse> carResponses, final String winners) {
+    private RacingGameResponse(List<CarResponse> carResponses, String winners) {
         this.carResponses = carResponses;
         this.winners = winners;
     }
 
-    public static RacingGameResponse createByCars(final List<Car> cars, final List<Car> winningCars) {
+    public static RacingGameResponse createByCars(List<Car> cars, List<Car> winningCars) {
         List<CarResponse> carResponses = cars.stream()
                 .map(CarResponse::new)
                 .collect(toList());
@@ -31,12 +31,12 @@ public class RacingGameResponse {
         return new RacingGameResponse(carResponses, winners);
     }
 
-    public static RacingGameResponse createByEntity(final List<CarEntity> carEntities) {
+    public static RacingGameResponse createByEntity(List<CarEntity> carEntities) {
         List<CarResponse> carResponses = carEntities.stream()
                 .map(CarResponse::new)
                 .collect(toList());
 
-        final String winners = carEntities.stream()
+        String winners = carEntities.stream()
                 .filter(CarEntity::isWin)
                 .map(CarEntity::getName)
                 .collect(Collectors.joining(DELIMITER));

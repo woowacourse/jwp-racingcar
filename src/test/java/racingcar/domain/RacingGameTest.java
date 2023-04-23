@@ -24,12 +24,12 @@ class RacingGameTest {
     @DisplayName("최종 라운드까지 게임을 진행한다.")
     void findWinnerCars() {
         Cars cars = new Cars(List.of(new Car("A"), new Car("B"), new Car("C")));
-        final TestNumberGenerator numberGenerator = new TestNumberGenerator(List.of(3, 4, 5));
-        final RacingGame racingGame = new RacingGame(cars, 1);
+        TestNumberGenerator numberGenerator = new TestNumberGenerator(List.of(3, 4, 5));
+        RacingGame racingGame = new RacingGame(cars, 1);
 
         //when
         racingGame.play(numberGenerator);
-        final List<Car> actual = racingGame.findWinnerCars();
+        List<Car> actual = racingGame.findWinnerCars();
 
         //then
         assertThat(actual).isNotEmpty();

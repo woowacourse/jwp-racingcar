@@ -44,10 +44,10 @@ class WebRacingCarControllerTest {
     @DisplayName("요청한 값을 바탕으로 게임을 플레이하여 결과값을 반환한다.")
     @Test
     void play_success() throws Exception {
-        final RacingGameRequest racingGameRequest = new RacingGameRequest("현서,오리,서현", 10);
-        final String content = objectMapper.writeValueAsString(racingGameRequest);
+        RacingGameRequest racingGameRequest = new RacingGameRequest("현서,오리,서현", 10);
+        String content = objectMapper.writeValueAsString(racingGameRequest);
 
-        final String winnersPath = "$.winners";
+        String winnersPath = "$.winners";
 
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,8 +68,8 @@ class WebRacingCarControllerTest {
     @ParameterizedTest
     @NullAndEmptySource
     void play_false_by_blank_name(String wrongValue) throws Exception {
-        final RacingGameRequest racingGameRequest = new RacingGameRequest(wrongValue, 10);
-        final String content = objectMapper.writeValueAsString(racingGameRequest);
+        RacingGameRequest racingGameRequest = new RacingGameRequest(wrongValue, 10);
+        String content = objectMapper.writeValueAsString(racingGameRequest);
 
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -83,8 +83,8 @@ class WebRacingCarControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"666666,666666", "7777777,7777777"})
     void play_false_by_name_length(String wrongValue) throws Exception {
-        final RacingGameRequest racingGameRequest = new RacingGameRequest(wrongValue, 10);
-        final String content = objectMapper.writeValueAsString(racingGameRequest);
+        RacingGameRequest racingGameRequest = new RacingGameRequest(wrongValue, 10);
+        String content = objectMapper.writeValueAsString(racingGameRequest);
 
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -98,8 +98,8 @@ class WebRacingCarControllerTest {
     @DisplayName("자동차가 2대 이하면 예외를 반환한다.")
     @Test
     void play_false_by_number_of_car() throws Exception {
-        final RacingGameRequest racingGameRequest = new RacingGameRequest("car", 10);
-        final String content = objectMapper.writeValueAsString(racingGameRequest);
+        RacingGameRequest racingGameRequest = new RacingGameRequest("car", 10);
+        String content = objectMapper.writeValueAsString(racingGameRequest);
 
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -112,8 +112,8 @@ class WebRacingCarControllerTest {
     @DisplayName("중복된 자동차 이름이 존재한다면 예외를 반환한다.")
     @Test
     void play_false_by_duplicate_car_name() throws Exception {
-        final RacingGameRequest racingGameRequest = new RacingGameRequest("car,car", 10);
-        final String content = objectMapper.writeValueAsString(racingGameRequest);
+        RacingGameRequest racingGameRequest = new RacingGameRequest("car,car", 10);
+        String content = objectMapper.writeValueAsString(racingGameRequest);
 
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -127,8 +127,8 @@ class WebRacingCarControllerTest {
     @DisplayName("카운트가 비어 있으면 예외를 반환한다.")
     @Test
     void play_false_by_blank_count() throws Exception {
-        final RacingGameRequest racingGameRequest = new RacingGameRequest("현서,오리", null);
-        final String content = objectMapper.writeValueAsString(racingGameRequest);
+        RacingGameRequest racingGameRequest = new RacingGameRequest("현서,오리", null);
+        String content = objectMapper.writeValueAsString(racingGameRequest);
 
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)

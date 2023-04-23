@@ -28,7 +28,7 @@ class JdbcRacingGameDaoTest {
     @DisplayName("정상적으로 game을 저장한다.")
     void save_game() {
         //when
-        final int actual = jdbcRacingGameDao.save(10);
+        int actual = jdbcRacingGameDao.save(10);
         //then
         assertThat(actual).isPositive();
     }
@@ -40,7 +40,7 @@ class JdbcRacingGameDaoTest {
         jdbcRacingGameDao.save(10);
         jdbcRacingGameDao.save(20);
         //when
-        final List<RacingGameEntity> actual = jdbcRacingGameDao.findAll();
+        List<RacingGameEntity> actual = jdbcRacingGameDao.findAll();
         //then
         assertThat(actual.size()).isEqualTo(2);
     }

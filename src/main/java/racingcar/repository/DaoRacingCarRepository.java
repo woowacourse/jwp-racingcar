@@ -15,24 +15,24 @@ public class DaoRacingCarRepository implements RacingCarRepository {
     private final RacingGameDao racingGameDao;
     private final CarDao carDao;
 
-    public DaoRacingCarRepository(final RacingGameDao racingGameDao, final CarDao carDao) {
+    public DaoRacingCarRepository(RacingGameDao racingGameDao, CarDao carDao) {
         this.racingGameDao = racingGameDao;
         this.carDao = carDao;
     }
 
     @Override
-    public void save(final RacingGameEntity racingGameEntity) {
+    public void save(RacingGameEntity racingGameEntity) {
         int gameId = racingGameDao.save(racingGameEntity.getCount());
         carDao.saveAll(gameId, racingGameEntity.getCarEntities());
     }
 
     @Override
     public List<RacingGameEntity> findAll() {
-        final List<RacingGameEntity> racingGameEntities = racingGameDao.findAll();
-        final List<CarEntity> carEntities = carDao.findAll();
+        List<RacingGameEntity> racingGameEntities = racingGameDao.findAll();
+        List<CarEntity> carEntities = carDao.findAll();
 
         for (RacingGameEntity racingGameEntity : racingGameEntities) {
-            final List<CarEntity> carEntitiesByGameId = carEntities.stream()
+            List<CarEntity> carEntitiesByGameId = carEntities.stream()
                     .filter(carEntity -> carEntity.getGameId() == racingGameEntity.getId())
                     .collect(toList());
             racingGameEntity.setCarEntities(carEntitiesByGameId);

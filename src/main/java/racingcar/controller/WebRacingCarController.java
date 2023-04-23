@@ -22,31 +22,31 @@ public class WebRacingCarController {
 
     private final RacingCarService racingCarService;
 
-    public WebRacingCarController(final RacingCarService racingCarService) {
+    public WebRacingCarController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<RacingGameResponse> play(@RequestBody @Valid final RacingGameRequest racingGameRequest) {
-        final RacingGameResponse racingGameResponse = racingCarService.play(racingGameRequest);
+    public ResponseEntity<RacingGameResponse> play(@RequestBody @Valid RacingGameRequest racingGameRequest) {
+        RacingGameResponse racingGameResponse = racingCarService.play(racingGameRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(racingGameResponse);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<RacingGameResponse>> findGameResults() {
-        final List<RacingGameResponse> racingGameResponses = racingCarService.findGameResults();
+        List<RacingGameResponse> racingGameResponses = racingCarService.findGameResults();
         return ResponseEntity.status(HttpStatus.OK).body(racingGameResponses);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(final IllegalArgumentException exception) {
+    public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handleMethodArgumentValidException(
-            final MethodArgumentNotValidException exception) {
-        final String exceptionMessage = exception.getBindingResult().getAllErrors().stream()
+            MethodArgumentNotValidException exception) {
+        String exceptionMessage = exception.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(System.lineSeparator()));
 

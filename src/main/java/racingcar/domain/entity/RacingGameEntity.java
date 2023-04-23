@@ -11,16 +11,16 @@ public class RacingGameEntity {
     private final Integer count;
     private LocalDateTime createdAt;
 
-    public RacingGameEntity(final List<CarEntity> carEntities, final Integer count) {
+    public RacingGameEntity(List<CarEntity> carEntities, Integer count) {
         this(null, carEntities, count, null);
     }
 
-    public RacingGameEntity(final Integer id, final Integer count, final LocalDateTime createdAt) {
+    public RacingGameEntity(Integer id, Integer count, LocalDateTime createdAt) {
         this(id, null, count, createdAt);
     }
 
-    public RacingGameEntity(final Integer id, final List<CarEntity> carEntities, final Integer count,
-                            final LocalDateTime createdAt) {
+    public RacingGameEntity(Integer id, List<CarEntity> carEntities, Integer count,
+                            LocalDateTime createdAt) {
         this.id = id;
         this.carEntities = carEntities;
         this.count = count;
@@ -35,7 +35,7 @@ public class RacingGameEntity {
         return carEntities;
     }
 
-    public void setCarEntities(final List<CarEntity> carEntities) {
+    public void setCarEntities(List<CarEntity> carEntities) {
         this.carEntities = carEntities;
     }
 
@@ -48,14 +48,14 @@ public class RacingGameEntity {
     }
 
     @Override
-    public boolean equals(final Object other) {
+    public boolean equals(Object other) {
         if (this == other) {
             return true;
         }
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        final RacingGameEntity otherEntity = (RacingGameEntity) other;
+        RacingGameEntity otherEntity = (RacingGameEntity) other;
 
         if (id == null || otherEntity.id == null) {
             return false;

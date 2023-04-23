@@ -14,27 +14,27 @@ public class JdbcCarDao implements CarDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<CarEntity> rowMapper = (rs, rowNum) -> {
-        final int id = rs.getInt("id");
-        final int gameId = rs.getInt("racing_game_id");
-        final String name = rs.getString("name");
-        final int position = rs.getInt("position");
-        final boolean isWin = rs.getBoolean("is_win");
+        int id = rs.getInt("id");
+        int gameId = rs.getInt("racing_game_id");
+        String name = rs.getString("name");
+        int position = rs.getInt("position");
+        boolean isWin = rs.getBoolean("is_win");
 
         return new CarEntity(id, gameId, name, position, isWin);
     };
 
-    public JdbcCarDao(final JdbcTemplate jdbcTemplate) {
+    public JdbcCarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public void saveAll(final int gameId, final List<CarEntity> carEntities) {
-        final String sql = "INSERT INTO CAR(racing_game_id, name, position, is_win) VALUES (?,?,?,?)";
-        final BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
+    public void saveAll(int gameId, List<CarEntity> carEntities) {
+        String sql = "INSERT INTO CAR(racing_game_id, name, position, is_win) VALUES (?,?,?,?)";
+        BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
 
             @Override
-            public void setValues(final PreparedStatement ps, final int i) throws SQLException {
-                final CarEntity carEntity = carEntities.get(i);
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                CarEntity carEntity = carEntities.get(i);
                 ps.setInt(1, gameId);
                 ps.setString(2, carEntity.getName());
                 ps.setInt(3, carEntity.getPosition());
@@ -52,7 +52,7 @@ public class JdbcCarDao implements CarDao {
 
     @Override
     public List<CarEntity> findAll() {
-        final String sql = "SELECT * FROM CAR";
+        String sql = "SELECT * FROM CAR";
         return jdbcTemplate.query(sql, rowMapper);
     }
 }

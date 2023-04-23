@@ -32,13 +32,13 @@ class WebRacingCarRepositoryTest {
     @DisplayName("저장된 모든 entity를 찾아온다.")
     void find_all() {
         //given
-        final List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
+        List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
                 new CarEntity("참치", 2, false));
-        final RacingGameEntity racingGameEntity = new RacingGameEntity(carEntities, 10);
+        RacingGameEntity racingGameEntity = new RacingGameEntity(carEntities, 10);
         webRacingCarRepository.save(racingGameEntity);
         //when
-        final List<RacingGameEntity> findEntity = webRacingCarRepository.findAll();
-        final RacingGameEntity actual = findEntity.get(0);
+        List<RacingGameEntity> findEntity = webRacingCarRepository.findAll();
+        RacingGameEntity actual = findEntity.get(0);
         //then
         assertThat(findEntity.size()).isEqualTo(1);
         assertThat(actual.getCarEntities().size()).isEqualTo(2);

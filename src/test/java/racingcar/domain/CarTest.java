@@ -29,7 +29,7 @@ public class CarTest {
 
         //when
         car.move(givenNumber);
-        final int actual = car.getPosition();
+        int actual = car.getPosition();
 
         //then
         assertThat(actual).isEqualTo(expected);

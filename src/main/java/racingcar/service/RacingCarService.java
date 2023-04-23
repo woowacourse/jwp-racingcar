@@ -20,24 +20,24 @@ public class RacingCarService {
     private final RacingCarRepository racingCarRepository;
     private final NumberGenerator numberGenerator;
 
-    public RacingCarService(final RacingCarRepository racingCarRepository, final NumberGenerator numberGenerator) {
+    public RacingCarService(RacingCarRepository racingCarRepository, NumberGenerator numberGenerator) {
         this.racingCarRepository = racingCarRepository;
         this.numberGenerator = numberGenerator;
     }
 
     @Transactional
-    public RacingGameResponse play(final RacingGameRequest racingGameRequest) {
-        final RacingGame racingGame = racingGameRequest.toEntity();
+    public RacingGameResponse play(RacingGameRequest racingGameRequest) {
+        RacingGame racingGame = racingGameRequest.toEntity();
         racingGame.play(numberGenerator);
         racingCarRepository.save(createRacingGameEntity(racingGame));
 
         return RacingGameResponse.createByCars(racingGame.getCars(), racingGame.findWinnerCars());
     }
 
-    private RacingGameEntity createRacingGameEntity(final RacingGame racingGame) {
+    private RacingGameEntity createRacingGameEntity(RacingGame racingGame) {
         List<Car> winnerCars = racingGame.findWinnerCars();
 
-        final List<CarEntity> carEntities = racingGame.getCars().stream()
+        List<CarEntity> carEntities = racingGame.getCars().stream()
                 .map(car -> new CarEntity(car.getName(), car.getPosition(), winnerCars.contains(car)))
                 .collect(toList());
 
@@ -46,7 +46,7 @@ public class RacingCarService {
 
     @Transactional(readOnly = true)
     public List<RacingGameResponse> findGameResults() {
-        final List<RacingGameEntity> racingGameEntities = racingCarRepository.findAll();
+        List<RacingGameEntity> racingGameEntities = racingCarRepository.findAll();
 
         return racingGameEntities.stream()
                 .map(RacingGameEntity::getCarEntities)

@@ -21,11 +21,11 @@ class RacingCarServiceTest {
     @Test
     void play_and_return() {
         //given
-        final TestNumberGenerator testNumberGenerator = new TestNumberGenerator(List.of(1, 10, 10));
+        TestNumberGenerator testNumberGenerator = new TestNumberGenerator(List.of(1, 10, 10));
         racingCarService = new RacingCarService(new TestRacingCarRepository(null), testNumberGenerator);
-        final RacingGameRequest given = new RacingGameRequest("포비,현서,참치", 1);
+        RacingGameRequest given = new RacingGameRequest("포비,현서,참치", 1);
         //when
-        final RacingGameResponse racingGameResponse = racingCarService.play(given);
+        RacingGameResponse racingGameResponse = racingCarService.play(given);
         //then
         assertThat(racingGameResponse.getCarResponses().size()).isEqualTo(3);
         assertThat(racingGameResponse.getWinners()).isEqualTo("현서,참치");
@@ -41,12 +41,12 @@ class RacingCarServiceTest {
                 new CarEntity("은서", 1, false));
         List<RacingGameEntity> racingGameEntities = List.of(new RacingGameEntity(carEntities, 10));
 
-        final RacingCarService racingCarService = new RacingCarService(
+        RacingCarService racingCarService = new RacingCarService(
                 new TestRacingCarRepository(racingGameEntities), new RandomNumberGenerator());
 
         //when
-        final List<RacingGameResponse> actualList = racingCarService.findGameResults();
-        final RacingGameResponse actual = actualList.get(0);
+        List<RacingGameResponse> actualList = racingCarService.findGameResults();
+        RacingGameResponse actual = actualList.get(0);
         //then
         assertThat(actualList.size()).isEqualTo(1);
         assertThat(actual.getWinners()).contains("현서", "오리");

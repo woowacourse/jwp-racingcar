@@ -12,7 +12,7 @@ public class ConsoleCarDao implements CarDao {
     private int id = 1;
 
     @Override
-    public void saveAll(final int gameId, final List<CarEntity> carEntities) {
+    public void saveAll(int gameId, List<CarEntity> carEntities) {
         for (CarEntity carEntity : carEntities) {
             db.put(id, new CarEntity(id, gameId, carEntity.getName(), carEntity.getPosition(), carEntity.isWin()));
             id++;

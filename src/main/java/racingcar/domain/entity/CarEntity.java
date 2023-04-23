@@ -10,12 +10,11 @@ public class CarEntity {
     private final Integer position;
     private final Boolean isWin;
 
-    public CarEntity(final String name, final Integer position, final Boolean isWin) {
+    public CarEntity(String name, Integer position, Boolean isWin) {
         this(null, null, name, position, isWin);
     }
 
-    public CarEntity(final Integer id, final Integer gameId, final String name, final Integer position,
-                     final Boolean isWin) {
+    public CarEntity(Integer id, Integer gameId, String name, Integer position, Boolean isWin) {
         this.id = id;
         this.gameId = gameId;
         this.name = name;
@@ -44,14 +43,14 @@ public class CarEntity {
     }
 
     @Override
-    public boolean equals(final Object other) {
+    public boolean equals(Object other) {
         if (this == other) {
             return true;
         }
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        final CarEntity otherCarEntity = (CarEntity) other;
+        CarEntity otherCarEntity = (CarEntity) other;
 
         if (id == null || otherCarEntity.id == null) {
             return false;

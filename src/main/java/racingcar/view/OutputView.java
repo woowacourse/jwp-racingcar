@@ -5,7 +5,7 @@ import racingcar.dto.response.RacingGameResponse;
 
 public class OutputView {
 
-    public void printResultMessage(final RacingGameResponse racingGameResponse) {
+    public void printResultMessage(RacingGameResponse racingGameResponse) {
         System.out.println("------------우승자------------");
         System.out.println(racingGameResponse.getWinners());
         System.out.println("------------전체 결과------------");

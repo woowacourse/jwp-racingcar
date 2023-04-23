@@ -12,12 +12,12 @@ public class Cars {
 
     private final List<Car> cars;
 
-    public Cars(final List<Car> cars) {
+    public Cars(List<Car> cars) {
         validate(cars);
         this.cars = new ArrayList<>(cars);
     }
 
-    private void validate(final List<Car> cars) {
+    private void validate(List<Car> cars) {
         if (cars.size() < CARS_MIN_SIZE) {
             throw new IllegalArgumentException(CARS_SIZE_ERROR);
         }
@@ -27,21 +27,21 @@ public class Cars {
         }
     }
 
-    private boolean hasDuplicateName(final List<Car> cars) {
-        final List<String> carNames = cars.stream()
+    private boolean hasDuplicateName(List<Car> cars) {
+        List<String> carNames = cars.stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
         return carNames.size() != new HashSet<>(carNames).size();
     }
 
-    public void move(final NumberGenerator numberGenerator) {
+    public void move(NumberGenerator numberGenerator) {
         for (Car car : cars) {
             car.move(numberGenerator.generate());
         }
     }
 
     public List<Car> findAllWinner() {
-        final Car maxPositionCar = findMaxPositionCar();
+        Car maxPositionCar = findMaxPositionCar();
         return findSamePositionCars(maxPositionCar);
     }
 
@@ -51,7 +51,7 @@ public class Cars {
                 .orElseThrow(() -> new IllegalArgumentException("Cars가 비어있습니다."));
     }
 
-    private List<Car> findSamePositionCars(final Car maxPositionCar) {
+    private List<Car> findSamePositionCars(Car maxPositionCar) {
         return cars.stream()
                 .filter(car -> car.isSamePosition(maxPositionCar))
                 .collect(Collectors.toList());

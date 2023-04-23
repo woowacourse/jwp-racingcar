@@ -15,25 +15,25 @@ public class JdbcRacingGameDao implements RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<RacingGameEntity> rowMapper = (rs, rowNum) -> {
-        final int id = rs.getInt("id");
-        final int count = rs.getInt("count");
-        final LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+        int id = rs.getInt("id");
+        int count = rs.getInt("count");
+        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
         return new RacingGameEntity(id, count, createdAt);
     };
 
 
-    public JdbcRacingGameDao(final JdbcTemplate jdbcTemplate) {
+    public JdbcRacingGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public int save(final int count) {
+    public int save(int count) {
         String sql = "INSERT INTO RACING_GAME(count) VALUES (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
-            final PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setInt(1, count);
             return ps;
         }, keyHolder);

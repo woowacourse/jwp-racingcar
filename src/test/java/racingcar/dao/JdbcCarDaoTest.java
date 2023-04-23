@@ -31,12 +31,12 @@ class JdbcCarDaoTest {
     @DisplayName("주어진 자동차를 모두 저장한다.")
     void save_all() {
         //given
-        final List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
+        List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
                 new CarEntity("참치", 2, false));
-        final int gameId = jdbcRacingGameDao.save(10);
+        int gameId = jdbcRacingGameDao.save(10);
         //when
         jdbcCarDao.saveAll(gameId, carEntities);
-        final Integer actual = jdbcTemplate.queryForObject("select count(*) from car", Integer.class);
+        Integer actual = jdbcTemplate.queryForObject("select count(*) from car", Integer.class);
         //then
         assertThat(actual).isEqualTo(2);
     }
@@ -45,12 +45,12 @@ class JdbcCarDaoTest {
     @DisplayName("find_all")
     void find_all() {
         //given
-        final List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
+        List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
                 new CarEntity("참치", 2, false));
-        final int gameId = jdbcRacingGameDao.save(10);
+        int gameId = jdbcRacingGameDao.save(10);
         jdbcCarDao.saveAll(gameId, carEntities);
         //when
-        final List<CarEntity> actual = jdbcCarDao.findAll();
+        List<CarEntity> actual = jdbcCarDao.findAll();
         //then
         assertThat(actual.size()).isEqualTo(2);
     }
