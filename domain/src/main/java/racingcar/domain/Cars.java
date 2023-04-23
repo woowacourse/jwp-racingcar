@@ -33,6 +33,13 @@ public class Cars {
         }
     }
 
+    public void race(final Count tryCount, final NumberPicker numberPicker) {
+        while (!tryCount.isFinished()) {
+            moveCars(numberPicker);
+            tryCount.next();
+        }
+    }
+
     public void moveCars(final NumberPicker numberPicker) {
         for (final Car car : cars) {
             move(car, numberPicker);
@@ -60,12 +67,5 @@ public class Cars {
 
     public List<Car> getCars() {
         return cars;
-    }
-
-    public void race(final Count tryCount, final NumberPicker numberPicker) {
-        while (!tryCount.isFinished()) {
-            moveCars(numberPicker);
-            tryCount.next();
-        }
     }
 }
