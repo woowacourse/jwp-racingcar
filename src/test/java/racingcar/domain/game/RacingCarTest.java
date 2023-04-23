@@ -46,11 +46,8 @@ public class RacingCarTest {
     void equals(long id) {
         //given
         String name = "서브웨이";
-        RacingCar racingCar = new RacingCar(name);
-        racingCar.setId(id);
-
-        RacingCar other = new RacingCar(name);
-        other.setId(id);
+        RacingCar racingCar = new RacingCar(id, name, 0);
+        RacingCar other = new RacingCar(id, name, 0);
         //when
         //then
         Assertions.assertThat(racingCar).isEqualTo(other);

@@ -102,8 +102,4 @@ public class RacingGame {
         return playTime;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 }

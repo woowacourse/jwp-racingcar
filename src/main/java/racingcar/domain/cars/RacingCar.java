@@ -73,7 +73,4 @@ public class RacingCar {
         return position.getValue();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
