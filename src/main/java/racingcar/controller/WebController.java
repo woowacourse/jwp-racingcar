@@ -25,8 +25,7 @@ public class WebController {
 
     @PostMapping("/plays")
     public ResponseEntity<PlaySuccessResponse> play(@RequestBody PlayRequest playRequest) {
-        List<String> names = ValueEditor.splitByComma(playRequest.getNames());
-        RacingGameResultDto racingGameDto = racingGameService.play(new RacingGameSetUpDto(names, playRequest.getCount()));
+        RacingGameResultDto racingGameDto = racingGameService.play(RacingGameSetUpDto.from(playRequest));
         return ResponseEntity.ok().body(PlaySuccessResponse.from(racingGameDto));
     }
 
