@@ -5,11 +5,11 @@ import racingcar.domain.Car;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GameResultResponse {
+public class GameResultForResponse {
     private final String winners;
     private final List<CarForNameAndPosition> racingCars;
 
-    public GameResultResponse(List<Car> winners, List<Car> racingCars) {
+    public GameResultForResponse(List<Car> winners, List<Car> racingCars) {
         String winnersToDto = winners.stream()
                 .map(Car::getName)
                 .collect(Collectors.joining(","));

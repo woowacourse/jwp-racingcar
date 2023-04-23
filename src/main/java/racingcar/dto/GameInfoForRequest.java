@@ -4,14 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GameInfoRequest {
+public class GameInfoForRequest {
     private static final int MIN_PLAYER_NAME = 1;
     private static final int MAX_PLAYER_NAME = 5;
     private static final int MAX_PLAYER_NUM = 10;
     private final String names;
     private final Integer count;
 
-    public GameInfoRequest(String names, Integer count) throws IllegalArgumentException {
+    public GameInfoForRequest(String names, Integer count) throws IllegalArgumentException {
         List<String> players = Arrays.stream(names.split(",")).collect(Collectors.toList());
         validateNull(names);
         validatePlayerSize(players);

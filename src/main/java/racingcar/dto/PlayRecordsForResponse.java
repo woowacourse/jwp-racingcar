@@ -2,11 +2,11 @@ package racingcar.dto;
 
 import java.util.List;
 
-public class PlayRecordsResponse {
+public class PlayRecordsForResponse {
     private final String winners;
     private final List<CarForNameAndPosition> racingCars;
 
-    public PlayRecordsResponse(String winners, List<CarForNameAndPosition> racingCars) {
+    public PlayRecordsForResponse(String winners, List<CarForNameAndPosition> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }

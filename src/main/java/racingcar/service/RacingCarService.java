@@ -32,11 +32,11 @@ public class RacingCarService {
         this.gamePlay = gamePlay;
     }
 
-    public GameResultResponse createResponse(GameInfoRequest gameInfoRequest) {
-        List<String> carNames = Arrays.asList(gameInfoRequest.getNames().split(","));
+    public GameResultForResponse createResponse(GameInfoForRequest gameInfoForRequest) {
+        List<String> carNames = Arrays.asList(gameInfoForRequest.getNames().split(","));
         Cars cars = CarsFactory.buildCars(carNames);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
-        int count = gameInfoRequest.getCount();
+        int count = gameInfoForRequest.getCount();
         gamePlay.play(cars, count, numberGenerator);
         List<CarForNameAndPosition> carRespons = cars.getCars().stream()
                 .map(CarForNameAndPosition::new)
@@ -45,7 +45,7 @@ public class RacingCarService {
                 .map(CarForNameAndPosition::new)
                 .collect(Collectors.toList());
         saveResult(count, carRespons, winners);
-        return new GameResultResponse(cars.findWinners(), cars.getCars());
+        return new GameResultForResponse(cars.findWinners(), cars.getCars());
     }
 
     private void saveResult(int trialCount, List<CarForNameAndPosition> cars, List<CarForNameAndPosition> winners) {
@@ -59,15 +59,15 @@ public class RacingCarService {
                 .collect(Collectors.joining(DELIMITER));
     }
 
-    public List<PlayRecordsResponse> showPlayRecords() {
+    public List<PlayRecordsForResponse> showPlayRecords() {
         List<String> allWinners = playResultDao.findAllPlayRecords();
-        List<PlayRecordsResponse> playRecordsResponses = new ArrayList<>();
+        List<PlayRecordsForResponse> playRecordsForRespons = new ArrayList<>();
         for (int i = 0; i < allWinners.size(); i++) {
             String winners = allWinners.get(i);
             int gameId = i + 1;
-            PlayRecordsResponse playRecordsResponse = new PlayRecordsResponse(winners, playResultDao.findPlayRecordsByWinner(winners, gameId));
-            playRecordsResponses.add(playRecordsResponse);
+            PlayRecordsForResponse playRecordsForResponse = new PlayRecordsForResponse(winners, playResultDao.findPlayRecordsByWinner(winners, gameId));
+            playRecordsForRespons.add(playRecordsForResponse);
         }
-        return playRecordsResponses;
+        return playRecordsForRespons;
     }
 }
