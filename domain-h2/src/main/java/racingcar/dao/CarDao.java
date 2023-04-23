@@ -19,11 +19,11 @@ public class CarDao {
     }
 
     public List<CarEntity> insertAll(final List<CarEntity> carEntities) {
-        final List<GameId> gameId = carEntities.stream()
+        final List<GameId> gameIds = carEntities.stream()
                 .map(CarEntity::getGameId)
                 .collect(Collectors.toList());
         insertCarDao.insertAll(carEntities);
-        return selectCarDao.findAllByGameId(gameId);
+        return selectCarDao.findAllByGameId(gameIds);
     }
 
     public List<CarEntity> findAll() {
