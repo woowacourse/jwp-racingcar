@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ParticipantsTest {
-
     @Test
     void 참가자_등록_테스트() {
         //given

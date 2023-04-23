@@ -12,6 +12,7 @@ import java.util.List;
 
 @Repository
 public class GameDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     public GameDao(JdbcTemplate jdbcTemplate) {

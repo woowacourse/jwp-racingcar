@@ -22,10 +22,6 @@ public class CarResponse {
         return new CarResponse(name, position);
     }
 
-    public static CarResponse of(String name, int position) {
-        return new CarResponse(name, position);
-    }
-
     public String getName() {
         return name;
     }

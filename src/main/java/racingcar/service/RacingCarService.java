@@ -32,29 +32,28 @@ public class RacingCarService {
         Race race = new Race(playsRequest.getCount(), playsRequest.getNames(), numberGenerator);
         race.play();
 
-        Game game = createGame(playsRequest.getCount(), race.findWinners());
+        Game game = createGame(race.findWinners(), playsRequest.getCount());
         insertDataInDao(game, race.getParticipants());
 
         return PlaysResponse.of(race.findWinners(), race.getParticipants());
     }
 
-    public Game createGame(int count, List<Car> winners) {
+    private Game createGame(List<Car> winners, int count) {
         List<String> winnerNames = winners
                 .stream()
                 .map(Car::getName)
                 .collect(Collectors.toList());
 
-        return Game.of(null, winnerNames, count);
+        return Game.of(winnerNames, count);
     }
 
-    public void insertDataInDao(Game game, List<Car> participants) {
+    private void insertDataInDao(Game game, List<Car> participants) {
         Long gameId = insertGameData(game);
         insertPlayersData(participants, gameId);
     }
 
     private Long insertGameData(Game game) {
-        Long gameId = gameDao.insert(game);
-        return gameId;
+        return gameDao.insert(game);
     }
 
     private void insertPlayersData(List<Car> participants, Long gameId) {

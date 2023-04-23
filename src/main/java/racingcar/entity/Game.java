@@ -21,6 +21,10 @@ public class Game {
         return new Game(id, String.join(",", winners), trialCount, null);
     }
 
+    public static Game of(List<String> winners, int trialCount) {
+        return new Game(null, String.join(",", winners), trialCount, null);
+    }
+
     public Integer getId() {
         return id;
     }
@@ -31,9 +35,5 @@ public class Game {
 
     public int getTrialCount() {
         return trialCount;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 }
