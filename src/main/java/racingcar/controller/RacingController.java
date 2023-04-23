@@ -1,7 +1,10 @@
 package racingcar.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +30,13 @@ public final class RacingController {
                 racingRequest.getNames(),
                 racingRequest.getCount());
         return RacingResponse.from(racingGame);
+    }
+
+    @GetMapping(path = "/plays")
+    public List<RacingResponse> getAllRacingGame() {
+        List<RacingGame> racingGames = this.racingService.getAllRacingGame();
+        return racingGames.stream()
+                .map(RacingResponse::from)
+                .collect(Collectors.toList());
     }
 }
