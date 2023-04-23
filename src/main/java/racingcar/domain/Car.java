@@ -14,19 +14,26 @@ public class Car implements Comparable<Car> {
     private NumberGenerator numberGenerator;
 
     public Car(String name, NumberGenerator numberGenerator) {
-        name = name.trim();
-        validateName(name);
-        this.name = name;
-        this.position = 0;
-        this.numberGenerator = numberGenerator;
+        this(name, 0, numberGenerator);
     }
 
     public Car(String name, int position) {
+        this(name, position, null);
+    }
+
+    private Car(String name, int position, NumberGenerator numberGenerator) {
+        name = name.trim();
+        validateName(name);
+
         this.name = name;
         this.position = position;
+        this.numberGenerator = numberGenerator;
     }
 
     public void goForward() {
+        if (numberGenerator == null) {
+            throw new UnsupportedOperationException();
+        }
         if (numberGenerator.generate() >= MOVABLE_MIN_NUMBER) {
             position++;
         }

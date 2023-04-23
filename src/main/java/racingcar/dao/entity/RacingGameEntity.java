@@ -9,9 +9,7 @@ public class RacingGameEntity {
     private final Timestamp createdAt;
 
     public RacingGameEntity(Integer count) {
-        this.id = null;
-        this.count = count;
-        createdAt = null;
+        this(null, count, null);
     }
 
     public RacingGameEntity(Integer id, Integer count, Timestamp createdAt) {

@@ -8,10 +8,7 @@ public class CarEntity {
     private final Integer position;
 
     public CarEntity(Integer gameId, String name, Integer position) {
-        this.id = null;
-        this.gameId = gameId;
-        this.name = name;
-        this.position = position;
+        this(null, gameId, name, position);
     }
 
     public CarEntity(Integer id, Integer gameId, String name, Integer position) {
