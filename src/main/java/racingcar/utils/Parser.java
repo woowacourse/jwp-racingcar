@@ -1,7 +1,8 @@
 package racingcar.utils;
 
 import org.springframework.stereotype.Component;
-import racingcar.exception.ExceptionInformation;
+import racingcar.exception.CommaNotFoundException;
+import racingcar.exception.NotPositiveIntegerException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Parser {
 
     private void validateComma(final String names) {
         if (!names.contains(COMMA_DELIMITER)) {
-            throw new IllegalArgumentException(ExceptionInformation.NOT_FOUND_COMMA.getExceptionMessage());
+            throw new CommaNotFoundException(names);
         }
     }
 
@@ -30,7 +31,7 @@ public class Parser {
         try {
             return Integer.parseInt(target);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER.getExceptionMessage());
+            throw new NotPositiveIntegerException(target);
         }
     }
 }

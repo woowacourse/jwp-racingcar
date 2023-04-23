@@ -4,6 +4,7 @@ import org.springframework.dao.DataAccessException;
 import racingcar.dto.GameHistoryDto;
 import racingcar.dto.RacingGameDto;
 import racingcar.exception.ExceptionInformation;
+import racingcar.exception.CustomException;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -35,9 +36,8 @@ public class RacingGameConsoleController {
             RacingGameDto racingGameDto = new RacingGameDto(inputCarNames(), requestTryCount(), applicationType);
             GameHistoryDto gameHistoryDto = racingGameService.playGame(racingGameDto);
             outputView.printWinner(gameHistoryDto);
-        } catch (IllegalArgumentException exception) {
-            ExceptionInformation exceptionInformation = ExceptionInformation.findByMessage(exception.getMessage());
-            System.out.println(exceptionInformation.getExceptionMessage());
+        } catch (CustomException exception) {
+            System.out.println(exception.getMessage());
         } catch (DataAccessException exception) {
             System.out.println(ExceptionInformation.INVALID_DATABASE_ACCESS.getExceptionMessage());
         }

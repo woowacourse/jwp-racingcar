@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.ExceptionInformation;
+import racingcar.exception.NotPositiveIntegerException;
 
 public class TryCount {
 
@@ -16,13 +16,13 @@ public class TryCount {
 
     private void validateTryCount(final int inputCount) {
         if (inputCount <= END_FLAG) {
-            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER.getExceptionMessage());
+            throw new NotPositiveIntegerException(String.valueOf(inputCount));
         }
     }
 
     public void deduct() {
         if (isZero()) {
-            throw new IllegalArgumentException(ExceptionInformation.NOT_POSITIVE_INTEGER.getExceptionMessage());
+            throw new NotPositiveIntegerException(String.valueOf(tryCount));
         }
 
         tryCount--;

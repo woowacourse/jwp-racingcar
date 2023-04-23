@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import racingcar.exception.ExceptionInformation;
+import racingcar.exception.NameIsOutOfBoundException;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,8 +18,8 @@ public class NameTest {
         //when
         //then
         assertThatThrownBy(() -> new Name(name))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionInformation.OUT_OF_BOUND_NAME.getExceptionMessage());
+                .isInstanceOf(NameIsOutOfBoundException.class)
+                .hasMessageContaining(ExceptionInformation.OUT_OF_BOUND_NAME.getExceptionMessage());
     }
 
     @ParameterizedTest

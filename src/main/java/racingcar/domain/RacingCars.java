@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.exception.ExceptionInformation;
+import racingcar.exception.CannotFindMaxPositionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +38,6 @@ public class RacingCars {
         return racingCars.stream()
                 .mapToInt(RacingCar::getPosition)
                 .max()
-                .orElseThrow(() -> new IllegalArgumentException(ExceptionInformation.NOT_FOUND_MAX_POSITION.getExceptionMessage()));
+                .orElseThrow(CannotFindMaxPositionException::new);
     }
 }

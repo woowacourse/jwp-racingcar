@@ -1,5 +1,6 @@
 package racingcar.controller;
 
+import racingcar.exception.CannotFindApplicationTypeException;
 import racingcar.exception.ExceptionMessage;
 
 import java.util.Arrays;
@@ -18,7 +19,7 @@ public enum ApplicationType {
         return Arrays.stream(values())
                 .filter(applicationType -> applicationType.applicationId == applicationId)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.INVALID_APPLICATION_TYPE.getExceptionMessage()));
+                .orElseThrow(CannotFindApplicationTypeException::new);
     }
 
     public int getApplicationId() {
