@@ -34,9 +34,9 @@ public class WebRacingRepository implements RacingRepository {
     }
 
     public List<RacingGame> findAllRacingGames() {
-        List<GameResultEntity> gameResultEntities = this.racingDao.getAllGameResults();
+        List<GameResultEntity> gameResultEntitiesOrderedByCreatedAt = this.racingDao.getAllGameResults();
         List<RacingGame> racingGames = new ArrayList<>();
-        for (GameResultEntity gameResultEntity : gameResultEntities) {
+        for (GameResultEntity gameResultEntity : gameResultEntitiesOrderedByCreatedAt) {
             racingGames.add(new RacingGame(
                     collectCarsByGameResultId(gameResultEntity.getId()),
                     new RandomNumberGenerator(),

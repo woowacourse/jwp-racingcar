@@ -58,7 +58,8 @@ public class JdbcTemplateRacingDao implements RacingDao {
     }
 
     public List<GameResultEntity> getAllGameResults() {
-        String sql = "SELECT id, trial_count, winners, created_at FROM game_result";
+        String sql = "SELECT id, trial_count, winners, created_at FROM game_result "
+                + "ORDER BY created_at DESC";
         return this.jdbcTemplate.query(sql,
                 (resultSet, rowNumber) -> new GameResultEntity(
                         resultSet.getLong("id"),
