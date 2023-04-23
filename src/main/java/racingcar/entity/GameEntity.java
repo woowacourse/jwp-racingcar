@@ -30,6 +30,15 @@ public class GameEntity {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "GameEntity{" +
+                "id=" + id +
+                ", count=" + count +
+                ", createdAt=" + createdAt +
+                '}';
+    }
+
     public static class Builder {
 
         private int id;
@@ -49,15 +58,6 @@ public class GameEntity {
             return new GameEntity(id, count, LocalDateTime.now());
         }
 
-    }
-
-    @Override
-    public String toString() {
-        return "GameEntity{" +
-                "id=" + id +
-                ", count=" + count +
-                ", createdAt=" + createdAt +
-                '}';
     }
 
 }

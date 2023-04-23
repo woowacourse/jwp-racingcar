@@ -34,6 +34,16 @@ public class CarEntity {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "CarEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                ", racingGameId=" + racingGameId +
+                '}';
+    }
+
     public static class Builder {
 
         private int id;

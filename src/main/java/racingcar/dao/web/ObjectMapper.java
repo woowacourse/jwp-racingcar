@@ -1,4 +1,4 @@
-package racingcar.dao;
+package racingcar.dao.web;
 
 import org.springframework.jdbc.core.RowMapper;
 import racingcar.domain.Winner;

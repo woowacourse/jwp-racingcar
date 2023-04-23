@@ -1,13 +1,11 @@
 package racingcar.controller;
 
 import racingcar.controller.dto.GameRequestDtoForPlays;
+import racingcar.controller.dto.GameResponseDto;
 import racingcar.controller.dto.RacingGameResultDto;
-import racingcar.domain.Winner;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.stream.Collectors;
 
 public class RacingCarConsoleController {
 
@@ -23,7 +21,9 @@ public class RacingCarConsoleController {
 
     public void run() {
         RacingGameResultDto racingGameResultDto = racingCarService.plays(generateGameRequestDto());
-        printResults(racingGameResultDto);
+        int savedGameId = racingCarService.saveGameResult(racingGameResultDto);
+        GameResponseDto savedGameDto = racingCarService.getSavedGameById(savedGameId);
+        printResults(savedGameDto);
     }
 
     private GameRequestDtoForPlays generateGameRequestDto() {
@@ -32,17 +32,9 @@ public class RacingCarConsoleController {
         return new GameRequestDtoForPlays(carNames, numberOfTimes);
     }
 
-    private void printResults(RacingGameResultDto racingGameResultDto) {
-        printWinners(racingGameResultDto);
-        outputView.printResult(racingGameResultDto.getCars().getCars());
-    }
-
-    private void printWinners(RacingGameResultDto racingGameResultDto) {
-        String winners = racingGameResultDto.getWinners()
-                .getWinners().stream()
-                .map(Winner::getName)
-                .collect(Collectors.joining(", "));
-        outputView.printWinners(winners);
+    private void printResults(GameResponseDto gameResponseDto) {
+        outputView.printWinners(gameResponseDto.getWinners());
+        outputView.printResult(gameResponseDto.getRacingCars());
     }
 
 }

@@ -8,9 +8,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.controller.dto.GameRequestDtoForPlays;
 import racingcar.controller.dto.RacingGameResultDto;
-import racingcar.dao.RacingCarDao;
-import racingcar.dao.RacingGameDao;
-import racingcar.dao.WinnersDao;
+import racingcar.dao.web.RacingCarWebDao;
+import racingcar.dao.web.RacingGameWebDao;
+import racingcar.dao.web.WinnersWebDao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,7 +23,7 @@ class RacingCarServiceTest {
 
     @BeforeEach
     public void setUp() {
-        RacingCarService = new WebService(new RacingCarDao(jdbcTemplate), new RacingGameDao(jdbcTemplate), new WinnersDao(jdbcTemplate));
+        RacingCarService = new WebService(new RacingCarWebDao(jdbcTemplate), new RacingGameWebDao(jdbcTemplate), new WinnersWebDao(jdbcTemplate));
     }
 
     @Test

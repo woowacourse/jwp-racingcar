@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.web.RacingCarWebDao;
+import racingcar.dao.web.RacingGameWebDao;
 import racingcar.domain.Car;
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
@@ -19,43 +21,41 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional
 @JdbcTest
-class RacingCarDaoTest {
+class RacingCarWebDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private RacingCarDao racingCarDao;
-    private RacingGameDao racingGameDao;
+    private RacingCarWebDao racingCarWebDao;
+    private RacingGameWebDao racingGameWebDao;
 
     @BeforeEach
     void setUp() {
-        racingCarDao = new RacingCarDao(jdbcTemplate);
-        racingGameDao = new RacingGameDao(jdbcTemplate);
+        racingCarWebDao = new RacingCarWebDao(jdbcTemplate);
+        racingGameWebDao = new RacingGameWebDao(jdbcTemplate);
     }
 
     @Test
     @DisplayName("car 테이블에 car 객체 저장")
     void saveGame() {
-        racingGameDao.saveGame(new GameEntity(1, 10, LocalDateTime.now()));
+        int savedGameId = racingGameWebDao.saveGame(new GameEntity(1, 10, LocalDateTime.now()));
 
         Car car = new Car("merry");
-        int gameId = 1;
 
-        assertDoesNotThrow(() -> racingCarDao.saveCar(gameId, car));
+        assertDoesNotThrow(() -> racingCarWebDao.saveCar(new CarEntity(1, car.getName(), 10, savedGameId)));
     }
 
     @Test
     @DisplayName("저장된 모든 Car 조회")
     void findAll() {
-        racingGameDao.saveGame(new GameEntity(2, 10, LocalDateTime.now()));
+        int savedGameId = racingGameWebDao.saveGame(new GameEntity(2, 10, LocalDateTime.now()));
 
-        int gameId = 2;
-        for (int i = 0; i < 2; i++) {
-            racingCarDao.saveCar(gameId, new Car(String.valueOf(i), i));
+        for (int i = 1; i < 3; i++) {
+            racingCarWebDao.saveCar(new CarEntity(i, Integer.toString(i), 1, savedGameId));
         }
 
-        List<CarEntity> result = racingCarDao.findCarsByGameId(gameId);
+        List<CarEntity> result = racingCarWebDao.findCarsByGameId(savedGameId);
 
-        assertEquals(result.size(), 2);
+        assertEquals(2, result.size());
     }
 
 }

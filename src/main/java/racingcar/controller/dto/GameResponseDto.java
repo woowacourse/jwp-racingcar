@@ -26,4 +26,13 @@ public class GameResponseDto {
         return racingCars;
     }
 
+    @Override
+    public String toString() {
+        return "GameResponseDto{" +
+                "id=" + id +
+                ", winners='" + winners + '\'' +
+                ", racingCars=" + racingCars +
+                '}';
+    }
+
 }

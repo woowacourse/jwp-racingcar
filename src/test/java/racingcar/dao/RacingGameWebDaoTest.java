@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.dao.web.RacingGameWebDao;
 import racingcar.entity.GameEntity;
 
 import java.time.LocalDateTime;
@@ -16,15 +17,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional
 @JdbcTest
-public class RacingGameDaoTest {
+public class RacingGameWebDaoTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private RacingGameDao racingGameDao;
+    private RacingGameWebDao racingGameWebDao;
 
     @BeforeEach
     void setUp() {
-        racingGameDao = new RacingGameDao(jdbcTemplate);
+        racingGameWebDao = new RacingGameWebDao(jdbcTemplate);
     }
 
     @Test
@@ -32,7 +33,7 @@ public class RacingGameDaoTest {
     void saveGame() {
         GameEntity gameEntity = new GameEntity(1, 10, LocalDateTime.now());
 
-        assertDoesNotThrow(() -> racingGameDao.saveGame(gameEntity));
+        assertDoesNotThrow(() -> racingGameWebDao.saveGame(gameEntity));
     }
 
     @Test
@@ -40,8 +41,8 @@ public class RacingGameDaoTest {
     void getRacingGameById() {
         int id = 1;
         int count = 10;
-        int savedGameId = racingGameDao.saveGame(new GameEntity(id, count, LocalDateTime.now()));
-        GameEntity racingGameById = racingGameDao.getRacingGameById(savedGameId);
+        int savedGameId = racingGameWebDao.saveGame(new GameEntity(id, count, LocalDateTime.now()));
+        GameEntity racingGameById = racingGameWebDao.getRacingGameById(savedGameId);
 
         assertEquals(count, racingGameById.getCount());
     }
