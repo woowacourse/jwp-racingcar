@@ -1,19 +1,25 @@
 package racingcar.entity;
 
-import racingcar.dto.request.GameSaveDto;
-
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 public class Game {
 
-    private final long id;
-    private final int trialCount;
+    private long id;
+    private int trialCount;
     private final String winners;
+    private final LocalDateTime createdAt;
 
-    public Game(final long id, final GameSaveDto gameSaveDto) {
+    public Game(final long id, final int trialCount, final String winners, LocalDateTime createdAt) {
         this.id = id;
-        this.trialCount = gameSaveDto.getTrialCount();
-        this.winners = gameSaveDto.getWinners();
+        this.trialCount =trialCount;
+        this.winners = winners;
+        this.createdAt = createdAt;
+    }
+
+    public Game(final int trialCount, final String winners) {
+        this.trialCount = trialCount;
+        this.winners = winners;
+        this.createdAt = LocalDateTime.now();
     }
 
     public long getId() {
@@ -26,5 +32,9 @@ public class Game {
 
     public String getWinners() {
         return winners;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

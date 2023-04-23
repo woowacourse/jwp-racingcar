@@ -1,29 +1,33 @@
 package racingcar.view;
 
-import racingcar.dto.CarStatus;
+import racingcar.service.dto.PlayerResultResponseDto;
 
 import java.util.List;
 
 public class OutputView {
-    private static final String DELIMITER = " : ";
-    private static final String MOVING_SYMBOL = "-";
-    private static final String WINNER_DELIMITER = ", ";
+
+    private static final String DELIMITER = ", ";
+    private static final String WINNER = "우승자: ";
+    private static final String RESULT = "결과: ";
+    private static final String NAME = "Name: ";
+    private static final String POSITION = "Position: ";
 
     public static void printResultMessage() {
         System.out.println("실행 결과");
     }
 
-    public static void printCarStatus(List<CarStatus> carStatuses) {
-        carStatuses.forEach(carStatus -> {
-            int moveCount = carStatus.getCurrentPosition();
-            System.out.println(carStatus.getName() + DELIMITER + MOVING_SYMBOL.repeat(moveCount));
-        });
-
+    public static void printFinalResult(String winners) {
+        System.out.println(WINNER + winners);
         System.out.println();
     }
 
-    public static void printFinalResult(List<String> winnersName) {
-        String winnersResult = String.join(WINNER_DELIMITER, winnersName);
-        System.out.println(winnersResult + "가 최종 우승했습니다.");
+    public static void printCarStatus(List<PlayerResultResponseDto> playerResultResponseDtos) {
+        System.out.println(RESULT);
+        playerResultResponseDtos.forEach(playerResultResponseDto -> {
+            final String name = playerResultResponseDto.getName();
+            final int position = playerResultResponseDto.getPosition();
+            System.out.println(NAME + name + DELIMITER + POSITION + position);
+        });
+        System.out.println();
     }
 }
