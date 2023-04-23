@@ -53,10 +53,12 @@ public class RacingCar implements Car {
         return this.position.equals(car.getPosition());
     }
     
+    @Override
     public Name getName() {
         return this.name;
     }
     
+    @Override
     public Position getPosition() {
         return this.position;
     }

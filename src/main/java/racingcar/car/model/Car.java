@@ -9,5 +9,4 @@ public interface Car extends Comparable<Car> {
     Name getName();
     
     Position getPosition();
-    
 }
