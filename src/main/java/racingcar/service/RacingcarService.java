@@ -1,8 +1,7 @@
 package racingcar.service;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.controller.RacingResponse;
@@ -31,33 +30,25 @@ public class RacingcarService {
     public RacingResponse move(final List<String> carNames, final int count) {
         List<Car> cars = getCars(carNames);
 
-        for (int i = 1; i <= count; i++) {
-            moveAllCars(cars);
-        }
-        List<Car> winners = findWinners(cars);
-
-        RacingGame racingGame = insertRacingGame(count);
+        RacingGame racingGame = insertRacingGame(cars, count);
 
         insertCar(cars, racingGame);
+
+        racingGame.moveAllCars();
+        List<Car> winners = racingGame.findWinners();
 
         return new RacingResponse(winners, cars);
     }
 
-    private RacingGame insertRacingGame(final int count) {
+    private RacingGame insertRacingGame(final List<Car> cars, final int count) {
         RacingGameEntity savedRacingGameEntity = racingGameDao.insertRacingGame(RacingGameDto.from(count));
-        return new RacingGame(savedRacingGameEntity.getId(), count);
+        return new RacingGame(savedRacingGameEntity.getId(), cars, count);
     }
 
     private void insertCar(final List<Car> cars, final RacingGame racingGame) {
         for (Car car : cars) {
             CarDto carDto = makeCarDto(car);
             carDao.insertCar(carDto, racingGame.getId());
-        }
-    }
-
-    private void moveAllCars(final List<Car> cars) {
-        for (Car car : cars) {
-            car.move(RandomMaker.random());
         }
     }
 
@@ -68,43 +59,26 @@ public class RacingcarService {
         return CarFactory.makeCars(carNames);
     }
 
-    private List<Car> findWinners(final List<Car> cars) {
-        int winnerPosition = findPosition(cars);
-
-        return cars.stream()
-                .filter(car -> car.isPosition(winnerPosition))
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    private int findPosition(final List<Car> cars) {
-        int maxPosition = 0;
-
-        for (Car car : cars) {
-            maxPosition = car.findGreaterPosition(maxPosition);
-        }
-
-        return maxPosition;
-    }
-
     public List<RacingResponse> allResults() {
-        Map<Integer, List<CarEntity>> results = new LinkedHashMap<>();
+        List<RacingGame> results = new ArrayList<>();
         List<RacingGameEntity> racingGameEntities = racingGameDao.selectAllResults();
         for (RacingGameEntity racingGameEntity : racingGameEntities) {
-            results.put(racingGameEntity.getId(), carDao.findCarsByRacingGameId(racingGameEntity.getId()));
+            results.add(
+                    new RacingGame(
+                            carDao.findCarsByRacingGameId(racingGameEntity.getId()).stream()
+                                    .map(this::makeCar)
+                                    .collect(Collectors.toList()),
+                            racingGameEntity.getId())
+            );
         }
         return makeRacingResponses(results);
     }
 
-    private List<RacingResponse> makeRacingResponses(final Map<Integer, List<CarEntity>> results) {
-        return results.values().stream()
-                .map(carEntities -> {
-                    List<Car> findCars = carEntities.stream()
-                            .map(this::makeCar)
-                            .collect(Collectors.toList());
-                    List<Car> winners = findWinners(findCars);
-                    return new RacingResponse(winners, findCars);
-                })
+    private List<RacingResponse> makeRacingResponses(final List<RacingGame> games) {
+        return games.stream()
+                .map(game -> new RacingResponse(game.findWinners(), game.getCars()))
                 .collect(Collectors.toList());
+
     }
 
     private Car makeCar(final CarEntity carEntity) {
