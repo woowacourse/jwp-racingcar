@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.car.repository.RacingCarDAO;
-import racingcar.game.interfaces.GameDAO;
+import racingcar.game.repository.GameDAO;
 import racingcar.game.repository.RacingCarGameDAO;
 
 @Configurable

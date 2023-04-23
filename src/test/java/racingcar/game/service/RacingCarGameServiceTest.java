@@ -4,14 +4,13 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.car.interfaces.Car;
-import racingcar.car.interfaces.CarDAO;
+import racingcar.car.model.Car;
+import racingcar.car.repository.CarDAO;
 import racingcar.game.dto.GameRequestDTO;
 import racingcar.game.dto.GameResponseDTO;
-import racingcar.game.interfaces.GameDAO;
-import racingcar.game.interfaces.GameResult;
-import racingcar.game.interfaces.GameService;
 import racingcar.game.model.FixedNumberGenerator;
+import racingcar.game.model.GameResult;
+import racingcar.game.repository.GameDAO;
 
 class RacingCarGameServiceTest {
     

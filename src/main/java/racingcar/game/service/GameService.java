@@ -1,4 +1,4 @@
-package racingcar.game.interfaces;
+package racingcar.game.service;
 
 
 import java.util.List;

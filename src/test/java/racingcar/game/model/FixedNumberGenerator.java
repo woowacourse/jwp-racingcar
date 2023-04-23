@@ -1,6 +1,6 @@
 package racingcar.game.model;
 
-import racingcar.car.interfaces.NumberGenerator;
+import racingcar.car.model.NumberGenerator;
 
 public class FixedNumberGenerator implements NumberGenerator {
     

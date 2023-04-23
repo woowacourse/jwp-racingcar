@@ -1,6 +1,7 @@
-package racingcar.car.interfaces;
+package racingcar.car.repository;
 
 import java.util.List;
+import racingcar.car.model.Car;
 
 public interface CarDAO {
     

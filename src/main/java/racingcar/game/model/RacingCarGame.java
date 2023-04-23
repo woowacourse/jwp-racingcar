@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.car.interfaces.Car;
-import racingcar.car.interfaces.NumberGenerator;
-import racingcar.game.interfaces.Game;
-import racingcar.game.interfaces.GameResult;
+import racingcar.car.model.Car;
+import racingcar.car.model.NumberGenerator;
 
 public final class RacingCarGame implements Game {
     

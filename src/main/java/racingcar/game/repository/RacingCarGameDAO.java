@@ -10,10 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.car.interfaces.CarDAO;
-import racingcar.game.interfaces.GameDAO;
-import racingcar.game.interfaces.GameResult;
+import racingcar.car.repository.CarDAO;
 import racingcar.game.model.GameEntity;
+import racingcar.game.model.GameResult;
 
 @Repository
 public class RacingCarGameDAO implements GameDAO {

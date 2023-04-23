@@ -2,7 +2,6 @@ package racingcar.car.model;
 
 import java.util.Random;
 import org.springframework.stereotype.Component;
-import racingcar.car.interfaces.NumberGenerator;
 
 @Component
 public class RandomNumberGenerator implements NumberGenerator {

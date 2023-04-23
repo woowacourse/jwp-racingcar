@@ -9,11 +9,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
-import racingcar.car.interfaces.Car;
+import racingcar.car.model.Car;
 import racingcar.car.model.RacingCar;
-import racingcar.game.interfaces.GameDAO;
-import racingcar.game.interfaces.GameResult;
+import racingcar.game.model.GameResult;
 import racingcar.game.model.RacingCarGameResult;
+import racingcar.game.repository.GameDAO;
 
 @JdbcTest
 @Import(GameTestConfiguration.class)

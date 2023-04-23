@@ -1,7 +1,6 @@
 package racingcar.car.model;
 
 import java.util.Objects;
-import racingcar.car.interfaces.Name;
 
 public final class CarName implements Name {
     

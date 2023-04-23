@@ -2,8 +2,8 @@ package racingcar.game.controller;
 
 import racingcar.car.model.RandomNumberGenerator;
 import racingcar.game.dto.GameResponseDTO;
-import racingcar.game.interfaces.Game;
-import racingcar.game.interfaces.GameResult;
+import racingcar.game.model.Game;
+import racingcar.game.model.GameResult;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 

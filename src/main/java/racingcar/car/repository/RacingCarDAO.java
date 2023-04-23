@@ -7,8 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import racingcar.car.interfaces.Car;
-import racingcar.car.interfaces.CarDAO;
+import racingcar.car.model.Car;
 import racingcar.car.model.RacingCar;
 
 @Repository

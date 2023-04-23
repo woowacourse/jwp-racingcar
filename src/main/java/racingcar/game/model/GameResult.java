@@ -1,9 +1,7 @@
-package racingcar.game.interfaces;
+package racingcar.game.model;
 
 import java.util.List;
-import racingcar.car.interfaces.Car;
-import racingcar.game.model.GameEntity;
-import racingcar.game.model.RacingCarGameResult;
+import racingcar.car.model.Car;
 
 public interface GameResult {
     

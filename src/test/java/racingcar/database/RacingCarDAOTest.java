@@ -12,11 +12,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.jdbc.Sql;
-import racingcar.car.interfaces.Car;
-import racingcar.car.interfaces.CarDAO;
+import racingcar.car.model.Car;
 import racingcar.car.model.CarName;
 import racingcar.car.model.CarPosition;
 import racingcar.car.model.RacingCar;
+import racingcar.car.repository.CarDAO;
 import racingcar.car.repository.RacingCarDAO;
 
 @JdbcTest

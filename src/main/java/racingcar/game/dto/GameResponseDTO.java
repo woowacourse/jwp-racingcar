@@ -1,8 +1,8 @@
 package racingcar.game.dto;
 
 import java.util.List;
-import racingcar.car.interfaces.Car;
-import racingcar.game.interfaces.GameResult;
+import racingcar.car.model.Car;
+import racingcar.game.model.GameResult;
 
 public class GameResponseDTO {
     

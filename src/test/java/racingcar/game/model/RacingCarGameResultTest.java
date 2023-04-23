@@ -4,7 +4,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.car.interfaces.Car;
+import racingcar.car.model.Car;
 import racingcar.car.model.RacingCar;
 
 class RacingCarGameResultTest {

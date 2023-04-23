@@ -1,4 +1,4 @@
-package racingcar.car.interfaces;
+package racingcar.car.model;
 
 public interface Name {
     

@@ -2,8 +2,7 @@ package racingcar.game.model;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.car.interfaces.Car;
-import racingcar.game.interfaces.GameResult;
+import racingcar.car.model.Car;
 
 public final class RacingCarGameResult implements GameResult {
     

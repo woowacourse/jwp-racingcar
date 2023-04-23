@@ -1,12 +1,11 @@
-package racingcar.game.interfaces;
+package racingcar.game.model;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.car.interfaces.Car;
-import racingcar.car.interfaces.NumberGenerator;
+import racingcar.car.model.Car;
+import racingcar.car.model.NumberGenerator;
 import racingcar.car.model.RacingCar;
-import racingcar.game.model.RacingCarGame;
 
 public interface Game {
     

@@ -3,14 +3,13 @@ package racingcar.game.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
-import racingcar.car.interfaces.CarDAO;
-import racingcar.car.interfaces.NumberGenerator;
+import racingcar.car.model.NumberGenerator;
+import racingcar.car.repository.CarDAO;
 import racingcar.game.dto.GameRequestDTO;
 import racingcar.game.dto.GameResponseDTO;
-import racingcar.game.interfaces.Game;
-import racingcar.game.interfaces.GameDAO;
-import racingcar.game.interfaces.GameResult;
-import racingcar.game.interfaces.GameService;
+import racingcar.game.model.Game;
+import racingcar.game.model.GameResult;
+import racingcar.game.repository.GameDAO;
 
 @Repository
 public class RacingCarGameService implements GameService {

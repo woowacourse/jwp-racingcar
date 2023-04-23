@@ -1,6 +1,7 @@
-package racingcar.game.interfaces;
+package racingcar.game.repository;
 
 import java.util.List;
+import racingcar.game.model.GameResult;
 
 public interface GameDAO {
     

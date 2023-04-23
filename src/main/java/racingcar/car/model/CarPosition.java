@@ -1,7 +1,6 @@
 package racingcar.car.model;
 
 import java.util.Objects;
-import racingcar.car.interfaces.Position;
 
 public final class CarPosition implements Position {
     
