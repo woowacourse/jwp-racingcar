@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("JdbcRacingGameRepository 는")
 class JdbcRacingGameRepositoryTestFakeVersion {
 
-    private RacingGameRepository racingGameRepository =
+    private final RacingGameRepository racingGameRepository =
             new JdbcRacingGameRepository(
                     new FaceRacingGameDao(),
                     new FaceCarDao(),

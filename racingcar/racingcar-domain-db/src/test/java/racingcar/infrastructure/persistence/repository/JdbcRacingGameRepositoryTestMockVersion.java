@@ -12,8 +12,6 @@ import racingcar.domain.RacingGameRepository;
 import racingcar.infrastructure.persistence.dao.CarDao;
 import racingcar.infrastructure.persistence.dao.RacingGameDao;
 import racingcar.infrastructure.persistence.dao.WinnerDao;
-import racingcar.infrastructure.persistence.entity.CarEntity;
-import racingcar.infrastructure.persistence.entity.RacingGameEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static racingcar.infrastructure.persistence.entity.CarEntityFixture.carEntitiesOfSize;
+import static racingcar.infrastructure.persistence.entity.RacingGameEntityFixture.racingGameEntitiesOfSize;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -60,20 +60,11 @@ class JdbcRacingGameRepositoryTestMockVersion {
     void 모든_게임을_조회한다() {
         // given
         given(gameDao.findAll())
-                .willReturn(List.of(
-                        new RacingGameEntity(1L, 5),
-                        new RacingGameEntity(2L, 5)
-                ));
+                .willReturn(racingGameEntitiesOfSize(2));
         given(carDao.findByGameId(1L))
-                .willReturn(List.of(
-                        new CarEntity("말랑", 3, 1L),
-                        new CarEntity("토니", 5, 1L)
-                ));
+                .willReturn(carEntitiesOfSize(2, 1L));
         given(carDao.findByGameId(2L))
-                .willReturn(List.of(
-                        new CarEntity("말랑", 3, 1L),
-                        new CarEntity("토니", 5, 1L)
-                ));
+                .willReturn(carEntitiesOfSize(2, 2L));
 
         // when
         final List<RacingGame> games = racingGameRepository.findAll();
