@@ -12,45 +12,48 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CarsTest {
-    Cars cars;
-
-    @BeforeEach
-    void setup() {
-        List<String> empty = new ArrayList<>();
-        cars = Cars.from(empty);
-    }
-
-    @DisplayName("Car 등록 테스트")
-    @ParameterizedTest(name = "carNames = {0}, expectedSize = {1}")
-    @MethodSource("carNamesDummy")
-    void addCarTest(List<String> carNames, int expectedSize) {
-        for (String carName : carNames) {
-            cars.addCar(new Car(carName));
-        }
-        assertThat(cars.getCars()).hasSize(expectedSize);
-    }
 
     @DisplayName("자동차 경기 우승자들 이름 조회 테스트")
     @Test
     void findWinnerNamesTest() {
-        Car car1 = new Car("car1");
-        Car car2 = new Car("car2");
-        Car car3 = new Car("car3");
-        cars.addCar(car1);
-        cars.addCar(car2);
-        cars.addCar(car3);
+        //given
+        Cars cars = Cars.from(List.of("car1", "car2", "car3"));
+        List<Car> allCars = cars.getCars();
+        Car car1 = allCars.get(0);
         car1.move(9);
+        //when
         List<Car> winner = cars.findWinner();
-        assertThat(winner.get(0).getName()).isEqualTo("car1");
+        //then
+        assertThat(winner.get(0).getName()).isEqualTo(car1.getName());
+    }
+
+    @DisplayName("이름 목록으로 Cars 생성")
+    @MethodSource("carNamesDummy")
+    @ParameterizedTest
+    void from(final List<String> names) {
+        assertThat(Cars.from(names)).isNotNull();
+    }
+
+    @DisplayName("한명으로는 생성 불가")
+    @Test
+    void fromExceptionWithOneName() {
+        assertThatThrownBy(() -> Cars.from(List.of("한명"))).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("중복된 이름으로 생성 불가")
+    @Test
+    void fromExceptionWithDuplicatedName() {
+        assertThatThrownBy(() -> Cars.from(List.of("중복", "중복"))).isInstanceOf(IllegalArgumentException.class);
     }
 
     static Stream<Arguments> carNamesDummy() {
         return Stream.of(
-                Arguments.arguments(List.of("aaaa", "bbbb"), 2),
-                Arguments.arguments(List.of("가나다라", "가나다라마", "가나다"), 3),
-                Arguments.arguments(List.of("1234", "123", "12", "1234"), 4)
+                Arguments.arguments(List.of("aaaa", "bbbb")),
+                Arguments.arguments(List.of("가나다라", "가나다라마", "가나다")),
+                Arguments.arguments(List.of("1234", "123", "12", "12345"))
         );
     }
 }

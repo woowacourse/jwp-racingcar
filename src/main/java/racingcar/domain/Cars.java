@@ -36,10 +36,6 @@ public class Cars {
         return new Cars(cars);
     }
 
-    public void addCar(Car car) {
-        cars.add(car);
-    }
-
     public List<Car> findWinner() {
         final int winnerPosition = cars.stream()
                 .mapToInt(Car::getPosition)
