@@ -5,6 +5,7 @@ import racingcar.utils.MovingStrategy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Cars implements Iterable<Car> {
     private final List<Car> cars;
@@ -29,6 +30,20 @@ public class Cars implements Iterable<Car> {
 
     public List<Car> getCars() {
         return cars;
+    }
+
+    public List<Car> calculateWinners(List<Car> cars) {
+        int maxPosition = getMaxPosition(cars);
+        return cars.stream()
+                .filter(car -> car.getPosition() == (maxPosition))
+                .collect(Collectors.toList());
+    }
+
+    private int getMaxPosition(List<Car> cars) {
+        return cars.stream()
+                .map(Car::getPosition)
+                .max(Integer::compare)
+                .orElse(Integer.MIN_VALUE);
     }
 
     @Override
