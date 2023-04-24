@@ -27,4 +27,13 @@ public class RacingGameDto {
     public ApplicationType getApplicationType() {
         return applicationType;
     }
+
+    @Override
+    public String toString() {
+        return "RacingGameDto{" +
+                "names=" + names +
+                ", trialCount=" + trialCount +
+                ", applicationType=" + applicationType +
+                '}';
+    }
 }

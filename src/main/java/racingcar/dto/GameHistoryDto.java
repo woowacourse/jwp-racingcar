@@ -19,4 +19,12 @@ public class GameHistoryDto {
     public List<RacingCarDto> getRacingCars() {
         return racingCars;
     }
+
+    @Override
+    public String toString() {
+        return "GameHistoryDto{" +
+                "winners='" + winners + '\'' +
+                ", racingCars=" + racingCars +
+                '}';
+    }
 }

@@ -20,4 +20,12 @@ public class GameRequest {
     public int getCount() {
         return count;
     }
+
+    @Override
+    public String toString() {
+        return "GameRequest{" +
+                "names='" + names + '\'' +
+                ", count=" + count +
+                '}';
+    }
 }

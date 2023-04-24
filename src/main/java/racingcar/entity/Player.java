@@ -48,8 +48,10 @@ public class Player {
 
     @Override
     public String toString() {
-        return "PlayerSaveDto{" +
-                "name='" + name + '\'' +
+        return "Player{" +
+                "id=" + id +
+                ", gameId=" + gameId +
+                ", name='" + name + '\'' +
                 ", position=" + position +
                 ", isWinner=" + isWinner +
                 '}';

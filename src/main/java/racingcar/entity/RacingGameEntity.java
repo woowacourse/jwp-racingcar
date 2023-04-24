@@ -19,4 +19,12 @@ public class RacingGameEntity {
     public List<Player> getPlayer() {
         return player;
     }
+
+    @Override
+    public String toString() {
+        return "RacingGameEntity{" +
+                "game=" + game +
+                ", player=" + player +
+                '}';
+    }
 }
