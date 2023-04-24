@@ -12,12 +12,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 class RacingGameTest {
 
     @ParameterizedTest
-    @ValueSource(ints = {-100, -1, 0})
-    @DisplayName("round가 양의 정수가 아니라면 예외를 반환한다..")
+    @ValueSource(ints = {-100, -1, 0, 101, 1000})
+    @DisplayName("round가 범위를 벗어났다면 예외를 반환한다.")
     void validateRound(int wrongValue) {
         assertThatThrownBy(() -> new RacingGame(null, wrongValue))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("시도 횟수는 1이상이어야 합니다.");
+                .hasMessage("시도 횟수는 1이상, 100 이하여야야 합니다.");
     }
 
     @Test

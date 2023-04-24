@@ -5,6 +5,7 @@ import java.util.List;
 public class RacingGame {
 
     private static final int ROUND_MINIMUM_NUMBER = 1;
+    private static final int ROUND_MAXIMUM_NUMBER = 100;
 
     private final Cars cars;
     private final int totalRound;
@@ -16,8 +17,8 @@ public class RacingGame {
     }
 
     private void validateRound(int totalRound) {
-        if (totalRound < ROUND_MINIMUM_NUMBER) {
-            throw new IllegalArgumentException("시도 횟수는 1이상이어야 합니다.");
+        if (totalRound < ROUND_MINIMUM_NUMBER || ROUND_MAXIMUM_NUMBER < totalRound) {
+            throw new IllegalArgumentException("시도 횟수는 1이상, 100 이하여야야 합니다.");
         }
     }
 
