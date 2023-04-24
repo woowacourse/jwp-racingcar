@@ -42,10 +42,4 @@ public class WebController {
         return ResponseEntity.ok()
             .body(racingcarService.allGames());
     }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handler(IllegalArgumentException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-            .body(exception.getMessage());
-    }
 }
