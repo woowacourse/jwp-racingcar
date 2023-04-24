@@ -34,16 +34,6 @@ class RacingControllerTest {
     class PlaysPost {
 
         @Test
-        @DisplayName("GET 요청이 들어오면 상태코드 405의 응답을 보낸다.")
-        void shouldResponse405WhenGetRequest() {
-            RestAssured.given().log().all()
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .when().get("/plays")
-                    .then().log().all()
-                    .statusCode(HttpStatus.METHOD_NOT_ALLOWED.value());
-        }
-
-        @Test
         @DisplayName("올바른 요청이 들어오면 상태코드 200의 응답을 보낸다.")
         void shouldResponseWhenPostRequest() {
             Model model = new ConcurrentModel();
@@ -135,6 +125,52 @@ class RacingControllerTest {
                     .body("racingCars[1].position", notNullValue())
                     .body("racingCars[2].name", notNullValue())
                     .body("racingCars[2].position", notNullValue());
+        }
+    }
+
+    @Nested
+    @DisplayName("/plays :GET")
+    class PlaysGet {
+
+        @Test
+        @DisplayName("GET을 요청하면 상태코드 200의 응답을 보낸다.")
+        void shouldResponse200WhenGetRequest() {
+            RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .when().get("/plays")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value());
+        }
+
+        @Test
+        @DisplayName("POST 요청 후 GET을 요청하면 게임 정보를 반환한다.")
+        void shouldResponseOfGameInformationWhenRequestGetAfterPost() {
+            // POST 요청하여 정보 저장
+            Model model = new ConcurrentModel();
+            model.addAttribute("names", "브리,토미,브라운");
+            model.addAttribute("count", "3");
+            RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(model)
+                    .when().post("/plays")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value());
+
+            // GET 요청하여 정보 불러오기
+            RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .when().get("/plays")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .body("[0].winners", notNullValue())
+                    .body("[0].racingCars", notNullValue())
+                    .body("[0].racingCars.size()", is(3))
+                    .body("[0].racingCars[0].name", notNullValue())
+                    .body("[0].racingCars[0].position", notNullValue())
+                    .body("[0].racingCars[1].name", notNullValue())
+                    .body("[0].racingCars[1].position", notNullValue())
+                    .body("[0].racingCars[2].name", notNullValue())
+                    .body("[0].racingCars[2].position", notNullValue());
         }
     }
 
