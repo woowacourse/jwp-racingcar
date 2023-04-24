@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingWebControllerTest {
+class RacingControllerTest {
 
     @LocalServerPort
     int port;
