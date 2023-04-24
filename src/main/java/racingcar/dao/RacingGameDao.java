@@ -1,6 +1,12 @@
 package racingcar.dao;
 
+import racingcar.dao.entity.RacingGameEntity;
+
+import java.util.List;
+
 public interface RacingGameDao {
 
-    int save(int count);
+    int save(RacingGameEntity racingGameEntity);
+
+    List<RacingGameEntity> findEndedRacingGameEntities();
 }

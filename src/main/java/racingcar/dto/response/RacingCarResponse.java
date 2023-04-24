@@ -1,20 +1,26 @@
 package racingcar.dto.response;
 
+import racingcar.domain.Car;
+
 public class RacingCarResponse {
 
     private final String name;
-    private final int position;
+    private final Integer position;
 
-    public RacingCarResponse(String name, int position) {
+    private RacingCarResponse(String name, Integer position) {
         this.name = name;
         this.position = position;
+    }
+
+    public static RacingCarResponse from(Car car) {
+        return new RacingCarResponse(car.getName(), car.getPosition());
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPosition() {
+    public Integer getPosition() {
         return position;
     }
 }

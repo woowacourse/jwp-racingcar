@@ -1,47 +1,31 @@
 package racingcar.controller;
 
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
-import racingcar.domain.NumberGenerator;
-import racingcar.domain.RacingGame;
+import racingcar.dto.request.RacingStartRequest;
+import racingcar.dto.response.RacingResultResponse;
+import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ConsoleRacingCarController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final NumberGenerator numberGenerator;
+    private final RacingCarService racingCarService;
 
-    public ConsoleRacingCarController(InputView inputView, OutputView outputView, NumberGenerator numberGenerator) {
+    public ConsoleRacingCarController(InputView inputView, OutputView outputView, RacingCarService racingCarService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.numberGenerator = numberGenerator;
+        this.racingCarService = racingCarService;
     }
 
     public void run() {
-        Cars cars = generateCars(inputView.readCarNames());
+        String carNames = inputView.readCarNames();
         int round = inputView.readRacingRound();
-        playGame(cars, round);
-    }
+        RacingStartRequest racingStartRequest = new RacingStartRequest(carNames, round);
 
-    private Cars generateCars(List<String> carNames) {
-        List<Car> carInstances = new ArrayList<>();
-        for (String name : carNames) {
-            carInstances.add(new Car(name, numberGenerator));
-        }
-        return new Cars(carInstances);
-    }
-
-    private void playGame(Cars cars, int round) {
-        RacingGame racingGame = new RacingGame(cars, round);
+        RacingResultResponse racingResultResponse = racingCarService.play(racingStartRequest);
         outputView.printResultMessage();
-        while (!racingGame.isGameEnded()) {
-            outputView.printRoundResult(racingGame.playOneRound());
-        }
-        outputView.printFinalResult(racingGame.findWinnerCars());
+        outputView.printFinalResult(racingResultResponse.getWinners());
+        outputView.printDistanceResult(racingResultResponse.getRacingCars());
     }
 }

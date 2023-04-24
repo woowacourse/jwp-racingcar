@@ -12,27 +12,31 @@ public class RacingGame {
     private int totalRound;
     private int currentRound = INITIAL_CURRENT_ROUND;
 
-    public RacingGame(final Cars cars, int totalRound){
+    public RacingGame(final Cars cars, int totalRound) {
         validateRound(totalRound);
         this.cars = cars;
         this.totalRound = totalRound;
     }
 
-    public List<Car> playOneRound(){
+    public List<Car> playOneRound() {
         currentRound++;
         return cars.moveEachCar();
     }
 
-    public boolean isGameEnded(){
+    public boolean isGameEnded() {
         return totalRound <= currentRound;
     }
 
-    public List<Car> findWinnerCars(){
+    public List<Car> findWinnerCars() {
         return cars.findAllWinner();
     }
 
     public List<Car> getCars() {
         return cars.getCars();
+    }
+
+    public int getTotalRound() {
+        return totalRound;
     }
 
     private void validateRound(int totalRound) {

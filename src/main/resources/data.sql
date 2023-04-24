@@ -10,6 +10,5 @@ CREATE TABLE CAR (
      game_id     INT         NOT NULL,
      name        VARCHAR(50) NOT NULL,
      position    INT         NOT NULL,
-     is_win      BOOLEAN     NOT NULL,
      PRIMARY KEY (id)
 );
