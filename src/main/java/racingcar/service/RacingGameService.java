@@ -40,8 +40,7 @@ public class RacingGameService {
     private RacingCars moveRacingCars(RacingGameDto racingGameDto) {
         final List<Name> names = generateNames(racingGameDto.getNames());
         final RacingGame racingGame = new RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(racingGameDto.getTrialCount()));
-        final RacingCars racingCars = racingGame.moveCars();
-        return racingCars;
+        return racingGame.moveCars();
     }
 
     private List<Name> generateNames(final List<String> inputNames) {
