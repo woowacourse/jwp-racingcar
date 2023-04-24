@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ public class RacingCarWebController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResultResponse> playRacingCar(
-            @RequestBody GameInitializationRequest gameInitializationRequest) {
+            @RequestBody @Valid GameInitializationRequest gameInitializationRequest) {
         final GameResultResponse gameResultResponse = racingCarGameService.raceCar(gameInitializationRequest);
         return ResponseEntity.ok().body(gameResultResponse);
     }
