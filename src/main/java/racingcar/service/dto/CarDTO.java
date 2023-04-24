@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.service.dto;
 
 public class CarDTO {
 
@@ -19,5 +19,13 @@ public class CarDTO {
 
     public int getPosition() {
         return position;
+    }
+
+    @Override
+    public String toString() {
+        return "CarDTO{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                '}';
     }
 }

@@ -1,13 +1,6 @@
 package racingcar.dao;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.junit.jupiter.api.*;
 import racingcar.dao.dto.CarInfoDTO;
 import racingcar.dao.dto.CarNameDTO;
 
@@ -16,22 +9,17 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-@DisplayNameGeneration(ReplaceUnderscores.class)
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class JdbcCarDaoTest {
+class LocalCarDaoTest {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final CarDao carDao = new LocalCarDao();
+    private final GameDao gameDao = new LocalGameDao();
 
-    private CarDao carDao;
-    private GameDao gameDao;
     private Long gameId;
 
     @BeforeEach
     void setUp() {
-        carDao = new JdbcCarDao(jdbcTemplate);
-        gameDao = new JdbcGameDao(jdbcTemplate);
         gameId = gameDao.insert(2);
     }
 

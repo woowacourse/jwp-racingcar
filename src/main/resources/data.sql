@@ -15,5 +15,5 @@ CREATE TABLE CAR
     game_id  INT         NOT NULL,
     is_win   BOOLEAN     NOT NULl,
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES GAME (id)
+    FOREIGN KEY (game_id) REFERENCES GAME (id) ON DELETE CASCADE
 );

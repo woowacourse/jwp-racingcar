@@ -1,34 +1,23 @@
 package racingcar.view;
 
-import racingcar.view.message.ErrorMessage;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
-    public static final String DELIMITER = ",";
     public static final String FORMAT_OF_NUMBER = "\\d+";
     private final Scanner scanner;
-    private final OutputView outputView;
 
-    public InputView(final Scanner scanner, final OutputView outputView) {
+    public InputView(final Scanner scanner) {
         this.scanner = scanner;
-        this.outputView = outputView;
     }
 
-    public List<String> readCarNames() {
-        outputView.printCarNameInputGuide();
-
-        String carNamesContent = scanner.nextLine();
-        validateCarNames(carNamesContent);
-
-        return Arrays.asList(carNamesContent.split(DELIMITER));
+    public String readCarNames() {
+        System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
+        return scanner.nextLine();
     }
 
     public int readGameRound() {
-        outputView.printGameRoundGuide();
+        System.out.println("시도할 횟수는 몇 회인가요?");
 
         String gameRoundContent = scanner.nextLine();
         validateGameRound(gameRoundContent);
@@ -36,15 +25,9 @@ public class InputView {
         return Integer.parseInt(gameRoundContent);
     }
 
-    private void validateCarNames(final String content) {
-        if (content.isBlank()) {
-            throw new IllegalArgumentException(ErrorMessage.BLANK_INPUT_ERROR_FOR_CAR_NAMES.getMessage());
-        }
-    }
-
     private void validateGameRound(final String content) {
         if (!content.matches(FORMAT_OF_NUMBER)) {
-            throw new IllegalArgumentException(ErrorMessage.NOT_NUMBER_ERROR_FOR_GAME_ROUND.getMessage());
+            throw new IllegalArgumentException("[ERROR] 숫자만 입력이 가능합니다.");
         }
     }
 }

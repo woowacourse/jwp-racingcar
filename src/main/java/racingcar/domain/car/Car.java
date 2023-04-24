@@ -18,6 +18,9 @@ public class Car {
     }
 
     public Car(final String name, final int position) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("[ERROR] 자동차 이름은 빈 값일 수 없습니다.");
+        }
         validate(name);
         this.name = name;
         this.position = position;

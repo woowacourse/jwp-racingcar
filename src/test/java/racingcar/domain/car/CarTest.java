@@ -3,6 +3,7 @@ package racingcar.domain.car;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +20,15 @@ class CarTest {
     @DisplayName("생성자에 영어로 구성된 한 글자 이상 다섯 글자 이하의 이름을 입력할 때, 오류가 발생하지 않는지 확인")
     void create_test(final String input) {
         assertDoesNotThrow(() -> new Car(input, DEFAULT_POSITION));
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @DisplayName("생성자에 null 혹은 빈 값을 입력할 때, 오류가 발생하는지 확인")
+    void create_null_error_test(final String input) {
+        assertThatThrownBy(() -> new Car(input, DEFAULT_POSITION))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
     }
 
     @ParameterizedTest
