@@ -14,12 +14,13 @@ import racingcar.dto.GameInforamtionDto;
 import racingcar.util.NumberGenerator;
 import racingcar.util.TestNumberGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarRacingCarConsoleControllerTest {
+class RacingCarControllerTest {
 
     @LocalServerPort
     int port;
@@ -30,11 +31,11 @@ class RacingCarRacingCarConsoleControllerTest {
     }
 
     @TestConfiguration
-    class testConfig {
+    static class TestSpringConfig {
 
         @Bean
         NumberGenerator numberGenerator() {
-            return new TestNumberGenerator(List.of(6, 4, 7, 3, 8, 2, 9, 1, 5, 4, 6, 3));
+            return new TestNumberGenerator(new ArrayList<>(List.of(7, 3, 7, 3, 7, 3, 7, 2, 7, 2, 7, 2)));
         }
     }
 
