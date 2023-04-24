@@ -13,6 +13,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -23,6 +25,8 @@ import racingcar.dto.HistoryDto;
 import racingcar.dto.ResultDto;
 import racingcar.repository.RacingCarRepository;
 
+@Repository
+@Transactional
 public class WebRacingCarRepository implements RacingCarRepository {
 	private final JdbcTemplate jdbcTemplate;
 	private final RowMapper<HistoryDto> gameRowMapper = (resultSet, rowNum) -> new HistoryDto(
