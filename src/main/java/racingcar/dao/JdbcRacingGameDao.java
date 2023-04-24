@@ -22,7 +22,6 @@ public class JdbcRacingGameDao implements RacingGameDao {
         return new RacingGameEntity(id, count, createdAt);
     };
 
-
     public JdbcRacingGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
