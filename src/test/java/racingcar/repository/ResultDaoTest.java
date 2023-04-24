@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @JdbcTest
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -66,11 +67,13 @@ class ResultDaoTest {
                                       .map(Result::getWinners)
                                       .collect(Collectors.toList());
         List<Integer> trialCounts = results.stream()
-                                      .map(Result::getTrialCount)
-                                      .collect(Collectors.toList());
+                                           .map(Result::getTrialCount)
+                                           .collect(Collectors.toList());
 
-        assertThat(ids).containsExactly(1L, 2L, 3L, 4L);
-        assertThat(winners).containsExactly("test1", "test2", "test3", "test4");
-        assertThat(trialCounts).containsExactly(1, 2, 3, 4);
+        assertAll(
+                () -> assertThat(ids).containsExactly(1L, 2L, 3L, 4L),
+                () -> assertThat(winners).containsExactly("test1", "test2", "test3", "test4"),
+                () -> assertThat(trialCounts).containsExactly(1, 2, 3, 4)
+        );
     }
 }
