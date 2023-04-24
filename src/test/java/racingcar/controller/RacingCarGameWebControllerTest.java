@@ -3,6 +3,8 @@ package racingcar.controller;
 import static org.hamcrest.core.Is.is;
 
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,30 @@ class RacingCarGameWebControllerTest {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("racingCars.size()", is(2));
+    }
+    
+    @DisplayName("GET /plays - 게임 결과 조회")
+    @Test
+    void getRacingCarGameResultTest() {
+        //given
+        final String initial = RestAssured.given().log().all()
+                .when().get("/plays").asString();
+        final int initialResultSize = JsonPath.with(initial).getList("racingCars").size();
+        
+        final GameRequestDTO gameRequestDTO = new GameRequestDTO("echo,io", 10);
+        RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(gameRequestDTO)
+                .when().post("/plays")
+                .asString();
+        
+        //when
+        final String after = RestAssured.given().log().all()
+                .when().get("/plays").asString();
+        final int AfterResultSize = JsonPath.with(after).getList("racingCars").size();
+        
+        //then
+        Assertions.assertEquals(AfterResultSize, initialResultSize + 1);
     }
     
     @DisplayName("이름이 1개 이하인 경우 예외 발생")
