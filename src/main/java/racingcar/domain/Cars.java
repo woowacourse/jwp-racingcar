@@ -7,7 +7,6 @@ import static racingcar.exception.ExceptionMessage.EMPTY_CARS;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.service.MoveStrategy;
 
 public class Cars {
     private final List<Car> cars;

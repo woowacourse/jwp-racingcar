@@ -12,8 +12,8 @@ import racingcar.dto.RacingCarWinnerDto;
 import racingcar.dto.TryCountDto;
 import racingcar.view.RacingCarView;
 
-class RacingCarControllerTest {
-    private RacingCarController racingCarController;
+class RacingCarConsoleControllerTest {
+    private RacingCarConsoleController racingCarConsoleController;
 
     private static class MockRacingCarView implements RacingCarView {
         @Override
@@ -49,13 +49,13 @@ class RacingCarControllerTest {
 
     @BeforeEach
     void setUp() {
-        racingCarController = new RacingCarController(new MockRacingCarView());
+        racingCarConsoleController = new RacingCarConsoleController(new MockRacingCarView());
     }
 
     @Test
     @DisplayName("Controller가 정상적으로 작동해야한다.")
     void controller_start() {
-        assertThatCode(() -> racingCarController.start())
+        assertThatCode(() -> racingCarConsoleController.start())
                 .doesNotThrowAnyException();
     }
 }

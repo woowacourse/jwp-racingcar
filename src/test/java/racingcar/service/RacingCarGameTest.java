@@ -7,6 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import racingcar.domain.CustomMoveStrategy;
+import racingcar.domain.RacingCarGame;
 import racingcar.dto.RacingCarNamesDto;
 import racingcar.dto.RacingCarStatusDto;
 import racingcar.dto.RacingCarWinnerDto;

@@ -1,11 +1,9 @@
-package racingcar.service;
+package racingcar.domain;
 
 import static java.util.stream.Collectors.toList;
 import static racingcar.exception.ExceptionMessage.EMPTY_CARS;
 
 import java.util.List;
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
 import racingcar.dto.RacingCarNamesDto;
 import racingcar.dto.RacingCarStatusDto;
 import racingcar.dto.RacingCarWinnerDto;

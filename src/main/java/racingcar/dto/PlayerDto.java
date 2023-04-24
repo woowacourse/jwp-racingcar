@@ -1,6 +1,4 @@
-package racingcar;
-
-import racingcar.dto.RacingCarStatusDto;
+package racingcar.dto;
 
 public class PlayerDto {
 

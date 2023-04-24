@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Repository;
-import racingcar.PlayerDto;
+import racingcar.dto.PlayerDto;
 import racingcar.dto.RacingCarStatusDto;
 import racingcar.entity.Player;
 

@@ -1,19 +1,22 @@
-package racingcar;
+package racingcar.service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import racingcar.dto.HistoryResponse;
+import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
 import racingcar.dto.RacingCarNamesDto;
 import racingcar.dto.RacingCarStatusDto;
 import racingcar.dto.RacingCarWinnerDto;
 import racingcar.entity.Player;
 import racingcar.repository.GameRepository;
 import racingcar.repository.PlayerRepository;
-import racingcar.service.RacingCarGame;
-import racingcar.service.RandomMoveStrategy;
-import racingcar.service.TryCount;
+import racingcar.domain.RacingCarGame;
+import racingcar.domain.RandomMoveStrategy;
+import racingcar.domain.TryCount;
 
 @Service
 public class RacingCarService {

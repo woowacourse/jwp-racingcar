@@ -20,17 +20,22 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import racingcar.controller.RacingCarController;
 import racingcar.domain.Car;
+import racingcar.dto.HistoryResponse;
+import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
 import racingcar.dto.RacingCarStatusDto;
 import racingcar.dto.RacingCarWinnerDto;
-import racingcar.service.RandomMoveStrategy;
+import racingcar.domain.RandomMoveStrategy;
+import racingcar.service.RacingCarService;
 
 
 @WebMvcTest(RacingCarController.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-@DisplayName("RacingCarController 클래스")
-class RacingCarControllerTest {
+@DisplayName("RacingCarConsoleController 클래스")
+class RacingCarConsoleControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
