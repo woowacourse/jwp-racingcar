@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarsFactory {
-
     private CarsFactory() {
     }
 
@@ -16,5 +15,4 @@ public class CarsFactory {
         }
         return new Cars(cars);
     }
-
 }

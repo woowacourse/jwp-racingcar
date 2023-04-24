@@ -12,7 +12,6 @@ import java.util.List;
 
 @Component
 public class PlayersInfoDao {
-
     private static final int FIRST_PARAM = 1;
     private static final int SECOND_PARAM = 2;
     private static final int THIRD_PARAM = 3;
@@ -50,5 +49,4 @@ public class PlayersInfoDao {
                     return new PlayersInfo(id, name, position, playResultId);
                 }, playResultId);
     }
-
 }

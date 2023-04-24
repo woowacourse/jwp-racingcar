@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RacingCarService {
-
     private static final String DELIMITER = ",";
 
     private final PlayResultDao playResultDao;

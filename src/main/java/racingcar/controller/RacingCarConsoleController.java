@@ -12,10 +12,8 @@ import static racingcar.view.OutputView.printResultNotice;
 import static racingcar.view.OutputView.printWinner;
 
 public class RacingCarConsoleController {
-
     private final NumberGenerator numberGenerator;
     private final GamePlay gamePlay;
-
 
     public RacingCarConsoleController(NumberGenerator numberGenerator, GamePlay gamePlay) {
         this.numberGenerator = numberGenerator;
@@ -36,5 +34,4 @@ public class RacingCarConsoleController {
             System.out.println(e.getMessage());
         }
     }
-
 }

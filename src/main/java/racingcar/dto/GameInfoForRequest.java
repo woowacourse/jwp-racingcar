@@ -8,6 +8,7 @@ public class GameInfoForRequest {
     private static final int MIN_PLAYER_NAME = 1;
     private static final int MAX_PLAYER_NAME = 5;
     private static final int MAX_PLAYER_NUM = 10;
+
     private final String names;
     private final Integer count;
 

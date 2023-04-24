@@ -11,7 +11,6 @@ import java.util.List;
 
 @Component
 public class PlayResultDao {
-
     private static final int FIRST_PARAM = 1;
     private static final int SECOND_PARAM = 2;
     private final JdbcTemplate jdbcTemplate;
