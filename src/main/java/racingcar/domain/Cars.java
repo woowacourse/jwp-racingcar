@@ -14,7 +14,7 @@ public class Cars {
         this.cars = cars;
     }
 
-    public static Cars from (final List<Name> names) {
+    public static Cars fromName(final List<Name> names) {
         List<Car> cars = names.stream()
                 .map(Car::new)
                 .collect(Collectors.toList());
@@ -25,7 +25,7 @@ public class Cars {
         List<Name> names = nameValues.stream()
                 .map(Name::new)
                 .collect(Collectors.toList());
-        return from(names);
+        return fromName(names);
     }
 
     private void validate(final List<Car> cars) {
