@@ -1,34 +1,36 @@
 package racingcar.dao;
 
-import static org.assertj.core.api.AssertionsForClassTypes.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import racingcar.entity.CarEntity;
 import racingcar.entity.GameEntity;
 
-@SpringBootTest
-@Transactional
+@JdbcTest
 class JdbcCarDaoTest {
-
-    @Autowired
-    JdbcGameDao jdbcGameDao;
-
-    @Autowired
-    JdbcCarDao jdbcCarDao;
-
+    private final JdbcGameDao jdbcGameDao;
+    private final JdbcCarDao jdbcCarDao;
     private GameEntity gameEntity;
+
+    @Autowired
+    public JdbcCarDaoTest(DataSource dataSource, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.jdbcGameDao = new JdbcGameDao(dataSource, namedParameterJdbcTemplate);
+        this.jdbcCarDao = new JdbcCarDao(dataSource, namedParameterJdbcTemplate);
+    }
 
     @BeforeEach
     void initialize() {
-        gameEntity = jdbcGameDao.insertRacingResult(new GameEntity("name1,name2", 3));
+        gameEntity = jdbcGameDao.insertGame(new GameEntity("name1,name2", 3));
     }
 
     @Test
@@ -61,11 +63,9 @@ class JdbcCarDaoTest {
         // then
         assertThat(carEntities.size()).isEqualTo(2);
 
-        assertThat(carEntities.get(0).getName()).isEqualTo(carEntity1.getName());
-        assertThat(carEntities.get(1).getName()).isEqualTo(carEntity2.getName());
-
-        assertThat(carEntities.get(0).getId()).isEqualTo(carEntity1.getId());
-        assertThat(carEntities.get(1).getId()).isEqualTo(carEntity2.getId());
+        assertThat(carEntities).extracting("id", "name")
+            .contains(tuple(carEntity1.getId(), carEntity1.getName()),
+                tuple(carEntity2.getId(), carEntity2.getName()));
     }
 
 }
