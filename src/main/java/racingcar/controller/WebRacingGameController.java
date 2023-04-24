@@ -1,16 +1,22 @@
 package racingcar.controller;
 
-import org.springframework.http.MediaType;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import racingcar.controller.util.NameParser;
 import racingcar.dto.RacingCarRequest;
 import racingcar.dto.RacingCarResponse;
 import racingcar.service.RacingGameService;
 
-@Controller
+@RestController
+@RequestMapping("/plays")
 public class WebRacingGameController {
 
     private final RacingGameService racingGameService;
@@ -19,18 +25,24 @@ public class WebRacingGameController {
         this.racingGameService = racingGameService;
     }
 
-    @PostMapping(value = "/plays", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RacingCarResponse> play(@RequestBody final RacingCarRequest racingCarRequest) {
-
+    @PostMapping
+    public ResponseEntity<RacingCarResponse> play(@Valid @RequestBody final RacingCarRequest racingCarRequest) {
         final RacingCarResponse racingCarResponse = racingGameService.play(
-                racingCarRequest.getNames(),
+                NameParser.getSlicedName(racingCarRequest.getNames()),
                 racingCarRequest.getTryCount());
 
         return ResponseEntity.ok().body(racingCarResponse);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handle(final IllegalArgumentException e) {
+    @GetMapping
+    public ResponseEntity<List<RacingCarResponse>> log() {
+        final List<RacingCarResponse> racingCarHistory = racingGameService.findAllGameLog();
+
+        return ResponseEntity.ok().body(racingCarHistory);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class, MethodArgumentNotValidException.class})
+    public ResponseEntity<String> handle(final Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
