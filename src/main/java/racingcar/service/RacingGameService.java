@@ -77,6 +77,7 @@ public class RacingGameService {
         return carResultResponse;
     }
 
+    @Transactional(readOnly = true)
     public List<GameResponse> findAllCarGame() {
         List<GameResponse> gameResultResponse = new ArrayList<>();
         for (GameResult gameResult : gameResultDao.findAll()) {

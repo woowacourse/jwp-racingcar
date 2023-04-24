@@ -12,7 +12,7 @@ public class TryCountTest {
     void 생성_실패_0미만(int count) {
         assertThatThrownBy(() -> new TryCount(count))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("1보다 큰 시도 횟수만 만들 수 있습니다.");
+                .hasMessage("0보다 큰 시도 횟수만 만들 수 있습니다.");
     }
 
     @ParameterizedTest
