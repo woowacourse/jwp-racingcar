@@ -46,8 +46,19 @@ public class RacingCarGameService {
         final RacingCarGame racingCarGame = getRacingCarGame(gameInitializationRequest);
         final AttemptNumber attemptNumber = racingCarGame.getAttemptNumber();
         final long gameId = gameDao.save(new GameEntity(attemptNumber.getAttemptNumber()));
-
         racingCarGame.play();
+
+        return persistRacingCarGame(racingCarGame, gameId);
+    }
+
+    private RacingCarGame getRacingCarGame(final GameInitializationRequest gameInitializationRequest) {
+        final List<String> names = List.of(gameInitializationRequest.getNames().split(","));
+        final int count = gameInitializationRequest.getCount();
+
+        return new RacingCarGame(names, count, numberGenerator);
+    }
+
+    private GameResultResponse persistRacingCarGame(final RacingCarGame racingCarGame, final long gameId) {
         final List<Car> cars = racingCarGame.getCars();
         final List<String> winners = racingCarGame.findWinners();
 
@@ -65,13 +76,6 @@ public class RacingCarGameService {
         saveWinners(winners, playerEntities, gameId);
 
         return new GameResultResponse(winners, cars);
-    }
-
-    private RacingCarGame getRacingCarGame(final GameInitializationRequest gameInitializationRequest) {
-        final List<String> names = List.of(gameInitializationRequest.getNames().split(","));
-        final int count = gameInitializationRequest.getCount();
-
-        return new RacingCarGame(names, count, numberGenerator);
     }
 
     private PlayerEntity getSavedPlayerEntity(final PlayerEntity playerEntity) {
