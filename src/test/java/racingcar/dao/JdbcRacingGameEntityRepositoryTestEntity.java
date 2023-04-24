@@ -8,8 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.ApplicationType;
-import racingcar.entity.Game;
-import racingcar.entity.Player;
+import racingcar.entity.GameEntity;
+import racingcar.entity.PlayerEntity;
 import racingcar.entity.RacingGameEntity;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @JdbcTest
 @Transactional
-class JdbcRacingGameEntityRepositoryTest {
+class JdbcRacingGameEntityRepositoryTestEntity {
 
     private RacingGameRepository racingGameRepository;
 
@@ -37,13 +37,13 @@ class JdbcRacingGameEntityRepositoryTest {
     @DisplayName("자동차 경주를 테이블에 저장할 수 있다.")
     void save_whenCall_thenSuccess() {
         // given
-        final Player kongHana = new Player("콩하나", 10, true);
-        final Player ethan = new Player("에단", 5, false);
-        Game game = new Game(10, ApplicationType.CONSOLE);
-        List<Player> players = List.of(kongHana, ethan);
+        final PlayerEntity kongHana = new PlayerEntity("콩하나", 10, true);
+        final PlayerEntity ethan = new PlayerEntity("에단", 5, false);
+        GameEntity gameEntity = new GameEntity(10, ApplicationType.CONSOLE);
+        List<PlayerEntity> playerEntities = List.of(kongHana, ethan);
 
         // when, then
-        assertThatCode(() -> racingGameRepository.save(new RacingGameEntity(game, players)))
+        assertThatCode(() -> racingGameRepository.save(new RacingGameEntity(gameEntity, playerEntities)))
                 .doesNotThrowAnyException();
     }
 
@@ -51,12 +51,12 @@ class JdbcRacingGameEntityRepositoryTest {
     @DisplayName("저장된 자동차 경주를 조회할 수 있다.")
     void find_whenCall_thenSuccess() {
         // given
-        final Player kongHana = new Player("콩하나", 10, true);
-        final Player ethan = new Player("에단", 5, false);
-        Game game = new Game(10, ApplicationType.CONSOLE);
-        List<Player> players = List.of(kongHana, ethan);
+        final PlayerEntity kongHana = new PlayerEntity("콩하나", 10, true);
+        final PlayerEntity ethan = new PlayerEntity("에단", 5, false);
+        GameEntity gameEntity = new GameEntity(10, ApplicationType.CONSOLE);
+        List<PlayerEntity> playerEntities = List.of(kongHana, ethan);
 
-        Long gameId = racingGameRepository.save(new RacingGameEntity(game, players));
+        Long gameId = racingGameRepository.save(new RacingGameEntity(gameEntity, playerEntities));
 
         // when, then
         List<RacingGameEntity> oneGameHistoryDtos = racingGameRepository.findAll();

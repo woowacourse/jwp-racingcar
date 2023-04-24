@@ -10,8 +10,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.controller.ApplicationType;
-import racingcar.entity.Game;
-import racingcar.entity.Player;
+import racingcar.entity.GameEntity;
+import racingcar.entity.PlayerEntity;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @JdbcTest
 @Transactional
-class JdbcPlayerDaoTest {
+class JdbcPlayerDaoTestEntity {
 
     private PlayerDao playerDao;
     private GameDao gameDao;
@@ -37,9 +37,9 @@ class JdbcPlayerDaoTest {
     @DisplayName("Player 테이블에 값을 저장할 수 있다.")
     void savePlayer_whenCall_thenSuccess() {
         // given
-        Long gameId = gameDao.save(new Game(10, ApplicationType.CONSOLE));
-        final Player kongHana = new Player("콩하나", 10, true);
-        final Player ethan = new Player("에단", 5, false);
+        Long gameId = gameDao.save(new GameEntity(10, ApplicationType.CONSOLE));
+        final PlayerEntity kongHana = new PlayerEntity("콩하나", 10, true);
+        final PlayerEntity ethan = new PlayerEntity("에단", 5, false);
 
         // when, then
         assertThatCode(() -> playerDao.save(gameId, List.of(kongHana, ethan)))
@@ -50,8 +50,8 @@ class JdbcPlayerDaoTest {
     @DisplayName("Game 테이블에 저장되지 않은 gameId를 사용하면 Player 테이블에 값을 저장할 수 없다.")
     void savePlayer_whenInvalidGameId_thenFail() {
         // given
-        final Player kongHana = new Player("콩하나", 10, true);
-        final Player ethan = new Player("에단", 5, false);
+        final PlayerEntity kongHana = new PlayerEntity("콩하나", 10, true);
+        final PlayerEntity ethan = new PlayerEntity("에단", 5, false);
 
         // when, then
         assertThatThrownBy(() -> playerDao.save(2, List.of(kongHana, ethan)))
@@ -66,22 +66,22 @@ class JdbcPlayerDaoTest {
         String ethanName = "에단";
 
         // when
-        Long gameId = gameDao.save(new Game(10, ApplicationType.CONSOLE));
-        final Player kongHana = new Player(konghanaName, 10, true);
-        final Player ethan = new Player(ethanName, 5, false);
+        Long gameId = gameDao.save(new GameEntity(10, ApplicationType.CONSOLE));
+        final PlayerEntity kongHana = new PlayerEntity(konghanaName, 10, true);
+        final PlayerEntity ethan = new PlayerEntity(ethanName, 5, false);
         playerDao.save(gameId, List.of(kongHana, ethan));
 
-        List<Player> player = playerDao.findById(gameId);
+        List<PlayerEntity> playerEntity = playerDao.findById(gameId);
 
         // then
         Assertions.assertAll(
-                () -> assertThat(player.size()).isEqualTo(2),
-                () -> assertThat(player.get(0).getName()).isEqualTo(konghanaName),
-                () -> assertThat(player.get(0).getPosition()).isEqualTo(10),
-                () -> assertThat(player.get(0).getIsWinner()).isEqualTo(true),
-                () -> assertThat(player.get(1).getName()).isEqualTo(ethanName),
-                () -> assertThat(player.get(1).getPosition()).isEqualTo(5),
-                () -> assertThat(player.get(1).getIsWinner()).isEqualTo(false)
+                () -> assertThat(playerEntity.size()).isEqualTo(2),
+                () -> assertThat(playerEntity.get(0).getName()).isEqualTo(konghanaName),
+                () -> assertThat(playerEntity.get(0).getPosition()).isEqualTo(10),
+                () -> assertThat(playerEntity.get(0).getIsWinner()).isEqualTo(true),
+                () -> assertThat(playerEntity.get(1).getName()).isEqualTo(ethanName),
+                () -> assertThat(playerEntity.get(1).getPosition()).isEqualTo(5),
+                () -> assertThat(playerEntity.get(1).getIsWinner()).isEqualTo(false)
         );
     }
 

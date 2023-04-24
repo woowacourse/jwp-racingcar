@@ -4,27 +4,27 @@ import java.util.List;
 
 public class RacingGameEntity {
 
-    private final Game game;
-    private final List<Player> player;
+    private final GameEntity gameEntity;
+    private final List<PlayerEntity> playerEntity;
 
-    public RacingGameEntity(final Game game, final List<Player> player) {
-        this.game = game;
-        this.player = player;
+    public RacingGameEntity(final GameEntity gameEntity, final List<PlayerEntity> playerEntity) {
+        this.gameEntity = gameEntity;
+        this.playerEntity = playerEntity;
     }
 
-    public Game getGame() {
-        return game;
+    public GameEntity getGame() {
+        return gameEntity;
     }
 
-    public List<Player> getPlayer() {
-        return player;
+    public List<PlayerEntity> getPlayer() {
+        return playerEntity;
     }
 
     @Override
     public String toString() {
         return "RacingGameEntity{" +
-                "game=" + game +
-                ", player=" + player +
+                "game=" + gameEntity +
+                ", player=" + playerEntity +
                 '}';
     }
 }

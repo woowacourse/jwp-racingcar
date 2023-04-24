@@ -1,12 +1,12 @@
 package racingcar.dao;
 
-import racingcar.entity.Game;
+import racingcar.entity.GameEntity;
 
 import java.util.List;
 
 interface GameDao {
 
-    Long save(final Game game);
+    Long save(final GameEntity gameEntity);
 
-    List<Game> findAll();
+    List<GameEntity> findAll();
 }

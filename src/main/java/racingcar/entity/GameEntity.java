@@ -4,7 +4,7 @@ import racingcar.controller.ApplicationType;
 
 import java.util.Date;
 
-public class Game {
+public class GameEntity {
 
     private static final int DEFAULT_ID = -1;
     private static final Date DEFAULT_CREATE_AT = null;
@@ -14,14 +14,14 @@ public class Game {
     private final Date createdAt;
     private final ApplicationType applicationType;
 
-    public Game(final long id, final int trialCount, final Date createdAt, final ApplicationType applicationType) {
+    public GameEntity(final long id, final int trialCount, final Date createdAt, final ApplicationType applicationType) {
         this.id = id;
         this.trialCount = trialCount;
         this.createdAt = createdAt;
         this.applicationType = applicationType;
     }
 
-    public Game(final int trialCount, final ApplicationType applicationType) {
+    public GameEntity(final int trialCount, final ApplicationType applicationType) {
         this.id = DEFAULT_ID;
         this.trialCount = trialCount;
         this.createdAt = DEFAULT_CREATE_AT;
