@@ -10,10 +10,8 @@ import racingcar.dto.ResultDto;
 import racingcar.service.RacingGameService;
 
 public class RacingCarConsoleController {
-	private final RacingGameService racingGameService;
 
 	public RacingCarConsoleController(RacingGameService racingGameService) {
-		this.racingGameService = racingGameService;
 	}
 
 	public void run() {
