@@ -5,7 +5,7 @@ import racingcar.dao.entity.WinnerEntity;
 import java.util.List;
 
 public interface WinnerRepository {
-    List<Integer> saveAll(List<WinnerEntity> winners);
+    void saveAll(List<WinnerEntity> winners);
 
     List<Integer> findWinnerCarIdsByGameId(final int gameId);
 }

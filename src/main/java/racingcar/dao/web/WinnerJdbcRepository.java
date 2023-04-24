@@ -1,5 +1,7 @@
 package racingcar.dao.web;
 
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
@@ -7,10 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.WinnerRepository;
 import racingcar.dao.entity.WinnerEntity;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class WinnerJdbcRepository implements WinnerRepository {
@@ -21,14 +19,13 @@ public class WinnerJdbcRepository implements WinnerRepository {
     public WinnerJdbcRepository(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("winner");
+                .withTableName("winner")
+                .usingGeneratedKeyColumns("winner_id");
     }
 
-    public List<Integer> saveAll(List<WinnerEntity> winners) {
+    public void saveAll(List<WinnerEntity> winners) {
         SqlParameterSource[] sqlParameterSource = SqlParameterSourceUtils.createBatch(winners);
-        return Arrays.stream(insertActor.executeBatch(sqlParameterSource))
-                .mapToObj(Integer::new)
-                .collect(Collectors.toList());
+        Arrays.stream(insertActor.executeBatch(sqlParameterSource));
     }
 
     public List<Integer> findWinnerCarIdsByGameId(final int gameId) {

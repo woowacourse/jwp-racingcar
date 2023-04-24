@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CarRepository {
 
-    List<Integer>  saveAll(List<CarEntity> carEntities);
+    void saveAll(List<CarEntity> carEntities);
 
     List<CarEntity> findCarsByGameID(final int gameId);
 }

@@ -14,16 +14,11 @@ public class ConsoleCarRepository implements CarRepository {
     private AtomicInteger serialNumber = new AtomicInteger(1);
 
     @Override
-    public List<Integer> saveAll(final List<CarEntity> carEntities) {
-        List<Integer> carIds = new ArrayList<>();
+    public void saveAll(final List<CarEntity> carEntities) {
         for(CarEntity carEntity : carEntities) {
-            int carId = serialNumber.get();
-            CarEntity car = new CarEntity(carId, carEntity.getName(), carEntity.getPosition(), carEntity.getGameId());
+            CarEntity car = new CarEntity(serialNumber.getAndIncrement(), carEntity.getName(), carEntity.getPosition(), carEntity.getGameId());
             cars.add(car);
-            carIds.add(carId);
-            serialNumber.incrementAndGet();
         }
-        return carIds;
     }
 
     @Override

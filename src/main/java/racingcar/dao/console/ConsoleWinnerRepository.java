@@ -1,14 +1,12 @@
 package racingcar.dao.console;
 
-import java.util.concurrent.atomic.AtomicInteger;
-import racingcar.dao.WinnerRepository;
-import racingcar.dao.entity.WinnerEntity;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import racingcar.dao.WinnerRepository;
+import racingcar.dao.entity.WinnerEntity;
 
 public class ConsoleWinnerRepository implements WinnerRepository {
 
@@ -16,15 +14,10 @@ public class ConsoleWinnerRepository implements WinnerRepository {
     private AtomicInteger serialNumber = new AtomicInteger(1);
 
     @Override
-    public List<Integer> saveAll(final List<WinnerEntity> winnerEntities) {
-        List<Integer> winnersIds = new ArrayList<>();
+    public void saveAll(final List<WinnerEntity> winnerEntities) {
         for(WinnerEntity winner : winnerEntities) {
-            int winnerId = serialNumber.get();
-            winners.put(winnerId, winner);
-            winnersIds.add(winnerId);
-            serialNumber.incrementAndGet();
+            winners.put(serialNumber.getAndIncrement(), winner);
         }
-        return winnersIds;
     }
 
     @Override

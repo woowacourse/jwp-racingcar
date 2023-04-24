@@ -1,6 +1,8 @@
 package racingcar.dao.web;
 
 
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
@@ -8,10 +10,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.CarRepository;
 import racingcar.dao.entity.CarEntity;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class CarJdbcRepository implements CarRepository {
@@ -25,11 +23,9 @@ public class CarJdbcRepository implements CarRepository {
                 .usingGeneratedKeyColumns("car_id");
     }
 
-    public List<Integer> saveAll(List<CarEntity> carEntities) {
+    public void saveAll(List<CarEntity> carEntities) {
         SqlParameterSource[] sqlParameterSource = SqlParameterSourceUtils.createBatch(carEntities);
-        return Arrays.stream(insertActor.executeBatch(sqlParameterSource))
-                .mapToObj(Integer::new)
-                .collect(Collectors.toList());
+        Arrays.stream(insertActor.executeBatch(sqlParameterSource));
     }
 
     public List<CarEntity> findCarsByGameID(final int gameId) {
