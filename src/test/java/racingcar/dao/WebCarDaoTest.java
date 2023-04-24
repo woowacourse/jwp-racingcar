@@ -15,16 +15,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.web.WebCarDao;
+import racingcar.dao.web.WebGameDao;
 import racingcar.domain.Car;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class CarDaoTest {
+class WebCarDaoTest {
 
     @Autowired
-    private GameDao gameDao;
+    private WebGameDao webGameDao;
 
     @Autowired
-    private CarDao carDao;
+    private WebCarDao webCarDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -40,15 +42,15 @@ class CarDaoTest {
         jdbcTemplate.execute(CREATE_TABLE_GAME);
         jdbcTemplate.execute(CREATE_TABLE_CAR);
 
-        gameId = gameDao.insertGame(5);
-        carDao.insertCars(List.of(car, other), gameId);
+        gameId = webGameDao.insertGame(5);
+        webCarDao.insertCars(List.of(car, other), gameId);
     }
 
     @Test
     @DisplayName("car를 저장한다.")
     void insertCars() {
-        carDao.insertCars(List.of(new Car("포비", 1)), gameId);
-        assertThat(carDao.findCars(gameId))
+        webCarDao.insertCars(List.of(new Car("포비", 1)), gameId);
+        assertThat(webCarDao.findCars(gameId))
                 .hasSize(3)
                 .extracting(Car::name)
                 .contains("포비");
@@ -57,10 +59,10 @@ class CarDaoTest {
     @Test
     @DisplayName("모든 사람의 position을 업데이트한다.")
     void updatePosition() {
-        carDao.updatePositions(
+        webCarDao.updatePositions(
                 List.of(new Car("밀리", 5), new Car("조이", 6)),
                 gameId);
-        List<Car> cars = carDao.findCars(gameId);
+        List<Car> cars = webCarDao.findCars(gameId);
 
         assertAll(
                 () -> assertThat(cars)
@@ -76,8 +78,8 @@ class CarDaoTest {
     @Test
     @DisplayName("우승자를 업데이트한다.")
     void updateWinner() {
-        carDao.updateWinners(List.of(car), gameId);
-        List<Car> cars = carDao.findWinners(gameId);
+        webCarDao.updateWinners(List.of(car), gameId);
+        List<Car> cars = webCarDao.findWinners(gameId);
 
         assertAll(
                 () -> assertThat(cars)
@@ -89,8 +91,8 @@ class CarDaoTest {
     @Test
     @DisplayName("우승자를 조회한다.")
     void findWinners() {
-        carDao.updateWinners(List.of(car), gameId);
-        List<Car> winners = carDao.findWinners(gameId);
+        webCarDao.updateWinners(List.of(car), gameId);
+        List<Car> winners = webCarDao.findWinners(gameId);
 
         assertThat(winners)
                 .hasSize(1)
@@ -101,7 +103,7 @@ class CarDaoTest {
     @Test
     @DisplayName("전체 자동차를 조회한다.")
     void findCars() {
-        Car car = carDao.findCars(gameId).get(0);
+        Car car = webCarDao.findCars(gameId).get(0);
         assertAll(
                 () -> assertThat(car)
                         .extracting(Car::name)

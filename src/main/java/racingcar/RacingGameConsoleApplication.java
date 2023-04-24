@@ -1,7 +1,9 @@
 package racingcar;
 
 import racingcar.controller.RacingGameConsoleController;
-import racingcar.strategy.RandomMovingStrategy;
+import racingcar.dao.console.ConsoleCarDao;
+import racingcar.dao.console.ConsoleGameDao;
+import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -11,7 +13,7 @@ public class RacingGameConsoleApplication {
         RacingGameConsoleController racingGameConsoleController = new RacingGameConsoleController(
                 new InputView(),
                 new OutputView(),
-                new RandomMovingStrategy()
+                new RacingCarService(new ConsoleGameDao(), new ConsoleCarDao())
         );
 
         racingGameConsoleController.execute();

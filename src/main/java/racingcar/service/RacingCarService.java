@@ -20,7 +20,7 @@ public class RacingCarService {
     private final GameDao gameDao;
     private final CarDao carDao;
 
-    public RacingCarService(final GameDao gameDao, final CarDao carDao) {
+    public RacingCarService(final GameDao gameDao, CarDao carDao) {
         this.gameDao = gameDao;
         this.carDao = carDao;
     }
