@@ -3,13 +3,14 @@ package racingcar.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Repository
 public class GameDao {
     private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
@@ -21,7 +22,7 @@ public class GameDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Long saveGame(final int trialCount) {
+    public Long insert(final int trialCount) {
         Map<String, Integer> parameters = new HashMap<>();
         parameters.put("trial_count", trialCount);
         return (long) simpleJdbcInsert.executeAndReturnKeyHolder(parameters).getKeys().get("game_number");

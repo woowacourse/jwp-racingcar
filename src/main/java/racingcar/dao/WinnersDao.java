@@ -2,11 +2,12 @@ package racingcar.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
 import java.util.List;
 
-@Component
+@Repository
 public class WinnersDao {
 
     private final JdbcTemplate jdbcTemplate;
