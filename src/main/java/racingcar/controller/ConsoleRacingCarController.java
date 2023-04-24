@@ -64,12 +64,12 @@ public class ConsoleRacingCarController {
         }
     }
     
-    public void repeatJustRunnableAtException(JustRunnable inputProcess) {
+    public void repeatJustRunnableAtException(ConsoleGameProcess gameProcess) {
         try {
-            inputProcess.run();
+            gameProcess.run();
         } catch (IllegalArgumentException illegalArgumentException) {
             System.out.println("[ERROR] " + illegalArgumentException);
-            repeatJustRunnableAtException(inputProcess);
+            repeatJustRunnableAtException(gameProcess);
         }
     }
 }

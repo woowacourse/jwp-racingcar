@@ -1,5 +1,5 @@
 package racingcar.controller;
 
-public interface JustRunnable {
+public interface ConsoleGameProcess {
     void run();
 }
