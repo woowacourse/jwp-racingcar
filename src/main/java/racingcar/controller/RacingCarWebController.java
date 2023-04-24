@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import racingcar.dto.ExceptionMessage;
 import racingcar.dto.GameInfoForRequest;
 import racingcar.dto.GameResultForResponse;
 import racingcar.dto.PlayRecordsForResponse;
@@ -30,7 +31,7 @@ public class RacingCarWebController {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+    public ResponseEntity<ExceptionMessage> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(new ExceptionMessage(ex.getMessage()));
     }
 }

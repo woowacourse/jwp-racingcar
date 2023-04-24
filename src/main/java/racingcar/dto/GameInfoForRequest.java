@@ -14,15 +14,16 @@ public class GameInfoForRequest {
 
     public GameInfoForRequest(String names, Integer count) throws IllegalArgumentException {
         List<String> players = Arrays.stream(names.split(",")).collect(Collectors.toList());
-        validateNull(names);
+        validateNullNames(names);
+        validateNullcount(count);
         validatePlayerSize(players);
         validateNameSize(players);
-        validateCount(count);
+        validateCountSize(count);
         this.names = names;
         this.count = count;
     }
 
-    private static void validateCount(Integer count) {
+    private static void validateCountSize(Integer count) {
         if (count < 1) {
             throw new IllegalArgumentException("최소 1회 이상 실행해야 합니다");
         }
@@ -40,8 +41,14 @@ public class GameInfoForRequest {
         }
     }
 
-    private static void validateNull(String names) {
+    private static void validateNullNames(String names) {
         if (names.isBlank()) {
+            throw new IllegalArgumentException("값을 입력해야 합니다");
+        }
+    }
+
+    private static void validateNullcount(Integer count) {
+        if (count == null) {
             throw new IllegalArgumentException("값을 입력해야 합니다");
         }
     }
