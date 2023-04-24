@@ -2,9 +2,6 @@ package racingcar.infrastructure.persistence.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import racingcar.infrastructure.persistence.entity.WinnerEntity;
 
@@ -14,7 +11,6 @@ import java.util.List;
 public class WinnerDao {
 
     private final JdbcTemplate template;
-    private final SimpleJdbcInsert simpleJdbcInsert;
     private final RowMapper<WinnerEntity> mapper = (rs, rowNum) -> new WinnerEntity(
             rs.getString("name"),
             rs.getLong("game_id")
@@ -22,14 +18,16 @@ public class WinnerDao {
 
     public WinnerDao(final JdbcTemplate template) {
         this.template = template;
-        this.simpleJdbcInsert = new SimpleJdbcInsert(template)
-                .withTableName("WINNER")
-                .usingGeneratedKeyColumns("id");
     }
 
-    public Long save(final WinnerEntity winnerEntity) {
-        final SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(winnerEntity);
-        return simpleJdbcInsert.executeAndReturnKey(sqlParameterSource).longValue();
+    public void save(final List<WinnerEntity> entities) {
+        template.batchUpdate("INSERT INTO WINNER (name, game_id) VALUES (?, ?)",
+                entities,
+                50,
+                (ps, entity) -> {
+                    ps.setString(1, entity.getName());
+                    ps.setLong(2, entity.getGameId());
+                });
     }
 
     public List<WinnerEntity> findByGameId(final Long gameId) {

@@ -48,7 +48,7 @@ class WinnerDaoTest {
         final WinnerEntity winnerEntity = new WinnerEntity(winner, gameId);
 
         // when
-        dao.save(winnerEntity);
+        dao.save(List.of(winnerEntity));
 
         // then
         assertThat(dao.findByGameId(gameId).size()).isEqualTo(1);
@@ -58,9 +58,12 @@ class WinnerDaoTest {
     void findAll() {
 
         final var dao = new WinnerDao(template);
-        dao.save(new WinnerEntity("a", 1L));
-        dao.save(new WinnerEntity("b", 1L));
-        dao.save(new WinnerEntity("c", 1L));
+        final WinnerEntity a = new WinnerEntity("a", 1L);
+        final WinnerEntity b = new WinnerEntity("b", 1L);
+        final WinnerEntity c = new WinnerEntity("c", 1L);
+
+        dao.save(List.of(a, b, c));
+
 
         List<WinnerEntity> allWinners = dao.findAll();
 

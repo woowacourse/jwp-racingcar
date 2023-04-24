@@ -48,17 +48,19 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
     }
 
     private void saveCars(final RacingGame racingGame, final Long id) {
-        racingGame.getCars()
+        final List<CarEntity> carEntities = racingGame.getCars()
                 .stream()
                 .map(it -> new CarEntity(it, id))
-                .forEach(carDao::save);
+                .collect(Collectors.toList());
+        carDao.save(carEntities);
     }
 
     private void saveWinners(final RacingGame racingGame, final Long id) {
-        racingGame.winners().getWinners()
+        final List<WinnerEntity> winnerEntities = racingGame.winners().getWinners()
                 .stream()
                 .map(it -> new WinnerEntity(it, id))
-                .forEach(winnerDao::save);
+                .collect(Collectors.toList());
+        winnerDao.save(winnerEntities);
     }
 
     @Override
