@@ -1,12 +1,8 @@
 package racingcar.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
 
@@ -14,13 +10,9 @@ import racingcar.domain.Car;
 public class CarDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert insertActor;
 
-    public CarDao(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+    public CarDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.insertActor = new SimpleJdbcInsert(dataSource)
-                .withTableName("car")
-                .usingGeneratedKeyColumns("id");
     }
 
     private final RowMapper<Car> carRowMapper = (resultSet, rowNum) -> new Car(
@@ -28,24 +20,33 @@ public class CarDao {
             resultSet.getInt("position")
     );
 
-    public int insertCar(final Car car, final int gameId) {
-        Map<String, Object> parameters = new HashMap<>(4);
-        parameters.put("name", car.name());
-        parameters.put("position", car.position());
-        parameters.put("is_winner", 0);
-        parameters.put("game_id", gameId);
-
-        return insertActor.executeAndReturnKey(parameters).intValue();
+    public void insertCars(final List<Car> cars, final int gameId) {
+        String sql = "INSERT INTO car (name, position, is_winner, game_id) VALUES (?, ?, 0, ?)";
+        jdbcTemplate.batchUpdate(sql, cars, cars.size(),
+                (ps, car) -> {
+                    ps.setString(1, car.name());
+                    ps.setInt(2, car.position());
+                    ps.setInt(3, gameId);
+                });
     }
 
-    public void updatePosition(final Car car, final int gameId) {
-        String sql = "UPDATE car SET position = ? WHERE game_id = ? AND name = ?";
-        jdbcTemplate.update(sql, car.position(), gameId, car.name());
-    }
-
-    public void updateWinner(final String name, final int gameId) {
+    public void updateWinners(final List<Car> cars, final int gameId) {
         String sql = "UPDATE car SET is_winner = 1 WHERE game_id = ? AND name = ?";
-        jdbcTemplate.update(sql, gameId, name);
+        jdbcTemplate.batchUpdate(sql, cars, cars.size(),
+                (ps, car) -> {
+                    ps.setInt(1, gameId);
+                    ps.setString(2, car.name());
+                });
+    }
+
+    public void updatePositions(final List<Car> cars, final int gameId) {
+        String sql = "UPDATE car SET position = ? WHERE game_id = ? AND name = ?";
+        jdbcTemplate.batchUpdate(sql, cars, cars.size(),
+                (ps, car) -> {
+                    ps.setInt(1, car.position());
+                    ps.setInt(2, gameId);
+                    ps.setString(3, car.name());
+                });
     }
 
     public List<Car> findWinners(int gameId) {

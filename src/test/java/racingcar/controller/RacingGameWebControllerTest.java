@@ -1,5 +1,9 @@
 package racingcar.controller;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
+
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +35,10 @@ class RacingGameWebControllerTest {
                 .body(gameRequest)
                 .when().post("/plays")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.OK.value())
+                .body("winners", notNullValue())
+                .body("racingCars", hasSize(2))
+                .body("racingCars[0].name", equalTo("조이"),
+                        "racingCars[1].name", equalTo("밀리"));
     }
 }

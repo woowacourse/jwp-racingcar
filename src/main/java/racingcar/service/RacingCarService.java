@@ -29,29 +29,23 @@ public class RacingCarService {
         final RacingGame game = createGame(carNames, trialCount);
         race(game, trialCount);
         updateWinners(game);
-
         return ResultDto.from(new Result(game.winners(), game.cars()));
     }
 
     private RacingGame createGame(final List<String> carNames, final int tryTimes) {
         int gameId = gameDao.insertGame(tryTimes);
         RacingGame game = new RacingGame(gameId, CarFactory.buildCars(carNames), new RandomMovingStrategy());
-        List<Car> cars = game.cars();
-        cars.forEach(car -> carDao.insertCar(car, gameId));
-
+        carDao.insertCars(game.cars(), gameId);
         return game;
     }
 
     private void race(final RacingGame racingGame, final int tryTimes) {
         racingGame.race(tryTimes);
-
-        List<Car> cars = racingGame.cars();
-        cars.forEach(car -> carDao.updatePosition(car, racingGame.id()));
+        carDao.updatePositions(racingGame.cars(), racingGame.id());
     }
 
     private void updateWinners(final RacingGame racingGame) {
-        List<Car> winners = racingGame.winners();
-        winners.forEach(car -> carDao.updateWinner(car.name(), racingGame.id()));
+        carDao.updateWinners(racingGame.winners(), racingGame.id());
     }
 
     public List<ResultDto> findAllResults() {

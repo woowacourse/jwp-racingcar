@@ -30,6 +30,7 @@ class CarDaoTest {
     private JdbcTemplate jdbcTemplate;
 
     private final Car car = new Car("밀리", 1);
+    private final Car other = new Car("조이", 1);
     private int gameId;
 
     @BeforeEach
@@ -40,50 +41,61 @@ class CarDaoTest {
         jdbcTemplate.execute(CREATE_TABLE_CAR);
 
         gameId = gameDao.insertGame(5);
-        carDao.insertCar(car, gameId);
+        carDao.insertCars(List.of(car, other), gameId);
     }
 
     @Test
     @DisplayName("car를 저장한다.")
-    void insertCar() {
-        int carId = carDao.insertCar(new Car("조이", 1), gameId);
-        assertThat(carId).isEqualTo(2);
+    void insertCars() {
+        carDao.insertCars(List.of(new Car("포비", 1)), gameId);
+        assertThat(carDao.findCars(gameId))
+                .hasSize(3)
+                .extracting(Car::name)
+                .contains("포비");
     }
 
     @Test
-    @DisplayName("position을 업데이트한다.")
+    @DisplayName("모든 사람의 position을 업데이트한다.")
     void updatePosition() {
-        carDao.updatePosition(new Car("밀리", 5), gameId);
+        carDao.updatePositions(
+                List.of(new Car("밀리", 5), new Car("조이", 6)),
+                gameId);
         List<Car> cars = carDao.findCars(gameId);
-        Car car = cars.get(0);
 
         assertAll(
-                () -> assertThat(car)
+                () -> assertThat(cars)
                         .extracting(Car::name)
-                        .isEqualTo("밀리"),
+                        .containsExactly("밀리", "조이"),
 
-                () -> assertThat(car)
+                () -> assertThat(cars)
                         .extracting(Car::position)
-                        .isEqualTo(5)
+                        .containsExactly(5, 6)
         );
     }
 
     @Test
     @DisplayName("우승자를 업데이트한다.")
     void updateWinner() {
-        carDao.updateWinner("밀리", gameId);
-        Car winner = carDao.findWinners(gameId).get(0);
+        carDao.updateWinners(List.of(car), gameId);
+        List<Car> cars = carDao.findWinners(gameId);
 
-        assertThat(winner.name()).isEqualTo("밀리");
+        assertAll(
+                () -> assertThat(cars)
+                        .extracting(Car::name)
+                        .containsExactly("밀리")
+        );
     }
 
     @Test
     @DisplayName("우승자를 조회한다.")
     void findWinners() {
-        carDao.insertCar(new Car("조이", 1), gameId);
-        carDao.updateWinner("밀리", gameId);
+        carDao.updateWinners(List.of(car), gameId);
+        List<Car> winners = carDao.findWinners(gameId);
 
-        assertThat(carDao.findWinners(gameId)).hasSize(1);
+        assertThat(winners)
+                .hasSize(1)
+                .extracting(Car::name)
+                .containsExactly("밀리");
     }
 
     @Test
