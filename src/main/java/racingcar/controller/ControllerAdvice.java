@@ -18,7 +18,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler(IllegalArgumentException.class)
     private ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
-        logger.debug("IllegalArgumentException.", exception);
+        logger.info("IllegalArgumentException.", exception);
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage()));
     }
@@ -32,7 +32,7 @@ public class ControllerAdvice {
             stringBuilder.append(defaultMessage);
         }
         String message = stringBuilder.toString();
-        logger.debug("MethodArgumentNotValidException.", exception);
+        logger.info("MethodArgumentNotValidException.", exception);
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message));
     }
