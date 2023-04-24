@@ -17,7 +17,7 @@ public class ResultDao {
     }
 
     public long insert(int trialCount, String winners) {
-        String sql = "insert into results (trial_count, winners) values (?, ?)";
+        String sql = "INSERT INTO RESULTS (TRIAL_COUNT, WINNERS) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});

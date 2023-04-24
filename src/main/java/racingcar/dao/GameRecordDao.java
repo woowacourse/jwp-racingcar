@@ -19,7 +19,7 @@ public class GameRecordDao {
 
     public List<GameResultDto> findGameRecord() {
         List<GameResultDto> gameRecord = this.jdbcTemplate.query(
-                "select ID, WINNERS FROM RESULTS",
+                "SELECT ID, WINNERS FROM RESULTS",
                 (resultSet, rowNum) -> {
                     GameResultDto gameResultDto = new GameResultDto(resultSet.getString("WINNERS"), findRacingCarsDtoById(resultSet.getInt("ID")));
                     return gameResultDto;
