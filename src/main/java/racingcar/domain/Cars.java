@@ -55,7 +55,7 @@ public class Cars {
                 .max(Comparator.naturalOrder())
                 .orElse(0);
         return cars.stream()
-                .filter(car -> car.getPosition() == maxDistance)
+                .filter(car -> car.hasPosition(maxDistance))
                 .collect(Collectors.toUnmodifiableList());
     }
 }

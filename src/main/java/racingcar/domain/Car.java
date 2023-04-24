@@ -17,6 +17,10 @@ public class Car {
         }
     }
 
+    public boolean hasPosition(int position) {
+        return this.position == position;
+    }
+
     public int getPosition() {
         return position;
     }
