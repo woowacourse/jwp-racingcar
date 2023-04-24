@@ -20,12 +20,12 @@ public class RacingGameService {
 
 	public Cars save(RacingGameDto racingGameDto) {
 		String carNames = racingGameDto.getNames();
-		int count = Integer.parseInt(racingGameDto.getCount());
+		int trial = Integer.parseInt(racingGameDto.getTrial());
 
 		RacingGame racingGame = new RacingGame(carNames);
-		racingGame.startRacing(count);
+		racingGame.startRacing(trial);
 		Cars cars = racingGame.getCars();
-		racingCarRepository.save(cars, count);
+		racingCarRepository.save(cars, trial);
 
 		return cars;
 	}

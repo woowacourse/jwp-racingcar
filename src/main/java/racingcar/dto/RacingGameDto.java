@@ -2,13 +2,13 @@ package racingcar.dto;
 
 public class RacingGameDto {
 	private String names;
-	private String count;
+	private String trial;
 
 	public String getNames() {
 		return names;
 	}
 
-	public String getCount() {
-		return count;
+	public String getTrial() {
+		return trial;
 	}
 }
