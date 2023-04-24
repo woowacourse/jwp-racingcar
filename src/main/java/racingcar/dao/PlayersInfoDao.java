@@ -22,12 +22,12 @@ public class PlayersInfoDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(int playResultId, List<CarForNameAndPosition> carResponse) {
+    public void insert(int playResultId, List<CarForNameAndPosition> carForNameAndPositions) {
         String sql = "insert into players_info (name, position, play_result_id) values (?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                CarForNameAndPosition carForNameAndPosition = carResponse.get(i);
+                CarForNameAndPosition carForNameAndPosition = carForNameAndPositions.get(i);
                 ps.setString(FIRST_PARAM, carForNameAndPosition.getName());
                 ps.setInt(SECOND_PARAM, carForNameAndPosition.getPosition());
                 ps.setInt(THIRD_PARAM, playResultId);
@@ -35,7 +35,7 @@ public class PlayersInfoDao {
 
             @Override
             public int getBatchSize() {
-                return carResponse.size();
+                return carForNameAndPositions.size();
             }
         });
     }
