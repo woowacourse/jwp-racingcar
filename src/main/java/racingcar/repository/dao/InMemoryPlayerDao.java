@@ -2,6 +2,7 @@ package racingcar.repository.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import racingcar.repository.entity.PlayerEntity;
 
 public class InMemoryPlayerDao implements PlayerDao {
@@ -28,13 +29,15 @@ public class InMemoryPlayerDao implements PlayerDao {
     public PlayerEntity findById(final long id) {
         return playerEntities.stream()
                 .filter(playerEntity -> playerEntity.getId() == id)
-                .findFirst().get();
+                .findFirst()
+                .orElseThrow(() -> new EmptyResultDataAccessException(1));
     }
 
     @Override
     public PlayerEntity findByName(final String name) {
         return playerEntities.stream()
                 .filter(playerEntity -> playerEntity.getName().equals(name))
-                .findFirst().get();
+                .findFirst()
+                .orElseThrow(() -> new EmptyResultDataAccessException(1));
     }
 }
