@@ -1,6 +1,5 @@
 package racingcar.controller.console;
 
-import org.springframework.stereotype.Controller;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RandomNumberGenerator;
@@ -11,7 +10,6 @@ import racingcar.view.OutputView;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-@Controller
 public class ConsoleRacingGameController {
     public void playGame() {
         RacingGame racingGame = requestRacingGame();

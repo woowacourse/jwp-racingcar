@@ -25,7 +25,6 @@ public class JdbcCarResultDao implements CarResultDao {
             resultSet.getInt("position")
     );
 
-    @Autowired
     public JdbcCarResultDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class GameRequest {
     private static final String NAME_DELIMITER = ",";
+
     @NotEmpty
     private String names;
     @NotNull
