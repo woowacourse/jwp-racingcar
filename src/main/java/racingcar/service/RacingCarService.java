@@ -7,6 +7,8 @@ import racingcar.domain.Cars;
 import racingcar.dto.GameInforamtionDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.RacingCarDto;
+import racingcar.entity.RacingCar;
+import racingcar.entity.Result;
 import racingcar.repository.RacingCarDao;
 import racingcar.repository.ResultDao;
 import racingcar.util.NumberGenerator;
@@ -14,6 +16,7 @@ import racingcar.validation.Validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RacingCarService {
@@ -71,15 +74,26 @@ public class RacingCarService {
     }
 
     public List<GameResultDto> findAllGame() {
-        List<Long> gameIds = resultDao.findAllId();
+        List<Result> results = resultDao.findAll();
+
         List<GameResultDto> gameResults = new ArrayList<>();
 
-        for (Long gameId : gameIds) {
-            String winners = resultDao.findWinnerBy(gameId);
-            List<RacingCarDto> racingCars = racingCarDao.findBy(gameId);
-            gameResults.add(new GameResultDto(winners, racingCars));
+        for (Result result : results) {
+            gameResults.add(getRacingCarDto(result));
         }
 
         return gameResults;
+    }
+
+    private GameResultDto getRacingCarDto(Result result) {
+        String winners = result.getWinners();
+        List<RacingCar> racingCars = racingCarDao.findBy(result.getId());
+        List<RacingCarDto> racingCarDtos =
+                racingCars.stream()
+                          .map(racingCar ->
+                                  new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
+                          .collect(Collectors.toList());
+
+        return new GameResultDto(winners, racingCarDtos);
     }
 }

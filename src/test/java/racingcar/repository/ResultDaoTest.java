@@ -9,13 +9,15 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import racingcar.entity.Result;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @JdbcTest
-@Transactional(propagation= Propagation.NOT_SUPPORTED)
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
 class ResultDaoTest {
 
     @Autowired
@@ -55,16 +57,20 @@ class ResultDaoTest {
     @Test
     @DisplayName("저장되어 있는 결과 id 리스트가 제대로 반환되는지 확인")
     void findAllId() {
-        List<Long> ids = resultDao.findAllId();
+        List<Result> results = resultDao.findAll();
+
+        List<Long> ids = results.stream()
+                                .map(Result::getId)
+                                .collect(Collectors.toList());
+        List<String> winners = results.stream()
+                                      .map(Result::getWinners)
+                                      .collect(Collectors.toList());
+        List<Integer> trialCounts = results.stream()
+                                      .map(Result::getTrialCount)
+                                      .collect(Collectors.toList());
 
         assertThat(ids).containsExactly(1L, 2L, 3L, 4L);
-    }
-
-    @Test
-    @DisplayName("아이디에 따른 결과 객체가 제대로 반환되는지 확인")
-    void findBy() {
-        String winners = resultDao.findWinnerBy(1);
-
-        assertThat(winners).isEqualTo("test1");
+        assertThat(winners).containsExactly("test1", "test2", "test3", "test4");
+        assertThat(trialCounts).containsExactly(1, 2, 3, 4);
     }
 }

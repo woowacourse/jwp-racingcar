@@ -9,10 +9,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import racingcar.dto.GameInforamtionDto;
 import racingcar.dto.GameResultDto;
 import racingcar.dto.RacingCarDto;
+import racingcar.entity.RacingCar;
+import racingcar.entity.Result;
 import racingcar.repository.RacingCarDao;
 import racingcar.repository.ResultDao;
 import racingcar.util.RandomNumberGenerator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,11 +49,13 @@ class RacingCarServiceTest {
     @Test
     @DisplayName("게임 결과 목록이 제대로 반환되는지 확인")
     void findAllGame() {
-        when(resultDao.findAllId()).thenReturn(List.of(1L));
-        when(resultDao.findWinnerBy(1)).thenReturn("test1");
-        when(racingCarDao.findBy(1)).thenReturn(
-                List.of(new RacingCarDto("test1", 8),
-                new RacingCarDto("test2", 4)));
+        when(resultDao.findAll())
+                .thenReturn(List.of(new Result(1L, 5, "test1", LocalDateTime.now())));
+        when(racingCarDao.findBy(1))
+                .thenReturn(
+                        List.of(new RacingCar(1L, "test1", 8, 1L),
+                                new RacingCar(2L, "test2", 4, 1L))
+                );
 
         List<GameResultDto> gameResult = racingCarService.findAllGame();
         List<String> carNames = gameResult.get(0).getRacingCars().stream()

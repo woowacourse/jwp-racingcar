@@ -1,9 +1,10 @@
 package racingcar.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import racingcar.domain.Car;
-import racingcar.dto.RacingCarDto;
+import racingcar.entity.RacingCar;
 
 import java.util.List;
 
@@ -21,14 +22,18 @@ public class RacingCarDao {
         jdbcTemplate.update(sql, car.getName(), car.getLocation(), resultId);
     }
 
-    public List<RacingCarDto> findBy(long resultId) {
-        String sql = "select name, position from racing_cars where result_id = ?";
-        return jdbcTemplate.query(sql,
-                (rs, rowNum) -> {
-                    String name = rs.getString("name");
-                    int position = rs.getInt("position");
-                    RacingCarDto racingCarDto = new RacingCarDto(name, position);
-                    return racingCarDto;
-                }, resultId);
+    private final RowMapper<RacingCar> actorRowMapper = (resultSet, rowNum) -> {
+        RacingCar racingCar = new RacingCar(
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                resultSet.getInt("position"),
+                resultSet.getLong("result_id")
+        );
+        return racingCar;
+    };
+
+    public List<RacingCar> findBy(long resultId) {
+        String sql = "select * from racing_cars where result_id = ?";
+        return jdbcTemplate.query(sql, actorRowMapper, resultId);
     }
 }

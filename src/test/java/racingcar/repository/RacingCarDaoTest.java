@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.Name;
-import racingcar.dto.RacingCarDto;
+import racingcar.entity.RacingCar;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ class RacingCarDaoTest {
     @Test
     @DisplayName("특정 result_id의 데이터를 모두 제대로 반환하는지 확인")
     void findBy() {
-        List<RacingCarDto> racingCars = racingCarDao.findBy(1L);
+        List<RacingCar> racingCars = racingCarDao.findBy(1L);
 
         assertThat(racingCars).hasSize(4);
     }
