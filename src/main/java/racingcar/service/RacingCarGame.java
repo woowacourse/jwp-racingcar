@@ -23,20 +23,12 @@ public class RacingCarGame {
 
     public void moveCars(MoveStrategy moveStrategy) {
         validateEmptyCars();
-        for (Car car : cars.getCars()) {
-            move(moveStrategy, car);
-        }
+        cars.moveCars(moveStrategy);
     }
 
     private void validateEmptyCars() {
         if (cars == null) {
             throw new IllegalStateException(EMPTY_CARS.getMessage());
-        }
-    }
-
-    private void move(MoveStrategy moveStrategy, Car car) {
-        if (moveStrategy.isMovable()) {
-            car.move();
         }
     }
 
@@ -49,20 +41,7 @@ public class RacingCarGame {
     }
 
     public RacingCarWinnerDto findWinners() {
-        int maxPosition = getMaxPosition();
-        List<Car> winners = cars.getCars()
-                .stream()
-                .filter(car -> car.isSamePosition(maxPosition))
-                .collect(toList());
+        List<Car> winners = cars.getWinners();
         return RacingCarWinnerDto.of(winners);
-    }
-
-    private int getMaxPosition() {
-        validateEmptyCars();
-        return cars.getCars()
-                .stream()
-                .map(Car::getMovedLength)
-                .max(Integer::compareTo)
-                .orElseThrow(() -> new IllegalStateException(EMPTY_CARS.getMessage()));
     }
 }

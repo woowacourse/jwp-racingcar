@@ -1,5 +1,5 @@
 package racingcar.service;
 
 public abstract class MoveStrategy {
-    abstract boolean isMovable();
+    public abstract boolean isMovable();
 }
