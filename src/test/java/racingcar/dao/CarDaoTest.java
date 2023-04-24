@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.domain.TryCount;
 import racingcar.entity.CarEntity;
+import racingcar.entity.GameResultEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class CarDaoTest {
@@ -22,11 +22,11 @@ class CarDaoTest {
 
     @Test
     void save() {
-        Long gameResultId = gameResultDao.insert(new TryCount(3));
-        Assertions.assertThat(1L).isEqualTo(gameResultId);
+        Long gameResultId = gameResultDao.insert(new GameResultEntity(3));
+        Assertions.assertThat(gameResultId).isEqualTo(1L);
 
-        CarEntity carEntity = new CarEntity("헙크", 3, true, 1L);
-        Long carId = carDao.save(carEntity);
+        CarEntity carEntity = new CarEntity("헙크", 3, 1L);
+        Long carId = carDao.insert(carEntity);
         Assertions.assertThat(1L).isEqualTo(carId);
     }
 }

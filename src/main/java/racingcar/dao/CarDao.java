@@ -5,6 +5,7 @@ import racingcar.entity.CarEntity;
 import java.util.List;
 
 public interface CarDao {
-    Long insert(final CarEntity carEntity);
+    void insert(List<CarEntity> carEntities);
+
     List<CarEntity> findByGameResultId(final Long gameResultId);
 }
