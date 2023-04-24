@@ -8,15 +8,19 @@ create table game
 
 create table game_log
 (
+    id bigint auto_increment,
     game_number     bigint,
     player_name     varchar(20),
     result_position integer,
-    FOREIGN KEY (game_number) references game (game_number)
+    FOREIGN KEY (game_number) references game (game_number),
+    PRIMARY KEY (id)
 );
 
 create table winners
 (
+    id bigint auto_increment,
     game_number bigint,
     winner      varchar(20),
-    FOREIGN KEY (game_number) references game (game_number)
+    FOREIGN KEY (game_number) references game (game_number),
+    PRIMARY KEY (id)
 );
