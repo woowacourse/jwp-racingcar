@@ -8,14 +8,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
+import racingcar.repository.web.WebRacingCarRepository;
 
-class RacingCarDaoTest {
+class WebRacingCarRepositoryTest {
 
-	private final RacingCarDao racingCarDao = new RacingCarDao();
+	private final WebRacingCarRepository repository = new WebRacingCarRepository();
 
 	@BeforeEach
 	void setUp() {
-		JdbcTemplate jdbcTemplate = racingCarDao.getJdbcTemplate();
+		JdbcTemplate jdbcTemplate = repository.getJdbcTemplate();
 
 		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS games\n"
 			+ "(\n"
@@ -42,7 +43,7 @@ class RacingCarDaoTest {
 		Cars cars = racingGame.moveCars();
 		int count = 5;
 
-		racingCarDao.save(cars, count);
-		assertThat(racingCarDao.find().size()).isEqualTo(1);
+		repository.save(cars, count);
+		assertThat(repository.find().size()).isEqualTo(1);
 	}
 }
