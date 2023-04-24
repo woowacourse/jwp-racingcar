@@ -5,9 +5,9 @@ import racingcar.domain.Cars;
 import racingcar.genertor.NumberGenerator;
 
 @Component
-public class GamePlay {
+public class RacingCarPlayRule {
 
-    public void play(Cars cars, int count, NumberGenerator numberGenerator) {
+    public void moverCarsUntilCountIsOver(Cars cars, int count, NumberGenerator numberGenerator) {
         while (count-- > 0) {
             cars.moveCars(numberGenerator);
         }

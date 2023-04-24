@@ -4,7 +4,7 @@ package racingcar.controller;
 import racingcar.domain.CarsFactory;
 import racingcar.domain.Cars;
 import racingcar.genertor.NumberGenerator;
-import racingcar.service.GamePlay;
+import racingcar.service.RacingCarPlayRule;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -13,11 +13,11 @@ import static racingcar.view.OutputView.printWinner;
 
 public class RacingCarConsoleController {
     private final NumberGenerator numberGenerator;
-    private final GamePlay gamePlay;
+    private final RacingCarPlayRule racingCarPlayRule;
 
-    public RacingCarConsoleController(NumberGenerator numberGenerator, GamePlay gamePlay) {
+    public RacingCarConsoleController(NumberGenerator numberGenerator, RacingCarPlayRule racingCarPlayRule) {
         this.numberGenerator = numberGenerator;
-        this.gamePlay = gamePlay;
+        this.racingCarPlayRule = racingCarPlayRule;
     }
 
     public void startGame() {
@@ -26,7 +26,7 @@ public class RacingCarConsoleController {
             Cars cars = CarsFactory.buildCarsFromFactory(InputView.inputCarNames());
             OutputView.printInputTryTimesNotice();
             int tryTimes = InputView.inputTryTimes();
-            gamePlay.play(cars, tryTimes, numberGenerator);
+            racingCarPlayRule.moverCarsUntilCountIsOver(cars, tryTimes, numberGenerator);
             printWinner(cars.findWinners());
             printResultNotice();
             OutputView.printCarNameAndPosition(cars);

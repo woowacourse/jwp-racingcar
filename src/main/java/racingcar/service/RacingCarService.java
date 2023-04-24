@@ -25,12 +25,12 @@ public class RacingCarService {
 
     private final PlayResultDao playResultDao;
     private final PlayersInfoDao playersInfoDao;
-    private final GamePlay gamePlay;
+    private final RacingCarPlayRule racingCarPlayRule;
 
-    public RacingCarService(PlayResultDao playResultDao, PlayersInfoDao playersInfoDao, GamePlay gamePlay) {
+    public RacingCarService(PlayResultDao playResultDao, PlayersInfoDao playersInfoDao, RacingCarPlayRule racingCarPlayRule) {
         this.playResultDao = playResultDao;
         this.playersInfoDao = playersInfoDao;
-        this.gamePlay = gamePlay;
+        this.racingCarPlayRule = racingCarPlayRule;
     }
 
     public GameResultForResponse createResponse(GameInfoForRequest gameInfoForRequest) {
@@ -38,7 +38,7 @@ public class RacingCarService {
         Cars cars = CarsFactory.buildCarsFromFactory(carNames);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoForRequest.getCount();
-        gamePlay.play(cars, count, numberGenerator);
+        racingCarPlayRule.moverCarsUntilCountIsOver(cars, count, numberGenerator);
         List<CarForNameAndPosition> carResponse = cars.getCars().stream()
                 .map(CarForNameAndPosition::new)
                 .collect(Collectors.toList());
