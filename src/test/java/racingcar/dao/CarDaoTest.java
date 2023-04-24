@@ -56,9 +56,15 @@ class CarDaoTest {
         carDao.updatePosition(new Car("밀리", 5), gameId);
         List<Car> cars = carDao.findCars(gameId);
         Car car = cars.get(0);
+
         assertAll(
-                () -> assertThat(car.name()).isEqualTo("밀리"),
-                () -> assertThat(car.position()).isEqualTo(5)
+                () -> assertThat(car)
+                        .extracting(Car::name)
+                        .isEqualTo("밀리"),
+
+                () -> assertThat(car)
+                        .extracting(Car::position)
+                        .isEqualTo(5)
         );
     }
 
@@ -85,8 +91,13 @@ class CarDaoTest {
     void findCars() {
         Car car = carDao.findCars(gameId).get(0);
         assertAll(
-                () -> assertThat(car.name()).isEqualTo("밀리"),
-                () -> assertThat(car.position()).isEqualTo(1)
+                () -> assertThat(car)
+                        .extracting(Car::name)
+                        .isEqualTo("밀리"),
+
+                () -> assertThat(car)
+                        .extracting(Car::position)
+                        .isEqualTo(1)
         );
     }
 }

@@ -1,8 +1,5 @@
 package racingcar.view;
 
-import static racingcar.utils.ErrorMessage.WRONG_TRIAL_COUNT_RANGE;
-import static racingcar.utils.ErrorMessage.WRONG_TRIAL_COUNT_TYPE;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,13 +30,13 @@ public class InputView {
         try {
             return Integer.parseInt(trialCount);
         } catch (Exception e) {
-            throw new IllegalArgumentException(WRONG_TRIAL_COUNT_TYPE.of());
+            throw new IllegalArgumentException("시도 횟수는 숫자만 입력해야합니다.");
         }
     }
 
     private void validateTrialCountRange(int trialCount) {
         if (trialCount < MIN_TRIAL_COUNT) {
-            throw new IllegalArgumentException(WRONG_TRIAL_COUNT_RANGE.of());
+            throw new IllegalArgumentException("시도 횟수는 최소 1회 이상입니다.");
         }
     }
 }

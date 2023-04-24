@@ -1,8 +1,5 @@
 package racingcar.domain;
 
-import static racingcar.utils.ErrorMessage.WRONG_NAME_CONTAINS_BLANK;
-import static racingcar.utils.ErrorMessage.WRONG_NAME_LENGTH;
-
 public class Name {
 
     private final int MIN_NAME_SIZE = 0;
@@ -18,13 +15,13 @@ public class Name {
 
     private void validateCarNameLength(int length) {
         if (length <= MIN_NAME_SIZE || length > MAX_NAME_SIZE) {
-            throw new IllegalArgumentException(WRONG_NAME_LENGTH.of());
+            throw new IllegalArgumentException("1에서 5사이의 이름 길이만 입력 가능합니다.");
         }
     }
 
     private void validateContainsBlank(String carNames) {
         if (carNames.contains(" ")) {
-            throw new IllegalArgumentException(WRONG_NAME_CONTAINS_BLANK.of());
+            throw new IllegalArgumentException("자동차 이름은 공백을 포함할 수 없습니다.");
         }
     }
 
