@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dto.HistoryResponse;
 import racingcar.dto.PlayRequest;
 import racingcar.dto.PlayResponse;
@@ -29,6 +30,7 @@ public class RacingCarService {
         this.playerRepository = playerRepository;
     }
 
+    @Transactional
     public PlayResponse play(final PlayRequest playRequest) {
         RacingCarGame racingCarGame = createRacingCarGame(playRequest);
         TryCount tryCount = new TryCount(playRequest.getCount());
