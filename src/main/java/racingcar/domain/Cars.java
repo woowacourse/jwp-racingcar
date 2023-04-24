@@ -10,7 +10,7 @@ public class Cars {
     private final List<Car> cars;
 
     public Cars(final List<Car> cars) {
-        validateCars(cars);
+        validate(cars);
         this.cars = cars;
     }
 
@@ -28,7 +28,7 @@ public class Cars {
         return from(names);
     }
 
-    private void validateCars(final List<Car> cars) {
+    private void validate(final List<Car> cars) {
         validateEmpty(cars);
         validateSize(cars);
         validateDuplicatedName(cars);
