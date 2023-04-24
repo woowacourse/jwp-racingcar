@@ -27,15 +27,22 @@ public class InMemoryDatabase implements Database {
     @Override
     public List<RacingGameResponseDto> findAllHistories() {
         List<RacingGameResponseDto> racingGameResponseDtos = new ArrayList<>();
+
         for (RacingGame racingGame : racingGames) {
-            List<RacingCarResponseDto> racingCarResponseDtos = new ArrayList<>();
-            for (Car car : racingGame.getCurrentResult()) {
-                racingCarResponseDtos.add(new RacingCarResponseDto(car.getName(), car.getPosition()));
-            }
+            List<RacingCarResponseDto> racingCarResponseDtos = createRacingCarResponseDtos(racingGame);
+
             racingGameResponseDtos.add(new RacingGameResponseDto(
                     String.join(",", racingGame.findWinners()), racingCarResponseDtos));
         }
-
         return racingGameResponseDtos;
+    }
+
+    private List<RacingCarResponseDto> createRacingCarResponseDtos(RacingGame racingGame) {
+        List<RacingCarResponseDto> racingCarResponseDtos = new ArrayList<>();
+
+        for (Car car : racingGame.getCurrentResult()) {
+            racingCarResponseDtos.add(new RacingCarResponseDto(car.getName(), car.getPosition()));
+        }
+        return racingCarResponseDtos;
     }
 }
