@@ -23,7 +23,7 @@ public class WebRacingGameController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponse> playGame(@RequestBody @Valid GameRequest gameRequest) {
-        GameResponse gameResult = racingGameService.play(gameRequest);
+        GameResponse gameResult = racingGameService.playGame(gameRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(gameResult);
     }
 

@@ -11,8 +11,8 @@ public class Winner {
         this.gameResultId = gameResultId;
     }
 
-    public static Winner of(String name, Long gameResultId) {
-        return new Winner(null, name, gameResultId);
+    public Winner (String name, Long gameResultId) {
+        this(null, name, gameResultId);
     }
 
     public Long getId() {
