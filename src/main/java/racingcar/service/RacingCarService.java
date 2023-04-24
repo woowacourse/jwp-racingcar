@@ -1,9 +1,5 @@
 package racingcar.service;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
@@ -12,6 +8,13 @@ import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingResultResponse;
 import racingcar.repository.RacingCarRepository;
 import racingcar.utils.NumberGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class RacingCarService {
@@ -24,23 +27,39 @@ public class RacingCarService {
     }
 
     @Transactional
-    public int playRacingGame(List<String> carNames, int tryCount) {
+    public RacingResultResponse playRacingGame(List<String> carNames, int tryCount) {
         int gameId = racingCarRepository.saveGame(tryCount);
-        RacingCars racingCars = carNames.stream()
+        RacingCars racingCars = createRacingCars(carNames);
+        moveCars(racingCars, tryCount);
+        racingCarRepository.saveCars(gameId, racingCars.getCars());
+        racingCarRepository.saveWinners(gameId, racingCars.getWinners());
+        return obtainRacingResult(gameId);
+    }
+
+    private RacingCars createRacingCars(List<String> carNames) {
+        return carNames.stream()
                 .map(Car::new)
                 .collect(collectingAndThen(toList(), RacingCars::new));
+    }
+
+    private void moveCars(RacingCars racingCars, int tryCount) {
         for (int i = 0; i < tryCount; i++) {
             racingCars.moveCars(numberGenerator);
         }
-        racingCarRepository.saveCars(gameId, racingCars.getCars());
-        racingCarRepository.saveWinners(gameId, racingCars.getWinners());
-        return gameId;
+    }
+
+    private RacingResultResponse obtainRacingResult(int gameId) {
+        List<String> winners = racingCarRepository.findWinnersByGameId(gameId);
+        List<RacingCarDto> racingCars = racingCarRepository.findRacingCarsByGameId(gameId);
+        return new RacingResultResponse(winners, racingCars);
     }
 
     @Transactional(readOnly = true)
-    public RacingResultResponse obtainRacingResult(int gameId) {
-        List<String> winners = racingCarRepository.findWinners(gameId);
-        List<RacingCarDto> racingCars = racingCarRepository.findRacingCars(gameId);
-        return new RacingResultResponse(winners, racingCars);
+    public List<RacingResultResponse> searchGameHistory() {
+        Map<Integer, List<RacingCarDto>> racingCars = racingCarRepository.findRacingCars();
+        Map<Integer, List<String>> winners = racingCarRepository.findWinners();
+        List<RacingResultResponse> racingResultResponses = new ArrayList<>();
+        racingCars.keySet().forEach(gameId -> racingResultResponses.add(new RacingResultResponse(winners.get(gameId),racingCars.get(gameId))));
+        return racingResultResponses;
     }
 }
