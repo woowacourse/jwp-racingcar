@@ -1,8 +1,16 @@
 pluginManagement {
-	repositories {
-		maven { url 'https://repo.spring.io/milestone' }
-		maven { url 'https://repo.spring.io/snapshot' }
-		gradlePluginPortal()
-	}
+    repositories {
+        mavenCentral()
+//        maven { url 'https://repo.spring.io/milestone' }
+//        maven { url 'https://repo.spring.io/snapshot' }
+        gradlePluginPortal()
+    }
 }
 rootProject.name = 'jwp-racingcar'
+
+include 'web'
+include 'console'
+include 'domain-h2'
+include 'domain'
+include 'application'
+
