@@ -54,11 +54,27 @@ public class RacingGameService {
     }
 
     private RacingCarResponse createRacingCarResponse(final RacingCars racingCars) {
-        final List<RacingCarDto> racingCarDtos = racingCars.getRacingCars()
+        final List<RacingCarDto> racingCarDtos = getRacingCarDtos(racingCars);
+
+        return new RacingCarResponse(racingCars.getWinnerNames(), racingCarDtos);
+    }
+
+    private List<RacingCarDto> getRacingCarDtos(final RacingCars racingCars) {
+        return racingCars.getRacingCars()
                 .stream()
                 .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
+    }
 
-        return new RacingCarResponse(racingCars.getWinnerNames(), racingCarDtos);
+    public List<RacingCarResponse> findAllGameLog() {
+        final List<RacingCars> racingCars = racingCarPlayerDao.findAll();
+
+        return makeRacingCarHistory(racingCars);
+    }
+
+    private List<RacingCarResponse> makeRacingCarHistory(final List<RacingCars> racingCars) {
+        return racingCars.stream()
+                .map(it -> new RacingCarResponse(it.getWinnerNames(), this.getRacingCarDtos(it)))
+                .collect(Collectors.toUnmodifiableList());
     }
 }
