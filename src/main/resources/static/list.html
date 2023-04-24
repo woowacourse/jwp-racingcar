@@ -38,7 +38,7 @@
 
   function createTableRow(result) {
     const row = document.createElement("tr");
-    row.appendChild(createMovesTableCell(result.carResponses));
+    row.appendChild(createMovesTableCell(result.racingCars));
     row.appendChild(createTableCell(result.winners));
     return row;
   }
@@ -49,11 +49,11 @@
     return cell;
   }
 
-  function createMovesTableCell(carResponses) {
+  function createMovesTableCell(racingCars) {
     const cell = document.createElement("td");
     let movesText = "";
-    for (let key in carResponses) {
-      movesText += `${carResponses[key].name}: ${carResponses[key].position}<br>`;
+    for (let key in racingCars) {
+      movesText += `${racingCars[key].name}: ${racingCars[key].position}<br>`;
     }
     ;
     cell.innerHTML = movesText;

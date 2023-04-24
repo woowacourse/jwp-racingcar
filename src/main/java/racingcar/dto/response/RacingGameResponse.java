@@ -12,27 +12,27 @@ public class RacingGameResponse {
 
     private static final String DELIMITER = ",";
 
-    private final List<CarResponse> carResponses;
+    private final List<CarResponse> racingCars;
     private final String winners;
 
-    private RacingGameResponse(List<CarResponse> carResponses, String winners) {
-        this.carResponses = carResponses;
+    private RacingGameResponse(List<CarResponse> racingCars, String winners) {
+        this.racingCars = racingCars;
         this.winners = winners;
     }
 
     public static RacingGameResponse createByCars(List<Car> cars, List<Car> winningCars) {
-        List<CarResponse> carResponses = cars.stream()
+        List<CarResponse> racingCars = cars.stream()
                 .map(CarResponse::new)
                 .collect(toList());
         String winners = winningCars.stream()
                 .map(Car::getName)
                 .collect(joining(DELIMITER));
 
-        return new RacingGameResponse(carResponses, winners);
+        return new RacingGameResponse(racingCars, winners);
     }
 
     public static RacingGameResponse createByEntity(List<CarEntity> carEntities) {
-        List<CarResponse> carResponses = carEntities.stream()
+        List<CarResponse> racingCars = carEntities.stream()
                 .map(CarResponse::new)
                 .collect(toList());
 
@@ -41,11 +41,11 @@ public class RacingGameResponse {
                 .map(CarEntity::getName)
                 .collect(Collectors.joining(DELIMITER));
 
-        return new RacingGameResponse(carResponses, winners);
+        return new RacingGameResponse(racingCars, winners);
     }
 
-    public List<CarResponse> getCarResponses() {
-        return carResponses;
+    public List<CarResponse> getRacingCars() {
+        return racingCars;
     }
 
     public String getWinners() {

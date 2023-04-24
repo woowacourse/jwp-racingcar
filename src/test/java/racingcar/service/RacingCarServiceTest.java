@@ -27,7 +27,7 @@ class RacingCarServiceTest {
         //when
         RacingGameResponse racingGameResponse = racingCarService.play(given);
         //then
-        assertThat(racingGameResponse.getCarResponses().size()).isEqualTo(3);
+        assertThat(racingGameResponse.getRacingCars().size()).isEqualTo(3);
         assertThat(racingGameResponse.getWinners()).isEqualTo("현서,참치");
     }
 
@@ -50,7 +50,7 @@ class RacingCarServiceTest {
         //then
         assertThat(actualList.size()).isEqualTo(1);
         assertThat(actual.getWinners()).contains("현서", "오리");
-        assertThat(actual.getCarResponses().size()).isEqualTo(3);
+        assertThat(actual.getRacingCars().size()).isEqualTo(3);
     }
 
     class TestRacingCarRepository implements RacingCarRepository {

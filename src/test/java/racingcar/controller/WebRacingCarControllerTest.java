@@ -54,13 +54,13 @@ class WebRacingCarControllerTest {
                         .content(content))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath(winnersPath).exists())
-                .andExpect(jsonPath("carResponses", hasSize(3)))
-                .andExpect(jsonPath("carResponses[0].name", is("현서")))
-                .andExpect(jsonPath("carResponses[1].name", is("오리")))
-                .andExpect(jsonPath("carResponses[2].name", is("서현")))
-                .andExpect(jsonPath("carResponses[0].position").exists())
-                .andExpect(jsonPath("carResponses[1].position").exists())
-                .andExpect(jsonPath("carResponses[2].position").exists())
+                .andExpect(jsonPath("racingCars", hasSize(3)))
+                .andExpect(jsonPath("racingCars[0].name", is("현서")))
+                .andExpect(jsonPath("racingCars[1].name", is("오리")))
+                .andExpect(jsonPath("racingCars[2].name", is("서현")))
+                .andExpect(jsonPath("racingCars[0].position").exists())
+                .andExpect(jsonPath("racingCars[1].position").exists())
+                .andExpect(jsonPath("racingCars[2].position").exists())
                 .andDo(print());
     }
 
@@ -154,7 +154,7 @@ class WebRacingCarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("size()", is(1)))
-                .andExpect(jsonPath("$[0].carResponses.size()", is(3)))
+                .andExpect(jsonPath("$[0].racingCars.size()", is(3)))
                 .andExpect(jsonPath("$[0].winners", is("현서,오리")))
                 .andDo(print());
     }
