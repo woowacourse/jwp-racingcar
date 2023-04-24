@@ -1,11 +1,14 @@
-package racingcar.dao;
+package racingcar.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import racingcar.entity.Result;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class ResultDao {
@@ -27,5 +30,21 @@ public class ResultDao {
         }, keyHolder);
 
         return keyHolder.getKey().longValue();
+    }
+
+    private final RowMapper<Result> actorRowMapper = (resultSet, rowNum) -> {
+        Result result = new Result(
+                resultSet.getLong("id"),
+                resultSet.getInt("trial_count"),
+                resultSet.getString("winners"),
+                resultSet.getTimestamp("created_at")
+                         .toLocalDateTime()
+        );
+        return result;
+    };
+
+    public List<Result> findAll() {
+        String sql = "select * from results";
+        return jdbcTemplate.query(sql,actorRowMapper);
     }
 }
