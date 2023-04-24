@@ -1,6 +1,7 @@
 package racingcar.persistence.entity;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import racingcar.domain.Car;
 import racingcar.domain.RacingGame;
@@ -49,5 +50,23 @@ public class GameResultEntity {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        GameResultEntity that = (GameResultEntity) o;
+        return id == that.id && trialCount == that.trialCount && winners.equals(that.winners) && createdAt.equals(
+                that.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, trialCount, winners, createdAt);
     }
 }
