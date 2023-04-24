@@ -34,15 +34,15 @@ public class GameDaoTest {
     @Test
     void saveGameTest() {
         int trialCount = 10;
-        assertThat(gameDao.saveGame(trialCount)).isEqualTo(1);
-        assertThat(gameDao.saveGame(trialCount)).isEqualTo(2);
+        assertThat(gameDao.insert(trialCount)).isEqualTo(1);
+        assertThat(gameDao.insert(trialCount)).isEqualTo(2);
     }
 
     @Test
     void load() {
-        gameDao.saveGame(10);
-        gameDao.saveGame(10);
-        gameDao.saveGame(10);
+        gameDao.insert(10);
+        gameDao.insert(10);
+        gameDao.insert(10);
 
         assertThat(gameDao.load().size()).isEqualTo(3);
     }

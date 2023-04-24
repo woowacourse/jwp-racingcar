@@ -26,7 +26,7 @@ public class WebService {
 
     public ServiceControllerDto play(final int trialCount, final String names) {
         ServiceControllerDto serviceControllerDto = playOnConsole(trialCount,names);
-        long gameNumber = gameDao.saveGame(trialCount);
+        long gameNumber = gameDao.insert(trialCount);
         insertCars(gameNumber, serviceControllerDto.getGameLog());
         insertWinners(gameNumber, serviceControllerDto.getWinners());
         return serviceControllerDto;
