@@ -18,11 +18,11 @@ public class InMemoryCarDao implements CarDao {
     }
 
     @Override
-    public List<CarEntity> selectCarsByGameId(int ragingResultId) {
+    public List<CarEntity> selectCarsByGameId(int gameId) {
         return store.values()
             .stream()
             .filter(carEntity ->
-                carEntity.getGameId() == ragingResultId)
+                carEntity.getGameId() == gameId)
             .collect(Collectors.toList());
     }
 

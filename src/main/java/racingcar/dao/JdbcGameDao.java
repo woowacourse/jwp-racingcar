@@ -32,7 +32,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public GameEntity insertRacingResult(final GameEntity gameEntity) {
+    public GameEntity insertGame(final GameEntity gameEntity) {
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(gameEntity);
 
         Number newId = insertActor.executeAndReturnKey(parameterSource);
@@ -41,7 +41,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public List<GameEntity> selectAllResults() {
+    public List<GameEntity> selectAllGames() {
         String sql = "select id, trial, winners from GAME order by id desc";
         return namedParameterJdbcTemplate.query(sql, actorRowMapper);
     }

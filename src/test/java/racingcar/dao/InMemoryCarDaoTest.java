@@ -22,11 +22,11 @@ class InMemoryCarDaoTest {
     void initialize() {
         inMemoryCarDao.clearStore();
         inMemoryGameDao.clearStore();
-        gameEntity = inMemoryGameDao.insertRacingResult(new GameEntity("name1,name2", 3));
+        gameEntity = inMemoryGameDao.insertGame(new GameEntity("name1,name2", 3));
     }
 
     @Test
-    @DisplayName("playerResult 1건이 제대로 db에 insert되는지 확인")
+    @DisplayName("car 1건이 제대로 db에 insert되는지 확인")
     void insertPlayer() {
         // given
         CarEntity carEntity = new CarEntity(gameEntity.getId(), "name", 10);
@@ -41,8 +41,8 @@ class InMemoryCarDaoTest {
     }
 
     @Test
-    @DisplayName("playerResult를 두 번 insert했을 때 모든 playerResult를 제대로 select하는 확인")
-    void selectPlayerResultByPlayResultIdTest() {
+    @DisplayName("car를 두 번 insert했을 때 모든 car를 제대로 select하는 확인")
+    void selectCarsByGameIdTest() {
         // given
         CarEntity carEntity1 = new CarEntity(gameEntity.getId(), "name1", 10);
         CarEntity carEntity2 = new CarEntity(gameEntity.getId(), "name2", 10);

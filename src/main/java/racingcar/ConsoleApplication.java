@@ -11,9 +11,9 @@ import racingcar.ui.ConsoleView;
 public class ConsoleApplication {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
-            ConsoleView VIew = new ConsoleView(scanner);
+            ConsoleView consoleView = new ConsoleView(scanner);
             RacingCarService racingcarService = new RacingCarService(new InMemoryGameDao(), new InMemoryCarDao());
-            ConsoleController consoleController = new ConsoleController(VIew, racingcarService);
+            ConsoleController consoleController = new ConsoleController(consoleView, racingcarService);
             consoleController.run();
         }
     }

@@ -12,14 +12,14 @@ public class InMemoryGameDao implements GameDao {
     private static int pointer = 0;
 
     @Override
-    public GameEntity insertRacingResult(GameEntity gameEntity) {
+    public GameEntity insertGame(GameEntity gameEntity) {
         gameEntity.setId(++pointer);
         store.put(gameEntity.getId(), gameEntity);
         return gameEntity;
     }
 
     @Override
-    public List<GameEntity> selectAllResults() {
+    public List<GameEntity> selectAllGames() {
         return new ArrayList<>(store.values());
     }
 

@@ -19,35 +19,34 @@ class InMemoryGameDaoTest {
     }
 
     @Test
-    @DisplayName("RacingResult 1건이 제대로 insert되었는지 확인")
-    void insertRacingResultTest() {
+    @DisplayName("game 1건이 제대로 insert되었는지 확인")
+    void insertGameTest() {
         // given
         GameEntity gameEntity = new GameEntity("name1,name2", 3);
-        inMemoryGameDao.insertRacingResult(gameEntity);
-        List<GameEntity> gameEntities = inMemoryGameDao.selectAllResults();
+        inMemoryGameDao.insertGame(gameEntity);
+        List<GameEntity> gameEntities = inMemoryGameDao.selectAllGames();
 
         // when
-        GameEntity findPlayResult = gameEntities.get(0);
+        GameEntity findGame = gameEntities.get(0);
 
         // then
-        assertThat(findPlayResult.getId()).isEqualTo(gameEntity.getId());
-        assertThat(findPlayResult.getWinners()).isEqualTo(gameEntity.getWinners());
-        assertThat(findPlayResult.getTrial()).isEqualTo(gameEntity.getTrial());
+        assertThat(findGame.getId()).isEqualTo(gameEntity.getId());
+        assertThat(findGame.getWinners()).isEqualTo(gameEntity.getWinners());
+        assertThat(findGame.getTrial()).isEqualTo(gameEntity.getTrial());
     }
 
     @Test
-    @DisplayName("RacingResult를 두 번 insert했을 때 모든 RacingResult를 제대로 select하는 확인")
-    void selectAllResultsTest() {
+    @DisplayName("game을 두 번 insert했을 때 모든 game을 제대로 select하는 확인")
+    void selectAllGamesTest() {
         // given
         GameEntity gameEntity1 = new GameEntity("name1,name2", 3);
         GameEntity gameEntity2 = new GameEntity("name3,name4", 4);
 
-        inMemoryGameDao.insertRacingResult(gameEntity1);
-        inMemoryGameDao.insertRacingResult(gameEntity2);
+        inMemoryGameDao.insertGame(gameEntity1);
+        inMemoryGameDao.insertGame(gameEntity2);
 
         // when
-        List<GameEntity> gameEntities = inMemoryGameDao.selectAllResults();
-        System.out.println(gameEntities);
+        List<GameEntity> gameEntities = inMemoryGameDao.selectAllGames();
 
         // then
         assertThat(gameEntities.size()).isEqualTo(2);

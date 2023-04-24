@@ -5,7 +5,7 @@ import java.util.List;
 import racingcar.entity.GameEntity;
 
 public interface GameDao {
-    GameEntity insertRacingResult(GameEntity gameEntity);
+    GameEntity insertGame(GameEntity gameEntity);
 
-    List<GameEntity> selectAllResults();
+    List<GameEntity> selectAllGames();
 }
