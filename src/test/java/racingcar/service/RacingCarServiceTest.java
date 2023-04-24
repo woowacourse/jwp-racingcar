@@ -2,11 +2,13 @@ package racingcar.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.FixNumberGenerator;
+import racingcar.database.InMemoryDatabase;
 import racingcar.domain.Cars;
 import racingcar.domain.Count;
 import racingcar.domain.NumberGenerator;
@@ -25,7 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class RacingCarServiceTest {
 
     @Autowired
-    private RacingCarService racingCarService;
+    private RacingCarService webRacingCarService;
+    private RacingCarService inMemoryRacingCarService = new RacingCarService(new InMemoryDatabase());
     private RacingGame racingGame;
 
     @BeforeEach
@@ -39,11 +42,51 @@ class RacingCarServiceTest {
     }
 
 
-    @DisplayName("게임결과를 반환한다.")
-    @Test
-    void play() {
-        final RacingGameResponseDto racingGameResponseDto = racingCarService.play(racingGame);
+    @Nested
+    @DisplayName("웹 데이터 베이스를 이용해서")
+    class Web {
+        @DisplayName("게임결과를 반환한다.")
+        @Test
+        void play() {
+            final RacingGameResponseDto racingGameResponseDto = webRacingCarService.play(racingGame);
 
+            assertGameResult(racingGameResponseDto);
+        }
+
+        @DisplayName("저장된 게임이력 반환한다.")
+        @Test
+        void findAllHistories() {
+            webRacingCarService.play(racingGame);
+
+            List<RacingGameResponseDto> result = webRacingCarService.findAllHistories();
+            assertAllHistories(result);
+        }
+    }
+
+    @Nested
+    @DisplayName("InMemory 데이터 베이스를 이용해서")
+    class InMemory {
+        @Test
+        @DisplayName("게임결과를 반환한다.")
+        void play() {
+            final RacingGameResponseDto racingGameResponseDto = inMemoryRacingCarService.play(racingGame);
+
+            assertGameResult(racingGameResponseDto);
+        }
+
+        @Test
+        @DisplayName("저장된 게임 이력을 반환한다.")
+        void findAllHistroies() {
+            inMemoryRacingCarService.play(racingGame);
+
+            List<RacingGameResponseDto> result = inMemoryRacingCarService.findAllHistories();
+            assertAllHistories(result);
+        }
+
+    }
+
+
+    private void assertGameResult(RacingGameResponseDto racingGameResponseDto) {
         assertAll(
                 () -> assertThat(racingGameResponseDto.getWinners()).isEqualTo("다즐"),
                 () -> assertThat(racingGameResponseDto.getRacingCars().size()).isEqualTo(2),
@@ -54,12 +97,8 @@ class RacingCarServiceTest {
         );
     }
 
-    @DisplayName("저장된 게임이력 반환한다.")
-    @Test
-    void findAllHistories() {
-        racingCarService.play(racingGame);
-        List<RacingGameResponseDto> result = racingCarService.findAllHistories();
 
+    private void assertAllHistories(List<RacingGameResponseDto> result) {
         assertAll(
                 () -> assertThat(result.get(0).getWinners()).isEqualTo("다즐"),
                 () -> assertThat(result.get(0).getRacingCars().size()).isEqualTo(2),
@@ -68,5 +107,4 @@ class RacingCarServiceTest {
                 () -> assertThat(result.get(0).getRacingCars().get(1).getName()).isEqualTo("루쿠"),
                 () -> assertThat(result.get(0).getRacingCars().get(1).getPosition()).isEqualTo(2));
     }
-
 }
