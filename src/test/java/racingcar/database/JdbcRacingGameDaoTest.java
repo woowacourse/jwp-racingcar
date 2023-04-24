@@ -11,19 +11,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @JdbcTest
 @Sql(scripts = {"classpath:data.sql"})
-class RacingGameDaoTest {
+class JdbcRacingGameDaoTest {
 
-    private final RacingGameDao racingGameDao;
+    private final JdbcRacingGameDao jdbcRacingGameDao;
 
-    private RacingGameDaoTest(@Autowired final JdbcTemplate jdbcTemplate) {
-        this.racingGameDao = new RacingGameDao(jdbcTemplate);
+    private JdbcRacingGameDaoTest(@Autowired final JdbcTemplate jdbcTemplate) {
+        this.jdbcRacingGameDao = new JdbcRacingGameDao(jdbcTemplate);
     }
 
     @Test
     void gameInsertTest() {
-        final int count = racingGameDao.selectGameIds().size();
+        final int count = jdbcRacingGameDao.selectGameIds().size();
 
-        Assertions.assertDoesNotThrow(() -> racingGameDao.insert(10));
-        assertThat(racingGameDao.selectGameIds().size()).isEqualTo(count + 1);
+        Assertions.assertDoesNotThrow(() -> jdbcRacingGameDao.insert(10));
+        assertThat(jdbcRacingGameDao.selectGameIds().size()).isEqualTo(count + 1);
     }
 }
