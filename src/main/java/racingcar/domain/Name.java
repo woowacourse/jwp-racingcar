@@ -14,11 +14,23 @@ public class Name {
     }
 
     private void validateLength(final String name) {
-        if (name.length() > MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException("이름은 5글자를 초과할 수 없습니다.\n" + "Name : " + name);
-        }
+        validateOverMaxLength(name);
+        validateUnderMinLength(name);
+    }
+
+    private void validateUnderMinLength(String name) {
         if (name.length() < MIN_NAME_LENGTH) {
-            throw new IllegalArgumentException("이름은 1글자 미만일 수 없습니다.\n" + "Name : " + name);
+            throw new IllegalArgumentException(
+                    String.format("이름은 %d글자 미만일 수 없습니다.%nName : %s", MIN_NAME_LENGTH, name)
+            );
+        }
+    }
+
+    private void validateOverMaxLength(String name) {
+        if (name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException(
+                    String.format("이름은 %d글자를 초과할 수 없습니다.%nName : %s", MAX_NAME_LENGTH, name)
+            );
         }
     }
 
