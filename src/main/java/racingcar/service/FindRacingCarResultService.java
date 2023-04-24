@@ -8,36 +8,36 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import racingcar.domain.Car;
-import racingcar.domain.dto.RacingCarResult;
-import racingcar.repository.dao.FindAllRecordsDao;
-import racingcar.repository.entity.Record;
+import racingcar.domain.dto.RacingCarResultDto;
+import racingcar.repository.dao.FindAllResultsDao;
+import racingcar.repository.dto.ResultDto;
 
 @Service
 public class FindRacingCarResultService {
 
-    private final FindAllRecordsDao findAllRecordsDao;
+    private final FindAllResultsDao findAllResultsDao;
 
-    public FindRacingCarResultService(final FindAllRecordsDao findAllRecordsDao) {
-        this.findAllRecordsDao = findAllRecordsDao;
+    public FindRacingCarResultService(final FindAllResultsDao findAllResultsDao) {
+        this.findAllResultsDao = findAllResultsDao;
     }
 
-    public List<RacingCarResult> findAll() {
-        final List<Record> records = findAllRecordsDao.findAll();
-        final Map<Long, List<Record>> recordsByGameId = records.stream()
-            .collect(groupingBy(Record::getGameId));
+    public List<RacingCarResultDto> findAll() {
+        final List<ResultDto> resultDtos = findAllResultsDao.findAll();
+        final Map<Long, List<ResultDto>> recordsByGameId = resultDtos.stream()
+            .collect(groupingBy(ResultDto::getGameId));
         return recordsByGameId.values().stream()
             .map(this::toRacingCarResult)
             .collect(toList());
     }
 
-    private RacingCarResult toRacingCarResult(final List<Record> records) {
-        final List<String> winners = records.stream()
-            .filter(Record::isWinner)
-            .map(Record::getName)
+    private RacingCarResultDto toRacingCarResult(final List<ResultDto> resultDtos) {
+        final List<String> winners = resultDtos.stream()
+            .filter(ResultDto::isWinner)
+            .map(ResultDto::getName)
             .collect(toList());
-        final List<Car> cars = records.stream()
-            .map(record -> Car.of(record.getName(), record.getPosition()))
+        final List<Car> cars = resultDtos.stream()
+            .map(resultDto -> Car.of(resultDto.getName(), resultDto.getPosition()))
             .collect(toList());
-        return new RacingCarResult(winners, cars);
+        return new RacingCarResultDto(winners, cars);
     }
 }

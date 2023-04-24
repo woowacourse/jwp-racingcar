@@ -3,7 +3,7 @@ package racingcar.domain;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import racingcar.domain.dto.RacingCarResult;
+import racingcar.domain.dto.RacingCarResultDto;
 
 public class RacingCarGame {
 
@@ -30,9 +30,9 @@ public class RacingCarGame {
         }
     }
 
-    public RacingCarResult getResult() {
+    public RacingCarResultDto getResult() {
         List<String> winners = findWinners();
-        return new RacingCarResult(winners, cars.getCars(), attemptNumber.getAttemptNumber());
+        return new RacingCarResultDto(winners, cars.getCars(), attemptNumber.getAttemptNumber());
     }
 
     private List<String> findWinners() {

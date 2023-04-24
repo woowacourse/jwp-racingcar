@@ -5,7 +5,7 @@ import java.util.List;
 import racingcar.controller.dto.RacingCarGameResponse;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingCarGame;
-import racingcar.domain.dto.RacingCarResult;
+import racingcar.domain.dto.RacingCarResultDto;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -17,8 +17,8 @@ public class ConsoleRacingCarController {
             final int attempt = InputView.readAttemptNumber();
             final RacingCarGame racingCarGame = new RacingCarGame(names, attempt, numberGenerator);
             racingCarGame.play();
-            final RacingCarResult racingCarResult = racingCarGame.getResult();
-            final RacingCarGameResponse racingCarGameResponse = RacingCarGameResponse.from(racingCarResult);
+            final RacingCarResultDto racingCarResultDto = racingCarGame.getResult();
+            final RacingCarGameResponse racingCarGameResponse = RacingCarGameResponse.from(racingCarResultDto);
             OutputView.printResult(racingCarGameResponse);
         } catch (IllegalArgumentException e) {
             OutputView.printError(e);

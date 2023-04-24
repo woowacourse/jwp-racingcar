@@ -2,7 +2,7 @@ package racingcar.controller.dto;
 
 import java.util.List;
 
-import racingcar.domain.dto.RacingCarResult;
+import racingcar.domain.dto.RacingCarResultDto;
 
 public class RacingCarGameResponse {
 
@@ -14,9 +14,9 @@ public class RacingCarGameResponse {
         this.racingCars = racingCars;
     }
 
-    public static RacingCarGameResponse from(final RacingCarResult racingCarResult) {
-        String winners = String.join(",", racingCarResult.getWinners());
-        List<CarDto> racingCars = CarDto.from(racingCarResult.getCars());
+    public static RacingCarGameResponse from(final RacingCarResultDto racingCarResultDto) {
+        String winners = String.join(",", racingCarResultDto.getWinners());
+        List<CarDto> racingCars = CarDto.from(racingCarResultDto.getCars());
         return new RacingCarGameResponse(winners, racingCars);
     }
 

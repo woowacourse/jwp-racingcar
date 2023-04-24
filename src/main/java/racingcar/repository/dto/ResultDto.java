@@ -1,13 +1,13 @@
-package racingcar.repository.entity;
+package racingcar.repository.dto;
 
-public class Record {
+public class ResultDto {
 
     private final Long gameId;
     private final String name;
     private final int position;
     private final boolean isWinner;
 
-    public Record(final Long gameId, final String name, final int position, final boolean isWinner) {
+    public ResultDto(final Long gameId, final String name, final int position, final boolean isWinner) {
         this.gameId = gameId;
         this.name = name;
         this.position = position;

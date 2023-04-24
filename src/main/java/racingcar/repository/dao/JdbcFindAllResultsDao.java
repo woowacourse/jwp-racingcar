@@ -8,25 +8,25 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import racingcar.repository.entity.Record;
+import racingcar.repository.dto.ResultDto;
 
 @Repository
-public class JdbcFindAllRecordDao implements FindAllRecordsDao {
+public class JdbcFindAllResultsDao implements FindAllResultsDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Record> actorRowMapper = (resultSet, rowNum) -> new Record(
+    private final RowMapper<ResultDto> actorRowMapper = (resultSet, rowNum) -> new ResultDto(
         resultSet.getLong("game_id"),
         resultSet.getString("name"),
         resultSet.getInt("position"),
         resultSet.getBoolean("is_winner")
     );
 
-    public JdbcFindAllRecordDao(final DataSource dataSource) {
+    public JdbcFindAllResultsDao(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public List<Record> findAll() {
+    public List<ResultDto> findAll() {
         final String sql = "SELECT c.game_id, p.name, c.position, w.id IS NOT NULL AS is_winner FROM car AS c "
             + "LEFT OUTER JOIN game AS g ON c.game_id = g.id "
             + "LEFT OUTER JOIN player AS p ON c.player_id = p.id "

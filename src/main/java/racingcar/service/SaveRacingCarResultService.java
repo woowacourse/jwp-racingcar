@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import racingcar.domain.Car;
-import racingcar.domain.dto.RacingCarResult;
+import racingcar.domain.dto.RacingCarResultDto;
 import racingcar.repository.dao.GameDao;
 import racingcar.repository.dao.CarDao;
 import racingcar.repository.dao.PlayerDao;
@@ -43,10 +43,10 @@ public class SaveRacingCarResultService {
     }
 
     @Transactional
-    public void save(final RacingCarResult racingCarResult) {
-        final Set<String> winners = new HashSet<>(racingCarResult.getWinners());
-        final List<Car> cars = racingCarResult.getCars();
-        final int attempt = racingCarResult.getAttempt();
+    public void save(final RacingCarResultDto racingCarResultDto) {
+        final Set<String> winners = new HashSet<>(racingCarResultDto.getWinners());
+        final List<Car> cars = racingCarResultDto.getCars();
+        final int attempt = racingCarResultDto.getAttempt();
 
         final List<PlayerEntity> playerEntities = savePlayer(cars);
         final GameEntity gameEntity = saveGame(attempt);

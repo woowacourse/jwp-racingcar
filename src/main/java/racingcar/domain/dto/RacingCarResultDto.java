@@ -4,19 +4,19 @@ import java.util.List;
 
 import racingcar.domain.Car;
 
-public class RacingCarResult {
+public class RacingCarResultDto {
 
     private final List<String> winners;
     private final List<Car> cars;
     private final Integer attempt;
 
-    public RacingCarResult(final List<String> winners, final List<Car> cars, final Integer attempt) {
+    public RacingCarResultDto(final List<String> winners, final List<Car> cars, final Integer attempt) {
         this.winners = winners;
         this.cars = cars;
         this.attempt = attempt;
     }
 
-    public RacingCarResult(final List<String> winners, final List<Car> cars) {
+    public RacingCarResultDto(final List<String> winners, final List<Car> cars) {
         this(winners, cars, null);
     }
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingCarGame;
-import racingcar.domain.dto.RacingCarResult;
+import racingcar.domain.dto.RacingCarResultDto;
 
 @Service
 public class RacingCarService {
@@ -25,15 +25,15 @@ public class RacingCarService {
         this.saveRacingCarResultService = saveRacingCarResultService;
     }
 
-    public List<RacingCarResult> findAllResults() {
+    public List<RacingCarResultDto> findAllResults() {
         return findRacingCarResultService.findAll();
     }
 
-    public RacingCarResult raceCar(final List<String> names, final int attempt) {
+    public RacingCarResultDto raceCar(final List<String> names, final int attempt) {
         final RacingCarGame racingCarGame = new RacingCarGame(names, attempt, numberGenerator);
         racingCarGame.play();
-        final RacingCarResult racingCarResult = racingCarGame.getResult();
-        saveRacingCarResultService.save(racingCarResult);
-        return racingCarResult;
+        final RacingCarResultDto racingCarResultDto = racingCarGame.getResult();
+        saveRacingCarResultService.save(racingCarResultDto);
+        return racingCarResultDto;
     }
 }
