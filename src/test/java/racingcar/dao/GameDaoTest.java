@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import racingcar.dao.entity.GameEntity;
-import racingcar.dao.entity.JoinEntity;
+import racingcar.dto.GameResultDto;
 import racingcar.dao.entity.PlayerEntity;
 
 @JdbcTest
@@ -60,7 +60,7 @@ class GameDaoTest {
 		playerDao.batchInsert(List.of(junpakEntity, moominEntity));
 
 		//when
-		final List<JoinEntity> gamePlayHistoryAll = gameDao.findGamePlayHistoryAll();
+		final List<GameResultDto> gamePlayHistoryAll = gameDao.findGamePlayHistoryAll();
 
 		//then
 		assertThat(gamePlayHistoryAll).hasSize(2);

@@ -9,19 +9,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import racingcar.dao.entity.GameEntity;
-import racingcar.dao.entity.JoinEntity;
+import racingcar.dto.GameResultDto;
 
 @Repository
 public class GameDao {
 
 	private final JdbcTemplate jdbcTemplate;
-
-	private final RowMapper<JoinEntity> rowMapper = (resultSet, rowNum) -> new JoinEntity(
-		resultSet.getLong("id"),
-		resultSet.getString("WINNERS"),
-		resultSet.getString("NAME"),
-		resultSet.getInt("POSITION")
-	);
 
 	public GameDao(final JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -40,8 +33,16 @@ public class GameDao {
 		return keyHolder.getKey().longValue();
 	}
 
-	public List<JoinEntity> findGamePlayHistoryAll() {
+	public List<GameResultDto> findGamePlayHistoryAll() {
+
 		final String sql = "SELECT GAME.ID, GAME.WINNERS, PLAYER.NAME, PLAYER.POSITION FROM GAME LEFT JOIN PLAYER ON GAME.ID = PLAYER.GAME_ID";
+
+		final RowMapper<GameResultDto> rowMapper = (resultSet, rowNum) -> new GameResultDto(
+			resultSet.getLong("id"),
+			resultSet.getString("WINNERS"),
+			resultSet.getString("NAME"),
+			resultSet.getInt("POSITION")
+		);
 
 		return jdbcTemplate.query(sql, rowMapper);
 	}

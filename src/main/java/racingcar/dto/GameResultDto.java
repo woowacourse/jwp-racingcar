@@ -1,13 +1,13 @@
-package racingcar.dao.entity;
+package racingcar.dto;
 
-public class JoinEntity {
+public class GameResultDto {
 
 	private Long gameId;
 	private String winners;
 	private String name;
 	private int position;
 
-	public JoinEntity(final long gameId, final String winners, final String name, final int position) {
+	public GameResultDto(final long gameId, final String winners, final String name, final int position) {
 		this.gameId = gameId;
 		this.winners = winners;
 		this.name = name;

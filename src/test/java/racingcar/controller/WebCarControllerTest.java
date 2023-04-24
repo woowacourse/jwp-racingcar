@@ -18,11 +18,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
-import racingcar.domain.TestNumberGenerator;
 import racingcar.dto.CarDto;
 import racingcar.dto.GamePlayRequestDto;
 import racingcar.dto.GamePlayResponseDto;
 import racingcar.service.CarService;
+import racingcar.strategy.RacingRandomNumberGenerator;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class WebCarControllerTest {
@@ -41,7 +41,7 @@ class WebCarControllerTest {
 	@BeforeEach
 	void setUp() {
 		carService = new CarService(new PlayerDao(jdbcTemplate), new GameDao(jdbcTemplate),
-			new TestNumberGenerator(List.of(6, 2)));
+			new RacingRandomNumberGenerator());
 	}
 
 	@AfterEach
