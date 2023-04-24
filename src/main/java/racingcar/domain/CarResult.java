@@ -4,31 +4,27 @@ import java.util.Objects;
 
 public class CarResult {
     private final Long id;
-    private final long playResultId;
+    private final long gameResultId;
     private final String name;
     private final int position;
 
-    private CarResult(Long id, long playResultId, String name, int position) {
+    public CarResult(Long id, long gameResultId, String name, int position) {
         this.id = id;
-        this.playResultId = playResultId;
+        this.gameResultId = gameResultId;
         this.name = name;
         this.position = position;
     }
 
-    public static CarResult of(long resultId, String name, int position) {
-        return new CarResult(null, resultId, name, position);
-    }
-
-    public static CarResult of(Long id, long resultId, String name, int position) {
-        return new CarResult(id, resultId, name, position);
+    public CarResult (long resultId, String name, int position) {
+        this(null, resultId, name, position);
     }
 
     public Long getId() {
         return id;
     }
 
-    public long getPlayResultId() {
-        return playResultId;
+    public long getGameResultId() {
+        return gameResultId;
     }
 
     public String getName() {
@@ -49,6 +45,6 @@ public class CarResult {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, playResultId);
+        return Objects.hash(id, name, gameResultId);
     }
 }

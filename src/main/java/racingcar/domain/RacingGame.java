@@ -1,43 +1,43 @@
 package racingcar.domain;
 
-import racingcar.RandomNumberGenerator;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class RacingGame {
-
-    private final RandomNumberGenerator numberGenerator;
+    private final NumberGenerator numberGenerator;
     private final Cars cars;
     private final TryCount tryCount;
     private final Timestamp createdAt;
 
-    public RacingGame(final RandomNumberGenerator numberGenerator, final Cars cars, final int tryCount) {
+    public RacingGame(final NumberGenerator numberGenerator, final Cars cars, final TryCount tryCount) {
         this.cars = cars;
-        this.tryCount = new TryCount(tryCount);
+        this.tryCount = tryCount;
         this.numberGenerator = numberGenerator;
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public void play() {
+        while (tryCount.canTry()) {
+            playTurn();
+            tryCount.decrease();
+        }
+    }
+
+    private void playTurn() {
         cars.moveAll(numberGenerator);
-        tryCount.decreaseCount();
     }
 
-    public List<String> decideWinners() {
-        return cars.decideWinners().stream()
+    public List<String> getWinnerNames() {
+        return cars.getMaxPositionCars().stream()
                 .map(Car::getName)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(toList());
     }
 
-    public boolean isEnd() {
-        return tryCount.isEnd();
-    }
-
-    public Cars getCars() {
-        return this.cars;
+    public List<Car> getCars() {
+        return this.cars.getUnmodifiableCars();
     }
 
     public int getTryCount() {
