@@ -1,7 +1,9 @@
 package racingcar.view;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import racingcar.dto.CarDto;
+import racingcar.dto.GameResultResponse;
 
 public class OutputView {
 
@@ -10,8 +12,14 @@ public class OutputView {
     private static final String WINNER_PRINT_FORMAT = "%s가 최종 우승했습니다." + LINE_SEPARATOR;
     private static final String WORD_DELIMITER = ", ";
 
-    public static void printResult(final List<CarDto> cars, final List<String> winners) {
+    public static void printResult(final GameResultResponse gameResultResponse) {
         System.out.println(RESULT_MESSAGE);
+
+        final String winners = gameResultResponse.getWinners();
+        final List<CarDto> cars = gameResultResponse.getRacingCars().stream()
+                .map(CarDto::getInstance)
+                .collect(Collectors.toList());
+
         cars.forEach(OutputView::printPosition);
         printWinners(winners);
     }
@@ -23,7 +31,7 @@ public class OutputView {
         System.out.println(name + ": " + position);
     }
 
-    private static void printWinners(final List<String> winners) {
-        System.out.printf(WINNER_PRINT_FORMAT, String.join(WORD_DELIMITER, winners));
+    private static void printWinners(final String winners) {
+        System.out.printf(WINNER_PRINT_FORMAT, winners);
     }
 }

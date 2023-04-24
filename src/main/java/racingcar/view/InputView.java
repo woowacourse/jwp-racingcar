@@ -1,9 +1,7 @@
 package racingcar.view;
 
-import java.util.List;
 import java.util.Scanner;
 import racingcar.utils.IntegerParser;
-import racingcar.utils.StringParser;
 
 public class InputView {
 
@@ -12,10 +10,9 @@ public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static List<String> readCarNames() {
+    public static String readCarNames() {
         System.out.println(READ_CAR_NAME_MESSAGE);
-        String input = scanner.nextLine();
-        return StringParser.splitByComma(input);
+        return scanner.nextLine();
     }
 
     public static int readAttemptNumber() {
