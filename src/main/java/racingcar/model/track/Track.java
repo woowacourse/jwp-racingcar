@@ -53,7 +53,7 @@ public class Track {
     }
 
     public boolean runnable() {
-        return trialTimes >= CAN_GAME;
+        return trialTimes > CAN_GAME;
     }
 
     public Cars getCars() {
