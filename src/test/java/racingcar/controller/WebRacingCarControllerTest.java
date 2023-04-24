@@ -52,7 +52,7 @@ class WebRacingCarControllerTest {
         mockMvc.perform(post("/plays")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath(winnersPath).exists())
                 .andExpect(jsonPath("carResponses", hasSize(3)))
                 .andExpect(jsonPath("carResponses[0].name", is("현서")))
