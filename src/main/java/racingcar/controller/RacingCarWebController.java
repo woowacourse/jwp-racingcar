@@ -22,15 +22,15 @@ public class RacingCarWebController {
 		this.racingGameService = racingGameService;
 	}
 
+	@PostMapping("/plays")
+	public ResultDto createData(@RequestBody RacingGameDto racingGameDto) {
+		Cars cars = racingGameService.save(racingGameDto);
+
+		return toResultDto(cars);
+	}
+
 	@GetMapping("/plays")
 	public List<ResultDto> findResult() {
 		return racingGameService.find();
-	}
-
-	@PostMapping("/plays")
-	public ResultDto createData(@RequestBody RacingGameDto racingGameDto) {
-
-		Cars cars = racingGameService.save(racingGameDto);
-		return toResultDto(cars);
 	}
 }
