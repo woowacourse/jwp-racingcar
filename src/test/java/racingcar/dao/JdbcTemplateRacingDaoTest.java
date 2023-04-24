@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +51,10 @@ class JdbcTemplateRacingDaoTest {
         );
         racingGame.play();
 
-        jdbcTemplateRacingDao.saveGameResult(GameResultEntity.createToSave(racingGame, 3));
+        this.jdbcTemplateRacingDao.saveGameResult(GameResultEntity.createToSave(racingGame, 3));
 
-        String actualWinners = jdbcTemplate.queryForObject("SELECT winners FROM GAME_RESULT", String.class);
-        int trialCount = jdbcTemplate.queryForObject("SELECT trial_count FROM GAME_RESULT", Integer.class);
+        String actualWinners = this.jdbcTemplate.queryForObject("SELECT winners FROM GAME_RESULT", String.class);
+        int trialCount = this.jdbcTemplate.queryForObject("SELECT trial_count FROM GAME_RESULT", Integer.class);
         assertThat(actualWinners).isEqualTo("브리,브라운");
         assertThat(trialCount).isEqualTo(3);
     }
@@ -74,7 +75,7 @@ class JdbcTemplateRacingDaoTest {
                 new Coin(3)
         );
         racingGame.play();
-        GameResultEntity gameResultEntity = jdbcTemplateRacingDao.saveGameResult(
+        GameResultEntity gameResultEntity = this.jdbcTemplateRacingDao.saveGameResult(
                 GameResultEntity.createToSave(racingGame, 3)
         );
 
@@ -86,18 +87,95 @@ class JdbcTemplateRacingDaoTest {
                     gameResultEntity.getId())
             );
         }
-        jdbcTemplateRacingDao.savePlayerResults(playerResultEntities);
+        this.jdbcTemplateRacingDao.savePlayerResults(playerResultEntities);
 
-        int positionOfBri = jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '브리'",
+        int positionOfBri = this.jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '브리'",
                 Integer.class);
-        int positionOfTomi = jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '토미'",
+        int positionOfTomi = this.jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '토미'",
                 Integer.class);
-        int positionOfBrown = jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '브라운'",
+        int positionOfBrown = this.jdbcTemplate.queryForObject("SELECT position FROM PLAYER_RESULT WHERE name = '브라운'",
                 Integer.class);
         assertAll(() -> {
             assertThat(positionOfBri).isEqualTo(2);
             assertThat(positionOfBrown).isEqualTo(2);
             assertThat(positionOfTomi).isEqualTo(1);
         });
+    }
+
+    @Test
+    @DisplayName("모든 게임 결과를 불러온다.")
+    void shouldReturnAllGameResultsWhenRequest() {
+        // 첫번째 게임 저징
+        RacingGame racingGame1 = new RacingGame(
+                Arrays.asList(Car.createBy("브리"), Car.createBy("브라운"), Car.createBy("토미")),
+                DeterminedNumberGenerator.createByNumbers(
+                        //브리 브라운  토미
+                        MOVE, MOVE, STOP,
+                        STOP, MOVE, MOVE,
+                        MOVE, STOP, STOP
+                        // 2     2     1
+                ),
+                new Coin(3)
+        );
+        racingGame1.play();
+        GameResultEntity gameResultEntity1 = this.jdbcTemplateRacingDao.saveGameResult(
+                GameResultEntity.createToSave(racingGame1, 3)
+        );
+
+        // 두번째 게임 저장
+        RacingGame racingGame2 = new RacingGame(
+                Arrays.asList(Car.createBy("브리"), Car.createBy("브라운"), Car.createBy("토미")),
+                DeterminedNumberGenerator.createByNumbers(
+                        //브리 브라운  토미
+                        STOP, STOP, STOP,
+                        STOP, STOP, STOP,
+                        STOP, STOP, STOP
+                        // 0     0     0
+                ),
+                new Coin(3)
+        );
+        racingGame1.play();
+        GameResultEntity gameResultEntity2 = this.jdbcTemplateRacingDao.saveGameResult(
+                GameResultEntity.createToSave(racingGame1, 3)
+        );
+
+        List<GameResultEntity> gameResultEntities = this.jdbcTemplateRacingDao.getAllGameResults();
+
+        GameResultEntity gameResultEntity1FromDb = gameResultEntities.get(0);
+        GameResultEntity gameResultEntity2FromDb = gameResultEntities.get(1);
+
+        Assertions.assertThat(gameResultEntity1FromDb).isEqualTo(gameResultEntity1);
+        Assertions.assertThat(gameResultEntity2FromDb).isEqualTo(gameResultEntity2);
+    }
+
+    @DisplayName("모든 플레이어 결과를 불러온다.")
+    @Test
+    void shouldReturnAllPlayerResultsWhenRequest() {
+        GameResultEntity gameResultEntity = this.jdbcTemplateRacingDao.saveGameResult(
+                GameResultEntity.createToSave(RacingGame.of(List.of("브리", "브라운", "토미"), 3), 3)
+        );
+        this.jdbcTemplateRacingDao.saveGameResult(gameResultEntity);
+
+        List<PlayerResultEntity> playerResultEntitiesToSave = List.of(
+                PlayerResultEntity.createToSave(new Car("브리", 2), gameResultEntity.getId()),
+                PlayerResultEntity.createToSave(new Car("브라운", 2), gameResultEntity.getId()),
+                PlayerResultEntity.createToSave(new Car("토미", 1), gameResultEntity.getId())
+        );
+
+        this.jdbcTemplateRacingDao.savePlayerResults(playerResultEntitiesToSave);
+
+        List<PlayerResultEntity> playerResultEntitiesFromDb = this.jdbcTemplateRacingDao.getPlayerResultsBy(
+                gameResultEntity.getId()
+        );
+
+        PlayerResultEntity playerResultEntityOfBrie = playerResultEntitiesFromDb.get(0);
+        PlayerResultEntity playerResultEntityOfBrown = playerResultEntitiesFromDb.get(1);
+        PlayerResultEntity playerResultEntityOfTommy = playerResultEntitiesFromDb.get(2);
+
+        assertAll(
+                () -> assertThat(playerResultEntityOfBrie.getGameResultId()).isEqualTo(gameResultEntity.getId()),
+                () -> assertThat(playerResultEntityOfBrown.getName()).isEqualTo("브라운"),
+                () -> assertThat(playerResultEntityOfTommy.getPosition()).isEqualTo(1)
+        );
     }
 }
