@@ -24,8 +24,8 @@ public class GameInfoForRequest {
     }
 
     private static void validateCountSize(Integer count) {
-        if (count < 1) {
-            throw new IllegalArgumentException("최소 1회 이상 실행해야 합니다");
+        if (count < 1 || count > 20) {
+            throw new IllegalArgumentException("최소 1회 이상 최대 20회 이하로 실행해야 합니다");
         }
     }
 

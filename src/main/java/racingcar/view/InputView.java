@@ -9,10 +9,26 @@ public class InputView {
     static Scanner scanner = new Scanner(System.in);
 
     public static List<String> inputCarNames() {
-        return List.of(scanner.nextLine().split(CAR_NAME_DELIMITER));
+        List<String> names = List.of(scanner.nextLine().split(CAR_NAME_DELIMITER));
+        validateName(names);
+        return names;
+    }
+
+    private static void validateName(List<String> names) {
+        if (names.size() <= 0) {
+            throw new IllegalArgumentException("사용자를 올바르게 입력하지 않았습니다");
+        }
     }
 
     public static int inputTryTimes() {
-        return scanner.nextInt();
+        int count = scanner.nextInt();
+        validateCountSize(count);
+        return count;
+    }
+
+    private static void validateCountSize(int count) {
+        if (count < 1 || count > 20) {
+            throw new IllegalArgumentException("최소 1회 이상 최대 20회 이하로 실행해야 합니다");
+        }
     }
 }
