@@ -25,8 +25,8 @@ public class RacingCarWebController {
     }
 
     @GetMapping("/plays")
-    public List<PlayRecordsForResponse> showPlayRecords() {
-        return racingCarService.showPlayRecords();
+    public ResponseEntity<List<PlayRecordsForResponse>> showPlayRecords() {
+        return ResponseEntity.ok(racingCarService.showPlayRecords());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
