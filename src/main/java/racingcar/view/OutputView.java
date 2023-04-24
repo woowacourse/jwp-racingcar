@@ -1,10 +1,5 @@
 package racingcar.view;
 
-import racingcar.domain.Winner;
-import racingcar.domain.Winners;
-
-import static java.util.stream.Collectors.joining;
-
 public class OutputView {
 
     private static final String CAR_POSITION_SIGN = "-";
@@ -17,11 +12,5 @@ public class OutputView {
 
     public void printWinners(String winners) {
         System.out.println("승자 : " + winners);
-    }
-
-    public String winnersToString(Winners winners) {
-        return winners.getWinners().stream()
-                .map(Winner::getName)
-                .collect(joining(DELIMITER));
     }
 }

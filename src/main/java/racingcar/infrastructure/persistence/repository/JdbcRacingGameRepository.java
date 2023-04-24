@@ -70,7 +70,7 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
     private RacingGameDto toRacingGame(final Long id, final RacingGameEntity racingGameEntity) {
         final List<CarDto> cars = carDao.findByGameId(id)
                 .stream()
-                .map(CarDto::fromEntity)
+                .map(CarDto::from)
                 .collect(Collectors.toList());
         return new RacingGameDto(
                 cars,
@@ -89,7 +89,7 @@ public class JdbcRacingGameRepository implements RacingGameRepository {
         for (final Map.Entry<Long, List<CarEntity>> entry : carEntityById.entrySet()) {
             final Long id = entry.getKey();
             final List<CarDto> toDto = entry.getValue().stream()
-                    .map(CarDto::fromEntity)
+                    .map(CarDto::from)
                     .collect(Collectors.toList());
             carDtoById.put(id, toDto);
         }

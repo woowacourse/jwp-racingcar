@@ -42,7 +42,7 @@ public class RacingGameServiceImpl implements RacingGameService {
         racingGameRepository.save(racingGame);
 
         final List<CarDto> carDtos = racingGame.getCars().stream()
-                .map(CarDto::fromCar)
+                .map(CarDto::from)
                 .collect(Collectors.toList());
         final List<WinnerDto> winnerDtos = WinnerDto.createWinnerDtos(winners);
         return new GameResultDto(carDtos, winnerDtos);

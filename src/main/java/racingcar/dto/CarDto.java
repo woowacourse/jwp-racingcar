@@ -13,11 +13,11 @@ public final class CarDto {
         this.position = position;
     }
 
-    public static CarDto fromCar(final Car car) {
+    public static CarDto from(final Car car) {
         return new CarDto(car.getCarName(), car.getPosition());
     }
 
-    public static CarDto fromEntity(final CarEntity carEntity) {
+    public static CarDto from(final CarEntity carEntity) {
         return new CarDto(carEntity.getName(), carEntity.getPosition());
     }
 

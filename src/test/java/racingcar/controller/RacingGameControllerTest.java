@@ -50,7 +50,7 @@ class RacingGameControllerTest {
         final String carsPath = "$..position";
         final List<Car> cars = List.of(new Car("브리", 10), new Car("토미", 9));
         final List<WinnerDto> winnerDtos = WinnerDto.createWinnerDtos(new Winners(new Cars(cars)));
-        final List<CarDto> carDtos = cars.stream().map(CarDto::fromCar).collect(Collectors.toList());
+        final List<CarDto> carDtos = cars.stream().map(CarDto::from).collect(Collectors.toList());
         final GameResultDto gameResult = new GameResultDto(carDtos, winnerDtos);
         final PlayRequestDto request = new PlayRequestDto("브리,토미", 10);
         final String requestJson = objectMapper.writeValueAsString(request);
@@ -80,14 +80,14 @@ class RacingGameControllerTest {
 
         final List<Car> cars1 = List.of(new Car("a", 3), new Car("b", 5));
         final List<CarDto> carDtos1 = cars1.stream()
-                .map(CarDto::fromCar)
+                .map(CarDto::from)
                 .collect(Collectors.toList());
         final List<WinnerDto> winnerDtos1 = WinnerDto.createWinnerDtos(new Winners(new Cars(cars1)));
         gameResults.add(new GameResultDto(carDtos1, winnerDtos1));
 
         final List<Car> cars2 = List.of(new Car("c", 4), new Car("d", 6));
         final List<CarDto> carDtos2 = cars2.stream()
-                .map(CarDto::fromCar)
+                .map(CarDto::from)
                 .collect(Collectors.toList());
         final List<WinnerDto> winnerDtos2 = WinnerDto.createWinnerDtos(new Winners(new Cars(cars2)));
         gameResults.add(new GameResultDto(carDtos2, winnerDtos2));

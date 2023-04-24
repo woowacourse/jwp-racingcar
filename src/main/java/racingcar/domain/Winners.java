@@ -14,10 +14,6 @@ public class Winners {
         this.winners = calculateWinners(cars);
     }
 
-    public Winners(final List<Winner> winners) {
-        this.winners = winners;
-    }
-
     private List<Winner> calculateWinners(Cars cars) {
         int winnerPosition = getWinnerPosition(cars);
 
