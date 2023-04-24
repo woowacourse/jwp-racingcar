@@ -27,7 +27,7 @@ public class RacingGameService {
         this.winnerDao = winnerDao;
     }
 
-    public GameResponse play(GameRequest gameRequest) {
+    public GameResponse playGame(GameRequest gameRequest) {
         RacingGame racingGame = createRacingGame(gameRequest);
         racingGame.play();
         saveResult(racingGame, gameRequest.getCount());
@@ -52,7 +52,7 @@ public class RacingGameService {
 
     private void saveWinners(List<String> winnerNames, long playResultId) {
         List<Winner> winners = winnerNames.stream()
-                .map(name -> Winner.of(name, playResultId))
+                .map(name -> new Winner(name, playResultId))
                 .collect(Collectors.toList());
         winnerDao.saveAll(winners);
     }
