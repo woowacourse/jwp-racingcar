@@ -1,7 +1,6 @@
 package racingcar.dto;
 
 import racingcar.dto.view.PlayRequest;
-import racingcar.services.RacingGameService;
 import racingcar.util.ValueEditor;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class RacingGameSetUpDto {
         this.count = count;
     }
 
-    public static RacingGameSetUpDto from(PlayRequest playRequest){
+    public static RacingGameSetUpDto from(PlayRequest playRequest) {
         List<String> names = ValueEditor.splitByComma(playRequest.getNames());
         return new RacingGameSetUpDto(names, playRequest.getCount());
     }
