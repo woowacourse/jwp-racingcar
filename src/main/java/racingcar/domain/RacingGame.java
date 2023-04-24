@@ -13,7 +13,6 @@ public class RacingGame {
         this.numberGenerator = randomNumberGenerator;
     }
 
-    //TODO: 테스트
     public void race() {
         carGroup.race(numberGenerator);
     }

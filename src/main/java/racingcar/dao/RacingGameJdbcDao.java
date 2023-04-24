@@ -1,7 +1,7 @@
-package racingcar.repository;
+package racingcar.dao;
 
 import java.sql.PreparedStatement;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,22 +10,20 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import racingcar.repository.mapper.RacingGameDto;
+import racingcar.dao.dto.RacingGameDto;
 
 @Repository
-public class RacingGameRepositoryImpl implements RacingGameRepository {
+public class RacingGameJdbcDao implements RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public RacingGameRepositoryImpl(final JdbcTemplate jdbcTemplate) {
+    public RacingGameJdbcDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<RacingGameDto> RacingGameRowMapper = (resultSet, rowNum) -> new RacingGameDto(
+    private final RowMapper<RacingGameDto> racingGameRowMapper = (resultSet, rowNum) -> new RacingGameDto(
             resultSet.getInt("id"),
-            resultSet.getString("winners"),
-            resultSet.getObject("created_at", LocalDateTime.class),
-            resultSet.getInt("trial")
+            resultSet.getString("winners")
     );
 
     @Override
@@ -46,6 +44,12 @@ public class RacingGameRepositoryImpl implements RacingGameRepository {
     @Override
     public Optional<RacingGameDto> findById(final int id) {
         final String sql = "SELECT * FROM RACING_GAME WHERE id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, RacingGameRowMapper, id));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, racingGameRowMapper, id));
+    }
+
+    @Override
+    public List<RacingGameDto> findAll() {
+        final String sql = "SELECT * FROM RACING_GAME";
+        return jdbcTemplate.query(sql, racingGameRowMapper);
     }
 }
