@@ -48,7 +48,7 @@ public class RacingCarDao {
 		return jdbcTemplate;
 	}
 
-	public void insertCar(Cars cars, int count) {
+	public void save(Cars cars, int count) {
 		String sqlGame = "INSERT INTO games(count, winner, timestamp) VALUES (?,?,?)";
 		String sqlCars = "INSERT INTO cars(name, position, gameId) VALUES(?,?,?)";
 

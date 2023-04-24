@@ -33,7 +33,7 @@ public class RacingCarWebController {
 		racingGame.startRacing(count);
 
 		Cars cars = racingGame.getCars();
-		racingCarDao.insertCar(cars, count);
+		racingCarDao.save(cars, count);
 
 		return toResultDto(cars);
 	}

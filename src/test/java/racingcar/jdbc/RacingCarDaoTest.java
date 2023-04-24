@@ -42,7 +42,7 @@ class RacingCarDaoTest {
 		Cars cars = racingGame.moveCars();
 		int count = 5;
 
-		racingCarDao.insertCar(cars, count);
+		racingCarDao.save(cars, count);
 		assertThat(racingCarDao.find().size()).isEqualTo(1);
 	}
 }
