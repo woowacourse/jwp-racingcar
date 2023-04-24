@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import racingcar.dao.RacingCarGameDao;
 import racingcar.dao.RacingCarPlayerDao;
-import racingcar.domain.Name;
+import racingcar.domain.Names;
 import racingcar.domain.RacingCar;
 import racingcar.domain.RacingCars;
 import racingcar.domain.TryCount;
@@ -36,8 +36,9 @@ public class RacingGameService {
     }
 
     private RacingCars createRacingCars(final List<String> names) {
-        return new RacingCars(names.stream()
-                .map(Name::new)
+        return new RacingCars(new Names(names)
+                .getNames()
+                .stream()
                 .map(RacingCar::new)
                 .collect(Collectors.toUnmodifiableList()));
     }

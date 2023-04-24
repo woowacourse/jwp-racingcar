@@ -10,10 +10,17 @@ public class Names {
     private final List<Name> names = new ArrayList<>();
 
     public Names(final List<String> names) {
+        validateDuplicateName(names);
         validateMinParticipantNumber(names);
         names.stream()
                 .map(Name::new)
                 .forEach(this.names::add);
+    }
+
+    private void validateDuplicateName(final List<String> names) {
+        if (names.stream().distinct().count() != names.size()) {
+            throw new IllegalArgumentException("[ERROR] 자동차의 이름은 중복될 수 없습니다.");
+        }
     }
 
     private void validateMinParticipantNumber(final List<String> names) {
