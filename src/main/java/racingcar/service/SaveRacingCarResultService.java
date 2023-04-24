@@ -76,7 +76,7 @@ public class SaveRacingCarResultService {
     private GameEntity saveGame(final int attempt) {
         GameEntity gameEntity = new GameEntity(attempt);
         final long gameId = gameDao.save(gameEntity);
-        return new GameEntity(gameId, gameEntity.getTrialCount(), gameEntity.getLastModifiedTime());
+        return new GameEntity(gameId, gameEntity.getTrialCount(), gameEntity.getCreatedAt());
     }
 
     private Map<PlayerEntity, Integer> toPositionByPlayerEntity(
@@ -102,9 +102,11 @@ public class SaveRacingCarResultService {
         return new CarEntity(gameEntity.getId(), playerEntity.getId(), position);
     }
 
-    private void saveWinners(final Set<String> winners,
+    private void saveWinners(
+        final Set<String> winners,
         final List<PlayerEntity> playerEntities,
-        final GameEntity gameEntity) {
+        final GameEntity gameEntity
+    ) {
         playerEntities.stream()
             .filter(playerEntity -> winners.contains(playerEntity.getName()))
             .map(playerEntity -> new WinnerEntity(gameEntity.getId(), playerEntity.getId()))

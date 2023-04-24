@@ -17,7 +17,6 @@ public class JdbcGameDao implements GameDao {
     public JdbcGameDao(final DataSource dataSource) {
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("game")
-            .usingColumns("trial_count")
             .usingGeneratedKeyColumns("id");
     }
 

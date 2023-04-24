@@ -6,16 +6,16 @@ public class GameEntity {
 
     private final Long id;
     private final int trialCount;
-    private final LocalDateTime lastModifiedTime;
+    private final LocalDateTime createdAt;
 
-    public GameEntity(final Long id, final int trialCount, final LocalDateTime lastModifiedTime) {
+    public GameEntity(final Long id, final int trialCount, final LocalDateTime createdAt) {
         this.id = id;
         this.trialCount = trialCount;
-        this.lastModifiedTime = lastModifiedTime;
+        this.createdAt = createdAt;
     }
 
     public GameEntity(final int trialCount) {
-        this(null, trialCount, null);
+        this(null, trialCount, LocalDateTime.now());
     }
 
     public long getId() {
@@ -26,7 +26,7 @@ public class GameEntity {
         return trialCount;
     }
 
-    public LocalDateTime getLastModifiedTime() {
-        return lastModifiedTime;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
