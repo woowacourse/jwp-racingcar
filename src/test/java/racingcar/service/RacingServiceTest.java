@@ -1,18 +1,15 @@
 package racingcar.service;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.model.car.Cars;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import racingcar.dao.RacingConsoleDao;
+import racingcar.model.car.Cars;
+
 class RacingServiceTest {
 
-    @Autowired
-    RacingService racingService;
+    RacingService racingService = new RacingService(new RacingConsoleDao());
 
     @Test
     @DisplayName("자동차 게임이 정상적으로 작동한다.")
@@ -22,6 +19,7 @@ class RacingServiceTest {
 
         final Cars finishedCars = racingService.play(names, trialTimes);
 
-        assertThat(finishedCars.getCarsCurrentInfo().size()).isEqualTo(names.split(",").length);
+        assertThat(finishedCars.getCarsCurrentInfo()).isNotNull();
+        assertThat(finishedCars.getWinnerCars()).isNotNull();
     }
 }

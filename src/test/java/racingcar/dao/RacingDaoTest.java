@@ -1,19 +1,15 @@
 package racingcar.dao;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import racingcar.dao.dto.CarDto;
-import racingcar.dao.dto.TrackDto;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import org.junit.jupiter.api.Test;
+import racingcar.dao.dto.CarDto;
+import racingcar.dao.dto.TrackDto;
+
 class RacingDaoTest {
 
-    @Autowired
-    RacingWebDao racingDao;
+    SimpleDao racingDao = new RacingConsoleDao();
 
     @Test
     void createTrack() {
