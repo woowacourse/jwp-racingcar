@@ -27,10 +27,10 @@ public class JdbcFindAllRecordDao implements FindAllRecordsDao {
 
     @Override
     public List<Record> findAll() {
-        final String sql = "SELECT p.game_id, u.name, p.position, w.id IS NOT NULL AS is_winner FROM position AS p "
-            + "LEFT OUTER JOIN game AS g ON p.game_id = g.id "
-            + "LEFT OUTER JOIN users AS u ON p.users_id = u.id "
-            + "LEFT OUTER JOIN winner AS w ON (g.id = w.game_id AND u.id = w.users_id)";
+        final String sql = "SELECT c.game_id, p.name, c.position, w.id IS NOT NULL AS is_winner FROM car AS c "
+            + "LEFT OUTER JOIN game AS g ON c.game_id = g.id "
+            + "LEFT OUTER JOIN player AS p ON c.player_id = p.id "
+            + "LEFT OUTER JOIN winner AS w ON (g.id = w.game_id AND p.id = w.player_id)";
         return jdbcTemplate.query(sql, actorRowMapper);
     }
 }

@@ -12,40 +12,40 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 
-import racingcar.repository.entity.UserEntity;
+import racingcar.repository.entity.PlayerEntity;
 
 @JdbcTest
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class JdbcUserDaoTest {
+class JdbcPlayerDaoTest {
 
     @Autowired
     private DataSource dataSource;
 
-    private UserDao userDao;
+    private PlayerDao playerDao;
 
     @BeforeEach
     void setUp() {
-        userDao = new JdbcUserDao(dataSource);
+        playerDao = new JdbcPlayerDao(dataSource);
     }
 
     @Test
-    void save_메서드로_user를_저장한다() {
-        final UserEntity userEntity = new UserEntity("modi");
-        long userId = userDao.save(userEntity);
+    void save_메서드로_player를_저장한다() {
+        final PlayerEntity playerEntity = new PlayerEntity("modi");
+        long playerId = playerDao.save(playerEntity);
 
-        assertThat(userId).isGreaterThan(1L);
+        assertThat(playerId).isGreaterThan(1L);
     }
 
     @Test
-    void findByName_메서드로_user를_검색한다() {
-        final UserEntity modiEntity = new UserEntity("modi");
-        long userId = userDao.save(modiEntity);
+    void findByName_메서드로_player를_검색한다() {
+        final PlayerEntity modiEntity = new PlayerEntity("modi");
+        long playerId = playerDao.save(modiEntity);
 
-        final UserEntity findEntity = userDao.findByName("modi");
+        final PlayerEntity findEntity = playerDao.findByName("modi");
 
         assertAll(
-            () -> assertEquals(userId, findEntity.getId()),
+            () -> assertEquals(playerId, findEntity.getId()),
             () -> assertEquals(modiEntity.getName(), findEntity.getName())
         );
     }

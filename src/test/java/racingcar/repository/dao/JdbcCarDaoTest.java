@@ -11,31 +11,31 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 
-import racingcar.repository.entity.PositionEntity;
+import racingcar.repository.entity.CarEntity;
 
 @JdbcTest
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class JdbcPositionDaoTest {
+class JdbcCarDaoTest {
 
     @Autowired
     private DataSource dataSource;
 
-    private PositionDao positionDao;
+    private CarDao carDao;
 
     @BeforeEach
     void setUp() {
-        positionDao = new JdbcPositionDao(dataSource);
+        carDao = new JdbcCarDao(dataSource);
     }
 
     @Test
-    void save_메서드로_position을_저장한다() {
+    void save_메서드로_car를_저장한다() {
         final Long dummyGameId = 1L;
-        final Long dummyUserId = 1L;
-        final PositionEntity positionEntity = new PositionEntity(dummyGameId, dummyUserId, 5);
+        final Long dummyPlayerId = 1L;
+        final CarEntity carEntity = new CarEntity(dummyGameId, dummyPlayerId, 5);
 
-        long positionId = positionDao.save(positionEntity);
+        long carId = carDao.save(carEntity);
 
-        assertThat(positionId).isGreaterThan(0L);
+        assertThat(carId).isGreaterThan(0L);
     }
 }

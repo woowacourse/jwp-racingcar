@@ -31,8 +31,8 @@ class JdbcWinnerDaoTest {
     @Test
     void save_메서드로_winner를_저장한다() {
         final Long dummyGameId = 1L;
-        final Long dummyUserId = 1L;
-        final WinnerEntity winnerEntity = new WinnerEntity(dummyGameId, dummyUserId);
+        final Long dummyPlayerId = 1L;
+        final WinnerEntity winnerEntity = new WinnerEntity(dummyGameId, dummyPlayerId);
 
         long winnerId = winnerDao.save(winnerEntity);
 

@@ -4,11 +4,11 @@ public class Car {
 
     private static final int MOVED_LOWER_BOUND = 4;
 
-    private final Name name;
+    private final Player player;
     private final Position position;
 
     private Car(final String name, final int position) {
-        this.name = new Name(name);
+        this.player = new Player(name);
         this.position = new Position(position);
     }
 
@@ -27,7 +27,7 @@ public class Car {
     }
 
     public String getName() {
-        return name.getName();
+        return player.getName();
     }
 
     public int getPosition() {

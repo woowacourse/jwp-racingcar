@@ -1,13 +1,13 @@
 package racingcar.domain;
 
-public class Name {
+public class Player {
 
     private static final String NO_NAME_EXISTS_MESSAGE = "[ERROR] 이름은 반드시 있어야 합니다.";
     private static final String INVALID_LENGTH_MESSAGE = "[ERROR] 이름은 5글자까지 가능합니다.";
 
     private final String name;
 
-    public Name(final String name) {
+    public Player(final String name) {
         validate(name);
         this.name = name;
     }

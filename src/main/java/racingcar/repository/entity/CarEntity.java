@@ -1,21 +1,21 @@
 package racingcar.repository.entity;
 
-public class PositionEntity {
+public class CarEntity {
 
     private final Long id;
     private final Long gameId;
-    private final Long userId;
+    private final Long playerId;
     private final int position;
 
-    public PositionEntity(final Long id, final Long gameId, final Long userId, final int position) {
+    public CarEntity(final Long id, final Long gameId, final Long playerId, final int position) {
         this.id = id;
         this.gameId = gameId;
-        this.userId = userId;
+        this.playerId = playerId;
         this.position = position;
     }
 
-    public PositionEntity(final Long gameId, final Long userId, final int position) {
-        this(null, gameId, userId, position);
+    public CarEntity(final Long gameId, final Long playerId, final int position) {
+        this(null, gameId, playerId, position);
     }
 
     public long getId() {
@@ -26,8 +26,8 @@ public class PositionEntity {
         return gameId;
     }
 
-    public long getUsersId() {
-        return userId;
+    public long getPlayerId() {
+        return playerId;
     }
 
     public int getPosition() {

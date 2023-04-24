@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 import racingcar.controller.dto.RacingCarGameRequest;
 import racingcar.controller.dto.RacingCarGameResponse;
 import racingcar.domain.dto.RacingCarResult;
-import racingcar.service.MainRacingCarService;
+import racingcar.service.RacingCarService;
 
 @RestController
 @RequestMapping("/plays")
 public class WebRacingCarController {
 
-    private final MainRacingCarService mainRacingCarService;
+    private final RacingCarService racingCarService;
 
-    public WebRacingCarController(final MainRacingCarService mainRacingCarService) {
-        this.mainRacingCarService = mainRacingCarService;
+    public WebRacingCarController(final RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
     }
 
     @GetMapping
     public ResponseEntity<List<RacingCarGameResponse>> findAllRecords() {
-        final List<RacingCarResult> racingCarResults = mainRacingCarService.findAllResults();
+        final List<RacingCarResult> racingCarResults = racingCarService.findAllResults();
         final List<RacingCarGameResponse> records = racingCarResults.stream()
             .map(RacingCarGameResponse::from)
             .collect(Collectors.toList());
@@ -38,7 +38,7 @@ public class WebRacingCarController {
     public ResponseEntity<RacingCarGameResponse> playRacingCar(@RequestBody RacingCarGameRequest racingCarGameRequest) {
         final List<String> names = List.of(racingCarGameRequest.getNames().split(","));
         final int attempt = racingCarGameRequest.getCount();
-        final RacingCarResult racingCarResult = mainRacingCarService.raceCar(names, attempt);
+        final RacingCarResult racingCarResult = racingCarService.raceCar(names, attempt);
         final RacingCarGameResponse racingCarGameResponse = RacingCarGameResponse.from(racingCarResult);
         return ResponseEntity.ok().body(racingCarGameResponse);
     }

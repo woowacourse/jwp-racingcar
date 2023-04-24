@@ -9,13 +9,13 @@ import racingcar.domain.RacingCarGame;
 import racingcar.domain.dto.RacingCarResult;
 
 @Service
-public class MainRacingCarService {
+public class RacingCarService {
 
     private final NumberGenerator numberGenerator;
     private final FindRacingCarResultService findRacingCarResultService;
     private final SaveRacingCarResultService saveRacingCarResultService;
 
-    public MainRacingCarService(
+    public RacingCarService(
         final NumberGenerator numberGenerator,
         final FindRacingCarResultService findRacingCarResultService,
         final SaveRacingCarResultService saveRacingCarResultService

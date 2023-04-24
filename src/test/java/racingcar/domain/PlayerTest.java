@@ -7,13 +7,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class NameTest {
+class PlayerTest {
 
     @DisplayName("자동차 이름의 길이가 1~5글자가 아니거나, null 이라면 예외를 던진다")
     @ParameterizedTest
     @CsvSource(value = {"''", "abcdef", "abcdefgh", "null"}, nullValues = "null")
     void should_ThrowIllegalArgumentException_When_NameIsInvalid(String name) {
-        assertThatThrownBy(() -> new Name(name))
+        assertThatThrownBy(() -> new Player(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
@@ -22,7 +22,7 @@ class NameTest {
     @ParameterizedTest
     @CsvSource({"a", "abc", "abcde"})
     void should_DoesNotThrowException_When_NameIsValid(String name) {
-        assertThatCode(() -> new Name(name))
+        assertThatCode(() -> new Player(name))
                 .doesNotThrowAnyException();
     }
 }
