@@ -25,7 +25,7 @@ public class RacingCarConsoleController {
     public void startGame() {
         try {
             OutputView.printInputCarNamesNotice();
-            Cars cars = CarsFactory.buildCars(InputView.inputCarNames());
+            Cars cars = CarsFactory.buildCarsFromFactory(InputView.inputCarNames());
             OutputView.printInputTryTimesNotice();
             int tryTimes = InputView.inputTryTimes();
             gamePlay.play(cars, tryTimes, numberGenerator);
