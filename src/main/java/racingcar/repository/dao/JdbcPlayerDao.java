@@ -35,6 +35,12 @@ public class JdbcPlayerDao implements PlayerDao {
     }
 
     @Override
+    public boolean existsByName(final String name) {
+        final String sql = "SELECT EXISTS (SELECT * FROM player WHERE name = ?) AS P";
+        return jdbcTemplate.queryForObject(sql, Boolean.class, name);
+    }
+
+    @Override
     public PlayerEntity findByName(final String name) {
         final String sql = "SELECT id, name FROM player WHERE name = ?";
         return jdbcTemplate.queryForObject(sql, actorRowMapper, name);

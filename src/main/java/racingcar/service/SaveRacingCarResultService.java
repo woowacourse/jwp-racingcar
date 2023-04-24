@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,13 +63,12 @@ public class SaveRacingCarResultService {
             .collect(toList());
     }
 
-    private UserEntity getSavedUsersEntity(final UserEntity userEntity) {
-        try {
+    private PlayerEntity getSavedPlayerEntity(final PlayerEntity playerEntity) {
+        if (playerDao.existsByName(playerEntity.getName())) {
             return playerDao.findByName(playerEntity.getName());
-        } catch (EmptyResultDataAccessException e) {
-            final long playerId = playerDao.save(playerEntity);
-            return new PlayerEntity(playerId, playerEntity.getName());
         }
+        final long playerId = playerDao.save(playerEntity);
+        return new PlayerEntity(playerId, playerEntity.getName());
     }
 
     private GameEntity saveGame(final int attempt) {
