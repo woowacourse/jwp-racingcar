@@ -1,4 +1,4 @@
-package racingcar.dto;
+package racingcar.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

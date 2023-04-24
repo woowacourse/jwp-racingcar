@@ -1,8 +1,9 @@
 package racingcar.controller;
 
 import org.springframework.dao.DataAccessException;
-import racingcar.dto.GameHistoryDto;
-import racingcar.dto.RacingGameDto;
+import racingcar.service.dto.GameHistoryDto;
+import racingcar.controller.dto.GameResponse;
+import racingcar.service.dto.RacingGameDto;
 import racingcar.exception.ExceptionInformation;
 import racingcar.exception.CustomException;
 import racingcar.service.RacingGameService;
@@ -35,7 +36,7 @@ public class RacingGameConsoleController {
         try {
             RacingGameDto racingGameDto = new RacingGameDto(inputCarNames(), requestTryCount(), applicationType);
             GameHistoryDto gameHistoryDto = racingGameService.playGame(racingGameDto);
-            outputView.printWinner(gameHistoryDto);
+            outputView.printWinner(GameResponse.from(gameHistoryDto));
         } catch (CustomException exception) {
             System.out.println(exception.getMessage());
         } catch (DataAccessException exception) {

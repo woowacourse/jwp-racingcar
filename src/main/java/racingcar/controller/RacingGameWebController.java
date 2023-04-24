@@ -4,13 +4,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.GameHistoryDto;
-import racingcar.dto.GameRequest;
-import racingcar.dto.RacingGameDto;
+import racingcar.service.dto.GameHistoryDto;
+import racingcar.controller.dto.GameRequest;
+import racingcar.controller.dto.GameResponse;
+import racingcar.service.dto.RacingGameDto;
 import racingcar.service.RacingGameService;
 import racingcar.utils.Parser;
 
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 public class RacingGameWebController {
@@ -26,13 +29,16 @@ public class RacingGameWebController {
     }
 
     @PostMapping("/plays")
-    public GameHistoryDto doGame(@RequestBody final GameRequest gameRequest) {
+    public GameResponse doGame(@RequestBody final GameRequest gameRequest) {
         RacingGameDto racingGameDto = new RacingGameDto(parser.sliceByComma(gameRequest.getNames()), gameRequest.getCount(), applicationType);
-        return racingGameService.playGame(racingGameDto);
+        GameHistoryDto gameHistoryDto = racingGameService.playGame(racingGameDto);
+        return GameResponse.from(gameHistoryDto);
     }
 
     @GetMapping("/plays")
-    public List<GameHistoryDto> findGame() {
-        return racingGameService.findRacingGameHistory();
+    public List<GameResponse> findGame() {
+        return racingGameService.findRacingGameHistory().stream()
+                .map(GameResponse::from)
+                .collect(toList());
     }
 }

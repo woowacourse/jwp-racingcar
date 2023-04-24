@@ -4,15 +4,14 @@ import org.springframework.stereotype.Service;
 import racingcar.dao.JdbcRacingGameRepository;
 import racingcar.dao.RacingGameRepository;
 import racingcar.domain.*;
-import racingcar.dto.GameHistoryDto;
-import racingcar.dto.RacingCarDto;
-import racingcar.dto.RacingGameDto;
+import racingcar.service.dto.GameHistoryDto;
+import racingcar.service.dto.RacingCarDto;
+import racingcar.service.dto.RacingGameDto;
 import racingcar.entity.Game;
 import racingcar.entity.Player;
 import racingcar.entity.RacingGameEntity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -70,12 +69,11 @@ public class RacingGameService {
 
     private GameHistoryDto generateOneGameHistoryDto(final RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
-        final String winnerName = String.join(", ", winnerNames);
-
         final List<RacingCarDto> racingCarsDto = racingCars.getRacingCars().stream()
                 .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
                 .collect(toList());
-        return new GameHistoryDto(winnerName, racingCarsDto);
+
+        return new GameHistoryDto(winnerNames, racingCarsDto);
     }
 
     public List<GameHistoryDto> findRacingGameHistory() {
@@ -90,16 +88,16 @@ public class RacingGameService {
                 .collect(toList());
     }
 
-    private String generateWinners(final List<Player> players) {
+    private List<String> generateWinners(final List<Player> players) {
         return players.stream()
                 .filter(Player::getIsWinner)
                 .map(Player::getName)
-                .collect(Collectors.joining(","));
+                .collect(toList());
     }
 
     private List<RacingCarDto> generateRacingCarDtos(final List<Player> players) {
         return players.stream()
                 .map(player -> new RacingCarDto(player.getName(), player.getPosition()))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }
