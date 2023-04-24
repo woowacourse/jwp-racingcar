@@ -1,10 +1,13 @@
 package racingcar.domain.cars;
 
+import java.util.Objects;
+
 public class RacingCar {
     private static final int LEAST_CONDITION = 4;
     private static final int MAX_NAME_LENGTH = 5;
     private static final int ONE_STEP = 1;
 
+    private Long id;
     private final String name;
     private final Position position;
 
@@ -16,16 +19,14 @@ public class RacingCar {
     }
 
     public RacingCar(String name, int position) {
+        validate(name);
         this.name = name;
         this.position = new Position(position);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getPosition() {
-        return position.getValue();
+    public RacingCar(Long id, String name, int position) {
+        this(name, position);
+        this.id = id;
     }
 
     private void validate(String name) {
@@ -42,4 +43,34 @@ public class RacingCar {
             position.add(ONE_STEP);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        RacingCar racingCar = (RacingCar) o;
+        if (id == null || racingCar.id == null) {
+            return this == o;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+
+        return id.equals(racingCar.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPosition() {
+        return position.getValue();
+    }
+
 }

@@ -1,13 +1,15 @@
-package racingcar.web;
+package racingcar.controller.web;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.domain.RacingGameService;
-import racingcar.domain.game.RacingGameDto;
+import racingcar.dto.RacingGameDto;
+import racingcar.service.RacingGameService;
 
 @RestController
 public class RacingGameController {
@@ -24,9 +26,13 @@ public class RacingGameController {
         return ResponseEntity.ok(RacingGameResponse.from(racingGameResult));
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleTryTimeException(IllegalArgumentException exception) {
-        return ResponseEntity.badRequest().body(exception.getMessage());
+    @GetMapping("/plays")
+    public ResponseEntity<List<RacingGameResponse>> getHistory() {
+        List<RacingGameDto> racingGameDtos = racingGameService.readGameHistory();
+        List<RacingGameResponse> response = racingGameDtos.stream()
+                .map(racingGameDto -> RacingGameResponse.from(racingGameDto))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 
 }

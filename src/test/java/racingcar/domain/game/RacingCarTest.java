@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.domain.game;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -39,5 +39,17 @@ public class RacingCarTest {
             Assertions.assertThat(racingCar).extracting("position")
                     .isEqualTo(expectedPosition);
         }
+    }
+
+    @ParameterizedTest(name = "아이디({0})가 같은 자동차이다.")
+    @ValueSource(longs = {0, 1, 2, 3, 4, 100})
+    void equals(long id) {
+        //given
+        String name = "서브웨이";
+        RacingCar racingCar = new RacingCar(id, name, 0);
+        RacingCar other = new RacingCar(id, name, 0);
+        //when
+        //then
+        Assertions.assertThat(racingCar).isEqualTo(other);
     }
 }

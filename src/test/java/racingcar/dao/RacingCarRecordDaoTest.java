@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import racingcar.domain.cars.RacingCar;
 
 @JdbcTest
-class RacingRacingRacingCarRecordDaoTest {
+class RacingCarRecordDaoTest {
 
     private RacingCarRecordDao racingCarRecordDao;
     private long racingHistoryId;
@@ -36,7 +36,6 @@ class RacingRacingRacingCarRecordDaoTest {
         String carName = "Rosie";
         RacingCar racingCar = new RacingCar(carName);
         boolean isWinner = true;
-        long historyId = 1L;
         //when
         long insertedRecordId = racingCarRecordDao.insert(racingHistoryId, racingCar, isWinner);
         //then
@@ -44,10 +43,11 @@ class RacingRacingRacingCarRecordDaoTest {
                 "SELECT * FROM car_record WHERE id = :id",
                 new MapSqlParameterSource("id", insertedRecordId),
                 (rs, rowNum) -> new RacingCarRecord(
+                        rs.getLong("id"),
                         rs.getString("name"),
                         rs.getInt("position"),
                         rs.getBoolean("is_winner"),
-                        historyId
+                        rs.getLong("history_id")
                 )
         );
 
@@ -55,9 +55,8 @@ class RacingRacingRacingCarRecordDaoTest {
                 () -> assertThat(foundCar.getName()).isEqualTo(carName),
                 () -> assertThat(foundCar.getPosition()).isZero(),
                 () -> assertThat(foundCar.isWinner()).isEqualTo(isWinner),
-                () -> assertThat(foundCar.getHistoryId()).isEqualTo(historyId)
+                () -> assertThat(foundCar.getHistoryId()).isEqualTo(racingHistoryId)
         );
-
     }
 
 }

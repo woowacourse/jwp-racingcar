@@ -1,9 +1,9 @@
-package racingcar.domain.game;
+package racingcar.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.domain.cars.RacingCar;
-import racingcar.domain.cars.RacingCarDto;
+import racingcar.domain.game.RacingGame;
 
 public class RacingGameDto {
     private final List<String> winnerNames;
@@ -15,7 +15,11 @@ public class RacingGameDto {
     }
 
     public static RacingGameDto from(RacingGame game) {
-        return new RacingGameDto(game.getRacingCars(), game.calculateWinners());
+        List<RacingCar> racingCars = game.getRacingCars();
+        List<RacingCar> winners = racingCars.stream()
+                .filter(car -> game.isWinner(car))
+                .collect(Collectors.toList());
+        return new RacingGameDto(racingCars, winners);
     }
 
     private List<String> convertToString(List<RacingCar> winners) {

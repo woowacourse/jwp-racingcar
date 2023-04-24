@@ -1,4 +1,4 @@
-package racingcar.web;
+package racingcar.controller.web;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@org.springframework.web.bind.annotation.ControllerAdvice
+@ControllerAdvice
 public class CustomControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -23,6 +24,11 @@ public class CustomControllerAdvice {
             errorMessages.add(fieldName + ": " + errorMessage);
         }
         return ResponseEntity.badRequest().body(errorMessages);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleTryTimeException(IllegalArgumentException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 
 }
