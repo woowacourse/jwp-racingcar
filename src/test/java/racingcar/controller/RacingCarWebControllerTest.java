@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.model.PlayRequest;
+import racingcar.model.RacingCarRequest;
 
 import static org.hamcrest.core.Is.is;
 
 @DisplayName("Http Method")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PlayRequestControllerTest {
+class RacingCarWebControllerTest {
 
     @BeforeEach
     void setUp(@LocalServerPort final int port) {
@@ -24,11 +24,11 @@ class PlayRequestControllerTest {
     @DisplayName("Http Method - POST")
     @Test
     void playRacingCarGameTest() {
-        final PlayRequest playRequest = new PlayRequest("echo,io", 10);
+        final RacingCarRequest racingCarRequest = new RacingCarRequest("echo,io", 10);
 
         RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(playRequest)
+                .body(racingCarRequest)
                 .when().post("/plays")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())

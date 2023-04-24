@@ -1,12 +1,10 @@
 package racingcar.model;
 
-import java.util.List;
-
-public class PlayRequest {
+public class RacingCarRequest {
     private final String names;
     private final int count;
 
-    public PlayRequest(final String names, final int count) {
+    public RacingCarRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }
