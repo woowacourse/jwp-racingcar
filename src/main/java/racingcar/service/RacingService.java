@@ -97,8 +97,9 @@ public class RacingService {
         final List<Car> winnerCars = finishedCars.getWinnerCars();
         final List<Car> carsCurrentInfo = finishedCars.getCarsCurrentInfo();
 
-        for (final Car car : carsCurrentInfo) {
-            racingDao.save(new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId));
-        }
+        List<CarDto> carDtos = carsCurrentInfo.stream()
+                .map(car -> new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId))
+                .collect(Collectors.toList());
+        racingDao.saveWithBatch(carDtos);
     }
 }

@@ -16,6 +16,11 @@ public class RacingConsoleDao implements SimpleDao {
     }
 
     @Override
+    public void saveWithBatch(List<CarDto> carDtos) {
+        carStore.addAll(carDtos);
+    }
+
+    @Override
     public Integer save(TrackDto trackDto) {
         trackStore.add(trackDto);
         return trackStore.size() - 1;

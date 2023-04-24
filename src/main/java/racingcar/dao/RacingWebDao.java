@@ -23,6 +23,19 @@ public class RacingWebDao implements SimpleDao{
         String query = "INSERT INTO CAR(name, position, is_winner, track_id) values (?, ?, ?, ?)";
         jdbcTemplate.update(query, carDto.getName(), carDto.getPosition(), carDto.getIsWinner(), carDto.getTrackId());
     }
+
+    @Override
+    public void saveWithBatch(List<CarDto> carDtos) {
+        String query = "INSERT INTO CAR(name, position, is_winner, track_id) values (?, ?, ?, ?)";
+        int batchSize = 100;
+        jdbcTemplate.batchUpdate(query, carDtos, batchSize, (ps, carDto) -> {
+            ps.setString(1, carDto.getName());
+            ps.setInt(2, carDto.getPosition());
+            ps.setBoolean(3, carDto.getIsWinner());
+            ps.setInt(4, carDto.getTrackId());
+        });
+    }
+
     @Override
     public Integer save(final TrackDto trackDto) {
         String query = "INSERT INTO TRACK(trial_times) values (?)";

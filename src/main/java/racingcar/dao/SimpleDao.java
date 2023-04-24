@@ -7,6 +7,8 @@ import racingcar.dao.dto.TrackDto;
 public interface SimpleDao {
     void save(final CarDto carDto);
 
+    void saveWithBatch(final List<CarDto> carDtos);
+
     Integer save(final TrackDto trackDto);
 
     List<CarDto> findAll();
