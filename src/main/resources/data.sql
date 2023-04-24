@@ -1,27 +1,26 @@
--- TODO: 기능 구현에 필요한 내용을 추가하거나 수정하세요.
--- CREATE TABLE PLAY_RESULT (
---     id          INT         NOT NULL AUTO_INCREMENT,
---     winners     VARCHAR(50) NOT NULL,
---     created_at  DATETIME    NOT NULL default current_timestamp,
---     PRIMARY KEY (id)
--- );
-
 create table game
 (
-    game_number Integer auto_increment primary key,
+    game_number bigint auto_increment,
     created_at  datetime default current_timestamp,
-    trial_count Integer
+    trial_count Integer,
+    PRIMARY KEY (game_number)
 );
 
 create table game_log
 (
-    game_number     Integer,
+    id bigint auto_increment,
+    game_number     bigint,
     player_name     varchar(20),
-    result_position integer
+    result_position integer,
+    FOREIGN KEY (game_number) references game (game_number),
+    PRIMARY KEY (id)
 );
 
 create table winners
 (
-    game_number integer,
-    winner      varchar(20)
+    id bigint auto_increment,
+    game_number bigint,
+    winner      varchar(20),
+    FOREIGN KEY (game_number) references game (game_number),
+    PRIMARY KEY (id)
 );

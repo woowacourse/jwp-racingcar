@@ -1,19 +1,22 @@
-package racingcar.domain;
+package racingcar.service;
 
-import java.util.ArrayList;
+import racingcar.domain.Car;
+import racingcar.domain.RandomMoveChance;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class ConsoleService {
-
+public class GameLogic {
     private final List<Car> cars;
-    private final MoveChance moveChance;
 
-    public ConsoleService(List<Car> cars, MoveChance moveChance) {
-        this.cars = new ArrayList<>(cars);
-        this.moveChance = moveChance;
+    public GameLogic(String names) {
+        this.cars = Stream.of(names.split(","))
+                .map(Car::new)
+                .collect(Collectors.toList());
     }
+
 
     public List<Car> findWinners() {
         int maxPosition = findMaxPosition();
@@ -32,7 +35,7 @@ public class ConsoleService {
 
     public void playOnce() {
         for (Car car : cars) {
-            car.move(moveChance);
+            car.move(new RandomMoveChance());
         }
     }
 

@@ -3,22 +3,25 @@ package racingcar.dao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class WinnersDAOTest {
+@AutoConfigureTestDatabase
+public class WinnersDaoTest {
     @Autowired
-    private WinnersDAO winnersDAO;
+    private WinnersDao winnersDAO;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        winnersDAO = new WinnersDAO(jdbcTemplate);
+        winnersDAO = new WinnersDao(jdbcTemplate);
 
         jdbcTemplate.execute("DROP TABLE winners IF EXISTS");
         jdbcTemplate.execute("create table winners\n" +
@@ -31,5 +34,12 @@ public class WinnersDAOTest {
     @Test
     void insert() {
         assertThatNoException().isThrownBy(() -> winnersDAO.insert(5, "달리"));
+    }
+
+    @Test
+    void load() {
+        winnersDAO.insert(1, "달리");
+        winnersDAO.insert(1, "디노");
+        assertThat(winnersDAO.load(1).size()).isEqualTo(2);
     }
 }
