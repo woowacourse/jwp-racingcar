@@ -1,8 +1,8 @@
 package racingcar.controller;
 
 import org.springframework.web.bind.annotation.*;
-import racingcar.dto.GameInforamtionDto;
-import racingcar.dto.GameResultDto;
+import racingcar.dto.RacingCarResponse;
+import racingcar.dto.RacingGameRequest;
 import racingcar.service.RacingCarService;
 import racingcar.util.NumberGenerator;
 
@@ -21,12 +21,12 @@ public class RacingCarWebController {
     }
 
     @PostMapping
-    public GameResultDto createGame(@RequestBody GameInforamtionDto gameInforamtionDto) {
-        return racingCarService.play(gameInforamtionDto, numberGenerator);
+    public RacingCarResponse createGame(@RequestBody RacingGameRequest racingGameRequest) {
+        return racingCarService.play(racingGameRequest, numberGenerator);
     }
 
     @GetMapping
-    public List<GameResultDto> loadAllGame() {
+    public List<RacingCarResponse> loadAllGame() {
         return racingCarService.findAllGame();
     }
 

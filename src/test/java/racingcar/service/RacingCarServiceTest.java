@@ -6,9 +6,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import racingcar.dto.GameInforamtionDto;
-import racingcar.dto.GameResultDto;
-import racingcar.dto.RacingCarDto;
+import racingcar.dto.RacingCarData;
+import racingcar.dto.RacingCarResponse;
+import racingcar.dto.RacingGameRequest;
 import racingcar.entity.RacingCar;
 import racingcar.entity.Result;
 import racingcar.repository.RacingCarDao;
@@ -38,9 +38,9 @@ class RacingCarServiceTest {
     @DisplayName("Dao 메서드가 제대로 호출되는지 확인")
     void insertGame() {
         String names = "roy, jamie";
-        GameInforamtionDto gameInforamtionDto = new GameInforamtionDto(names, 10);
+        RacingGameRequest racingGameRequest = new RacingGameRequest(names, 10);
 
-        racingCarService.play(gameInforamtionDto, new RandomNumberGenerator());
+        racingCarService.play(racingGameRequest, new RandomNumberGenerator());
 
         verify(resultDao, times(1)).insert(anyInt(), anyString());
         verify(racingCarDao, times(2)).insert(any(), anyLong());
@@ -57,12 +57,12 @@ class RacingCarServiceTest {
                                 new RacingCar(2L, "test2", 4, 1L))
                 );
 
-        List<GameResultDto> gameResult = racingCarService.findAllGame();
+        List<RacingCarResponse> gameResult = racingCarService.findAllGame();
         List<String> carNames = gameResult.get(0).getRacingCars().stream()
-                                          .map(RacingCarDto::getName)
+                                          .map(RacingCarData::getName)
                                           .collect(Collectors.toList());
         List<Integer> positions = gameResult.get(0).getRacingCars().stream()
-                                          .map(RacingCarDto::getPosition)
+                                          .map(RacingCarData::getPosition)
                                           .collect(Collectors.toList());
 
         assertAll(

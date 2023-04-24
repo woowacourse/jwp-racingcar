@@ -2,12 +2,12 @@ package racingcar.dto;
 
 import java.util.List;
 
-public class GameResultDto {
+public class RacingCarResponse {
 
     private final String winners;
-    private final List<RacingCarDto> racingCars;
+    private final List<RacingCarData> racingCars;
 
-    public GameResultDto(String winners, List<RacingCarDto> racingCars) {
+    public RacingCarResponse(String winners, List<RacingCarData> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
@@ -16,7 +16,7 @@ public class GameResultDto {
         return winners;
     }
 
-    public List<RacingCarDto> getRacingCars() {
+    public List<RacingCarData> getRacingCars() {
         return racingCars;
     }
 }
