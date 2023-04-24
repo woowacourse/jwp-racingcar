@@ -1,30 +1,41 @@
 package racingcar.view;
 
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OutputView {
-	private static final String DELIMITER = " : ";
-	private static final String BAR = "-";
-	private static final String TELL_FINAL_WINNER = "가 최종 우승했습니다";
+    private static final String RESULT_OPENING_MESSAGE = "실행 결과";
+    private static final String NAME_POSITION_DELIMITER = " : ";
+    private static final String UNIT_POSITION_SIGN = "-";
+    private static final String WINNERS_PREFIX = "";
+    private static final String WINNERS_DELIMITER = ", ";
+    private static final String WINNERS_SUFFIX = "가 최종 우승했습니다.";
+    private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
 
-	public void printResultMessage() {
-		System.out.println();
-		System.out.println("실행 결과");
-	}
+    public void printResultOpeningMessage() {
+        System.out.println(System.lineSeparator() + RESULT_OPENING_MESSAGE);
+    }
 
-	public void printCarsDistance(Cars cars) {
-		for (Car car : cars.getCars()) {
-			String sb = car.getName()
-				+ DELIMITER
-				+ BAR.repeat(Math.max(0, car.getPosition()));
-			System.out.println(sb);
-		}
-		System.out.println();
-	}
+    public void printRaceResult(Map<String, Integer> raceResult) {
+        raceResult.forEach((carName, position) -> System.out.println(generateRaceResultFormat(carName, position)));
+        System.out.println();
+    }
 
-	public void printWinner(String winners) {
-		String result = winners + TELL_FINAL_WINNER;
-		System.out.println(result);
-	}
+    private String generateRaceResultFormat(String name, Integer position) {
+        return name + NAME_POSITION_DELIMITER + UNIT_POSITION_SIGN.repeat(position);
+    }
+
+    public void printWinners(List<String> winners) {
+        System.out.println(generateWinnersFormat(winners));
+    }
+
+    private String generateWinnersFormat(List<String> winners) {
+        return winners.stream()
+                      .collect(Collectors.joining(WINNERS_DELIMITER, WINNERS_PREFIX, WINNERS_SUFFIX));
+    }
+
+    public void printError(String errorMessage) {
+        System.out.println(ERROR_MESSAGE_PREFIX + errorMessage);
+    }
 }
