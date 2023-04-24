@@ -1,90 +1,113 @@
 package racingcar.service;
 
-import racingcar.dao.PlayResultDao;
-import racingcar.dao.PlayerDao;
-import racingcar.dto.GameInfo;
-import racingcar.dto.WinnerCarDto;
-import racingcar.exception.DuplicateCarNameException;
-import racingcar.model.Car;
-import racingcar.model.Cars;
-import racingcar.utils.RacingNumberGenerator;
-import racingcar.utils.StringUtils;
-import racingcar.wrapper.Round;
+import static java.util.stream.Collectors.*;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.stream.Stream;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import racingcar.dao.GameDao;
+import racingcar.dao.PlayerDao;
+import racingcar.dao.entity.GameEntity;
+import racingcar.dao.entity.PlayerEntity;
+import racingcar.domain.Car;
+import racingcar.domain.RacingGame;
+import racingcar.domain.vo.Name;
+import racingcar.domain.vo.Position;
+import racingcar.domain.vo.Round;
+import racingcar.dto.CarDto;
+import racingcar.dto.GamePlayResponseDto;
+import racingcar.dto.GameResultDto;
+import racingcar.strategy.RacingNumberGenerator;
+
+@Service
 public class CarService {
 
-    private final RacingNumberGenerator generator;
-    private final PlayerDao playerDao;
-    private final PlayResultDao playResultDao;
+	private final PlayerDao playerDao;
+	private final GameDao gameDao;
+	private final RacingNumberGenerator generator;
 
-    public CarService(final RacingNumberGenerator generator, final PlayerDao playerDao, final PlayResultDao playResultDao) {
-        this.generator = generator;
-        this.playerDao = playerDao;
-        this.playResultDao = playResultDao;
-    }
+	public CarService(final PlayerDao playerDao, final GameDao gameDao, final RacingNumberGenerator generator) {
+		this.playerDao = playerDao;
+		this.gameDao = gameDao;
+		this.generator = generator;
+	}
 
-    public WinnerCarDto playGame(GameInfo gameInfo) {
-        final Cars cars = setUpGame(gameInfo);
-        final WinnerCarDto winner = cars.getWinner();
-        save(gameInfo, winner);
-        return winner;
-    }
+	@Transactional
+	public GamePlayResponseDto playGame(final List<String> carNames, final int tryCount) {
+		final RacingGame racingGame = RacingGame.of(carNames, tryCount);
+		racingGame.playGame(generator);
 
-    private void save(final GameInfo gameInfo, final WinnerCarDto winner) {
-        final long id = insertPlayResult(gameInfo, winner);
-        insertPlayers(winner, id);
-    }
+		return save(racingGame);
+	}
 
-    private Cars setUpGame(final GameInfo gameInfo) {
-        final Cars cars = generateCars(gameInfo.getNames());
-        Round round = new Round(gameInfo.getCount());
+	public List<GamePlayResponseDto> findGamePlayHistoryAll() {
+		return getGameResultAll().stream()
+			.flatMap(this::mapToGamePlayResponseDto)
+			.collect(toList());
+	}
 
-        race(cars, round);
-        return cars;
-    }
+	private GamePlayResponseDto save(final RacingGame racingGame) {
+		final GameEntity gameEntity = getGameEntity(racingGame);
+		final long id = gameDao.save(gameEntity);
 
-    private void insertPlayers(final WinnerCarDto winner, final long id) {
-        winner.getRacingCars()
-                .forEach((carDto -> playerDao.insert(carDto.getName(), carDto.getPosition(), id)));
-    }
+		final List<PlayerEntity> playerEntities = getPlayerEntities(racingGame, id);
+		playerDao.batchInsert(playerEntities);
 
-    private long insertPlayResult(final GameInfo gameInfo, final WinnerCarDto winner) {
-        final String winners = String.join(",", winner.getWinners());
-        final int trialCount = Integer.parseInt(gameInfo.getCount());
-        return playResultDao.insert(winners, trialCount);
-    }
+		return new GamePlayResponseDto(racingGame.findWinnerNames(), mapToCarDto(racingGame.getCars()));
+	}
 
-    private void race(final Cars cars, final Round round) {
-        for (int count = 0; count < round.getRound(); count++) {
-            cars.race(generator);
-        }
-    }
+	private List<CarDto> mapToCarDto(final List<Car> cars) {
+		return cars.stream()
+			.map(CarService::createCarDto)
+			.collect(toList());
+	}
 
-    public Cars generateCars(String inputCarsName) {
-        String[] carsName = StringUtils.splitBySeparator(inputCarsName);
-        checkDuplication(carsName);
-        return new Cars(mapToCars(carsName));
-    }
+	private Stream<GamePlayResponseDto> mapToGamePlayResponseDto(Map<String, List<Car>> gameResult) {
+		return gameResult.keySet()
+			.stream()
+			.map(winners -> new GamePlayResponseDto(winners, mapToCarDto(gameResult.get(winners))));
+	}
 
-    private List<Car> mapToCars(String[] carsName) {
-        return Arrays.stream(carsName)
-                .map(Car::new)
-                .collect(Collectors.toList());
-    }
+	private static CarDto createCarDto(Car car) {
+		final Name name = car.getName();
+		final Position position = car.getPosition();
 
-    private void checkDuplication(String[] carsName) {
-        if (getDistinctCarsCount(carsName) != carsName.length) {
-            throw new DuplicateCarNameException();
-        }
-    }
+		return new CarDto(name.getValue(), position.getValue());
+	}
 
-    private long getDistinctCarsCount(String[] carsName) {
-        return Arrays.stream(carsName)
-                .distinct()
-                .count();
-    }
+	private GameEntity getGameEntity(final RacingGame racingGame) {
+		final Round round = racingGame.getRound();
+
+		return new GameEntity(null, racingGame.findWinnerNames(), round.getValue(), null);
+	}
+
+	private List<PlayerEntity> getPlayerEntities(final RacingGame racingGame, final long id) {
+		return racingGame.getCars().stream()
+			.map(car -> createPlayerEntity(id, car))
+			.collect(toList());
+	}
+
+	private PlayerEntity createPlayerEntity(long id, Car car) {
+		final Name name = car.getName();
+		final Position position = car.getPosition();
+
+		return new PlayerEntity(null, id, name.getValue(), position.getValue());
+	}
+
+	private List<Map<String, List<Car>>> getGameResultAll() {
+		Collection<Map<String, List<Car>>> gameResults = gameDao.findGamePlayHistoryAll().stream()
+			.collect(groupingBy(GameResultDto::getGameId, groupingBy(GameResultDto::getWinners,
+				mapping(gameResultDto -> Car.of(gameResultDto.getName(), gameResultDto.getPosition()),
+					toUnmodifiableList()))))
+			.values();
+
+		return new ArrayList<>(gameResults);
+	}
+
 }
