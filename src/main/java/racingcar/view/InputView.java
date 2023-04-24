@@ -9,11 +9,7 @@ public class InputView {
     private static final int ROUND_MIN_NUM = 1;
     private static final Pattern pattern = Pattern.compile("^[0-9]+$");
 
-    private final Scanner scanner;
-
-    public InputView(Scanner scanner) {
-        this.scanner = scanner;
-    }
+    private static final Scanner scanner = new Scanner(System.in);
 
     public String readCarNames() {
         System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
