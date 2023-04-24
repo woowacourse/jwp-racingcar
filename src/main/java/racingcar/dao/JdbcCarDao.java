@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class DBCarDao implements CarDao {
+public class JdbcCarDao implements CarDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public DBCarDao(JdbcTemplate jdbcTemplate) {
+    public JdbcCarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

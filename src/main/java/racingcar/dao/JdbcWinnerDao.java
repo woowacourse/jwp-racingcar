@@ -9,11 +9,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class DBWinnerDao implements WinnerDao {
+public class JdbcWinnerDao implements WinnerDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public DBWinnerDao(JdbcTemplate jdbcTemplate) {
+    public JdbcWinnerDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

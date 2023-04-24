@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-public class DBGameDao implements GameDao {
+public class JdbcGameDao implements GameDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public DBGameDao(JdbcTemplate jdbcTemplate) {
+    public JdbcGameDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
