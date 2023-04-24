@@ -8,7 +8,7 @@ public class Validator {
     private static final int MAX_PLAYER_NAME = 5;
     private static final int MAX_PLAYER_NUM = 10;
 
-    public Validator() {
+    private Validator() {
         throw new AssertionError("인스턴스화할 수 없습니다");
     }
 
