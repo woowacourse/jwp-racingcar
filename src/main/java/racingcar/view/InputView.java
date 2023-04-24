@@ -1,5 +1,7 @@
 package racingcar.view;
 
+import racingcar.utils.Validator;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,26 +11,18 @@ public class InputView {
     static Scanner scanner = new Scanner(System.in);
 
     public static List<String> inputCarNames() {
-        List<String> names = List.of(scanner.nextLine().split(CAR_NAME_DELIMITER));
-        validateName(names);
+        String namesInput = scanner.nextLine();
+        List<String> names = List.of(namesInput.split(CAR_NAME_DELIMITER));
+        Validator.validateProperNamePattern(names);
+        Validator.validateNameSize(names);
+        Validator.validatePlayerSize(names);
         return names;
     }
 
-    private static void validateName(List<String> names) {
-        if (names.size() <= 0) {
-            throw new IllegalArgumentException("사용자를 올바르게 입력하지 않았습니다");
-        }
-    }
-
     public static int inputTryTimes() {
-        int count = scanner.nextInt();
-        validateCountSize(count);
+        Integer count = scanner.nextInt();
+        Validator.validateNullcount(count);
+        Validator.validateCountSize(count);
         return count;
-    }
-
-    private static void validateCountSize(int count) {
-        if (count < 1 || count > 20) {
-            throw new IllegalArgumentException("최소 1회 이상 최대 20회 이하로 실행해야 합니다");
-        }
     }
 }
