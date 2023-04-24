@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public final class MemoryRacingGameRepository implements RacingGameRepository {
+public final class DummyRacingGameRepository implements RacingGameRepository {
     @Override
     public Long save(final RacingGame racingGame) {
         return null;
