@@ -1,5 +1,9 @@
 package racingcar.controller;
 
+import static racingcar.controller.ConsoleCommand.FIND;
+import static racingcar.controller.ConsoleCommand.QUIT;
+import static racingcar.controller.ConsoleCommand.SAVE;
+
 import java.util.List;
 import java.util.Scanner;
 import racingcar.domain.RacingGame;
@@ -21,8 +25,20 @@ public final class ConsoleRacingController {
     }
 
     public void run() {
-        this.racingService.playRacingGame(inputView.readCarNames(), inputView.readTryCount());
-        List<RacingGame> racingGames = racingService.getAllRacingGame();
-        consoleView.printAllRacingGames(racingGames);
+        ConsoleCommand consoleCommand = this.inputView.readCommand();
+        while (!consoleCommand.equals(QUIT)) {
+            if (consoleCommand.equals(SAVE)) {
+                RacingGame racingGame = this.racingService.playRacingGame(
+                        this.inputView.readCarNames(),
+                        this.inputView.readTryCount()
+                );
+                this.consoleView.printRacingGame(racingGame);
+            }
+            if (consoleCommand.equals(FIND)) {
+                List<RacingGame> racingGames = this.racingService.getAllRacingGame();
+                this.consoleView.printAllRacingGames(racingGames);
+            }
+            consoleCommand = this.inputView.readCommand();
+        }
     }
 }
