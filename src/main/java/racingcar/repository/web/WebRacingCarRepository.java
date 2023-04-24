@@ -1,4 +1,4 @@
-package racingcar.jdbc;
+package racingcar.repository.web;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -19,11 +19,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.dto.CarDto;
-import racingcar.dto.ResultDto;
 import racingcar.dto.HistoryDto;
+import racingcar.dto.ResultDto;
+import racingcar.repository.RacingCarRepository;
 
-public class RacingCarDao {
-
+public class WebRacingCarRepository implements RacingCarRepository {
 	private final JdbcTemplate jdbcTemplate;
 	private final RowMapper<HistoryDto> gameRowMapper = (resultSet, rowNum) -> new HistoryDto(
 		resultSet.getInt("gameId"),
@@ -34,7 +34,7 @@ public class RacingCarDao {
 		resultSet.getInt("position")
 	);
 
-	public RacingCarDao() {
+	public WebRacingCarRepository() {
 		final DataSource dataSource = DataSourceBuilder.create()
 			.url("jdbc:h2:mem:testdb")
 			.username("sa")
@@ -48,6 +48,7 @@ public class RacingCarDao {
 		return jdbcTemplate;
 	}
 
+	@Override
 	public void save(Cars cars, int count) {
 		String sqlGame = "INSERT INTO games(count, winner, timestamp) VALUES (?,?,?)";
 		String sqlCars = "INSERT INTO cars(name, position, gameId) VALUES(?,?,?)";
@@ -65,6 +66,7 @@ public class RacingCarDao {
 		}
 	}
 
+	@Override
 	public List<ResultDto> find() {
 		List<ResultDto> resultDtos = new ArrayList<>();
 
@@ -75,7 +77,7 @@ public class RacingCarDao {
 			String winner = historyDto.getWinner();
 			resultDto.setWinners(winner);
 
-			String sqlCars = "SELECT name, position FROM cars WHERE gameId = ?";// ? <= gameId
+			String sqlCars = "SELECT name, position FROM cars WHERE gameId = ?";
 			int gameId = historyDto.getGameId();
 			List<CarDto> carDtos = jdbcTemplate.query(sqlCars, carRowMapper, gameId);
 
