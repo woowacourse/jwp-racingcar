@@ -23,12 +23,13 @@ public class WebRacingGameController {
 
     @PostMapping("/plays")
     public ResponseEntity<GameResponse> playGame(@RequestBody @Valid GameRequest gameRequest) {
-        GameResponse result = racingGameService.play(gameRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        GameResponse gameResult = racingGameService.play(gameRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(gameResult);
     }
 
     @GetMapping("/plays")
     public ResponseEntity<List<GameResponse>> findAllCarGame() {
-        return ResponseEntity.ok(racingGameService.findAllCarGame());
+        List<GameResponse> gameResults = racingGameService.findAllCarGame();
+        return ResponseEntity.ok(gameResults);
     }
 }
