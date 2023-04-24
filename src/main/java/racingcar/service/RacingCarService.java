@@ -2,7 +2,6 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.controller.dto.GameInformationDto;
 import racingcar.controller.dto.GameResultDto;
 import racingcar.controller.dto.RacingCarDto;
 import racingcar.dao.GameRecordDao;
@@ -19,12 +18,9 @@ import java.util.List;
 @Service
 public class RacingCarService {
 
-    private ResultDao resultDao;
-    private RacingCarDao racingCarDao;
-    private GameRecordDao gameRecordDao;
-
-    public RacingCarService() {
-    }
+    private final ResultDao resultDao;
+    private final RacingCarDao racingCarDao;
+    private final GameRecordDao gameRecordDao;
 
     @Autowired
     public RacingCarService(ResultDao resultDao, RacingCarDao racingCarDao, GameRecordDao gameRecordDao) {
@@ -33,9 +29,8 @@ public class RacingCarService {
         this.gameRecordDao = gameRecordDao;
     }
 
-    public GameResultDto runGame(GameInformationDto gameInformationDto) {
-        Cars cars = makeCars(gameInformationDto.getNames());
-        int trialCount = gameInformationDto.getCount();
+    public GameResultDto runGame(String carNames, int trialCount) {
+        Cars cars = makeCars(carNames);
 
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         playRacing(cars, trialCount, numberGenerator);
@@ -49,11 +44,11 @@ public class RacingCarService {
         return new GameResultDto(cars.getWinnerCars(), makeRacingCarsDto(cars));
     }
 
-    public Cars makeCars(String carNames) {
+    private Cars makeCars(String carNames) {
         return new Cars(carNames);
     }
 
-    public void playRacing(Cars cars, int trialCount, NumberGenerator numberGenerator) {
+    private void playRacing(Cars cars, int trialCount, NumberGenerator numberGenerator) {
         for (int count = 0; count < trialCount; count++) {
             cars.moveForRound(numberGenerator);
         }

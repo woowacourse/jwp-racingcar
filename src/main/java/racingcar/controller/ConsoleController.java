@@ -1,44 +1,45 @@
 package racingcar.controller;
 
-import racingcar.domain.Cars;
+import org.springframework.stereotype.Component;
+import racingcar.controller.dto.GameResultDto;
 import racingcar.service.RacingCarService;
-import racingcar.util.RandomNumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.MessageView;
 import racingcar.view.OutputView;
 
-
+@Component
 public class ConsoleController {
 
-    private final RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
-    private final RacingCarService racingCarService = new RacingCarService();
+    private final RacingCarService racingCarService;
 
-    public void runGame() {
-        Cars cars = initCars();
-        racingCarService.playRacing(cars, setTryCount(), randomNumberGenerator);
-        OutputView.printResult(cars);
+    public ConsoleController(RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
     }
 
-    private Cars initCars() {
+    public void runGame() {
+        GameResultDto gameResultDto = racingCarService.runGame(getCarNames(), getTryCount());
+        OutputView.printResult(gameResultDto);
+    }
+
+    private String getCarNames() {
         MessageView.printCarNameMessage();
 
         try {
-            String carNames = InputView.inputCarNames();
-            return racingCarService.makeCars(carNames);
+            return InputView.inputCarNames();
         } catch (Exception e) {
             OutputView.printMessage(e.getMessage());
-            return initCars();
+            return getCarNames();
         }
     }
 
-    private int setTryCount() {
+    private int getTryCount() {
         MessageView.printTryCountMessage();
 
         try {
             return InputView.inputTryCount();
         } catch (Exception e) {
             OutputView.printMessage(e.getMessage());
-            return setTryCount();
+            return getTryCount();
         }
     }
 }

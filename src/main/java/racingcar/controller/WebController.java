@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,16 +13,15 @@ import java.util.List;
 @RestController
 public class WebController {
 
-    private RacingCarService racingCarService;
+    private final RacingCarService racingCarService;
 
-    @Autowired
     public WebController(RacingCarService racingCarService) {
         this.racingCarService = racingCarService;
     }
 
     @PostMapping("plays")
     public GameResultDto createGame(@RequestBody GameInformationDto gameInformationDto) {
-        return racingCarService.runGame(gameInformationDto);
+        return racingCarService.runGame(gameInformationDto.getNames(), gameInformationDto.getCount());
     }
 
     @GetMapping("plays")
