@@ -10,7 +10,7 @@ public class PlaysRequest {
     private int count;
 
     public PlaysRequest() {
-
+        //get은 Request가 없다
     }
 
     public PlaysRequest(String names, int count) {

@@ -11,6 +11,7 @@ import racingcar.entity.Game;
 import racingcar.entity.Player;
 import racingcar.utils.NumberGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,21 +30,50 @@ public class RacingCarService {
 
     public PlaysResponse play(PlaysRequest playsRequest) {
         Race race = new Race(playsRequest.getCount(), playsRequest.getNames(), numberGenerator);
-        while (!race.isFinished()) {
-            race.playRound();
-        }
+        race.play();
 
-        List<Car> winners = race.findWinners();
-        List<Car> participants = race.getParticipants();
+        Game game = createGame(race.findWinners(), playsRequest.getCount());
+        insertDataInDao(game, race.getParticipants());
 
-        Game game = Game.of(winners, playsRequest.getCount());
-        Long gameId = gameDao.insert(game);
+        return PlaysResponse.of(race.findWinners(), race.getParticipants());
+    }
 
-        List<Player> players = participants.stream()
+    private Game createGame(List<Car> winners, int count) {
+        List<String> winnerNames = winners
+                .stream()
+                .map(Car::getName)
+                .collect(Collectors.toList());
+
+        return Game.of(winnerNames, count);
+    }
+
+    private void insertDataInDao(Game game, List<Car> participants) {
+        Long gameId = insertGameData(game);
+        insertPlayersData(participants, gameId);
+    }
+
+    private Long insertGameData(Game game) {
+        return gameDao.insert(game);
+    }
+
+    private void insertPlayersData(List<Car> participants, Long gameId) {
+        List<Player> players = participants
+                .stream()
                 .map(participant -> Player.of(participant, gameId.intValue()))
                 .collect(Collectors.toList());
         playerDao.insert(players);
+    }
 
-        return PlaysResponse.of(winners, participants);
+    public List<PlaysResponse> getGamesAll() {
+        List<PlaysResponse> playsResponses = new ArrayList<>();
+
+        List<Game> games = gameDao.selectAll();
+        for (Game game : games) {
+            List<Player> players = playerDao.selectAllByGameId(game.getId());
+            String winners = game.getWinners();
+            playsResponses.add(PlaysResponse.of(winners, players));
+        }
+
+        return playsResponses;
     }
 }

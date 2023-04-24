@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 import racingcar.entity.Game;
 
 import java.sql.PreparedStatement;
+import java.util.Arrays;
+import java.util.List;
 
 @Repository
 public class GameDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     public GameDao(JdbcTemplate jdbcTemplate) {
@@ -28,5 +31,19 @@ public class GameDao {
         }, keyHolder);
 
         return keyHolder.getKey().longValue();
+    }
+
+    public List<Game> selectAll() {
+        final var query = "SELECT * FROM GAME";
+
+        return jdbcTemplate.query(query,
+                (resultSet, rowNum) -> {
+                    int id = resultSet.getInt("id");
+                    String winners = resultSet.getString("winners");
+                    int tryCount = resultSet.getInt("trial_count");
+                    return Game.of(id, Arrays.asList(winners), tryCount);
+                }
+
+        );
     }
 }

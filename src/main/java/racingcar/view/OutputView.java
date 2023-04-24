@@ -6,36 +6,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OutputView {
-
-    private static final String RESULT = "\n실행 결과";
     private static final String WIN = "가 최종 우승했습니다.";
-
-    public void printResultMessage() {
-        System.out.println(RESULT);
-    }
-
-    public void printRoundResult(List<Car> cars) {
-        StringBuilder content = new StringBuilder();
-        cars.forEach(car -> addCarResult(content, car));
-        System.out.println(content);
-    }
-
-    private void addCarResult(StringBuilder roundResult, Car car) {
-        final String DELIMITER = " : ";
-        final String CAR_RESULT = car.getName() + DELIMITER + convertDistance(car.getDrivenDistance()) + '\n';
-        roundResult.append(CAR_RESULT);
-    }
-
-    private String convertDistance(int distance) {
-        final String DISTANCE = "-";
-        return DISTANCE.repeat(distance);
-    }
 
     public void printWinners(List<Car> winners) {
         final String DELIMITER = ", ";
         String message =
                 winners.stream().map(Car::getName).collect(Collectors.joining(DELIMITER)) + WIN;
         System.out.println(message);
+        System.out.println();
+    }
+
+    public void printParticipantsInfo(List<Car> participants) {
+        for (Car car : participants) {
+            System.out.println("name: " + car.getName());
+            System.out.println("position: " + car.getDrivenDistance());
+            System.out.println();
+        }
     }
 
     public void printErrorMessage(Exception exception) {

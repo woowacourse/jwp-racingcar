@@ -1,10 +1,7 @@
 package racingcar.entity;
 
-import racingcar.domain.Car;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Game {
 
@@ -20,11 +17,12 @@ public class Game {
         this.createdAt = createdAt;
     }
 
-    public static Game of(List<Car> winners, int trialCount) {
-        List<String> winnerNames = winners.stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
-        return new Game(null, String.join(",", winnerNames), trialCount, null);
+    public static Game of(Integer id, List<String> winners, int trialCount) {
+        return new Game(id, String.join(",", winners), trialCount, null);
+    }
+
+    public static Game of(List<String> winners, int trialCount) {
+        return new Game(null, String.join(",", winners), trialCount, null);
     }
 
     public Integer getId() {
@@ -37,9 +35,5 @@ public class Game {
 
     public int getTrialCount() {
         return trialCount;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 }

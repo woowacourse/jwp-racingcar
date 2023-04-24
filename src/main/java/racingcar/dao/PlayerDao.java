@@ -3,6 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import racingcar.domain.Car;
 import racingcar.entity.Player;
 
 import java.sql.PreparedStatement;
@@ -36,5 +37,19 @@ public class PlayerDao {
                 return players.size();
             }
         });
+    }
+
+    public List<Player> selectAllByGameId(int gameId) {
+        final var query = "SELECT * FROM PLAYER WHERE game_id = ?";
+
+        return jdbcTemplate.query(query,
+                (resultSet, rowNum) -> {
+                    //Car car, int gameId
+                    String name = resultSet.getString("name");
+                    int position = resultSet.getInt("position");
+                    Car car = new Car(name, position);
+                    return Player.of(car, gameId);
+                }, gameId
+        );
     }
 }

@@ -24,8 +24,9 @@ public class RaceController {
 
     public void play() {
         readyForGame();
-        playGame();
+        race.play();
         printWinners();
+        printParticipants();
     }
 
     private void readyForGame() {
@@ -34,26 +35,14 @@ public class RaceController {
         race = new Race(count, carNames, numberGenerator);
     }
 
-    private void playGame() {
-        outputView.printResultMessage();
-        while (!race.isFinished()) {
-            playRound();
-        }
-        printRoundResult();
-    }
-
-    private void playRound() {
-        race.playRound();
-        printRoundResult();
-    }
-
-    private void printRoundResult() {
-        outputView.printRoundResult(race.getParticipants());
-    }
-
     private void printWinners() {
         List<Car> winners = race.findWinners();
         outputView.printWinners(winners);
+    }
+
+    private void printParticipants() {
+        List<Car> participants = race.getParticipants();
+        outputView.printParticipantsInfo(participants);
     }
 
     private <T> T repeat(Supplier<T> inputReader) {

@@ -18,6 +18,12 @@ public class Car {
         this.numberGenerator = numberGenerator;
     }
 
+    public Car(final String name, int position) {
+        this.name = new CarName(name);
+        this.drivenDistance = position;
+        this.numberGenerator = null;
+    }
+
     public void drive() {
         int number = chooseNumber();
         if (number >= MOVING_STANDARD) {
