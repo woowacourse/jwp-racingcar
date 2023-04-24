@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class InputView {
 	private static final Scanner scanner = new Scanner(System.in);
 
-	public String askCars() {
+	public static String askCars() {
 		System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
 		try {
 			return scanner.nextLine();
@@ -15,7 +15,7 @@ public class InputView {
 		}
 	}
 
-	public int askTrial() {
+	public static int askTrial() {
 		System.out.println("시도할 횟수는 몇회인가요?");
 		try {
 			int trial = scanner.nextInt();
