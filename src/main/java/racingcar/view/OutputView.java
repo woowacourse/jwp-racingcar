@@ -1,7 +1,8 @@
 package racingcar.view;
 
+import racingcar.dto.CarDto;
+
 import java.util.List;
-import racingcar.model.car.Car;
 
 public class OutputView {
     private static final OutputView instance = new OutputView();
@@ -13,42 +14,21 @@ public class OutputView {
     private OutputView() {
     }
 
-    public void printExceptionMessage(Exception exception) {
-        System.out.println(exception.getMessage());
+    public void printExceptionMessage(String exceptionMessage) {
+        System.out.println(exceptionMessage);
     }
 
     public void printResultMessage() {
-        System.out.println(Message.OUTPUT_RESULT_MESSAGE.message);
+        System.out.println("실행 결과");
     }
 
-    public void printResult(List<Car> cars) {
-        for (Car car : cars) {
-            System.out.printf(Message.OUTPUT_RESULT_FORMAT.message, car.getName(), createResultDisplay(car));
+    public void printResult(List<CarDto> carDtos) {
+        for (CarDto carDto : carDtos) {
+            System.out.println(carDto.getName() + ": " + carDto.getPosition());
         }
-        System.out.println();
-    }
-
-    private static StringBuilder createResultDisplay(Car car) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < car.getPosition(); i++) {
-            result.append("-");
-        }
-        return result;
     }
 
     public void printWinners(List<String> winners) {
-        System.out.printf(Message.OUTPUT_WINNER.message, String.join(", ", winners));
-    }
-
-    private enum Message {
-        OUTPUT_RESULT_MESSAGE("실행 결과"),
-        OUTPUT_RESULT_FORMAT("%s : %s%n"),
-        OUTPUT_WINNER("%s가 최종 우승했습니다.");
-
-        private final String message;
-
-        Message(String message) {
-            this.message = message;
-        }
+        System.out.printf("%s가 최종 우승했습니다.%n", String.join(", ", winners));
     }
 }

@@ -1,32 +1,37 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import racingcar.dto.RacingGameResultDto;
+import racingcar.dto.RacingGameSetUpDto;
+import racingcar.dto.view.PlayRequest;
+import racingcar.dto.view.PlaySuccessResponse;
+import racingcar.services.RacingGameService;
 
-import racingcar.dto.GameInfoDto;
-import racingcar.dto.ResultDto;
-import racingcar.services.GameService;
+import java.util.List;
 
 @RestController
 public class WebController {
 
-    @Autowired
-    private final GameService gameService;
+    private final RacingGameService racingGameService;
 
-    public WebController(GameService gameService) {
-        this.gameService = gameService;
+    public WebController(RacingGameService racingGameService) {
+        this.racingGameService = racingGameService;
     }
 
     @PostMapping("/plays")
-    public ResultDto play(@RequestBody GameInfoDto gameInfoDto) {
-        gameService.initialize();
-        gameService.createCars(gameInfoDto.getNames());
-        gameService.moveCars(gameInfoDto.getCount());
-        ResultDto resultDto = new ResultDto(gameService.getWinner(), gameService.getResult());
-        gameService.saveResult(gameInfoDto.getCount(), resultDto);
-        return resultDto;
+    public ResponseEntity<PlaySuccessResponse> play(@RequestBody PlayRequest playRequest) {
+        RacingGameResultDto racingGameDto = racingGameService.play(RacingGameSetUpDto.from(playRequest));
+        return ResponseEntity.ok().body(PlaySuccessResponse.from(racingGameDto));
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<PlaySuccessResponse>> queryHistory() {
+        List<RacingGameResultDto> racingGameDtos = racingGameService.queryHistory();
+        return ResponseEntity.ok().body(PlaySuccessResponse.from(racingGameDtos));
     }
 
 }
