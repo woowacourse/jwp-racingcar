@@ -19,7 +19,7 @@ import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingControllerTest {
+class WebRacingControllerTest {
 
     @LocalServerPort
     private int port;
