@@ -1,7 +1,6 @@
 package racingcar.dto;
 
 import java.util.List;
-import racingcar.dto.RacingCarStatusDto;
 
 public class HistoryResponse {
     private final String winners;

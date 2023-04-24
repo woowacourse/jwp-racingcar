@@ -35,7 +35,7 @@ import racingcar.service.RacingCarService;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayName("RacingCarConsoleController 클래스")
-class RacingCarConsoleControllerTest {
+class RacingCarControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
