@@ -1,8 +1,7 @@
 package racingcar.controller;
 
+import racingcar.dto.RacingCarRequestDto;
 import racingcar.dto.RacingCarResponseDto;
-import racingcar.model.Cars;
-import racingcar.model.Trial;
 import racingcar.service.RacingCarService;
 import racingcar.ui.ConsoleView;
 
@@ -17,9 +16,8 @@ public class ConsoleController {
 
     public void run() {
         try {
-            Cars cars = Cars.from(consoleView.carNames());
-            Trial trial = new Trial(consoleView.tryCount());
-            RacingCarResponseDto racingCarResponseDto = racingcarService.play(cars, trial);
+            RacingCarRequestDto request = consoleView.getRequest();
+            RacingCarResponseDto racingCarResponseDto = racingcarService.play(request);
             consoleView.printResult(racingCarResponseDto);
         } catch (IllegalArgumentException e) {
             consoleView.error(e.getMessage());

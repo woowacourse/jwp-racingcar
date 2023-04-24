@@ -26,7 +26,10 @@ public class RacingCarService {
         this.carDao = carDao;
     }
 
-    public RacingCarResponseDto play(final Cars cars, final Trial trial) {
+    public RacingCarResponseDto play(final RacingCarRequestDto request) {
+        final Cars cars = Cars.from(InputConvertor.carNames(request));
+        final Trial trial = new Trial(InputConvertor.tryCount(request));
+
         RacingGame racingGame = new RacingGame(cars, trial, new RandomNumberGenerator());
         racingGame.play();
         List<CarEntity> carEntities = insertResult(trial.getTrial(), cars, racingGame.winners());
