@@ -1,6 +1,7 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.CarResultDao;
 import racingcar.dao.GameResultDao;
 import racingcar.dao.JdbcWinnerDao;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RacingGameService {
     private final CarResultDao carResultDao;
     private final GameResultDao gameResultDao;
