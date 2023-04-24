@@ -16,15 +16,27 @@ public class ConsoleView {
 
     public void printAllRacingGames(List<RacingGame> racingGames) {
         for (RacingGame racingGame : racingGames) {
-            System.out.println("우승자: " + racingGame.getWinners().stream()
-                    .map(Car::getCarName)
-                    .collect(Collectors.joining(",")));
-            System.out.println();
-            for (Car car : racingGame.getCars()) {
-                System.out.println("이름: " + car.getCarName());
-                System.out.println("이동 거리: " + car.getPosition());
-            }
+            this.printRacingGame(racingGame);
         }
+    }
+
+    public void printRacingGame(RacingGame racingGame) {
+        System.out.println();
+        System.out.println("---------------");
+        System.out.println("** 우승자: " + getWinnersText(racingGame) + " **");
+        System.out.println();
+        for (Car car : racingGame.getCars()) {
+            System.out.println("이름: " + car.getCarName());
+            System.out.println("이동 거리: " + car.getPosition());
+        }
+        System.out.println("---------------");
+        System.out.println();
+    }
+
+    private static String getWinnersText(RacingGame racingGame) {
+        return racingGame.getWinners().stream()
+                .map(Car::getCarName)
+                .collect(Collectors.joining(","));
     }
 
     public void printRacingStatus(List<Car> cars) {
