@@ -59,8 +59,8 @@ public class RacingCarService {
 
         List<RacingCarData> racingCars = new ArrayList<>();
         for (Car car : cars.getCars()) {
-            RacingCarData racingCarDto = new RacingCarData(car.getName(), car.getLocation());
-            racingCars.add(racingCarDto);
+            RacingCarData racingCarData = new RacingCarData(car.getName(), car.getLocation());
+            racingCars.add(racingCarData);
         }
         return racingCars;
     }
@@ -79,21 +79,21 @@ public class RacingCarService {
         List<RacingCarResponse> gameResults = new ArrayList<>();
 
         for (Result result : results) {
-            gameResults.add(getRacingCarDto(result));
+            gameResults.add(getRacingCarData(result));
         }
 
         return gameResults;
     }
 
-    private RacingCarResponse getRacingCarDto(Result result) {
+    private RacingCarResponse getRacingCarData(Result result) {
         String winners = result.getWinners();
         List<RacingCar> racingCars = racingCarDao.findBy(result.getId());
-        List<RacingCarData> racingCarDtos =
+        List<RacingCarData> racingCarDatas =
                 racingCars.stream()
                           .map(racingCar ->
                                   new RacingCarData(racingCar.getName(), racingCar.getPosition()))
                           .collect(Collectors.toList());
 
-        return new RacingCarResponse(winners, racingCarDtos);
+        return new RacingCarResponse(winners, racingCarDatas);
     }
 }
