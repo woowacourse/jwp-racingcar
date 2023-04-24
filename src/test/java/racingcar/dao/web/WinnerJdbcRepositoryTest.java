@@ -15,7 +15,7 @@ import racingcar.dao.WinnerRepository;
 import racingcar.dao.entity.WinnerEntity;
 
 @JdbcTest
-@DisplayName("CarJdbcRepository 테스트")
+@DisplayName("WinnerJdbcRepository 테스트")
 @SuppressWarnings({"NonAsciiCharacters", "SpellCheckingInspection"})
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class WinnerJdbcRepositoryTest {

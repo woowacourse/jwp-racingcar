@@ -1,15 +1,12 @@
 package racingcar.controller.console;
 
-import org.springframework.stereotype.Controller;
+import java.util.function.Supplier;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
 import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
-import java.util.function.Supplier;
-
-@Controller
 public class RacingGameConsoleController {
 
     private final InputView inputView;
