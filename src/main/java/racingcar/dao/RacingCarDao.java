@@ -7,14 +7,16 @@ import racingcar.domain.Car;
 @Repository
 public class RacingCarDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public RacingCarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public void insert(Car car, long resultId) {
-        String sql = "insert into racing_cars (name, position, result_id) values (?, ?, ?)";
+        String sql = "INSERT INTO RACING_CARS (NAME, POSITION, RESULT_ID) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, car.getName(), car.getLocation(), resultId);
     }
+
+
 }

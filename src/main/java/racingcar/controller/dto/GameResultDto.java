@@ -1,4 +1,4 @@
-package racingcar.domain;
+package racingcar.controller.dto;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import racingcar.domain.GameInforamtionDto;
+import racingcar.controller.dto.GameInformationDto;
 import racingcar.util.NumberGenerator;
 import racingcar.util.TestNumberGenerator;
 
@@ -20,7 +20,7 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RacingCarControllerTest {
+class RacingCarConsoleControllerTest {
 
     @TestConfiguration
     static class TestSpringConfig {
@@ -42,13 +42,13 @@ class RacingCarControllerTest {
     @DisplayName("/plays로 연결이 잘 되는지 확인")
     @Test
     void createGame() {
-        GameInforamtionDto gameInforamtionDto = new GameInforamtionDto("roy,jamie", 3);
+        GameInformationDto gameInformationDto = new GameInformationDto("roy,jamie", 3);
 
         RestAssured.given()
                    .log()
                    .all()
                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                   .body(gameInforamtionDto)
+                   .body(gameInformationDto)
                    .when()
                    .post("/plays")
                    .then()
@@ -60,13 +60,13 @@ class RacingCarControllerTest {
     @DisplayName("/plays로 기대하는 값이 반환되는지 확인")
     @Test
     void createGameReturn() {
-        GameInforamtionDto gameInforamtionDto = new GameInforamtionDto("roy,jamie", 3);
+        GameInformationDto gameInformationDto = new GameInformationDto("roy,jamie", 3);
 
         RestAssured.given()
                    .log()
                    .all()
                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                   .body(gameInforamtionDto)
+                   .body(gameInformationDto)
                    .when()
                    .post("/plays")
                    .then()

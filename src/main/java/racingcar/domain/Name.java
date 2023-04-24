@@ -1,6 +1,6 @@
 package racingcar.domain;
 
-import racingcar.constant.ExceptionMessage;
+import racingcar.view.ExceptionMessage;
 
 import java.util.Objects;
 
