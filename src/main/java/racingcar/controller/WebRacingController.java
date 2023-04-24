@@ -14,12 +14,12 @@ import racingcar.domain.RacingGame;
 import racingcar.service.RacingService;
 
 @RestController
-public final class RacingController {
+public final class WebRacingController {
 
     private final RacingService racingService;
 
     @Autowired
-    public RacingController(final RacingService racingService) {
+    public WebRacingController(final RacingService racingService) {
         this.racingService = racingService;
     }
 
