@@ -7,6 +7,41 @@
 
 <br>
 
+## 클래스 다이어그램
+### Layered Architecture 사용
+```mermaid
+classDiagram
+    ConsoleView <-- ConsoleRacingController
+    Web <-- WebRacingController
+    ConsoleRacingController --o RacingService
+    WebRacingController --o RacingService
+    RacingService --o RacingRepository
+    <<interface>> RacingRepository
+```
+
+### Web, Console Application 간 분리
+```mermaid
+classDiagram
+    RacingService_web --o WebRacingRepository
+    WebRacingRepository --o JdbcTemplateRacingDao
+
+    RacingService_console --o InMemoryRacingRepository
+```
+
+### Domain 구조
+```mermaid
+classDiagram
+    RacingGame --o Car
+    Racing --o Coin
+    Racing --o NumberGenerator
+    Car --o CarName
+    Car --o Position
+    <<interface>> NumberGenerator
+    NumberGenerator ..|> RandomNumberGenerator
+```
+
+<br>
+
 ## 기능 요구사항
 
 ### ✅ POST /plays
