@@ -7,11 +7,14 @@ import static racingcar.view.OutputView.*;
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
 import racingcar.dto.ResultDto;
-import service.RacingGameService;
+import racingcar.service.RacingGameService;
 
 public class RacingCarConsoleController {
-	private final InputView inputView = new InputView();
-	private final OutputView outputView = new OutputView();
+	private final RacingGameService racingGameService;
+
+	public RacingCarConsoleController(RacingGameService racingGameService) {
+		this.racingGameService = racingGameService;
+	}
 
 	public void run() {
 		String carNames = askCars();
