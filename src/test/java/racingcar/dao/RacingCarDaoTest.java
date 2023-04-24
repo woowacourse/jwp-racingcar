@@ -26,9 +26,9 @@ class RacingCarDaoTest {
         racingCarDao = new RacingCarGameJdbcDao(jdbcTemplate);
     }
 
-    @DisplayName("게임 플레이 인원수 만큼 LOG 테이블에 정보가 레코드된다.")
+    @DisplayName("게임 플레이 저장 시 게임 ID가 반환된다.")
     @Test
-    void whenInsertGameThenLogTableRowCountIsPlayerCount() {
+    void whenInsertGameThenGetGameId() {
         //given
         final RacingCars racingCars = new RacingCars(
                 List.of(new RacingCar(new Name("블랙캣")),
@@ -38,10 +38,9 @@ class RacingCarDaoTest {
         final String sql = "SELECT COUNT(*) FROM LOG";
 
         //when
-        racingCarDao.insertGame(racingCars, tryCount);
-        final int count = jdbcTemplate.queryForObject(sql, Integer.class);
+        final int gameId = racingCarDao.insertGame(racingCars, tryCount);
 
         //then
-        assertThat(count).isEqualTo(2);
+        assertThat(gameId).isEqualTo(1);
     }
 }
