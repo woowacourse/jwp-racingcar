@@ -3,89 +3,82 @@ package racingcar.service;
 import org.springframework.stereotype.Service;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayerDao;
-import racingcar.dto.GameInfo;
+import racingcar.dto.CarDto;
+import racingcar.dto.GameDto;
+import racingcar.dto.GameResponse;
 import racingcar.dto.WinnerCarDto;
-import racingcar.exception.DuplicateCarNameException;
+import racingcar.entity.PlayResult;
+import racingcar.entity.Player;
 import racingcar.model.Car;
-import racingcar.model.Cars;
+import racingcar.model.RacingGame;
 import racingcar.strategy.RacingNumberGenerator;
-import racingcar.wrapper.Round;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CarService {
 
-    private final RacingNumberGenerator generator;
+    private final RacingNumberGenerator racingNumberGenerator;
     private final PlayerDao playerDao;
     private final PlayResultDao playResultDao;
 
-    public CarService(final RacingNumberGenerator generator, final PlayerDao playerDao, final PlayResultDao playResultDao) {
-        this.generator = generator;
+    public CarService(final RacingNumberGenerator racingNumberGenerator, final PlayerDao playerDao, final PlayResultDao playResultDao) {
+        this.racingNumberGenerator = racingNumberGenerator;
         this.playerDao = playerDao;
         this.playResultDao = playResultDao;
     }
 
-    public WinnerCarDto playGame(GameInfo gameInfo) {
-        final Cars cars = initGame(gameInfo);
-        final WinnerCarDto winner = cars.getWinner();
-        save(gameInfo, winner);
-        return winner;
+    public WinnerCarDto playGame(final GameDto gameDto) {
+        final RacingGame racingGame = new RacingGame(gameDto.getNames(), gameDto.getCount(), racingNumberGenerator);
+        racingGame.play();
+
+        return save(racingGame);
     }
 
-    private void save(final GameInfo gameInfo, final WinnerCarDto winner) {
-        final long id = insertPlayResult(gameInfo, winner);
-        insertPlayers(winner, id);
+    private WinnerCarDto save(final RacingGame racingGame) {
+        final long id = insertPlayResult();
+        final List<Car> winnerCars = racingGame.getWinnerCars();
+        final List<Car> cars = racingGame.getCars();
+        final List<Player> players = mapToPlayers(id, winnerCars, cars);
+
+        playerDao.insertAll(players);
+        return new WinnerCarDto(CarDto.convertCarToCarDto(winnerCars), CarDto.convertCarToCarDto(cars));
     }
 
-    private Cars initGame(final GameInfo gameInfo) {
-        final Cars cars = generateCars(gameInfo.getNames());
-        Round round = new Round(gameInfo.getCount());
-
-        race(cars, round);
-        return cars;
-    }
-
-    private void insertPlayers(final WinnerCarDto winner, final long id) {
-        winner.getRacingCars()
-                .forEach((carDto -> playerDao.insert(carDto.getName(), carDto.getPosition(), id)));
-    }
-
-    private long insertPlayResult(final GameInfo gameInfo, final WinnerCarDto winner) {
-        final String winners = String.join(",", winner.getWinners());
-        final int trialCount = Integer.parseInt(gameInfo.getCount());
-        return playResultDao.insert(winners, trialCount);
-    }
-
-    private void race(final Cars cars, final Round round) {
-        for (int count = 0; count < round.getRound(); count++) {
-            cars.race(generator);
-        }
-    }
-
-    public Cars generateCars(String inputCarsName) {
-        String[] carsName = inputCarsName.split(",");
-        checkDuplication(carsName);
-        return new Cars(mapToCars(carsName));
-    }
-
-    private List<Car> mapToCars(String[] carsName) {
-        return Arrays.stream(carsName)
-                .map(Car::new)
+    private static List<Player> mapToPlayers(final long id, final List<Car> winnerCars, final List<Car> cars) {
+        return cars.stream()
+                .map(car -> new Player(id, car.getName(), car.getPosition(), winnerCars.contains(car)))
                 .collect(Collectors.toList());
     }
 
-    private void checkDuplication(String[] carsName) {
-        if (getDistinctCarsCount(carsName) != carsName.length) {
-            throw new DuplicateCarNameException();
-        }
+    private long insertPlayResult() {
+        return playResultDao.insert();
     }
 
-    private long getDistinctCarsCount(String[] carsName) {
-        return Arrays.stream(carsName)
-                .distinct()
-                .count();
+    public List<GameResponse> findPlayHistories() {
+        final List<GameResponse> gameResponses = new ArrayList<>();
+        final List<PlayResult> allPlayResult = playResultDao.findAllPlayResult();
+        final List<List<Player>> allPlayer = findAllPlayer(allPlayResult);
+
+        for (int index = 0; index < allPlayResult.size(); index++) {
+            gameResponses.add(new GameResponse(getWinners(allPlayer.get(index)),
+                    CarDto.convertPlayerToCarDto(allPlayer.get(index))));
+        }
+        return gameResponses;
+    }
+
+    private List<List<Player>> findAllPlayer(final List<PlayResult> allPlayResult) {
+        return allPlayResult.stream()
+                .map(playResult -> playerDao.findAllPlayer(playResult.getId()))
+                .collect(Collectors.toList());
+    }
+
+    private String getWinners(final List<Player> allPlayer) {
+        return allPlayer.stream()
+                .filter(Player::isWinner)
+                .map(Player::getName)
+                .collect(Collectors.joining(","));
     }
 }

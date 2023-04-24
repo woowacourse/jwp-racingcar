@@ -1,18 +1,25 @@
 package racingcar.dto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WinnerCarDto {
 
-    private final List<String> winners;
+    private final List<CarDto> winners;
     private final List<CarDto> racingCars;
 
-    public WinnerCarDto(List<String> winners, final List<CarDto> racingCars) {
+    public WinnerCarDto(final List<CarDto> winners, final List<CarDto> racingCars) {
         this.winners = winners;
         this.racingCars = racingCars;
     }
 
-    public List<String> getWinners() {
+    public String winnerNames() {
+        return winners.stream()
+                .map(CarDto::getName)
+                .collect(Collectors.joining(","));
+    }
+
+    public List<CarDto> getWinners() {
         return winners;
     }
 

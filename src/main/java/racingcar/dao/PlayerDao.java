@@ -1,19 +1,11 @@
 package racingcar.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import racingcar.entity.Player;
 
-@Repository
-public class PlayerDao {
+import java.util.List;
 
-    private final JdbcTemplate jdbcTemplate;
+public interface PlayerDao {
 
-    public PlayerDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public void insert(final String name, final int position, final long playResultId) {
-        String sql = "insert into PLAYER (name, position, play_result_id) values (?, ?, ?)";
-        jdbcTemplate.update(sql, name, position, playResultId);
-    }
+    void insertAll(List<Player> players);
+    List<Player> findAllPlayer(long playResultId);
 }

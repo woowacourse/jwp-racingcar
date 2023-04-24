@@ -1,5 +1,8 @@
 package racingcar.strategy;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RacingRandomNumberGenerator implements RacingNumberGenerator{
 
     private static final int MIN_VALUE = 0;

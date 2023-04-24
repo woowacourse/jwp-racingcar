@@ -1,11 +1,11 @@
 package racingcar.dto;
 
-public class GameInfo {
+public class GameDto {
 
     private final String names;
     private final String count;
 
-    public GameInfo(final String names, final String count) {
+    public GameDto(final String names, final String count) {
         this.names = names;
         this.count = count;
     }
@@ -18,3 +18,6 @@ public class GameInfo {
         return count;
     }
 }
+
+
+
