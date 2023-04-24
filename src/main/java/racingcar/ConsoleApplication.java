@@ -1,8 +1,7 @@
 package racingcar;
 
 import racingcar.controller.RacingCarGameConsoleController;
-import racingcar.domain.strategy.NumberMovingStrategy;
-import racingcar.domain.strategy.RandomNumberGenerator;
+import racingcar.domain.strategy.RandomNumberMovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -13,7 +12,7 @@ public class ConsoleApplication {
         try (final Scanner scanner = new Scanner(System.in)) {
             RacingCarGameConsoleController consoleController = new RacingCarGameConsoleController(new InputView(scanner),
                     new OutputView(),
-                    new NumberMovingStrategy(new RandomNumberGenerator()));
+                    new RandomNumberMovingStrategy());
 
             consoleController.run();
         }
