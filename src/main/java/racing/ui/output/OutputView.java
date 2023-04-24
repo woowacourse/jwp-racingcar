@@ -1,5 +1,8 @@
 package racing.ui.output;
 
+import racing.controller.dto.response.CarResponse;
+import racing.controller.dto.response.RacingGameResultResponse;
+import racing.domain.Car;
 import racing.domain.Cars;
 
 import java.util.List;
@@ -29,7 +32,8 @@ public class OutputView {
 
     public static void printResult(Cars cars) {
         List<String> winners = cars.getWinners();
-        System.out.println(makeWinnersPrintForm(winners));
+        printWinnersPosition(cars);
+        System.out.println(System.lineSeparator() + makeWinnersPrintForm(winners));
     }
 
     private static String makeWinnersPrintForm(List<String> winners) {
@@ -39,4 +43,35 @@ public class OutputView {
         }
         return sb.substring(0, sb.toString().length() - 2) + FINAL_WINNER;
     }
+
+    private static void printWinnersPosition(Cars cars) {
+        System.out.println(System.lineSeparator() + "이동 횟수");
+        for (Car car : cars.getCars()) {
+            System.out.println(car.getName() + " : " + car.getPosition() + "회");
+        }
+    }
+
+    public static void printBeforeGames(List<RacingGameResultResponse> responses) {
+        for (int i = 0; i < responses.size(); i++) {
+            printWinners(responses.get(i).getWinners());
+            printCars(responses.get(i).getRacingCars());
+        }
+    }
+
+    private static void printWinners(List<String> winners) {
+        System.out.print(System.lineSeparator() + System.lineSeparator());
+        for (String winner : winners) {
+            System.out.println("[winner : " + winner + "]");
+        }
+    }
+
+    private static void printCars(List<CarResponse> racingCars) {
+        System.out.print("{");
+        for (CarResponse response : racingCars) {
+            System.out.println(System.lineSeparator() + "    name : " + response.getName());
+            System.out.println("    position : " + response.getPosition());
+        }
+        System.out.print("}");
+    }
+
 }

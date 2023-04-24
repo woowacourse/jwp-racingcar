@@ -10,39 +10,39 @@ import static racing.ui.output.OutputView.HYPHEN;
 public class Car {
 
     private final String name;
-    private int step;
+    private int position;
 
     public Car(String name) {
         this.name = name;
-        this.step = 0;
+        this.position = 0;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getStep() {
-        return step;
+    public int getPosition() {
+        return position;
     }
 
     public void move() {
-        this.step++;
+        this.position++;
     }
 
-    public List<String> ifMeetAddWinners(List<String> winners, int winnerStep) {
-        if (step == winnerStep) {
+    public List<String> ifMeetAddWinners(List<String> winners, int winnerPosition) {
+        if (position == winnerPosition) {
             winners.add(name);
             return winners;
         }
         return winners;
     }
 
-    public String getCarStepForm() {
-        return name + COLON + HYPHEN.repeat(step);
+    public String getCarPositionForm() {
+        return name + COLON + HYPHEN.repeat(position);
     }
 
-    public int getCarStep(int winnerStep) {
-        return Math.max(winnerStep, step);
+    public int getCarPosition(int winnerPosition) {
+        return Math.max(winnerPosition, position);
     }
 
 }
