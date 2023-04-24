@@ -14,7 +14,7 @@ CREATE TABLE `car` (
 CREATE TABLE `winner` (
                           `id` long PRIMARY KEY NOT NULL AUTO_INCREMENT,
                           `game_id` long NOT NULL,
-                          `winner` VARCHAR(40) NOT NULL
+                          `name` VARCHAR(40) NOT NULL
 );
 
 ALTER TABLE `car` ADD FOREIGN KEY (`game_id`) REFERENCES `game` (`id`);

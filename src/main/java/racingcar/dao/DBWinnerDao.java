@@ -18,7 +18,7 @@ public class DBWinnerDao implements WinnerDao {
     }
 
     public void insert(List<String> winners, long gameId) {
-        String sql = "INSERT INTO winner (game_id,winner) VALUES (?,?)";
+        String sql = "INSERT INTO winner (game_id,name) VALUES (?,?)";
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -34,7 +34,7 @@ public class DBWinnerDao implements WinnerDao {
     }
 
     public List<String> selectByGameId(long gameId) {
-        String sql = "SELECT winner FROM winner WHERE game_id = ?";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getString("winner"), gameId);
+        String sql = "SELECT name FROM winner WHERE game_id = ?";
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getString("name"), gameId);
     }
 }
