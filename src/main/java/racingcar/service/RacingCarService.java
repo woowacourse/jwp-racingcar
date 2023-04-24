@@ -2,8 +2,7 @@ package racingcar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import racingcar.database.RacingCarDao;
-import racingcar.database.RacingGameDao;
+import racingcar.database.*;
 import racingcar.model.*;
 
 import java.util.List;
@@ -19,21 +18,21 @@ public class RacingCarService {
 
     public RacingCarService() {
         this.carNumberGenerator = new CarRandomNumberGenerator();
-        this.racingGameDao = null;
-        this.racingCarDao = null;
+        this.racingGameDao = new EmptyRacingGameDao();
+        this.racingCarDao = new EmptyRacingCarDao();
     }
 
     @Autowired
-    public RacingCarService(final RacingGameDao racingGameDao, final RacingCarDao racingCarDao) {
+    public RacingCarService(final JdbcRacingGameDao jdbcRacingGameDao, final JdbcRacingCarDao jdbcRacingCarDao) {
         this.carNumberGenerator = new CarRandomNumberGenerator();
-        this.racingGameDao = racingGameDao;
-        this.racingCarDao = racingCarDao;
+        this.racingGameDao = jdbcRacingGameDao;
+        this.racingCarDao = jdbcRacingCarDao;
     }
 
     public RacingCarService(final CarNumberGenerator carNumberGenerator) {
         this.carNumberGenerator = carNumberGenerator;
-        this.racingGameDao = null;
-        this.racingCarDao = null;
+        this.racingGameDao = new EmptyRacingGameDao();
+        this.racingCarDao = new EmptyRacingCarDao();
     }
 
     public RacingCarResult playRacingCar(final List<String> names, final int trialCount) {
@@ -42,9 +41,8 @@ public class RacingCarService {
         race(racingCars, trialCount);
         final RacingCarResult racingCarResult = new RacingCarResult(getWinnerNames(racingCars), racingCars.getCars());
 
-        if (racingGameDao != null && racingCarDao != null) {
-            saveResult(trialCount, racingCarResult);
-        }
+        saveResult(trialCount, racingCarResult);
+
         return racingCarResult;
     }
 
@@ -75,10 +73,6 @@ public class RacingCarService {
     }
 
     public List<RacingCarResponse> getRacingCarLog() {
-        if (racingGameDao == null || racingCarDao == null) {
-            return List.of();
-        }
-
         final List<Integer> gameIds = racingGameDao.selectGameIds();
 
         return gameIds.stream()
