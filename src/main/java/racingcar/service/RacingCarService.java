@@ -38,7 +38,7 @@ public class RacingCarService {
     }
 
     private RacingCarGame createRacingCarGame(final PlayRequest playRequest) {
-        RacingCarNamesDto racingCarNamesDto = RacingCarNamesDto.of(playRequest.getNames());
+        RacingCarNamesDto racingCarNamesDto = RacingCarNamesDto.from(playRequest.getNames());
         return RacingCarGame.from(racingCarNamesDto);
     }
 

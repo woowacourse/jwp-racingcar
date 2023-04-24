@@ -10,7 +10,7 @@ public class RacingCarViewImpl implements RacingCarView {
 
     @Override
     public RacingCarNamesDto receiveCarNames() {
-        return RacingCarNamesDto.of(InputView.readCarNames());
+        return RacingCarNamesDto.from(InputView.readCarNames());
     }
 
     @Override

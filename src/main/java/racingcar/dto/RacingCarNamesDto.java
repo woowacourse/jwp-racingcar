@@ -9,7 +9,7 @@ public class RacingCarNamesDto {
         this.names = names;
     }
 
-    public static RacingCarNamesDto of(String input) {
+    public static RacingCarNamesDto from(String input) {
         String[] names = input.split(",");
         return new RacingCarNamesDto(List.of(names));
     }

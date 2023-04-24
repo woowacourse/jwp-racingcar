@@ -18,7 +18,7 @@ class RacingCarConsoleControllerTest {
     private static class MockRacingCarView implements RacingCarView {
         @Override
         public RacingCarNamesDto receiveCarNames() {
-            return RacingCarNamesDto.of("car1,car2,car3");
+            return RacingCarNamesDto.from("car1,car2,car3");
         }
 
         @Override

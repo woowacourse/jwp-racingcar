@@ -22,7 +22,7 @@ class RacingCarGameTest {
     void move_shouldNotMoveWhenNumberIsUnderThree(int input, int expected) {
         // given
         CustomMoveStrategy moveStrategy = new CustomMoveStrategy(input);
-        RacingCarGame racingCarGame = RacingCarGame.from(RacingCarNamesDto.of("car1"));
+        RacingCarGame racingCarGame = RacingCarGame.from(RacingCarNamesDto.from("car1"));
         racingCarGame.moveCars(moveStrategy);
 
         // when
@@ -37,7 +37,7 @@ class RacingCarGameTest {
     @DisplayName("자동차가 생성되어야 한다.")
     void car_create(String input, int expected) {
         // given
-        RacingCarGame racingCarGame = RacingCarGame.from(RacingCarNamesDto.of(input));
+        RacingCarGame racingCarGame = RacingCarGame.from(RacingCarNamesDto.from(input));
 
         // when
         List<RacingCarStatusDto> carStatuses = racingCarGame.getCarStatuses();
@@ -50,7 +50,7 @@ class RacingCarGameTest {
     @DisplayName("자동차의 정보가 정상적으로 반환되어야 한다.")
     void car_getStatues() {
         // given
-        RacingCarGame racingCarGame = RacingCarGame.from(RacingCarNamesDto.of("car1"));
+        RacingCarGame racingCarGame = RacingCarGame.from(RacingCarNamesDto.from("car1"));
 
         // when
         List<RacingCarStatusDto> carStatuses = racingCarGame.getCarStatuses();
@@ -64,7 +64,7 @@ class RacingCarGameTest {
     @DisplayName("우승자의 이름이 정상적으로 반환되어야 한다.")
     void findWinners() {
         // given
-        RacingCarGame racingCarGame = RacingCarGame.from(RacingCarNamesDto.of("car1,car2"));
+        RacingCarGame racingCarGame = RacingCarGame.from(RacingCarNamesDto.from("car1,car2"));
         racingCarGame.moveCars(MOVE_STRATEGY);
 
         // then
