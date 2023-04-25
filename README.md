@@ -1,89 +1,182 @@
 # jwp-racingcar
+<br>
 
-# 페어 프로그래밍 룰
+## 프로그램 설명
+- **이름** : 자동차 경주 게임
+- **개요** : 복수의 **자동차 이름**, **이동 시도 횟수**를 입력 받아 자동차 경주 게임을 실행하는 프로그램이다. **게임 실행 결과**를 사용자에게 알려준다.
 
-## 스위치 기준
+<br>
 
-- [x] 스위치 시간은 20분으로 한다.
-- [x] 내비게이터는 전자기기에 손을 대지 않는다.
+## 클래스 다이어그램
+### Layered Architecture 사용
+```mermaid
+classDiagram
+    ConsoleView <-- ConsoleRacingController
+    Web <-- WebRacingController
+    ConsoleRacingController --o RacingService
+    WebRacingController --o RacingService
+    RacingService --o RacingRepository
+    <<interface>> RacingRepository
+```
 
-## 깃 컨벤션
+### Web, Console Application 간 분리
+```mermaid
+classDiagram
+    RacingService_web --o WebRacingRepository
+    WebRacingRepository --o JdbcTemplateRacingDao
 
-- [x] 기능 목록에 있는 기능 단위로 커밋한다.
-- [x] 작동할 수 있는 기능 단위로 커밋한다.
-- [x] 커밋 메세지는 아래 키워드를 사용해 기능 목록 그대로 작성한다.
-    - feat: 기능 구현을 완료했을 때
-    - refactor: 기능의 변화 없이 코드를 변경했을 때
-    - test: 테스트 코드만 작성했을 때
-    - chore: 패키지 변경 등 사소한 수정사항이 생겼을 때
-    - fix: 프로그램의 결함을 수정할 때
-    - docs: 문서를 수정할 때
+    RacingService_console --o InMemoryRacingRepository
+```
 
-## 코드 컨벤션
+### Domain 구조
+```mermaid
+classDiagram
+    RacingGame --o Car
+    Racing --o Coin
+    Racing --o NumberGenerator
+    Car --o CarName
+    Car --o Position
+    <<interface>> NumberGenerator
+    NumberGenerator ..|> RandomNumberGenerator
+```
 
-- [x] 모든 클래스는 `final` 혹은 `abstract` 이어야 한다.
-- [x] 모든 파라미터에 `final` 키워드를 붙인다.
+<br>
 
-## 구현 계획
+## 기능 요구사항
 
-- [x] 구현은 다음과 같은 순서로 진행된다.
-    1. Spring MVC 학습
-    2. 자동차 경주 미션 - 웹 요청/응답 구현하기
-    3. Spring JDBC 학습
-    4. 자동차 경주 미션 - DB 연동하기
-    5. 리팩토링
+### ✅ POST /plays
 
-## 기타 룰
+**Request example**
 
-- [x] 미션 진행 2일차(수) 오후 4:00에 중간 회고를 진행한다.
-- [x] 최소한 2시간에 한 번은 쉬어야 한다.
-- [x] 커피챗을 최소 1회 진행한다.
-- [x] 집중이 안된다면 페어에게 솔직하게 이야기한다.
+```json
+POST /plays HTTP/1.1
+content-type: application/json; charset=UTF-8
+host: localhost: 8080
 
----
+{
+    "names": "브리,토미,브라운",
+    "count": 10
+}
+```
 
-# 추가로 구현할 기능 목록
+**Response example**
 
-## 웹 애플리케이션 구동
+```json
+HTTP/1.1 200
+Content-Type: application/json
 
-- [x] 자동차 경주 진행에 대한 웹 API를 구현한다.
-    - [x] 자동차 경주 진행에 대한 웹 요청을 받을 수 있다.
-        - [x] JSON 형태로 입력을 받는다.
-            - [x] 참여자들의 이름을 입력받는다.
-            - [x] 시도 횟수를 입력받는다.
-        - [x] `/plays`로 `POST` 요청을 보낼 시 응답한다.
-    - [x] 자동차 경주 진행 결과에 대한 웹 응답을 전달할 수 있다.
-        - [x] JSON 형태로 전달한다.
-            - [x] 우승자들의 이름을 전달한다.
-            - [x] 참여자들의 정보를 전달한다.
-                - [x] 모든 참여자들의 이름을 전달한다.
-                - [x] 모든 참여자들의 이동 거리를 전달한다.
-                - [x] 이동 거리의 내림차순으로 정렬 후 전달한다.
-        - [x] 성공 시 STATUS CODE `200`를 반환한다.
-        - [x] 실패 시 다음과 같은 STATUS CODE를 반환한다.
-            - [x] 사용자 입력이 잘못되었을 때는 `400`을 반환한다.
-            - [x] 정의되지 않은 경로로 요청하는 경우 `404`를 반환한다.
-            - [x] 정의되지 않은 HTTP 메서드를 호출했을 때는 `405`를 반환한다.
-            - [x] 서버 내부에서 에러가 발생했을 때는 `500`을 반환한다.
+{
+    "winners": "브리",
+    "racingCars": [
+        {
+          "name": "브리",
+          "position": 9
+        },
+        {
+          "name": "토미",
+          "position": 7
+        },
+        {
+          "name": "브라운",
+          "position": 3
+        },
+    ]
+}
+```
 
-## DB 연동
-
+- [x] 자동차 경주 진행에 대한 웹 요청을 받을 수 있다.
+    - [x] JSON 형태로 입력을 받는다.
+        - [x] 참여자들의 이름을 입력받는다.
+        - [x] 시도 횟수를 입력받는다.
+    - [x] `/plays`로 `POST` 요청을 보낼 시 응답한다.
+- [x] 자동차 경주 진행 결과에 대한 웹 응답을 전달할 수 있다.
+    - [x] JSON 형태로 전달한다.
+        - [x] 우승자들의 이름을 전달한다.
+        - [x] 참여자들의 정보를 전달한다.
+            - [x] 모든 참여자들의 이름을 전달한다.
+            - [x] 모든 참여자들의 이동 거리를 전달한다.
+            - [x] 이동 거리의 내림차순으로 정렬 후 전달한다.
+    - [x] 성공 시 STATUS CODE `200`를 반환한다.
 - [x] 자동차 경주 게임 플레이 이력을 DB에 저장한다.
-    - [x] H2 Database에 저장된다.
-    - [x] 저장되는 정보는 다음과 같다.
-        - [x] 플레이 횟수
-        - [x] 플레이어 별 최종 이동 거리(이름, 최종 위치)
-        - [x] 우승자
-        - [x] 플레이한 날짜/시간
+- [x] H2 Database에 저장된다.
+- [x] 저장되는 정보는 다음과 같다.
+    - [x] 플레이 횟수
+    - [x] 플레이어 별 최종 이동 거리(이름, 최종 위치)
+    - [x] 우승자
+    - [x] 플레이한 날짜/시간
 
-# TO-STUDY
+### ✅ GET /plays
 
-- [x] `@Transactional` 학습, 어떻게 사용할 수 있는지
-- [x] Mock 테스트의 테스트 범위와 원리 학습하기
-- [x] RequestBody + Model 같이 사용할 수 있는지
-- [x] RequestBody의 required가 어떻게 동작하는지
+**Request example**
 
-# 고민사항
+```json
+GET /plays HTTP/1.1
+```
 
-- [ ] 어느 기준으로 DTO를 생성해야 할지
-    - [ ] Controller - Service, Service - Dao 사이마다 DTO를 새로 정의해야 하는지(필드가 새롭게 추가되는 경우)
+**Response example**
+
+```json
+HTTP/1.1 200
+Content-Type: application/json
+
+[
+    {
+        "winners": "브리",
+        "racingCars": [
+            {
+                "name": "브리",
+                "position": 6
+            },
+            {
+                "name": "토미",
+                "position": 4
+            },
+            {
+                "name": "브라운",
+                "position": 3
+            },
+        ]
+    },
+    {
+        "winners": "브리,토미,브라운",
+        "racingCars": [
+            {
+                "name": "브리",
+                "position": 6
+            },
+            {
+                "name": "토미",
+                "position": 6
+            },
+            {
+                "name": "브라운",
+                "position": 6
+            },
+        ]
+    }
+]
+```
+
+- [x] 자동차 경주 플레이 이력 조회 요청을 받는다.
+    - [x] `/plays`로 `GET` 요청을 보낼 시 응답한다.
+- [x] 자동차 경주 플레이 이력을 반환한다.
+    - [x] JSON 형태로 전달한다.
+        - [x] 복수의 게임 결과를 반환한다.
+          - [x] 생성 일시 기준 내림차순으로 정렬한다.
+        - [x] 하나의 게임 결과는 다음 정보를 갖고 있다.
+          - [x] 우승자 이름
+          - [x] 이름, 위치 정보를 갖고 있는 자동차들
+    - [x] 성공 시 STATUS CODE `200`를 반환한다.
+
+### 요청 및 응답 에러
+
+- [x] 요청 또는 응답 실패 시 다음과 같은 STATUS CODE를 반환한다.
+    - [x] 사용자 입력이 잘못되었을 때는 `400`을 반환한다.
+    - [x] 정의되지 않은 경로로 요청하는 경우 `404`를 반환한다.
+    - [x] 정의되지 않은 HTTP 메서드를 호출했을 때는 `405`를 반환한다.
+    - [x] 서버 내부에서 에러가 발생했을 때는 `500`을 반환한다.
+
+### 콘솔 애플리케이션 관련 리팩터링
+- [x] 콘솔 애플리케이션의 출력을 변경한다.
+  - [x] 웹 애플리케이션과 동일하게 출력한다.
+  - [x] 웹 애플리케이션과의 중복 코드를 제거한다.

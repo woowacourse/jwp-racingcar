@@ -1,9 +1,10 @@
 package racingcar.view.output;
 
-import racingcar.domain.Car;
-
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import racingcar.domain.Car;
+import racingcar.domain.RacingGame;
 
 public class ConsoleView {
 
@@ -12,6 +13,31 @@ public class ConsoleView {
     private static final String DISTANCE_MARK = "-";
     private static final String CAR_INFO_DELIMITER = " : ";
     private static final String RESULT_DELIMITER = ", ";
+
+    public void printAllRacingGames(List<RacingGame> racingGames) {
+        for (RacingGame racingGame : racingGames) {
+            this.printRacingGame(racingGame);
+        }
+    }
+
+    public void printRacingGame(RacingGame racingGame) {
+        System.out.println();
+        System.out.println("---------------");
+        System.out.println("** 우승자: " + getWinnersText(racingGame) + " **");
+        System.out.println();
+        for (Car car : racingGame.getCars()) {
+            System.out.println("이름: " + car.getCarName());
+            System.out.println("이동 거리: " + car.getPosition());
+        }
+        System.out.println("---------------");
+        System.out.println();
+    }
+
+    private static String getWinnersText(RacingGame racingGame) {
+        return racingGame.getWinners().stream()
+                .map(Car::getCarName)
+                .collect(Collectors.joining(","));
+    }
 
     public void printRacingStatus(List<Car> cars) {
         for (Car car : cars) {

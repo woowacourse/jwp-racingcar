@@ -4,13 +4,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.dto.RacingGameRequest;
-import racingcar.exception.NoCarsExistException;
 
 public class RacingGame {
 
     private static final RandomNumberGenerator RANDOM_NUMBER_GENERATOR = new RandomNumberGenerator();
-    private static final int DEFAULT_START_LINE = 0;
     private static final int MOVABLE_BOUND = 4;
 
     private final List<Car> cars;
@@ -23,19 +20,25 @@ public class RacingGame {
         this.gameCoin = gameCoin;
     }
 
-    public static RacingGame from(RacingGameRequest racingGameRequest) {
-        List<String> carNames = List.of(racingGameRequest.getNames().split(","));
+    public static RacingGame of(final List<String> carNames, final int tryCount) {
         List<Car> cars = carNames.stream()
-                .map(carName -> new Car(carName, DEFAULT_START_LINE))
+                .map(Car::createBy)
                 .collect(Collectors.toList());
-        return new RacingGame(cars, RANDOM_NUMBER_GENERATOR, new Coin(racingGameRequest.getCount()));
+        return new RacingGame(cars, RANDOM_NUMBER_GENERATOR, new Coin(tryCount));
     }
 
-    public void start() {
+    public void play() {
+        while (gameCoin.isLeft()) {
+            moveEachCar();
+            this.gameCoin.use();
+        }
+        this.order();
+    }
+
+    private void moveEachCar() {
         for (Car car : this.cars) {
             moveCar(car);
         }
-        this.gameCoin.use();
     }
 
     private void moveCar(Car car) {
@@ -45,8 +48,8 @@ public class RacingGame {
         }
     }
 
-    public boolean isGameOnGoing() {
-        return gameCoin.isLeft();
+    private void order() {
+        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
     }
 
     public List<Car> getCars() {
@@ -64,10 +67,6 @@ public class RacingGame {
     private Car getFurthestCar() {
         return this.cars.stream()
                 .max(Car::comparePosition)
-                .orElseThrow(NoCarsExistException::new);
-    }
-
-    public void order() {
-        Collections.sort(this.cars, Comparator.comparing(Car::getPosition).reversed());
+                .orElseThrow(() -> new IllegalStateException("자동차가 존재하지 않습니다."));
     }
 }
