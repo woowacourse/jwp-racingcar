@@ -1,13 +1,13 @@
 package racingcar.exception;
 
 public class CustomException extends IllegalArgumentException {
-    private int errorNumber;
+    private String errorMessage;
 
-    public CustomException(final int errorNumber) {
-        this.errorNumber = errorNumber;
+    public CustomException(final String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
-    public int getErrorNumber() {
-        return errorNumber;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

@@ -1,15 +1,16 @@
 package racingcar.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.model.car.Car;
-import racingcar.model.car.Cars;
+import racingcar.controller.dto.TrackRequest;
+import racingcar.controller.dto.TrackResponse;
 import racingcar.service.RacingService;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class RacingWebController {
@@ -21,32 +22,16 @@ public class RacingWebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<TrackResponse> play(@RequestBody final TrackRequest trackRequest) {
-        final String names = trackRequest.getNames();
-        final String trialTimes = trackRequest.getCount();
+    public ResponseEntity<TrackResponse> play(@Valid @RequestBody final TrackRequest trackRequest) {
+        final TrackResponse trackResponse = racingService.play(trackRequest);
 
-        final Cars finishedCars = racingService.play(names, trialTimes);
-
-        return ResponseEntity.ok().body(makeResponse(finishedCars));
+        return ResponseEntity.ok(trackResponse);
     }
 
-    private TrackResponse makeResponse(final Cars finishedCars) {
-        final String winnerCarNames = makeWinnerCarNames(finishedCars);
-        final List<CarResponse> results = makeCarResponses(finishedCars);
-        return new TrackResponse(winnerCarNames, results);
-    }
+    @GetMapping("/plays")
+    public ResponseEntity<List<TrackResponse>> play() {
+        final List<TrackResponse> trackResponses = racingService.findAll();
 
-    private String makeWinnerCarNames(final Cars finishedCars) {
-        final String winnerCarNames = finishedCars.getWinnerCars().stream()
-                .map(Car::getCarName)
-                .collect(Collectors.joining(", "));
-        return winnerCarNames;
-    }
-
-    private List<CarResponse> makeCarResponses(final Cars finishedCars) {
-        final List<CarResponse> results = finishedCars.getCarsCurrentInfo().stream()
-                .map(car -> new CarResponse(car.getCarName(), car.getPosition()))
-                .collect(Collectors.toList());
-        return results;
+        return ResponseEntity.ok(trackResponses);
     }
 }

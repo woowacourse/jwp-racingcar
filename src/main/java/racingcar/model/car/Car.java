@@ -1,8 +1,7 @@
 package racingcar.model.car;
 
-import racingcar.exception.ExceedCarNameLengthException;
-import racingcar.exception.HasBlankCarNameException;
-import racingcar.exception.InvalidCarNameFormatException;
+import org.springframework.util.StringUtils;
+import racingcar.exception.CustomException;
 import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.car.strategy.RandomMovingStrategy;
 
@@ -15,43 +14,43 @@ public class Car {
 
     private final String carName;
     private int position;
-    private final MovingStrategy movingStrategy;
 
-    public Car(final String carName, final MovingStrategy movingStrategy) {
+    private Car(final String carName, final int position) {
         validate(carName);
 
         this.carName = carName;
-        this.position = POSITION_INIT;
-        this.movingStrategy = movingStrategy;
+        this.position = position;
     }
 
-    public Car(final String carName, final int position) {
-        this.carName = carName;
-        this.position = position;
-        this.movingStrategy = new RandomMovingStrategy();
+    public static Car from(final String carName) {
+        return new Car(carName, POSITION_INIT);
+    }
+
+    public static Car of(final String carName, final int position) {
+        return new Car(carName, position);
     }
 
     private void validate(final String carName) {
-        validateHasBlank(carName);
+        validateEmptyInput(carName);
         validateValue(carName);
         validateOverMaxNameLength(carName);
     }
 
-    private void validateValue(final String carName) {
-        if (!STRING_PATTERN.matcher(carName).matches()) {
-            throw new InvalidCarNameFormatException();
+    private void validateEmptyInput(final String carName) {
+        if (!StringUtils.hasText(carName)) {
+            throw new CustomException("비어있는 자동차 이름이 존재합니다.");
         }
     }
 
-    private void validateHasBlank(final String carName) {
-        if (carName.isBlank()) {
-            throw new HasBlankCarNameException();
+    private void validateValue(final String carName) {
+        if (!STRING_PATTERN.matcher(carName).matches()) {
+            throw new CustomException("자동차 이름은 문자와 숫자만 가능합니다.");
         }
     }
 
     private void validateOverMaxNameLength(final String carName) {
         if (carName.length() > MAX_NAME_LENGTH) {
-            throw new ExceedCarNameLengthException();
+            throw new CustomException("자동차 이름은 다섯 글자 이하여야 합니다.");
         }
     }
 
@@ -63,7 +62,7 @@ public class Car {
         return position == maxPosition;
     }
 
-    public boolean movable() {
+    public boolean movable(final MovingStrategy movingStrategy) {
         return movingStrategy.movable();
     }
 

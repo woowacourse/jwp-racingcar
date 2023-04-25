@@ -53,7 +53,8 @@
                     return response.json();
                 } else if (response.status === 400) {
                     return response.json().then(errorData => {
-                        throw new Error(errorData.message);
+                        const errorMessage = Object.values(errorData).join("\n");
+                        throw new Error(errorMessage);
                     });
                 } else {
                     throw new Error("Network response was not ok.");
@@ -72,7 +73,7 @@
             })
             .catch(error => {
                 console.error("Error:", error);
-                alert(error);
+                alert(error.message);
             });
     }
 

@@ -1,9 +1,10 @@
 package racingcar.model.car;
 
-import racingcar.exception.DuplicateCarNamesException;
-import racingcar.exception.NotExistCarsException;
+import org.springframework.util.StringUtils;
+import racingcar.exception.CustomException;
 import racingcar.model.car.strategy.MovingStrategy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,48 +12,55 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Cars {
-    private static final int NOT_EXIST_CARS = 0;
+
     private static final String SEPARATOR = ",";
 
     private final List<Car> cars;
 
-    public Cars(final String carNames, final MovingStrategy movingStrategy) {
-        validate(carNames);
+    private Cars(final List<Car> cars) {
+        validateDuplicateCarNames(cars);
 
-        this.cars = Arrays.stream(carNames.split(SEPARATOR))
-                .map(carName -> new Car(carName, movingStrategy))
-                .collect(Collectors.toList());
-    }
-
-    public Cars(final List<Car> cars) {
         this.cars = cars;
     }
 
-    private void validate(final String carNames) {
-        String[] splitCarNames = carNames.split(SEPARATOR);
+    public static Cars from(final List<Car> cars) {
+        final List<Car> newCars = new ArrayList<>(cars);
 
-        validateNotExistCar(splitCarNames);
-        validateDuplicateCarNames(splitCarNames);
+        return new Cars(newCars);
     }
 
-    private void validateNotExistCar(final String[] splitCarNames) {
-        if (splitCarNames.length == NOT_EXIST_CARS) {
-            throw new NotExistCarsException();
+    public static Cars of(final String carNames) {
+        validateEmptyInput(carNames);
+
+        final List<Car> cars = Arrays.stream(carNames.split(SEPARATOR, -1))
+                .map(Car::from)
+                .collect(Collectors.toList());
+
+        return new Cars(cars);
+    }
+
+    private static void validateEmptyInput(final String carNames) {
+        if (!StringUtils.hasText(carNames)) {
+            throw new CustomException("입력값이 존재하지 않습니다.");
         }
     }
 
-    private void validateDuplicateCarNames(final String[] splitCarNames) {
-        int carNamesCount = splitCarNames.length;
-        int distinctCarNamesCount = new HashSet<>(Arrays.asList(splitCarNames)).size();
+    private void validateDuplicateCarNames(final List<Car> cars) {
+        final List<String> carNames = cars.stream()
+                .map(Car::getCarName)
+                .collect(Collectors.toList());
+
+        final int carNamesCount = carNames.size();
+        final int distinctCarNamesCount = new HashSet<>(carNames).size();
 
         if (carNamesCount != distinctCarNamesCount) {
-            throw new DuplicateCarNamesException();
+            throw new CustomException("중복된 차 이름이 존재합니다.");
         }
     }
 
-    public void moveCars() {
+    public void moveCars(final MovingStrategy movingStrategy) {
         cars.stream()
-                .filter(Car::movable)
+                .filter(car -> car.movable(movingStrategy))
                 .forEach(Car::moveForward);
     }
 
@@ -61,7 +69,7 @@ public class Cars {
     }
 
     public List<Car> getWinnerCars() {
-        Integer maxPosition = Collections.max(cars.stream()
+        final Integer maxPosition = Collections.max(cars.stream()
                 .map(Car::getPosition)
                 .collect(Collectors.toList()));
 

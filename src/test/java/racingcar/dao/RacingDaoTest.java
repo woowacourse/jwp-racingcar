@@ -2,22 +2,28 @@ package racingcar.dao;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
+import racingcar.mapper.CarDtoMapper;
+import racingcar.mapper.TrackDtoMapper;
+import racingcar.model.TrialTimes;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(RacingDao.class)
+@JdbcTest
 class RacingDaoTest {
 
     @Autowired
-    RacingDao racingDao;
+    private RacingDao racingDao;
 
     @Test
     void createTrack() {
-        final TrackDto trackDto = new TrackDto(5);
+        final TrialTimes trialTimes = TrialTimes.from("5");
+        final TrackDto trackDto = TrackDtoMapper.from(trialTimes);
 
         final Integer savedId = racingDao.save(trackDto);
 
@@ -26,10 +32,11 @@ class RacingDaoTest {
 
     @Test
     void createCar() {
-        final TrackDto trackDto = new TrackDto(5);
-        final Integer savedId = racingDao.save(trackDto);
+        final TrialTimes trialTimes = TrialTimes.from("5");
+        final TrackDto trackDto = TrackDtoMapper.from(trialTimes);
 
-        final CarDto carDto = new CarDto("pobi", 5, true, savedId);
+        final Integer savedId = racingDao.save(trackDto);
+        final CarDto carDto = CarDtoMapper.of("pobi", 5, true, savedId);
 
         assertDoesNotThrow(() -> racingDao.save(carDto));
     }
