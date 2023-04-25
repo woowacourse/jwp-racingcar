@@ -2,14 +2,16 @@ package racingcar.entity;
 
 public class CarEntity {
 
-    private int id;
+    private final int id;
     private final String name;
     private final int position;
+    private final int racingGameId;
 
-    public CarEntity(int id, String name, int position) {
+    public CarEntity(int id, String name, int position, int racingGameId) {
         this.id = id;
         this.name = name;
         this.position = position;
+        this.racingGameId = racingGameId;
     }
 
     public int getId() {
@@ -24,8 +26,18 @@ public class CarEntity {
         return position;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getRacingGameId() {
+        return racingGameId;
+    }
+
+    @Override
+    public String toString() {
+        return "CarEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                ", racingGameId=" + racingGameId +
+                '}';
     }
 
     public static class Builder {
@@ -33,6 +45,7 @@ public class CarEntity {
         private int id;
         private String name;
         private int position;
+        private int racingGameId;
 
         public Builder id(int id) {
             this.id = id;
@@ -49,8 +62,13 @@ public class CarEntity {
             return this;
         }
 
+        public Builder racingGameId(int racingGameId) {
+            this.racingGameId = racingGameId;
+            return this;
+        }
+
         public CarEntity build() {
-            return new CarEntity(id, name, position);
+            return new CarEntity(id, name, position, racingGameId);
         }
 
     }
