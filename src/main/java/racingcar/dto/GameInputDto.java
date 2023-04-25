@@ -1,20 +1,18 @@
 package racingcar.dto;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
+@Getter
 public class GameInputDto {
-
-    private final String names;
-    private final String count;
-
-    public GameInputDto(String names, String count) {
+    private String names;
+    private String count;
+    
+    public GameInputDto(final String names, final String count) {
         this.names = names;
         this.count = count;
-    }
-
-    public String getNames() {
-        return names;
-    }
-
-    public String getCount() {
-        return count;
     }
 }

@@ -2,48 +2,46 @@
 
 # 요구사항
 
-- [x] 자동차 경주 코드 가져오기
+## step1
+### 입력
+- [x] 자동차 이름 입력
+  - [x] 쉼표 구분자로 이름 나누기
+  - [x] [예외 처리] Null or Empty
+  - [x] [예외 처리] 영어, 한글, 쉼표가 아닌 문자가 포함
 
----
+- [x] 경주 횟수 입력
+    - [x] 정상 입력
+    - [x] [예외 처리] Null or Empty
+    - [x] [예외 처리] 숫자가 아닌 문자 포함
 
-- [x] 웹을 통해 요청받기
-    - [x] 자동차 이름 (name)
-    - [x] 시도할 횟수 (count)
+### 출력
+- [x] 최종 결과 출력
+  - [x] 우승자 출력 (여러명일 수 있다)
+  - [x] 각 자동차의 현 상황 출력
 
----
+### 도메인
+- [x] 자동차
+  - [x] 이름
+    - [x] [예외 처리] 이름 길이 1~5자
+    - [x] [예외 처리] 같은 이름이 존재하는 경우
+  - [x] Position
+    - [x] 1 증가한다.
 
-- [x] JSON으로 응답하기
-    - [x] 우승자 ( winners )
-    - [x] 자동차 ( racingCars )
-        - [x] 이름 (name)
-        - [x] 위치 (position)
+- [x] 레이싱 게임
+  - [x] 시도 횟수 (TryNumber)
+    - [x] [예외 처리] 100만 초과
+    - [x] [예외 처리] 음수
+    - [x] 1 감소한다.
+    - [x] 지정된 시도 횟수가 0이 되면 true를 반환한다 (isFinished)
+  - [x] 시도 횟수만큼 이동을 시도한다
+  - [x] 우승자 구하기 (여러명도 가능)
 
----
+  - [x] 이동 여부 결정 (RandomBasedMoveStrategy - 0 ~ 9중 랜덤 숫자 생성)
+    - [x] 무브 : 랜덤 숫자 4이상
+    - [x] 스탑 : 랜덤 숫자 3이하
 
+
+## step2
+- [x] 웹 요청/응답 구현하기
 - [x] DB 연동하기
-    - [x] H2 DB 연동
-    - [x] 플레이 이력 저장
-        - [x] 플레이 횟수 (trialCount)
-        - [x] 플레이어 별 최종 이동 거리
-            - [x] 이름 (name)
-            - [x] 최종 위치 (position)
-        - [x] 우승자 (winners)
-        - [x] 플레이한 날짜/시간 (time)
-        - [x] 플레이 횟수 (play_count)
 
-- [x] DB 테이블
-    - [x] Race
-        - [x] id (pk) : SERIAL
-        - [x] 플레이한 날짜/시간 (time) : DATETIME DEFAULT NOW()
-        - [x] 플레이 횟수 (play_count)
-
-    - [x] Winner
-        - [x] id (pk) : SERIAL
-        - [x] race_id (fk) : INT
-        - [x] player_id (fk) : INT
-
-    - [x] Player
-        - [x] id (pk) : SERIAL
-        - [x] 이름 (name) : VARCHAR(255)
-        - [x] 최종 위치 (position) : INT
-        - [x] race_id (fk) : INT

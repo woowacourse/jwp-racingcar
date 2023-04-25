@@ -1,27 +1,26 @@
-CREATE TABLE RACE (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    play_count  INT         NOT NULL,
+CREATE TABLE IF NOT EXISTS GAME(
+    id          LONG         NOT NULL AUTO_INCREMENT,
+    count  INT         NOT NULL,
     created_at  DATETIME    NOT NULL default current_timestamp,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE PLAYER (
-    id          INT           NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS CAR(
+    id          LONG           NOT NULL AUTO_INCREMENT,
+    game_id     INT           NOT NULL,
     name        VARCHAR(50)   NOT NULL,
-    identifier  INT           NOT NULL,
     position    INT           NOT NULL,
-    race_id     INT           NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (race_id) REFERENCES RACE(id)
+    FOREIGN KEY (game_id) REFERENCES GAME(id)
 );
 
-CREATE TABLE WINNER (
-    id          INT         NOT NULL AUTO_INCREMENT,
-    race_id     INT         NOT NULL,
-    player_id   INT         NOT NULL,
+CREATE TABLE IF NOT EXISTS WINNER(
+    id          LONG         NOT NULL AUTO_INCREMENT,
+    game_id     INT         NOT NULL,
+    car_id      INT         NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (race_id) REFERENCES RACE(id),
-    FOREIGN KEY (player_id) REFERENCES PLAYER(id)
+    FOREIGN KEY (game_id) REFERENCES GAME(id),
+    FOREIGN KEY (car_id) REFERENCES CAR(id)
 );
 
 
