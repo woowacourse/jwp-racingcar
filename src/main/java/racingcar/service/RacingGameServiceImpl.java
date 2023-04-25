@@ -6,6 +6,7 @@ import racingcar.domain.Cars;
 import racingcar.domain.GameTime;
 import racingcar.domain.RacingGame;
 import racingcar.domain.RacingGameRepository;
+import racingcar.domain.Winners;
 import racingcar.domain.numbergenerator.NumberGenerator;
 import racingcar.dto.CarDto;
 import racingcar.dto.GameResultDto;
@@ -34,11 +35,11 @@ public class RacingGameServiceImpl implements RacingGameService {
         final Cars cars = new Cars(names.stream()
                 .map(Car::new)
                 .collect(Collectors.toList()));
-        final var time = new GameTime(gameTime);
-        final var racingGame = new RacingGame(cars, time);
+        final GameTime time = new GameTime(gameTime);
+        final RacingGame racingGame = new RacingGame(cars, time);
         racingGame.play(numberGenerator);
 
-        final var winners = racingGame.winners();
+        final Winners winners = racingGame.winners();
         racingGameRepository.save(racingGame);
 
         final List<CarDto> carDtos = racingGame.getCars().stream()
