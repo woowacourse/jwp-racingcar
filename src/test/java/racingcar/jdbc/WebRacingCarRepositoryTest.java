@@ -8,16 +8,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import racingcar.domain.Cars;
 import racingcar.domain.RacingGame;
+import racingcar.repository.web.WebRacingCarRepository;
 
-class RacingCarDaoTest {
+class WebRacingCarRepositoryTest {
 
-	private final RacingCarDao racingCarDao = new RacingCarDao();
+	private final WebRacingCarRepository repository = new WebRacingCarRepository();
 
 	@BeforeEach
 	void setUp() {
-		JdbcTemplate jdbcTemplate = racingCarDao.getJdbcTemplate();
+		JdbcTemplate jdbcTemplate = repository.getJdbcTemplate();
 
-		jdbcTemplate.execute("CREATE TABLE games\n"
+		jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS games\n"
 			+ "(\n"
 			+ "`gameId`        INT          NOT NULL AUTO_INCREMENT,\n"
 			+ "`count`         INT          NOT NULL,\n"
@@ -25,7 +26,7 @@ class RacingCarDaoTest {
 			+ "`timeStamp`    TIMESTAMP     NOT NULL,\n"
 			+ "PRIMARY KEY (`gameId`)\n"
 			+ ");\n"
-			+ "CREATE TABLE cars\n"
+			+ "CREATE TABLE IF NOT EXISTS cars\n"
 			+ "(\n"
 			+ "`name`       VARCHAR(20) NOT NULL,\n"
 			+ "`position`     INT       NOT NULL,\n"
@@ -42,7 +43,7 @@ class RacingCarDaoTest {
 		Cars cars = racingGame.moveCars();
 		int count = 5;
 
-		racingCarDao.insertCar(cars, count);
-		assertThat(racingCarDao.find().size()).isEqualTo(1);
+		repository.save(cars, count);
+		assertThat(repository.find().size()).isEqualTo(1);
 	}
 }
