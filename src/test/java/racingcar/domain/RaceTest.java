@@ -1,18 +1,15 @@
 package racingcar.domain;
 
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import racingcar.utils.NumberGenerator;
-import racingcar.utils.RandomNumberGenerator;
-
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class GameTest {
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+class RaceTest {
 
     List<String> correctCarNames = List.of("a", "b", "c");
     NumberGenerator numberGenerator = new RandomNumberGenerator();
@@ -25,23 +22,21 @@ class GameTest {
         assertThatThrownBy(() -> {
             new Race(count, correctCarNames, numberGenerator);
         }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] ")
-                .hasMessageContaining("올바르지 않은 시도횟수입니다.(1 ~ 999,999,999)");
+                .hasMessage("올바르지 않은 시도횟수입니다.(1 ~ 10)");
     }
 
     @Test
-    void 시도횟수가_1_000_000_000회_이상일시_오류를던진다() {
+    void 시도횟수가_10회_초과일시_오류를던진다() {
         // given
-        int count = 1_000_000_000;
+        int count = 11;
         // when then
         assertThatThrownBy(() -> {
             new Race(count, correctCarNames, numberGenerator);
         }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] ")
-                .hasMessageContaining("올바르지 않은 시도횟수입니다.(1 ~ 999,999,999)");
+                .hasMessage("올바르지 않은 시도횟수입니다.(1 ~ 10)");
     }
 
-    @ValueSource(ints = {1, 10, 999999999})
+    @ValueSource(ints = {1, 10})
     @ParameterizedTest
     void 올바른_시도횟수인경우(int count) {
         assertThatNoException().isThrownBy(() -> {

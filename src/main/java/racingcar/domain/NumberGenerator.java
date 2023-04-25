@@ -1,5 +1,6 @@
-package racingcar.utils;
+package racingcar.domain;
 
+@FunctionalInterface
 public interface NumberGenerator {
 
     int generate();

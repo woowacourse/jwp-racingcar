@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import racingcar.domain.CarName;
 
 class CarNameTest {
 
@@ -15,8 +14,7 @@ class CarNameTest {
         assertThatThrownBy(() -> {
             new CarName("");
         }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("[ERROR] ")
-            .hasMessageContaining("자동차 이름 길이는 1자 이상, 5자 이하여야합니다.");
+                .hasMessage("자동차 이름 길이는 1자 이상, 5자 이하여야합니다.");
     }
 
     @Test
@@ -24,8 +22,7 @@ class CarNameTest {
         assertThatThrownBy(() -> {
             new CarName("123456");
         }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("[ERROR] ")
-            .hasMessageContaining("자동차 이름 길이는 1자 이상, 5자 이하여야합니다.");
+                .hasMessage("자동차 이름 길이는 1자 이상, 5자 이하여야합니다.");
     }
 
     @ValueSource(strings = {"1", "12", "123", "1234", "12345"})

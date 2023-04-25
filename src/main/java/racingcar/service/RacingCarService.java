@@ -1,18 +1,19 @@
 package racingcar.service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.GameDao;
 import racingcar.dao.PlayerDao;
 import racingcar.domain.Car;
+import racingcar.domain.NumberGenerator;
 import racingcar.domain.Race;
-import racingcar.dto.PlaysRequest;
-import racingcar.dto.PlaysResponse;
-import racingcar.entity.Game;
-import racingcar.entity.Player;
-import racingcar.utils.NumberGenerator;
+import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
+import racingcar.entity.GameEntity;
+import racingcar.entity.PlayerEntity;
 
 @Service
 public class RacingCarService {
@@ -27,31 +28,37 @@ public class RacingCarService {
         this.numberGenerator = numberGenerator;
     }
 
-    public PlaysResponse play(PlaysRequest playsRequest) {
-        Race race = createRace(playsRequest);
-        while (!race.isFinished()) {
-            race.playRound();
-        }
+    @Transactional
+    public PlayResponse play(PlayRequest request) {
+        Race race = new Race(request.getCount(), request.getNames(), numberGenerator);
+        race.play();
 
         List<Car> winners = race.findWinners();
-        List<Car> participants = race.getParticipants();
 
-        Game game = Game.of(winners, playsRequest.getCount());
-        Long gameId = gameDao.insert(game);
+        GameEntity gameEntity = GameEntity.from(request.getCount());
+        Long gameId = gameDao.insert(gameEntity);
 
-        List<Player> players = participants.stream()
-                .map(participant -> Player.of(participant, gameId.intValue()))
+        List<PlayerEntity> playerEntities = race.getCars().stream()
+                .map(car -> PlayerEntity.of(car, gameId.intValue(), winners.contains(car)))
                 .collect(Collectors.toList());
-        playerDao.insert(players);
+        playerDao.insert(playerEntities);
 
-        return PlaysResponse.of(game.getWinners(), participants);
+        return PlayResponse.from(playerEntities);
     }
 
-    private Race createRace(PlaysRequest playsRequest) {
-        String delimiter = ",";
-        List<String> carNames = Arrays.stream(playsRequest.getNames().split(delimiter, -1)).map(String::strip)
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public List<PlayResponse> findHistory() {
+        List<GameEntity> gameEntities = gameDao.findAll();
+        List<PlayerEntity> playerEntities = playerDao.findAll();
 
-        return new Race(playsRequest.getCount(), carNames, numberGenerator);
+        List<PlayResponse> responses = new ArrayList<>();
+        for (GameEntity gameEntity : gameEntities) {
+            List<PlayerEntity> gamePlayerEntities = playerEntities.stream()
+                    .filter(player -> player.getGameId() == gameEntity.getId())
+                    .collect(Collectors.toList());
+            responses.add(PlayResponse.from(gamePlayerEntities));
+        }
+
+        return responses;
     }
 }

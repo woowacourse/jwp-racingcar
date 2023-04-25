@@ -1,41 +1,24 @@
 package racingcar.view;
 
-import racingcar.domain.Car;
-
 import java.util.List;
-import java.util.stream.Collectors;
+import racingcar.dto.CarResponse;
+import racingcar.dto.PlayResponse;
 
 public class OutputView {
 
-    private final static String RESULT = "\n실행 결과";
-    private final static String WIN = "가 최종 우승했습니다.";
-
-    public void printResultMessage() {
-        System.out.println(RESULT);
-    }
-
-    public void printRoundResult(List<Car> cars) {
-        StringBuilder content = new StringBuilder();
-        cars.forEach(car -> addCarResult(content, car));
-        System.out.println(content);
-    }
-
-    private void addCarResult(StringBuilder roundResult, Car car) {
-        final String DELIMITER = " : ";
-        final String CAR_RESULT = car.getName() + DELIMITER + convertDistance(car.getDrivenDistance()) + '\n';
-        roundResult.append(CAR_RESULT);
+    public void printResult(PlayResponse playResponse) {
+        System.out.println("실행 결과");
+        String delimiter = ":  ";
+        List<CarResponse> cars = playResponse.getRacingCars();
+        for (CarResponse car : cars) {
+            System.out.println(car.getName() + delimiter + convertDistance(car.getPosition()));
+        }
+        System.out.println(String.join(",", playResponse.getWinners()) + "가 최종 우승했습니다.");
     }
 
     private String convertDistance(int distance) {
         final String DISTANCE = "-";
         return DISTANCE.repeat(distance);
-    }
-
-    public void printWinners(List<Car> winners) {
-        final String DELIMITER = ", ";
-        String message =
-                winners.stream().map(Car::getName).collect(Collectors.joining(DELIMITER)) + WIN;
-        System.out.println(message);
     }
 
     public void printErrorMessage(Exception exception) {

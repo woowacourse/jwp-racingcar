@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>자동차 경주 게임</title>
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="gnb">
@@ -17,10 +17,10 @@
 <form onsubmit="submitForm(); return false;">
   <div class="input-area">
     <label for="names">자동차 이름:</label>
-    <input type="text" id="names" name="names">
+    <input id="names" name="names" type="text">
 
     <label for="count">시도할 횟수:</label>
-    <input type="text" id="count" name="count">
+    <input id="count" name="count" type="text">
   </div>
 
   <button type="submit">Submit</button>
@@ -35,7 +35,7 @@
 
 <script>
   function submitForm() {
-    const names = document.getElementById("names").value;
+    const names = document.getElementById("names").value.split(",");
     const count = document.getElementById("count").value;
     const data = {
       names: names,
@@ -48,27 +48,28 @@
       },
       body: JSON.stringify(data)
     })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Network response was not ok.");
-          }
-        })
-        .then(data => {
-          const resultPosition = document.createElement("div");
-          for (let index in data.racingCars) {
-            const span = document.createElement("span");
-            span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
-            resultPosition.appendChild(span);
-          }
-          document.getElementById("resultWinner").innerHTML = data.winners
-          document.getElementById("resultPosition").innerHTML = '';
-          document.getElementById("resultPosition").appendChild(resultPosition);
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
+    .then(response => {
+      if (!response.ok) {
+        return Promise.reject(response);
+      }
+      return response.json()
+    })
+    .then(data => {
+      const resultPosition = document.createElement("div");
+      for (let index in data.racingCars) {
+        const span = document.createElement("span");
+        span.innerHTML = `Name: ${data.racingCars[index].name}, Position: ${data.racingCars[index].position}<br>`;
+        resultPosition.appendChild(span);
+      }
+      document.getElementById("resultWinner").innerHTML = data.winners
+      document.getElementById("resultPosition").innerHTML = '';
+      document.getElementById("resultPosition").appendChild(resultPosition);
+    })
+    .catch(error => {
+      error.json().then(data => {
+        window.alert(data.message);
+      })
+    });
   }
 
   function handlePlayButtonClick() {

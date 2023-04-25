@@ -1,11 +1,13 @@
 package racingcar;
 
+import java.util.Scanner;
 import racingcar.controller.RaceController;
-import racingcar.utils.RandomNumberGenerator;
+import racingcar.dao.GameInMemoryDao;
+import racingcar.dao.PlayerInMemoryDao;
+import racingcar.domain.RandomNumberGenerator;
+import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
-
-import java.util.Scanner;
 
 public class Application {
 
@@ -14,7 +16,7 @@ public class Application {
         RaceController raceController = new RaceController(
                 new InputView(scanner),
                 new OutputView(),
-                new RandomNumberGenerator()
+                new RacingCarService(new GameInMemoryDao(), new PlayerInMemoryDao(), new RandomNumberGenerator())
         );
         raceController.play();
         scanner.close();

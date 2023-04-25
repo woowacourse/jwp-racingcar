@@ -3,9 +3,6 @@ package racingcar.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import racingcar.domain.Car;
-import racingcar.utils.DrivableNumberGenerator;
-import racingcar.utils.NonDrivableNumberGenerator;
 
 class CarTest {
 
@@ -13,20 +10,20 @@ class CarTest {
     void 차량_전진_테스트() {
         //given
         final int DRIVING_DISTANCE = 1;
-        Car car = new Car("test", new DrivableNumberGenerator());
+        Car car = new Car("test");
         //when
-        car.drive();
+        car.drive(4);
         //then
-        assertThat(car.getDrivenDistance()).isEqualTo(DRIVING_DISTANCE);
+        assertThat(car.getPosition()).isEqualTo(DRIVING_DISTANCE);
     }
 
     @Test
     void 차량_정지_테스트() {
         //given
-        Car car = new Car("test", new NonDrivableNumberGenerator());
+        Car car = new Car("test");
         //when
-        car.drive();
+        car.drive(3);
         //then
-        assertThat(car.getDrivenDistance()).isEqualTo(0);
+        assertThat(car.getPosition()).isEqualTo(0);
     }
 }
