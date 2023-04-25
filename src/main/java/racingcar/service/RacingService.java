@@ -1,8 +1,13 @@
 package racingcar.service;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import racingcar.dao.RacingDao;
+import racingcar.controller.CarResponse;
+import racingcar.controller.TrackResponse;
+import racingcar.dao.SimpleDao;
 import racingcar.dao.dto.CarDto;
 import racingcar.dao.dto.TrackDto;
 import racingcar.model.car.Car;
@@ -11,25 +16,58 @@ import racingcar.model.car.strategy.MovingStrategy;
 import racingcar.model.car.strategy.RandomMovingStrategy;
 import racingcar.model.track.Track;
 
-import java.util.List;
-
 @Service
 public class RacingService {
 
-    private final RacingDao racingDao;
+    private final SimpleDao racingDao;
     private final MovingStrategy movingStrategy = new RandomMovingStrategy();
 
-    public RacingService(final RacingDao racingDao) {
+    public RacingService(final SimpleDao racingDao) {
         this.racingDao = racingDao;
+    }
+
+    @Transactional
+    public List<TrackResponse> findAllCars() {
+        List<CarDto> carResults = racingDao.findAll();
+        Set<Integer> trackIds = toTrackIds(carResults);
+
+        return trackIds.stream()
+                .map(trackId -> {
+                    String winners = toWinnerNamesByTrackId(carResults, trackId);
+                    List<CarResponse> collect = toCarResponseByTrackId(carResults, trackId);
+                    return new TrackResponse(winners, collect);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private Set<Integer> toTrackIds(List<CarDto> carDtos) {
+        return carDtos.stream()
+                .map(CarDto::getTrackId)
+                .collect(Collectors.toSet());
+    }
+
+    private String toWinnerNamesByTrackId(List<CarDto> carDtos, Integer trackId) {
+        return carDtos.stream()
+                .filter(carDto -> carDto.getTrackId() == trackId)
+                .filter(carDto -> carDto.getIsWinner())
+                .map(CarDto::getName)
+                .collect(Collectors.joining(","));
+    }
+
+    private List<CarResponse> toCarResponseByTrackId(List<CarDto> carDtos, Integer trackId) {
+        return carDtos.stream()
+                .filter(carDto -> carDto.getTrackId() == trackId)
+                .map(carDto -> new CarResponse(carDto.getName(), carDto.getPosition()))
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public Cars play(final String names, final String trialTimes) {
         final Cars cars = makeCars(names, movingStrategy);
         final Track track = makeTrack(cars, trialTimes);
-        final Cars finishedCars = startRace(track);
-
         final Integer trackId = saveTrack(track);
+
+        final Cars finishedCars = startRace(track);
         saveCars(trackId, finishedCars);
 
         return finishedCars;
@@ -59,8 +97,9 @@ public class RacingService {
         final List<Car> winnerCars = finishedCars.getWinnerCars();
         final List<Car> carsCurrentInfo = finishedCars.getCarsCurrentInfo();
 
-        for (final Car car : carsCurrentInfo) {
-            racingDao.save(new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId));
-        }
+        List<CarDto> carDtos = carsCurrentInfo.stream()
+                .map(car -> new CarDto(car.getCarName(), car.getPosition(), winnerCars.contains(car), trackId))
+                .collect(Collectors.toList());
+        racingDao.saveWithBatch(carDtos);
     }
 }

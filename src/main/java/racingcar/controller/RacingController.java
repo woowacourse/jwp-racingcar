@@ -1,63 +1,55 @@
 package racingcar.controller;
 
-import racingcar.exception.CustomException;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
-import racingcar.model.car.strategy.MovingStrategy;
-import racingcar.model.track.Track;
-import racingcar.view.inputview.InputView;
-import racingcar.view.outputview.OutputView;
+import racingcar.service.RacingService;
 
+@RestController
 public class RacingController {
-    private final InputView inputView;
-    private final OutputView outputView;
 
-    public RacingController(final InputView inputView, final OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
+    private final RacingService racingService;
+
+    public RacingController(final RacingService racingService) {
+        this.racingService = racingService;
     }
 
-    public void start(final MovingStrategy movingStrategy) {
-        Cars cars = makeCars(movingStrategy);
-        String trialTimes = inputView.inputTrialTimes();
-        Track track = makeTrack(cars, trialTimes);
-
-        outputView.printCurrentCarsPosition(cars);
-        startRace(track);
-        concludeWinner(track);
+    @GetMapping("/plays")
+    public List<TrackResponse> findAllCars() {
+        return racingService.findAllCars();
     }
 
-    private Cars makeCars(final MovingStrategy movingStrategy) {
-        try {
-            return new Cars(inputView.inputCarNames(), movingStrategy);
-        } catch (CustomException customException) {
-            terminated(customException);
-        }
+    @PostMapping("/plays")
+    public ResponseEntity<TrackResponse> play(@RequestBody final TrackRequest trackRequest) {
+        final String names = trackRequest.getNames();
+        final String trialTimes = trackRequest.getCount();
 
-        return makeCars(movingStrategy);
+        final Cars finishedCars = racingService.play(names, trialTimes);
+
+        return ResponseEntity.ok().body(makeResponse(finishedCars));
     }
 
-    private Track makeTrack(final Cars cars, final String trialTimes) {
-        try {
-            return new Track(cars, trialTimes);
-        } catch (CustomException customException) {
-            terminated(customException);
-        }
-
-        return makeTrack(cars, trialTimes);
+    private TrackResponse makeResponse(final Cars finishedCars) {
+        final String winnerCarNames = makeWinnerCarNames(finishedCars);
+        final List<CarResponse> results = makeCarResponses(finishedCars);
+        return new TrackResponse(winnerCarNames, results);
     }
 
-    public void startRace(final Track track) {
-        while (track.runnable()) {
-            Cars cars = track.race();
-            outputView.printCurrentCarsPosition(cars);
-        }
+    private String makeWinnerCarNames(final Cars finishedCars) {
+        return finishedCars.getWinnerCars().stream()
+                .map(Car::getCarName)
+                .collect(Collectors.joining(", "));
     }
 
-    public void concludeWinner(final Track track) {
-        outputView.printWinnerCars(track.getCars());
-    }
-
-    public void terminated(final CustomException customException) {
-        outputView.printErrorMessage(customException.getErrorNumber());
+    private List<CarResponse> makeCarResponses(final Cars finishedCars) {
+        return finishedCars.getCarsCurrentInfo().stream()
+                .map(car -> new CarResponse(car.getCarName(), car.getPosition()))
+                .collect(Collectors.toList());
     }
 }

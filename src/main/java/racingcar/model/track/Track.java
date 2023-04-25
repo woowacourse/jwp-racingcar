@@ -12,6 +12,7 @@ public class Track {
     private static final int TRIAL_MIN_TIMES = 1;
     private static final int ONE_GAME = 1;
     private static final int CAN_GAME = 0;
+
     private final Cars cars;
     private int trialTimes;
 
@@ -52,7 +53,7 @@ public class Track {
     }
 
     public boolean runnable() {
-        return trialTimes >= CAN_GAME;
+        return trialTimes > CAN_GAME;
     }
 
     public Cars getCars() {

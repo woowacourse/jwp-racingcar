@@ -1,40 +1,36 @@
 package racingcar.view.outputview;
 
-import racingcar.model.car.Cars;
+import java.util.List;
+import java.util.StringJoiner;
+import racingcar.controller.CarResponse;
+import racingcar.controller.TrackResponse;
+import racingcar.exception.CustomException;
 
-import java.util.HashMap;
+public class OutputView {
+    public static final String POSITION_CAR_FORMAT_SYMBOL = "-";
+    public static final String POSITION_CAR_STATE_FORMAT = "%s : %s";
+    private static final String WINNER_MESSAGE = "%s가 최종 우승했습니다.";
+    private static final String LINE_BREAK = "\n";
 
-public abstract class OutputView {
-    private HashMap<Integer, String> errorMessageTable = new HashMap<>();
-
-    public OutputView() {
-        initialErrorMessage();
+    private OutputView() {
     }
 
-    protected void initialErrorMessage() {
-        initialCarsErrorMessage();
-        initialCarErrorMessage();
-        initialTrackErrorMessage();
+    public static void printErrorMessage(CustomException exception) {
+        System.out.println(exception.getMessage());
     }
 
-    abstract void initialCarsErrorMessage();
+    public static void printCurrentCarsPosition(final TrackResponse trackResponse) {
+        StringJoiner stringJoiner = new StringJoiner(LINE_BREAK);
 
-    abstract void initialCarErrorMessage();
-
-    abstract void initialTrackErrorMessage();
-
-    public abstract void printCurrentCarsPosition(Cars cars);
-
-    public abstract void printWinnerCars(Cars cars);
-
-    protected void insertErrorMessage(int errorNumber, String errorMessage) {
-        errorMessageTable.put(errorNumber, errorMessage);
+        List<CarResponse> cars = trackResponse.getRacingCars();
+        cars.forEach(car -> stringJoiner.add(String.format(POSITION_CAR_STATE_FORMAT,
+                car.getName(),
+                POSITION_CAR_FORMAT_SYMBOL.repeat(car.getPosition()))));
+        System.out.println(stringJoiner + LINE_BREAK);
     }
 
-    ;
 
-    public void printErrorMessage(int errorNumber) {
-        System.out.println(errorMessageTable.get(errorNumber));
+    public static void printWinnerCars(final TrackResponse trackResponse) {
+        System.out.printf((WINNER_MESSAGE) + "%n", trackResponse.getWinners());
     }
-
 }

@@ -1,9 +1,8 @@
 package racingcar.exception;
 
 public class HasBlankCarNameException extends CustomException {
-    private static final int ERROR_NUMBER = 102;
 
     public HasBlankCarNameException() {
-        super(ERROR_NUMBER);
+        super("비어있는 자동차 이름이 존재합니다.");
     }
 }
