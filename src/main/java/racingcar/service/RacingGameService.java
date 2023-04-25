@@ -1,72 +1,103 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.PlayerSaveDto;
-import racingcar.dao.RacingGameDao;
-import racingcar.domain.Name;
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
-import racingcar.domain.TryCount;
-import racingcar.exception.CommaNotFoundException;
+import racingcar.dao.JdbcRacingGameRepository;
+import racingcar.dao.RacingGameRepository;
+import racingcar.domain.*;
+import racingcar.entity.GameEntity;
+import racingcar.entity.PlayerEntity;
+import racingcar.service.dto.GameHistoryDto;
+import racingcar.service.dto.RacingCarDto;
+import racingcar.service.dto.RacingGameDto;
+import racingcar.entity.RacingGameEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Collections.addAll;
 import static java.util.stream.Collectors.toList;
 
 @Service
 public class RacingGameService {
 
-    private final RacingGameDao racingGameDao;
+    private final RacingGameRepository racingGameRepository;
 
-    public RacingGameService(final RacingGameDao racingGameDao) {
-        this.racingGameDao = racingGameDao;
+    public RacingGameService(final RacingGameRepository racingGameRepository) {
+        this.racingGameRepository = racingGameRepository;
     }
 
-    public RacingCars run(final List<String> inputNames, final int inputCount) {
-        final List<Name> names = sliceNames(inputNames);
-        final RacingCars racingCars = new RacingCars(createRacingCar(names));
-        final TryCount tryCount = new TryCount(inputCount);
-
-        moveCars(racingCars, tryCount);
-
-        saveRacingCars(inputCount, racingCars);
-        return racingCars;
+    public static RacingGameService generateDefaultRacingGameService() {
+        return new RacingGameService(JdbcRacingGameRepository.generateDefaultJdbcRacingGameRepository());
     }
 
-    private List<Name> sliceNames(final List<String> inputNames) {
+    public GameHistoryDto playGame(final RacingGameDto racingGameDto) {
+        final RacingCars racingCars = moveRacingCars(racingGameDto);
+
+        saveRacingCars(racingGameDto, racingCars);
+
+        return generateOneGameHistoryDto(racingCars);
+    }
+
+    private RacingCars moveRacingCars(RacingGameDto racingGameDto) {
+        final List<Name> names = generateNames(racingGameDto.getNames());
+        final RacingGame racingGame = new RacingGame(new RacingCars(generateRacingCars(names)), new TryCount(racingGameDto.getTrialCount()));
+        return racingGame.moveCars();
+    }
+
+    private List<Name> generateNames(final List<String> inputNames) {
         return inputNames.stream()
                 .map(Name::new)
                 .collect(toList());
     }
 
-    private List<RacingCar> createRacingCar(final List<Name> names) {
+    private List<RacingCar> generateRacingCars(final List<Name> names) {
         return names.stream()
                 .map(RacingCar::createRandomMoveRacingCar)
                 .collect(toList());
     }
 
-    private void moveCars(final RacingCars racingCars, final TryCount tryCount) {
-        while (canProceed(tryCount)) {
-            racingCars.moveAll();
-            tryCount.deduct();
-        }
-    }
-
-    private boolean canProceed(final TryCount tryCount) {
-        return !tryCount.isZero();
-    }
-
-    private void saveRacingCars(final int tryCount, final RacingCars racingCars) {
+    private void saveRacingCars(final RacingGameDto racingGameDto, final RacingCars racingCars) {
         final List<String> winnerNames = racingCars.getWinnerNames();
-        final List<PlayerSaveDto> playerSaveDtos = racingCars.getRacingCars().stream()
-                .map(racingCar -> createPlayerSaveDto(winnerNames, racingCar))
+        final List<PlayerEntity> playerEntities = racingCars.getRacingCars().stream()
+                .map(racingCar -> createPlayerEntity(winnerNames, racingCar))
                 .collect(toList());
-        racingGameDao.save(tryCount, playerSaveDtos);
+        final GameEntity gameEntity = new GameEntity(racingGameDto.getTrialCount(), racingGameDto.getApplicationType());
+        racingGameRepository.save(new RacingGameEntity(gameEntity, playerEntities));
     }
 
-    private static PlayerSaveDto createPlayerSaveDto(final List<String> winnerNames, final RacingCar racingCar) {
-        return new PlayerSaveDto(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
+    private PlayerEntity createPlayerEntity(final List<String> winnerNames, final RacingCar racingCar) {
+        return new PlayerEntity(racingCar.getName(), racingCar.getPosition(), winnerNames.contains(racingCar.getName()));
+    }
+
+    private GameHistoryDto generateOneGameHistoryDto(final RacingCars racingCars) {
+        final List<String> winnerNames = racingCars.getWinnerNames();
+        final List<RacingCarDto> racingCarsDto = racingCars.getRacingCars().stream()
+                .map(racingCar -> new RacingCarDto(racingCar.getName(), racingCar.getPosition()))
+                .collect(toList());
+
+        return new GameHistoryDto(winnerNames, racingCarsDto);
+    }
+
+    public List<GameHistoryDto> findRacingGameHistory() {
+        final List<RacingGameEntity> racingGameEntities = racingGameRepository.findAll();
+        return generateOneGameHistoryDtos(racingGameEntities);
+    }
+
+    private List<GameHistoryDto> generateOneGameHistoryDtos(final List<RacingGameEntity> racingGameEntities) {
+        return racingGameEntities.stream()
+                .map(RacingGameEntity::getPlayer)
+                .map(players -> new GameHistoryDto(generateWinners(players), generateRacingCarDtos(players)))
+                .collect(toList());
+    }
+
+    private List<String> generateWinners(final List<PlayerEntity> playerEntities) {
+        return playerEntities.stream()
+                .filter(PlayerEntity::getIsWinner)
+                .map(PlayerEntity::getName)
+                .collect(toList());
+    }
+
+    private List<RacingCarDto> generateRacingCarDtos(final List<PlayerEntity> playerEntities) {
+        return playerEntities.stream()
+                .map(player -> new RacingCarDto(player.getName(), player.getPosition()))
+                .collect(toList());
     }
 }

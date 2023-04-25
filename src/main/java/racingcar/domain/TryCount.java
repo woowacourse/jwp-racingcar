@@ -16,13 +16,13 @@ public class TryCount {
 
     private void validateTryCount(final int inputCount) {
         if (inputCount <= END_FLAG) {
-            throw new NotPositiveIntegerException();
+            throw new NotPositiveIntegerException(String.valueOf(inputCount));
         }
     }
 
     public void deduct() {
         if (isZero()) {
-            throw new NotPositiveIntegerException();
+            throw new NotPositiveIntegerException(String.valueOf(tryCount));
         }
 
         tryCount--;

@@ -18,7 +18,7 @@ public class Name {
 
     private void validateLength(final String name) {
         if (isWrongLength(name)) {
-            throw new NameIsOutOfBoundException();
+            throw new NameIsOutOfBoundException(name);
         }
     }
 

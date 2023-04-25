@@ -1,14 +1,15 @@
 package racingcar.exception;
 
-import org.springframework.http.HttpStatus;
+public class CannotCreateRandomException extends CustomException {
 
-public class CannotCreateRandomException extends RuntimeExceptionImpl {
-
-    private static final String CANNOT_CREATE_RANDOM = "랜덤 객체를 생성할 수 없습니다.";
-    private static final HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    private static final ExceptionInformation exceptionInformation = ExceptionInformation.CANNOT_CREATE_RANDOM_NUMBER;
 
     public CannotCreateRandomException() {
-        super(CANNOT_CREATE_RANDOM, httpStatus);
+        super(exceptionInformation);
+    }
+
+    public CannotCreateRandomException(String cause) {
+        super(exceptionInformation, cause);
     }
 }
 

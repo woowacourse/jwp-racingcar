@@ -1,63 +1,54 @@
 package racingcar.controller;
 
-import racingcar.domain.Name;
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
-import racingcar.domain.TryCount;
+import org.springframework.dao.DataAccessException;
+import racingcar.service.dto.GameHistoryDto;
+import racingcar.controller.dto.GameResponse;
+import racingcar.service.dto.RacingGameDto;
+import racingcar.exception.ExceptionInformation;
+import racingcar.exception.CustomException;
+import racingcar.service.RacingGameService;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 public class RacingGameConsoleController {
 
-    private RacingCars racingCars;
-    private TryCount tryCount;
+    private static final ApplicationType applicationType = ApplicationType.CONSOLE;
 
-    public void start() {
-        setUpGame();
-        playGame();
+    private final RacingGameService racingGameService;
+    private final InputView inputView;
+    private final OutputView outputView;
+
+    public RacingGameConsoleController(RacingGameService racingGameService, InputView inputView, OutputView outputView) {
+        this.racingGameService = racingGameService;
+        this.inputView = inputView;
+        this.outputView = outputView;
     }
 
-    private void setUpGame() {
-        racingCars = createRacingCar();
-        tryCount = requestTryCount();
-    }
-
-    private RacingCars createRacingCar() {
-        final List<Name> names = inputCarNames();
-        return new RacingCars(createRacingCar(names));
-    }
-
-    private List<Name> inputCarNames() {
-        return InputView.requestCarName();
-    }
-
-    private List<RacingCar> createRacingCar(final List<Name> names) {
-        return names.stream()
-                .map(RacingCar::createRandomMoveRacingCar)
-                .collect(toList());
-    }
-
-    private TryCount requestTryCount() {
-        return InputView.requestTryCount();
-    }
-
-    private void playGame() {
-        OutputView.printResultMessage();
-
-        while (canProceed()) {
-            racingCars.moveAll();
-            tryCount.deduct();
-            OutputView.printScoreBoard(racingCars);
+    public void run() {
+        while (true) {
+            playRacingGame();
         }
-
-        OutputView.printWinner(racingCars);
     }
 
-    private boolean canProceed() {
-        return !tryCount.isZero();
+    private void playRacingGame() {
+        try {
+            RacingGameDto racingGameDto = new RacingGameDto(inputCarNames(), requestTryCount(), applicationType);
+            GameHistoryDto gameHistoryDto = racingGameService.playGame(racingGameDto);
+            outputView.printWinner(GameResponse.from(gameHistoryDto));
+        } catch (CustomException exception) {
+            System.out.println(exception.getMessage());
+        } catch (DataAccessException exception) {
+            System.out.println(ExceptionInformation.INVALID_DATABASE_ACCESS.getExceptionMessage());
+        }
+    }
+
+    private List<String> inputCarNames() {
+        return inputView.requestCarName();
+    }
+
+    private int requestTryCount() {
+        return inputView.requestTryCount();
     }
 }
