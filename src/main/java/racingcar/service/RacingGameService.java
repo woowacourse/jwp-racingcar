@@ -1,76 +1,91 @@
 package racingcar.service;
 
 import org.springframework.stereotype.Service;
-import racingcar.dao.CarDao;
-import racingcar.dao.GameDao;
-import racingcar.domain.*;
+import racingcar.dao.CarRepository;
+import racingcar.dao.GameRepository;
+import racingcar.dao.WinnerRepository;
+import racingcar.dao.entity.CarEntity;
+import racingcar.dao.entity.GameEntity;
+import racingcar.dao.entity.WinnerEntity;
+import racingcar.domain.Car;
+import racingcar.domain.NumberGenerator;
+import racingcar.domain.RacingGame;
 import racingcar.dto.CarStatusDto;
 import racingcar.dto.RacingGameRequestDto;
 import racingcar.dto.RacingGameResponseDto;
-import racingcar.dto.CarDto;
-import racingcar.dto.GameDto;
 
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class RacingGameService {
 
-    private static final int RACE_START_POINT = 0;
-    private static final String DELIMITER = ",";
-
-    private final GameDao gameDao;
-    private final CarDao carDao;
+    private final GameRepository gameRepository;
+    private final CarRepository carRepository;
+    private final WinnerRepository winnerRepository;
     private final NumberGenerator numberGenerator;
 
-    public RacingGameService(final GameDao gameDao, final CarDao carDao, final NumberGenerator numberGenerator) {
-        this.gameDao = gameDao;
-        this.carDao = carDao;
+    public RacingGameService(final GameRepository gameRepository, final CarRepository carRepository, final WinnerRepository winnerRepository, final NumberGenerator numberGenerator) {
+        this.gameRepository = gameRepository;
+        this.carRepository = carRepository;
+        this.winnerRepository = winnerRepository;
         this.numberGenerator = numberGenerator;
     }
 
     public RacingGameResponseDto run(RacingGameRequestDto racingGameRequestDto) {
-        RacingCars racingCars = createRacingCars(racingGameRequestDto);
-        int tryCount = new TryCount(racingGameRequestDto.getCount()).getTries();
-        raceCars(racingCars, tryCount);
+        RacingGame racingGame = RacingGame.of(racingGameRequestDto.getNamesList(), racingGameRequestDto.getCount());
+        racingGame.race(numberGenerator);
 
-        int gameId = saveGame(racingCars, tryCount);
-        saveCars(racingCars, gameId);
+        int gameId = gameRepository.save(GameEntity.from(racingGame));
+        saveCars(racingGame.getCars(), gameId);
+        saveWinners(racingGame.pickWinnerCarNames(), gameId);
 
-        return createResult(racingCars);
+        return findResultByGameId(gameId);
     }
 
-    private void saveCars(final RacingCars racingCars, final int gameId) {
-        for (Car car : racingCars.getCars()) {
-            CarDto carDto = new CarDto(car.getName(), car.getCurrentPosition(), gameId);
-            carDao.save(carDto);
-        }
+    private void saveCars(final List<Car> cars, final int gameId) {
+        List<CarEntity> carEntities = cars.stream()
+                .map(car -> CarEntity.from(car, gameId))
+                .collect(Collectors.toCollection(ArrayList::new));
+        carRepository.saveAll(carEntities);
     }
 
-    private RacingCars createRacingCars(final RacingGameRequestDto racingGameRequestDto) {
-        List<String> carNames = List.of(racingGameRequestDto.getNames().split(DELIMITER));
-        List<Car> cars = CarFactory.generate(carNames, RACE_START_POINT);
-        return new RacingCars(cars);
+    private void saveWinners(List<String> winnerNames, int gameId) {
+        List<CarEntity> cars = carRepository.findCarsByGameID(gameId);
+        List<WinnerEntity> winnerEntities = cars.stream()
+                .filter(car -> winnerNames.contains(car.getName()))
+                .map(car -> new WinnerEntity(car.getCarId(), car.getGameId()))
+                .collect(Collectors.toList());
+
+        winnerRepository.saveAll(winnerEntities);
     }
 
-    private void raceCars(final RacingCars racingCars, final int tryCount) {
-        IntStream.range(0, tryCount)
-                .forEach(ignored -> racingCars.moveCars(numberGenerator));
-    }
+    private RacingGameResponseDto findResultByGameId(int gameId) {
+        List<CarEntity> carEntities = carRepository.findCarsByGameID(gameId);
+        List<String> winnerCarNames = findWinnerCarNames(gameId, carEntities);
 
-    private int saveGame(final RacingCars racingCars, final int tryCount) {
-        String winnerCars = String.join(",", racingCars.pickWinnerCarNames());
-        return gameDao.save(new GameDto(winnerCars, tryCount, LocalTime.now()));
-    }
-
-    private RacingGameResponseDto createResult(final RacingCars racingCars) {
-        List<String> winnerCars = racingCars.pickWinnerCarNames();
-        List<CarStatusDto> carStatuses = racingCars.getCars().stream()
-                .map(car -> new CarStatusDto(car.getName(), car.getCurrentPosition()))
+        List<CarStatusDto> carStatuses = carEntities.stream()
+                .map(car -> new CarStatusDto(car.getName(), car.getPosition()))
                 .collect(Collectors.toUnmodifiableList());
 
-        return new RacingGameResponseDto(winnerCars, carStatuses);
+        return new RacingGameResponseDto(winnerCarNames, carStatuses);
     }
+
+    private List<String> findWinnerCarNames(final int gameId, final List<CarEntity> cars) {
+        List<Integer> winnerCarsId = winnerRepository.findWinnerCarIdsByGameId(gameId);
+        return cars.stream()
+                .filter(car -> winnerCarsId.contains(car.getCarId()))
+                .map(CarEntity::getName)
+                .collect(Collectors.toList());
+    }
+
+    public List<RacingGameResponseDto> findAllGameResult() {
+        List<Integer> listOfGameId = gameRepository.findGameIds();
+
+        return listOfGameId.stream()
+                .map(this::findResultByGameId)
+                .collect(Collectors.toList());
+    }
+
 }

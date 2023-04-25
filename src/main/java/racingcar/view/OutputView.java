@@ -1,6 +1,7 @@
 package racingcar.view;
 
-import racingcar.dto.CarStatus;
+import racingcar.dto.CarStatusDto;
+import racingcar.dto.RacingGameResponseDto;
 
 import java.util.List;
 
@@ -12,24 +13,25 @@ public class OutputView {
     private static final String WINNER_MESSAGE = "가 최종 우승했습니다.";
     private static final String ERROR_PREFIX = "[ERROR] ";
 
-    public static void printResultMessage() {
+    public void printResult(final RacingGameResponseDto responseDto) {
         System.out.println(RESULT_MESSAGE);
+        printWinners(responseDto.getWinners());
+        printCarStatus(responseDto.getRacingCars());
     }
 
-    public static void printRaceResult(List<CarStatus> raceResult) {
-        raceResult.forEach(carStatus -> {
-            int moveCount = carStatus.getCurrentPosition();
-            System.out.println(carStatus.getName() + DELIMITER + MOVING_SYMBOL.repeat(moveCount));
+    public void printCarStatus(List<CarStatusDto> racingCars) {
+        racingCars.forEach(car -> {
+            int moveCount = car.getPosition();
+            System.out.println(car.getName() + DELIMITER + MOVING_SYMBOL.repeat(moveCount));
         });
-        System.out.println();
     }
 
-    public static void printFinalResult(List<String> winnersName) {
-        String winnersResult = String.join(WINNER_DELIMITER, winnersName);
+    public void printWinners(List<String> winners) {
+        String winnersResult = String.join(WINNER_DELIMITER, winners);
         System.out.println(winnersResult + WINNER_MESSAGE);
     }
 
-    public static void printError(String errorMessage) {
+    public void printError(String errorMessage) {
         System.out.println(ERROR_PREFIX + errorMessage);
     }
 }

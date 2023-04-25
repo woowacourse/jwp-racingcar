@@ -3,27 +3,31 @@ package racingcar.domain;
 public class Car {
     public static final int MINIMUM_NUMBER_TO_MOVE = 4;
     private final CarName name;
-    private final Position currentPosition;
+    private final Position position;
 
-    public Car(String name, int startPoint) {
-        this.name = new CarName(name);
-        this.currentPosition = new Position(startPoint);
+    public Car(final CarName name, final Position position) {
+        this.name = name;
+        this.position = position;
+    }
+
+    public static Car of(String name, int position) {
+        return new Car(new CarName(name), new Position(position));
     }
 
     public void move(NumberGenerator numberGenerator) {
         int randomNumber = numberGenerator.generate();
 
         if (isMovable(randomNumber)) {
-            currentPosition.move();
+            position.move();
         }
     }
 
     public int compareTo(Car other) {
-        return this.currentPosition.getPosition() - other.currentPosition.getPosition();
+        return this.position.getPosition() - other.position.getPosition();
     }
 
     public boolean isSamePosition(Car target) {
-        return currentPosition.equals(target.currentPosition);
+        return position.equals(target.position);
     }
 
     private boolean isMovable(int number) {
@@ -34,8 +38,8 @@ public class Car {
         return name.getName();
     }
 
-    public int getCurrentPosition() {
-        return currentPosition.getPosition();
+    public int getPosition() {
+        return position.getPosition();
     }
 
 }

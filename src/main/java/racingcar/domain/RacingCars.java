@@ -21,6 +21,13 @@ public class RacingCars {
         return new ArrayList<>(cars);
     }
 
+    public List<Car> pickWinningCars() {
+        Car winner = pickMaxPositionCar();
+        return cars.stream()
+                .filter(car -> car.isSamePosition(winner))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
     public List<String> pickWinnerCarNames() {
         Car winner = pickMaxPositionCar();
 
