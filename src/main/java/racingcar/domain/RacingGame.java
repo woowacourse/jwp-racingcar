@@ -1,9 +1,6 @@
-package racingcar.service;
+package racingcar.domain;
 
-import racingcar.domain.Car;
-import racingcar.domain.Cars;
 import java.util.List;
-import java.util.Map;
 import racingcar.strategy.MovingStrategy;
 
 public class RacingGame {
@@ -18,20 +15,21 @@ public class RacingGame {
         this.movingStrategy = movingStrategy;
     }
 
-    public Map<String, Integer> playSingleRound() {
-        cars.moveCars(movingStrategy);
-        return cars.getTotalStatus();
+    public void race(final int tryCount) {
+        for (int i = 0; i < tryCount; i++) {
+            cars.move(movingStrategy);
+        }
     }
 
-    public List<String> getWinners() {
+    public List<Car> winners() {
         return cars.findWinners();
     }
 
-    public int getId() {
+    public int id() {
         return id;
     }
 
-    public List<Car> getCars() {
-        return cars.getCars();
+    public List<Car> cars() {
+        return cars.cars();
     }
 }
