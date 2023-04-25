@@ -1,5 +1,8 @@
 package racingcar.utils;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RandomNumberGenerator implements NumberGenerator {
 
     @Override

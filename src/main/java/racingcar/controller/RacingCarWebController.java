@@ -1,27 +1,39 @@
 package racingcar.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.dto.gameInitializationRequest;
-import racingcar.dto.gameResultResponse;
-import racingcar.service.MainRacingCarService;
+import racingcar.dto.GameInitializationRequest;
+import racingcar.dto.GameResultResponse;
+import racingcar.service.RacingCarGameService;
+import racingcar.service.SearchingGameHistoryService;
 
 @RestController
 public class RacingCarWebController {
 
-    private final MainRacingCarService mainRacingCarService;
+    private final RacingCarGameService racingCarGameService;
+    private final SearchingGameHistoryService searchingGameHistoryService;
 
-    @Autowired
-    public RacingCarWebController(final MainRacingCarService mainRacingCarService) {
-        this.mainRacingCarService = mainRacingCarService;
+    public RacingCarWebController(final RacingCarGameService racingCarGameService,
+                                  final SearchingGameHistoryService searchingGameHistoryService) {
+        this.racingCarGameService = racingCarGameService;
+        this.searchingGameHistoryService = searchingGameHistoryService;
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<gameResultResponse> playRacingCar(@RequestBody gameInitializationRequest gameInitializationRequest) {
-        final gameResultResponse gameResultResponse = mainRacingCarService.raceCar(gameInitializationRequest);
+    public ResponseEntity<GameResultResponse> playRacingCar(
+            @RequestBody @Valid GameInitializationRequest gameInitializationRequest) {
+        final GameResultResponse gameResultResponse = racingCarGameService.raceCar(gameInitializationRequest);
         return ResponseEntity.ok().body(gameResultResponse);
+    }
+
+    @GetMapping("/plays")
+    public ResponseEntity<List<GameResultResponse>> searchGameHistory() {
+        final List<GameResultResponse> gameResultResponses = searchingGameHistoryService.searchGameHistory();
+        return ResponseEntity.ok().body(gameResultResponses);
     }
 }

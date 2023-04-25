@@ -2,21 +2,21 @@ package racingcar.repository.entity;
 
 public class GameEntity {
 
-    private final long id;
+    private final Long id;
     private final int trialCount;
     private final String lastModifiedTime;
 
-    public GameEntity(final long id, final int trialCount, final String lastModifiedTime) {
+    public GameEntity(final Long id, final int trialCount, final String lastModifiedTime) {
         this.id = id;
         this.trialCount = trialCount;
         this.lastModifiedTime = lastModifiedTime;
     }
 
     public GameEntity(final int trialCount) {
-        this(0, trialCount, "");
+        this(0L, trialCount, "");
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

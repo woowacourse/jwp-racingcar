@@ -1,11 +1,16 @@
 package racingcar.dto;
 
-public class gameInitializationRequest {
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 
+public class GameInitializationRequest {
+
+    @NotBlank
     private String names;
+    @Max(100)
     private int count;
 
-    public gameInitializationRequest(final String names, final int count) {
+    public GameInitializationRequest(final String names, final int count) {
         this.names = names;
         this.count = count;
     }
