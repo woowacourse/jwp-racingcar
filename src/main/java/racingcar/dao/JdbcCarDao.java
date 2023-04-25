@@ -12,37 +12,37 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import racingcar.service.PlayerResult;
+import racingcar.entity.CarEntity;
 
 @Repository
-public class PlayerResultDao {
+public class JdbcCarDao implements CarDao {
 
     private final SimpleJdbcInsert insertActor;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final RowMapper<PlayerResult> actorRowMapper = (resultSet, rowNum) -> new PlayerResult(
+    private final RowMapper<CarEntity> actorRowMapper = (resultSet, rowNum) -> new CarEntity(
         resultSet.getInt("id"),
-        resultSet.getInt("play_result_id"),
+        resultSet.getInt("game_id"),
         resultSet.getString("name"),
         resultSet.getInt("position")
     );
 
-    public PlayerResultDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public JdbcCarDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertActor = new SimpleJdbcInsert(dataSource)
-            .withTableName("PLAYER_RESULT")
+            .withTableName("CAR")
             .usingGeneratedKeyColumns("id");
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public List<PlayerResult> selectPlayerResultByRacingResultId(final int ragingResultId) {
-        String sql = "select id, play_result_id, name, position from player_result where PLAY_RESULT_ID = :play_result_id";
-        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("play_result_id", ragingResultId);
+    public List<CarEntity> selectCarsByGameId(final int gameId) {
+        String sql = "select id, game_id, name, position from CAR where game_id = :game_id";
+        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource("game_id", gameId);
         return namedParameterJdbcTemplate.query(sql, sqlParameterSource, actorRowMapper);
     }
 
-    public void insertPlayer(final PlayerResult playerResult) {
-        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(playerResult);
+    public void insertCar(final CarEntity carEntity) {
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(carEntity);
         Number newId = insertActor.executeAndReturnKey(parameterSource);
-        playerResult.setId(newId.intValue());
+        carEntity.setId(newId.intValue());
     }
 }

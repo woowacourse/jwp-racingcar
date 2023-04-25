@@ -1,13 +1,13 @@
-package racingcar.service;
+package racingcar.Strategy;
 
 import java.util.Random;
 
-public class RandomMaker {
-
+public class RandomNumberGenerator implements NumberGenerator{
     private static final int MAXIMUM_VALUE = 10;
     private static final Random random = new Random();
 
-    public static int random() {
+    @Override
+    public int generate() {
         return random.nextInt(MAXIMUM_VALUE);
     }
 }

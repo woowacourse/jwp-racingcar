@@ -11,36 +11,38 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import racingcar.service.RacingResult;
+import racingcar.entity.GameEntity;
 
 @Repository
-public class RacingResultDao {
+public class JdbcGameDao implements GameDao {
     private final SimpleJdbcInsert insertActor;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final RowMapper<RacingResult> actorRowMapper = (resultSet, rowNum) -> new RacingResult(
-            resultSet.getInt("id"),
-            resultSet.getString("winners"),
-            resultSet.getInt("trial_count")
+    private final RowMapper<GameEntity> actorRowMapper = (resultSet, rowNum) -> new GameEntity(
+        resultSet.getInt("id"),
+        resultSet.getString("winners"),
+        resultSet.getInt("trial")
     );
 
-    public RacingResultDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public JdbcGameDao(final DataSource dataSource, final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertActor = new SimpleJdbcInsert(dataSource)
-                .withTableName("PLAY_RESULT")
-                .usingGeneratedKeyColumns("id");
+            .withTableName("GAME")
+            .usingGeneratedKeyColumns("id");
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public RacingResult insertRacingResult(final RacingResult racingResult) {
-        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(racingResult);
+    @Override
+    public GameEntity insertGame(final GameEntity gameEntity) {
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(gameEntity);
 
         Number newId = insertActor.executeAndReturnKey(parameterSource);
-        racingResult.setId(newId.intValue());
-        return racingResult;
+        gameEntity.setId(newId.intValue());
+        return gameEntity;
     }
 
-    public List<RacingResult> selectAllResults() {
-        String sql = "select id, trial_count, winners from play_result order by id desc";
+    @Override
+    public List<GameEntity> selectAllGames() {
+        String sql = "select id, trial, winners from GAME order by id desc";
         return namedParameterJdbcTemplate.query(sql, actorRowMapper);
     }
 }
