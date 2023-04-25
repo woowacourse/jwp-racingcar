@@ -10,7 +10,9 @@ import java.util.List;
 @Component
 public class CarDao {
 
-    private final JdbcTemplate template;
+    private static final String CAR_TABLE_NAME = "CAR";
+
+    private final DaoTemplate<CarEntity> daoTemplate;
     private final RowMapper<CarEntity> mapper = (rs, rowNum) -> new CarEntity(
             rs.getString("name"),
             rs.getInt("position"),
@@ -18,25 +20,18 @@ public class CarDao {
     );
 
     public CarDao(final JdbcTemplate template) {
-        this.template = template;
+        this.daoTemplate = new DaoTemplate<>(template, CAR_TABLE_NAME);
     }
 
     public void save(final List<CarEntity> entities) {
-        template.batchUpdate("INSERT INTO CAR (name, position, game_id) VALUES(?, ?, ?)",
-                entities,
-                50,
-                (ps, entity) -> {
-                    ps.setString(1, entity.getName());
-                    ps.setInt(2, entity.getPosition());
-                    ps.setLong(3, entity.getGameId());
-                });
+        daoTemplate.batchUpdate(entities);
     }
 
     public List<CarEntity> findByGameId(final Long gameId) {
-        return template.query("SELECT * FROM CAR WHERE game_id = ?", mapper, gameId);
+        return daoTemplate.findByGameId(mapper, gameId);
     }
 
     public List<CarEntity> findAll() {
-        return template.query("SELECT * FROM CAR", mapper);
+        return daoTemplate.findAll(mapper);
     }
 }

@@ -10,31 +10,27 @@ import java.util.List;
 @Component
 public class WinnerDao {
 
-    private final JdbcTemplate template;
+    private static final String WINNER_TABLE_NAME = "WINNER";
+    
+    private final DaoTemplate<WinnerEntity> daoTemplate;
     private final RowMapper<WinnerEntity> mapper = (rs, rowNum) -> new WinnerEntity(
             rs.getString("name"),
             rs.getLong("game_id")
     );
 
     public WinnerDao(final JdbcTemplate template) {
-        this.template = template;
+        this.daoTemplate = new DaoTemplate<>(template, WINNER_TABLE_NAME);
     }
 
     public void save(final List<WinnerEntity> entities) {
-        template.batchUpdate("INSERT INTO WINNER (name, game_id) VALUES (?, ?)",
-                entities,
-                50,
-                (ps, entity) -> {
-                    ps.setString(1, entity.getName());
-                    ps.setLong(2, entity.getGameId());
-                });
+        daoTemplate.batchUpdate(entities);
     }
 
     public List<WinnerEntity> findByGameId(final Long gameId) {
-        return template.query("SELECT * FROM WINNER WHERE game_id = ?", mapper, gameId);
+        return daoTemplate.findByGameId(mapper, gameId);
     }
 
     public List<WinnerEntity> findAll() {
-        return template.query("SELECT * FROM WINNER", mapper);
+        return daoTemplate.findAll(mapper);
     }
 }
