@@ -20,7 +20,8 @@ public class Validator {
 
     public static void validateProperNamePattern(List<String> names) {
         for (String name : names) {
-            if (!Pattern.matches("^[a-zA-z가-힣]", name)) {
+            System.out.println(name);
+            if (!Pattern.matches("^[a-zA-z가-힣]*$", name)) {
                 throw new IllegalArgumentException("사용자의 이름이 적절하게 입력되지 않았습니다");
             }
         }
