@@ -12,14 +12,14 @@ public class ExceptionAdvice {
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     @ExceptionHandler(DataAccessException.class)
-    public ResponseEntity<String> handleDataAccessException() {
-        log.error("DataAccessException");
-        return ResponseEntity.internalServerError().body("DataAccessException");
+    public ResponseEntity<String> handleDataAccessException(final DataAccessException exception) {
+        log.error("DataAccessException: " + exception.getMessage());
+        return ResponseEntity.internalServerError().body("잠시 후 다시 요청해주세요");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
-        log.error("IllegalArgumentException : " + e.getMessage());
-        return ResponseEntity.internalServerError().body(e.getMessage());
+    public ResponseEntity<String> handleIllegalArgumentException(final IllegalArgumentException exception) {
+        log.error("IllegalArgumentException: " + exception.getMessage());
+        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 }
