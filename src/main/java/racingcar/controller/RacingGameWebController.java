@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.RacingGameRequest;
 import racingcar.dto.RacingGameResponse;
+import racingcar.service.RacingGameAddService;
 import racingcar.service.RacingGameFindService;
-import racingcar.service.RacingGamePlayService;
 
 @RestController
 public class RacingGameWebController {
-    private final RacingGamePlayService racingPlayService;
+    private final RacingGameAddService racingGameAddService;
     private final RacingGameFindService racingGameFindService;
 
-    public RacingGameWebController(RacingGamePlayService racingPlayService,
+    public RacingGameWebController(RacingGameAddService racingGameAddService,
                                    RacingGameFindService racingGameFindService) {
-        this.racingPlayService = racingPlayService;
+        this.racingGameAddService = racingGameAddService;
         this.racingGameFindService = racingGameFindService;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<RacingGameResponse> play(@RequestBody RacingGameRequest racingGameRequest) {
-        RacingGameResponse racingGameResponse = racingPlayService.play(racingGameRequest);
+        RacingGameResponse racingGameResponse = racingGameAddService.addGame(racingGameRequest);
         return ResponseEntity.created(URI.create("/plays/" + racingGameResponse.getGameId())).body(racingGameResponse);
     }
 
