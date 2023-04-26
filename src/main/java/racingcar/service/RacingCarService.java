@@ -25,11 +25,21 @@ public class RacingCarService {
     }
 
     public RacingCarGameResultDto play(GameInitializeDto gameInitializeDto) {
+        validateDuplicateName(gameInitializeDto.getNames());
         Cars cars = Cars.from(gameInitializeDto.getNames());
         TryCount tryCount = new TryCount(gameInitializeDto.getCount());
         cars.runRound(tryCount);
         saveGameResult(cars, tryCount);
         return getGameResult(cars);
+    }
+
+    private void validateDuplicateName(List<String> names) {
+        List<String> trimNames = names.stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+        if (trimNames.size() != trimNames.stream().distinct().count()) {
+            throw new IllegalArgumentException("중복되는 이름을 사용할 수 없습니다.");
+        }
     }
 
     private void saveGameResult(Cars cars, TryCount tryCount) {
