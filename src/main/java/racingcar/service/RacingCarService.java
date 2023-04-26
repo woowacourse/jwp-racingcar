@@ -82,7 +82,6 @@ public class RacingCarService {
         return new ParticipateDto(gameId, playerId, carPosition, false);
     }
 
-    @Transactional
     public List<ResultResponse> findAllResult() {
         final List<ResultResponse> resultResponses = new ArrayList<>();
         gameDao.findAll()
