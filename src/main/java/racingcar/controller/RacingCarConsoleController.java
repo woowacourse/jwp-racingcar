@@ -31,7 +31,7 @@ public class RacingCarConsoleController {
             printResultNotice();
             OutputView.printCarNameAndPosition(cars);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 }
