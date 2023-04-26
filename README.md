@@ -96,6 +96,7 @@ erDiagram
 - [x] ConsoleApplication 의존성 주입 변수 분리
 - [x] @Valid 어노테이션 사용
 - [x] 조회하는 경우 @Transactional 제거
+- [x] @RestController로 변경
 - [ ] 예측하지 못한 예외도 핸들러로 관리
 - [x] SimpleJdbcInsert 사용
 - [x] 사용하지 않는 주석 제거
