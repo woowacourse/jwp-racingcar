@@ -44,7 +44,7 @@ class JdbcFindAllResultsDaoTest {
 
     @Test
     void findAll_메서드로_모든_게임_결과를_가져온다() {
-
+        // given
         final PlayerEntity playerEntity1 = new PlayerEntity("player1");
         final PlayerEntity playerEntity2 = new PlayerEntity("player2");
         long player1Id = playerDao.save(playerEntity1);
@@ -63,11 +63,14 @@ class JdbcFindAllResultsDaoTest {
         winnerDao.save(winner1Entity);
         winnerDao.save(winner2Entity);
 
-
+        // when
         List<ResultDto> resultDtos = findAllResultsDao.findAll();
-        SoftAssertions softAssertions = new SoftAssertions();
-        softAssertions.assertThat(resultDtos.size()).isEqualTo(2);
-        softAssertions.assertThat(resultDtos.get(0).getPosition()).isEqualTo(5);
-        softAssertions.assertThat(resultDtos.get(1).getPosition()).isEqualTo(5);
+
+        // then
+        SoftAssertions.assertSoftly(softAssertions -> {
+            softAssertions.assertThat(resultDtos.size()).isEqualTo(2);
+            softAssertions.assertThat(resultDtos.get(0).getPosition()).isEqualTo(5);
+            softAssertions.assertThat(resultDtos.get(1).getPosition()).isEqualTo(5);
+        });
     }
 }
