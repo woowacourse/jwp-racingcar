@@ -77,6 +77,7 @@ erDiagram
   - [x] PlayerDao : `findNameById` 메서드 구현
 
 ### 2. 기존 기능 수정 - 출력 방식 수정
+
 - [x] console application에 해당하는 코드 다시 가져오기
 - [x] console application에서 플레이의 중간 과정을 출력하는 로직 제거
 - [x] web application과 동일하게 우승자와 player 별 최종 이동거리를 출력하도록 수정
@@ -85,3 +86,18 @@ erDiagram
 
 - [x] 비즈니스 로직 중복 코드 제거
 - [x] 기존 자동차 미션 코드 전체적으로 리팩토링
+
+---
+
+## 2단계 리팩토링
+
+- [ ] InputView의 inputCarName()에서 문자열을 반환하도록 변경
+- [ ] ResultResponse에서 winners를 문자열로 변환하도록 책임 이동
+- [ ] ConsoleApplication 의존성 주입 변수 분리
+- [ ] @Valid 어노테이션 사용
+- [ ] 조회하는 경우 @Transactional 제거
+- [ ] 예측하지 못한 예외도 핸들러로 관리
+- [ ] SimpleJdbcInsert 사용
+- [ ] 사용하지 않는 주석 제거
+- [ ] 의미있는 클래스 명으로 변경
+- [ ] service에서 domain으로 책임 이동
