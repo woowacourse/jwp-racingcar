@@ -92,7 +92,7 @@ erDiagram
 ## 2단계 리팩토링
 
 - [x] InputView의 inputCarName()에서 문자열을 반환하도록 변경
-- [ ] ResultResponse에서 winners를 문자열로 변환하도록 책임 이동
+- [x] ResultResponse에서 winners를 문자열로 변환하도록 책임 이동
 - [ ] ConsoleApplication 의존성 주입 변수 분리
 - [ ] @Valid 어노테이션 사용
 - [ ] 조회하는 경우 @Transactional 제거

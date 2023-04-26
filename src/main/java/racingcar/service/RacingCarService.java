@@ -50,8 +50,7 @@ public class RacingCarService {
 
     private ResultResponse convertResultResponse(final List<RacingCarResponse> racingCarResponses,
                                                  final List<String> winnerNames) {
-        String winners = convertWinners(winnerNames);
-        return new ResultResponse(winners, racingCarResponses);
+        return new ResultResponse(winnerNames, racingCarResponses);
     }
 
     private void saveGameAndPlayerAndParticipates(final int trialCount,
@@ -83,10 +82,6 @@ public class RacingCarService {
         return new ParticipateDto(gameId, playerId, carPosition, false);
     }
 
-    private String convertWinners(final List<String> winnerNames) {
-        return String.join(",", winnerNames);
-    }
-
     @Transactional
     public List<ResultResponse> findAllResult() {
         final List<ResultResponse> resultResponses = new ArrayList<>();
@@ -99,7 +94,7 @@ public class RacingCarService {
 
     private ResultResponse findGameResult(final Long id) {
         final List<ParticipatesEntity> participatesByGameIds = participatesDao.findByGameId(id);
-        final String winners = findWinners(participatesByGameIds);
+        final List<String> winners = findWinners(participatesByGameIds);
         final List<RacingCarResponse> racingCarResponses = findRacingCarResponses(participatesByGameIds);
         return new ResultResponse(winners, racingCarResponses);
     }
@@ -111,10 +106,10 @@ public class RacingCarService {
                 .collect(Collectors.toList());
     }
 
-    private String findWinners(final List<ParticipatesEntity> participatesByGameIds) {
+    private List<String> findWinners(final List<ParticipatesEntity> participatesByGameIds) {
         return participatesByGameIds.stream()
                 .filter(ParticipatesEntity::getWinner)
                 .map(participates -> playerDao.findNameById(participates.getPlayerId()))
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
     }
 }
