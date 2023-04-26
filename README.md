@@ -101,4 +101,4 @@ erDiagram
 - [x] SimpleJdbcInsert 사용
 - [x] 사용하지 않는 주석 제거
 - [ ] 의미있는 클래스 명으로 변경
-- [ ] service에서 domain으로 책임 이동
+- [x] service에서 domain으로 책임 이동

@@ -13,6 +13,7 @@ public class GameManager {
         this.cars = cars;
         this.gameRound = gameRound;
         this.numberGenerator = numberGenerator;
+        play();
     }
 
     public void play() {

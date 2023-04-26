@@ -40,30 +40,19 @@ public class RacingCarService {
         final GameRound gameRound = new GameRound(namesAndCount.getCount());
         final GameManager gameManager = new GameManager(cars, gameRound, new RandomNumberGenerator());
 
-        gameManager.play();
-
-        final List<RacingCarResponse> racingCarResponses = gameManager.getResultCars();
-        List<String> winnerNames = gameManager.decideWinner();
-        saveGameAndPlayerAndParticipates(namesAndCount.getCount(), racingCarResponses, winnerNames);
-        return convertResultResponse(racingCarResponses, winnerNames);
+        final Long gameId = gameDao.save(namesAndCount.getCount());
+        return savePlayerAndParticipates(gameId, gameManager.getResultCars(), gameManager.decideWinner());
     }
 
-    private ResultResponse convertResultResponse(final List<RacingCarResponse> racingCarResponses,
-                                                 final List<String> winnerNames) {
-        return new ResultResponse(winnerNames, racingCarResponses);
-    }
-
-    private void saveGameAndPlayerAndParticipates(final int trialCount,
-                                                  final List<RacingCarResponse> racingCarResponses,
-                                                  final List<String> winnerNames) {
-        Long gameId = gameDao.save(trialCount);
+    private ResultResponse savePlayerAndParticipates(final Long gameId,
+                                                     final List<RacingCarResponse> racingCarResponses,
+                                                     final List<String> winnerNames) {
         for (RacingCarResponse racingCarResponse : racingCarResponses) {
             String carName = racingCarResponse.getName();
-            int carPosition = racingCarResponse.getPosition();
             Long playerId = findOrSavePlayer(carName);
-            ParticipateDto participateDto = convertParticipate(winnerNames, gameId, carName, carPosition, playerId);
-            participatesDao.save(participateDto);
+            saveParticipates(gameId, winnerNames, carName, racingCarResponse.getPosition(), playerId);
         }
+        return new ResultResponse(winnerNames, racingCarResponses);
     }
 
     private Long findOrSavePlayer(final String carName) {
@@ -72,6 +61,12 @@ public class RacingCarService {
             return playerDao.save(carName);
         }
         return playerEntity.orElseThrow().getId();
+    }
+
+    private void saveParticipates(final Long gameId, final List<String> winnerNames, final String carName,
+                                  final int carPosition, final Long playerId) {
+        ParticipateDto participateDto = convertParticipate(winnerNames, gameId, carName, carPosition, playerId);
+        participatesDao.save(participateDto);
     }
 
     private ParticipateDto convertParticipate(final List<String> winnerNames, final Long gameId, final String carName,
