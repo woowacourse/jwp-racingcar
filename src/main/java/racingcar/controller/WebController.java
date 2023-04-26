@@ -11,20 +11,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import racingcar.dto.NamesAndCountRequest;
 import racingcar.dto.ResultResponse;
-import racingcar.service.RacingCarService;
+import racingcar.service.PlayService;
+import racingcar.service.ResultService;
 
 @RestController
 public class WebController {
 
-    private final RacingCarService racingCarService;
+    private final PlayService playService;
+    private final ResultService resultService;
 
-    public WebController(final RacingCarService racingCarService) {
-        this.racingCarService = racingCarService;
+    public WebController(final PlayService playService, final ResultService resultService) {
+        this.playService = playService;
+        this.resultService = resultService;
     }
 
     @PostMapping("/plays")
     public ResponseEntity<ResultResponse> postPlays(@Valid @RequestBody final NamesAndCountRequest namesAndCount) {
-        ResultResponse resultResponse = racingCarService.playGame(namesAndCount);
+        ResultResponse resultResponse = playService.playGame(namesAndCount);
         return ResponseEntity.created(URI.create("/plays"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(resultResponse);
@@ -32,7 +35,7 @@ public class WebController {
 
     @GetMapping("/plays")
     public ResponseEntity<List<ResultResponse>> getPlays() {
-        List<ResultResponse> resultResponses = racingCarService.findAllResult();
+        List<ResultResponse> resultResponses = resultService.findAllResult();
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(resultResponses);

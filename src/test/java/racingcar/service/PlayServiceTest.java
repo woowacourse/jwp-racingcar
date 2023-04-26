@@ -13,13 +13,13 @@ import racingcar.dto.RacingCarResponse;
 import racingcar.dto.ResultResponse;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class RacingCarServiceTest {
+class PlayServiceTest {
 
-    private final RacingCarService racingCarService;
+    private final PlayService playService;
 
     @Autowired
-    RacingCarServiceTest(final RacingCarService racingCarService) {
-        this.racingCarService = racingCarService;
+    PlayServiceTest(final PlayService playService) {
+        this.playService = playService;
     }
 
     @DisplayName("이름들과 시도 횟수를 입력받아 결과를 반환한다.")
@@ -28,7 +28,7 @@ class RacingCarServiceTest {
         //given
         NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest("망고,루카,소니,현구막", 10);
         //when
-        ResultResponse resultResponse = racingCarService.playGame(namesAndCountRequest);
+        ResultResponse resultResponse = playService.playGame(namesAndCountRequest);
         //then
         List<String> names = resultResponse.getRacingCars().stream().map(RacingCarResponse::getName).collect(Collectors.toList());
         assertThat(resultResponse.getWinners()).isNotNull();

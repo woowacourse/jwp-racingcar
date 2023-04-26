@@ -1,9 +1,7 @@
 package racingcar.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.game.GameDao;
@@ -17,18 +15,16 @@ import racingcar.dto.NamesAndCountRequest;
 import racingcar.dto.ParticipateDto;
 import racingcar.dto.RacingCarResponse;
 import racingcar.dto.ResultResponse;
-import racingcar.entity.GameEntity;
-import racingcar.entity.ParticipatesEntity;
 import racingcar.entity.PlayerEntity;
 
 @Service
-public class RacingCarService {
+public class PlayService {
 
     private final GameDao gameDao;
     private final PlayerDao playerDao;
     private final ParticipatesDao participatesDao;
 
-    public RacingCarService(final GameDao gameDao, final PlayerDao playerDao, final ParticipatesDao participatesDao) {
+    public PlayService(final GameDao gameDao, final PlayerDao playerDao, final ParticipatesDao participatesDao) {
         this.gameDao = gameDao;
         this.playerDao = playerDao;
         this.participatesDao = participatesDao;
@@ -75,35 +71,5 @@ public class RacingCarService {
             return new ParticipateDto(gameId, playerId, carPosition, true);
         }
         return new ParticipateDto(gameId, playerId, carPosition, false);
-    }
-
-    public List<ResultResponse> findAllResult() {
-        final List<ResultResponse> resultResponses = new ArrayList<>();
-        gameDao.findAll()
-                .stream()
-                .map(GameEntity::getId)
-                .forEach(id -> resultResponses.add(findGameResult(id)));
-        return resultResponses;
-    }
-
-    private ResultResponse findGameResult(final Long id) {
-        final List<ParticipatesEntity> participatesByGameIds = participatesDao.findByGameId(id);
-        final List<String> winners = findWinners(participatesByGameIds);
-        final List<RacingCarResponse> racingCarResponses = findRacingCarResponses(participatesByGameIds);
-        return new ResultResponse(winners, racingCarResponses);
-    }
-
-    private List<RacingCarResponse> findRacingCarResponses(final List<ParticipatesEntity> participatesByGameIds) {
-        return participatesByGameIds.stream()
-                .map(participates -> new RacingCarResponse(playerDao.findNameById(participates.getPlayerId()),
-                        participates.getPosition()))
-                .collect(Collectors.toList());
-    }
-
-    private List<String> findWinners(final List<ParticipatesEntity> participatesByGameIds) {
-        return participatesByGameIds.stream()
-                .filter(ParticipatesEntity::getWinner)
-                .map(participates -> playerDao.findNameById(participates.getPlayerId()))
-                .collect(Collectors.toList());
     }
 }
