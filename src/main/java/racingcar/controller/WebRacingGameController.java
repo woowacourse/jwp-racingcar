@@ -35,7 +35,7 @@ public class WebRacingGameController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RacingCarResponse>> log() {
+    public ResponseEntity<List<RacingCarResponse>> findAllGameLog() {
         final List<RacingCarResponse> racingCarHistory = racingGameService.findAllGameLog();
 
         return ResponseEntity.ok().body(racingCarHistory);
