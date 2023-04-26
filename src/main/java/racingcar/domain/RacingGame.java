@@ -1,7 +1,7 @@
 package racingcar.domain;
 
-import racingcar.NumberGenerator;
-import racingcar.RandomNumberGenerator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingGame {
     public static final int MAX_TRY_COUNT_BOUND = 100;
@@ -21,22 +21,39 @@ public class RacingGame {
         this(new RandomNumberGenerator(), tryCount, cars);
     }
 
+    public static RacingGame of(List<String> names, int tryCount) {
+        List<Car> cars = names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
+        return new RacingGame(tryCount, new Cars(cars));
+    }
+
     private void validateTryCount(int tryCount) {
         if (tryCount > MAX_TRY_COUNT_BOUND) {
             throw new IllegalArgumentException("시도 횟수는 100회 이하만 가능합니다 현재 : " + tryCount + "회");
         }
     }
 
-    public void playOneRound() {
+    public void run() {
+        while (isNotEnd()) {
+            playOneRound();
+        }
+    }
+
+    private void playOneRound() {
         cars.moveAll(numberGenerator);
         tryCount--;
     }
 
-    public boolean isEnd() {
-        return tryCount == 0;
+    private boolean isNotEnd() {
+        return tryCount != 0;
     }
 
-    public Cars getCars() {
-        return cars;
+    public List<Car> findWinners() {
+        return cars.findWinners();
+    }
+
+    public List<Car> getCars() {
+        return cars.getCars();
     }
 }

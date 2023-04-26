@@ -2,38 +2,40 @@ package racingcar.dao;
 
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
-import racingcar.dto.CarDto;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Component;
+import racingcar.dao.entity.CarEntity;
 
-@Repository
+@Component
 public class CarJdbcDao implements CarDao {
+
+    private final SimpleJdbcInsert simpleJdbcInsert;
     private final JdbcTemplate jdbcTemplate;
 
     public CarJdbcDao(JdbcTemplate jdbcTemplate) {
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("car")
+                .usingGeneratedKeyColumns("id");
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public void save(Long gameId, CarDto carDto) {
-        String sql = "INSERT INTO CAR (name, position, is_win, racing_game_id) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, carDto.getName(), carDto.getPosition(), carDto.isWin(), gameId);
+    public void saveAll(List<CarEntity> racingCars) {
+        BeanPropertySqlParameterSource[] parameterSources = racingCars.stream()
+                .map(BeanPropertySqlParameterSource::new)
+                .toArray(BeanPropertySqlParameterSource[]::new);
+        simpleJdbcInsert.executeBatch(parameterSources);
     }
 
     @Override
-    public void saveAll(Long gameId, List<CarDto> racingCars) {
-        racingCars.forEach(carDto -> save(gameId, carDto));
-    }
-
-    @Override
-    public List<CarDto> findByGameId(Long gameId) {
-        String sql = "SELECT name, position, is_win FROM car WHERE racing_game_id = ?";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> {
-            CarDto carDto = new CarDto(
-                    resultSet.getString("name"),
-                    resultSet.getInt("position"),
-                    resultSet.getBoolean("is_win")
-            );
-            return carDto;
-        }, gameId);
+    public List<CarEntity> findByRacingGameId(Long racingGameId) {
+        return jdbcTemplate.query("SELECT * FROM car WHERE racing_game_id = " + racingGameId,
+                (resultSet, rowNum) -> new CarEntity(
+                        resultSet.getString("name"),
+                        resultSet.getInt("position"),
+                        resultSet.getBoolean("winner"),
+                        racingGameId
+                ));
     }
 }

@@ -1,14 +1,17 @@
 package racingcar.dto;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 public class RacingGameRequest {
-    private String names;
+
+    @Size(min = 2, message = "참가자는 최소 2명이여야 합니다")
+    private List<String> names;
+    @Min(value = 1, message = "최소 1보다 커야됩니다")
     private int count;
 
-    public RacingGameRequest(String names, int count) {
+    public RacingGameRequest(List<String> names, int count) {
         this.names = names;
         this.count = count;
     }
@@ -17,13 +20,8 @@ public class RacingGameRequest {
 
     }
 
-    public String getNames() {
+    public List<String> getNames() {
         return names;
-    }
-
-    public List<String> getNamesList() {
-        return Arrays.stream(names.split(","))
-                .collect(Collectors.toList());
     }
 
     public int getCount() {

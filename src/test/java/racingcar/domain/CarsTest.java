@@ -51,10 +51,19 @@ class CarsTest {
     void duplicateNameEx() {
         List<Car> duplicateNameCars = List.of(new Car("박스터"), new Car("박스터"));
 
-        assertThatThrownBy(()-> new Cars(duplicateNameCars))
+        assertThatThrownBy(() -> new Cars(duplicateNameCars))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("중복된 이름은 사용할 수 없습니다");
 
     }
 
+    @Test
+    @DisplayName("car의 수가 2보다 작으면 예외를 발생한다")
+    void carSizeEx() {
+        List<Car> cars = List.of(new Car("박스터"));
+
+        assertThatThrownBy(() -> new Cars(cars))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("최소 2대의 자동차가 있어야 합니다.");
+    }
 }
