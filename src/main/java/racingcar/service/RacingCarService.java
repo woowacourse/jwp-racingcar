@@ -9,6 +9,7 @@ import racingcar.dao.RacingCarDao;
 import racingcar.domain.Car;
 import racingcar.domain.Cars;
 import racingcar.domain.TryCount;
+import racingcar.dto.GameInitializeDto;
 import racingcar.dto.PlayResultDto;
 import racingcar.dto.RacingCarDto;
 import racingcar.dto.RacingCarGameResultDto;
@@ -23,7 +24,9 @@ public class RacingCarService {
         this.racingCarDao = racingCarDao;
     }
 
-    public RacingCarGameResultDto play(Cars cars, TryCount tryCount) {
+    public RacingCarGameResultDto play(GameInitializeDto gameInitializeDto) {
+        Cars cars = Cars.from(gameInitializeDto.getNames());
+        TryCount tryCount = new TryCount(gameInitializeDto.getCount());
         cars.runRound(tryCount);
         saveGameResult(cars, tryCount);
         return getGameResult(cars);

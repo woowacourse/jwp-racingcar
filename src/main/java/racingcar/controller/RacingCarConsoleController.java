@@ -1,7 +1,7 @@
 package racingcar.controller;
 
-import racingcar.domain.Cars;
-import racingcar.domain.TryCount;
+import java.util.List;
+import racingcar.dto.GameInitializeDto;
 import racingcar.dto.RacingCarGameResultDto;
 import racingcar.service.RacingCarService;
 import racingcar.view.InputView;
@@ -19,10 +19,10 @@ public class RacingCarConsoleController {
     }
 
     public void run() {
-        Cars cars = Cars.from(inputView.readCarNames());
-        TryCount tryCount = new TryCount(inputView.readTryCount());
-
-        RacingCarGameResultDto racingCarGameResultDto = racingCarService.play(cars, tryCount);
+        List<String> names = inputView.readCarNames();
+        int tryCount = inputView.readTryCount();
+        
+        RacingCarGameResultDto racingCarGameResultDto = racingCarService.play(new GameInitializeDto(names, tryCount));
 
         outputView.printGameResult(racingCarGameResultDto);
     }
