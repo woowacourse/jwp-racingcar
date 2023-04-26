@@ -4,21 +4,19 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import racingcar.domain.Car;
-import racingcar.domain.Name;
 
-public class RacingCarWinnerResponse {
+public class RacingCarWinnerDto {
     private final List<String> winners;
 
-    public RacingCarWinnerResponse(List<String> winners) {
+    public RacingCarWinnerDto(List<String> winners) {
         this.winners = winners;
     }
 
-    public static RacingCarWinnerResponse of(List<Car> winners) {
+    public static RacingCarWinnerDto of(List<Car> winners) {
         List<String> names = winners.stream()
                 .map(Car::getName)
-                .map(Name::getName)
                 .collect(toList());
-        return new RacingCarWinnerResponse(names);
+        return new RacingCarWinnerDto(names);
     }
 
     public List<String> getWinners() {

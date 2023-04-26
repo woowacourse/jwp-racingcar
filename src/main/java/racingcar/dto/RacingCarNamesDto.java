@@ -2,16 +2,16 @@ package racingcar.dto;
 
 import java.util.List;
 
-public class RacingCarNamesRequest {
+public class RacingCarNamesDto {
     private final List<String> names;
 
-    private RacingCarNamesRequest(List<String> names) {
+    private RacingCarNamesDto(List<String> names) {
         this.names = names;
     }
 
-    public static RacingCarNamesRequest of(String input) {
+    public static RacingCarNamesDto from(String input) {
         String[] names = input.split(",");
-        return new RacingCarNamesRequest(List.of(names));
+        return new RacingCarNamesDto(List.of(names));
     }
 
     public List<String> getNames() {

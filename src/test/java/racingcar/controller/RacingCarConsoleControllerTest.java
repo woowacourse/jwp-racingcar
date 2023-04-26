@@ -6,34 +6,33 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarStatusResponse;
-import racingcar.dto.RacingCarWinnerResponse;
-import racingcar.dto.TryCountRequest;
-import racingcar.service.RacingCarGame;
+import racingcar.dto.RacingCarNamesDto;
+import racingcar.dto.RacingCarStatusDto;
+import racingcar.dto.RacingCarWinnerDto;
+import racingcar.dto.TryCountDto;
 import racingcar.view.RacingCarView;
 
-class RacingCarControllerTest {
-    private RacingCarController racingCarController;
+class RacingCarConsoleControllerTest {
+    private RacingCarConsoleController racingCarConsoleController;
 
     private static class MockRacingCarView implements RacingCarView {
         @Override
-        public RacingCarNamesRequest receiveCarNames() {
-            return RacingCarNamesRequest.of("car1,car2,car3");
+        public RacingCarNamesDto receiveCarNames() {
+            return RacingCarNamesDto.from("car1,car2,car3");
         }
 
         @Override
-        public TryCountRequest receiveTryCount() {
-            return TryCountRequest.of("5");
+        public TryCountDto receiveTryCount() {
+            return TryCountDto.of("5");
         }
 
         @Override
-        public void printRacingProgress(List<RacingCarStatusResponse> responses) {
+        public void printRacingProgress(List<RacingCarStatusDto> responses) {
 
         }
 
         @Override
-        public void printWinners(RacingCarWinnerResponse response) {
+        public void printWinners(RacingCarWinnerDto response) {
 
         }
 
@@ -50,13 +49,13 @@ class RacingCarControllerTest {
 
     @BeforeEach
     void setUp() {
-        racingCarController = new RacingCarController(new RacingCarGame(), new MockRacingCarView());
+        racingCarConsoleController = new RacingCarConsoleController(new MockRacingCarView());
     }
 
     @Test
     @DisplayName("Controller가 정상적으로 작동해야한다.")
     void controller_start() {
-        assertThatCode(() -> racingCarController.start())
+        assertThatCode(() -> racingCarConsoleController.start())
                 .doesNotThrowAnyException();
     }
 }

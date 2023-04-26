@@ -18,15 +18,15 @@ public class Car {
         position.forward();
     }
 
-    public boolean isSamePosition(Position position) {
-        return this.position.equals(position);
+    public boolean isSamePosition(int position) {
+        return this.position.getValue() == position;
     }
 
-    public Position getMovedLength() {
-        return position;
+    public int getMovedLength() {
+        return position.getValue();
     }
 
-    public Name getName() {
-        return name;
+    public String getName() {
+        return name.getName();
     }
 }

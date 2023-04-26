@@ -1,81 +1,33 @@
 package racingcar.controller;
 
 import java.util.List;
-import racingcar.dto.RacingCarNamesRequest;
-import racingcar.dto.RacingCarStatusResponse;
-import racingcar.dto.RacingCarWinnerResponse;
-import racingcar.dto.TryCountRequest;
-import racingcar.service.RacingCarGame;
-import racingcar.service.RandomMoveStrategy;
-import racingcar.service.TryCount;
-import racingcar.view.RacingCarView;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import racingcar.dto.HistoryResponse;
+import racingcar.dto.PlayRequest;
+import racingcar.dto.PlayResponse;
+import racingcar.service.RacingCarService;
 
+@RestController
 public class RacingCarController {
-    private final RacingCarGame racingCarGame;
-    private final RacingCarView racingCarView;
 
-    public RacingCarController(RacingCarGame racingCarGame, RacingCarView racingCarView) {
-        this.racingCarGame = racingCarGame;
-        this.racingCarView = racingCarView;
+    private final RacingCarService racingCarService;
+
+    public RacingCarController(final RacingCarService racingCarService) {
+        this.racingCarService = racingCarService;
     }
 
-    public void start() {
-        createCar();
-        TryCount tryCount = new TryCount(getTryCount());
-        playGame(tryCount);
+    @GetMapping("/plays")
+    public ResponseEntity<List<HistoryResponse>> getGameHistory() {
+        return ResponseEntity.ok().body(racingCarService.getHistory());
     }
 
-    private void createCar() {
-        RacingCarNamesRequest racingCarNamesRequest = receiveCarNames();
-        racingCarGame.createCars(racingCarNamesRequest);
-    }
-
-    private RacingCarNamesRequest receiveCarNames() {
-        try {
-            return racingCarView.receiveCarNames();
-        } catch (RuntimeException e) {
-            racingCarView.printExceptionMessage(e);
-            return receiveCarNames();
-        }
-    }
-
-    private int getTryCount() {
-        TryCountRequest tryCountRequest = receiveTryCount();
-        return tryCountRequest.getTryCount();
-    }
-
-    private TryCountRequest receiveTryCount() {
-        try {
-            return racingCarView.receiveTryCount();
-        } catch (RuntimeException e) {
-            racingCarView.printExceptionMessage(e);
-            return receiveTryCount();
-        }
-    }
-
-    private void playGame(TryCount tryCount) {
-        RandomMoveStrategy randomMoveStrategy = new RandomMoveStrategy();
-        racingCarView.printStartMessage();
-        while (tryCount.isAvailable()) {
-            racingCarGame.moveCars(randomMoveStrategy);
-            printCarStatuses();
-            tryCount.moveUntilZero();
-        }
-        printCarStatuses();
-        findWinners();
-    }
-
-    private void findWinners() {
-        try {
-            RacingCarWinnerResponse racingCarWinnerResponse = racingCarGame.findWinners();
-            racingCarView.printWinners(racingCarWinnerResponse);
-        } catch (RuntimeException e) {
-            racingCarView.printExceptionMessage(e);
-        }
-    }
-
-    private void printCarStatuses() {
-        List<RacingCarStatusResponse> carStatuses = racingCarGame.getCarStatuses();
-        racingCarView.printRacingProgress(carStatuses);
+    @PostMapping("/plays")
+    public ResponseEntity<PlayResponse> play(@RequestBody final PlayRequest playRequest) {
+        PlayResponse response = racingCarService.play(playRequest);
+        return ResponseEntity.ok().body(response);
     }
 }
