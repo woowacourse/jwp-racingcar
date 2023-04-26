@@ -2,6 +2,7 @@ package racingcar.controller;
 
 import java.net.URI;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class WebController {
     }
 
     @PostMapping("/plays")
-    public ResponseEntity<ResultResponse> postPlays(@RequestBody final NamesAndCountRequest namesAndCount) {
+    public ResponseEntity<ResultResponse> postPlays(@Valid @RequestBody final NamesAndCountRequest namesAndCount) {
         ResultResponse resultResponse = racingCarService.playGame(namesAndCount);
         return ResponseEntity.created(URI.create("/plays"))
                 .contentType(MediaType.APPLICATION_JSON)
