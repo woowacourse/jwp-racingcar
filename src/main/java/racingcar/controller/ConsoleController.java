@@ -20,8 +20,8 @@ public class ConsoleController {
     }
 
     public void run() {
-        final NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest(
-                String.join(",", inputView.inputCarName()), inputView.inputGameRound());
+        final NamesAndCountRequest namesAndCountRequest = new NamesAndCountRequest(inputView.inputCarName(),
+                inputView.inputGameRound());
         final ResultResponse resultResponse = racingCarService.playGame(namesAndCountRequest);
         outputView.printEndGameResult(resultResponse);
     }
