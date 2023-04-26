@@ -26,7 +26,7 @@ public class RacingCarConsoleController {
             Cars cars = CarsFactory.buildCarsFromFactory(InputView.inputCarNames());
             OutputView.printInputTryTimesNotice();
             int tryTimes = InputView.inputTryTimes();
-            racingCarPlayRule.moverCarsUntilCountIsOver(cars, tryTimes, numberGenerator);
+            racingCarPlayRule.moveCarsUntilCountIsOver(cars, tryTimes, numberGenerator);
             printWinner(cars.findWinners());
             printResultNotice();
             OutputView.printCarNameAndPosition(cars);
