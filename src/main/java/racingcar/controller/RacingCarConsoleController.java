@@ -23,7 +23,7 @@ public class RacingCarConsoleController {
     public void startGame() {
         try {
             OutputView.printInputCarNamesNotice();
-            Cars cars = CarsFactory.buildCarsFromFactory(InputView.inputCarNames());
+            Cars cars = CarsFactory.create(InputView.inputCarNames());
             OutputView.printInputTryTimesNotice();
             int tryTimes = InputView.inputTryTimes();
             racingCarPlayRule.moveCarsUntilCountIsOver(cars, tryTimes, numberGenerator);

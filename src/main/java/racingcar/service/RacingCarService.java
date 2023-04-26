@@ -35,7 +35,7 @@ public class RacingCarService {
 
     public GameResultForResponse createResponse(GameInfoForRequest gameInfoForRequest) {
         List<String> carNames = Arrays.asList(gameInfoForRequest.getNames().split(","));
-        Cars cars = CarsFactory.buildCarsFromFactory(carNames);
+        Cars cars = CarsFactory.create(carNames);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoForRequest.getCount();
         racingCarPlayRule.moveCarsUntilCountIsOver(cars, count, numberGenerator);

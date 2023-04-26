@@ -8,7 +8,7 @@ public class CarsFactory {
     private CarsFactory() {
     }
 
-    public static Cars buildCarsFromFactory(List<String> carNames) {
+    public static Cars create(List<String> carNames) {
         List<Car> cars = new ArrayList<>();
         for (String carName : carNames) {
             cars.add(new Car(carName,0));
