@@ -1,26 +1,27 @@
 package racingcar.controller;
 
 import java.util.List;
-import racingcar.dto.RacingGameRequest;
-import racingcar.dto.RacingGameResponse;
-import racingcar.service.RacingGamePlayService;
+import java.util.stream.Collectors;
+import racingcar.domain.Car;
+import racingcar.domain.Cars;
+import racingcar.domain.RacingGame;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingGameConsoleController {
-    private final RacingGamePlayService racingPlayService;
 
-    public RacingGameConsoleController(RacingGamePlayService racingPlayService) {
-        this.racingPlayService = racingPlayService;
-    }
 
     public void run() {
         List<String> names = InputView.inputNames();
         int count = InputView.inputTryCount();
 
-        RacingGameResponse racingGameResponse = racingPlayService.play(new RacingGameRequest(names, count));
+        List<Car> cars = names.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
+        RacingGame racingGame = new RacingGame(count, new Cars(cars));
+        racingGame.run();
 
-        OutputView.printRacing(racingGameResponse.getRacingCars());
-        OutputView.printWinners(racingGameResponse.getWinners());
+        OutputView.printRacing(racingGame.getCars());
+        OutputView.printWinners(racingGame.findWinners());
     }
 }
