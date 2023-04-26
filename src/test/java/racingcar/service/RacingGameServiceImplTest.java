@@ -1,5 +1,6 @@
 package racingcar.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +42,9 @@ class RacingGameServiceImplTest {
     void playGame() {
         GameResultDto gameResult = racingGameService.play(List.of("브리", "토미", "브라운"), 10);
 
-        assertThat(gameResult.getWinners()).isEqualTo("브리");
-        assertThat(gameResult.getRacingCars().size()).isEqualTo(3);
+        Assertions.assertAll(
+                () -> assertThat(gameResult.getWinners()).isEqualTo("브리"),
+                () -> assertThat(gameResult.getRacingCars()).hasSize(3)
+        );
     }
 }

@@ -53,7 +53,7 @@ class CarDaoTest {
         final CarEntity carEntity = new CarEntity(car, gameId);
 
         // when
-        final Long id = dao.save(carEntity);
+        dao.save(List.of(carEntity));
 
         // then
         final List<CarEntity> carById = dao.findByGameId(gameId);
@@ -61,5 +61,18 @@ class CarDaoTest {
                 () -> assertThat(carById.size()).isEqualTo(1),
                 () -> assertThat(carById.get(0).getPosition()).isEqualTo(3)
         );
+    }
+
+    @Test
+    void findAll() {
+
+        final var dao = new CarDao(template);
+        final CarEntity a = new CarEntity("a", 3, 1L);
+        final CarEntity b = new CarEntity("b", 4, 1L);
+        final CarEntity c = new CarEntity("c", 5, 1L);
+        dao.save(List.of(a, b, c));
+        List<CarEntity> allCars = dao.findAll();
+
+        assertThat(allCars).hasSize(3);
     }
 }
