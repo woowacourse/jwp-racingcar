@@ -39,7 +39,7 @@ public class ConsoleRacingCarController {
     }
 
     private Cars getCars() {
-        TryCount tryCount = new TryCount();
+        TryCount tryCount = new TryCount(5);
 
         while (tryCount.isRunnable()) {
             try {
@@ -49,7 +49,7 @@ public class ConsoleRacingCarController {
                         .collect(collectingAndThen(toList(), Cars::new));
             } catch (IllegalArgumentException exception) {
                 outputView.printExceptionMessage(exception.getMessage());
-                tryCount.increase();
+                tryCount.decrease();
             }
         }
 
@@ -57,14 +57,14 @@ public class ConsoleRacingCarController {
     }
 
     private int getRound() {
-        TryCount tryCount = new TryCount();
+        TryCount tryCount = new TryCount(5);
 
         while (tryCount.isRunnable()) {
             try {
                 return inputView.readRacingRound();
             } catch (IllegalArgumentException exception) {
                 outputView.printExceptionMessage(exception.getMessage());
-                tryCount.increase();
+                tryCount.decrease();
             }
         }
 
