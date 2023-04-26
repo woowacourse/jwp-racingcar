@@ -3,7 +3,7 @@ package racingcar.dao;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import racingcar.dto.CarForNameAndPosition;
+import racingcar.dto.CarForSave;
 import racingcar.entity.PlayersInfo;
 
 import java.sql.PreparedStatement;
@@ -21,20 +21,20 @@ public class PlayersInfoDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insert(int playResultId, List<CarForNameAndPosition> carForNameAndPositions) {
+    public void insert(int playResultId, List<CarForSave> carForSaves) {
         String sql = "insert into players_info (name, position, play_result_id) values (?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                CarForNameAndPosition carForNameAndPosition = carForNameAndPositions.get(i);
-                ps.setString(FIRST_PARAM, carForNameAndPosition.getName());
-                ps.setInt(SECOND_PARAM, carForNameAndPosition.getPosition());
+                CarForSave carForSave = carForSaves.get(i);
+                ps.setString(FIRST_PARAM, carForSave.getName());
+                ps.setInt(SECOND_PARAM, carForSave.getPosition());
                 ps.setInt(THIRD_PARAM, playResultId);
             }
 
             @Override
             public int getBatchSize() {
-                return carForNameAndPositions.size();
+                return carForSaves.size();
             }
         });
     }

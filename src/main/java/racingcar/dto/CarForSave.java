@@ -2,16 +2,16 @@ package racingcar.dto;
 
 import racingcar.domain.Car;
 
-public class CarForNameAndPosition {
+public class CarForSave {
     private final String name;
     private final int position;
 
-    public CarForNameAndPosition(String name, int position) {
+    public CarForSave(String name, int position) {
         this.name = name;
         this.position = position;
     }
 
-    public CarForNameAndPosition(Car car) {
+    public CarForSave(Car car) {
         this(car.getName(), car.getPosition());
     }
 

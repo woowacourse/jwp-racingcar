@@ -38,25 +38,25 @@ public class RacingCarService {
         Cars cars = CarsFactory.buildCarsFromFactory(carNames);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
         int count = gameInfoForRequest.getCount();
-        racingCarPlayRule.moverCarsUntilCountIsOver(cars, count, numberGenerator);
-        List<CarForNameAndPosition> carResponse = cars.getCars().stream()
-                .map(CarForNameAndPosition::new)
+        racingCarPlayRule.moveCarsUntilCountIsOver(cars, count, numberGenerator);
+        List<CarForSave> carForSaves = cars.getCars().stream()
+                .map(CarForSave::new)
                 .collect(Collectors.toList());
-        List<CarForNameAndPosition> winners = cars.findWinners().stream()
-                .map(CarForNameAndPosition::new)
+        List<CarForSave> winners = cars.findWinners().stream()
+                .map(CarForSave::new)
                 .collect(Collectors.toList());
-        saveResult(count, carResponse, winners);
+        saveResult(count, carForSaves, winners);
         return new GameResultForResponse(cars.findWinners(), cars.getCars());
     }
 
-    private void saveResult(int trialCount, List<CarForNameAndPosition> carForNameAndPositions, List<CarForNameAndPosition> winners) {
+    private void saveResult(int trialCount, List<CarForSave> carForSaves, List<CarForSave> winners) {
         int playerResultId = playResultDao.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
-        playersInfoDao.insert(playerResultId, carForNameAndPositions);
+        playersInfoDao.insert(playerResultId, carForSaves);
     }
 
-    private String makeWinnersString(List<CarForNameAndPosition> winners) {
+    private String makeWinnersString(List<CarForSave> winners) {
         return winners.stream()
-                .map(CarForNameAndPosition::getName)
+                .map(CarForSave::getName)
                 .collect(Collectors.joining(DELIMITER));
     }
 
@@ -68,10 +68,10 @@ public class RacingCarService {
             String winners = allWinners.get(i);
             int playResultId = i + 1;
             List<PlayersInfo> playersInfos = playersInfoDao.findPlayersInfosByPlayResultId(playResultId);
-            List<CarForNameAndPosition> carForNameAndPositions = playersInfos.stream()
-                    .map(playersInfo -> new CarForNameAndPosition(playersInfo.getName(), playersInfo.getPosition()))
+            List<CarForSave> carForSaves = playersInfos.stream()
+                    .map(playersInfo -> new CarForSave(playersInfo.getName(), playersInfo.getPosition()))
                     .collect(Collectors.toList());
-            PlayRecordsForResponse playRecordsForResponse = new PlayRecordsForResponse(winners, carForNameAndPositions);
+            PlayRecordsForResponse playRecordsForResponse = new PlayRecordsForResponse(winners, carForSaves);
             playRecordsForResponses.add(playRecordsForResponse);
         }
         return playRecordsForResponses;
