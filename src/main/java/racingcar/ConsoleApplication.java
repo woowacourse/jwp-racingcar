@@ -11,11 +11,10 @@ import racingcar.view.OutputView;
 public class ConsoleApplication {
 
     public static void main(String[] args) {
-        ConsoleController consoleController = new ConsoleController(
-                new RacingCarService(new ConsoleGameDao(), new ConsolePlayerDao(), new ConsoleParticipatesDao()),
-                new InputView(),
-                new OutputView()
-        );
+        final RacingCarService racingCarService = new RacingCarService(new ConsoleGameDao(), new ConsolePlayerDao(),
+                new ConsoleParticipatesDao());
+        final ConsoleController consoleController = new ConsoleController(racingCarService, new InputView(),
+                new OutputView());
         consoleController.run();
     }
 }
