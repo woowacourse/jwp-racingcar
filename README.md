@@ -97,7 +97,7 @@ erDiagram
 - [x] @Valid 어노테이션 사용
 - [x] 조회하는 경우 @Transactional 제거
 - [ ] 예측하지 못한 예외도 핸들러로 관리
-- [ ] SimpleJdbcInsert 사용
+- [x] SimpleJdbcInsert 사용
 - [x] 사용하지 않는 주석 제거
 - [ ] 의미있는 클래스 명으로 변경
 - [ ] service에서 domain으로 책임 이동

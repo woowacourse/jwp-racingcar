@@ -1,13 +1,11 @@
 package racingcar.dao.player;
 
-import java.sql.PreparedStatement;
-import java.util.Objects;
+import java.util.HashMap;
 import java.util.Optional;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.PlayerEntity;
 
@@ -15,9 +13,13 @@ import racingcar.entity.PlayerEntity;
 public class WebPlayerDao implements PlayerDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public WebPlayerDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("player")
+                .usingGeneratedKeyColumns("id");
     }
 
     private final RowMapper<PlayerEntity> rowMapper = (resultSet, rowNum) -> new PlayerEntity(
@@ -27,14 +29,9 @@ public class WebPlayerDao implements PlayerDao {
 
     @Override
     public Long save(final String name) {
-        final String sql = "INSERT INTO PLAYER(name) VALUES(?) ";
-        KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
-            preparedStatement.setString(1, name);
-            return preparedStatement;
-        }, generatedKeyHolder);
-        return Objects.requireNonNull(generatedKeyHolder.getKey()).longValue();
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("name", name);
+        return simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
     }
 
     @Override

@@ -1,18 +1,17 @@
 package racingcar.dao.game;
 
-import java.sql.PreparedStatement;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import racingcar.entity.GameEntity;
 
 @Repository
 public class WebGameDao implements GameDao {
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     private final RowMapper<GameEntity> rowMapper = (resultSet, rowNum) -> new GameEntity(
             resultSet.getLong("id"),
@@ -21,18 +20,17 @@ public class WebGameDao implements GameDao {
 
     public WebGameDao(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("game")
+                .usingGeneratedKeyColumns("id")
+                .usingColumns("trial_count");
     }
 
     @Override
     public Long save(final int trialCount) {
-        final String sql = "INSERT INTO GAME(trial_count) VALUES(?) ";
-        KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
-            preparedStatement.setInt(1, trialCount);
-            return preparedStatement;
-        }, generatedKeyHolder);
-        return Objects.requireNonNull(generatedKeyHolder.getKey()).longValue();
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("trial_count", trialCount);
+        return simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
     }
 
     @Override
