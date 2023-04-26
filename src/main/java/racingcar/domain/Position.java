@@ -1,23 +1,21 @@
 package racingcar.domain;
 
-import racingcar.exception.PositionInvalidException;
-
 public class Position {
 
     private int position;
 
-    public Position(int position) {
+    public Position(final int position) {
         validatePosition(position);
         this.position = position;
     }
 
-    private void validatePosition(int position) {
+    private void validatePosition(final int position) {
         validatePositionIsNotNegative(position);
     }
 
-    private void validatePositionIsNotNegative(int position) {
+    private void validatePositionIsNotNegative(final int position) {
         if (position < 0) {
-            throw new PositionInvalidException();
+            throw new IllegalArgumentException("자동차의 위치는 음수일 수 없습니다.");
         }
     }
 

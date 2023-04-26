@@ -1,49 +1,38 @@
 package racingcar.view.output;
 
-import racingcar.domain.Car;
+import racingcar.presentation.dto.CarData;
+import racingcar.presentation.dto.GameResultResponse;
 
 import java.util.List;
-import java.util.StringJoiner;
 
 public class ConsoleView {
 
     private static final String RACING_RESULT_MESSAGE = System.lineSeparator() + "실행 결과";
     private static final String RACING_WINNER_MESSAGE = "%s가 최종 우승했습니다." + System.lineSeparator();
     private static final String DISTANCE_MARK = "-";
-    private static final String CAR_INFO_DELIMITER = " : ";
-    private static final String RESULT_DELIMITER = ", ";
+    public static final String CAR_DATA_FORMAT = "%s : %s\n";
 
-    public void printRacingStatus(List<Car> cars) {
-        for (Car car : cars) {
-            StringJoiner stringJoiner = new StringJoiner(CAR_INFO_DELIMITER);
-            stringJoiner.add(makeCarNames(car));
-            stringJoiner.add(makeCarTrack(car));
-
-            System.out.println(stringJoiner);
+    public void renderRacingGameResult(final List<GameResultResponse> gameResultResponses) {
+        renderGameResultMessage();
+        for (var gameResultResponse : gameResultResponses) {
+            renderCars(gameResultResponse);
+            renderWinners(gameResultResponse);
         }
-        System.out.println();
     }
 
-    private String makeCarNames(Car car) {
-        return car.getCarName();
-    }
-
-    private String makeCarTrack(Car car) {
-        return DISTANCE_MARK.repeat(car.getPosition());
-    }
-
-    public void printRacingWinners(List<Car> cars) {
-        StringJoiner stringJoiner = new StringJoiner(RESULT_DELIMITER);
-        cars.forEach(car -> stringJoiner.add(car.getCarName()));
-
-        System.out.printf(RACING_WINNER_MESSAGE, stringJoiner);
-    }
-
-    public void printGameResultMessage() {
+    private void renderGameResultMessage() {
         System.out.println(RACING_RESULT_MESSAGE);
     }
 
-    public void printExceptionMessage(String exceptionMessage) {
-        System.out.println(exceptionMessage);
+    private void renderWinners(final GameResultResponse gameResultResponse) {
+        String winners = gameResultResponse.getWinners();
+        System.out.printf(RACING_WINNER_MESSAGE, winners);
+    }
+
+    private void renderCars(final GameResultResponse gameResultResponse) {
+        List<CarData> allCarData = gameResultResponse.getRacingCars();
+        for (var carData : allCarData) {
+            System.out.printf(CAR_DATA_FORMAT, carData.getName(), DISTANCE_MARK.repeat(carData.getPosition()));
+        }
     }
 }

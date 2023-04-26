@@ -2,19 +2,25 @@ package racingcar.domain;
 
 public class Coin {
 
-    private int remaining;
+    private final int given;
+    private int used;
 
-    public Coin(int remaining) {
-        this.remaining = remaining;
+    public Coin(final int given) {
+        this.given = given;
+        this.used = 0;
     }
 
     public void use() {
         if (isLeft()) {
-            remaining--;
+            used++;
         }
     }
 
     public boolean isLeft() {
-        return remaining > 0;
+        return used < given;
+    }
+
+    public int getGiven() {
+        return given;
     }
 }

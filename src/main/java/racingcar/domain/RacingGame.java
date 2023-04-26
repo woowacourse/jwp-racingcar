@@ -1,44 +1,45 @@
 package racingcar.domain;
 
-import racingcar.exception.NoCarsExistException;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RacingGame {
 
-    private static final int DEFAULT_START_LINE = 0;
     private static final int MOVABLE_BOUND = 4;
 
     private final List<Car> cars;
     private final NumberGenerator numberGenerator;
     private final Coin gameCoin;
 
-    public RacingGame(List<String> splitCarNames, int gameTry, NumberGenerator numberGenerator) {
-        cars = splitCarNames.stream()
-                .map(carName -> new Car(carName, DEFAULT_START_LINE))
-                .collect(Collectors.toList());
-        gameCoin = new Coin(gameTry);
+    public RacingGame(final List<Car> cars, final int gameTry, final NumberGenerator numberGenerator) {
+        this.cars = cars;
+        this.gameCoin = new Coin(gameTry);
         this.numberGenerator = numberGenerator;
     }
 
     public void start() {
+        while (isGameOnGoing()) {
+            judgeMoveOrNot();
+        }
+    }
+
+    private void judgeMoveOrNot() {
         for (Car car : cars) {
             moveCar(car);
         }
         gameCoin.use();
     }
 
-    private void moveCar(Car car) {
+    private boolean isGameOnGoing() {
+        return gameCoin.isLeft();
+    }
+
+    private void moveCar(final Car car) {
         int randomNumber = numberGenerator.makeDigit();
         if (randomNumber >= MOVABLE_BOUND) {
             car.move();
         }
-    }
-
-    public boolean isGameOnGoing() {
-        return gameCoin.isLeft();
     }
 
     public List<Car> getCars() {
@@ -56,6 +57,10 @@ public class RacingGame {
     private Car getFurthestCar() {
         return cars.stream()
                 .max(Car::comparePosition)
-                .orElseThrow(NoCarsExistException::new);
+                .orElseThrow(() -> new IllegalArgumentException("자동차를 찾을 수 없습니다."));
+    }
+
+    public Coin getGameCoin() {
+        return gameCoin;
     }
 }

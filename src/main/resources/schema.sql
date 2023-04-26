@@ -8,7 +8,7 @@ CREATE TABLE GAME_RESULT (
 
 CREATE TABLE PLAYER_RESULT (
     id          INT         NOT NULL AUTO_INCREMENT,
-    name        VARCHAR(50) NOT NULL,
+    name        VARCHAR(5) NOT NULL,
     position    INT         NOT NULL,
     game_result_id INT      NOT NULL,
     PRIMARY KEY (id),
