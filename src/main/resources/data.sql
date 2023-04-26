@@ -16,3 +16,4 @@ CREATE TABLE CAR
     PRIMARY KEY (id),
     FOREIGN KEY (racing_game_id) REFERENCES RACING_GAME (id)
 );
+

@@ -1,7 +1,6 @@
 package racingcar.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,10 +27,10 @@ public class Cars {
     }
 
     private boolean hasDuplicateName(List<Car> cars) {
-        List<String> carNames = cars.stream()
+        return cars.size() != cars.stream()
                 .map(Car::getName)
-                .collect(Collectors.toList());
-        return carNames.size() != new HashSet<>(carNames).size();
+                .distinct()
+                .count();
     }
 
     public void move(NumberGenerator numberGenerator) {
