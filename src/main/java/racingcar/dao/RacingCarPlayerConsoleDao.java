@@ -1,5 +1,6 @@
 package racingcar.dao;
 
+import java.util.Collections;
 import java.util.List;
 import racingcar.domain.RacingCars;
 
@@ -12,6 +13,6 @@ public class RacingCarPlayerConsoleDao implements RacingCarPlayerDao {
 
     @Override
     public List<RacingCars> findAll() {
-        return null;
+        return Collections.emptyList();
     }
 }
