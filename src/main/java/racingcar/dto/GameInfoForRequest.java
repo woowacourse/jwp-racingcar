@@ -1,6 +1,6 @@
 package racingcar.dto;
 
-import racingcar.utils.Validator;
+import racingcar.utils.InputValidator;
 
 import java.util.Arrays;
 import java.util.List;

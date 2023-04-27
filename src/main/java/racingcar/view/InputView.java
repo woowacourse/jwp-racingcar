@@ -1,6 +1,6 @@
 package racingcar.view;
 
-import racingcar.utils.Validator;
+import racingcar.utils.InputValidator;
 
 import java.util.List;
 import java.util.Scanner;
@@ -13,9 +13,9 @@ public class InputView {
     public static List<String> inputCarNames() {
         String namesInput = scanner.nextLine();
         List<String> names = List.of(namesInput.split(CAR_NAME_DELIMITER));
-        Validator.validateProperNamePattern(names);
-        Validator.validateNameSize(names);
-        Validator.validatePlayerSize(names);
+        InputValidator.validateProperNamePattern(names);
+        InputValidator.validateNameSize(names);
+        InputValidator.validatePlayerSize(names);
         return names;
     }
 

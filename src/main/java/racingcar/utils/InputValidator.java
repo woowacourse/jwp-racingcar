@@ -3,12 +3,12 @@ package racingcar.utils;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Validator {
+public class InputValidator {
     private static final int MIN_PLAYER_NAME = 1;
     private static final int MAX_PLAYER_NAME = 5;
     private static final int MAX_PLAYER_NUM = 10;
 
-    private Validator() {
+    private InputValidator() {
         throw new AssertionError("인스턴스화할 수 없습니다");
     }
 
