@@ -7,22 +7,22 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import racingcar.repository.entity.GameEntity;
+import racingcar.repository.entity.CarEntity;
 
 @Repository
-public class JdbcGameDao implements GameDao {
+public class JdbcCarDao implements CarDao {
 
     private final SimpleJdbcInsert jdbcInsert;
 
-    public JdbcGameDao(final DataSource dataSource) {
+    public JdbcCarDao(final DataSource dataSource) {
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
-            .withTableName("game")
+            .withTableName("car")
             .usingGeneratedKeyColumns("id");
     }
 
     @Override
-    public long save(final GameEntity gameEntity) {
-        final SqlParameterSource params = new BeanPropertySqlParameterSource(gameEntity);
+    public long save(final CarEntity carEntity) {
+        final SqlParameterSource params = new BeanPropertySqlParameterSource(carEntity);
         return jdbcInsert.executeAndReturnKey(params).longValue();
     }
 }

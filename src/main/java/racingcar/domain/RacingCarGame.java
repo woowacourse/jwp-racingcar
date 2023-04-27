@@ -2,7 +2,8 @@ package racingcar.domain;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import racingcar.utils.NumberGenerator;
+
+import racingcar.domain.dto.RacingCarResultDto;
 
 public class RacingCarGame {
 
@@ -22,30 +23,26 @@ public class RacingCarGame {
         this.numberGenerator = numberGenerator;
     }
 
-    public List<String> findWinners() {
-        play();
-        final Cars winners = cars.findWinners();
-        return getWinnerNames(winners);
-    }
-
-    private void play() {
+    public void play() {
         while (attemptNumber.isRemain()) {
             attemptNumber.decrease();
             cars.moveAll(numberGenerator);
         }
     }
 
+    public RacingCarResultDto getResult() {
+        List<String> winners = findWinners();
+        return new RacingCarResultDto(winners, cars.getCars(), attemptNumber.getAttemptNumber());
+    }
+
+    private List<String> findWinners() {
+        final Cars winners = cars.findWinners();
+        return getWinnerNames(winners);
+    }
+
     private List<String> getWinnerNames(final Cars winners) {
         return winners.getCars().stream()
-                .map(Car::getName)
-                .collect(Collectors.toList());
-    }
-
-    public List<Car> getCars() {
-        return cars.getCars();
-    }
-
-    public AttemptNumber getAttemptNumber() {
-        return attemptNumber;
+            .map(Car::getName)
+            .collect(Collectors.toList());
     }
 }

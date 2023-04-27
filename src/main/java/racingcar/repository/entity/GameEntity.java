@@ -1,21 +1,21 @@
 package racingcar.repository.entity;
 
+import java.time.LocalDateTime;
+
 public class GameEntity {
 
-    private final long id;
+    private final Long id;
     private final int trialCount;
-    private final String lastModifiedTime;
+    private final LocalDateTime createdAt;
 
-    public GameEntity(final int trialCount) {
-        this.id = 0;
-        this.trialCount = trialCount;
-        this.lastModifiedTime = "";
-    }
-
-    public GameEntity(final long id, final int trialCount, final String lastModifiedTime) {
+    public GameEntity(final Long id, final int trialCount, final LocalDateTime createdAt) {
         this.id = id;
         this.trialCount = trialCount;
-        this.lastModifiedTime = lastModifiedTime;
+        this.createdAt = createdAt;
+    }
+
+    public GameEntity(final int trialCount) {
+        this(null, trialCount, LocalDateTime.now());
     }
 
     public long getId() {
@@ -26,7 +26,7 @@ public class GameEntity {
         return trialCount;
     }
 
-    public String getLastModifiedTime() {
-        return lastModifiedTime;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
