@@ -2,7 +2,6 @@ package racingcar.domain;
 
 import racingcar.utils.MovingStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,28 +18,15 @@ public class RacingGame {
         this.tryCount = tryCount;
     }
 
-    public RacingGame(Cars cars, TryCount tryCount) {
-        this.cars = cars;
-        this.tryCount = tryCount;
-    }
-
-    public List<Cars> start(MovingStrategy strategy) {
-        List<Cars> movingStatus = new ArrayList<>();
-
+    public Cars start(MovingStrategy strategy) {
         while (tryCount.canTry()) {
             cars.moveCars(strategy);
-            movingStatus.add(new Cars(cars));
             tryCount.decreaseCount();
         }
-
-        return movingStatus;
+        return new Cars(cars);
     }
 
-    public Cars decideWinners() {
-        return cars.getWinners();
-    }
-
-    public TryCount getTryCount() {
-        return tryCount;
+    public List<Car> winners(List<Car> carList) {
+        return cars.calculateWinners(carList);
     }
 }

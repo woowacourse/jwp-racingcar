@@ -1,6 +1,7 @@
-package racingcar.web.entity;
+package racingcar.entity;
 
 public class CarEntity {
+
     private final String playerName;
     private final int finalPosition;
     private final boolean isWinner;
@@ -27,15 +28,5 @@ public class CarEntity {
 
     public Long getGameResultId() {
         return gameResultId;
-    }
-
-    @Override
-    public String toString() {
-        return "CarEntity{" +
-                "playerName='" + playerName + '\'' +
-                ", finalPosition=" + finalPosition +
-                ", isWinner=" + isWinner +
-                ", gameResultId=" + gameResultId +
-                '}';
     }
 }

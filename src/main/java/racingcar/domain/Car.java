@@ -16,8 +16,8 @@ public class Car {
     }
 
     public Car(Car car) {
-        this.name = new Name(car.getName());
-        this.position = new Position(car.getPosition());
+        this.name = Name.of(car.getName());
+        this.position = Position.of(car.getPosition());
     }
 
     public void move(boolean movable) {
@@ -26,12 +26,12 @@ public class Car {
         }
     }
 
-    public Position getPosition() {
-        return position;
+    public int getPosition() {
+        return position.getPosition();
     }
 
-    public Name getName() {
-        return name;
+    public String getName() {
+        return name.getName();
     }
 
     @Override

@@ -1,7 +1,8 @@
-package racingcar.web.entity;
+package racingcar.entity;
 
 public class GameResultEntity {
-    private final int tryCount;
+
+    private int tryCount;
 
     public GameResultEntity(int tryCount) {
         this.tryCount = tryCount;

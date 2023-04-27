@@ -1,6 +1,7 @@
-package racingcar.web.dto;
+package racingcar.dto;
 
 public class CarDto {
+
     private final String name;
     private final int position;
 
