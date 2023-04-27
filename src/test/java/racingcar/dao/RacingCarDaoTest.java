@@ -35,7 +35,7 @@ class RacingCarDaoTest {
                         new RacingCar(new Name("리오"))
                 ));
         final TryCount tryCount = new TryCount(3);
-        final String sql = "SELECT COUNT(*) FROM LOG";
+        final String sql = "SELECT COUNT(*) FROM RACING_CAR_PLAYER_LOG";
 
         //when
         final int gameId = racingCarDao.insertGame(racingCars, tryCount);

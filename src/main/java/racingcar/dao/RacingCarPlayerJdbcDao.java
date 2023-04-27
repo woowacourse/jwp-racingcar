@@ -24,7 +24,7 @@ public class RacingCarPlayerJdbcDao implements RacingCarPlayerDao {
 
     @Transactional
     public void insertGameLog(final RacingCars racingCars, final int gameId) {
-        final String sql = "INSERT INTO LOG (game_id, name, move) values (?,?,?)";
+        final String sql = "INSERT INTO RACING_CAR_PLAYER_LOG (game_id, name, move) values (?,?,?)";
 
         for (RacingCar racingCar : racingCars.getRacingCars()) {
             jdbcTemplate.update(sql, gameId, racingCar.getName(), racingCar.getPosition());
@@ -33,7 +33,7 @@ public class RacingCarPlayerJdbcDao implements RacingCarPlayerDao {
 
     @Transactional
     public List<RacingCars> findAll() {
-        final String sql = "SELECT game_id, name, move FROM LOG";
+        final String sql = "SELECT game_id, name, move FROM RACING_CAR_PLAYER_LOG";
 
         List<Map<Integer, RacingCar>> log = jdbcTemplate.query(sql, RacingCarPlayerJdbcDao::makeRacingCar);
         return makeRacingCars(log);

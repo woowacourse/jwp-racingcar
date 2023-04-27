@@ -16,7 +16,7 @@ public class RacingCarGameJdbcDao implements RacingCarGameDao {
 
     public RacingCarGameJdbcDao(final JdbcTemplate jdbcTemplate) {
         this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("PLAY_RESULT")
+                .withTableName("RACING_CAR_GAME_RESULT")
                 .usingGeneratedKeyColumns("id", "created_at");
     }
 
