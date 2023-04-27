@@ -1,7 +1,7 @@
 package racingcar.domain;
 
 public class TryCount {
-    private static final int TRY_COUNT_MIN = 0;
+    private static final int MIN_TRY_COUNT = 0;
 
     private final int value;
 
@@ -11,8 +11,8 @@ public class TryCount {
     }
 
     private void validateCountInput(int tryCount) {
-        if (tryCount <= TRY_COUNT_MIN) {
-            throw new IllegalArgumentException("[ERROR] 시도할 횟수는 0보다 큰 숫자여야 합니다.");
+        if (tryCount <= MIN_TRY_COUNT) {
+            throw new IllegalArgumentException("시도할 횟수는 0보다 큰 숫자여야 합니다.");
         }
     }
 

@@ -1,4 +1,4 @@
-CREATE TABLE PLAY_RESULT
+CREATE TABLE GAME
 (
     id         INT         NOT NULL AUTO_INCREMENT,
     trialCount INT         NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE RACING_CAR
     player_position INT          NOT NULL,
     game_id         INT          NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES PLAY_RESULT (id)
+    FOREIGN KEY (game_id) REFERENCES GAME (id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );

@@ -1,36 +1,36 @@
 package racingcar.domain;
 
 public class Car {
-    private static final int DISTANCE_DEFAULT = 0;
+    private static final int DEFAULT_POSITION = 0;
     private static final int MOVE_CRITERIA = 4;
 
     private final Name name;
-    private final Distance distance;
+    private final Position position;
 
-    public Car(String name) {
-        this(name, DISTANCE_DEFAULT);
+    private Car(Name name, Position position) {
+        this.name = name;
+        this.position = position;
     }
 
-    public Car(String name, int distance) {
-        this.name = new Name(name);
-        this.distance = new Distance(distance);
+    public static Car from(String name) {
+        return new Car(new Name(name), new Position(DEFAULT_POSITION));
     }
 
     public void runForward(int engine) {
         if (engine >= MOVE_CRITERIA) {
-            distance.increaseDistance();
+            position.increasePosition();
         }
     }
 
-    public Distance getDistance() {
-        return distance;
+    public boolean isSamePosition(int otherPosition) {
+        return otherPosition == position.getValue();
     }
 
-    public Name getName() {
-        return name;
+    public String getNameValue() {
+        return name.getValue();
     }
 
-    public boolean isSameDistance(int otherDistance) {
-        return otherDistance == distance.getValue();
+    public int getPositionValue() {
+        return position.getValue();
     }
 }

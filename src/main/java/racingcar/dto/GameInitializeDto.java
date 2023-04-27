@@ -1,19 +1,21 @@
 package racingcar.dto;
 
+import java.util.List;
+
 public class GameInitializeDto {
-    private String names;
+    private List<String> names;
     private int count;
 
     public GameInitializeDto() {
 
     }
 
-    public GameInitializeDto(String names, int count) {
+    public GameInitializeDto(List<String> names, int count) {
         this.names = names;
         this.count = count;
     }
 
-    public String getNames() {
+    public List<String> getNames() {
         return names;
     }
 
