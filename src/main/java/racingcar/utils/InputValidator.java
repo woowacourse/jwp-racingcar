@@ -39,7 +39,7 @@ public class InputValidator {
         }
     }
 
-    public static void validateNullcount(Integer count) {
+    public static void validateNullCount(Integer count) {
         if (count == null) {
             throw new IllegalArgumentException("값을 입력해야 합니다");
         }

@@ -12,12 +12,12 @@ public class GameInfoForRequest {
 
     public GameInfoForRequest(String names, Integer count) throws IllegalArgumentException {
         List<String> players = Arrays.stream(names.split(",")).collect(Collectors.toList());
-        Validator.validateNullNames(names);
-        Validator.validateNullcount(count);
-        Validator.validatePlayerSize(players);
-        Validator.validateProperNamePattern(players);
-        Validator.validateNameSize(players);
-        Validator.validateCountSize(count);
+        InputValidator.validateNullNames(names);
+        InputValidator.validateNullCount(count);
+        InputValidator.validatePlayerSize(players);
+        InputValidator.validateProperNamePattern(players);
+        InputValidator.validateNameSize(players);
+        InputValidator.validateCountSize(count);
         this.names = names;
         this.count = count;
     }

@@ -21,8 +21,8 @@ public class InputView {
 
     public static int inputTryTimes() {
         Integer count = scanner.nextInt();
-        Validator.validateNullcount(count);
-        Validator.validateCountSize(count);
+        InputValidator.validateNullCount(count);
+        InputValidator.validateCountSize(count);
         return count;
     }
 }
