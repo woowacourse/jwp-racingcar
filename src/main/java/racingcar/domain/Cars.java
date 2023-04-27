@@ -6,40 +6,53 @@ import java.util.stream.Collectors;
 
 public class Cars {
 
-    private static final int CARS_MIN_SIZE = 1;
-    private static final String CARS_SIZE_ERROR = "[ERROR] 자동차 대수는 1이상이어야 합니다.";
+    private static final int CARS_MIN_SIZE = 2;
 
-    private List<Car> cars;
+    private final List<Car> cars;
 
     public Cars(List<Car> cars) {
-        validateCarsSize(cars);
+        validate(cars);
         this.cars = new ArrayList<>(cars);
+    }
+
+    private void validate(List<Car> cars) {
+        if (cars.size() < CARS_MIN_SIZE) {
+            throw new IllegalArgumentException("자동차 대수는 2 이상이어야 합니다.");
+        }
+
+        if (hasDuplicateName(cars)) {
+            throw new IllegalArgumentException("중복된 자동차 이름이 존재합니다.");
+        }
+    }
+
+    private boolean hasDuplicateName(List<Car> cars) {
+        return cars.size() != cars.stream()
+                .map(Car::getName)
+                .distinct()
+                .count();
+    }
+
+    public void move(NumberGenerator numberGenerator) {
+        for (Car car : cars) {
+            car.move(numberGenerator.generate());
+        }
     }
 
     public List<Car> findAllWinner() {
         Car maxPositionCar = findMaxPositionCar();
-        return cars.stream()
-                .filter(car -> car.isSamePosition(maxPositionCar))
-                .collect(Collectors.toList());
-    }
-
-    public List<Car> moveEachCar() {
-        for (Car car : cars) {
-            car.goForward();
-        }
-        return new ArrayList<>(cars);
-    }
-
-    // Todo : 나중에 중복되는 이름은 입력되면 예외처리 되도록 구현해야 한다.
-    private void validateCarsSize(List<Car> cars) {
-        if (cars.size() < CARS_MIN_SIZE) {
-            throw new IllegalArgumentException(CARS_SIZE_ERROR);
-        }
+        return findSamePositionCars(maxPositionCar);
     }
 
     private Car findMaxPositionCar() {
-        cars.sort(Car::compareTo);
-        return cars.get(0);
+        return cars.stream()
+                .max(Car::compareTo)
+                .orElseThrow(() -> new IllegalArgumentException("Cars가 비어있습니다."));
+    }
+
+    private List<Car> findSamePositionCars(Car maxPositionCar) {
+        return cars.stream()
+                .filter(car -> car.isSamePosition(maxPositionCar))
+                .collect(Collectors.toList());
     }
 
     public List<Car> getCars() {

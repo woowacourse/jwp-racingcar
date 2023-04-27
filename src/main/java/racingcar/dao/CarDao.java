@@ -1,10 +1,11 @@
 package racingcar.dao;
 
-import racingcar.dto.CarDto;
-
 import java.util.List;
+import racingcar.domain.entity.CarResultEntity;
 
 public interface CarDao {
 
-    void save(int gameId, List<CarDto> carDtos);
+    void saveAll(int gameId, List<CarResultEntity> carEntities);
+
+    List<CarResultEntity> findAll();
 }

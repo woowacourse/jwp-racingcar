@@ -4,30 +4,31 @@ import java.util.List;
 
 public class RacingGame {
 
-    private static final String ROUND_NUMBER_ERROR = "[ERROR] 시도 횟수는 1이상이어야 합니다.";
-    private static final int INITIAL_CURRENT_ROUND = 0;
-    private static final int ROUND_MIN_NUM = 1;
+    private static final int ROUND_MINIMUM_NUMBER = 1;
+    private static final int ROUND_MAXIMUM_NUMBER = 100;
 
     private final Cars cars;
-    private int totalRound;
-    private int currentRound = INITIAL_CURRENT_ROUND;
+    private final int totalRound;
 
-    public RacingGame(final Cars cars, int totalRound){
+    public RacingGame(Cars cars, int totalRound) {
         validateRound(totalRound);
         this.cars = cars;
         this.totalRound = totalRound;
     }
 
-    public List<Car> playOneRound(){
-        currentRound++;
-        return cars.moveEachCar();
+    private void validateRound(int totalRound) {
+        if (totalRound < ROUND_MINIMUM_NUMBER || ROUND_MAXIMUM_NUMBER < totalRound) {
+            throw new IllegalArgumentException("시도 횟수는 1이상, 100 이하여야야 합니다.");
+        }
     }
 
-    public boolean isGameEnded(){
-        return totalRound <= currentRound;
+    public void play(NumberGenerator numberGenerator) {
+        for (int i = 0; i < totalRound; i++) {
+            cars.move(numberGenerator);
+        }
     }
 
-    public List<Car> findWinnerCars(){
+    public List<Car> findWinnerCars() {
         return cars.findAllWinner();
     }
 
@@ -35,9 +36,7 @@ public class RacingGame {
         return cars.getCars();
     }
 
-    private void validateRound(int totalRound) {
-        if (totalRound < ROUND_MIN_NUM) {
-            throw new IllegalArgumentException(ROUND_NUMBER_ERROR);
-        }
+    public int getTotalRound() {
+        return totalRound;
     }
 }
