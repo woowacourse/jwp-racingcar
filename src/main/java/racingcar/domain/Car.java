@@ -7,7 +7,6 @@ public class Car implements Comparable<Car> {
     private static final int NAME_MIN_LENGTH = 1;
     private static final int NAME_MAX_LENGTH = 5;
     private static final int MOVABLE_MIN_NUMBER = 4;
-    private static final String NAME_LENGTH_ERROR = "자동차 이름은 1자 이상 5자 이하여야 합니다.";
 
     private final String name;
     private int position = 0;
@@ -19,7 +18,7 @@ public class Car implements Comparable<Car> {
 
     private void validateName(String name) {
         if (name.length() < NAME_MIN_LENGTH || name.length() > NAME_MAX_LENGTH) {
-            throw new IllegalArgumentException(NAME_LENGTH_ERROR);
+            throw new IllegalArgumentException("자동차 이름은 1자 이상 5자 이하여야 합니다.");
         }
     }
 

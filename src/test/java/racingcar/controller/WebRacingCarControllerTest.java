@@ -23,8 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import racingcar.domain.entity.CarEntity;
-import racingcar.domain.entity.RacingGameEntity;
+import racingcar.domain.entity.CarResultEntity;
+import racingcar.domain.entity.RacingGameResultEntity;
 import racingcar.dto.request.RacingGameRequest;
 import racingcar.repository.RacingCarRepository;
 
@@ -141,11 +141,11 @@ class WebRacingCarControllerTest {
     @DisplayName("저장된 모든 자동차 경주 결과를 반환한다.")
     @Test
     void find_all_result() throws Exception {
-        List<CarEntity> carEntities = List.of(
-                new CarEntity("현서", 10, true),
-                new CarEntity("오리", 10, true),
-                new CarEntity("은서", 1, false));
-        List<RacingGameEntity> racingGameEntities = List.of(new RacingGameEntity(carEntities, 10));
+        List<CarResultEntity> carEntities = List.of(
+                new CarResultEntity("현서", 10, true),
+                new CarResultEntity("오리", 10, true),
+                new CarResultEntity("은서", 1, false));
+        List<RacingGameResultEntity> racingGameEntities = List.of(new RacingGameResultEntity(carEntities, 10));
 
         BDDMockito.given(racingCarRepository.findAll())
                 .willReturn(racingGameEntities);

@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import racingcar.dao.CarDao;
 import racingcar.dao.RacingGameDao;
-import racingcar.domain.entity.CarEntity;
-import racingcar.domain.entity.RacingGameEntity;
+import racingcar.domain.entity.CarResultEntity;
+import racingcar.domain.entity.RacingGameResultEntity;
 
 @Repository
 public class DaoRacingCarRepository implements RacingCarRepository {
@@ -21,21 +21,21 @@ public class DaoRacingCarRepository implements RacingCarRepository {
     }
 
     @Override
-    public void save(RacingGameEntity racingGameEntity) {
-        int gameId = racingGameDao.save(racingGameEntity.getCount());
-        carDao.saveAll(gameId, racingGameEntity.getCarEntities());
+    public void save(RacingGameResultEntity racingGameResultEntity) {
+        int gameId = racingGameDao.save(racingGameResultEntity.getCount());
+        carDao.saveAll(gameId, racingGameResultEntity.getCarEntities());
     }
 
     @Override
-    public List<RacingGameEntity> findAll() {
-        List<RacingGameEntity> racingGameEntities = racingGameDao.findAll();
-        List<CarEntity> carEntities = carDao.findAll();
+    public List<RacingGameResultEntity> findAll() {
+        List<RacingGameResultEntity> racingGameEntities = racingGameDao.findAll();
+        List<CarResultEntity> carEntities = carDao.findAll();
 
-        for (RacingGameEntity racingGameEntity : racingGameEntities) {
-            List<CarEntity> carEntitiesByGameId = carEntities.stream()
-                    .filter(carEntity -> carEntity.getGameId() == racingGameEntity.getId())
+        for (RacingGameResultEntity racingGameResultEntity : racingGameEntities) {
+            List<CarResultEntity> carEntitiesByGameId = carEntities.stream()
+                    .filter(carEntity -> carEntity.getGameId() == racingGameResultEntity.getId())
                     .collect(toList());
-            racingGameEntity.setCarEntities(carEntitiesByGameId);
+            racingGameResultEntity.setCarEntities(carEntitiesByGameId);
         }
 
         return racingGameEntities;

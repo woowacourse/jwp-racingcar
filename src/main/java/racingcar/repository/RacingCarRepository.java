@@ -1,11 +1,11 @@
 package racingcar.repository;
 
 import java.util.List;
-import racingcar.domain.entity.RacingGameEntity;
+import racingcar.domain.entity.RacingGameResultEntity;
 
 public interface RacingCarRepository {
 
-    void save(RacingGameEntity racingGameEntity);
+    void save(RacingGameResultEntity racingGameResultEntity);
 
-    List<RacingGameEntity> findAll();
+    List<RacingGameResultEntity> findAll();
 }

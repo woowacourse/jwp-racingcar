@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import racingcar.domain.Car;
 import racingcar.domain.NumberGenerator;
 import racingcar.domain.RacingGame;
-import racingcar.domain.entity.CarEntity;
-import racingcar.domain.entity.RacingGameEntity;
+import racingcar.domain.entity.CarResultEntity;
+import racingcar.domain.entity.RacingGameResultEntity;
 import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
@@ -34,22 +34,22 @@ public class RacingCarService {
         return RacingGameResponse.createByCars(racingGame.getCars(), racingGame.findWinnerCars());
     }
 
-    private RacingGameEntity createRacingGameEntity(RacingGame racingGame) {
+    private RacingGameResultEntity createRacingGameEntity(RacingGame racingGame) {
         List<Car> winnerCars = racingGame.findWinnerCars();
 
-        List<CarEntity> carEntities = racingGame.getCars().stream()
-                .map(car -> new CarEntity(car.getName(), car.getPosition(), winnerCars.contains(car)))
+        List<CarResultEntity> carEntities = racingGame.getCars().stream()
+                .map(car -> new CarResultEntity(car.getName(), car.getPosition(), winnerCars.contains(car)))
                 .collect(toList());
 
-        return new RacingGameEntity(carEntities, racingGame.getTotalRound());
+        return new RacingGameResultEntity(carEntities, racingGame.getTotalRound());
     }
 
     @Transactional(readOnly = true)
     public List<RacingGameResponse> findGameResults() {
-        List<RacingGameEntity> racingGameEntities = racingCarRepository.findAll();
+        List<RacingGameResultEntity> racingGameEntities = racingCarRepository.findAll();
 
         return racingGameEntities.stream()
-                .map(RacingGameEntity::getCarEntities)
+                .map(RacingGameResultEntity::getCarEntities)
                 .map(RacingGameResponse::createByEntity)
                 .collect(toList());
     }

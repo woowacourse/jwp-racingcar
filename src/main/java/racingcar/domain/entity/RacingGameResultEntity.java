@@ -4,23 +4,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class RacingGameEntity {
+public class RacingGameResultEntity {
 
     private Integer id;
-    private List<CarEntity> carEntities;
+    private List<CarResultEntity> carEntities;
     private final Integer count;
     private LocalDateTime createdAt;
 
-    public RacingGameEntity(List<CarEntity> carEntities, Integer count) {
+    public RacingGameResultEntity(List<CarResultEntity> carEntities, Integer count) {
         this(null, carEntities, count, null);
     }
 
-    public RacingGameEntity(Integer id, Integer count, LocalDateTime createdAt) {
+    public RacingGameResultEntity(Integer id, Integer count, LocalDateTime createdAt) {
         this(id, null, count, createdAt);
     }
 
-    public RacingGameEntity(Integer id, List<CarEntity> carEntities, Integer count,
-                            LocalDateTime createdAt) {
+    public RacingGameResultEntity(Integer id, List<CarResultEntity> carEntities, Integer count,
+                                  LocalDateTime createdAt) {
         this.id = id;
         this.carEntities = carEntities;
         this.count = count;
@@ -31,11 +31,11 @@ public class RacingGameEntity {
         return id;
     }
 
-    public List<CarEntity> getCarEntities() {
+    public List<CarResultEntity> getCarEntities() {
         return carEntities;
     }
 
-    public void setCarEntities(List<CarEntity> carEntities) {
+    public void setCarEntities(List<CarResultEntity> carEntities) {
         this.carEntities = carEntities;
     }
 
@@ -55,7 +55,7 @@ public class RacingGameEntity {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        RacingGameEntity otherEntity = (RacingGameEntity) other;
+        RacingGameResultEntity otherEntity = (RacingGameResultEntity) other;
 
         if (id == null || otherEntity.id == null) {
             return false;

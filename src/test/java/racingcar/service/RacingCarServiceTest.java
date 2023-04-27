@@ -7,8 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import racingcar.domain.RandomNumberGenerator;
 import racingcar.domain.TestNumberGenerator;
-import racingcar.domain.entity.CarEntity;
-import racingcar.domain.entity.RacingGameEntity;
+import racingcar.domain.entity.CarResultEntity;
+import racingcar.domain.entity.RacingGameResultEntity;
 import racingcar.dto.request.RacingGameRequest;
 import racingcar.dto.response.RacingGameResponse;
 import racingcar.repository.RacingCarRepository;
@@ -35,11 +35,11 @@ class RacingCarServiceTest {
     @Test
     void findAll() {
         //given
-        List<CarEntity> carEntities = List.of(
-                new CarEntity("현서", 10, true),
-                new CarEntity("오리", 10, true),
-                new CarEntity("은서", 1, false));
-        List<RacingGameEntity> racingGameEntities = List.of(new RacingGameEntity(carEntities, 10));
+        List<CarResultEntity> carEntities = List.of(
+                new CarResultEntity("현서", 10, true),
+                new CarResultEntity("오리", 10, true),
+                new CarResultEntity("은서", 1, false));
+        List<RacingGameResultEntity> racingGameEntities = List.of(new RacingGameResultEntity(carEntities, 10));
 
         RacingCarService racingCarService = new RacingCarService(
                 new TestRacingCarRepository(racingGameEntities), new RandomNumberGenerator());
@@ -55,19 +55,19 @@ class RacingCarServiceTest {
 
     class TestRacingCarRepository implements RacingCarRepository {
 
-        private final List<RacingGameEntity> entities;
+        private final List<RacingGameResultEntity> entities;
 
-        public TestRacingCarRepository(final List<RacingGameEntity> entities) {
+        public TestRacingCarRepository(final List<RacingGameResultEntity> entities) {
             this.entities = entities;
         }
 
         @Override
-        public void save(final RacingGameEntity racingGameResultDto) {
+        public void save(final RacingGameResultEntity racingGameResultDto) {
             return;
         }
 
         @Override
-        public List<RacingGameEntity> findAll() {
+        public List<RacingGameResultEntity> findAll() {
             return entities;
         }
     }

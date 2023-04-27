@@ -2,7 +2,7 @@ package racingcar.domain.entity;
 
 import java.util.Objects;
 
-public class CarEntity {
+public class CarResultEntity {
 
     private Integer id;
     private Integer gameId;
@@ -10,11 +10,11 @@ public class CarEntity {
     private final Integer position;
     private final Boolean isWin;
 
-    public CarEntity(String name, Integer position, Boolean isWin) {
+    public CarResultEntity(String name, Integer position, Boolean isWin) {
         this(null, null, name, position, isWin);
     }
 
-    public CarEntity(Integer id, Integer gameId, String name, Integer position, Boolean isWin) {
+    public CarResultEntity(Integer id, Integer gameId, String name, Integer position, Boolean isWin) {
         this.id = id;
         this.gameId = gameId;
         this.name = name;
@@ -50,16 +50,16 @@ public class CarEntity {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        CarEntity otherCarEntity = (CarEntity) other;
+        CarResultEntity otherCarResultEntity = (CarResultEntity) other;
 
-        if (id == null || otherCarEntity.id == null) {
+        if (id == null || otherCarResultEntity.id == null) {
             return false;
         }
 
-        return Objects.equals(gameId, otherCarEntity.gameId) &&
-                Objects.equals(name, otherCarEntity.name) &&
-                Objects.equals(position, otherCarEntity.position) &&
-                Objects.equals(isWin, otherCarEntity.isWin);
+        return Objects.equals(gameId, otherCarResultEntity.gameId) &&
+                Objects.equals(name, otherCarResultEntity.name) &&
+                Objects.equals(position, otherCarResultEntity.position) &&
+                Objects.equals(isWin, otherCarResultEntity.isWin);
     }
 
     @Override

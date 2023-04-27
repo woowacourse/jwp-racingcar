@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.domain.entity.CarEntity;
+import racingcar.domain.entity.CarResultEntity;
 
 @JdbcTest
 class JdbcCarDaoTest {
@@ -31,8 +31,8 @@ class JdbcCarDaoTest {
     @DisplayName("주어진 자동차를 모두 저장한다.")
     void save_all() {
         //given
-        List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
-                new CarEntity("참치", 2, false));
+        List<CarResultEntity> carEntities = List.of(new CarResultEntity("현서", 10, true),
+                new CarResultEntity("참치", 2, false));
         int gameId = jdbcRacingGameDao.save(10);
         //when
         jdbcCarDao.saveAll(gameId, carEntities);
@@ -45,12 +45,12 @@ class JdbcCarDaoTest {
     @DisplayName("find_all")
     void find_all() {
         //given
-        List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
-                new CarEntity("참치", 2, false));
+        List<CarResultEntity> carEntities = List.of(new CarResultEntity("현서", 10, true),
+                new CarResultEntity("참치", 2, false));
         int gameId = jdbcRacingGameDao.save(10);
         jdbcCarDao.saveAll(gameId, carEntities);
         //when
-        List<CarEntity> actual = jdbcCarDao.findAll();
+        List<CarResultEntity> actual = jdbcCarDao.findAll();
         //then
         assertThat(actual.size()).isEqualTo(2);
     }

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import racingcar.domain.entity.RacingGameEntity;
+import racingcar.domain.entity.RacingGameResultEntity;
 
 @JdbcTest
 class JdbcRacingGameDaoTest {
@@ -40,7 +40,7 @@ class JdbcRacingGameDaoTest {
         jdbcRacingGameDao.save(10);
         jdbcRacingGameDao.save(20);
         //when
-        List<RacingGameEntity> actual = jdbcRacingGameDao.findAll();
+        List<RacingGameResultEntity> actual = jdbcRacingGameDao.findAll();
         //then
         assertThat(actual.size()).isEqualTo(2);
     }

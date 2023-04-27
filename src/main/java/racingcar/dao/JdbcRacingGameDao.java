@@ -8,18 +8,18 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import racingcar.domain.entity.RacingGameEntity;
+import racingcar.domain.entity.RacingGameResultEntity;
 
 @Component
 public class JdbcRacingGameDao implements RacingGameDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<RacingGameEntity> rowMapper = (rs, rowNum) -> {
+    private final RowMapper<RacingGameResultEntity> rowMapper = (rs, rowNum) -> {
         int id = rs.getInt("id");
         int count = rs.getInt("count");
         LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
-        return new RacingGameEntity(id, count, createdAt);
+        return new RacingGameResultEntity(id, count, createdAt);
     };
 
     public JdbcRacingGameDao(JdbcTemplate jdbcTemplate) {
@@ -41,7 +41,7 @@ public class JdbcRacingGameDao implements RacingGameDao {
     }
 
     @Override
-    public List<RacingGameEntity> findAll() {
+    public List<RacingGameResultEntity> findAll() {
         String sql = "SELECT * FROM RACING_GAME";
         return jdbcTemplate.query(sql, rowMapper);
     }

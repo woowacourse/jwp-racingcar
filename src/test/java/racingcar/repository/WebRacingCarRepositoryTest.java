@@ -11,8 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import racingcar.dao.JdbcCarDao;
 import racingcar.dao.JdbcRacingGameDao;
-import racingcar.domain.entity.CarEntity;
-import racingcar.domain.entity.RacingGameEntity;
+import racingcar.domain.entity.CarResultEntity;
+import racingcar.domain.entity.RacingGameResultEntity;
 
 @JdbcTest
 class WebRacingCarRepositoryTest {
@@ -32,13 +32,13 @@ class WebRacingCarRepositoryTest {
     @DisplayName("저장된 모든 entity를 찾아온다.")
     void find_all() {
         //given
-        List<CarEntity> carEntities = List.of(new CarEntity("현서", 10, true),
-                new CarEntity("참치", 2, false));
-        RacingGameEntity racingGameEntity = new RacingGameEntity(carEntities, 10);
-        webRacingCarRepository.save(racingGameEntity);
+        List<CarResultEntity> carEntities = List.of(new CarResultEntity("현서", 10, true),
+                new CarResultEntity("참치", 2, false));
+        RacingGameResultEntity racingGameResultEntity = new RacingGameResultEntity(carEntities, 10);
+        webRacingCarRepository.save(racingGameResultEntity);
         //when
-        List<RacingGameEntity> findEntity = webRacingCarRepository.findAll();
-        RacingGameEntity actual = findEntity.get(0);
+        List<RacingGameResultEntity> findEntity = webRacingCarRepository.findAll();
+        RacingGameResultEntity actual = findEntity.get(0);
         //then
         assertThat(findEntity.size()).isEqualTo(1);
         assertThat(actual.getCarEntities().size()).isEqualTo(2);

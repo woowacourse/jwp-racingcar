@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 public class Cars {
 
     private static final int CARS_MIN_SIZE = 2;
-    private static final String CARS_SIZE_ERROR = "자동차 대수는 2 이상이어야 합니다.";
 
     private final List<Car> cars;
 
@@ -18,7 +17,7 @@ public class Cars {
 
     private void validate(List<Car> cars) {
         if (cars.size() < CARS_MIN_SIZE) {
-            throw new IllegalArgumentException(CARS_SIZE_ERROR);
+            throw new IllegalArgumentException("자동차 대수는 2 이상이어야 합니다.");
         }
 
         if (hasDuplicateName(cars)) {
