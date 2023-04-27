@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Cars {
-
     private final List<Car> cars;
 
     public Cars(List<Car> cars) {
@@ -30,5 +29,4 @@ public class Cars {
     public List<Car> getCars() {
         return cars;
     }
-
 }

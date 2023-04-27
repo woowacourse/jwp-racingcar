@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OutputView {
-
     private static final String DELIMITER = ", ";
-    private static final String POSITION_BAR = "-";
 
     public static void printInputCarNamesNotice() {
         System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
@@ -24,17 +22,17 @@ public class OutputView {
             String carName = car.getName();
             int position = car.getPosition();
 
-            System.out.println(carName + " : " + POSITION_BAR.repeat(position));
+            System.out.println("Name : " + carName + ", Position : " + position);
         }
         System.out.println();
     }
 
     public static void printResultNotice() {
-        System.out.println("실행 결과");
+        System.out.println("결과");
     }
 
     public static void printWinner(List<Car> winnerCars) {
         List<String> winnerCarNames = winnerCars.stream().map(Car::getName).collect(Collectors.toList());
-        System.out.println(String.join(DELIMITER, winnerCarNames) + "가 최종 우승했습니다.");
+        System.out.println("우승자 : " + String.join(DELIMITER, winnerCarNames));
     }
 }

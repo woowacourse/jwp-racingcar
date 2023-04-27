@@ -1,9 +1,7 @@
 package racingcar.domain;
 
 public class Car {
-
     private final String name;
-
     private int position;
 
     public Car(String name, int position) {
@@ -38,6 +36,5 @@ public class Car {
 
     public int getPosition() {
         return position;
-
     }
 }

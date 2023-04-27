@@ -5,14 +5,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import racingcar.dao.PlayResultDao;
 import racingcar.dao.PlayersInfoDao;
-import racingcar.domain.CarFactory;
+import racingcar.domain.CarsFactory;
 import racingcar.domain.Cars;
-import racingcar.dto.CarParam;
-import racingcar.dto.GameInfoRequest;
-import racingcar.dto.GameResultResponse;
+import racingcar.dto.*;
+import racingcar.entity.PlayResult;
+import racingcar.entity.PlayersInfo;
 import racingcar.genertor.NumberGenerator;
 import racingcar.genertor.RandomNumberGenerator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,47 +21,59 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RacingCarService {
-
     private static final String DELIMITER = ",";
 
-    private final PlayResultDao playResultDAO;
-    private final PlayersInfoDao playersInfoDAO;
+    private final PlayResultDao playResultDao;
+    private final PlayersInfoDao playersInfoDao;
+    private final RacingCarPlayRule racingCarPlayRule;
 
-    public RacingCarService(PlayResultDao playResultDAO, PlayersInfoDao playersInfoDAO) {
-        this.playResultDAO = playResultDAO;
-        this.playersInfoDAO = playersInfoDAO;
+    public RacingCarService(PlayResultDao playResultDao, PlayersInfoDao playersInfoDao, RacingCarPlayRule racingCarPlayRule) {
+        this.playResultDao = playResultDao;
+        this.playersInfoDao = playersInfoDao;
+        this.racingCarPlayRule = racingCarPlayRule;
     }
 
-    public GameResultResponse createResponse(GameInfoRequest gameInfoRequest) {
-        List<String> carNames = Arrays.asList(gameInfoRequest.getNames().split(","));
-        Cars cars = new Cars(CarFactory.buildCars(carNames));
+    public GameResultForResponse createResponse(GameInfoForRequest gameInfoForRequest) {
+        List<String> carNames = Arrays.asList(gameInfoForRequest.getNames().split(","));
+        Cars cars = CarsFactory.create(carNames);
         NumberGenerator numberGenerator = new RandomNumberGenerator();
-        int count = gameInfoRequest.getCount();
-        play(cars, count, numberGenerator);
-        List<CarParam> carParams = cars.getCars().stream()
-                .map(CarParam::new)
+        int count = gameInfoForRequest.getCount();
+        racingCarPlayRule.moveCarsUntilCountIsOver(cars, count, numberGenerator);
+        List<CarForSave> carForSaves = cars.getCars().stream()
+                .map(CarForSave::new)
                 .collect(Collectors.toList());
-        List<CarParam> winners = cars.findWinners().stream()
-                .map(CarParam::new)
+        List<CarForSave> winners = cars.findWinners().stream()
+                .map(CarForSave::new)
                 .collect(Collectors.toList());
-        saveResult(count, carParams, winners);
-        return new GameResultResponse(cars.findWinners(), cars.getCars());
+        saveResult(count, carForSaves, winners);
+        return new GameResultForResponse(cars.findWinners(), cars.getCars());
     }
 
-    private void play(Cars cars, int count, NumberGenerator numberGenerator) {
-        while (count-- > 0) {
-            cars.moveCars(numberGenerator);
-        }
+    private void saveResult(int trialCount, List<CarForSave> carForSaves, List<CarForSave> winners) {
+        int playerResultId = playResultDao.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
+        playersInfoDao.insert(playerResultId, carForSaves);
     }
 
-    private void saveResult(int trialCount, List<CarParam> cars, List<CarParam> winners) {
-        int playerResultId = playResultDAO.returnPlayResultIdAfterInsert(trialCount, makeWinnersString(winners));
-        playersInfoDAO.insert(playerResultId, cars);
-    }
-
-    private String makeWinnersString(List<CarParam> winners) {
+    private String makeWinnersString(List<CarForSave> winners) {
         return winners.stream()
-                .map(CarParam::getName)
+                .map(CarForSave::getName)
                 .collect(Collectors.joining(DELIMITER));
+    }
+
+    public List<PlayRecordsForResponse> showPlayRecords() {
+        List<String> allWinners = playResultDao.findAllPlayResults().stream()
+                .map(PlayResult::getWinners).collect(Collectors.toList());
+        List<PlayRecordsForResponse> playRecordsForResponses = new ArrayList<>();
+        for (int i = 0; i < allWinners.size(); i++) {
+            String winners = allWinners.get(i);
+            int playResultId = i + 1;
+            List<PlayersInfo> playersInfos = playersInfoDao.findPlayersInfosByPlayResultId(playResultId);
+            List<CarForSave> carForSaves = playersInfos.stream()
+                    .map(playersInfo -> new CarForSave(playersInfo.getName(), playersInfo.getPosition()))
+                    .collect(Collectors.toList());
+            PlayRecordsForResponse playRecordsForResponse = new PlayRecordsForResponse(winners, carForSaves);
+            playRecordsForResponses.add(playRecordsForResponse);
+        }
+        return playRecordsForResponses;
     }
 }
