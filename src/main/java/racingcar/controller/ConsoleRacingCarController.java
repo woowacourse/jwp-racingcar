@@ -30,12 +30,16 @@ public class ConsoleRacingCarController {
     }
 
     public void run() {
-        Cars cars = getCars();
-        int round = getRound();
-        RacingGame racingGame = new RacingGame(cars, round);
-        racingGame.play(numberGenerator);
+        try {
+            Cars cars = getCars();
+            int round = getRound();
+            RacingGame racingGame = new RacingGame(cars, round);
+            racingGame.play(numberGenerator);
 
-        printResult(racingGame);
+            printResult(racingGame);
+        } catch (IllegalArgumentException exception) {
+            outputView.printExceptionMessage(exception.getMessage());
+        }
     }
 
     private Cars getCars() {
@@ -53,7 +57,7 @@ public class ConsoleRacingCarController {
             }
         }
 
-        throw new IllegalArgumentException(TRY_COUNT_OVER_EXCEPTION_MESSAGE);
+        throw new IllegalStateException(TRY_COUNT_OVER_EXCEPTION_MESSAGE);
     }
 
     private int getRound() {
@@ -68,7 +72,7 @@ public class ConsoleRacingCarController {
             }
         }
 
-        throw new IllegalArgumentException(TRY_COUNT_OVER_EXCEPTION_MESSAGE);
+        throw new IllegalStateException(TRY_COUNT_OVER_EXCEPTION_MESSAGE);
     }
 
     private void printResult(RacingGame racingGame) {
