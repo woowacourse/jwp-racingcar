@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import racingcar.controller.util.NameParser;
 import racingcar.dto.RacingCarRequest;
 import racingcar.dto.RacingCarResponse;
 import racingcar.service.RacingGameService;
@@ -28,7 +27,7 @@ public class WebRacingGameController {
     @PostMapping
     public ResponseEntity<RacingCarResponse> play(@Valid @RequestBody final RacingCarRequest racingCarRequest) {
         final RacingCarResponse racingCarResponse = racingGameService.play(
-                NameParser.getSlicedName(racingCarRequest.getNames()),
+                racingCarRequest.splitNames(),
                 racingCarRequest.getTryCount());
 
         return ResponseEntity.ok().body(racingCarResponse);

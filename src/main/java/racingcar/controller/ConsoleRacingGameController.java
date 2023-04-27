@@ -1,6 +1,5 @@
 package racingcar.controller;
 
-import racingcar.controller.util.NameParser;
 import racingcar.dao.RacingCarGameConsoleDao;
 import racingcar.dao.RacingCarPlayerConsoleDao;
 import racingcar.dto.RacingCarRequest;
@@ -23,7 +22,7 @@ public class ConsoleRacingGameController {
         final RacingCarRequest racingCarRequest = getRacingCarRequest();
 
         final RacingCarResponse racingCarResponse = racingGameService.play(
-                NameParser.getSlicedName(racingCarRequest.getNames()),
+                racingCarRequest.splitNames(),
                 racingCarRequest.getTryCount());
 
         OutputView.printGameResult(racingCarResponse);
