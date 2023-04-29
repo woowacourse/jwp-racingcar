@@ -102,3 +102,4 @@ erDiagram
 - [x] 사용하지 않는 주석 제거
 - [x] Service 클래스 분리
 - [x] service에서 domain으로 책임 이동
+- [x] 500 상태 코드 반환 메세지 변경
