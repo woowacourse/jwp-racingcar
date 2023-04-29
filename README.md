@@ -103,3 +103,4 @@ erDiagram
 - [x] Service 클래스 분리
 - [x] service에서 domain으로 책임 이동
 - [x] 500 상태 코드 반환 메세지 변경
+- [x] @Transactional 어노테이션 위치 변경

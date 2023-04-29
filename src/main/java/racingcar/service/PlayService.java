@@ -18,6 +18,7 @@ import racingcar.dto.ResultResponse;
 import racingcar.entity.PlayerEntity;
 
 @Service
+@Transactional
 public class PlayService {
 
     private final GameDao gameDao;
@@ -30,7 +31,6 @@ public class PlayService {
         this.participatesDao = participatesDao;
     }
 
-    @Transactional
     public ResultResponse playGame(final NamesAndCountRequest namesAndCount) {
         final Cars cars = Cars.from(namesAndCount.getNames());
         final GameRound gameRound = new GameRound(namesAndCount.getCount());
