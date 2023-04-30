@@ -22,7 +22,7 @@ public class ConsoleRacingGameController {
         final RacingCarRequest racingCarRequest = getRacingCarRequest();
 
         final RacingCarResponse racingCarResponse = racingGameService.play(
-                racingCarRequest.getSplitNames(),
+                racingCarRequest.splitNames(),
                 racingCarRequest.getTryCount());
 
         OutputView.printGameResult(racingCarResponse);

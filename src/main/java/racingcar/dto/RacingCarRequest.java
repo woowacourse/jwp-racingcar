@@ -44,7 +44,7 @@ public final class RacingCarRequest {
         return names;
     }
 
-    public List<String> getSplitNames(){
+    public List<String> splitNames(){
         return sliceName(names);
     }
 
