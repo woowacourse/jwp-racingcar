@@ -1,10 +1,11 @@
-package racingcar.dto;
+package racingcar.entity;
 
-public class PlayerDto {
+public class PlayerEntity {
+
     private final Long id;
     private final String name;
 
-    public PlayerDto(final Long id, final String name) {
+    public PlayerEntity(final Long id, final String name) {
         this.id = id;
         this.name = name;
     }

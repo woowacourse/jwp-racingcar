@@ -3,11 +3,12 @@ package racingcar.dto;
 import java.util.List;
 
 public class ResultResponse {
+    private static final String SEPARATOR = ",";
     private final String winners;
     private final List<RacingCarResponse> racingCars;
 
-    public ResultResponse(final String winners, final List<RacingCarResponse> racingCars) {
-        this.winners = winners;
+    public ResultResponse(final List<String> winners, final List<RacingCarResponse> racingCars) {
+        this.winners = String.join(SEPARATOR, winners);
         this.racingCars = racingCars;
     }
 

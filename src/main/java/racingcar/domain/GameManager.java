@@ -1,57 +1,47 @@
 package racingcar.domain;
 
-import racingcar.dto.CarNamesRequest;
-import racingcar.dto.CarStatusResponse;
-import racingcar.dto.GameResultResponse;
-import racingcar.dto.GameRoundRequest;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import racingcar.dto.RacingCarResponse;
 
 public class GameManager {
     private final NumberGenerator numberGenerator;
-    private Cars cars;
-    private GameRound gameRound;
+    private final Cars cars;
+    private final GameRound gameRound;
 
-    public GameManager(NumberGenerator numberGenerator) {
+    public GameManager(final Cars cars, final GameRound gameRound, final NumberGenerator numberGenerator) {
+        this.cars = cars;
+        this.gameRound = gameRound;
         this.numberGenerator = numberGenerator;
+        play();
     }
 
-    public void createCars(CarNamesRequest inputCarNames) {
-        cars = new Cars();
-        List<String> carNames = inputCarNames.getCarNames();
-        for (String carName : carNames) {
-            cars.addCar(new Car(carName));
+    public void play() {
+        while (isPlayable()) {
+            playGameRound();
         }
     }
 
-    public void createGameRound(GameRoundRequest inputGameRound) {
-        int totalRound = inputGameRound.getRound();
-        gameRound = new GameRound(totalRound);
-    }
-
-    public List<CarStatusResponse> playGameRound() {
+    private void playGameRound() {
         List<Car> currentCars = cars.getCars();
         for (Car car : currentCars) {
             car.move(numberGenerator.generateNumber());
         }
         gameRound.increaseRound();
-        return convertCarToCarStatus(currentCars);
     }
 
-    public boolean isEnd() {
-        return gameRound.isEnd();
+    private boolean isPlayable() {
+        return gameRound.isPlayable();
     }
 
-    public GameResultResponse decideWinner() {
-        return new GameResultResponse(cars.findWinnerNames());
+    public List<String> decideWinner() {
+        return cars.findWinnerNames();
     }
 
-    private List<CarStatusResponse> convertCarToCarStatus(List<Car> carsStatus) {
-        List<CarStatusResponse> roundResultCarStatus = new ArrayList<>();
-        for (Car car : carsStatus) {
-            roundResultCarStatus.add(new CarStatusResponse(car));
-        }
-        return roundResultCarStatus;
+    public List<RacingCarResponse> getResultCars() {
+        return cars.getCars()
+                .stream()
+                .map(it -> new RacingCarResponse(it.getName(), it.getPosition()))
+                .collect(Collectors.toUnmodifiableList());
     }
 }

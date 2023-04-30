@@ -1,28 +1,34 @@
 package racingcar.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import racingcar.dao.game.WebGameDao;
+import racingcar.dao.participates.WebParticipatesDao;
+import racingcar.dao.player.WebPlayerDao;
 import racingcar.dto.ParticipateDto;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import racingcar.entity.ParticipatesEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class ParticipatesDaoTest {
+class WebParticipatesDaoTest {
 
-    private final GameDao gameDao;
-    private final PlayerDao playerDao;
-    private final ParticipatesDao participatesDao;
+    private final WebGameDao webGameDao;
+    private final WebPlayerDao webPlayerDao;
+    private final WebParticipatesDao webParticipatesDao;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ParticipatesDaoTest(final GameDao gameDao, final PlayerDao playerDao, final ParticipatesDao participatesDao, final JdbcTemplate jdbcTemplate) {
-        this.gameDao = gameDao;
-        this.playerDao = playerDao;
-        this.participatesDao = participatesDao;
+    public WebParticipatesDaoTest(final WebGameDao webGameDao, final WebPlayerDao webPlayerDao,
+                                  final WebParticipatesDao webParticipatesDao, final JdbcTemplate jdbcTemplate) {
+        this.webGameDao = webGameDao;
+        this.webPlayerDao = webPlayerDao;
+        this.webParticipatesDao = webParticipatesDao;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -52,9 +58,9 @@ class ParticipatesDaoTest {
                 "FOREIGN KEY (game_id) references GAME (id), " +
                 "FOREIGN KEY (player_id) references PLAYER (id)) ");
 
-        gameDao.save(10);
-        playerDao.save("망고");
-        playerDao.save("루카");
+        webGameDao.save(10);
+        webPlayerDao.save("망고");
+        webPlayerDao.save("루카");
     }
 
     @DisplayName("위치와 최종 승패를 입력받아 저장한다.")
@@ -63,11 +69,32 @@ class ParticipatesDaoTest {
         ParticipateDto mangoDto = new ParticipateDto(1L, 1L, 10, true);
         ParticipateDto lucaDto = new ParticipateDto(1L, 2L, 3, false);
         //when
-        participatesDao.save(mangoDto);
-        participatesDao.save(lucaDto);
+        webParticipatesDao.save(mangoDto);
+        webParticipatesDao.save(lucaDto);
         //then
         String sql = "SELECT position FROM PARTICIPATES WHERE game_id = 1 and player_id = ?";
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class, 1L)).isEqualTo(10);
         assertThat(jdbcTemplate.queryForObject(sql, Integer.class, 2L)).isEqualTo(3);
+    }
+
+    @DisplayName("game_id로 데이터를 조회할 수 있다.")
+    @Test
+    void findByGameId() {
+        ParticipateDto mangoDto = new ParticipateDto(1L, 1L, 10, true);
+        ParticipateDto lucaDto = new ParticipateDto(1L, 2L, 3, false);
+        //when
+        webParticipatesDao.save(mangoDto);
+        webParticipatesDao.save(lucaDto);
+        //then
+        String sql = "SELECT * FROM PARTICIPATES WHERE game_id = ?";
+        final List<ParticipatesEntity> result = jdbcTemplate.query(sql, (resultSet, rowNum) -> new ParticipatesEntity(
+                        resultSet.getLong("game_id"),
+                        resultSet.getLong("player_id"),
+                        resultSet.getInt("position"),
+                        resultSet.getBoolean("is_winner"))
+                , 1L);
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.get(0).getPlayerId()).isEqualTo(1L);
+        assertThat(result.get(0).getWinner()).isEqualTo(true);
     }
 }
