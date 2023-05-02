@@ -11,6 +11,11 @@ public class RacingCar {
         this.throttleGenerator = new RandomThrottleGenerator();
     }
 
+    public RacingCar(final Name name, final int position) {
+        this(name);
+        this.position = position;
+    }
+
     public RacingCar(final Name name, final ThrottleGenerator throttleGenerator) {
         this.name = name;
         this.throttleGenerator = throttleGenerator;

@@ -3,7 +3,6 @@ package racingcar.domain;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +13,13 @@ class NamesTest {
     @Test
     @DisplayName("0명이면 익셉션이 발생한다.")
     void throwExceptionWhenNoNameInput() {
-        assertThatThrownBy(() -> new Names(" "))
+        assertThatThrownBy(() -> new Names(List.of(" ")))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("1명이상이 참여하면 익셉션이 발생하지 않는다.")
     void notThrowExceptionWhenOneMoreName() {
-        assertDoesNotThrow(() -> new Names("pobi, honux, bkcat"));
+        assertDoesNotThrow(() -> new Names(List.of("pobi", "honux", "bkcat")));
     }
 }
